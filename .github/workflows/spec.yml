@@ -1,0 +1,36 @@
+---
+name: Spec
+
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+        ruby: ['2.7', '3.0']
+    steps:
+    - uses: actions/checkout@v2
+    - uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: ${{ matrix.ruby }}
+        bundler-cache: true
+    - name: Brew Automake
+      run: |
+        brew install automake
+      if: startsWith(matrix.os, 'macOS')
+    - name: Install Dependencies
+      run: |
+        git submodule update --init
+        bundle install
+    - name: Run Tests
+      run: |
+        bundle exec rspec
