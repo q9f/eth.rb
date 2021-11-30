@@ -19,4 +19,5 @@ end
 
 # Loads the `Eth` module classes.
 require 'eth/key'
+require 'eth/utils'
 require 'eth/version'
