@@ -13,7 +13,7 @@ on:
       cron: "45 3 * * *"
 
 jobs:
-  build:
+  test:
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
@@ -25,7 +25,6 @@ jobs:
     - uses: ruby/setup-ruby@v1
       with:
         ruby-version: ${{ matrix.ruby }}
-        bundler-cache: true
     - name: Install Dependencies
       run: |
         git submodule update --init
