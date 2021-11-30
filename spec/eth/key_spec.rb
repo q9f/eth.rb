@@ -33,10 +33,3 @@ describe Eth::Key do
     expect(alice.public_key).to eq(backup.public_key)
   end
 end
-
-
-# initialize
-# private_hex
-# private_bytes
-# public_hex
-# public_bytes
