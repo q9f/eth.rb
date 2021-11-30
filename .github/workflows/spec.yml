@@ -26,9 +26,9 @@ jobs:
       with:
         ruby-version: ${{ matrix.ruby }}
         bundler-cache: true
-    - name: Brew Automake
+    - name: Homebrew maketools
       run: |
-        brew install automake
+        brew install --verbose pkg-config automake autogen
       if: startsWith(matrix.os, 'macOS')
     - name: Install Dependencies
       run: |
