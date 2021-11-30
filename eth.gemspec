@@ -12,7 +12,7 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Steve Ellis", "Afri Schoedon"]
   spec.email         = ["email@steveell.is", "ruby@q9f.cc"]
 
-  spec.summary       = %q{Library to handle Ethereum accounts, messages, and transactions.}
+  spec.summary       = %q{Ruby Ethereum library.}
   spec.description   = %q{Library to handle Ethereum accounts, messages, and transactions.}
   spec.homepage      = "https://github.com/q9f/eth.rb"
   spec.license       = "Apache-2.0"
@@ -32,11 +32,4 @@ Gem::Specification.new do |spec|
 
   spec.platform = Gem::Platform::RUBY
   spec.required_ruby_version = ">= 2.6", "< 4.0"
-
-  spec.add_dependency 'rbsecp256k1', '~> 5.0'
-
-  spec.add_development_dependency 'bundler', '~> 2.2'
-  spec.add_development_dependency 'pry', '~> 0.14'
-  spec.add_development_dependency 'rake', '~> 13.0'
-  spec.add_development_dependency 'rspec', '~> 3.10'
 end
