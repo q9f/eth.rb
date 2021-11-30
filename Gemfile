@@ -10,5 +10,3 @@ group :test, :development do
   gem 'rake', '~> 13.0'
   gem 'rspec', '~> 3.10'
 end
-
-gemspec
