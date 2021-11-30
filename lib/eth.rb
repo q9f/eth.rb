@@ -13,5 +13,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+# Provides the `Eth` module.
 module Eth
 end
+
+# Loads the `Eth` module classes.
+require 'eth/key'
+require 'eth/utils'
+require 'eth/version'
