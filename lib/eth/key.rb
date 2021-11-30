@@ -40,6 +40,9 @@ module Eth
 
       unless priv.nil?
 
+        # Converts hex private keys to binary strings.
+        Utils.hex_to_bin priv if Utils.is_hex? priv
+
         # Creates a keypair from existing private key data.
         key = ctx.key_pair_from_private_key priv
       end
@@ -51,7 +54,7 @@ module Eth
 
     # Converts the private key data into a hexa-decimal string.
     #
-    # @returns [String] private key as hexa-decimal string.
+    # @return [String] private key as hexa-decimal string.
     def private_hex
       Secp256k1::Util.bin_to_hex @private_key.data
     end
@@ -59,7 +62,7 @@ module Eth
     # Exports the private key bytes in a wrapper function to maintain
     # backward-compatibility with older versions of `Eth::Key`.
     #
-    # @returns [String] private key as packed byte-string.
+    # @return [String] private key as packed byte-string.
     def private_bytes
       @private_key.data
     end
@@ -67,7 +70,7 @@ module Eth
     # Converts the public key data into an uncompressed
     # hexa-decimal string.
     #
-    # @returns [String] public key as uncompressed hexa-decimal string.
+    # @return [String] public key as uncompressed hexa-decimal string.
     def public_hex
       Secp256k1::Util.bin_to_hex @public_key.uncompressed
     end
@@ -75,7 +78,7 @@ module Eth
     # Converts the public key data into an compressed
     # hexa-decimal string.
     #
-    # @returns [String] public key as compressed hexa-decimal string.
+    # @return [String] public key as compressed hexa-decimal string.
     def public_hex_compressed
       Secp256k1::Util.bin_to_hex @public_key.compressed
     end
@@ -83,16 +86,21 @@ module Eth
     # Exports the uncompressed public key bytes in a wrapper function to
     # maintain backward-compatibility with older versions of `Eth::Key`.
     #
-    # @returns [String] uncompressed public key as packed byte-string.
+    # @return [String] uncompressed public key as packed byte-string.
     def public_bytes
       @public_key.uncompressed
     end
 
     # Exports the compressed public key bytes.
     #
-    # @returns [String] compressed public key as packed byte-string.
+    # @return [String] compressed public key as packed byte-string.
     def public_bytes_compressed
       @public_key.compressed
+    end
+
+    def address
+      # @TODO checksum
+      Utils.public_key_to_address public_bytes
     end
   end
 end

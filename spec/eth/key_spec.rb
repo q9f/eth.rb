@@ -1,14 +1,15 @@
 require 'spec_helper'
 
 describe Eth::Key do
+  subject(:alice) { Eth::Key.new }
+  subject(:bob) { Eth::Key.new }
+
   it "generates functional keypairs" do
 
     # generates a functional key for alice of type Eth::Key
-    alice = Eth::Key.new
     expect(alice).to be_an_instance_of Eth::Key
 
     # generates a functional key for bob of type Eth::Key
-    bob = Eth::Key.new
     expect(bob).to be_an_instance_of Eth::Key
 
     # ensure both keys are not the same
@@ -24,9 +25,6 @@ describe Eth::Key do
 
   it "restores keypairs from existing private keys" do
 
-    # generates a functional key for alice
-    alice = Eth::Key.new
-
     # creates a backup of alice's keypair
     backup = Eth::Key.new priv: alice.private_key.data
 
@@ -39,5 +37,13 @@ describe Eth::Key do
     expect(alice.public_hex_compressed).to eq(backup.public_hex_compressed)
     expect(alice.public_bytes).to eq(backup.public_bytes)
     expect(alice.public_bytes_compressed).to eq(backup.public_bytes_compressed)
+  end
+
+  it "generates a checksummed address" do
+    address = '0x759b427456623a33030bbC2195439C22A8a51d25'
+    priv = 'c3a4349f6e57cfd2cbba275e3b3d15a2e4cf00c89e067f6e05bfee25208f9cbb'
+
+    # @TODO
+    # key = Eth::Key.new priv: priv
   end
 end
