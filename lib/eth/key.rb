@@ -61,22 +61,38 @@ module Eth
     #
     # @returns [String] private key as packed byte-string.
     def private_bytes
-      @private_key
+      @private_key.data
     end
 
-    # Converts the public key data into a hexa-decimal string.
+    # Converts the public key data into an uncompressed
+    # hexa-decimal string.
     #
-    # @returns [String] public key as hexa-decimal string.
+    # @returns [String] public key as uncompressed hexa-decimal string.
     def public_hex
       Secp256k1::Util.bin_to_hex @public_key.uncompressed
     end
 
-    # Exports the public key bytes in a wrapper function to maintain
-    # backward-compatibility with older versions of `Eth::Key`.
+    # Converts the public key data into an compressed
+    # hexa-decimal string.
     #
-    # @returns [String] public key as packed byte-string.
+    # @returns [String] public key as compressed hexa-decimal string.
+    def public_hex_compressed
+      Secp256k1::Util.bin_to_hex @public_key.compressed
+    end
+
+    # Exports the uncompressed public key bytes in a wrapper function to
+    # maintain backward-compatibility with older versions of `Eth::Key`.
+    #
+    # @returns [String] uncompressed public key as packed byte-string.
     def public_bytes
-      @public_key
+      @public_key.uncompressed
+    end
+
+    # Exports the compressed public key bytes.
+    #
+    # @returns [String] compressed public key as packed byte-string.
+    def public_bytes_compressed
+      @public_key.compressed
     end
   end
 end
