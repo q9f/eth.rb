@@ -1,5 +1,4 @@
-# Copyright (c) 2016-2021 Steve Ellis
-# Copyright (c) 2021-2022 The `eth.rb` Contributors
+# Copyright (c) 2016-2022 The Ruby-Eth Contributors
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
