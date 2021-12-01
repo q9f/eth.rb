@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-require 'digest/sha3'
+require 'digest/keccak'
 
 module Eth
 
@@ -30,7 +30,7 @@ module Eth
     # @param str [String] a string to be hashed.
     # @return [String] a Keccak-256 hash of the given string.
     def keccak256 str
-      Digest::SHA3.new(256).digest str
+      Digest::Keccak.new(256).digest str
     end
 
     # Unpacks a binary string to a hexa-decimal string.
