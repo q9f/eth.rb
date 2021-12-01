@@ -3,7 +3,7 @@
 source 'https://rubygems.org'
 
 gem 'keccak', '~> 1.2'
-gem 'rbsecp256k1', '~> 5.0'
+gem 'rbsecp256k1', '~> 5.1.0'
 
 group :test, :development do
   gem 'bundler', '~> 2.2'
