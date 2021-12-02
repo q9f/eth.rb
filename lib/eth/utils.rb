@@ -57,7 +57,7 @@ module Eth
     # @return [String] a packed binary string.
     # @raise [TypeError] if value is not a string or string is not hex.
     def hex_to_bin hex
-      raise TypeError, "Value must be an instance of String" unless hex.instance_of?(String)
+      raise TypeError, "Value must be an instance of String" unless hex.instance_of? String
       hex = remove_hex_prefix hex
       raise TypeError, "Non-hexadecimal digit found" unless is_hex? hex
       [hex].pack('H*')
