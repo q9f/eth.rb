@@ -45,6 +45,7 @@ describe Eth::Key do
       backup_from_bytes = Eth::Key.new priv: alice.private_bytes
       backup_from_hex = Eth::Key.new priv: alice.private_hex
 
+      # it should be correct no matter what format we pass through
       expect(alice.private_key).to eq(backup_from_bytes.private_key)
       expect(alice.private_key).to eq(backup_from_hex.private_key)
       expect(alice.private_hex).to eq(backup_from_bytes.private_hex)

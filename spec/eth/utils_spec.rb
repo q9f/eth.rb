@@ -2,7 +2,6 @@
 
 require 'spec_helper'
 
-
 describe Eth::Utils do
   describe ".public_key_to_address" do
   end
