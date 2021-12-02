@@ -20,9 +20,11 @@ module Eth
   module Utils
     extend self
 
-    def public_key_to_address bin
-      bytes = keccak256(bin[1..-1])[-20..-1 ]
-      address = bin_to_prefixed_hex bytes # @TODO Checksummed
+    def public_key_to_address str
+      str = hex_to_bin str if is_hex? str
+      bytes = keccak256(str[1..-1])[-20..-1 ]
+      address = bin_to_prefixed_hex bytes
+      # @TODO Checksummed addresses
     end
 
     # Hashes a string with the Keccak-256 algorithm.

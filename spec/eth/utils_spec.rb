@@ -4,6 +4,26 @@ require 'spec_helper'
 
 describe Eth::Utils do
   describe ".public_key_to_address" do
+    it "can create ethereum address from random keys" do
+      alice = Eth::Utils.public_key_to_address Eth::Key.new.public_bytes
+      expect(alice).to be
+      expect(Eth::Utils.is_prefixed? alice).to be_truthy
+      expect(alice.size).to eq(42)
+
+      # same as alice but trying to insert hex
+      bob = Eth::Utils.public_key_to_address Eth::Key.new.public_hex
+      expect(bob).to be
+      expect(Eth::Utils.is_prefixed? bob).to be_truthy
+      expect(bob.size).to eq(42)
+    end
+
+    it "turns a hex public key into a hex address" do
+      address = "0x8ABC566c5198bc6993526DB697FFe58ce4e2425A"
+      public_hex = "0463a1ad6824c03f81ad6c9c224384172c67f6bfd2dbde8c4747a033629b531ae3284db3045e4e40c2b865e22a806ae7dff9264299ea8696321f689d6e134d937e"
+      expect(Eth::Utils.public_key_to_address public_hex).to eq(address.downcase)
+      # @TODO Checksummed addresses
+      # expect(Eth::Utils.public_key_to_address public_hex).to eq(address)
+    end
   end
 
   describe ".keccak256" do

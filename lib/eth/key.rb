@@ -98,9 +98,9 @@ module Eth
       @public_key.compressed
     end
 
-    # def address
-    #   # @TODO checksum
-    #   Utils.public_key_to_address public_bytes
-    # end
+    def address
+      # @TODO Checksummed addresses
+      Utils.public_key_to_address public_bytes
+    end
   end
 end
