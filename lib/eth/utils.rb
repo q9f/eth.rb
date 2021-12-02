@@ -20,9 +20,16 @@ module Eth
   module Utils
     extend self
 
-    def public_key_to_address bin
-      bytes = keccak256(bin[1..-1])[-20..-1 ]
-      address = bin_to_prefixed_hex bytes # @TODO Checksummed
+    # Generates an Ethereum address from a given compressed or
+    # uncompressed binary or hexadecimal public key string.
+    #
+    # @param str [String] the public key to be converted.
+    # @return [String] an Ethereum address.
+    def public_key_to_address str
+      str = hex_to_bin str if is_hex? str
+      bytes = keccak256(str[1..-1])[-20..-1 ]
+      address = bin_to_prefixed_hex bytes
+      # @TODO Checksummed addresses
     end
 
     # Hashes a string with the Keccak-256 algorithm.
@@ -43,31 +50,58 @@ module Eth
       bin.unpack("H*").first
     end
 
+    # Packs a hexa-decimal string into a binary string. Also works with
+    # `0x`-prefixed strings.
+    #
+    # @param hex [String] a hexa-decimal string to be packed.
+    # @return [String] a packed binary string.
+    # @raise [TypeError] if value is not a string or string is not hex.
     def hex_to_bin hex
-      raise TypeError, "Value must be an instance of String" unless hex.instance_of?(String)
+      raise TypeError, "Value must be an instance of String" unless hex.instance_of? String
+      hex = remove_hex_prefix hex
       raise TypeError, "Non-hexadecimal digit found" unless is_hex? hex
       [hex].pack('H*')
     end
 
+    # Prefixes a hexa-decimal string with `0x`.
+    #
+    # @param hex [String] a hex-string to be prefixed.
+    # @return [String] a prefixed hex-string.
     def prefix_hex hex
       return hex if is_prefixed? hex
       return "0x#{hex}"
     end
 
-    def remove_hex_prefix str
-      return str[2..-1] if is_prefixed? str
-      return str
+    # Removes the `0x` prefix of a hexa-decimal string.
+    #
+    # @param hex [String] a prefixed hex-string.
+    # @return [String] an unprefixed hex-string.
+    def remove_hex_prefix hex
+      return hex[2..-1] if is_prefixed? hex
+      return hex
     end
 
+    # Unpacks a binary string to a prefixed hexa-decimal string.
+    #
+    # @param bin [String] a binary string to be unpacked.
+    # @return [String] a prefixed hexa-decimal string.
     def bin_to_prefixed_hex bin
       prefix_hex bin_to_hex bin
     end
 
+    # Checks if a string is hex-adecimal.
+    #
+    # @param str [String] a string to be checked.
+    # @return [String] a match if true; nil if not.
     def is_hex? str
       str = remove_hex_prefix str
       str.match /\A[0-9a-fA-F]*\z/
     end
 
+    # Checks if a string is prefixed with `0x`.
+    #
+    # @param str [String] a string to be checked.
+    # @return [String] a match if true; nil if not.
     def is_prefixed? hex
       hex.match /\A0x/
     end
