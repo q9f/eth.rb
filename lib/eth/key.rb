@@ -41,7 +41,7 @@ module Eth
       unless priv.nil?
 
         # Converts hex private keys to binary strings.
-        Utils.hex_to_bin priv if Utils.is_hex? priv
+        priv = Utils.hex_to_bin priv if Utils.is_hex? priv
 
         # Creates a keypair from existing private key data.
         key = ctx.key_pair_from_private_key priv

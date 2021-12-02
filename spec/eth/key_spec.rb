@@ -39,6 +39,19 @@ describe Eth::Key do
       expect(alice.public_bytes).to eq(backup.public_bytes)
       expect(alice.public_bytes_compressed).to eq(backup.public_bytes_compressed)
     end
+
+    it "can handle hex and byte private keys" do
+      alice = Eth::Key.new
+      backup_from_bytes = Eth::Key.new priv: alice.private_bytes
+      backup_from_hex = Eth::Key.new priv: alice.private_hex
+
+      expect(alice.private_key).to eq(backup_from_bytes.private_key)
+      expect(alice.private_key).to eq(backup_from_hex.private_key)
+      expect(alice.private_hex).to eq(backup_from_bytes.private_hex)
+      expect(alice.private_hex).to eq(backup_from_hex.private_hex)
+      expect(alice.private_bytes).to eq(backup_from_bytes.private_bytes)
+      expect(alice.private_bytes).to eq(backup_from_hex.private_bytes)
+    end
   end
 
   describe ".private_key" do

@@ -45,6 +45,7 @@ module Eth
 
     def hex_to_bin hex
       raise TypeError, "Value must be an instance of String" unless hex.instance_of?(String)
+      hex = remove_hex_prefix hex
       raise TypeError, "Non-hexadecimal digit found" unless is_hex? hex
       [hex].pack('H*')
     end
