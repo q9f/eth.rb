@@ -98,9 +98,11 @@ module Eth
       @public_key.compressed
     end
 
+    # Exports the checksummed public address.
+    #
+    # @return [String] compressed address as packed hex prefixed string.
     def address
-      # @TODO Checksummed addresses
-      Utils.public_key_to_address public_bytes
+      Eth::Address.new(Utils.public_key_to_address public_bytes)
     end
   end
 end
