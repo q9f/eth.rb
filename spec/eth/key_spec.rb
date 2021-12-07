@@ -99,13 +99,10 @@ describe Eth::Key do
 
   describe ".address" do
     it "generates the correct address from key" do
-    #it "generates a checksummed address" do
       address = '0x759b427456623a33030bbC2195439C22A8a51d25'
       private_hex = 'c3a4349f6e57cfd2cbba275e3b3d15a2e4cf00c89e067f6e05bfee25208f9cbb'
       key = Eth::Key.new priv: private_hex
-      expect(key.address).to eq address.downcase
-      # @TODO Checksummed addresses
-      #expect(key.address).to eq address
+      expect(key.address.checksummed).to eq address
     end
   end
 end
