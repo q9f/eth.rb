@@ -15,10 +15,10 @@ jobs:
       with:
         ruby-version: '2.7'
         bundler-cache: true
-    - name: Run RDoc
+    - name: Run Yard Doc
       run: |
         gem install yard
-        yard doc lib/
+        yard doc
     - name: Deploy GH Pages
       uses: JamesIves/github-pages-deploy-action@4.1.7
       with:
