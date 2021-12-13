@@ -1,0 +1,23 @@
+---
+name: Docs
+
+on:
+  pull-request:
+    branches:
+      - main
+
+jobs:
+  docs:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: ruby/setup-ruby@v1
+    - name: Run RDoc
+      run: |
+        gem install yard
+        yard doc lib/
+    - name: Deploy GH Pages
+      uses: JamesIves/github-pages-deploy-action@4.1.7
+      with:
+          branch: gh-pages
+          folder: doc/
