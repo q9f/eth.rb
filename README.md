@@ -1,5 +1,6 @@
 # Eth for Ruby
 [![GitHub Workflow Status](https://img.shields.io/github/workflow/status/q9f/eth.rb/Spec)](https://github.com/q9f/eth.rb/actions)
+[![Yard Doc API](https://img.shields.io/badge/docs-100%25-blue)](https://q9f.github.io/eth.rb)
 [![codecov](https://codecov.io/gh/q9f/eth.rb/branch/main/graph/badge.svg?token=IK7USBPBZY)](https://codecov.io/gh/q9f/eth.rb)
 [![Maintainability](https://api.codeclimate.com/v1/badges/469e6f66425198ad7614/maintainability)](https://codeclimate.com/github/q9f/eth.rb/maintainability)
 [![GitHub top language](https://img.shields.io/github/languages/top/q9f/eth.rb?color=red)](https://github.com/q9f/eth.rb/pulse)

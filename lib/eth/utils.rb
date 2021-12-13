@@ -14,6 +14,7 @@
 
 require 'digest/keccak'
 
+# Provides the `Eth` module.
 module Eth
 
   # Defines handy tools for the `Eth` gem for convenience.
@@ -100,7 +101,7 @@ module Eth
 
     # Checks if a string is prefixed with `0x`.
     #
-    # @param str [String] a string to be checked.
+    # @param hex [String] a string to be checked.
     # @return [String] a match if true; nil if not.
     def is_prefixed? hex
       hex.match /\A0x/

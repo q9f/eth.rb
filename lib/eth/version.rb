@@ -12,6 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+# Provides the `Eth` module.
 module Eth
 
   # Defines the version of the `Eth` module.

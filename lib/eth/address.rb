@@ -12,23 +12,26 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+# Provides the `Eth` module.
 module Eth
-  
+
+  # The `Eth::Address` class to handle checksummed Ethereum addresses.
   class Address
 
+    # The prefixed and checksummed Ethereum address.
     attr_reader :address
 
     # Constructor of the `Eth::Address` class. Creates a new hex
-    # prefixed address
+    # prefixed address.
     #
     # @param address [String] hex string representing an ethereum address.
     def initialize address
       @address = Utils.prefix_hex address
     end
 
-    # Check that the address is valid
+    # Check that the address is valid.
     #
-    # @return [Bool]
+    # @return [Bool] true if valid address.
     def valid?
       if !matches_any_format?
         false
@@ -39,9 +42,9 @@ module Eth
       end
     end
 
-    # Generate a checksummed address
+    # Generate a checksummed address.
     #
-    # @return address [String] prefixed hex string representing an checksummed address.
+    # @return [String] prefixed hexstring representing an checksummed address.
     def checksummed
       raise "Invalid address: #{address}" unless matches_any_format?
 
