@@ -100,9 +100,9 @@ module Eth
 
     # Exports the checksummed public address.
     #
-    # @return [String] compressed address as packed hex prefixed string.
+    # @return [Eth::Address] compressed address as packed hex prefixed string.
     def address
-      Eth::Address.new(Utils.public_key_to_address public_bytes)
+      Utils.public_key_to_address public_bytes
     end
   end
 end
