@@ -25,12 +25,11 @@ module Eth
     # uncompressed binary or hexadecimal public key string.
     #
     # @param str [String] the public key to be converted.
-    # @return [String] an Ethereum address.
+    # @return [Eth::Address] an Ethereum address.
     def public_key_to_address str
       str = hex_to_bin str if is_hex? str
       bytes = keccak256(str[1..-1])[-20..-1 ]
-      address = bin_to_prefixed_hex bytes
-      # @TODO Checksummed addresses
+      Eth::Address.new bin_to_prefixed_hex bytes
     end
 
     # Hashes a string with the Keccak-256 algorithm.
