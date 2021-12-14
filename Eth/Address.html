@@ -166,6 +166,8 @@
     
 
     
+      (also: #to_s)
+    
   </span>
   
   
@@ -204,30 +206,6 @@
   
     <span class="summary_desc"><div class='inline'>
 <p>Constructor of the `Eth::Address` class.</p>
-</div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#to_s-instance_method" title="#to_s (instance method)">#<strong>to_s</strong>  &#x21d2; String </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-<p>Generate a checksummed address string.</p>
 </div></span>
   
 </li>
@@ -386,6 +364,10 @@
   
 
   
+    <span class="aliases">Also known as:
+    <span class="names"><span id='to_s-instance_method'>to_s</span></span>
+    </span>
+  
 
   
 </h3><div class="docstring">
@@ -444,65 +426,6 @@
   <span class='kw'>end</span>
 
   <span class='const'><span class='object_link'><a href="Utils.html" title="Eth::Utils (module)">Utils</a></span></span><span class='period'>.</span><span class='id identifier rubyid_prefix_hex'><span class='object_link'><a href="Utils.html#prefix_hex-instance_method" title="Eth::Utils#prefix_hex (method)">prefix_hex</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_cased'>cased</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='rparen'>)</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="to_s-instance_method">
-  
-    #<strong>to_s</strong>  &#x21d2; <tt>String</tt> 
-  
-
-  
-
-  
-</h3><div class="docstring">
-  <div class="discussion">
-    
-<p>Generate a checksummed address string. Alias for `checksummed`.</p>
-
-
-  </div>
-</div>
-<div class="tags">
-  
-<p class="tag_title">Returns:</p>
-<ul class="return">
-  
-    <li>
-      
-      
-        <span class='type'>(<tt>String</tt>)</span>
-      
-      
-      
-        &mdash;
-        <div class='inline'>
-<p>prefixed hexstring representing an checksummed address.</p>
-</div>
-      
-    </li>
-  
-</ul>
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-61
-62
-63</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/address.rb', line 61</span>
-
-<span class='kw'>def</span> <span class='id identifier rubyid_to_s'>to_s</span>
-  <span class='id identifier rubyid_checksummed'>checksummed</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -585,7 +508,7 @@
 </div>
 
       <div id="footer">
-  Generated on Tue Dec 14 12:25:03 2021 by
+  Generated on Tue Dec 14 14:39:20 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.27 (ruby-2.7.5).
 </div>
