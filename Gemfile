@@ -11,6 +11,9 @@ gem "rbsecp256k1", "~> 5.1"
 # rlp for transaction encoding
 gem "rlp", "~> 0.7"
 
+# scrypt for encrypted key derivation
+gem 'scrypt', '~> 3.0'
+
 group :test, :development do
   gem "bundler", "~> 2.2"
   gem "codecov", "~> 0.6"
