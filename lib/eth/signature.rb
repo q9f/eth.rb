@@ -26,30 +26,30 @@ module Eth
     # EIP-191 Version byte: 0x45 (E)
     # ref: https://eips.ethereum.org/EIPS/eip-191
     #
-    # @param msg [String] the message string to be prefixed.
+    # @param message [String] the message string to be prefixed.
     # @return [String] an EIP-191 prefixed string
-    def prefix msg
-      "\x19Ethereum Signed Message:\n#{msg.size}#{msg}"
+    def prefix_message message
+      "\x19Ethereum Signed Message:\n#{message.size}#{message}"
     end
 
     # Recovers a uncompressed public key from a message and a signature
     # on a given chain.
     #
-    # @param msg [String] the message string.
-    # @param sig [String] the hex string containing the signature.
-    # @param chain [Integer] the chain ID used to sign.
+    # @param message [String] the message string.
+    # @param signature [String] the hex string containing the signature.
+    # @param chain_id [Integer] the chain ID used to sign.
     # @return [String] an uncompressed public key hex.
-    def personal_recover msg, sig, chain = Chains::ETHEREUM
-      ctx = Secp256k1::Context.new
-      rotated = Utils.hex_to_bin(sig).bytes.rotate -1
-      sig = rotated[1..-1].pack 'c*'
-      v = rotated.first
-      recov = Chains.to_recov v, chain
-      recov_sig = ctx.recoverable_signature_from_compact sig, recov
-      prefixed = prefix msg
-      hashed_pre = Utils.keccak256 prefixed
-      pubk = recov_sig.recover_public_key hashed_pre
-      Utils.bin_to_hex pubk.uncompressed
+    def personal_recover message, signature, chain_id = Chains::ETHEREUM
+      context = Secp256k1::Context.new
+      rotated_signature = Utils.hex_to_bin(signature).bytes.rotate -1
+      signature = rotated_signature[1..-1].pack 'c*'
+      v = rotated_signature.first
+      recovery_id = Chains.to_recovery_id v, chain_id
+      recoverable_signature = context.recoverable_signature_from_compact signature, recovery_id
+      prefixed_message = prefix_message message
+      hashed_message = Utils.keccak256 prefixed_message
+      public_key = recoverable_signature.recover_public_key hashed_message
+      Utils.bin_to_hex public_key.uncompressed
     end
   end
 end

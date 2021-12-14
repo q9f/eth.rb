@@ -57,28 +57,28 @@ describe Eth::Chains do
       expect(Eth::Chains.to_v 0, Eth::Chains::PRIVATE_GETH).to be 2709
     end
     it "can recover v from ethereum recovery id" do
-      expect(Eth::Chains.to_recov 37).to be 0
-      expect(Eth::Chains.to_recov 38).to be 1
+      expect(Eth::Chains.to_recovery_id 37).to be 0
+      expect(Eth::Chains.to_recovery_id 38).to be 1
 
       # legacy v
-      expect(Eth::Chains.to_recov 0).to be 0
-      expect(Eth::Chains.to_recov 1).to be 1
-      expect(Eth::Chains.to_recov 27).to be 0
-      expect(Eth::Chains.to_recov 28).to be 1
+      expect(Eth::Chains.to_recovery_id 0).to be 0
+      expect(Eth::Chains.to_recovery_id 1).to be 1
+      expect(Eth::Chains.to_recovery_id 27).to be 0
+      expect(Eth::Chains.to_recovery_id 28).to be 1
     end
     it "can recover v from other chain's recovery id" do
-      expect(Eth::Chains.to_recov 157, Eth::Chains::CLASSIC).to be 0
-      expect(Eth::Chains.to_recov 236, Eth::Chains::XDAI).to be 1
-      expect(Eth::Chains.to_recov 84357, Eth::Chains::ARBITRUM).to be 0
-      expect(Eth::Chains.to_recov 160, Eth::Chains::MORDEN_CLASSIC).to be 1
-      expect(Eth::Chains.to_recov 875, Eth::Chains::GOERLI_OPTIMISM).to be 0
-      expect(Eth::Chains.to_recov 843258, Eth::Chains::RINKEBY_ARBITRUM).to be 1
-      expect(Eth::Chains.to_recov 2709, Eth::Chains::PRIVATE_GETH).to be 0
+      expect(Eth::Chains.to_recovery_id 157, Eth::Chains::CLASSIC).to be 0
+      expect(Eth::Chains.to_recovery_id 236, Eth::Chains::XDAI).to be 1
+      expect(Eth::Chains.to_recovery_id 84357, Eth::Chains::ARBITRUM).to be 0
+      expect(Eth::Chains.to_recovery_id 160, Eth::Chains::MORDEN_CLASSIC).to be 1
+      expect(Eth::Chains.to_recovery_id 875, Eth::Chains::GOERLI_OPTIMISM).to be 0
+      expect(Eth::Chains.to_recovery_id 843258, Eth::Chains::RINKEBY_ARBITRUM).to be 1
+      expect(Eth::Chains.to_recovery_id 2709, Eth::Chains::PRIVATE_GETH).to be 0
     end
     it "raises an error for invalid v on chain ids" do
-      expect {Eth::Chains.to_recov -1}.to raise_error ArgumentError
-      expect {Eth::Chains.to_recov 36}.to raise_error ArgumentError
-      expect {Eth::Chains.to_recov 843258, Eth::Chains::PRIVATE_GETH}.to raise_error ArgumentError
+      expect {Eth::Chains.to_recovery_id -1}.to raise_error ArgumentError
+      expect {Eth::Chains.to_recovery_id 36}.to raise_error ArgumentError
+      expect {Eth::Chains.to_recovery_id 843258, Eth::Chains::PRIVATE_GETH}.to raise_error ArgumentError
     end
   end
 end
