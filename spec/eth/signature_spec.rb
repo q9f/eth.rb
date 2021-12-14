@@ -18,10 +18,16 @@ describe Eth::Signature do
     end
 
     it "can recover an address from a signature generated with mycrypto" do
-      address = Eth::Address.new '0x4fCA53a6658648060e0a1Ca8427Abdd6063eDf6A'
+      alice = Eth::Address.new '0x4fCA53a6658648060e0a1Ca8427Abdd6063eDf6A'
       message = "Hello World!"
       signature = "0x21fbf0696d5e0aa2ef41a2b4ffb623bcaf070461d61cf7251c74161f82fec3a4370854bc0a34b3ab487c1bc021cd318c734c51ae29374f2beb0e6f2dd49b4bf41c"
-      expect(Eth::Utils.public_key_to_address(Eth::Signature.personal_recover(message, signature)).to_s).to eq address.to_s
+      expect(Eth::Utils.public_key_to_address(Eth::Signature.personal_recover(message, signature)).to_s).to eq alice.to_s
+
+      # ref: https://support.mycrypto.com/how-to/getting-started/how-to-sign-and-verify-messages-on-ethereum/
+      bob = Eth::Address.new '0x2a3052ef570a031400BffD61438b2D19e0E8abef'
+      message = "This is proof that I, user A, have access to this address."
+      signature = "0x4e1ce8ea60bc6dfd4068a35462612495850cb645a1c9f475eb969bff21d0b0fb414112aaf13f01dd18a3527cb648cdd51b618ae49d4999112c33f86b7b26e9731b"
+      expect(Eth::Utils.public_key_to_address(Eth::Signature.personal_recover(message, signature)).to_s).to eq bob.to_s
     end
   end
 end

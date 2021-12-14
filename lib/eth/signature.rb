@@ -24,6 +24,7 @@ module Eth
     # Prefix message as per EIP-191 with 0x19 to ensure the data is not
     # valid RLP and thus not mistaken for a transaction.
     # EIP-191 Version byte: 0x45 (E)
+    # ref: https://eips.ethereum.org/EIPS/eip-191
     #
     # @param msg [String] the message string to be prefixed.
     # @return [String] an EIP-191 prefixed string
