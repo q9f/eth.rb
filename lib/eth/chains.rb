@@ -20,30 +20,64 @@ module Eth
   module Chains
     extend self
 
-    # Chain IDs for selected mainnets
+    # Chain ID for Ethereum mainnet
     ETHEREUM = 1
+
+    # Chain ID for Expanse mainnet
     EXPANSE = 2
+
+    # Chain ID for Optimistic Ethereum mainnet
     OPTIMISM = 10
+
+    # Chain ID for Ethereum Classic mainnet
     CLASSIC = 61
+
+    # Chain ID for POA Network mainnet
     POA_NET = 99
+
+    # Chain ID for xDAI mainnet
     XDAI = 100
+
+    # Chain ID for Arbitrum mainnet
     ARBITRUM = 42161
 
-    # Chain IDs for selected testnets
+    # Chain ID for Morden (Ethereum) testnet
     MORDEN = 2
+
+    # Chain ID for Ropsten testnet
     ROPSTEN = 3
+
+    # Chain ID for Rinkeby testnet
     RINKEBY = 4
+
+    # Chain ID for Goerli testnet
     GOERLI = 5
+
+    # Chain ID for Kotti testnet
     KOTTI = 6
+
+    # Chain ID for Kovan testnet
     KOVAN = 42
+
+    # Chain ID for Morden (Classic) testnet
     MORDEN_CLASSIC = 62
+
+    # Chain ID for Mordor testnet
     MORDOR = 63
+
+    # Chain ID for Optimistik Kovan testnet
     KOVAN_OPTIMISM = 69
+
+    # Chain ID for Arbitrum xDAI testnet
     XDAI_ARBITRUM = 200
+
+    # Chain ID for Optimistic Goerli testnet
     GOERLI_OPTIMISM = 420
+
+    # Chain ID for Arbitrum Rinkeby testnet
     RINKEBY_ARBITRUM = 421611
 
-    # Chain IDs for selected private networks
+    # Chain ID for the geth private network preset
     PRIVATE_GETH = 1337
 
     # Indicates wether the given `v` indicates a legacy chain value
