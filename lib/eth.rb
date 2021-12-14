@@ -20,5 +20,6 @@ end
 require 'eth/address'
 require 'eth/chains'
 require 'eth/key'
+require 'eth/signature'
 require 'eth/utils'
 require 'eth/version'

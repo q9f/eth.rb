@@ -99,9 +99,17 @@ module Eth
     def to_recov v, chain = ETHEREUM
       x = 0 + 2 * chain + 35
       y = 1 + 2 * chain + 35
-      if  is_legacy? v
+      if [0, 1].include? v
+
+        # some wallets are using a `v` of 0 or 1 (ledger)
+        return v
+      elsif  is_legacy? v
+
+        # this is the pre-EIP-155 legacy case
         return v - 27
       elsif [x, y].include? v
+
+        # this is the EIP-155 case
         return v - 35 - 2 * chain
       else
         raise ArgumentError, "Invalid v value for chain #{chain}. Invalid chain ID?"

@@ -61,6 +61,8 @@ describe Eth::Chains do
       expect(Eth::Chains.to_recov 38).to be 1
 
       # legacy v
+      expect(Eth::Chains.to_recov 0).to be 0
+      expect(Eth::Chains.to_recov 1).to be 1
       expect(Eth::Chains.to_recov 27).to be 0
       expect(Eth::Chains.to_recov 28).to be 1
     end
@@ -74,7 +76,7 @@ describe Eth::Chains do
       expect(Eth::Chains.to_recov 2709, Eth::Chains::PRIVATE_GETH).to be 0
     end
     it "raises an error for invalid v on chain ids" do
-      expect {Eth::Chains.to_recov 0}.to raise_error ArgumentError
+      expect {Eth::Chains.to_recov -1}.to raise_error ArgumentError
       expect {Eth::Chains.to_recov 36}.to raise_error ArgumentError
       expect {Eth::Chains.to_recov 843258, Eth::Chains::PRIVATE_GETH}.to raise_error ArgumentError
     end
