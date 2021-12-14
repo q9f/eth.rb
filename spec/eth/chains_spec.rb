@@ -59,6 +59,10 @@ describe Eth::Chains do
     it "can recover v from ethereum recovery id" do
       expect(Eth::Chains.to_recov 37).to be 0
       expect(Eth::Chains.to_recov 38).to be 1
+
+      # legacy v
+      expect(Eth::Chains.to_recov 27).to be 0
+      expect(Eth::Chains.to_recov 28).to be 1
     end
     it "can recover v from other chain's recovery id" do
       expect(Eth::Chains.to_recov 157, Eth::Chains::CLASSIC).to be 0

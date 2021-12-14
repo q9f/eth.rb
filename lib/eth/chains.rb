@@ -16,6 +16,7 @@
 module Eth
 
   # Encapsulates `Chains` IDs and utilities for EIP-155 compatibility.
+  # ref: https://eips.ethereum.org/EIPS/eip-155
   module Chains
     extend self
 
