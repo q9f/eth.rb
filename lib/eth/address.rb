@@ -54,13 +54,7 @@ module Eth
 
       Utils.prefix_hex(cased.join)
     end
-
-    # Generate a checksummed address string. Alias for `checksummed`.
-    #
-    # @return [String] prefixed hexstring representing an checksummed address.
-    def to_s
-      checksummed
-    end
+    alias :to_s :checksummed
 
     private
 

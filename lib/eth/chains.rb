@@ -103,7 +103,7 @@ module Eth
 
         # some wallets are using a `v` of 0 or 1 (ledger)
         return v
-      elsif  is_legacy? v
+      elsif is_legacy? v
 
         # this is the pre-EIP-155 legacy case
         return v - 27
