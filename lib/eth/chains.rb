@@ -93,28 +93,36 @@ module Eth
     # EIP-155 chain ID.
     #
     # @param v [Integer] the signature's `v` value
-    # @param chain [Integer] the chain id the signature was generated on.
+    # @param chain_id [Integer] the chain id the signature was generated on.
     # @return [Integer] the recovery id corresponding to `v`.
     # @raise [ArgumentError] if the given `v` is invalid.
-    def to_recov v, chain = ETHEREUM
-      x = 0 + 2 * chain + 35
-      y = 1 + 2 * chain + 35
-      if  is_legacy? v
+    def to_recovery_id v, chain_id = ETHEREUM
+      e = 0 + 2 * chain_id + 35
+      i = 1 + 2 * chain_id + 35
+      if [0, 1].include? v
+
+        # some wallets are using a `v` of 0 or 1 (ledger)
+        return v
+      elsif is_legacy? v
+
+        # this is the pre-EIP-155 legacy case
         return v - 27
-      elsif [x, y].include? v
-        return v - 35 - 2 * chain
+      elsif [e, i].include? v
+
+        # this is the EIP-155 case
+        return v - 35 - 2 * chain_id
       else
-        raise ArgumentError, "Invalid v value for chain #{chain}. Invalid chain ID?"
+        raise ArgumentError, "Invalid v value for chain ID #{chain_id}. Invalid chain ID?"
       end
     end
 
     # Converts a recovery ID into the expected `v` on a given chain.
     #
-    # @param recov [Integer] signature recovery id.
-    # @param chain [Integer] the chain id the signature was generated on.
+    # @param recovery_id [Integer] signature recovery id.
+    # @param chain_id [Integer] the chain id the signature was generated on.
     # @return [Integer] the signature's `v` value.
-    def to_v recov, chain = ETHEREUM
-      v = 2 * chain + 35 + recov
+    def to_v recovery_id, chain_id = ETHEREUM
+      v = 2 * chain_id + 35 + recovery_id
     end
   end
 end
