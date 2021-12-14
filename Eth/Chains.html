@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  Module: Eth::Chains
+  
+    &mdash; Documentation by YARD 0.9.27
+  
+</title>
+
+  <link rel="stylesheet" href="../css/style.css" type="text/css" />
+
+  <link rel="stylesheet" href="../css/common.css" type="text/css" />
+
+<script type="text/javascript">
+  pathId = "Eth::Chains";
+  relpath = '../';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="../class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="../_index.html">Index (C)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../Eth.html" title="Eth (module)">Eth</a></span></span>
+     &raquo; 
+    <span class="title">Chains</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><h1>Module: Eth::Chains
+  
+  
+  
+</h1>
+<div class="box_info">
+  
+
+  
+  
+  <dl>
+      <dt>Extended by:</dt>
+      <dd><span class='object_link'><a href="" title="Eth::Chains (module)">Chains</a></span></dd>
+  </dl>
+  
+  
+  
+  
+
+  
+  <dl>
+    <dt>Included in:</dt>
+    <dd><span class='object_link'><a href="" title="Eth::Chains (module)">Chains</a></span></dd>
+  </dl>
+  
+
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>lib/eth/chains.rb</dd>
+  </dl>
+  
+</div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    
+<p>Encapsulates `Chains` IDs and utilities for EIP-155 compatibility. ref: <a href="https://eips.ethereum.org/EIPS/eip-155">eips.ethereum.org/EIPS/eip-155</a></p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+  
+    <h2>
+      Constant Summary
+      <small><a href="#" class="constants_summary_toggle">collapse</a></small>
+    </h2>
+
+    <dl class="constants">
+      
+        <dt id="ETHEREUM-constant" class="">ETHEREUM =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>Chain ID for Ethereum mainnet</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='int'>1</span></pre></dd>
+      
+        <dt id="EXPANSE-constant" class="">EXPANSE =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>Chain ID for Expanse mainnet</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='int'>2</span></pre></dd>
+      
+        <dt id="OPTIMISM-constant" class="">OPTIMISM =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>Chain ID for Optimistic Ethereum mainnet</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='int'>10</span></pre></dd>
+      
+        <dt id="CLASSIC-constant" class="">CLASSIC =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>Chain ID for Ethereum Classic mainnet</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='int'>61</span></pre></dd>
+      
+        <dt id="POA_NET-constant" class="">POA_NET =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>Chain ID for POA Network mainnet</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='int'>99</span></pre></dd>
+      
+        <dt id="XDAI-constant" class="">XDAI =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>Chain ID for xDAI mainnet</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='int'>100</span></pre></dd>
+      
+        <dt id="ARBITRUM-constant" class="">ARBITRUM =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>Chain ID for Arbitrum mainnet</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='int'>42161</span></pre></dd>
+      
+        <dt id="MORDEN-constant" class="">MORDEN =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>Chain ID for Morden (Ethereum) testnet</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='int'>2</span></pre></dd>
+      
+        <dt id="ROPSTEN-constant" class="">ROPSTEN =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>Chain ID for Ropsten testnet</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='int'>3</span></pre></dd>
+      
+        <dt id="RINKEBY-constant" class="">RINKEBY =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>Chain ID for Rinkeby testnet</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='int'>4</span></pre></dd>
+      
+        <dt id="GOERLI-constant" class="">GOERLI =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>Chain ID for Goerli testnet</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='int'>5</span></pre></dd>
+      
+        <dt id="KOTTI-constant" class="">KOTTI =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>Chain ID for Kotti testnet</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='int'>6</span></pre></dd>
+      
+        <dt id="KOVAN-constant" class="">KOVAN =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>Chain ID for Kovan testnet</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='int'>42</span></pre></dd>
+      
+        <dt id="MORDEN_CLASSIC-constant" class="">MORDEN_CLASSIC =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>Chain ID for Morden (Classic) testnet</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='int'>62</span></pre></dd>
+      
+        <dt id="MORDOR-constant" class="">MORDOR =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>Chain ID for Mordor testnet</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='int'>63</span></pre></dd>
+      
+        <dt id="KOVAN_OPTIMISM-constant" class="">KOVAN_OPTIMISM =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>Chain ID for Optimistik Kovan testnet</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='int'>69</span></pre></dd>
+      
+        <dt id="XDAI_ARBITRUM-constant" class="">XDAI_ARBITRUM =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>Chain ID for Arbitrum xDAI testnet</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='int'>200</span></pre></dd>
+      
+        <dt id="GOERLI_OPTIMISM-constant" class="">GOERLI_OPTIMISM =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>Chain ID for Optimistic Goerli testnet</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='int'>420</span></pre></dd>
+      
+        <dt id="RINKEBY_ARBITRUM-constant" class="">RINKEBY_ARBITRUM =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>Chain ID for Arbitrum Rinkeby testnet</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='int'>421611</span></pre></dd>
+      
+        <dt id="PRIVATE_GETH-constant" class="">PRIVATE_GETH =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>Chain ID for the geth private network preset</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='int'>1337</span></pre></dd>
+      
+    </dl>
+  
+
+
+
+
+
+
+
+  
+    <h2>
+      Instance Method Summary
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#is_legacy%3F-instance_method" title="#is_legacy? (instance method)">#<strong>is_legacy?</strong>(v)  &#x21d2; Boolean </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Indicates wether the given `v` indicates a legacy chain value without EIP-155 replay protection.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#to_recov-instance_method" title="#to_recov (instance method)">#<strong>to_recov</strong>(v, chain = ETHEREUM)  &#x21d2; Integer </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Convert a given `v` value to an ECDSA recovery id for the given EIP-155 chain ID.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#to_v-instance_method" title="#to_v (instance method)">#<strong>to_v</strong>(recov, chain = ETHEREUM)  &#x21d2; Integer </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Converts a recovery ID into the expected `v` on a given chain.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="is_legacy?-instance_method">
+  
+    #<strong>is_legacy?</strong>(v)  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Indicates wether the given `v` indicates a legacy chain value without EIP-155 replay protection.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>v</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the signature&#39;s `v` value</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>true if legacy value</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+88
+89
+90</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/eth/chains.rb', line 88</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_is_legacy?'>is_legacy?</span> <span class='id identifier rubyid_v'>v</span>
+  <span class='lbracket'>[</span><span class='int'>27</span><span class='comma'>,</span> <span class='int'>28</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='id identifier rubyid_v'>v</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="to_recov-instance_method">
+  
+    #<strong>to_recov</strong>(v, chain = ETHEREUM)  &#x21d2; <tt>Integer</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Convert a given `v` value to an ECDSA recovery id for the given EIP-155 chain ID.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>v</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the signature&#39;s `v` value</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>chain</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>ETHEREUM</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the chain id the signature was generated on.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the recovery id corresponding to `v`.</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>ArgumentError</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>if the given `v` is invalid.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/eth/chains.rb', line 99</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_to_recov'>to_recov</span> <span class='id identifier rubyid_v'>v</span><span class='comma'>,</span> <span class='id identifier rubyid_chain'>chain</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="#ETHEREUM-constant" title="Eth::Chains::ETHEREUM (constant)">ETHEREUM</a></span></span>
+  <span class='id identifier rubyid_x'>x</span> <span class='op'>=</span> <span class='int'>0</span> <span class='op'>+</span> <span class='int'>2</span> <span class='op'>*</span> <span class='id identifier rubyid_chain'>chain</span> <span class='op'>+</span> <span class='int'>35</span>
+  <span class='id identifier rubyid_y'>y</span> <span class='op'>=</span> <span class='int'>1</span> <span class='op'>+</span> <span class='int'>2</span> <span class='op'>*</span> <span class='id identifier rubyid_chain'>chain</span> <span class='op'>+</span> <span class='int'>35</span>
+  <span class='kw'>if</span>  <span class='id identifier rubyid_is_legacy?'>is_legacy?</span> <span class='id identifier rubyid_v'>v</span>
+    <span class='kw'>return</span> <span class='id identifier rubyid_v'>v</span> <span class='op'>-</span> <span class='int'>27</span>
+  <span class='kw'>elsif</span> <span class='lbracket'>[</span><span class='id identifier rubyid_x'>x</span><span class='comma'>,</span> <span class='id identifier rubyid_y'>y</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='id identifier rubyid_v'>v</span>
+    <span class='kw'>return</span> <span class='id identifier rubyid_v'>v</span> <span class='op'>-</span> <span class='int'>35</span> <span class='op'>-</span> <span class='int'>2</span> <span class='op'>*</span> <span class='id identifier rubyid_chain'>chain</span>
+  <span class='kw'>else</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'>ArgumentError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Invalid v value for chain </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_chain'>chain</span><span class='embexpr_end'>}</span><span class='tstring_content'>. Invalid chain ID?</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="to_v-instance_method">
+  
+    #<strong>to_v</strong>(recov, chain = ETHEREUM)  &#x21d2; <tt>Integer</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Converts a recovery ID into the expected `v` on a given chain.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>recov</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>signature recovery id.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>chain</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>ETHEREUM</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the chain id the signature was generated on.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the signature&#39;s `v` value.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+116
+117
+118</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/eth/chains.rb', line 116</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_to_v'>to_v</span> <span class='id identifier rubyid_recov'>recov</span><span class='comma'>,</span> <span class='id identifier rubyid_chain'>chain</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="#ETHEREUM-constant" title="Eth::Chains::ETHEREUM (constant)">ETHEREUM</a></span></span>
+  <span class='id identifier rubyid_v'>v</span> <span class='op'>=</span> <span class='int'>2</span> <span class='op'>*</span> <span class='id identifier rubyid_chain'>chain</span> <span class='op'>+</span> <span class='int'>35</span> <span class='op'>+</span> <span class='id identifier rubyid_recov'>recov</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+      <div id="footer">
+  Generated on Tue Dec 14 12:25:03 2021 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.27 (ruby-2.7.5).
+</div>
+
+    </div>
+  </body>
+</html>
