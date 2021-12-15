@@ -57,5 +57,10 @@ module Eth
       public_key = recoverable_signature.recover_public_key hashed_message
       Utils.bin_to_hex public_key.uncompressed
     end
+
+    def verify message, signature, public_key, chain_id = Chains::ETHEREUM
+      recovered_key = personal_recover message, signature, chain_id
+      public_key == recovered_key
+    end
   end
 end
