@@ -71,10 +71,63 @@
 <h3 id="label-Work+in+progress">Work in progress</h3>
 
 <p><em>This is a partial rewrite of the old <code>eth</code> gem by Steve Ellis.</em> * <a href="https://github.com/se3000/ruby-eth">github.com/se3000/ruby-eth</a>/</p>
+
+<h3 id="label-What+works-3F">What works?</h3>
+
+<h5 id="label-Eth-3A-3AKey"><code>Eth::Key</code></h5>
+
+<p>Managing Secp256k1 public-private keypairs to sign messages in EIP-191 format.</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_key'>key</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Eth.html" title="Eth (module)">Eth</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Eth/Key.html" title="Eth::Key (class)">Key</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="Eth/Key.html#initialize-instance_method" title="Eth::Key#initialize (method)">new</a></span></span>
+<span class='id identifier rubyid_key'>key</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Eth.html" title="Eth (module)">Eth</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Eth/Key.html" title="Eth::Key (class)">Key</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="Eth/Key.html#initialize-instance_method" title="Eth::Key#initialize (method)">new</a></span></span> <span class='label'>priv:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>268be6f4a68c40f6862b7ac9aed8f701dc25a95ddb9a44d8b1f520b75f440a9a</span><span class='tstring_end'>&quot;</span></span>
+<span class='id identifier rubyid_key'>key</span><span class='period'>.</span><span class='id identifier rubyid_public_hex'>public_hex</span>
+<span class='comment'># =&gt; &quot;04b45200621c013a5fbab999ac33b0c836328a04afa0255ffbe6ea0f6fd97e187b02199886d942a9f50f7e279a2bc74c93b2afcbd7255489939f9b36a5eae5e281&quot;
+</span><span class='id identifier rubyid_key'>key</span><span class='period'>.</span><span class='id identifier rubyid_address'>address</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>
+<span class='comment'># =&gt; &quot;0xD496b23D61F88A8C7758fca7560dCFac7b3b01F9&quot;
+</span><span class='id identifier rubyid_key'>key</span><span class='period'>.</span><span class='id identifier rubyid_personal_sign'>personal_sign</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Hello World!</span><span class='tstring_end'>&quot;</span></span> <span class='comment'># EIP 191
+</span><span class='comment'># =&gt; &quot;ac6a59417d8688c8144f01a662384fa691636b48a071d4b7c13902bb87ca472b0bce1d7a758f39a5759ed5e937ce61f50dd1b83158371f8d0faeb9b7d81c194225&quot;
+</span></code></pre>
+
+<h5 id="label-Eth-3A-3AAddress"><code>Eth::Address</code></h5>
+
+<p>Managing Ethereum address objects adhering to EIP-55 checksum format.</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_address'>address</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Eth.html" title="Eth (module)">Eth</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Eth/Address.html" title="Eth::Address (class)">Address</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="Eth/Address.html#initialize-instance_method" title="Eth::Address#initialize (method)">new</a></span></span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>0xd496b23d61f88a8c7758fca7560dcfac7b3b01f9</span><span class='tstring_end'>&quot;</span></span>
+<span class='id identifier rubyid_address'>address</span><span class='period'>.</span><span class='id identifier rubyid_valid?'>valid?</span>
+<span class='comment'># =&gt; true
+</span><span class='id identifier rubyid_address'>address</span><span class='period'>.</span><span class='id identifier rubyid_checksummed'>checksummed</span> <span class='comment'># EIP 55
+</span><span class='comment'># =&gt; &quot;0xD496b23D61F88A8C7758fca7560dCFac7b3b01F9&quot;
+</span></code></pre>
+
+<h5 id="label-Eth-3A-3AChains"><code>Eth::Chains</code></h5>
+
+<p>Managing Ethereum chain IDs for EIP-155 replay protection.</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_chain_id'>chain_id</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Eth.html" title="Eth (module)">Eth</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Eth/Chains.html" title="Eth::Chains (module)">Chains</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Eth/Chains.html#OPTIMISM-constant" title="Eth::Chains::OPTIMISM (constant)">OPTIMISM</a></span></span> <span class='comment'># EIP 155
+</span><span class='comment'># =&gt; 10
+</span><span class='id identifier rubyid_v'>v</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Eth.html" title="Eth (module)">Eth</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Eth/Chains.html" title="Eth::Chains (module)">Chains</a></span></span><span class='period'>.</span><span class='id identifier rubyid_to_v'><span class='object_link'><a href="Eth/Chains.html#to_v-instance_method" title="Eth::Chains#to_v (method)">to_v</a></span></span> <span class='int'>0</span><span class='comma'>,</span> <span class='const'><span class='object_link'><a href="Eth.html" title="Eth (module)">Eth</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Eth/Chains.html" title="Eth::Chains (module)">Chains</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Eth/Chains.html#OPTIMISM-constant" title="Eth::Chains::OPTIMISM (constant)">OPTIMISM</a></span></span>
+<span class='comment'># =&gt; 55
+</span><span class='id identifier rubyid_recovery_id'>recovery_id</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Eth.html" title="Eth (module)">Eth</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Eth/Chains.html" title="Eth::Chains (module)">Chains</a></span></span><span class='period'>.</span><span class='id identifier rubyid_to_recovery_id'><span class='object_link'><a href="Eth/Chains.html#to_recovery_id-instance_method" title="Eth::Chains#to_recovery_id (method)">to_recovery_id</a></span></span> <span class='id identifier rubyid_v'>v</span><span class='comma'>,</span> <span class='const'><span class='object_link'><a href="Eth.html" title="Eth (module)">Eth</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Eth/Chains.html" title="Eth::Chains (module)">Chains</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Eth/Chains.html#OPTIMISM-constant" title="Eth::Chains::OPTIMISM (constant)">OPTIMISM</a></span></span>
+<span class='comment'># =&gt; 0
+</span></code></pre>
+
+<h5 id="label-Eth-3A-3ASignature"><code>Eth::Signature</code></h5>
+
+<p>Recovering and verifying personal signatures respecting EIP 155 and 191.</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_address'>address</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Eth.html" title="Eth (module)">Eth</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Eth/Address.html" title="Eth::Address (class)">Address</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="Eth/Address.html#initialize-instance_method" title="Eth::Address#initialize (method)">new</a></span></span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>0xd496b23d61f88a8c7758fca7560dcfac7b3b01f9</span><span class='tstring_end'>&quot;</span></span>
+<span class='id identifier rubyid_signature'>signature</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>ac6a59417d8688c8144f01a662384fa691636b48a071d4b7c13902bb87ca472b0bce1d7a758f39a5759ed5e937ce61f50dd1b83158371f8d0faeb9b7d81c19422d</span><span class='tstring_end'>&quot;</span></span>
+<span class='id identifier rubyid_recovered_key'>recovered_key</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Eth.html" title="Eth (module)">Eth</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Eth/Signature.html" title="Eth::Signature (module)">Signature</a></span></span><span class='period'>.</span><span class='id identifier rubyid_personal_recover'><span class='object_link'><a href="Eth/Signature.html#personal_recover-instance_method" title="Eth::Signature#personal_recover (method)">personal_recover</a></span></span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Hello World!</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='id identifier rubyid_signature'>signature</span><span class='comma'>,</span> <span class='const'><span class='object_link'><a href="Eth.html" title="Eth (module)">Eth</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Eth/Chains.html" title="Eth::Chains (module)">Chains</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Eth/Chains.html#GOERLI-constant" title="Eth::Chains::GOERLI (constant)">GOERLI</a></span></span>
+<span class='comment'># =&gt; &quot;04b45200621c013a5fbab999ac33b0c836328a04afa0255ffbe6ea0f6fd97e187b02199886d942a9f50f7e279a2bc74c93b2afcbd7255489939f9b36a5eae5e281&quot;
+</span><span class='const'><span class='object_link'><a href="Eth.html" title="Eth (module)">Eth</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Eth/Utils.html" title="Eth::Utils (module)">Utils</a></span></span><span class='period'>.</span><span class='id identifier rubyid_public_key_to_address'><span class='object_link'><a href="Eth/Utils.html#public_key_to_address-instance_method" title="Eth::Utils#public_key_to_address (method)">public_key_to_address</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_recovered_key'>recovered_key</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>
+<span class='comment'># =&gt; &quot;0xD496b23D61F88A8C7758fca7560dCFac7b3b01F9&quot;
+</span><span class='const'><span class='object_link'><a href="Eth.html" title="Eth (module)">Eth</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Eth/Signature.html" title="Eth::Signature (module)">Signature</a></span></span><span class='period'>.</span><span class='id identifier rubyid_verify'><span class='object_link'><a href="Eth/Signature.html#verify-instance_method" title="Eth::Signature#verify (method)">verify</a></span></span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Hello World!</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='id identifier rubyid_signature'>signature</span><span class='comma'>,</span> <span class='id identifier rubyid_address'>address</span><span class='comma'>,</span> <span class='const'><span class='object_link'><a href="Eth.html" title="Eth (module)">Eth</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Eth/Chains.html" title="Eth::Chains (module)">Chains</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Eth/Chains.html#GOERLI-constant" title="Eth::Chains::GOERLI (constant)">GOERLI</a></span></span>
+<span class='comment'># =&gt; true
+</span></code></pre>
 </div></div>
 
       <div id="footer">
-  Generated on Wed Dec 15 10:14:46 2021 by
+  Generated on Wed Dec 15 11:02:41 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.27 (ruby-2.7.5).
 </div>
