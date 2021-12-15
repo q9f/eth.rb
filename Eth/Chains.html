@@ -749,7 +749,7 @@
     <span class='comment'># this is the EIP-155 case
 </span>    <span class='kw'>return</span> <span class='id identifier rubyid_v'>v</span> <span class='op'>-</span> <span class='int'>35</span> <span class='op'>-</span> <span class='int'>2</span> <span class='op'>*</span> <span class='id identifier rubyid_chain_id'>chain_id</span>
   <span class='kw'>else</span>
-    <span class='id identifier rubyid_raise'>raise</span> <span class='const'>ArgumentError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Invalid v value for chain ID </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_chain_id'>chain_id</span><span class='embexpr_end'>}</span><span class='tstring_content'>. Invalid chain ID?</span><span class='tstring_end'>&quot;</span></span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'>ArgumentError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Invalid v </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_v'>v</span><span class='embexpr_end'>}</span><span class='tstring_content'> value for chain ID </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_chain_id'>chain_id</span><span class='embexpr_end'>}</span><span class='tstring_content'>. Invalid chain ID?</span><span class='tstring_end'>&quot;</span></span>
   <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -859,7 +859,7 @@
 </div>
 
       <div id="footer">
-  Generated on Tue Dec 14 17:57:26 2021 by
+  Generated on Wed Dec 15 10:14:46 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.27 (ruby-2.7.5).
 </div>
