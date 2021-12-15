@@ -37,6 +37,14 @@ describe Eth::Signature do
       signature = "0x4e1ce8ea60bc6dfd4068a35462612495850cb645a1c9f475eb969bff21d0b0fb414112aaf13f01dd18a3527cb648cdd51b618ae49d4999112c33f86b7b26e9731b"
       expect(Eth::Utils.public_key_to_address(Eth::Signature.personal_recover(message, signature)).to_s).to eq bob.to_s
     end
+
+    it "raises argument errors if signature is invalid" do
+      message = "This is proof that I, user A, have access to this address."
+      signature_invalid_v = "0x4e1ce8ea60bc6dfd4068a35462612495850cb645a1c9f475eb969bff21d0b0fb414112aaf13f01dd18a3527cb648cdd51b618ae49d4999112c33f86b7b26e97300"
+      signature_invalid_size = "0x4e1ce8ea60bc6dfd4068a35462612495850cb645a1c9f475eb969bff21d0b0fb414112aaf13f01dd18a3527cb648cdd51b618ae49d4999112c33f86b7b26e973"
+      expect{Eth::Signature.personal_recover(message, signature_invalid_v)}.to raise_error ArgumentError
+      expect{Eth::Signature.personal_recover(message, signature_invalid_size)}.to raise_error ArgumentError
+    end
   end
 
   describe ".verify" do
