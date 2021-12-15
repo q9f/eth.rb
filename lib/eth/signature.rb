@@ -42,8 +42,14 @@ module Eth
     def personal_recover message, signature, chain_id = Chains::ETHEREUM
       context = Secp256k1::Context.new
       rotated_signature = Utils.hex_to_bin(signature).bytes.rotate -1
+      if rotated_signature.size != 65
+        raise ArgumentError, "Invalid signature byte-size #{rotated_signature.size}!"
+      end
       signature = rotated_signature[1..-1].pack 'c*'
       v = rotated_signature.first
+      if v < chain_id
+        raise ArgumentError, "Invalid signature v byte #{v} for chain ID #{chain_id}!"
+      end
       recovery_id = Chains.to_recovery_id v, chain_id
       recoverable_signature = context.recoverable_signature_from_compact signature, recovery_id
       prefixed_message = prefix_message message
