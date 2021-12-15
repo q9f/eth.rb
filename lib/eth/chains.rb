@@ -112,7 +112,7 @@ module Eth
         # this is the EIP-155 case
         return v - 35 - 2 * chain_id
       else
-        raise ArgumentError, "Invalid v value for chain ID #{chain_id}. Invalid chain ID?"
+        raise ArgumentError, "Invalid v #{v} value for chain ID #{chain_id}. Invalid chain ID?"
       end
     end
 

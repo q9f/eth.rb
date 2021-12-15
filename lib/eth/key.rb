@@ -52,11 +52,29 @@ module Eth
       @public_key = key.public_key
     end
 
+    # Prefixes a message with "\x19Ethereum Signed Message:" and signs
+    # it in the common way used by many web3 wallets. Complies with
+    # EIP-191 prefix 0x19 and version byte 0x45 (E).
+    #
+    # @param message [String] the message string to be prefixed and signed.
+    # @param chain_id [Integer] the chain id the signature should be generated on.
+    # @return [String] an EIP-191 conform, hexa-decimal signature.
+    def personal_sign message, chain_id = Chains::ETHEREUM
+      context = Secp256k1::Context.new
+      prefixed_message = Signature.prefix_message message
+      hashed_message = Utils.keccak256 prefixed_message
+      compact, recovery_id = context.sign_recoverable(@private_key, hashed_message).compact
+      signature = compact.bytes
+      v = Chains.to_v recovery_id, chain_id
+      signature = signature.append v
+      Utils.bin_to_hex signature.pack 'c*'
+    end
+
     # Converts the private key data into a hexa-decimal string.
     #
     # @return [String] private key as hexa-decimal string.
     def private_hex
-      Secp256k1::Util.bin_to_hex @private_key.data
+      Utils.bin_to_hex @private_key.data
     end
 
     # Exports the private key bytes in a wrapper function to maintain
@@ -72,7 +90,7 @@ module Eth
     #
     # @return [String] public key as uncompressed hexa-decimal string.
     def public_hex
-      Secp256k1::Util.bin_to_hex @public_key.uncompressed
+      Utils.bin_to_hex @public_key.uncompressed
     end
 
     # Converts the public key data into an compressed
@@ -80,7 +98,7 @@ module Eth
     #
     # @return [String] public key as compressed hexa-decimal string.
     def public_hex_compressed
-      Secp256k1::Util.bin_to_hex @public_key.compressed
+      Utils.bin_to_hex @public_key.compressed
     end
 
     # Exports the uncompressed public key bytes in a wrapper function to
