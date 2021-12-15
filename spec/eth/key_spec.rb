@@ -55,6 +55,28 @@ describe Eth::Key do
     end
   end
 
+  describe ".personal_sign" do
+    subject(:eve) { Eth::Key.new }
+    let(:message) { "Hi Mom!" }
+
+    it "signs a message so that the public key can be recovered with personal_recover" do
+      10.times do
+        signature = eve.personal_sign message
+        expect(Eth::Signature.personal_recover message, signature).to eq(eve.public_hex)
+      end
+    end
+
+    it "also signs and recovers signatures with testnet chain IDs" do
+      known_key = Eth::Key.new priv: "268be6f4a68c40f6862b7ac9aed8f701dc25a95ddb9a44d8b1f520b75f440a9a"
+      chain = Eth::Chains::GOERLI
+      expected_sig = "5d4bbc6e3ba797ab41821bd5ee33b3f30618ff71f1d41b6ebd8ac9731fda2b755269c3b0f332ff8473b21ae93bb03587ab181cca0674784894517a8e3b839c1e2d"
+      signature = known_key.personal_sign message, chain
+      expect(signature).to eq expected_sig
+      recovered_key = Eth::Signature.personal_recover message, signature, chain
+      expect(known_key.public_hex).to eq recovered_key
+    end
+  end
+
   describe ".private_key" do
     subject(:charlie) { Eth::Key.new }
 
