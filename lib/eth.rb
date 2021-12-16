@@ -18,8 +18,8 @@ end
 
 # Loads the `Eth` module classes.
 require 'eth/address'
-require 'eth/chains'
+require 'eth/chain'
 require 'eth/key'
 require 'eth/signature'
-require 'eth/utils'
+require 'eth/util'
 require 'eth/version'

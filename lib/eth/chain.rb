@@ -15,9 +15,9 @@
 # Provides the `Eth` module.
 module Eth
 
-  # Encapsulates `Chains` IDs and utilities for EIP-155 compatibility.
+  # Encapsulates `Chain` IDs and utilities for EIP-155 compatibility.
   # ref: https://eips.ethereum.org/EIPS/eip-155
-  module Chains
+  module Chain
     extend self
 
     # Chain ID for Ethereum mainnet
