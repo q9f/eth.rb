@@ -18,7 +18,7 @@ require 'digest/keccak'
 module Eth
 
   # Defines handy tools for the `Eth` gem for convenience.
-  module Utils
+  module Util
     extend self
 
     # Generates an Ethereum address from a given compressed or

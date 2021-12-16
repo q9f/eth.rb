@@ -26,7 +26,7 @@ module Eth
     #
     # @param address [String] hex string representing an ethereum address.
     def initialize address
-      @address = Utils.prefix_hex address
+      @address = Util.prefix_hex address
     end
 
     # Check that the address is valid.
@@ -52,7 +52,7 @@ module Eth
         check.match(/[0-7]/) ? char.downcase : char.upcase
       end
 
-      Utils.prefix_hex(cased.join)
+      Util.prefix_hex cased.join
     end
     alias :to_s :checksummed
 
@@ -67,23 +67,23 @@ module Eth
     end
 
     def all_uppercase?
-      address.match(/(?:0[xX])[A-F0-9]{40}/)
+      address.match /(?:0[xX])[A-F0-9]{40}/
     end
 
     def all_lowercase?
-      address.match(/(?:0[xX])[a-f0-9]{40}/)
+      address.match /(?:0[xX])[a-f0-9]{40}/
     end
 
     def matches_any_format?
-      address.match(/\A(?:0[xX])[a-fA-F0-9]{40}\z/)
+      address.match /\A(?:0[xX])[a-fA-F0-9]{40}\z/
     end
 
     def checksum
-      Utils.bin_to_hex(Utils.keccak256 unprefixed.downcase)
+      Util.bin_to_hex Util.keccak256 unprefixed.downcase
     end
 
     def unprefixed
-      Utils.remove_hex_prefix address
+      Util.remove_hex_prefix address
     end
   end
 end

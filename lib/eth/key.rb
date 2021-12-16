@@ -41,7 +41,7 @@ module Eth
       unless priv.nil?
 
         # Converts hex private keys to binary strings.
-        priv = Utils.hex_to_bin priv if Utils.is_hex? priv
+        priv = Util.hex_to_bin priv if Util.is_hex? priv
 
         # Creates a keypair from existing private key data.
         key = ctx.key_pair_from_private_key priv
@@ -59,22 +59,22 @@ module Eth
     # @param message [String] the message string to be prefixed and signed.
     # @param chain_id [Integer] the chain id the signature should be generated on.
     # @return [String] an EIP-191 conform, hexa-decimal signature.
-    def personal_sign message, chain_id = Chains::ETHEREUM
+    def personal_sign message, chain_id = Chain::ETHEREUM
       context = Secp256k1::Context.new
       prefixed_message = Signature.prefix_message message
-      hashed_message = Utils.keccak256 prefixed_message
+      hashed_message = Util.keccak256 prefixed_message
       compact, recovery_id = context.sign_recoverable(@private_key, hashed_message).compact
       signature = compact.bytes
-      v = Chains.to_v recovery_id, chain_id
+      v = Chain.to_v recovery_id, chain_id
       signature = signature.append v
-      Utils.bin_to_hex signature.pack 'c*'
+      Util.bin_to_hex signature.pack 'c*'
     end
 
     # Converts the private key data into a hexa-decimal string.
     #
     # @return [String] private key as hexa-decimal string.
     def private_hex
-      Utils.bin_to_hex @private_key.data
+      Util.bin_to_hex @private_key.data
     end
 
     # Exports the private key bytes in a wrapper function to maintain
@@ -90,7 +90,7 @@ module Eth
     #
     # @return [String] public key as uncompressed hexa-decimal string.
     def public_hex
-      Utils.bin_to_hex @public_key.uncompressed
+      Util.bin_to_hex @public_key.uncompressed
     end
 
     # Converts the public key data into an compressed
@@ -98,7 +98,7 @@ module Eth
     #
     # @return [String] public key as compressed hexa-decimal string.
     def public_hex_compressed
-      Utils.bin_to_hex @public_key.compressed
+      Util.bin_to_hex @public_key.compressed
     end
 
     # Exports the uncompressed public key bytes in a wrapper function to
@@ -120,7 +120,7 @@ module Eth
     #
     # @return [Eth::Address] compressed address as packed hex prefixed string.
     def address
-      Utils.public_key_to_address public_bytes
+      Util.public_key_to_address public_bytes
     end
   end
 end

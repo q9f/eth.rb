@@ -68,7 +68,7 @@ describe Eth::Key do
 
     it "also signs and recovers signatures with testnet chain IDs" do
       known_key = Eth::Key.new priv: "268be6f4a68c40f6862b7ac9aed8f701dc25a95ddb9a44d8b1f520b75f440a9a"
-      chain = Eth::Chains::GOERLI
+      chain = Eth::Chain::GOERLI
       expected_sig = "5d4bbc6e3ba797ab41821bd5ee33b3f30618ff71f1d41b6ebd8ac9731fda2b755269c3b0f332ff8473b21ae93bb03587ab181cca0674784894517a8e3b839c1e2d"
       signature = known_key.personal_sign message, chain
       expect(signature).to eq expected_sig
@@ -85,8 +85,8 @@ describe Eth::Key do
       # ensure private keys are sane
       expect(charlie.private_key).to be
       expect(charlie.private_key).to be_an_instance_of Secp256k1::PrivateKey
-      expect(Eth::Utils.is_hex? charlie.private_hex).to be_truthy
-      expect(Eth::Utils.is_hex? charlie.private_bytes).to be_falsy
+      expect(Eth::Util.is_hex? charlie.private_hex).to be_truthy
+      expect(Eth::Util.is_hex? charlie.private_bytes).to be_falsy
 
       # check private keys are 32 bit
       expect(charlie.private_hex.size).to eq 64
@@ -102,10 +102,10 @@ describe Eth::Key do
       # ensure public keys are sane
       expect(dave.public_key).to be
       expect(dave.public_key).to be_an_instance_of Secp256k1::PublicKey
-      expect(Eth::Utils.is_hex? dave.public_hex).to be_truthy
-      expect(Eth::Utils.is_hex? dave.public_hex_compressed).to be_truthy
-      expect(Eth::Utils.is_hex? dave.public_bytes).to be_falsy
-      expect(Eth::Utils.is_hex? dave.public_bytes_compressed).to be_falsy
+      expect(Eth::Util.is_hex? dave.public_hex).to be_truthy
+      expect(Eth::Util.is_hex? dave.public_hex_compressed).to be_truthy
+      expect(Eth::Util.is_hex? dave.public_bytes).to be_falsy
+      expect(Eth::Util.is_hex? dave.public_bytes_compressed).to be_falsy
 
       # check public key sizes and first indicator bytes
       expect(dave.public_hex.size).to eq 130

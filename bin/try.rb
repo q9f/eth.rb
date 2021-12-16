@@ -19,8 +19,8 @@ print "ETH Address (EIP-55) \t#{address.checksummed}\n"
 print "ETH Address valid?   \t#{address.valid?}\n"
 print "\n"
 
-# Manage Chains (Eth::Chains)
-chain_id = Eth::Chains::GOERLI # EIP 155
+# Manage Chains (Eth::Chain)
+chain_id = Eth::Chain::GOERLI # EIP 155
 print "Chain ID (Goerli)    \t#{chain_id}\n"
 print "\n"
 
@@ -32,7 +32,7 @@ print "Signature            \t#{signature}\n"
 
 # Verify messages (Eth::Signature)
 recovered_pubkey = Eth::Signature.personal_recover message, signature, chain_id
-recovered_address = Eth::Utils.public_key_to_address recovered_pubkey
+recovered_address = Eth::Util.public_key_to_address recovered_pubkey
 signature_verifies = Eth::Signature.verify message, signature, key_pair.address, chain_id
 print "Recovered public key \t\"#{recovered_pubkey}\"\n"
 print "Recovered address    \t\"#{recovered_address}\"\n"
