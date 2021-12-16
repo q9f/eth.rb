@@ -19,7 +19,9 @@ end
 # Loads the `Eth` module classes.
 require 'eth/address'
 require 'eth/chain'
+require 'eth/eip712'
 require 'eth/key'
 require 'eth/signature'
+require 'eth/unit'
 require 'eth/util'
 require 'eth/version'
