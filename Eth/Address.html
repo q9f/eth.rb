@@ -295,7 +295,7 @@
       <pre class="code"><span class="info file"># File 'lib/eth/address.rb', line 28</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span> <span class='id identifier rubyid_address'>address</span>
-  <span class='ivar'>@address</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Utils.html" title="Eth::Utils (module)">Utils</a></span></span><span class='period'>.</span><span class='id identifier rubyid_prefix_hex'><span class='object_link'><a href="Utils.html#prefix_hex-instance_method" title="Eth::Utils#prefix_hex (method)">prefix_hex</a></span></span> <span class='id identifier rubyid_address'>address</span>
+  <span class='ivar'>@address</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_prefix_hex'><span class='object_link'><a href="Util.html#prefix_hex-instance_method" title="Eth::Util#prefix_hex (method)">prefix_hex</a></span></span> <span class='id identifier rubyid_address'>address</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -425,7 +425,7 @@
     <span class='id identifier rubyid_check'>check</span><span class='period'>.</span><span class='id identifier rubyid_match'>match</span><span class='lparen'>(</span><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>[0-7]</span><span class='regexp_end'>/</span></span><span class='rparen'>)</span> <span class='op'>?</span> <span class='id identifier rubyid_char'>char</span><span class='period'>.</span><span class='id identifier rubyid_downcase'>downcase</span> <span class='op'>:</span> <span class='id identifier rubyid_char'>char</span><span class='period'>.</span><span class='id identifier rubyid_upcase'>upcase</span>
   <span class='kw'>end</span>
 
-  <span class='const'><span class='object_link'><a href="Utils.html" title="Eth::Utils (module)">Utils</a></span></span><span class='period'>.</span><span class='id identifier rubyid_prefix_hex'><span class='object_link'><a href="Utils.html#prefix_hex-instance_method" title="Eth::Utils#prefix_hex (method)">prefix_hex</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_cased'>cased</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='rparen'>)</span>
+  <span class='const'><span class='object_link'><a href="Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_prefix_hex'><span class='object_link'><a href="Util.html#prefix_hex-instance_method" title="Eth::Util#prefix_hex (method)">prefix_hex</a></span></span> <span class='id identifier rubyid_cased'>cased</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -508,7 +508,7 @@
 </div>
 
       <div id="footer">
-  Generated on Wed Dec 15 11:02:41 2021 by
+  Generated on Thu Dec 16 12:23:25 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.27 (ruby-2.7.5).
 </div>

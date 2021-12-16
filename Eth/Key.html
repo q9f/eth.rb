@@ -241,7 +241,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#personal_sign-instance_method" title="#personal_sign (instance method)">#<strong>personal_sign</strong>(message, chain_id = Chains::ETHEREUM)  &#x21d2; String </a>
+      <a href="#personal_sign-instance_method" title="#personal_sign (instance method)">#<strong>personal_sign</strong>(message, chain_id = Chain::ETHEREUM)  &#x21d2; String </a>
     
 
     
@@ -496,7 +496,7 @@
   <span class='kw'>unless</span> <span class='id identifier rubyid_priv'>priv</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
 
     <span class='comment'># Converts hex private keys to binary strings.
-</span>    <span class='id identifier rubyid_priv'>priv</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Utils.html" title="Eth::Utils (module)">Utils</a></span></span><span class='period'>.</span><span class='id identifier rubyid_hex_to_bin'><span class='object_link'><a href="Utils.html#hex_to_bin-instance_method" title="Eth::Utils#hex_to_bin (method)">hex_to_bin</a></span></span> <span class='id identifier rubyid_priv'>priv</span> <span class='kw'>if</span> <span class='const'><span class='object_link'><a href="Utils.html" title="Eth::Utils (module)">Utils</a></span></span><span class='period'>.</span><span class='id identifier rubyid_is_hex?'><span class='object_link'><a href="Utils.html#is_hex%3F-instance_method" title="Eth::Utils#is_hex? (method)">is_hex?</a></span></span> <span class='id identifier rubyid_priv'>priv</span>
+</span>    <span class='id identifier rubyid_priv'>priv</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_hex_to_bin'><span class='object_link'><a href="Util.html#hex_to_bin-instance_method" title="Eth::Util#hex_to_bin (method)">hex_to_bin</a></span></span> <span class='id identifier rubyid_priv'>priv</span> <span class='kw'>if</span> <span class='const'><span class='object_link'><a href="Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_is_hex?'><span class='object_link'><a href="Util.html#is_hex%3F-instance_method" title="Eth::Util#is_hex? (method)">is_hex?</a></span></span> <span class='id identifier rubyid_priv'>priv</span>
 
     <span class='comment'># Creates a keypair from existing private key data.
 </span>    <span class='id identifier rubyid_key'>key</span> <span class='op'>=</span> <span class='id identifier rubyid_ctx'>ctx</span><span class='period'>.</span><span class='id identifier rubyid_key_pair_from_private_key'>key_pair_from_private_key</span> <span class='id identifier rubyid_priv'>priv</span>
@@ -661,7 +661,7 @@
       <pre class="code"><span class="info file"># File 'lib/eth/key.rb', line 122</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_address'>address</span>
-  <span class='const'><span class='object_link'><a href="Utils.html" title="Eth::Utils (module)">Utils</a></span></span><span class='period'>.</span><span class='id identifier rubyid_public_key_to_address'><span class='object_link'><a href="Utils.html#public_key_to_address-instance_method" title="Eth::Utils#public_key_to_address (method)">public_key_to_address</a></span></span> <span class='id identifier rubyid_public_bytes'>public_bytes</span>
+  <span class='const'><span class='object_link'><a href="Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_public_key_to_address'><span class='object_link'><a href="Util.html#public_key_to_address-instance_method" title="Eth::Util#public_key_to_address (method)">public_key_to_address</a></span></span> <span class='id identifier rubyid_public_bytes'>public_bytes</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -671,7 +671,7 @@
       <div class="method_details ">
   <h3 class="signature " id="personal_sign-instance_method">
   
-    #<strong>personal_sign</strong>(message, chain_id = Chains::ETHEREUM)  &#x21d2; <tt>String</tt> 
+    #<strong>personal_sign</strong>(message, chain_id = Chain::ETHEREUM)  &#x21d2; <tt>String</tt> 
   
 
   
@@ -713,7 +713,7 @@
         <span class='type'>(<tt>Integer</tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>Chains::ETHEREUM</tt>)</em>
+        <em class="default">(defaults to: <tt>Chain::ETHEREUM</tt>)</em>
       
       
         &mdash;
@@ -764,15 +764,15 @@
     <td>
       <pre class="code"><span class="info file"># File 'lib/eth/key.rb', line 62</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_personal_sign'>personal_sign</span> <span class='id identifier rubyid_message'>message</span><span class='comma'>,</span> <span class='id identifier rubyid_chain_id'>chain_id</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Chains.html" title="Eth::Chains (module)">Chains</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Chains.html#ETHEREUM-constant" title="Eth::Chains::ETHEREUM (constant)">ETHEREUM</a></span></span>
+<span class='kw'>def</span> <span class='id identifier rubyid_personal_sign'>personal_sign</span> <span class='id identifier rubyid_message'>message</span><span class='comma'>,</span> <span class='id identifier rubyid_chain_id'>chain_id</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Chain.html" title="Eth::Chain (module)">Chain</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Chain.html#ETHEREUM-constant" title="Eth::Chain::ETHEREUM (constant)">ETHEREUM</a></span></span>
   <span class='id identifier rubyid_context'>context</span> <span class='op'>=</span> <span class='const'>Secp256k1</span><span class='op'>::</span><span class='const'>Context</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span>
   <span class='id identifier rubyid_prefixed_message'>prefixed_message</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Signature.html" title="Eth::Signature (module)">Signature</a></span></span><span class='period'>.</span><span class='id identifier rubyid_prefix_message'><span class='object_link'><a href="Signature.html#prefix_message-instance_method" title="Eth::Signature#prefix_message (method)">prefix_message</a></span></span> <span class='id identifier rubyid_message'>message</span>
-  <span class='id identifier rubyid_hashed_message'>hashed_message</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Utils.html" title="Eth::Utils (module)">Utils</a></span></span><span class='period'>.</span><span class='id identifier rubyid_keccak256'><span class='object_link'><a href="Utils.html#keccak256-instance_method" title="Eth::Utils#keccak256 (method)">keccak256</a></span></span> <span class='id identifier rubyid_prefixed_message'>prefixed_message</span>
+  <span class='id identifier rubyid_hashed_message'>hashed_message</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_keccak256'><span class='object_link'><a href="Util.html#keccak256-instance_method" title="Eth::Util#keccak256 (method)">keccak256</a></span></span> <span class='id identifier rubyid_prefixed_message'>prefixed_message</span>
   <span class='id identifier rubyid_compact'>compact</span><span class='comma'>,</span> <span class='id identifier rubyid_recovery_id'>recovery_id</span> <span class='op'>=</span> <span class='id identifier rubyid_context'>context</span><span class='period'>.</span><span class='id identifier rubyid_sign_recoverable'>sign_recoverable</span><span class='lparen'>(</span><span class='ivar'>@private_key</span><span class='comma'>,</span> <span class='id identifier rubyid_hashed_message'>hashed_message</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_compact'>compact</span>
   <span class='id identifier rubyid_signature'>signature</span> <span class='op'>=</span> <span class='id identifier rubyid_compact'>compact</span><span class='period'>.</span><span class='id identifier rubyid_bytes'>bytes</span>
-  <span class='id identifier rubyid_v'>v</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Chains.html" title="Eth::Chains (module)">Chains</a></span></span><span class='period'>.</span><span class='id identifier rubyid_to_v'><span class='object_link'><a href="Chains.html#to_v-instance_method" title="Eth::Chains#to_v (method)">to_v</a></span></span> <span class='id identifier rubyid_recovery_id'>recovery_id</span><span class='comma'>,</span> <span class='id identifier rubyid_chain_id'>chain_id</span>
+  <span class='id identifier rubyid_v'>v</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Chain.html" title="Eth::Chain (module)">Chain</a></span></span><span class='period'>.</span><span class='id identifier rubyid_to_v'><span class='object_link'><a href="Chain.html#to_v-instance_method" title="Eth::Chain#to_v (method)">to_v</a></span></span> <span class='id identifier rubyid_recovery_id'>recovery_id</span><span class='comma'>,</span> <span class='id identifier rubyid_chain_id'>chain_id</span>
   <span class='id identifier rubyid_signature'>signature</span> <span class='op'>=</span> <span class='id identifier rubyid_signature'>signature</span><span class='period'>.</span><span class='id identifier rubyid_append'>append</span> <span class='id identifier rubyid_v'>v</span>
-  <span class='const'><span class='object_link'><a href="Utils.html" title="Eth::Utils (module)">Utils</a></span></span><span class='period'>.</span><span class='id identifier rubyid_bin_to_hex'><span class='object_link'><a href="Utils.html#bin_to_hex-instance_method" title="Eth::Utils#bin_to_hex (method)">bin_to_hex</a></span></span> <span class='id identifier rubyid_signature'>signature</span><span class='period'>.</span><span class='id identifier rubyid_pack'>pack</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>c*</span><span class='tstring_end'>&#39;</span></span>
+  <span class='const'><span class='object_link'><a href="Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_bin_to_hex'><span class='object_link'><a href="Util.html#bin_to_hex-instance_method" title="Eth::Util#bin_to_hex (method)">bin_to_hex</a></span></span> <span class='id identifier rubyid_signature'>signature</span><span class='period'>.</span><span class='id identifier rubyid_pack'>pack</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>c*</span><span class='tstring_end'>&#39;</span></span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -890,7 +890,7 @@
       <pre class="code"><span class="info file"># File 'lib/eth/key.rb', line 76</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_private_hex'>private_hex</span>
-  <span class='const'><span class='object_link'><a href="Utils.html" title="Eth::Utils (module)">Utils</a></span></span><span class='period'>.</span><span class='id identifier rubyid_bin_to_hex'><span class='object_link'><a href="Utils.html#bin_to_hex-instance_method" title="Eth::Utils#bin_to_hex (method)">bin_to_hex</a></span></span> <span class='ivar'>@private_key</span><span class='period'>.</span><span class='id identifier rubyid_data'>data</span>
+  <span class='const'><span class='object_link'><a href="Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_bin_to_hex'><span class='object_link'><a href="Util.html#bin_to_hex-instance_method" title="Eth::Util#bin_to_hex (method)">bin_to_hex</a></span></span> <span class='ivar'>@private_key</span><span class='period'>.</span><span class='id identifier rubyid_data'>data</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1067,7 +1067,7 @@
       <pre class="code"><span class="info file"># File 'lib/eth/key.rb', line 92</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_public_hex'>public_hex</span>
-  <span class='const'><span class='object_link'><a href="Utils.html" title="Eth::Utils (module)">Utils</a></span></span><span class='period'>.</span><span class='id identifier rubyid_bin_to_hex'><span class='object_link'><a href="Utils.html#bin_to_hex-instance_method" title="Eth::Utils#bin_to_hex (method)">bin_to_hex</a></span></span> <span class='ivar'>@public_key</span><span class='period'>.</span><span class='id identifier rubyid_uncompressed'>uncompressed</span>
+  <span class='const'><span class='object_link'><a href="Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_bin_to_hex'><span class='object_link'><a href="Util.html#bin_to_hex-instance_method" title="Eth::Util#bin_to_hex (method)">bin_to_hex</a></span></span> <span class='ivar'>@public_key</span><span class='period'>.</span><span class='id identifier rubyid_uncompressed'>uncompressed</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1126,7 +1126,7 @@
       <pre class="code"><span class="info file"># File 'lib/eth/key.rb', line 100</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_public_hex_compressed'>public_hex_compressed</span>
-  <span class='const'><span class='object_link'><a href="Utils.html" title="Eth::Utils (module)">Utils</a></span></span><span class='period'>.</span><span class='id identifier rubyid_bin_to_hex'><span class='object_link'><a href="Utils.html#bin_to_hex-instance_method" title="Eth::Utils#bin_to_hex (method)">bin_to_hex</a></span></span> <span class='ivar'>@public_key</span><span class='period'>.</span><span class='id identifier rubyid_compressed'>compressed</span>
+  <span class='const'><span class='object_link'><a href="Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_bin_to_hex'><span class='object_link'><a href="Util.html#bin_to_hex-instance_method" title="Eth::Util#bin_to_hex (method)">bin_to_hex</a></span></span> <span class='ivar'>@public_key</span><span class='period'>.</span><span class='id identifier rubyid_compressed'>compressed</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1138,7 +1138,7 @@
 </div>
 
       <div id="footer">
-  Generated on Wed Dec 15 11:02:41 2021 by
+  Generated on Thu Dec 16 12:23:25 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.27 (ruby-2.7.5).
 </div>
