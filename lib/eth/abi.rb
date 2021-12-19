@@ -1,10 +1,14 @@
 require 'eth/abi/constant'
 # require 'eth/abi/type'
 
+# Provides the `Eth` module.
 module Eth
+
+  # Provides a Ruby implementation of the Ethereum Applicatoin Binary Interface (ABI).
   module Abi
     extend self
     include Constant
+
 #     class EncodingError < StandardError; end
 #     class DecodingError < StandardError; end
 #     class ValueOutOfBounds < StandardError; end

@@ -12,5 +12,7 @@ group :test, :development do
   gem 'pry', '~> 0.14'
   gem 'rake', '~> 13.0'
   gem 'rspec', '~> 3.10'
+  gem 'rufo', '~> 0.13'
   gem 'simplecov', '~> 0.21'
+  gem 'yard', '~> 0.9'
 end

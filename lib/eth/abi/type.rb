@@ -1,6 +1,10 @@
 
-# module Eth
-#   module Abi
+# Provides the `Eth` module.
+module Eth
+
+  # Provides a Ruby implementation of the Ethereum Applicatoin Binary Interface (ABI).
+  module Abi
+
 #     class Type
 #       class ParseError < StandardError; end
 #       class <<self
@@ -83,5 +87,5 @@
 #         @subtype ||= self.class.new(base, sub, dims[0...-1])
 #       end
 #     end
-#   end
-# end
+  end
+end
