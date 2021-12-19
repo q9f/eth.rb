@@ -1,5 +1,5 @@
 require 'eth/abi/constant'
-# require 'eth/abi/type'
+require 'eth/abi/type'
 
 # Provides the `Eth` module.
 module Eth

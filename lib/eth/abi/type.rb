@@ -5,87 +5,144 @@ module Eth
   # Provides a Ruby implementation of the Ethereum Applicatoin Binary Interface (ABI).
   module Abi
 
-#     class Type
-#       class ParseError < StandardError; end
-#       class <<self
-#         def parse(type)
-#           _, base, sub, dimension = /([a-z]*)([0-9]*x?[0-9]*)((\[[0-9]*\])*)/.match(type).to_a
+    # Provides a class to handle and parse common ABI types.
+    class Type
 
-#           dims = dimension.scan(/\[[0-9]*\]/)
-#           raise ParseError, "Unknown characters found in array declaration" if dims.join != dimension
+      # Provides a specific parser error if type cannot be determined.
+      class ParseError < StandardError; end
 
-#           case base
-#           when 'string'
-#             raise ParseError, "String type must have no suffix or numerical suffix" unless sub.empty?
-#           when 'bytes'
-#             raise ParseError, "Maximum 32 bytes for fixed-length string or bytes" unless sub.empty? || sub.to_i <= 32
-#           when 'uint', 'int'
-#             raise ParseError, "Integer type must have numerical suffix" unless sub =~ /\A[0-9]+\z/
+      # Open up a self-singleton class to provide a Type parser
+      # returning a parsed type unless it fails to parse the given type.
+      class <<self
 
-#             size = sub.to_i
-#             raise ParseError, "Integer size out of bounds" unless size >= 8 && size <= 256
-#             raise ParseError, "Integer size must be multiple of 8" unless size % 8 == 0
-#           when 'ureal', 'real', 'fixed', 'ufixed'
-#             raise ParseError, "Real type must have suffix of form <high>x<low>, e.g. 128x128" unless sub =~ /\A[0-9]+x[0-9]+\z/
+        # Attempts to parse a string containing a common Solidity type.
+        #
+        # @param type [String] a common Solidity type.
+        # @return [Eth::Abi::Type] a parsed Type object.
+        # @raise [ParseError] if it fails to parse the type.
+        def parse type
+          _, base_type, sub_type, dimension = /([a-z]*)([0-9]*x?[0-9]*)((\[[0-9]*\])*)/.match(type).to_a
 
-#             high, low = sub.split('x').map(&:to_i)
-#             total = high + low
+          # type dimension can only be numeric
+          dims = dimension.scan(/\[[0-9]*\]/)
+          raise ParseError, "Unknown characters found in array declaration" if dims.join != dimension
 
-#             raise ParseError, "Real size out of bounds (max 32 bytes)" unless total >= 8 && total <= 256
-#             raise ParseError, "Real high/low sizes must be multiples of 8" unless high % 8 == 0 && low % 8 == 0
-#           when 'hash'
-#             raise ParseError, "Hash type must have numerical suffix" unless sub =~ /\A[0-9]+\z/
-#           when 'address'
-#             raise ParseError, "Address cannot have suffix" unless sub.empty?
-#           when 'bool'
-#             raise ParseError, "Bool cannot have suffix" unless sub.empty?
-#           else
-#           end
+          case base_type
+          when 'string'
 
-#           new(base, sub, dims.map {|x| x[1...-1].to_i })
-#         end
+            # string can not have any suffix
+            raise ParseError, "String type must have no suffix or numerical suffix" unless sub_type.empty?
+          when 'bytes'
 
-#         def size_type
-#           @size_type ||= new('uint', 256, [])
-#         end
-#       end
+            # bytes can be no longer than 32 bytes
+            raise ParseError, "Maximum 32 bytes for fixed-length string or bytes" unless sub_type.empty? || sub_type.to_i <= 32
+          when 'uint', 'int'
 
-#       attr :base, :sub, :dims
+            # integers must have a numerical suffix
+            raise ParseError, "Integer type must have numerical suffix" unless sub_type =~ /\A[0-9]+\z/
 
-#       def initialize(base, sub, dims)
-#         @base = base
-#         @sub  = sub
-#         @dims = dims
-#       end
+            # integer size must be valid
+            size = sub_type.to_i
+            raise ParseError, "Integer size out of bounds" unless size >= 8 && size <= 256
+            raise ParseError, "Integer size must be multiple of 8" unless size % 8 == 0
+          when 'ureal', 'real', 'fixed', 'ufixed'
 
-#       def ==(another_type)
-#         base == another_type.base &&
-#           sub == another_type.sub &&
-#           dims == another_type.dims
-#       end
+            # floats must have valid dimensional suffix
+            raise ParseError, "Real type must have suffix of form <high>x<low>, e.g. 128x128" unless sub_type =~ /\A[0-9]+x[0-9]+\z/
+            high, low = sub_type.split('x').map(&:to_i)
+            total = high + low
+            raise ParseError, "Real size out of bounds (max 32 bytes)" unless total >= 8 && total <= 256
+            raise ParseError, "Real high/low sizes must be multiples of 8" unless high % 8 == 0 && low % 8 == 0
+          when 'hash'
 
-#       def size
-#         @size ||= if dims.empty?
-#                     if %w(string bytes).include?(base) && sub.empty?
-#                       nil
-#                     else
-#                       32
-#                     end
-#                   else
-#                       nil
-#                     else
-#                       subtype.dynamic? ? nil : dims.last * subtype.size
-#                     end
-#                   end
-#       end
+            # hashs must have numerical suffix
+            raise ParseError, "Hash type must have numerical suffix" unless sub_type =~ /\A[0-9]+\z/
+          when 'address'
 
-#       def dynamic?
-#         size.nil?
-#       end
+            # addresses cannot have any suffix
+            raise ParseError, "Address cannot have suffix" unless sub_type.empty?
+          when 'bool'
 
-#       def subtype
-#         @subtype ||= self.class.new(base, sub, dims[0...-1])
-#       end
-#     end
+            # booleans cannot have any suffix
+            raise ParseError, "Bool cannot have suffix" unless sub_type.empty?
+          else
+
+            # we cannot parse arbitrary types such as 'decimal' or 'hex'
+            raise ParseError, "Unknown base type"
+          end
+
+          # return a new Type
+          new(base_type, sub_type, dims.map {|x| x[1...-1].to_i })
+        end
+
+        # Creata new uint256 type used for size.
+        #
+        # @return [Eth::Abi::Type] a uint256 size type.
+        def size_type
+          @size_type ||= new('uint', 256, [])
+        end
+      end
+
+      # The base attribute, e.g., `string` or `bytes`
+      attr :base_type
+
+      # The sub-type attribute, e.g., `256` as size of an uint256.
+      attr :sub_type
+
+      # The dimension attribute, e.g., `[10]` for an array of size 10.
+      attr :dimensions
+
+      # Create a new Type object for base types, sub types, and dimensions.
+      # Should use the `Type.parse` parser.
+      #
+      # @param base_type [String] the base-type attribute.
+      # @param sub_type [Integer] the sub-type attribute.
+      # @param dimensions [Array] the dimension attribute.
+      # @result [Eth::Abi::Type] an ABI type object.
+      def initialize base_type, sub_type, dimensions
+        @base_type = base_type
+        @sub_type  = sub_type
+        @dimensions = dimensions
+      end
+
+      # Compares two types for their attributes.
+      #
+      # @param another_type [Eth::Abi::Type] another type to be compared.
+      # @return [Bool] true if all attributes match.
+      def ==(another_type)
+        base_type == another_type.base_type and
+          sub_type == another_type.sub_type and
+          dimensions == another_type.dimensions
+      end
+
+      # def size
+      #   @size ||= if dimensions.empty?
+      #               if %w(string bytes).include?(base_type) && sub_type.empty?
+      #                 nil
+      #               else
+      #                 32
+      #               end
+      #             else
+      #                 nil
+      #               else
+      #                 nested_sub.dynamic? ? nil : dims.last * nested_sub.size
+      #               end
+      #             end
+      # end
+
+      # Helper to determine whether array is of dynamic size.
+      #
+      # @return [Bool] true if array is of dynamic size.
+      def dynamic?
+        size.nil?
+      end
+
+      # Types can have nested sub-types in arrays.
+      #
+      # @return [Eth::Abi::Type] nested sub-type.
+      def nested_sub
+        @nested_sub ||= self.class.new(base_type, sub_type, dimensions[0...-1])
+      end
+    end
   end
 end
