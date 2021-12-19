@@ -4,6 +4,7 @@ source 'https://rubygems.org'
 
 gem 'keccak', '~> 1.3'
 gem 'rbsecp256k1', '~> 5.1'
+gem 'rlp', '~> 0.7'
 
 group :test, :development do
   gem 'bundler', '~> 2.2'

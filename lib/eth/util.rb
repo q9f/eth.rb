@@ -13,6 +13,7 @@
 # limitations under the License.
 
 require 'digest/keccak'
+require 'rlp'
 
 # Provides the `Eth` module.
 module Eth
@@ -104,6 +105,72 @@ module Eth
     # @return [String] a match if true; nil if not.
     def is_prefixed? hex
       hex.match /\A0x/
+    end
+
+    # Serializes an unsigned integer to big endian.
+    #
+    # @param num [Integer] unsigned integer to be serialized.
+    # return [String] serialized big endian integer string.
+    # raises [ArgumentError] if unsigned integer is out of bounds.
+    def serialize_int_to_big_endian num
+      unless num.is_a? Integer and num >= 0 and num <= Abi::UINT_MAX
+        raise ArgumentError, "Integer invalid or out of range: #{num}"
+      end
+      RLP::Sedes.big_endian_int.serialize num
+    end
+
+    # Deserializes big endian data string to integer.
+    #
+    # @param str [String] serialized big endian integer string.
+    # @return [Integer] an deserialized unsigned integer.
+    def deserialize_big_endian_to_int str
+      RLP::Sedes.big_endian_int.deserialize str.sub(/\A(\x00)+/, '')
+    end
+
+    # Ceil and integer to the next multiple of 32 bytes.
+    #
+    # @param num [Integer] the number to ciel up.
+    # @return [Integer] the ceiled to 32 integer.
+    def ceil32 num
+      num % 32 == 0 ? num : (num + 32 - num % 32)
+    end
+
+    # Left-pad a number with a symbol.
+    #
+    # @param str [String] a serialized string to be padded.
+    # @param sym [String] a symbol used for left-padding.
+    # @param len [Integer] number of symbols for the final string.
+    # @return [String] a left-padded serialized string of wanted size.
+    def lpad str, sym, len
+      return str if str.size >= len
+      sym * (len - str.size) + str
+    end
+
+    # Left-pad a serialized string with zeros.
+    #
+    # @param str [String] a serialized string to be padded.
+    # @param len [Integer] number of symbols for the final string.
+    # @return [String] a zero-padded serialized string of wanted size.
+    def zpad str, len
+      lpad str, Abi::BYTE_ZERO, len
+    end
+
+    # Left-pad a hex number with zeros.
+    #
+    # @param hex [String] a hex-string to be padded.
+    # @param len [Integer] number of symbols for the final string.
+    # @return [String] a zero-padded serialized string of wanted size.
+    def zpad_hex hex, len = 32
+      zpad hex_to_bin(hex), len
+    end
+
+    # Left-pad an unsigned integer with zeros.
+    #
+    # @param num [Integer] an unsigned integer to be padded.
+    # @param len [Integer] number of symbols for the final string.
+    # @return [String] a zero-padded serialized string of wanted size.
+    def zpad_int num, len = 32
+      zpad serialize_int_to_big_endian(num), len
     end
   end
 end
