@@ -107,16 +107,18 @@ module Eth
     def encode_primitive_type(type, arg)
       case type.base_type
       when "uint"
+        raise ValueOutOfBounds, "Number out of range: #{arg}" if arg > UINT_MAX or arg < UINT_MIN
         real_size = type.sub_type.to_i
-        i = get_uint arg
+        i = arg.to_i
         raise ValueOutOfBounds, arg unless i >= 0 and i < 2 ** real_size
         Util.zpad_int i
       when "bool"
         raise ArgumentError, "arg is not bool: #{arg}" unless arg.instance_of? TrueClass or arg.instance_of? FalseClass
         Util.zpad_int(arg ? 1 : 0)
       when "int"
+        raise ValueOutOfBounds, "Number out of range: #{arg}" if arg > INT_MAX or arg < INT_MIN
         real_size = type.sub_type.to_i
-        i = get_int arg
+        i = arg.to_i
         raise ValueOutOfBounds, arg unless i >= -2 ** (real_size - 1) and i < 2 ** (real_size - 1)
         Util.zpad_int(i % 2 ** type.sub_type.to_i)
       when "ureal", "ufixed"
@@ -277,53 +279,6 @@ module Eth
         data[-1] == BYTE_ONE
       else
         raise DecodingError, "Unknown primitive type: #{type.base_type}"
-      end
-    end
-
-    private
-
-    def get_uint(n)
-      case n
-      when Integer
-        raise EncodingError, "Number out of range: #{n}" if n > UINT_MAX or n < UINT_MIN
-        n
-      when String
-        if n.size == 40
-          Util.deserialize_big_endian_to_int Util.hex_to_bin n
-        elsif n.size <= 32
-          Util.deserialize_big_endian_to_int n
-        else
-          raise EncodingError, "String too long: #{n}"
-        end
-      when true
-        1
-      when false, nil
-        0
-      else
-        raise EncodingError, "Cannot decode uint: #{n}"
-      end
-    end
-
-    def get_int(n)
-      case n
-      when Integer
-        raise EncodingError, "Number out of range: #{n}" if n > INT_MAX or n < INT_MIN
-        n
-      when String
-        if n.size == 40
-          i = Util.deserialize_big_endian_to_int Util.hex_to_bin n
-        elsif n.size <= 32
-          i = Util.deserialize_big_endian_to_int n
-        else
-          raise EncodingError, "String too long: #{n}"
-        end
-        i > INT_MAX ? (i - TT256) : i
-      when true
-        1
-      when false, nil
-        0
-      else
-        raise EncodingError, "Cannot decode int: #{n}"
       end
     end
   end

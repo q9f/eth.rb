@@ -5,6 +5,8 @@ require "spec_helper"
 describe Eth::Abi::Type do
   describe ".initialize" do
     it "can instantiate new types" do
+
+      # https://github.com/cryptape/ruby-ethereum-abi/blob/90d4fa3fc6b568581165eaacdc506b9b9b49e520/test/abi/type_test.rb#L8
       expect(Eth::Abi::Type.new "uint", 8, []).to eq Eth::Abi::Type.parse("uint8")
       expect(Eth::Abi::Type.new "bytes", "32", []).to eq Eth::Abi::Type.parse("bytes32")
       expect(Eth::Abi::Type.new "uint", 256, [10]).to eq Eth::Abi::Type.parse("uint256[10]")
@@ -14,6 +16,8 @@ describe Eth::Abi::Type do
 
   describe ".parse" do
     it "raises parse error for invalid types" do
+
+      # https://github.com/cryptape/ruby-ethereum-abi/blob/90d4fa3fc6b568581165eaacdc506b9b9b49e520/test/abi/type_test.rb#L15
       expect { Eth::Abi::Type.parse "string8" }.to raise_error Eth::Abi::Type::ParseError
       expect { Eth::Abi::Type.parse "bytes33" }.to raise_error Eth::Abi::Type::ParseError
       expect { Eth::Abi::Type.parse "hash" }.to raise_error Eth::Abi::Type::ParseError
@@ -49,6 +53,8 @@ describe Eth::Abi::Type do
 
   describe ".size .nested_sub" do
     it "can compute the type size" do
+
+      # https://github.com/cryptape/ruby-ethereum-abi/blob/90d4fa3fc6b568581165eaacdc506b9b9b49e520/test/abi/type_test.rb#L35
       expect(Eth::Abi::Type.parse("string").size).to be_nil
       expect(Eth::Abi::Type.parse("bytes").size).to be_nil
       expect(Eth::Abi::Type.parse("uint256[]").size).to be_nil
@@ -65,6 +71,8 @@ describe Eth::Abi::Type do
     end
 
     it "can nest sub types" do
+
+      # https://github.com/cryptape/ruby-ethereum-abi/blob/90d4fa3fc6b568581165eaacdc506b9b9b49e520/test/abi/type_test.rb#L50
       expect(Eth::Abi::Type.parse("uint256").nested_sub.dimensions).to eq []
       expect(Eth::Abi::Type.parse("uint256[2][]").nested_sub.dimensions).to eq [2]
       expect(Eth::Abi::Type.parse("uint256[2][2]").nested_sub.dimensions).to eq [2]

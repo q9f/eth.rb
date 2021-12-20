@@ -216,4 +216,11 @@ describe Eth::Abi do
       expect(Eth::Abi.decode_primitive_type(t_bool, Eth::Abi.encode_primitive_type(t_bool, false))).to eq false
     end
   end
+
+  describe "coverage over 9000%" do
+    it "can raise coverage to at least 100%" do
+      expect { Eth::Abi.decode_primitive_type(Eth::Abi::Type.new("foo", 32, []), "bar") }.to raise_error Eth::Abi::DecodingError
+      expect { Eth::Abi.decode_type(Eth::Abi::Type.new("foo", 32, []), "bar") }.to raise_error Eth::Abi::DecodingError
+    end
+  end
 end
