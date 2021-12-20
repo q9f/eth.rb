@@ -1,6 +1,6 @@
 # -*- encoding : ascii-8bit -*-
 
-require 'spec_helper'
+require "spec_helper"
 
 describe Eth::Util do
   describe ".public_key_to_address" do
@@ -31,7 +31,7 @@ describe Eth::Util do
       # ref https://ethereum.stackexchange.com/a/560
       expected_hash = "\xc5\xd2F\x01\x86\xf7#<\x92~}\xb2\xdc\xc7\x03\xc0\xe5\x00\xb6S\xca\x82';{\xfa\xd8\x04]\x85\xa4p"
       keccak_hex = "c5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470"
-      actual_hash = Eth::Util.keccak256 ''
+      actual_hash = Eth::Util.keccak256 ""
       actual_hex = Eth::Util.bin_to_hex actual_hash
       expect(actual_hash).to eq expected_hash
       expect(actual_hex).to eq keccak_hex
@@ -47,7 +47,7 @@ describe Eth::Util do
       # ref https://github.com/OscarBarrett/crystal-sha3/blob/7b6f6e02196b106ecf0be01da207dbf1e269009b/README.md
       expected_hash = "q\x9A\xCC\xC6\x1A\x9C\xC1&\x83\x0EY\x06\xF9\xD6r\xD0n\xABo\x85\x97(p\x95\xA2\xC5Z\x8Bw^p\x16"
       keccak_hex = "719accc61a9cc126830e5906f9d672d06eab6f8597287095a2c55a8b775e7016"
-      actual_hash = Eth::Util.keccak256 'abc123'
+      actual_hash = Eth::Util.keccak256 "abc123"
       actual_hex = Eth::Util.bin_to_hex actual_hash
       expect(actual_hash).to eq expected_hash
       expect(actual_hex).to eq keccak_hex
@@ -72,27 +72,27 @@ describe Eth::Util do
     end
 
     it "raises an error when given invalid string" do
-      expect {Eth::Util.bin_to_hex 1234}.to raise_error TypeError
-      expect {Eth::Util.hex_to_bin 'xxxx'}.to raise_error TypeError
-      expect {Eth::Util.hex_to_bin "\x00\x00"}.to raise_error TypeError
-      expect {Eth::Util.hex_to_bin 1234}.to raise_error TypeError
+      expect { Eth::Util.bin_to_hex 1234 }.to raise_error TypeError
+      expect { Eth::Util.hex_to_bin "xxxx" }.to raise_error TypeError
+      expect { Eth::Util.hex_to_bin "\x00\x00" }.to raise_error TypeError
+      expect { Eth::Util.hex_to_bin 1234 }.to raise_error TypeError
     end
   end
 
   describe ".prefix_hex .remove_hex_prefix" do
     it "ensures that a hex value has 0x at the beginning" do
-      expect(Eth::Util.prefix_hex 'abc').to eq '0xabc'
-      expect(Eth::Util.prefix_hex '0xabc').to eq '0xabc'
+      expect(Eth::Util.prefix_hex "abc").to eq "0xabc"
+      expect(Eth::Util.prefix_hex "0xabc").to eq "0xabc"
     end
 
     it "ensures we can remove 0x hex prefixes" do
-      expect(Eth::Util.remove_hex_prefix 'abc').to eq 'abc'
-      expect(Eth::Util.remove_hex_prefix '0xabc').to eq 'abc'
+      expect(Eth::Util.remove_hex_prefix "abc").to eq "abc"
+      expect(Eth::Util.remove_hex_prefix "0xabc").to eq "abc"
     end
 
     it "does not reformat the hex or remove leading zeros" do
-      expect(Eth::Util.prefix_hex '0123').to eq '0x0123'
-      expect(Eth::Util.remove_hex_prefix '0x0123').to eq '0123'
+      expect(Eth::Util.prefix_hex "0123").to eq "0x0123"
+      expect(Eth::Util.remove_hex_prefix "0x0123").to eq "0123"
     end
   end
 
@@ -131,7 +131,7 @@ describe Eth::Util do
     it "can raises if integers are invalid" do
       negative_ints = [-1, -100, -255, -256, -2342423]
       negative_ints.each do |n|
-        expect {Eth::Util.serialize_int_to_big_endian n}.to raise_error ArgumentError
+        expect { Eth::Util.serialize_int_to_big_endian n }.to raise_error ArgumentError
       end
     end
   end

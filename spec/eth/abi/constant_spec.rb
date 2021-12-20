@@ -1,6 +1,6 @@
 # # -*- encoding : ascii-8bit -*-
 
-require 'spec_helper'
+require "spec_helper"
 
 describe Eth::Abi::Constant do
   describe "#SYMBOLS" do

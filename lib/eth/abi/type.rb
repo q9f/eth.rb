@@ -28,14 +28,14 @@ module Eth
 
       # Open up a self-singleton class to provide a Type parser
       # returning a parsed type unless it fails to parse the given type.
-      class <<self
+      class << self
 
         # Attempts to parse a string containing a common Solidity type.
         #
         # @param type [String] a common Solidity type.
         # @return [Eth::Abi::Type] a parsed Type object.
         # @raise [ParseError] if it fails to parse the type.
-        def parse type
+        def parse(type)
           _, base_type, sub_type, dimension = /([a-z]*)([0-9]*x?[0-9]*)((\[[0-9]*\])*)/.match(type).to_a
 
           # type dimension can only be numeric
@@ -43,15 +43,15 @@ module Eth
           raise ParseError, "Unknown characters found in array declaration" if dims.join != dimension
 
           case base_type
-          when 'string'
+          when "string"
 
             # string can not have any suffix
             raise ParseError, "String type must have no suffix or numerical suffix" unless sub_type.empty?
-          when 'bytes'
+          when "bytes"
 
             # bytes can be no longer than 32 bytes
             raise ParseError, "Maximum 32 bytes for fixed-length string or bytes" unless sub_type.empty? || sub_type.to_i <= 32
-          when 'uint', 'int'
+          when "uint", "int"
 
             # integers must have a numerical suffix
             raise ParseError, "Integer type must have numerical suffix" unless sub_type =~ /\A[0-9]+\z/
@@ -60,23 +60,23 @@ module Eth
             size = sub_type.to_i
             raise ParseError, "Integer size out of bounds" unless size >= 8 && size <= 256
             raise ParseError, "Integer size must be multiple of 8" unless size % 8 == 0
-          when 'ureal', 'real', 'fixed', 'ufixed'
+          when "ureal", "real", "fixed", "ufixed"
 
             # floats must have valid dimensional suffix
             raise ParseError, "Real type must have suffix of form <high>x<low>, e.g. 128x128" unless sub_type =~ /\A[0-9]+x[0-9]+\z/
-            high, low = sub_type.split('x').map(&:to_i)
+            high, low = sub_type.split("x").map(&:to_i)
             total = high + low
             raise ParseError, "Real size out of bounds (max 32 bytes)" unless total >= 8 && total <= 256
             raise ParseError, "Real high/low sizes must be multiples of 8" unless high % 8 == 0 && low % 8 == 0
-          when 'hash'
+          when "hash"
 
             # hashs must have numerical suffix
             raise ParseError, "Hash type must have numerical suffix" unless sub_type =~ /\A[0-9]+\z/
-          when 'address'
+          when "address"
 
             # addresses cannot have any suffix
             raise ParseError, "Address cannot have suffix" unless sub_type.empty?
-          when 'bool'
+          when "bool"
 
             # booleans cannot have any suffix
             raise ParseError, "Bool cannot have suffix" unless sub_type.empty?
@@ -87,14 +87,14 @@ module Eth
           end
 
           # return a new Type
-          new(base_type, sub_type, dims.map {|x| x[1...-1].to_i })
+          new(base_type, sub_type, dims.map { |x| x[1...-1].to_i })
         end
 
         # Creata new uint256 type used for size.
         #
         # @return [Eth::Abi::Type] a uint256 size type.
         def size_type
-          @size_type ||= new('uint', 256, [])
+          @size_type ||= new("uint", 256, [])
         end
       end
 
@@ -114,10 +114,10 @@ module Eth
       # @param sub_type [String] the sub-type attribute.
       # @param dimensions [Array] the dimension attribute.
       # @return [Eth::Abi::Type] an ABI type object.
-      def initialize base_type, sub_type, dimensions
+      def initialize(base_type, sub_type, dimensions)
         sub_type = sub_type.to_s
         @base_type = base_type
-        @sub_type  = sub_type
+        @sub_type = sub_type
         @dimensions = dimensions
       end
 
@@ -137,7 +137,7 @@ module Eth
       def size
         s = nil
         if dimensions.empty?
-          unless ['string', 'bytes'].include?(base_type) and sub_type.empty?
+          unless ["string", "bytes"].include?(base_type) and sub_type.empty?
             s = 32
           end
         else

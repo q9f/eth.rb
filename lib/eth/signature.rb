@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-require 'rbsecp256k1'
+require "rbsecp256k1"
 
 # Provides the `Eth` module.
 module Eth
@@ -28,7 +28,7 @@ module Eth
     #
     # @param message [String] the message string to be prefixed.
     # @return [String] an EIP-191 prefixed string
-    def prefix_message message
+    def prefix_message(message)
       "\x19Ethereum Signed Message:\n#{message.size}#{message}"
     end
 
@@ -40,13 +40,13 @@ module Eth
     # @param chain_id [Integer] the chain ID used to sign.
     # @return [String] an uncompressed public key hex.
     # @raise [ArgumentError] signature is of invalid size or invalid v.
-    def personal_recover message, signature, chain_id = Chain::ETHEREUM
+    def personal_recover(message, signature, chain_id = Chain::ETHEREUM)
       context = Secp256k1::Context.new
       rotated_signature = Util.hex_to_bin(signature).bytes.rotate -1
       if rotated_signature.size != 65
         raise ArgumentError, "Invalid signature byte-size #{rotated_signature.size}!"
       end
-      signature = rotated_signature[1..-1].pack 'c*'
+      signature = rotated_signature[1..-1].pack "c*"
       v = rotated_signature.first
       if v < chain_id
         raise ArgumentError, "Invalid signature v byte #{v} for chain ID #{chain_id}!"
@@ -67,7 +67,7 @@ module Eth
     # @param chain_id [Integer] the chain ID used to sign.
     # @return [Boolean] true if signature matches provided public key.
     # @raise [ArgumentError] if it cannot determine the type of the public key.
-    def verify message, signature, public_key, chain_id = Chain::ETHEREUM
+    def verify(message, signature, public_key, chain_id = Chain::ETHEREUM)
       recovered_key = personal_recover message, signature, chain_id
       if public_key.instance_of? Eth::Address
         address = public_key.to_s

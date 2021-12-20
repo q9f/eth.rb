@@ -57,7 +57,7 @@ module Eth
       PRIVKEY_ZERO = ("\x00" * 32).freeze
 
       # A private key containing only zeros (hex).
-      PRIVKEY_ZERO_HEX = ('0' * 64).freeze
+      PRIVKEY_ZERO_HEX = ("0" * 64).freeze
     end
   end
 end

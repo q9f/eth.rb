@@ -1,4 +1,4 @@
-require 'spec_helper'
+require "spec_helper"
 
 describe Eth::Key do
   describe ".initialize" do
@@ -121,8 +121,8 @@ describe Eth::Key do
 
   describe ".address" do
     it "generates the correct address from key" do
-      address = '0x759b427456623a33030bbC2195439C22A8a51d25'
-      private_hex = 'c3a4349f6e57cfd2cbba275e3b3d15a2e4cf00c89e067f6e05bfee25208f9cbb'
+      address = "0x759b427456623a33030bbC2195439C22A8a51d25"
+      private_hex = "c3a4349f6e57cfd2cbba275e3b3d15a2e4cf00c89e067f6e05bfee25208f9cbb"
       key = Eth::Key.new priv: private_hex
       expect(key.address.checksummed).to eq address
     end

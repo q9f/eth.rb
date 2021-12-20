@@ -25,7 +25,7 @@ module Eth
     # prefixed address.
     #
     # @param address [String] hex string representing an ethereum address.
-    def initialize address
+    def initialize(address)
       @address = Util.prefix_hex address
     end
 
@@ -54,6 +54,7 @@ module Eth
 
       Util.prefix_hex cased.join
     end
+
     alias :to_s :checksummed
 
     private

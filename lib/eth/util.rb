@@ -12,8 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-require 'digest/keccak'
-require 'rlp'
+require "digest/keccak"
+require "rlp"
 
 # Provides the `Eth` module.
 module Eth
@@ -27,9 +27,9 @@ module Eth
     #
     # @param str [String] the public key to be converted.
     # @return [Eth::Address] an Ethereum address.
-    def public_key_to_address str
+    def public_key_to_address(str)
       str = hex_to_bin str if is_hex? str
-      bytes = keccak256(str[1..-1])[-20..-1 ]
+      bytes = keccak256(str[1..-1])[-20..-1]
       Eth::Address.new bin_to_prefixed_hex bytes
     end
 
@@ -37,7 +37,7 @@ module Eth
     #
     # @param str [String] a string to be hashed.
     # @return [String] a Keccak-256 hash of the given string.
-    def keccak256 str
+    def keccak256(str)
       Digest::Keccak.new(256).digest str
     end
 
@@ -46,7 +46,7 @@ module Eth
     # @param bin [String] a binary string to be unpacked.
     # @return [String] a hexa-decimal string.
     # @raise [TypeError] if value is not a string.
-    def bin_to_hex bin
+    def bin_to_hex(bin)
       raise TypeError, "Value must be an instance of String" unless bin.instance_of? String
       bin.unpack("H*").first
     end
@@ -57,18 +57,18 @@ module Eth
     # @param hex [String] a hexa-decimal string to be packed.
     # @return [String] a packed binary string.
     # @raise [TypeError] if value is not a string or string is not hex.
-    def hex_to_bin hex
+    def hex_to_bin(hex)
       raise TypeError, "Value must be an instance of String" unless hex.instance_of? String
       hex = remove_hex_prefix hex
       raise TypeError, "Non-hexadecimal digit found" unless is_hex? hex
-      [hex].pack('H*')
+      [hex].pack("H*")
     end
 
     # Prefixes a hexa-decimal string with `0x`.
     #
     # @param hex [String] a hex-string to be prefixed.
     # @return [String] a prefixed hex-string.
-    def prefix_hex hex
+    def prefix_hex(hex)
       return hex if is_prefixed? hex
       return "0x#{hex}"
     end
@@ -77,7 +77,7 @@ module Eth
     #
     # @param hex [String] a prefixed hex-string.
     # @return [String] an unprefixed hex-string.
-    def remove_hex_prefix hex
+    def remove_hex_prefix(hex)
       return hex[2..-1] if is_prefixed? hex
       return hex
     end
@@ -86,7 +86,7 @@ module Eth
     #
     # @param bin [String] a binary string to be unpacked.
     # @return [String] a prefixed hexa-decimal string.
-    def bin_to_prefixed_hex bin
+    def bin_to_prefixed_hex(bin)
       prefix_hex bin_to_hex bin
     end
 
@@ -94,7 +94,7 @@ module Eth
     #
     # @param str [String] a string to be checked.
     # @return [String] a match if true; nil if not.
-    def is_hex? str
+    def is_hex?(str)
       str = remove_hex_prefix str
       str.match /\A[0-9a-fA-F]*\z/
     end
@@ -103,7 +103,7 @@ module Eth
     #
     # @param hex [String] a string to be checked.
     # @return [String] a match if true; nil if not.
-    def is_prefixed? hex
+    def is_prefixed?(hex)
       hex.match /\A0x/
     end
 
@@ -112,7 +112,7 @@ module Eth
     # @param num [Integer] unsigned integer to be serialized.
     # return [String] serialized big endian integer string.
     # raises [ArgumentError] if unsigned integer is out of bounds.
-    def serialize_int_to_big_endian num
+    def serialize_int_to_big_endian(num)
       unless num.is_a? Integer and num >= 0 and num <= Abi::UINT_MAX
         raise ArgumentError, "Integer invalid or out of range: #{num}"
       end
@@ -123,15 +123,15 @@ module Eth
     #
     # @param str [String] serialized big endian integer string.
     # @return [Integer] an deserialized unsigned integer.
-    def deserialize_big_endian_to_int str
-      RLP::Sedes.big_endian_int.deserialize str.sub(/\A(\x00)+/, '')
+    def deserialize_big_endian_to_int(str)
+      RLP::Sedes.big_endian_int.deserialize str.sub(/\A(\x00)+/, "")
     end
 
     # Ceil and integer to the next multiple of 32 bytes.
     #
     # @param num [Integer] the number to ciel up.
     # @return [Integer] the ceiled to 32 integer.
-    def ceil32 num
+    def ceil32(num)
       num % 32 == 0 ? num : (num + 32 - num % 32)
     end
 
@@ -141,7 +141,7 @@ module Eth
     # @param sym [String] a symbol used for left-padding.
     # @param len [Integer] number of symbols for the final string.
     # @return [String] a left-padded serialized string of wanted size.
-    def lpad str, sym, len
+    def lpad(str, sym, len)
       return str if str.size >= len
       sym * (len - str.size) + str
     end
@@ -151,7 +151,7 @@ module Eth
     # @param str [String] a serialized string to be padded.
     # @param len [Integer] number of symbols for the final string.
     # @return [String] a zero-padded serialized string of wanted size.
-    def zpad str, len
+    def zpad(str, len)
       lpad str, Abi::BYTE_ZERO, len
     end
 
@@ -160,7 +160,7 @@ module Eth
     # @param hex [String] a hex-string to be padded.
     # @param len [Integer] number of symbols for the final string.
     # @return [String] a zero-padded serialized string of wanted size.
-    def zpad_hex hex, len = 32
+    def zpad_hex(hex, len = 32)
       zpad hex_to_bin(hex), len
     end
 
@@ -169,7 +169,7 @@ module Eth
     # @param num [Integer] an unsigned integer to be padded.
     # @param len [Integer] number of symbols for the final string.
     # @return [String] a zero-padded serialized string of wanted size.
-    def zpad_int num, len = 32
+    def zpad_int(num, len = 32)
       zpad serialize_int_to_big_endian(num), len
     end
   end
