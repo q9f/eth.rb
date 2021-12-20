@@ -96,10 +96,11 @@ module Eth
       # Should use the `Type.parse` parser.
       #
       # @param base_type [String] the base-type attribute.
-      # @param sub_type [Integer] the sub-type attribute.
+      # @param sub_type [String] the sub-type attribute.
       # @param dimensions [Array] the dimension attribute.
       # @result [Eth::Abi::Type] an ABI type object.
       def initialize base_type, sub_type, dimensions
+        sub_type = sub_type.to_s
         @base_type = base_type
         @sub_type  = sub_type
         @dimensions = dimensions
@@ -115,25 +116,29 @@ module Eth
           dimensions == another_type.dimensions
       end
 
-      # def size
-      #   @size ||= if dimensions.empty?
-      #               if %w(string bytes).include?(base_type) && sub_type.empty?
-      #                 nil
-      #               else
-      #                 32
-      #               end
-      #             else
-      #                 nil
-      #               else
-      #                 nested_sub.dynamic? ? nil : dims.last * nested_sub.size
-      #               end
-      #             end
-      # end
+      # Computes the size of a type if possible.
+      #
+      # @return [Integer] the size of the type; or nil if not available.
+      def size
+        s = nil
+        if dimensions.empty?
+          unless ['string', 'bytes'].include?(base_type) and sub_type.empty?
+            s = 32
+          end
+        else
+          unless dimensions.last == 0
+            unless nested_sub.is_dynamic?
+              s = dimensions.last * nested_sub.size
+            end
+          end
+        end
+        @size ||= s
+      end
 
       # Helper to determine whether array is of dynamic size.
       #
       # @return [Bool] true if array is of dynamic size.
-      def dynamic?
+      def is_dynamic?
         size.nil?
       end
 
