@@ -8,5 +8,6 @@ if ENV['COVERAGE']
 end
 
 require 'eth'
+require 'json'
 RSpec.configure do |config|
 end

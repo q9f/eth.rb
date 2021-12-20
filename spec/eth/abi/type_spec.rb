@@ -1,3 +1,5 @@
+# -*- encoding : ascii-8bit -*-
+
 require 'spec_helper'
 
 describe Eth::Abi::Type do
