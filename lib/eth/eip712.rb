@@ -19,6 +19,8 @@ module Eth
   module Eip712
     extend self
 
+    class TypedDataError < StandardError; end
+
     def type_dependencies(primary_type, types, result = [])
       if result.include? primary_type
 
@@ -71,7 +73,7 @@ module Eth
 
     def hash_type(primary_type, types)
       encoded_type = encode_type primary_type, types
-      hash = Util.keccak256 encoded_type
+      return Util.keccak256 encoded_type
     end
 
     def encode_data(primary_type, data, types)
@@ -80,6 +82,7 @@ module Eth
       encoded_types = ["bytes32"]
       encoded_values = [hash_type(primary_type, types)]
 
+      # adds field contents
       types[primary_type.to_sym].each do |field|
         value = data[field[:name].to_sym]
         type = field[:type]
@@ -98,11 +101,61 @@ module Eth
         end
       end
 
-      # p encoded_types
-      # p encoded_values
+      # all data is abi-encoded
+      return Eth::Abi.encode encoded_types, encoded_values
+    end
 
-      abi = Eth::Abi.encode encoded_types, encoded_values
-      p abi
+    def hash_data(primary_type, data, types)
+      encoded_data = encode_data primary_type, data, types
+      return Eth::Util.keccak256 encoded_data
+    end
+
+    def enforce_typed_data_v4(data, chain_id = Eth::Chain::ETHEREUM)
+      data = JSON.parse data if Eth::Util.is_hex? data
+      raise TypedDataError, "Data is missing, try again with data." if data.nil? or data.empty?
+      raise TypedDataError, "Data types are missing." if data[:types].nil? or data[:types].empty?
+      raise TypedDataError, "Data primaryType is missing." if data[:primaryType].nil? or data[:primaryType].empty?
+      raise TypedDataError, "Data domain is missing." if data[:domain].nil? or data[:domain].empty?
+      raise TypedDataError, "Data domain name is missing." if data[:domain][:name].nil? or data[:domain][:name].empty?
+      raise TypedDataError, "Data domain version is missing." if data[:domain][:version].nil? or data[:domain][:version].empty?
+      raise TypedDataError, "Data domain chainId is missing." if data[:domain][:chainId].nil? or data[:domain][:chainId] < 1
+      raise TypedDataError, "Data domain chainId mismatch. #{chain_id} != #{data[:domain][:chainId]}" if chain_id != data[:domain][:chainId]
+      raise TypedDataError, "Data domain verifyingContract is missing." if data[:domain][:verifyingContract].nil? or data[:domain][:verifyingContract].empty?
+      raise TypedDataError, "Data message is missing." if data[:message].nil? or data[:message].empty?
+      raise TypedDataError, "Data EIP712Domain is missing." if data[:types][:EIP712Domain].nil? or data[:types][:EIP712Domain].empty?
+      has_name = false
+      has_version = false
+      has_chain_id = false
+      has_verifying_contract = false
+      data[:types][:EIP712Domain].each do |domain|
+        has_name = true if domain[:name] == "name"
+        has_version = true if domain[:name] == "version"
+        has_chain_id = true if domain[:name] == "chainId"
+        has_verifying_contract = true if domain[:name] == "verifyingContract"
+      end
+      raise TypedDataError, "Data EIP712Domain name is missing." unless has_name
+      raise TypedDataError, "Data EIP712Domain version is missing." unless has_version
+      raise TypedDataError, "Data EIP712Domain chainId is missing." unless has_chain_id
+      raise TypedDataError, "Data EIP712Domain verifyingContract is missing." unless has_verifying_contract
+
+      data
+    end
+
+    def hash(data, chain_id = Eth::Chain::ETHEREUM)
+      data = enforce_typed_data_v4 data, chain_id
+
+      # EIP-191 prefix byte 0x19
+      buffer = "\x19"
+
+      # EIP-712 version byte 0x01
+      buffer += "\x01"
+
+      # hashed domain data
+      buffer += hash_data "EIP712Domain", data[:domain], data[:types]
+
+      # hashed message data
+      buffer += hash_data data[:primaryType], data[:message], data[:types]
+      return Eth::Util.keccak256 buffer
     end
   end
 end

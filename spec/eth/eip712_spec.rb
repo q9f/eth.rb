@@ -105,8 +105,26 @@ describe Eth::Eip712 do
   end
 
   describe ".encode_data" do
-    it "can hash types mappings with field names" do
-      Eth::Eip712.encode_data "EIP712Domain", domain_data, types
+    it "can abi-encode structured typed data" do
+      expect(Eth::Eip712.encode_data "EIP712Domain", domain_data, types).to eq Eth::Util.hex_to_bin "0x8b73c3c69bb8fe3d512ecc4cf759cc79239f7b179b0ffacaa9a75d522b39400fc70ef06638535b4881fafcac8287e210e3769ff1a8e91f1b95d6246e61e4d3c6c89efdaa54c0f20c7adf612882df0950f5a951637e0307cdcb4c672f298b8bc60000000000000000000000000000000000000000000000000000000000000001000000000000000000000000cccccccccccccccccccccccccccccccccccccccc"
+      expect(Eth::Eip712.encode_data "Mail", message_data, types).to eq Eth::Util.hex_to_bin "0xa0cedeb2dc280ba39b857546d74f5549c3a1d7bdc2dd96bf881f76108e23dac2fc71e5fa27ff56c350aa531bc129ebdf613b772b6604664f5d8dbe21b85eb0c8cd54f074a4af31b4411ff6a60c9719dbd559c221c8ac3492d9d872b041d703d1b5aadf3154a261abdd9086fc627b61efca26ae5702701d05cd2305f7c52a2fc8"
+      expect(Eth::Eip712.encode_data "Person", message_data[:to], types).to eq Eth::Util.hex_to_bin "0xb9d8c78acf9b987311de6c7b45bb6a9c8e1bf361fa7fd3467a2163f994c7950028cac318a86c8a0a6a9156c2dba2c8c2363677ba0514ef616592d81557e679b6000000000000000000000000bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+      expect(Eth::Eip712.encode_data "Person", message_data[:from], types).to eq Eth::Util.hex_to_bin "0xb9d8c78acf9b987311de6c7b45bb6a9c8e1bf361fa7fd3467a2163f994c795008c1d2bd5348394761719da11ec67eedae9502d137e8940fee8ecd6f641ee1648000000000000000000000000cd2a3d9f938e13cd947ec05abc7fe734df8dd826"
+    end
+  end
+
+  describe ".hash_data" do
+    it "can hash structured data" do
+      expect(Eth::Eip712.hash_data "EIP712Domain", domain_data, types).to eq Eth::Util.hex_to_bin "0xf2cee375fa42b42143804025fc449deafd50cc031ca257e0b194a650a912090f"
+      expect(Eth::Eip712.hash_data "Mail", message_data, types).to eq Eth::Util.hex_to_bin "0xc52c0ee5d84264471806290a3f2c4cecfc5490626bf912d01f240d7a274b371e"
+      expect(Eth::Eip712.hash_data "Person", message_data[:to], types).to eq Eth::Util.hex_to_bin "0xcd54f074a4af31b4411ff6a60c9719dbd559c221c8ac3492d9d872b041d703d1"
+      expect(Eth::Eip712.hash_data "Person", message_data[:from], types).to eq Eth::Util.hex_to_bin "0xfc71e5fa27ff56c350aa531bc129ebdf613b772b6604664f5d8dbe21b85eb0c8"
+    end
+  end
+
+  describe ".hash" do
+    it "can hash the eip-712 typed data" do
+      expect(Eth::Eip712.hash typed_data).to eq Eth::Util.hex_to_bin "0xbe609aee343fb3c4b28e1df9e632fca64fcfaede20f02e86244efddf30957bd2"
     end
   end
 end
