@@ -74,31 +74,23 @@ module Eth
     # @raise [ArgumentError] if value does not match type.
     def encode_type(type, arg)
       if %w(string bytes).include? type.base_type and type.sub_type.empty?
-        raise ArgumentError, "arg must be a string" unless arg.instance_of? String
+        raise ArgumentError, "Argument must be a String" unless arg.instance_of? String
 
         # encodes strings and bytes
         size = encode_type Type.size_type, arg.size
         padding = BYTE_ZERO * (Util.ceil32(arg.size) - arg.size)
         return "#{size}#{arg}#{padding}"
       elsif type.is_dynamic?
-        raise ArgumentError, "arg must be an array" unless arg.instance_of? Array
+        raise ArgumentError, "Argument must be an Array" unless arg.instance_of? Array
 
         # encodes dynamic-sized arrays
         head, tail = "", ""
-        if type.dimensions.last == 0
-          head += encode_type Type.size_type, arg.size
-        else
-          raise ArgumentError, "Wrong array size: found #{arg.size}, expecting #{type.dimensions.last}" unless arg.size == type.dimensions.last
-        end
+        head += encode_type Type.size_type, arg.size
         nested_sub = type.nested_sub
         nested_sub_size = type.nested_sub.size
         arg.size.times do |i|
-          if nested_sub_size.nil?
-            head += encode_type Type.size_type, 32 * arg.size + tail.size
-            tail += encode_type nested_sub, arg[i]
-          else
-            head += encode_type nested_sub, arg[i]
-          end
+          raise UnimplementedError, "Encoding dynamic arrays with nested dynamic sub-types" if nested_sub.is_dynamic?
+          head += encode_type nested_sub, arg[i]
         end
         return "#{head}#{tail}"
       else
@@ -133,7 +125,7 @@ module Eth
         # unsigned integer numerics
         return Util.zpad_int i
       when "bool"
-        raise ArgumentError, "arg is not bool: #{arg}" unless arg.instance_of? TrueClass or arg.instance_of? FalseClass
+        raise ArgumentError, "Argument is not bool: #{arg}" unless arg.instance_of? TrueClass or arg.instance_of? FalseClass
 
         # booleans
         return Util.zpad_int(arg ? 1 : 0)
@@ -159,7 +151,7 @@ module Eth
         # fixed point numerics
         return Util.zpad_int(i % 2 ** (high + low))
       when "string", "bytes"
-        raise EncodingError, "Expecting string: #{arg}" unless arg.instance_of? String
+        raise EncodingError, "Expecting String: #{arg}" unless arg.instance_of? String
         if type.sub_type.empty?
           size = Util.zpad_int arg.size
           padding = BYTE_ZERO * (Util.ceil32(arg.size) - arg.size)
@@ -175,7 +167,7 @@ module Eth
         end
       when "hash"
         size = type.sub_type.to_i
-        raise EncodingError, "too long: #{arg}" unless size > 0 and size <= 32
+        raise EncodingError, "Argument too long: #{arg}" unless size > 0 and size <= 32
         if arg.is_a? Integer
 
           # hash from integer
@@ -290,19 +282,10 @@ module Eth
       elsif type.is_dynamic?
         l = Util.deserialize_big_endian_to_int arg[0, 32]
         nested_sub = type.nested_sub
-        if nested_sub.is_dynamic?
-          raise DecodingError, "Not enough data for head" unless arg.size >= 32 + 32 * l
-          start_positions = (1..l).map { |i| Util.deserialize_big_endian_to_int arg[32 * i, 32] }
-          start_positions.push arg.size
-          outputs = (0...l).map { |i| arg[start_positions[i]...start_positions[i + 1]] }
+        raise UnimplementedError, "Decoding dynamic arrays with nested dynamic sub-types" if nested_sub.is_dynamic?
 
-          # decoded nested dynamic-size arrays
-          return outputs.map { |out| decode_type(nested_sub, out) }
-        else
-
-          # decoded dynamic-sized arrays
-          return (0...l).map { |i| decode_type(nested_sub, arg[32 + nested_sub.size * i, nested_sub.size]) }
-        end
+        # decoded dynamic-sized arrays
+        return (0...l).map { |i| decode_type(nested_sub, arg[32 + nested_sub.size * i, nested_sub.size]) }
       elsif !type.dimensions.empty?
         l = type.dimensions.last[0]
         nested_sub = type.nested_sub

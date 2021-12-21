@@ -142,6 +142,9 @@ describe Eth::Abi do
 
       expect(Eth::Abi.decode_type(t_bool, Eth::Abi.encode_type(t_bool, true))).to eq true
       expect(Eth::Abi.decode_type(t_bool, Eth::Abi.encode_type(t_bool, false))).to eq false
+
+      # uncovered edge case
+      expect(Eth::Abi.decode_type(Eth::Abi::Type.new("hash", 32, [1]), "8cb9d52661513ac5490483c79ac715f5dd572bfb")).to eq ["8cb9d52661513ac5490483c79ac715f5dd572bfb"]
     end
   end
 
@@ -224,12 +227,6 @@ describe Eth::Abi do
 
       # uncovered edge-cases
       expect { Eth::Abi.decode_primitive_type(Eth::Abi::Type.new("foo", 32, []), "bar") }.to raise_error Eth::Abi::DecodingError
-    end
-  end
-
-  describe "coverage over 9000%" do
-    it "can raise coverage to at least 100%" do
-      # Eth::Abi.decode_type(Eth::Abi::Type.new("foo", 32, []), "bar")
     end
   end
 end
