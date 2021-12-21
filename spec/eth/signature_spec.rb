@@ -1,4 +1,4 @@
-require 'spec_helper'
+require "spec_helper"
 
 describe Eth::Signature do
   describe ".prefix_message" do
@@ -26,13 +26,13 @@ describe Eth::Signature do
     end
 
     it "can recover an address from a signature generated with mycrypto" do
-      alice = Eth::Address.new '0x4fCA53a6658648060e0a1Ca8427Abdd6063eDf6A'
+      alice = Eth::Address.new "0x4fCA53a6658648060e0a1Ca8427Abdd6063eDf6A"
       message = "Hello World!"
       signature = "0x21fbf0696d5e0aa2ef41a2b4ffb623bcaf070461d61cf7251c74161f82fec3a4370854bc0a34b3ab487c1bc021cd318c734c51ae29374f2beb0e6f2dd49b4bf41c"
       expect(Eth::Util.public_key_to_address(Eth::Signature.personal_recover(message, signature)).to_s).to eq alice.to_s
 
       # ref: https://support.mycrypto.com/how-to/getting-started/how-to-sign-and-verify-messages-on-ethereum/
-      bob = Eth::Address.new '0x2a3052ef570a031400BffD61438b2D19e0E8abef'
+      bob = Eth::Address.new "0x2a3052ef570a031400BffD61438b2D19e0E8abef"
       message = "This is proof that I, user A, have access to this address."
       signature = "0x4e1ce8ea60bc6dfd4068a35462612495850cb645a1c9f475eb969bff21d0b0fb414112aaf13f01dd18a3527cb648cdd51b618ae49d4999112c33f86b7b26e9731b"
       expect(Eth::Util.public_key_to_address(Eth::Signature.personal_recover(message, signature)).to_s).to eq bob.to_s
@@ -42,8 +42,8 @@ describe Eth::Signature do
       message = "This is proof that I, user A, have access to this address."
       signature_invalid_v = "0x4e1ce8ea60bc6dfd4068a35462612495850cb645a1c9f475eb969bff21d0b0fb414112aaf13f01dd18a3527cb648cdd51b618ae49d4999112c33f86b7b26e97300"
       signature_invalid_size = "0x4e1ce8ea60bc6dfd4068a35462612495850cb645a1c9f475eb969bff21d0b0fb414112aaf13f01dd18a3527cb648cdd51b618ae49d4999112c33f86b7b26e973"
-      expect{Eth::Signature.personal_recover(message, signature_invalid_v)}.to raise_error ArgumentError
-      expect{Eth::Signature.personal_recover(message, signature_invalid_size)}.to raise_error ArgumentError
+      expect { Eth::Signature.personal_recover(message, signature_invalid_v) }.to raise_error ArgumentError
+      expect { Eth::Signature.personal_recover(message, signature_invalid_size) }.to raise_error ArgumentError
     end
   end
 
@@ -63,13 +63,13 @@ describe Eth::Signature do
     end
 
     it "can verify a generated with mycrypto" do
-      alice = Eth::Address.new '0x4fCA53a6658648060e0a1Ca8427Abdd6063eDf6A'
+      alice = Eth::Address.new "0x4fCA53a6658648060e0a1Ca8427Abdd6063eDf6A"
       message = "Hello World!"
       signature = "0x21fbf0696d5e0aa2ef41a2b4ffb623bcaf070461d61cf7251c74161f82fec3a4370854bc0a34b3ab487c1bc021cd318c734c51ae29374f2beb0e6f2dd49b4bf41c"
       expect(Eth::Signature.verify message, signature, alice).to be_truthy
 
       # ref: https://support.mycrypto.com/how-to/getting-started/how-to-sign-and-verify-messages-on-ethereum/
-      bob = Eth::Address.new '0x2a3052ef570a031400BffD61438b2D19e0E8abef'
+      bob = Eth::Address.new "0x2a3052ef570a031400BffD61438b2D19e0E8abef"
       message = "This is proof that I, user A, have access to this address."
       signature = "0x4e1ce8ea60bc6dfd4068a35462612495850cb645a1c9f475eb969bff21d0b0fb414112aaf13f01dd18a3527cb648cdd51b618ae49d4999112c33f86b7b26e9731b"
       expect(Eth::Signature.verify message, signature, bob).to be_truthy
@@ -83,7 +83,7 @@ describe Eth::Signature do
       expect(Eth::Signature.verify message, signature, charlie.address.to_s).to be_truthy
       expect(Eth::Signature.verify message, signature, charlie.public_key).to be_truthy
       expect(Eth::Signature.verify message, signature, charlie.public_hex).to be_truthy
-      expect{Eth::Signature.verify message, signature, charlie.private_hex}.to raise_error ArgumentError
+      expect { Eth::Signature.verify message, signature, charlie.private_hex }.to raise_error ArgumentError
     end
   end
 end

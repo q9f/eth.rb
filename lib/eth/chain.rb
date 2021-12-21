@@ -85,7 +85,7 @@ module Eth
     #
     # @param v [Integer] the signature's `v` value
     # @return [Boolean] true if legacy value
-    def is_legacy? v
+    def is_legacy?(v)
       [27, 28].include? v
     end
 
@@ -96,7 +96,7 @@ module Eth
     # @param chain_id [Integer] the chain id the signature was generated on.
     # @return [Integer] the recovery id corresponding to `v`.
     # @raise [ArgumentError] if the given `v` is invalid.
-    def to_recovery_id v, chain_id = ETHEREUM
+    def to_recovery_id(v, chain_id = ETHEREUM)
       e = 0 + 2 * chain_id + 35
       i = 1 + 2 * chain_id + 35
       if [0, 1].include? v
@@ -121,7 +121,7 @@ module Eth
     # @param recovery_id [Integer] signature recovery id.
     # @param chain_id [Integer] the chain id the signature was generated on.
     # @return [Integer] the signature's `v` value.
-    def to_v recovery_id, chain_id = ETHEREUM
+    def to_v(recovery_id, chain_id = ETHEREUM)
       v = 2 * chain_id + 35 + recovery_id
     end
   end

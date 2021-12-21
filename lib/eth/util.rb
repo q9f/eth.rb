@@ -12,8 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-require "rlp"
 require "digest/keccak"
+require "rlp"
 
 # Provides the `Eth` module.
 module Eth
@@ -107,133 +107,70 @@ module Eth
       hex.match /\A0x/
     end
 
-    def encode_hex(b)
-      RLP::Util.encode_hex b
-    end
-
-    def decode_hex(s)
-      RLP::Util.decode_hex s
-    end
-
-    def big_endian_to_int(s)
-      RLP::Sedes.big_endian_int.deserialize s.sub(/\A(\x00)+/, "")
-    end
-
-    def int_to_big_endian(n)
-      RLP::Sedes.big_endian_int.serialize n
-    end
-
-    def remove_0x_head(s)
-      s[0, 2] == "0x" ? s[2..-1] : s
-    end
-
-    def normalize_hex_without_prefix(s)
-      if s[0, 2] == "0x"
-        (s.size % 2 == 1 ? "0" : "") + s[2..-1]
-      else
-        s
+    # Serializes an unsigned integer to big endian.
+    #
+    # @param num [Integer] unsigned integer to be serialized.
+    # return [String] serialized big endian integer string.
+    # raises [ArgumentError] if unsigned integer is out of bounds.
+    def serialize_int_to_big_endian(num)
+      unless num.is_a? Integer and num >= 0 and num <= Abi::UINT_MAX
+        raise ArgumentError, "Integer invalid or out of range: #{num}"
       end
+      RLP::Sedes.big_endian_int.serialize num
     end
 
-    def ripemd160(x)
-      Digest::RMD160.digest x
+    # Deserializes big endian data string to integer.
+    #
+    # @param str [String] serialized big endian integer string.
+    # @return [Integer] an deserialized unsigned integer.
+    def deserialize_big_endian_to_int(str)
+      RLP::Sedes.big_endian_int.deserialize str.sub(/\A(\x00)+/, "")
     end
 
-    def hash160(x)
-      ripemd160 sha256(x)
+    # Ceil and integer to the next multiple of 32 bytes.
+    #
+    # @param num [Integer] the number to ciel up.
+    # @return [Integer] the ceiled to 32 integer.
+    def ceil32(num)
+      num % 32 == 0 ? num : (num + 32 - num % 32)
     end
 
-    def hash160_hex(x)
-      encode_hex hash160(x)
+    # Left-pad a number with a symbol.
+    #
+    # @param str [String] a serialized string to be padded.
+    # @param sym [String] a symbol used for left-padding.
+    # @param len [Integer] number of symbols for the final string.
+    # @return [String] a left-padded serialized string of wanted size.
+    def lpad(str, sym, len)
+      return str if str.size >= len
+      sym * (len - str.size) + str
     end
 
-    def ceil32(x)
-      x % 32 == 0 ? x : (x + 32 - x % 32)
+    # Left-pad a serialized string with zeros.
+    #
+    # @param str [String] a serialized string to be padded.
+    # @param len [Integer] number of symbols for the final string.
+    # @return [String] a zero-padded serialized string of wanted size.
+    def zpad(str, len)
+      lpad str, Abi::BYTE_ZERO, len
     end
 
-    def zpad(x, l)
-      lpad x, Abi::Constant::BYTE_ZERO, l
+    # Left-pad a hex number with zeros.
+    #
+    # @param hex [String] a hex-string to be padded.
+    # @param len [Integer] number of symbols for the final string.
+    # @return [String] a zero-padded serialized string of wanted size.
+    def zpad_hex(hex, len = 32)
+      zpad hex_to_bin(hex), len
     end
 
-    def zunpad(x)
-      x.sub /\A\x00+/, ""
-    end
-
-    def zpad_int(n, l = 32)
-      zpad encode_int(n), l
-    end
-
-    def zpad_hex(s, l = 32)
-      zpad decode_hex(s), l
-    end
-
-    def int_to_addr(x)
-      zpad_int x, 20
-    end
-
-    def encode_int(n)
-      unless n.is_a?(Integer) && n >= 0 && n <= Abi::Constant::UINT_MAX
-        raise ArgumentError, "Integer invalid or out of range: #{n}"
-      end
-
-      int_to_big_endian n
-    end
-
-    def decode_int(v)
-      if v.size > 0 && (v[0] == BYTE_ZERO || v[0] == 0)
-        raise ArgumentError, "No leading zero bytes allowed for integers"
-      end
-
-      big_endian_to_int v
-    end
-
-    def bytearray_to_int(arr)
-      o = 0
-      arr.each { |x| o = (o << 8) + x }
-      o
-    end
-
-    def int_array_to_bytes(arr)
-      arr.pack("C*")
-    end
-
-    def bytes_to_int_array(bytes)
-      bytes.unpack("C*")
-    end
-
-    def coerce_to_int(x)
-      if x.is_a?(Numeric)
-        x
-      elsif x.size == 40
-        big_endian_to_int decode_hex(x)
-      else
-        big_endian_to_int x
-      end
-    end
-
-    def coerce_to_bytes(x)
-      if x.is_a?(Numeric)
-        int_to_big_endian x
-      elsif x.size == 40
-        decode_hex(x)
-      else
-        x
-      end
-    end
-
-    def coerce_addr_to_hex(x)
-      if x.is_a?(Numeric)
-        encode_hex zpad(int_to_big_endian(x), 20)
-      elsif x.size == 40 || x.size == 0
-        x
-      else
-        encode_hex zpad(x, 20)[-20..-1]
-      end
-    end
-
-    def lpad(x, symbol, l)
-      return x if x.size >= l
-      symbol * (l - x.size) + x
+    # Left-pad an unsigned integer with zeros.
+    #
+    # @param num [Integer] an unsigned integer to be padded.
+    # @param len [Integer] number of symbols for the final string.
+    # @return [String] a zero-padded serialized string of wanted size.
+    def zpad_int(num, len = 32)
+      zpad serialize_int_to_big_endian(num), len
     end
   end
 end

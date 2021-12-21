@@ -1,4 +1,4 @@
-require 'spec_helper'
+require "spec_helper"
 
 describe Eth::Chain do
   describe "#CHAIN_ID" do
@@ -76,9 +76,9 @@ describe Eth::Chain do
       expect(Eth::Chain.to_recovery_id 2709, Eth::Chain::PRIVATE_GETH).to be 0
     end
     it "raises an error for invalid v on chain ids" do
-      expect {Eth::Chain.to_recovery_id -1}.to raise_error ArgumentError
-      expect {Eth::Chain.to_recovery_id 36}.to raise_error ArgumentError
-      expect {Eth::Chain.to_recovery_id 843258, Eth::Chain::PRIVATE_GETH}.to raise_error ArgumentError
+      expect { Eth::Chain.to_recovery_id -1 }.to raise_error ArgumentError
+      expect { Eth::Chain.to_recovery_id 36 }.to raise_error ArgumentError
+      expect { Eth::Chain.to_recovery_id 843258, Eth::Chain::PRIVATE_GETH }.to raise_error ArgumentError
     end
   end
 end

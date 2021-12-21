@@ -1,0 +1,325 @@
+# -*- encoding : ascii-8bit -*-
+
+require "spec_helper"
+
+describe Eth::Abi do
+  describe ".encode .decode" do
+
+    # load official ethereum/tests fixtures for ABIs
+    let(:basic_abi_tests_file) { File.read "spec/fixtures/ethereum/tests/ABITests/basic_abi_tests.json" }
+    subject(:basic_abi_tests) { JSON.parse basic_abi_tests_file }
+
+    it "can encode abi" do
+      basic_abi_tests.each do |test|
+        types = test.last["types"]
+        args = test.last["args"]
+        result = test.last["result"]
+        encoded = Eth::Abi.encode types, args
+        expect(Eth::Util.bin_to_hex encoded).to eq result
+        expect(encoded).to eq Eth::Util.hex_to_bin result
+      end
+
+      # https://github.com/cryptape/ruby-ethereum-abi/blob/90d4fa3fc6b568581165eaacdc506b9b9b49e520/test/abi_test.rb#L46
+      bytes = "\x00" * 32 * 3
+      expect(Eth::Abi.encode(["address[]"], [["\x00" * 20] * 3])).to eq "#{Eth::Util.zpad_int(32)}#{Eth::Util.zpad_int(3)}#{bytes}"
+      expect(Eth::Abi.encode(["uint16[2]"], [[5, 6]])).to eq "#{Eth::Util.zpad_int(5)}#{Eth::Util.zpad_int(6)}"
+    end
+
+    it "can decode abi" do
+      basic_abi_tests.each do |test|
+        types = test.last["types"]
+        args = test.last["args"]
+        result = test.last["result"]
+        decoded = Eth::Abi.decode types, result
+        expect(decoded).to eq args
+      end
+    end
+
+    it "can do both ways, back and forth" do
+      basic_abi_tests.each do |test|
+        types = test.last["types"]
+        args = test.last["args"]
+        result = test.last["result"]
+
+        encoded = Eth::Abi.encode types, args
+        expect(Eth::Util.bin_to_hex encoded).to eq result
+        expect(encoded).to eq Eth::Util.hex_to_bin result
+
+        decoded = Eth::Abi.decode types, encoded
+        expect(decoded).to eq args
+
+        encoded = Eth::Abi.encode types, decoded
+        expect(Eth::Util.bin_to_hex encoded).to eq result
+        expect(encoded).to eq Eth::Util.hex_to_bin result
+
+        decoded = Eth::Abi.decode types, result
+        expect(decoded).to eq args
+
+        # https://github.com/cryptape/ruby-ethereum-abi/blob/90d4fa3fc6b568581165eaacdc506b9b9b49e520/test/abi_test.rb#L55
+        expect(Eth::Abi.decode(["int8"], Eth::Abi.encode(["int8"], [1]))[0]).to eq 1
+        expect(Eth::Abi.decode(["int8"], Eth::Abi.encode(["int8"], [-1]))[0]).to eq -1
+      end
+    end
+
+    it "can do encode and decode complex types" do
+      types = [
+        "bool",
+        "string",
+        "hash8",
+        "hash16",
+        "hash32",
+        "address",
+        "bytes8",
+        "bytes16",
+        "bytes32",
+        "uint8",
+        "uint32",
+        "uint256",
+        "int8",
+        "int32",
+        "int256",
+        "ufixed8x248",
+        "ufixed128x128",
+        "ufixed224x32",
+        "fixed16x240",
+        "fixed120x136",
+        "fixed192x64",
+        "ureal32x224",
+        "ureal112x144",
+        "ureal216x40",
+        "real24x232",
+        "real104x152",
+        "real184x72",
+      ]
+      args = [
+        true,
+        "Lorem, Ipsum!",
+        "5ea2f483",
+        "f857a5f69ef3b1d6",
+        "727aa2fc7c37dae7f8715034a30684e5",
+        "0x3ea1e26a2119b038eaf9b27e65cdb401502ae7a4",
+        "k\xDE\xCE\xA1[-\xFC\xB6",
+        "\b7\x01\xCA\xAA\xD1\x19\x03N\xDD\xE8\xA9\x90\xBD\xAD\xC4",
+        "=\x8B\xFB\x13h\xAE\xE2i>\xB3%\xAF\x9F\x81$K\x190K\b{IA\xA1\xE8\x92\xDAP\xBDH\xDF\xE1",
+        174,
+        3893363474,
+        60301460096010527055210599022636314318554451862510786612212422174837688365153,
+        -113,
+        1601895622,
+        -4153010759215853346544872368790226810347211436084119296615430562753409734914,
+        63.66398777006226123760574089008052721339184438673538796217134096628685915738,
+        177074929705982418363572194112273.8827238551808681127279347507282393998519465,
+        98821499299418253575581118390193337030843895142216397267540857889.01747448956,
+        27.30074931250845250070758776089747538801742179664476308779818324270386087829,
+        -82228826788593438090560643103.5277820203588472468244458211870022854970130269,
+        -84123285919081893514125223546444622436439372822803331.1512193120013670384488,
+        629856372.6605513722051544588955980424785476894635842015455370355715449804527,
+        33411609757213064037378963.77614307961944113929290314212116855493713727600085,
+        81920174834144284202135339815838923296212377714320.77878686626123859401392123,
+        -4866211.62692133852235672791699382572457989527277715672430590813883295619920,
+        -59242022988589225026181.9155783240648197176958994738042609518397368061096803,
+        -91319989741702771619440858588015844636341111.5686669249816377141872992204449,
+      ]
+      encoded = Eth::Abi.encode types, args
+      decoded = Eth::Abi.decode types, encoded
+      expect(decoded).to eq args
+      expect(Eth::Abi.encode types, decoded).to eq encoded
+
+      # p decoded
+
+      nested_types = [
+        "bool[]",
+        "address[]",
+        "bytes32[]",
+      ]
+      nested_args = [
+        [
+          true,
+          false,
+        ],
+        [
+          "0x84ad87d794f867befc597ebae4200b607d0cd9bd",
+          "0xb8425e726762a40057a027a0cb7226b9fe6d7e9a",
+          "0xcf960c64b6bb464f30aa2e5a245176438b046e58",
+        ],
+        [
+          "\x13\xAE^]b\xD2\xDAD^\x05\b\e\xA8\xD5\x1DK\xBFO\xC7\xDA-ev!\xA1\xABxZ\xA2\x1CE\xEF",
+          "\"\x81\x182\xB2\xFC\xC9\e+\xC2.\x19\x83\xAC\xCA\xAC\x05\x18hK\xB5Wf\xBA\x12\xB6\xC8\xA8+Ymp",
+          "9\x18\x8C/*\xF7\x9Bpn\x86\b\x05\v\xC2\xA2Q\xD1n\x01w\n\xE6\xA1\xDFo\xBC\xA2.>\x9F\xDD\xE7",
+        ],
+      ]
+      nested_encoded = Eth::Abi.encode nested_types, nested_args
+      nested_decoded = Eth::Abi.decode nested_types, nested_encoded
+      expect(nested_decoded).to eq nested_args
+      expect(Eth::Abi.encode nested_types, nested_decoded).to eq nested_encoded
+    end
+  end
+
+  subject(:t_bool) { Eth::Abi::Type.parse "bool" }
+  subject(:t_uint_8) { Eth::Abi::Type.parse "uint8" }
+  subject(:t_int_8) { Eth::Abi::Type.parse "int8" }
+  subject(:t_ureal_128_128) { Eth::Abi::Type.parse "ureal128x128" }
+  subject(:t_real_128_128) { Eth::Abi::Type.parse "real128x128" }
+  subject(:t_bytes) { Eth::Abi::Type.parse "bytes" }
+  subject(:t_bytes_8) { Eth::Abi::Type.parse "bytes8" }
+  subject(:t_hash_20) { Eth::Abi::Type.parse "hash20" }
+  subject(:t_hash_32) { Eth::Abi::Type.parse "hash32" }
+  subject(:t_address) { Eth::Abi::Type.parse "address" }
+
+  describe ".encode_type .decode_type" do
+    it "can encode types" do
+
+      # https://github.com/cryptape/ruby-ethereum-abi/blob/90d4fa3fc6b568581165eaacdc506b9b9b49e520/test/abi_test.rb#L60
+      expect(Eth::Abi.encode_type t_bool, true).to eq Eth::Util.zpad_int 1
+      expect(Eth::Abi.encode_type t_bool, false).to eq Eth::Util.zpad_int 0
+
+      expect(Eth::Abi.encode_type t_uint_8, 255).to eq Eth::Util.zpad_int 255
+      expect { Eth::Abi.encode_type t_uint_8, 256 }.to raise_error Eth::Abi::ValueOutOfBounds
+
+      expect(Eth::Abi.encode_type t_int_8, -128).to eq Eth::Util.zpad "\x80", 32
+      expect(Eth::Abi.encode_type t_int_8, 127).to eq Eth::Util.zpad "\x7f", 32
+      expect { Eth::Abi.encode_type t_int_8, -129 }.to raise_error Eth::Abi::ValueOutOfBounds
+      expect { Eth::Abi.encode_type t_int_8, 128 }.to raise_error Eth::Abi::ValueOutOfBounds
+
+      expect(Eth::Abi.encode_type t_ureal_128_128, 0).to eq ("\x00" * 32)
+      expect(Eth::Abi.encode_type t_ureal_128_128, 1.125).to eq ("\x00" * 15 + "\x01\x20" + "\x00" * 15)
+      expect(Eth::Abi.encode_type t_ureal_128_128, 2 ** 127 - 1).to eq ("\x7f" + "\xff" * 15 + "\x00" * 16)
+
+      expect(Eth::Abi.encode_type t_real_128_128, -1).to eq ("\xff" * 16 + "\x00" * 16)
+      expect(Eth::Abi.encode_type t_real_128_128, -2 ** 127).to eq ("\x80" + "\x00" * 31)
+      expect(Eth::Abi.encode_type t_real_128_128, 2 ** 127 - 1).to eq ("\x7f" + "\xff" * 15 + "\x00" * 16)
+      expect(Eth::Abi.encode_type t_real_128_128, 1.125).to eq "#{Eth::Util.zpad_int(1, 16)}\x20#{"\x00" * 15}"
+      expect(Eth::Abi.encode_type t_real_128_128, -1.125).to eq "#{"\xff" * 15}\xfe\xe0#{"\x00" * 15}"
+      expect { Eth::Abi.encode_type(t_real_128_128, -2 ** 127 - 1) }.to raise_error Eth::Abi::ValueOutOfBounds
+      expect { Eth::Abi.encode_type(t_real_128_128, 2 ** 127) }.to raise_error Eth::Abi::ValueOutOfBounds
+
+      expect(Eth::Abi.encode_type t_bytes, "\x01\x02\x03").to eq "#{Eth::Util.zpad_int(3)}\x01\x02\x03#{"\x00" * 29}"
+
+      expect(Eth::Abi.encode_type t_bytes_8, "\x01\x02\x03").to eq "\x01\x02\x03#{"\x00" * 29}"
+
+      expect(Eth::Abi.encode_type t_hash_32, "\xff" * 32).to eq ("\xff" * 32)
+      expect(Eth::Abi.encode_type t_hash_32, "ff" * 32).to eq ("\xff" * 32)
+
+      expect(Eth::Abi.encode_type t_address, "\xff" * 20).to eq Eth::Util.zpad("\xff" * 20, 32)
+      expect(Eth::Abi.encode_type t_address, "ff" * 20).to eq Eth::Util.zpad("\xff" * 20, 32)
+      expect(Eth::Abi.encode_type t_address, "0x" + "ff" * 20).to eq Eth::Util.zpad("\xff" * 20, 32)
+    end
+
+    it "can decode types" do
+
+      # https://github.com/cryptape/ruby-ethereum-abi/blob/90d4fa3fc6b568581165eaacdc506b9b9b49e520/test/abi_test.rb#L105
+      expect(Eth::Abi.decode_type(t_address, Eth::Abi.encode_type(t_address, "0x" + "ff" * 20))).to eq "0x" + "ff" * 20
+
+      expect(Eth::Abi.decode_type(t_bytes, Eth::Abi.encode_type(t_bytes, "\x01\x02\x03"))).to eq "\x01\x02\x03"
+
+      expect(Eth::Abi.decode_type(t_bytes_8, Eth::Abi.encode_type(t_bytes_8, "\x01\x02\x03"))).to eq ("\x01\x02\x03" + "\x00" * 5)
+
+      expect(Eth::Abi.decode_type(t_hash_20, Eth::Abi.encode_type(t_hash_20, "ff" * 20))).to eq ("\xff" * 20)
+
+      expect(Eth::Abi.decode_type(t_uint_8, Eth::Abi.encode_type(t_uint_8, 0))).to eq 0
+      expect(Eth::Abi.decode_type(t_uint_8, Eth::Abi.encode_type(t_uint_8, 255))).to eq 255
+
+      expect(Eth::Abi.decode_type(t_int_8, Eth::Abi.encode_type(t_int_8, -128))).to eq -128
+      expect(Eth::Abi.decode_type(t_int_8, Eth::Abi.encode_type(t_int_8, 127))).to eq 127
+
+      expect(Eth::Abi.decode_type(t_ureal_128_128, Eth::Abi.encode_type(t_ureal_128_128, 0))).to eq 0
+      expect(Eth::Abi.decode_type(t_ureal_128_128, Eth::Abi.encode_type(t_ureal_128_128, 125.125))).to eq 125.125
+      expect(Eth::Abi.decode_type(t_ureal_128_128, Eth::Abi.encode_type(t_ureal_128_128, 2 ** 128 - 1))).to eq (2 ** 128 - 1).to_f
+
+      expect(Eth::Abi.decode_type(t_real_128_128, Eth::Abi.encode_type(t_real_128_128, 1))).to eq 1
+      expect(Eth::Abi.decode_type(t_real_128_128, Eth::Abi.encode_type(t_real_128_128, -1))).to eq -1
+      expect(Eth::Abi.decode_type(t_real_128_128, Eth::Abi.encode_type(t_real_128_128, 125.125))).to eq 125.125
+      expect(Eth::Abi.decode_type(t_real_128_128, Eth::Abi.encode_type(t_real_128_128, -125.125))).to eq -125.125
+      expect(Eth::Abi.decode_type(t_real_128_128, Eth::Abi.encode_type(t_real_128_128, 2 ** 127 - 1))).to eq (2 ** 127 - 1).to_f
+      expect(Eth::Abi.decode_type(t_real_128_128, Eth::Abi.encode_type(t_real_128_128, -2 ** 127))).to eq -2 ** 127
+
+      expect(Eth::Abi.decode_type(t_bool, Eth::Abi.encode_type(t_bool, true))).to eq true
+      expect(Eth::Abi.decode_type(t_bool, Eth::Abi.encode_type(t_bool, false))).to eq false
+
+      # uncovered edge case
+      expect(Eth::Abi.decode_type(Eth::Abi::Type.new("hash", 32, [1]), "8cb9d52661513ac5490483c79ac715f5")).to eq ["8cb9d52661513ac5490483c79ac715f5"]
+    end
+  end
+
+  describe ".encode_primitive_type .decode_primitive_type" do
+    it "can encode primitive types" do
+
+      # https://github.com/cryptape/ruby-ethereum-abi/blob/90d4fa3fc6b568581165eaacdc506b9b9b49e520/test/abi_test.rb#L60
+      expect(Eth::Abi.encode_primitive_type t_bool, true).to eq Eth::Util.zpad_int 1
+      expect(Eth::Abi.encode_primitive_type t_bool, false).to eq Eth::Util.zpad_int 0
+
+      expect(Eth::Abi.encode_primitive_type t_uint_8, 255).to eq Eth::Util.zpad_int 255
+      expect { Eth::Abi.encode_primitive_type t_uint_8, 256 }.to raise_error Eth::Abi::ValueOutOfBounds
+
+      expect(Eth::Abi.encode_primitive_type t_int_8, -128).to eq Eth::Util.zpad "\x80", 32
+      expect(Eth::Abi.encode_primitive_type t_int_8, 127).to eq Eth::Util.zpad "\x7f", 32
+      expect { Eth::Abi.encode_primitive_type t_int_8, -129 }.to raise_error Eth::Abi::ValueOutOfBounds
+      expect { Eth::Abi.encode_primitive_type t_int_8, 128 }.to raise_error Eth::Abi::ValueOutOfBounds
+
+      expect(Eth::Abi.encode_primitive_type t_ureal_128_128, 0).to eq ("\x00" * 32)
+      expect(Eth::Abi.encode_primitive_type t_ureal_128_128, 1.125).to eq ("\x00" * 15 + "\x01\x20" + "\x00" * 15)
+      expect(Eth::Abi.encode_primitive_type t_ureal_128_128, 2 ** 127 - 1).to eq ("\x7f" + "\xff" * 15 + "\x00" * 16)
+
+      expect(Eth::Abi.encode_primitive_type t_real_128_128, -1).to eq ("\xff" * 16 + "\x00" * 16)
+      expect(Eth::Abi.encode_primitive_type t_real_128_128, -2 ** 127).to eq ("\x80" + "\x00" * 31)
+      expect(Eth::Abi.encode_primitive_type t_real_128_128, 2 ** 127 - 1).to eq ("\x7f" + "\xff" * 15 + "\x00" * 16)
+      expect(Eth::Abi.encode_primitive_type t_real_128_128, 1.125).to eq "#{Eth::Util.zpad_int(1, 16)}\x20#{"\x00" * 15}"
+      expect(Eth::Abi.encode_primitive_type t_real_128_128, -1.125).to eq "#{"\xff" * 15}\xfe\xe0#{"\x00" * 15}"
+      expect { Eth::Abi.encode_primitive_type(t_real_128_128, -2 ** 127 - 1) }.to raise_error Eth::Abi::ValueOutOfBounds
+      expect { Eth::Abi.encode_primitive_type(t_real_128_128, 2 ** 127) }.to raise_error Eth::Abi::ValueOutOfBounds
+
+      expect(Eth::Abi.encode_primitive_type t_bytes, "\x01\x02\x03").to eq "#{Eth::Util.zpad_int(3)}\x01\x02\x03#{"\x00" * 29}"
+
+      expect(Eth::Abi.encode_primitive_type t_bytes_8, "\x01\x02\x03").to eq "\x01\x02\x03#{"\x00" * 29}"
+
+      expect(Eth::Abi.encode_primitive_type t_hash_32, "\xff" * 32).to eq ("\xff" * 32)
+      expect(Eth::Abi.encode_primitive_type t_hash_32, "ff" * 32).to eq ("\xff" * 32)
+
+      expect(Eth::Abi.encode_primitive_type t_address, "\xff" * 20).to eq Eth::Util.zpad("\xff" * 20, 32)
+      expect(Eth::Abi.encode_primitive_type t_address, "ff" * 20).to eq Eth::Util.zpad("\xff" * 20, 32)
+      expect(Eth::Abi.encode_primitive_type t_address, "0x" + "ff" * 20).to eq Eth::Util.zpad("\xff" * 20, 32)
+
+      # uncovered edge cases
+      expect(Eth::Abi.encode_primitive_type(t_hash_32, 12354235345634646546346346345)).to eq "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00'\xEB/\x18\x0E\x84\xD7\xDFU\x8B\ai"
+      expect(Eth::Abi.encode_primitive_type(t_address, 98798765498765487654864654687)).to eq "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01?<la\xA1\xE3$\xC9\xF6\xCF\x91_"
+      expect { Eth::Abi.encode_primitive_type(t_hash_32, "0x8cb9d52661513ac5490483c79ac715f5dd572bfb") }.to raise_error Eth::Abi::EncodingError
+      expect { Eth::Abi.encode_primitive_type(t_address, "0x8cb9d52661513ac5490483c79ac715f5dd572bfb0xbd76086b38f2660fcaa65781ff5998f5c18e766d") }.to raise_error Eth::Abi::EncodingError
+      expect { Eth::Abi.encode_primitive_type(Eth::Abi::Type.new("foo", 32, []), 12354235345634646546346346345) }.to raise_error Eth::Abi::EncodingError
+    end
+
+    it "can decode primitive types" do
+
+      # https://github.com/cryptape/ruby-ethereum-abi/blob/90d4fa3fc6b568581165eaacdc506b9b9b49e520/test/abi_test.rb#L105
+      expect(Eth::Abi.decode_primitive_type(t_address, Eth::Abi.encode_primitive_type(t_address, "0x" + "ff" * 20))).to eq "0x" + "ff" * 20
+
+      expect(Eth::Abi.decode_primitive_type(t_bytes, Eth::Abi.encode_primitive_type(t_bytes, "\x01\x02\x03"))).to eq "\x01\x02\x03"
+
+      expect(Eth::Abi.decode_primitive_type(t_bytes_8, Eth::Abi.encode_primitive_type(t_bytes_8, "\x01\x02\x03"))).to eq ("\x01\x02\x03" + "\x00" * 5)
+
+      expect(Eth::Abi.decode_primitive_type(t_hash_20, Eth::Abi.encode_primitive_type(t_hash_20, "ff" * 20))).to eq ("\xff" * 20)
+
+      expect(Eth::Abi.decode_primitive_type(t_uint_8, Eth::Abi.encode_primitive_type(t_uint_8, 0))).to eq 0
+      expect(Eth::Abi.decode_primitive_type(t_uint_8, Eth::Abi.encode_primitive_type(t_uint_8, 255))).to eq 255
+
+      expect(Eth::Abi.decode_primitive_type(t_int_8, Eth::Abi.encode_primitive_type(t_int_8, -128))).to eq -128
+      expect(Eth::Abi.decode_primitive_type(t_int_8, Eth::Abi.encode_primitive_type(t_int_8, 127))).to eq 127
+
+      expect(Eth::Abi.decode_primitive_type(t_ureal_128_128, Eth::Abi.encode_primitive_type(t_ureal_128_128, 0))).to eq 0
+      expect(Eth::Abi.decode_primitive_type(t_ureal_128_128, Eth::Abi.encode_primitive_type(t_ureal_128_128, 125.125))).to eq 125.125
+      expect(Eth::Abi.decode_primitive_type(t_ureal_128_128, Eth::Abi.encode_primitive_type(t_ureal_128_128, 2 ** 128 - 1))).to eq (2 ** 128 - 1).to_f
+
+      expect(Eth::Abi.decode_primitive_type(t_real_128_128, Eth::Abi.encode_primitive_type(t_real_128_128, 1))).to eq 1
+      expect(Eth::Abi.decode_primitive_type(t_real_128_128, Eth::Abi.encode_primitive_type(t_real_128_128, -1))).to eq -1
+      expect(Eth::Abi.decode_primitive_type(t_real_128_128, Eth::Abi.encode_primitive_type(t_real_128_128, 125.125))).to eq 125.125
+      expect(Eth::Abi.decode_primitive_type(t_real_128_128, Eth::Abi.encode_primitive_type(t_real_128_128, -125.125))).to eq -125.125
+      expect(Eth::Abi.decode_primitive_type(t_real_128_128, Eth::Abi.encode_primitive_type(t_real_128_128, 2 ** 127 - 1))).to eq (2 ** 127 - 1).to_f
+      expect(Eth::Abi.decode_primitive_type(t_real_128_128, Eth::Abi.encode_primitive_type(t_real_128_128, -2 ** 127))).to eq -2 ** 127
+
+      expect(Eth::Abi.decode_primitive_type(t_bool, Eth::Abi.encode_primitive_type(t_bool, true))).to eq true
+      expect(Eth::Abi.decode_primitive_type(t_bool, Eth::Abi.encode_primitive_type(t_bool, false))).to eq false
+
+      # uncovered edge-cases
+      expect { Eth::Abi.decode_primitive_type(Eth::Abi::Type.new("foo", 32, []), "bar") }.to raise_error Eth::Abi::DecodingError
+    end
+  end
+end
