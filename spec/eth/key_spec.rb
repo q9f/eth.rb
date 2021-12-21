@@ -1,4 +1,4 @@
-require 'spec_helper'
+require "spec_helper"
 
 describe Eth::Key do
   describe ".initialize" do
@@ -77,6 +77,15 @@ describe Eth::Key do
     end
   end
 
+  describe ".sign_typed_data" do
+    # ref https://github.com/MetaMask/eth-sig-util/blob/c2a01585928148644a194bca3f6d5560114dd365/src/sign-typed-data.test.ts
+    subject(:frank) { Eth::Key.new priv: "4af1bceebf7f3634ec3cff8a2c38e51178d5d4ce585c52d6043e5e2cc3418bb0" }
+
+    it "simply works" do
+      p "foo"
+    end
+  end
+
   describe ".private_key" do
     subject(:charlie) { Eth::Key.new }
 
@@ -121,8 +130,8 @@ describe Eth::Key do
 
   describe ".address" do
     it "generates the correct address from key" do
-      address = '0x759b427456623a33030bbC2195439C22A8a51d25'
-      private_hex = 'c3a4349f6e57cfd2cbba275e3b3d15a2e4cf00c89e067f6e05bfee25208f9cbb'
+      address = "0x759b427456623a33030bbC2195439C22A8a51d25"
+      private_hex = "c3a4349f6e57cfd2cbba275e3b3d15a2e4cf00c89e067f6e05bfee25208f9cbb"
       key = Eth::Key.new priv: private_hex
       expect(key.address.checksummed).to eq address
     end

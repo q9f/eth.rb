@@ -12,8 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-require 'rbsecp256k1'
-require 'securerandom'
+require "rbsecp256k1"
+require "securerandom"
 
 module Eth
 
@@ -30,7 +30,7 @@ module Eth
     # if no `priv` key is provided.
     #
     # @param priv [String] binary string of private key data (optional).
-    def initialize priv: nil
+    def initialize(priv: nil)
 
       # Creates a new, randomized libsecp256k1 context.
       ctx = Secp256k1::Context.new context_randomization_bytes: SecureRandom.random_bytes(32)
@@ -59,7 +59,7 @@ module Eth
     # @param message [String] the message string to be prefixed and signed.
     # @param chain_id [Integer] the chain id the signature should be generated on.
     # @return [String] an EIP-191 conform, hexa-decimal signature.
-    def personal_sign message, chain_id = Chain::ETHEREUM
+    def personal_sign(message, chain_id = Chain::ETHEREUM)
       context = Secp256k1::Context.new
       prefixed_message = Signature.prefix_message message
       hashed_message = Util.keccak256 prefixed_message
@@ -67,7 +67,12 @@ module Eth
       signature = compact.bytes
       v = Chain.to_v recovery_id, chain_id
       signature = signature.append v
-      Util.bin_to_hex signature.pack 'c*'
+      Util.bin_to_hex signature.pack "c*"
+    end
+
+    def sign_typed_data_v4(typed_data)
+      #hash = keccak256("\x19${byteVersion}${domainSeparator}${hashStruct(message)}")
+      typed_data
     end
 
     # Converts the private key data into a hexa-decimal string.
