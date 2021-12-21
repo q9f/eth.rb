@@ -86,6 +86,7 @@ module Eth
       types[primary_type.to_sym].each do |field|
         value = data[field[:name].to_sym]
         type = field[:type]
+        raise NotImplementedError, "Arrays currently unimplemented for EIP-712." if type.end_with? "]"
         if type == "string" or type == "bytes"
           encoded_types.push "bytes32"
           encoded_values.push Util.keccak256 value
@@ -93,8 +94,6 @@ module Eth
           encoded_types.push "bytes32"
           value = encode_data type, value, types
           encoded_values.push Util.keccak256 value
-        elsif type.end_with? "]"
-          raise NotImplementedError, "Arrays currently unimplemented."
         else
           encoded_types.push type
           encoded_values.push value
@@ -102,46 +101,26 @@ module Eth
       end
 
       # all data is abi-encoded
-      return Eth::Abi.encode encoded_types, encoded_values
+      return Abi.encode encoded_types, encoded_values
     end
 
     def hash_data(primary_type, data, types)
       encoded_data = encode_data primary_type, data, types
-      return Eth::Util.keccak256 encoded_data
+      return Util.keccak256 encoded_data
     end
 
-    def enforce_typed_data_v4(data, chain_id = Eth::Chain::ETHEREUM)
-      data = JSON.parse data if Eth::Util.is_hex? data
+    def enforce_typed_data_v4(data, chain_id = Chain::ETHEREUM)
+      data = JSON.parse data if Util.is_hex? data
       raise TypedDataError, "Data is missing, try again with data." if data.nil? or data.empty?
       raise TypedDataError, "Data types are missing." if data[:types].nil? or data[:types].empty?
       raise TypedDataError, "Data primaryType is missing." if data[:primaryType].nil? or data[:primaryType].empty?
-      raise TypedDataError, "Data domain is missing." if data[:domain].nil? or data[:domain].empty?
-      raise TypedDataError, "Data domain name is missing." if data[:domain][:name].nil? or data[:domain][:name].empty?
-      raise TypedDataError, "Data domain version is missing." if data[:domain][:version].nil? or data[:domain][:version].empty?
-      raise TypedDataError, "Data domain chainId is missing." if data[:domain][:chainId].nil? or data[:domain][:chainId] < 1
-      raise TypedDataError, "Data domain chainId mismatch. #{chain_id} != #{data[:domain][:chainId]}" if chain_id != data[:domain][:chainId]
-      raise TypedDataError, "Data domain verifyingContract is missing." if data[:domain][:verifyingContract].nil? or data[:domain][:verifyingContract].empty?
+      raise TypedDataError, "Data domain is missing." if data[:domain].nil?
       raise TypedDataError, "Data message is missing." if data[:message].nil? or data[:message].empty?
-      raise TypedDataError, "Data EIP712Domain is missing." if data[:types][:EIP712Domain].nil? or data[:types][:EIP712Domain].empty?
-      has_name = false
-      has_version = false
-      has_chain_id = false
-      has_verifying_contract = false
-      data[:types][:EIP712Domain].each do |domain|
-        has_name = true if domain[:name] == "name"
-        has_version = true if domain[:name] == "version"
-        has_chain_id = true if domain[:name] == "chainId"
-        has_verifying_contract = true if domain[:name] == "verifyingContract"
-      end
-      raise TypedDataError, "Data EIP712Domain name is missing." unless has_name
-      raise TypedDataError, "Data EIP712Domain version is missing." unless has_version
-      raise TypedDataError, "Data EIP712Domain chainId is missing." unless has_chain_id
-      raise TypedDataError, "Data EIP712Domain verifyingContract is missing." unless has_verifying_contract
-
-      data
+      raise TypedDataError, "Data EIP712Domain is missing." if data[:types][:EIP712Domain].nil?
+      return data
     end
 
-    def hash(data, chain_id = Eth::Chain::ETHEREUM)
+    def hash(data, chain_id = Chain::ETHEREUM)
       data = enforce_typed_data_v4 data, chain_id
 
       # EIP-191 prefix byte 0x19
@@ -155,7 +134,7 @@ module Eth
 
       # hashed message data
       buffer += hash_data data[:primaryType], data[:message], data[:types]
-      return Eth::Util.keccak256 buffer
+      return Util.keccak256 buffer
     end
   end
 end

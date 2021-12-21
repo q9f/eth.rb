@@ -70,9 +70,14 @@ module Eth
       Util.bin_to_hex signature.pack "c*"
     end
 
-    def sign_typed_data_v4(typed_data)
-      #hash = keccak256("\x19${byteVersion}${domainSeparator}${hashStruct(message)}")
-      typed_data
+    def sign_typed_data_v4(typed_data, chain_id = Chain::ETHEREUM)
+      context = Secp256k1::Context.new
+      hash_to_sign = Eip712.hash typed_data, chain_id
+      compact, recovery_id = context.sign_recoverable(@private_key, hash_to_sign).compact
+      signature = compact.bytes
+      v = Chain.to_v recovery_id, chain_id
+      signature = signature.append v
+      Util.bin_to_hex signature.pack "c*"
     end
 
     # Converts the private key data into a hexa-decimal string.

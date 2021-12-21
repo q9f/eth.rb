@@ -77,12 +77,80 @@ describe Eth::Key do
     end
   end
 
-  describe ".sign_typed_data" do
-    # ref https://github.com/MetaMask/eth-sig-util/blob/c2a01585928148644a194bca3f6d5560114dd365/src/sign-typed-data.test.ts
-    subject(:frank) { Eth::Key.new priv: "4af1bceebf7f3634ec3cff8a2c38e51178d5d4ce585c52d6043e5e2cc3418bb0" }
+  describe ".sign_typed_data_v4" do
 
-    it "simply works" do
-      p "foo"
+    # The EIP-712 example data structure for Mail.
+    subject(:mail_data) {
+      {
+        :types => {
+          :EIP712Domain => [
+            { :name => "name", :type => "string" },
+            { :name => "version", :type => "string" },
+            { :name => "chainId", :type => "uint256" },
+            { :name => "verifyingContract", :type => "address" },
+          ],
+          :Person => [
+            { :name => "name", :type => "string" },
+            { :name => "wallet", :type => "address" },
+          ],
+          :Mail => [
+            { :name => "from", :type => "Person" },
+            { :name => "to", :type => "Person" },
+            { :name => "contents", :type => "string" },
+          ],
+        },
+        :primaryType => "Mail",
+        :domain => {
+          :name => "Ether Mail",
+          :version => "1",
+          :chainId => Eth::Chain::ETHEREUM,
+          :verifyingContract => Eth::Address.new("0xCcCCccccCCCCcCCCCCCcCcCccCcCCCcCcccccccC").checksummed,
+        },
+        :message => {
+          :from => {
+            :name => "Cow",
+            :wallet => Eth::Address.new("0xCD2a3d9F938E13CD947Ec05AbC7FE734Df8DD826").checksummed,
+          },
+          :to => {
+            :name => "Bob",
+            :wallet => Eth::Address.new("0xbBbBBBBbbBBBbbbBbbBbbbbBBbBbbbbBbBbbBBbB").checksummed,
+          },
+          :contents => "Hello, Bob!",
+        },
+      }
+    }
+
+    # ref https://github.com/ethereum/EIPs/blob/7f606a6e0e24bcf38d18e5a8cd9fbc71565f3257/assets/eip-712/Example.js#L126
+    subject(:cow) { Eth::Key.new priv: Eth::Util.keccak256("cow") }
+
+    it "passes EIP-712 mail example with private key of cow" do
+      expect(cow.address.to_s).to eq mail_data[:message][:from][:wallet]
+      expect(cow.sign_typed_data_v4 mail_data, Eth::Chain::ETHEREUM).to eq "4355c47d63924e8a72e509b65029052eb6c299d53a04e167c5775fd466751c9d07299936d304c153f6443dfa05f40ff007d72911b6f72307f996231605b9156226"
+    end
+
+    # The EIP-712 test from MetaMask.
+    # ref https://github.com/MetaMask/eth-sig-util/blob/73ace3309bf4b97d901fb66cd61db15eede7afe9/src/sign-typed-data.test.ts#L6311
+    subject(:test_data) {
+      {
+        :types => {
+          :EIP712Domain => [],
+          :Message => [
+            { :name => "data", :type => "string" },
+          ],
+        },
+        :primaryType => "Message",
+        :domain => {},
+        :message => {
+          :data => "test",
+        },
+      }
+    }
+
+    # ref https://github.com/MetaMask/eth-sig-util/blob/73ace3309bf4b97d901fb66cd61db15eede7afe9/src/sign-typed-data.test.ts#L11
+    subject(:grace) { Eth::Key.new priv: "4af1bceebf7f3634ec3cff8a2c38e51178d5d4ce585c52d6043e5e2cc3418bb0" }
+
+    it "passes EIP-712 mail example with private key of cow" do
+      expect(grace.sign_typed_data_v4 test_data, Eth::Chain::ETHEREUM).to eq "f6cda8eaf5137e8cc15d48d03a002b0512446e2a7acbc576c01cfbe40ad9345663ccda8884520d98dece9a8bfe38102851bdae7f69b3d8612b9808e63378016025"
     end
   end
 
