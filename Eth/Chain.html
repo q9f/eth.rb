@@ -602,7 +602,7 @@
     <td>
       <pre class="code"><span class="info file"># File 'lib/eth/chain.rb', line 88</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_is_legacy?'>is_legacy?</span> <span class='id identifier rubyid_v'>v</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_is_legacy?'>is_legacy?</span><span class='lparen'>(</span><span class='id identifier rubyid_v'>v</span><span class='rparen'>)</span>
   <span class='lbracket'>[</span><span class='int'>27</span><span class='comma'>,</span> <span class='int'>28</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='id identifier rubyid_v'>v</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -733,7 +733,7 @@
     <td>
       <pre class="code"><span class="info file"># File 'lib/eth/chain.rb', line 99</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_to_recovery_id'>to_recovery_id</span> <span class='id identifier rubyid_v'>v</span><span class='comma'>,</span> <span class='id identifier rubyid_chain_id'>chain_id</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="#ETHEREUM-constant" title="Eth::Chain::ETHEREUM (constant)">ETHEREUM</a></span></span>
+<span class='kw'>def</span> <span class='id identifier rubyid_to_recovery_id'>to_recovery_id</span><span class='lparen'>(</span><span class='id identifier rubyid_v'>v</span><span class='comma'>,</span> <span class='id identifier rubyid_chain_id'>chain_id</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="#ETHEREUM-constant" title="Eth::Chain::ETHEREUM (constant)">ETHEREUM</a></span></span><span class='rparen'>)</span>
   <span class='id identifier rubyid_e'>e</span> <span class='op'>=</span> <span class='int'>0</span> <span class='op'>+</span> <span class='int'>2</span> <span class='op'>*</span> <span class='id identifier rubyid_chain_id'>chain_id</span> <span class='op'>+</span> <span class='int'>35</span>
   <span class='id identifier rubyid_i'>i</span> <span class='op'>=</span> <span class='int'>1</span> <span class='op'>+</span> <span class='int'>2</span> <span class='op'>*</span> <span class='id identifier rubyid_chain_id'>chain_id</span> <span class='op'>+</span> <span class='int'>35</span>
   <span class='kw'>if</span> <span class='lbracket'>[</span><span class='int'>0</span><span class='comma'>,</span> <span class='int'>1</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='id identifier rubyid_v'>v</span>
@@ -846,7 +846,7 @@
     <td>
       <pre class="code"><span class="info file"># File 'lib/eth/chain.rb', line 124</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_to_v'>to_v</span> <span class='id identifier rubyid_recovery_id'>recovery_id</span><span class='comma'>,</span> <span class='id identifier rubyid_chain_id'>chain_id</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="#ETHEREUM-constant" title="Eth::Chain::ETHEREUM (constant)">ETHEREUM</a></span></span>
+<span class='kw'>def</span> <span class='id identifier rubyid_to_v'>to_v</span><span class='lparen'>(</span><span class='id identifier rubyid_recovery_id'>recovery_id</span><span class='comma'>,</span> <span class='id identifier rubyid_chain_id'>chain_id</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="#ETHEREUM-constant" title="Eth::Chain::ETHEREUM (constant)">ETHEREUM</a></span></span><span class='rparen'>)</span>
   <span class='id identifier rubyid_v'>v</span> <span class='op'>=</span> <span class='int'>2</span> <span class='op'>*</span> <span class='id identifier rubyid_chain_id'>chain_id</span> <span class='op'>+</span> <span class='int'>35</span> <span class='op'>+</span> <span class='id identifier rubyid_recovery_id'>recovery_id</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -859,7 +859,7 @@
 </div>
 
       <div id="footer">
-  Generated on Thu Dec 16 12:23:25 2021 by
+  Generated on Tue Dec 21 13:26:31 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.27 (ruby-2.7.5).
 </div>
