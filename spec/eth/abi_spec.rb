@@ -144,7 +144,7 @@ describe Eth::Abi do
       expect(Eth::Abi.decode_type(t_bool, Eth::Abi.encode_type(t_bool, false))).to eq false
 
       # uncovered edge case
-      expect(Eth::Abi.decode_type(Eth::Abi::Type.new("hash", 32, [1]), "8cb9d52661513ac5490483c79ac715f5dd572bfb")).to eq ["8cb9d52661513ac5490483c79ac715f5dd572bfb"]
+      expect(Eth::Abi.decode_type(Eth::Abi::Type.new("hash", 32, [1]), "8cb9d52661513ac5490483c79ac715f5")).to eq ["8cb9d52661513ac5490483c79ac715f5"]
     end
   end
 
