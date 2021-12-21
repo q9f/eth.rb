@@ -35,7 +35,7 @@ describe Eth::Abi do
       end
     end
 
-    it "can do both ;)" do
+    it "can do both ways, back and forth" do
       basic_abi_tests.each do |test|
         types = test.last["types"]
         args = test.last["args"]
@@ -59,6 +59,99 @@ describe Eth::Abi do
         expect(Eth::Abi.decode(["int8"], Eth::Abi.encode(["int8"], [1]))[0]).to eq 1
         expect(Eth::Abi.decode(["int8"], Eth::Abi.encode(["int8"], [-1]))[0]).to eq -1
       end
+    end
+
+    it "can do encode and decode complex types" do
+      types = [
+        "bool",
+        "string",
+        "hash8",
+        "hash16",
+        "hash32",
+        "address",
+        "bytes8",
+        "bytes16",
+        "bytes32",
+        "uint8",
+        "uint32",
+        "uint256",
+        "int8",
+        "int32",
+        "int256",
+        "ufixed8x248",
+        "ufixed128x128",
+        "ufixed224x32",
+        "fixed16x240",
+        "fixed120x136",
+        "fixed192x64",
+        "ureal32x224",
+        "ureal112x144",
+        "ureal216x40",
+        "real24x232",
+        "real104x152",
+        "real184x72",
+      ]
+      args = [
+        true,
+        "Lorem, Ipsum!",
+        "5ea2f483",
+        "f857a5f69ef3b1d6",
+        "727aa2fc7c37dae7f8715034a30684e5",
+        "0x3ea1e26a2119b038eaf9b27e65cdb401502ae7a4",
+        "k\xDE\xCE\xA1[-\xFC\xB6",
+        "\b7\x01\xCA\xAA\xD1\x19\x03N\xDD\xE8\xA9\x90\xBD\xAD\xC4",
+        "=\x8B\xFB\x13h\xAE\xE2i>\xB3%\xAF\x9F\x81$K\x190K\b{IA\xA1\xE8\x92\xDAP\xBDH\xDF\xE1",
+        174,
+        3893363474,
+        60301460096010527055210599022636314318554451862510786612212422174837688365153,
+        -113,
+        1601895622,
+        -4153010759215853346544872368790226810347211436084119296615430562753409734914,
+        63.66398777006226123760574089008052721339184438673538796217134096628685915738,
+        177074929705982418363572194112273.8827238551808681127279347507282393998519465,
+        98821499299418253575581118390193337030843895142216397267540857889.01747448956,
+        27.30074931250845250070758776089747538801742179664476308779818324270386087829,
+        -82228826788593438090560643103.5277820203588472468244458211870022854970130269,
+        -84123285919081893514125223546444622436439372822803331.1512193120013670384488,
+        629856372.6605513722051544588955980424785476894635842015455370355715449804527,
+        33411609757213064037378963.77614307961944113929290314212116855493713727600085,
+        81920174834144284202135339815838923296212377714320.77878686626123859401392123,
+        -4866211.62692133852235672791699382572457989527277715672430590813883295619920,
+        -59242022988589225026181.9155783240648197176958994738042609518397368061096803,
+        -91319989741702771619440858588015844636341111.5686669249816377141872992204449,
+      ]
+      encoded = Eth::Abi.encode types, args
+      decoded = Eth::Abi.decode types, encoded
+      expect(decoded).to eq args
+      expect(Eth::Abi.encode types, decoded).to eq encoded
+
+      # p decoded
+
+      nested_types = [
+        "bool[]",
+        "address[]",
+        "bytes32[]",
+      ]
+      nested_args = [
+        [
+          true,
+          false,
+        ],
+        [
+          "0x84ad87d794f867befc597ebae4200b607d0cd9bd",
+          "0xb8425e726762a40057a027a0cb7226b9fe6d7e9a",
+          "0xcf960c64b6bb464f30aa2e5a245176438b046e58",
+        ],
+        [
+          "\x13\xAE^]b\xD2\xDAD^\x05\b\e\xA8\xD5\x1DK\xBFO\xC7\xDA-ev!\xA1\xABxZ\xA2\x1CE\xEF",
+          "\"\x81\x182\xB2\xFC\xC9\e+\xC2.\x19\x83\xAC\xCA\xAC\x05\x18hK\xB5Wf\xBA\x12\xB6\xC8\xA8+Ymp",
+          "9\x18\x8C/*\xF7\x9Bpn\x86\b\x05\v\xC2\xA2Q\xD1n\x01w\n\xE6\xA1\xDFo\xBC\xA2.>\x9F\xDD\xE7",
+        ],
+      ]
+      nested_encoded = Eth::Abi.encode nested_types, nested_args
+      nested_decoded = Eth::Abi.decode nested_types, nested_encoded
+      expect(nested_decoded).to eq nested_args
+      expect(Eth::Abi.encode nested_types, nested_decoded).to eq nested_encoded
     end
   end
 
