@@ -16,11 +16,21 @@
 module Eth
 
   # Defines handy tools for encoding typed structured data as per EIP-712.
+  # ref: https://eips.ethereum.org/EIPS/eip-712
   module Eip712
     extend self
 
+    # Provides a special typed-data error if data structure fails basic
+    # verification.
     class TypedDataError < StandardError; end
 
+    # Scans all dependencies of a given type recursively and returns
+    # either all dependencies or none if not found.
+    #
+    # @param primary_type [String] the primary type which we want to scan.
+    # @param types [Array] all existing types in the data structure.
+    # @param result [Array] found results from previous recursions.
+    # @return [Array] all dependent types for the given primary type.
     def type_dependencies(primary_type, types, result = [])
       if result.include? primary_type
 
@@ -43,6 +53,13 @@ module Eth
       end
     end
 
+    # Encode types as an EIP-712 confrom string, e.g.,
+    # `MyType(string attribute)`.
+    #
+    # @param primary_type [String] the type which we want to encode.
+    # @param types [Array] all existing types in the data structure.
+    # @return [String] an EIP-712 encoded type-string.
+    # @raise [ArgumentError] if non-primary type found.
     def encode_type(primary_type, types)
 
       # get all used types
@@ -67,15 +84,25 @@ module Eth
         result += types[type.to_sym].map { |t| "#{t[:type]} #{t[:name]}" }.join(",")
         result += ")"
       end
-
       return result
     end
 
+    # Hashes an EIP-712 confrom type-string.
+    #
+    # @param primary_type [String] the type which we want to hash.
+    # @param types [Array] all existing types in the data structure.
+    # @return [String] a Keccak-256 hash of an EIP-712 encoded type-string.
     def hash_type(primary_type, types)
       encoded_type = encode_type primary_type, types
       return Util.keccak256 encoded_type
     end
 
+    # Recursively ABI-encodes all data and types according to EIP-712.
+    #
+    # @param primary_type [String] the primary type which we want to encode.
+    # @param data [Array] the data in the data structure we want to encode.
+    # @param types [Array] all existing types in the data structure.
+    # @return [String] an ABI-encoded representation of the data and the types.
     def encode_data(primary_type, data, types)
 
       # first data field is the type hash
@@ -104,12 +131,24 @@ module Eth
       return Abi.encode encoded_types, encoded_values
     end
 
+    # Recursively ABI-encodes and hashes all data and types.
+    #
+    # @param primary_type [String] the primary type which we want to hash.
+    # @param data [Array] the data in the data structure we want to hash.
+    # @param types [Array] all existing types in the data structure.
+    # @return [String] a Keccak-256 hash of the ABI-encoded data and types.
     def hash_data(primary_type, data, types)
       encoded_data = encode_data primary_type, data, types
       return Util.keccak256 encoded_data
     end
 
-    def enforce_typed_data_v4(data)
+    # Enforces basic properties to be represented in the EIP-712 typed
+    # data structure: types, domain, message, etc.
+    #
+    # @param data [Array] the data in the data structure we want to hash.
+    # @return [Array] the data in the data structure we want to hash.
+    # @raise [TypedDataError] if the data fails validation.
+    def enforce_typed_data(data)
       data = JSON.parse data if Util.is_hex? data
       raise TypedDataError, "Data is missing, try again with data." if data.nil? or data.empty?
       raise TypedDataError, "Data types are missing." if data[:types].nil? or data[:types].empty?
@@ -120,14 +159,19 @@ module Eth
       return data
     end
 
+    # Hashes a typed data structure with Keccak-256 to prepare a signed
+    # typed data operation respecting EIP-712.
+    #
+    # @param data [Array] all the data in the typed data structure.
+    # @return [String] a Keccak-256 hash of the EIP-712-encoded typed data.
     def hash(data)
-      data = enforce_typed_data_v4 data
+      data = enforce_typed_data data
 
-      # EIP-191 prefix byte 0x19
-      buffer = "\x19"
+      # EIP-191 prefix byte
+      buffer = Signature::EIP191_PREFIX_BYTE
 
-      # EIP-712 version byte 0x01
-      buffer += "\x01"
+      # EIP-712 version byte
+      buffer += Signature::EIP712_VERSION_BYTE
 
       # hashed domain data
       buffer += hash_data "EIP712Domain", data[:domain], data[:types]

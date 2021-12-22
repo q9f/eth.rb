@@ -21,6 +21,12 @@ module Eth
   module Signature
     extend self
 
+    # EIP-191 prefix byte 0x19
+    EIP191_PREFIX_BYTE = "\x19"
+
+    # EIP-712 version byte 0x01
+    EIP712_VERSION_BYTE = "\x01"
+
     # Prefix message as per EIP-191 with 0x19 to ensure the data is not
     # valid RLP and thus not mistaken for a transaction.
     # EIP-191 Version byte: 0x45 (E)
@@ -29,7 +35,7 @@ module Eth
     # @param message [String] the message string to be prefixed.
     # @return [String] an EIP-191 prefixed string
     def prefix_message(message)
-      "\x19Ethereum Signed Message:\n#{message.size}#{message}"
+      "#{EIP191_PREFIX_BYTE}Ethereum Signed Message:\n#{message.size}#{message}"
     end
 
     # Recovers a uncompressed public key from a message and a signature
