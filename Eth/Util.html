@@ -754,12 +754,12 @@
       <pre class="lines">
 
 
-134
 135
-136</pre>
+136
+137</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/util.rb', line 134</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/util.rb', line 135</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_ceil32'>ceil32</span><span class='lparen'>(</span><span class='id identifier rubyid_num'>num</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_num'>num</span> <span class='op'>%</span> <span class='int'>32</span> <span class='op'>==</span> <span class='int'>0</span> <span class='op'>?</span> <span class='id identifier rubyid_num'>num</span> <span class='op'>:</span> <span class='lparen'>(</span><span class='id identifier rubyid_num'>num</span> <span class='op'>+</span> <span class='int'>32</span> <span class='op'>-</span> <span class='id identifier rubyid_num'>num</span> <span class='op'>%</span> <span class='int'>32</span><span class='rparen'>)</span>
@@ -833,12 +833,12 @@
       <pre class="lines">
 
 
-126
 127
-128</pre>
+128
+129</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/util.rb', line 126</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/util.rb', line 127</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_deserialize_big_endian_to_int'>deserialize_big_endian_to_int</span><span class='lparen'>(</span><span class='id identifier rubyid_str'>str</span><span class='rparen'>)</span>
   <span class='const'>RLP</span><span class='op'>::</span><span class='const'>Sedes</span><span class='period'>.</span><span class='id identifier rubyid_big_endian_int'>big_endian_int</span><span class='period'>.</span><span class='id identifier rubyid_deserialize'>deserialize</span> <span class='id identifier rubyid_str'>str</span><span class='period'>.</span><span class='id identifier rubyid_sub'>sub</span><span class='lparen'>(</span><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>\A(\x00)+</span><span class='regexp_end'>/</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
@@ -1018,12 +1018,14 @@
 97
 98
 99
-100</pre>
+100
+101</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/eth/util.rb', line 97</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_is_hex?'>is_hex?</span><span class='lparen'>(</span><span class='id identifier rubyid_str'>str</span><span class='rparen'>)</span>
+  <span class='kw'>return</span> <span class='kw'>false</span> <span class='kw'>unless</span> <span class='id identifier rubyid_str'>str</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span> <span class='const'>String</span>
   <span class='id identifier rubyid_str'>str</span> <span class='op'>=</span> <span class='id identifier rubyid_remove_hex_prefix'>remove_hex_prefix</span> <span class='id identifier rubyid_str'>str</span>
   <span class='id identifier rubyid_str'>str</span><span class='period'>.</span><span class='id identifier rubyid_match'>match</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>\A[0-9a-fA-F]*\z</span><span class='regexp_end'>/</span></span>
 <span class='kw'>end</span></pre>
@@ -1096,12 +1098,12 @@
       <pre class="lines">
 
 
-106
 107
-108</pre>
+108
+109</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/util.rb', line 106</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/util.rb', line 107</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_is_prefixed?'>is_prefixed?</span><span class='lparen'>(</span><span class='id identifier rubyid_hex'>hex</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_hex'>hex</span><span class='period'>.</span><span class='id identifier rubyid_match'>match</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>\A0x</span><span class='regexp_end'>/</span></span>
@@ -1286,13 +1288,13 @@
       <pre class="lines">
 
 
-144
 145
 146
-147</pre>
+147
+148</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/util.rb', line 144</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/util.rb', line 145</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_lpad'>lpad</span><span class='lparen'>(</span><span class='id identifier rubyid_str'>str</span><span class='comma'>,</span> <span class='id identifier rubyid_sym'>sym</span><span class='comma'>,</span> <span class='id identifier rubyid_len'>len</span><span class='rparen'>)</span>
   <span class='kw'>return</span> <span class='id identifier rubyid_str'>str</span> <span class='kw'>if</span> <span class='id identifier rubyid_str'>str</span><span class='period'>.</span><span class='id identifier rubyid_size'>size</span> <span class='op'>&gt;=</span> <span class='id identifier rubyid_len'>len</span>
@@ -1596,15 +1598,15 @@
       <pre class="lines">
 
 
-115
 116
 117
 118
 119
-120</pre>
+120
+121</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/util.rb', line 115</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/util.rb', line 116</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_serialize_int_to_big_endian'>serialize_int_to_big_endian</span><span class='lparen'>(</span><span class='id identifier rubyid_num'>num</span><span class='rparen'>)</span>
   <span class='kw'>unless</span> <span class='id identifier rubyid_num'>num</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span> <span class='const'>Integer</span> <span class='kw'>and</span> <span class='id identifier rubyid_num'>num</span> <span class='op'>&gt;=</span> <span class='int'>0</span> <span class='kw'>and</span> <span class='id identifier rubyid_num'>num</span> <span class='op'>&lt;=</span> <span class='const'><span class='object_link'><a href="Abi.html" title="Eth::Abi (module)">Abi</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Abi/Constant.html#UINT_MAX-constant" title="Eth::Abi::Constant::UINT_MAX (constant)">UINT_MAX</a></span></span>
@@ -1697,12 +1699,12 @@
       <pre class="lines">
 
 
-154
 155
-156</pre>
+156
+157</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/util.rb', line 154</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/util.rb', line 155</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_zpad'>zpad</span><span class='lparen'>(</span><span class='id identifier rubyid_str'>str</span><span class='comma'>,</span> <span class='id identifier rubyid_len'>len</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_lpad'>lpad</span> <span class='id identifier rubyid_str'>str</span><span class='comma'>,</span> <span class='const'><span class='object_link'><a href="Abi.html" title="Eth::Abi (module)">Abi</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Abi/Constant.html#BYTE_ZERO-constant" title="Eth::Abi::Constant::BYTE_ZERO (constant)">BYTE_ZERO</a></span></span><span class='comma'>,</span> <span class='id identifier rubyid_len'>len</span>
@@ -1794,12 +1796,12 @@
       <pre class="lines">
 
 
-163
 164
-165</pre>
+165
+166</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/util.rb', line 163</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/util.rb', line 164</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_zpad_hex'>zpad_hex</span><span class='lparen'>(</span><span class='id identifier rubyid_hex'>hex</span><span class='comma'>,</span> <span class='id identifier rubyid_len'>len</span> <span class='op'>=</span> <span class='int'>32</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_zpad'>zpad</span> <span class='id identifier rubyid_hex_to_bin'>hex_to_bin</span><span class='lparen'>(</span><span class='id identifier rubyid_hex'>hex</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='id identifier rubyid_len'>len</span>
@@ -1891,12 +1893,12 @@
       <pre class="lines">
 
 
-172
 173
-174</pre>
+174
+175</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/util.rb', line 172</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/util.rb', line 173</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_zpad_int'>zpad_int</span><span class='lparen'>(</span><span class='id identifier rubyid_num'>num</span><span class='comma'>,</span> <span class='id identifier rubyid_len'>len</span> <span class='op'>=</span> <span class='int'>32</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_zpad'>zpad</span> <span class='id identifier rubyid_serialize_int_to_big_endian'>serialize_int_to_big_endian</span><span class='lparen'>(</span><span class='id identifier rubyid_num'>num</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='id identifier rubyid_len'>len</span>
@@ -1911,7 +1913,7 @@
 </div>
 
       <div id="footer">
-  Generated on Tue Dec 21 13:26:31 2021 by
+  Generated on Wed Dec 22 13:40:11 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.27 (ruby-2.7.5).
 </div>

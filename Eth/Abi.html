@@ -396,8 +396,6 @@
       <pre class="lines">
 
 
-217
-218
 219
 220
 221
@@ -445,15 +443,17 @@
 263
 264
 265
-266</pre>
+266
+267
+268</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/abi.rb', line 217</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/abi.rb', line 219</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_decode'>decode</span><span class='lparen'>(</span><span class='id identifier rubyid_types'>types</span><span class='comma'>,</span> <span class='id identifier rubyid_data'>data</span><span class='rparen'>)</span>
 
   <span class='comment'># accept hex abi but decode it first
-</span>  <span class='id identifier rubyid_data'>data</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Eth.html" title="Eth (module)">Eth</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_hex_to_bin'><span class='object_link'><a href="Util.html#hex_to_bin-instance_method" title="Eth::Util#hex_to_bin (method)">hex_to_bin</a></span></span> <span class='id identifier rubyid_data'>data</span> <span class='kw'>if</span> <span class='const'><span class='object_link'><a href="../Eth.html" title="Eth (module)">Eth</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_is_hex?'><span class='object_link'><a href="Util.html#is_hex%3F-instance_method" title="Eth::Util#is_hex? (method)">is_hex?</a></span></span> <span class='id identifier rubyid_data'>data</span>
+</span>  <span class='id identifier rubyid_data'>data</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_hex_to_bin'><span class='object_link'><a href="Util.html#hex_to_bin-instance_method" title="Eth::Util#hex_to_bin (method)">hex_to_bin</a></span></span> <span class='id identifier rubyid_data'>data</span> <span class='kw'>if</span> <span class='const'><span class='object_link'><a href="Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_is_hex?'><span class='object_link'><a href="Util.html#is_hex%3F-instance_method" title="Eth::Util#is_hex? (method)">is_hex?</a></span></span> <span class='id identifier rubyid_data'>data</span>
 
   <span class='comment'># parse all types
 </span>  <span class='id identifier rubyid_parsed_types'>parsed_types</span> <span class='op'>=</span> <span class='id identifier rubyid_types'>types</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_t'>t</span><span class='op'>|</span> <span class='const'><span class='object_link'><a href="Abi/Type.html" title="Eth::Abi::Type (class)">Type</a></span></span><span class='period'>.</span><span class='id identifier rubyid_parse'><span class='object_link'><a href="Abi/Type.html#parse-class_method" title="Eth::Abi::Type.parse (method)">parse</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_t'>t</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
@@ -603,10 +603,6 @@
       <pre class="lines">
 
 
-308
-309
-310
-311
 312
 313
 314
@@ -653,10 +649,14 @@
 355
 356
 357
-358</pre>
+358
+359
+360
+361
+362</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/abi.rb', line 308</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/abi.rb', line 312</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_decode_primitive_type'>decode_primitive_type</span><span class='lparen'>(</span><span class='id identifier rubyid_type'>type</span><span class='comma'>,</span> <span class='id identifier rubyid_data'>data</span><span class='rparen'>)</span>
   <span class='kw'>case</span> <span class='id identifier rubyid_type'>type</span><span class='period'>.</span><span class='id identifier rubyid_base_type'>base_type</span>
@@ -812,8 +812,6 @@
       <pre class="lines">
 
 
-274
-275
 276
 277
 278
@@ -838,10 +836,14 @@
 297
 298
 299
-300</pre>
+300
+301
+302
+303
+304</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/abi.rb', line 274</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/abi.rb', line 276</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_decode_type'>decode_type</span><span class='lparen'>(</span><span class='id identifier rubyid_type'>type</span><span class='comma'>,</span> <span class='id identifier rubyid_arg'>arg</span><span class='rparen'>)</span>
   <span class='kw'>if</span> <span class='qwords_beg'>%w(</span><span class='tstring_content'>string</span><span class='words_sep'> </span><span class='tstring_content'>bytes</span><span class='tstring_end'>)</span></span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='id identifier rubyid_type'>type</span><span class='period'>.</span><span class='id identifier rubyid_base_type'>base_type</span><span class='rparen'>)</span> <span class='kw'>and</span> <span class='id identifier rubyid_type'>type</span><span class='period'>.</span><span class='id identifier rubyid_sub_type'>sub_type</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
@@ -854,7 +856,9 @@
   <span class='kw'>elsif</span> <span class='id identifier rubyid_type'>type</span><span class='period'>.</span><span class='id identifier rubyid_is_dynamic?'>is_dynamic?</span>
     <span class='id identifier rubyid_l'>l</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_deserialize_big_endian_to_int'><span class='object_link'><a href="Util.html#deserialize_big_endian_to_int-instance_method" title="Eth::Util#deserialize_big_endian_to_int (method)">deserialize_big_endian_to_int</a></span></span> <span class='id identifier rubyid_arg'>arg</span><span class='lbracket'>[</span><span class='int'>0</span><span class='comma'>,</span> <span class='int'>32</span><span class='rbracket'>]</span>
     <span class='id identifier rubyid_nested_sub'>nested_sub</span> <span class='op'>=</span> <span class='id identifier rubyid_type'>type</span><span class='period'>.</span><span class='id identifier rubyid_nested_sub'>nested_sub</span>
-    <span class='id identifier rubyid_raise'>raise</span> <span class='const'>UnimplementedError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Decoding dynamic arrays with nested dynamic sub-types</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_nested_sub'>nested_sub</span><span class='period'>.</span><span class='id identifier rubyid_is_dynamic?'>is_dynamic?</span>
+
+    <span class='comment'># ref https://github.com/ethereum/tests/issues/691
+</span>    <span class='id identifier rubyid_raise'>raise</span> <span class='const'>NotImplementedError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Decoding dynamic arrays with nested dynamic sub-types is not implemented for ABI.</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_nested_sub'>nested_sub</span><span class='period'>.</span><span class='id identifier rubyid_is_dynamic?'>is_dynamic?</span>
 
     <span class='comment'># decoded dynamic-sized arrays
 </span>    <span class='kw'>return</span> <span class='lparen'>(</span><span class='int'>0</span><span class='op'>...</span><span class='id identifier rubyid_l'>l</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_i'>i</span><span class='op'>|</span> <span class='id identifier rubyid_decode_type'>decode_type</span><span class='lparen'>(</span><span class='id identifier rubyid_nested_sub'>nested_sub</span><span class='comma'>,</span> <span class='id identifier rubyid_arg'>arg</span><span class='lbracket'>[</span><span class='int'>32</span> <span class='op'>+</span> <span class='id identifier rubyid_nested_sub'>nested_sub</span><span class='period'>.</span><span class='id identifier rubyid_size'>size</span> <span class='op'>*</span> <span class='id identifier rubyid_i'>i</span><span class='comma'>,</span> <span class='id identifier rubyid_nested_sub'>nested_sub</span><span class='period'>.</span><span class='id identifier rubyid_size'>size</span><span class='rbracket'>]</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
@@ -1138,8 +1142,6 @@
       <pre class="lines">
 
 
-117
-118
 119
 120
 121
@@ -1230,10 +1232,12 @@
 206
 207
 208
-209</pre>
+209
+210
+211</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/abi.rb', line 117</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/abi.rb', line 119</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_encode_primitive_type'>encode_primitive_type</span><span class='lparen'>(</span><span class='id identifier rubyid_type'>type</span><span class='comma'>,</span> <span class='id identifier rubyid_arg'>arg</span><span class='rparen'>)</span>
   <span class='kw'>case</span> <span class='id identifier rubyid_type'>type</span><span class='period'>.</span><span class='id identifier rubyid_base_type'>base_type</span>
@@ -1463,7 +1467,9 @@
 104
 105
 106
-107</pre>
+107
+108
+109</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/eth/abi.rb', line 75</span>
@@ -1485,7 +1491,9 @@
     <span class='id identifier rubyid_nested_sub'>nested_sub</span> <span class='op'>=</span> <span class='id identifier rubyid_type'>type</span><span class='period'>.</span><span class='id identifier rubyid_nested_sub'>nested_sub</span>
     <span class='id identifier rubyid_nested_sub_size'>nested_sub_size</span> <span class='op'>=</span> <span class='id identifier rubyid_type'>type</span><span class='period'>.</span><span class='id identifier rubyid_nested_sub'>nested_sub</span><span class='period'>.</span><span class='id identifier rubyid_size'>size</span>
     <span class='id identifier rubyid_arg'>arg</span><span class='period'>.</span><span class='id identifier rubyid_size'>size</span><span class='period'>.</span><span class='id identifier rubyid_times'>times</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_i'>i</span><span class='op'>|</span>
-      <span class='id identifier rubyid_raise'>raise</span> <span class='const'>UnimplementedError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Encoding dynamic arrays with nested dynamic sub-types</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_nested_sub'>nested_sub</span><span class='period'>.</span><span class='id identifier rubyid_is_dynamic?'>is_dynamic?</span>
+
+      <span class='comment'># ref https://github.com/ethereum/tests/issues/691
+</span>      <span class='id identifier rubyid_raise'>raise</span> <span class='const'>NotImplementedError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Encoding dynamic arrays with nested dynamic sub-types is not implemented for ABI.</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_nested_sub'>nested_sub</span><span class='period'>.</span><span class='id identifier rubyid_is_dynamic?'>is_dynamic?</span>
       <span class='id identifier rubyid_head'>head</span> <span class='op'>+=</span> <span class='id identifier rubyid_encode_type'>encode_type</span> <span class='id identifier rubyid_nested_sub'>nested_sub</span><span class='comma'>,</span> <span class='id identifier rubyid_arg'>arg</span><span class='lbracket'>[</span><span class='id identifier rubyid_i'>i</span><span class='rbracket'>]</span>
     <span class='kw'>end</span>
     <span class='kw'>return</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_head'>head</span><span class='embexpr_end'>}</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_tail'>tail</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
@@ -1511,7 +1519,7 @@
 </div>
 
       <div id="footer">
-  Generated on Tue Dec 21 13:26:31 2021 by
+  Generated on Wed Dec 22 13:40:11 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.27 (ruby-2.7.5).
 </div>
