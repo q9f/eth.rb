@@ -100,6 +100,16 @@ module Eth
       str.match /\A[0-9a-fA-F]*\z/
     end
 
+    # Checks if a string is maybe binary. Should be used with caution.
+    #
+    # @param str [String] a string to be checked.
+    # @return [Bool] true if encoding is "ASCII_8BIT"; false if not.
+    # @raise [ArgumentError] if no String is provided.
+    def maybe_bin?(str)
+      return ArgumentError, "Please provide a String!" unless str.is_a? String
+      return str.encoding == Encoding::ASCII_8BIT
+    end
+
     # Checks if a string is prefixed with `0x`.
     #
     # @param hex [String] a string to be checked.

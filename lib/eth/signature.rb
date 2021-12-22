@@ -82,7 +82,7 @@ module Eth
     # @param signature [String] the hex string containing the signature.
     # @param chain_id [Integer] the chain ID the signature should be recovered from.
     # @return [String] a hexa-decimal, uncompressed public key.
-    def recover_typed_data(typed_data, signature, chain_id)
+    def recover_typed_data(typed_data, signature, chain_id = Chain::ETHEREUM)
       hash_to_sign = Eip712.hash typed_data
       recover hash_to_sign, signature, chain_id
     end
@@ -97,7 +97,7 @@ module Eth
     # @raise [ArgumentError] if it cannot determine the type of data or public key.
     def verify(blob, signature, public_key, chain_id = Chain::ETHEREUM)
       recovered_key = nil
-      if blob.instance_of? String and !Util.is_hex? blob
+      if blob.instance_of? String and !Util.is_hex? blob and !Util.maybe_bin? blob
 
         # recover message from personal_sign
         recovered_key = personal_recover blob, signature, chain_id

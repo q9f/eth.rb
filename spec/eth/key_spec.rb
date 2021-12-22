@@ -171,7 +171,7 @@ describe Eth::Key do
     # ref https://github.com/MetaMask/eth-sig-util/blob/73ace3309bf4b97d901fb66cd61db15eede7afe9/src/sign-typed-data.test.ts#L11
     subject(:grace) { Eth::Key.new priv: "4af1bceebf7f3634ec3cff8a2c38e51178d5d4ce585c52d6043e5e2cc3418bb0" }
 
-    it "passes EIP-712 mail example with private key of cow" do
+    it "passes EIP-712 metamask test data with known private key" do
       expect(grace.sign_typed_data test_data).to eq "f6cda8eaf5137e8cc15d48d03a002b0512446e2a7acbc576c01cfbe40ad9345663ccda8884520d98dece9a8bfe38102851bdae7f69b3d8612b9808e63378016025"
     end
   end
