@@ -97,15 +97,15 @@ module Eth
     # @raise [ArgumentError] if it cannot determine the type of data or public key.
     def verify(blob, signature, public_key, chain_id = Chain::ETHEREUM)
       recovered_key = nil
-      if blob.instance_of? String and !Util.is_hex? blob and !Util.maybe_bin? blob
-
-        # recover message from personal_sign
-        recovered_key = personal_recover blob, signature, chain_id
-      elsif blob.instance_of? Array or blob.instance_of? Hash
+      if blob.instance_of? Array or blob.instance_of? Hash
 
         # recover Array from sign_typed_data
         recovered_key = recover_typed_data blob, signature, chain_id
-      else
+      elsif blob.instance_of? String and blob.encoding != Encoding::ASCII_8BIT
+
+        # recover message from personal_sign
+        recovered_key = personal_recover blob, signature, chain_id
+      elsif blob.instance_of? String and (Util.is_hex? blob or blob.encoding == Encoding::ASCII_8BIT)
 
         # if nothing else, recover from arbitrary signature
         recovered_key = recover blob, signature, chain_id
