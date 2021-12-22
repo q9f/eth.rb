@@ -55,6 +55,28 @@ describe Eth::Key do
     end
   end
 
+  describe ".sign" do
+    subject(:heidi) { Eth::Key.new }
+    let(:blob) { Eth::Util.keccak256 "Lorem, Ipsum!" }
+
+    it "signs a blob so that the public key can be recovered with recover" do
+      10.times do
+        signature = heidi.sign blob
+        expect(Eth::Signature.recover blob, signature).to eq(heidi.public_hex)
+      end
+    end
+
+    it "also signs and recovers signatures with testnet chain IDs" do
+      known_key = Eth::Key.new priv: "8e091dfb95a1b03cdd22890248c3f1b0f048186f2f3aa93257bc5271339eb306"
+      chain = Eth::Chain::GOERLI
+      expected_sig = "84a96dcf08f901a887cef46ecd8de8246012993b5b2a4a46ab3f8036fe57c53937106b3e04ec557e4614ebe87dc1678c3d49402009f4fd0a8d1b5e24a5577b392e"
+      signature = known_key.sign blob, chain
+      expect(signature).to eq expected_sig
+      recovered_key = Eth::Signature.recover blob, signature, chain
+      expect(known_key.public_hex).to eq recovered_key
+    end
+  end
+
   describe ".personal_sign" do
     subject(:eve) { Eth::Key.new }
     let(:message) { "Hi Mom!" }
