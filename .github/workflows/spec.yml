@@ -37,6 +37,5 @@ jobs:
     - name: Run Tests
       run: |
         bundle exec rspec
-        ruby bin/try.rb
       env:
         COVERAGE: true
