@@ -25,10 +25,6 @@ jobs:
     steps:
       - name: "Checkout repository"
         uses: actions/checkout@v2
-      - uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: '2.7'
-          bundler-cache: true
       - name: "Initialize CodeQL"
         uses: github/codeql-action/init@v1
         with:
@@ -37,6 +33,10 @@ jobs:
         uses: github/codeql-action/autobuild@v1
       - name: "Perform CodeQL Analysis"
         uses: github/codeql-action/analyze@v1
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '2.7'
+          bundler-cache: true
       - name: "Run rufo code formatting checks"
         run: |
           gem install rufo
