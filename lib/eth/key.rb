@@ -52,6 +52,21 @@ module Eth
       @public_key = key.public_key
     end
 
+    # Signs arbitrary data without validation. Should not be used unless really
+    # desired. See also: personal_sign, sign_typed_data.
+    #
+    # @param blob [String] that arbitrary data to be signed.
+    # @param chain_id [Integer] the chain id the signature should be generated on.
+    # @return [String] a hexa-decimal signature.
+    def sign(blob, chain_id = Chain::ETHEREUM)
+      context = Secp256k1::Context.new
+      compact, recovery_id = context.sign_recoverable(@private_key, blob).compact
+      signature = compact.bytes
+      v = Chain.to_v recovery_id, chain_id
+      signature = signature.append v
+      Util.bin_to_hex signature.pack "c*"
+    end
+
     # Prefixes a message with "\x19Ethereum Signed Message:" and signs
     # it in the common way used by many web3 wallets. Complies with
     # EIP-191 prefix 0x19 and version byte 0x45 (E).
@@ -60,14 +75,21 @@ module Eth
     # @param chain_id [Integer] the chain id the signature should be generated on.
     # @return [String] an EIP-191 conform, hexa-decimal signature.
     def personal_sign(message, chain_id = Chain::ETHEREUM)
-      context = Secp256k1::Context.new
       prefixed_message = Signature.prefix_message message
       hashed_message = Util.keccak256 prefixed_message
-      compact, recovery_id = context.sign_recoverable(@private_key, hashed_message).compact
-      signature = compact.bytes
-      v = Chain.to_v recovery_id, chain_id
-      signature = signature.append v
-      Util.bin_to_hex signature.pack "c*"
+      sign hashed_message, chain_id
+    end
+
+    # Prefixes, hashes, and signes a typed data structure in the common
+    # way used by many web3 wallets. Complies with EIP-191 prefix 0x19
+    # and EIP-712 version byte 0x01. Supports `V3`, `V4`.
+    #
+    # @param typed_data [Array] all the data in the typed data structure to be signed.
+    # @param chain_id [Integer] the chain id the signature should be generated on.
+    # @return [String] an EIP-712 conform, hexa-decimal signature.
+    def sign_typed_data(typed_data, chain_id = Chain::ETHEREUM)
+      hash_to_sign = Eip712.hash typed_data
+      sign hash_to_sign, chain_id
     end
 
     # Converts the private key data into a hexa-decimal string.

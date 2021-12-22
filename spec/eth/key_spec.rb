@@ -55,6 +55,28 @@ describe Eth::Key do
     end
   end
 
+  describe ".sign" do
+    subject(:heidi) { Eth::Key.new }
+    let(:blob) { Eth::Util.keccak256 "Lorem, Ipsum!" }
+
+    it "signs a blob so that the public key can be recovered with recover" do
+      10.times do
+        signature = heidi.sign blob
+        expect(Eth::Signature.recover blob, signature).to eq(heidi.public_hex)
+      end
+    end
+
+    it "also signs and recovers signatures with testnet chain IDs" do
+      known_key = Eth::Key.new priv: "8e091dfb95a1b03cdd22890248c3f1b0f048186f2f3aa93257bc5271339eb306"
+      chain = Eth::Chain::GOERLI
+      expected_sig = "84a96dcf08f901a887cef46ecd8de8246012993b5b2a4a46ab3f8036fe57c53937106b3e04ec557e4614ebe87dc1678c3d49402009f4fd0a8d1b5e24a5577b392e"
+      signature = known_key.sign blob, chain
+      expect(signature).to eq expected_sig
+      recovered_key = Eth::Signature.recover blob, signature, chain
+      expect(known_key.public_hex).to eq recovered_key
+    end
+  end
+
   describe ".personal_sign" do
     subject(:eve) { Eth::Key.new }
     let(:message) { "Hi Mom!" }
@@ -74,6 +96,83 @@ describe Eth::Key do
       expect(signature).to eq expected_sig
       recovered_key = Eth::Signature.personal_recover message, signature, chain
       expect(known_key.public_hex).to eq recovered_key
+    end
+  end
+
+  describe ".sign_typed_data" do
+
+    # The EIP-712 example data structure for Mail.
+    subject(:mail_data) {
+      {
+        :types => {
+          :EIP712Domain => [
+            { :name => "name", :type => "string" },
+            { :name => "version", :type => "string" },
+            { :name => "chainId", :type => "uint256" },
+            { :name => "verifyingContract", :type => "address" },
+          ],
+          :Person => [
+            { :name => "name", :type => "string" },
+            { :name => "wallet", :type => "address" },
+          ],
+          :Mail => [
+            { :name => "from", :type => "Person" },
+            { :name => "to", :type => "Person" },
+            { :name => "contents", :type => "string" },
+          ],
+        },
+        :primaryType => "Mail",
+        :domain => {
+          :name => "Ether Mail",
+          :version => "1",
+          :chainId => Eth::Chain::ETHEREUM,
+          :verifyingContract => Eth::Address.new("0xCcCCccccCCCCcCCCCCCcCcCccCcCCCcCcccccccC").checksummed,
+        },
+        :message => {
+          :from => {
+            :name => "Cow",
+            :wallet => Eth::Address.new("0xCD2a3d9F938E13CD947Ec05AbC7FE734Df8DD826").checksummed,
+          },
+          :to => {
+            :name => "Bob",
+            :wallet => Eth::Address.new("0xbBbBBBBbbBBBbbbBbbBbbbbBBbBbbbbBbBbbBBbB").checksummed,
+          },
+          :contents => "Hello, Bob!",
+        },
+      }
+    }
+
+    # ref https://github.com/ethereum/EIPs/blob/7f606a6e0e24bcf38d18e5a8cd9fbc71565f3257/assets/eip-712/Example.js#L126
+    subject(:cow) { Eth::Key.new priv: Eth::Util.keccak256("cow") }
+
+    it "passes EIP-712 mail example with private key of cow" do
+      expect(cow.address.to_s).to eq mail_data[:message][:from][:wallet]
+      expect(cow.sign_typed_data mail_data).to eq "4355c47d63924e8a72e509b65029052eb6c299d53a04e167c5775fd466751c9d07299936d304c153f6443dfa05f40ff007d72911b6f72307f996231605b9156226"
+    end
+
+    # The EIP-712 test from MetaMask.
+    # ref https://github.com/MetaMask/eth-sig-util/blob/73ace3309bf4b97d901fb66cd61db15eede7afe9/src/sign-typed-data.test.ts#L6311
+    subject(:test_data) {
+      {
+        :types => {
+          :EIP712Domain => [],
+          :Message => [
+            { :name => "data", :type => "string" },
+          ],
+        },
+        :primaryType => "Message",
+        :domain => {},
+        :message => {
+          :data => "test",
+        },
+      }
+    }
+
+    # ref https://github.com/MetaMask/eth-sig-util/blob/73ace3309bf4b97d901fb66cd61db15eede7afe9/src/sign-typed-data.test.ts#L11
+    subject(:grace) { Eth::Key.new priv: "4af1bceebf7f3634ec3cff8a2c38e51178d5d4ce585c52d6043e5e2cc3418bb0" }
+
+    it "passes EIP-712 metamask test data with known private key" do
+      expect(grace.sign_typed_data test_data).to eq "f6cda8eaf5137e8cc15d48d03a002b0512446e2a7acbc576c01cfbe40ad9345663ccda8884520d98dece9a8bfe38102851bdae7f69b3d8612b9808e63378016025"
     end
   end
 

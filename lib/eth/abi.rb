@@ -89,7 +89,9 @@ module Eth
         nested_sub = type.nested_sub
         nested_sub_size = type.nested_sub.size
         arg.size.times do |i|
-          raise UnimplementedError, "Encoding dynamic arrays with nested dynamic sub-types" if nested_sub.is_dynamic?
+
+          # ref https://github.com/ethereum/tests/issues/691
+          raise NotImplementedError, "Encoding dynamic arrays with nested dynamic sub-types is not implemented for ABI." if nested_sub.is_dynamic?
           head += encode_type nested_sub, arg[i]
         end
         return "#{head}#{tail}"
@@ -217,7 +219,7 @@ module Eth
     def decode(types, data)
 
       # accept hex abi but decode it first
-      data = Eth::Util.hex_to_bin data if Eth::Util.is_hex? data
+      data = Util.hex_to_bin data if Util.is_hex? data
 
       # parse all types
       parsed_types = types.map { |t| Type.parse(t) }
@@ -282,7 +284,9 @@ module Eth
       elsif type.is_dynamic?
         l = Util.deserialize_big_endian_to_int arg[0, 32]
         nested_sub = type.nested_sub
-        raise UnimplementedError, "Decoding dynamic arrays with nested dynamic sub-types" if nested_sub.is_dynamic?
+
+        # ref https://github.com/ethereum/tests/issues/691
+        raise NotImplementedError, "Decoding dynamic arrays with nested dynamic sub-types is not implemented for ABI." if nested_sub.is_dynamic?
 
         # decoded dynamic-sized arrays
         return (0...l).map { |i| decode_type(nested_sub, arg[32 + nested_sub.size * i, nested_sub.size]) }
