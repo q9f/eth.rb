@@ -125,7 +125,7 @@ describe Eth::Key do
 
     it "passes EIP-712 mail example with private key of cow" do
       expect(cow.address.to_s).to eq mail_data[:message][:from][:wallet]
-      expect(cow.sign_typed_data_v4 mail_data, Eth::Chain::ETHEREUM).to eq "4355c47d63924e8a72e509b65029052eb6c299d53a04e167c5775fd466751c9d07299936d304c153f6443dfa05f40ff007d72911b6f72307f996231605b9156226"
+      expect(cow.sign_typed_data_v4 mail_data).to eq "4355c47d63924e8a72e509b65029052eb6c299d53a04e167c5775fd466751c9d07299936d304c153f6443dfa05f40ff007d72911b6f72307f996231605b9156226"
     end
 
     # The EIP-712 test from MetaMask.
@@ -150,7 +150,7 @@ describe Eth::Key do
     subject(:grace) { Eth::Key.new priv: "4af1bceebf7f3634ec3cff8a2c38e51178d5d4ce585c52d6043e5e2cc3418bb0" }
 
     it "passes EIP-712 mail example with private key of cow" do
-      expect(grace.sign_typed_data_v4 test_data, Eth::Chain::ETHEREUM).to eq "f6cda8eaf5137e8cc15d48d03a002b0512446e2a7acbc576c01cfbe40ad9345663ccda8884520d98dece9a8bfe38102851bdae7f69b3d8612b9808e63378016025"
+      expect(grace.sign_typed_data_v4 test_data).to eq "f6cda8eaf5137e8cc15d48d03a002b0512446e2a7acbc576c01cfbe40ad9345663ccda8884520d98dece9a8bfe38102851bdae7f69b3d8612b9808e63378016025"
     end
   end
 

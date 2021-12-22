@@ -109,7 +109,7 @@ module Eth
       return Util.keccak256 encoded_data
     end
 
-    def enforce_typed_data_v4(data, chain_id = Chain::ETHEREUM)
+    def enforce_typed_data_v4(data)
       data = JSON.parse data if Util.is_hex? data
       raise TypedDataError, "Data is missing, try again with data." if data.nil? or data.empty?
       raise TypedDataError, "Data types are missing." if data[:types].nil? or data[:types].empty?
@@ -120,8 +120,8 @@ module Eth
       return data
     end
 
-    def hash(data, chain_id = Chain::ETHEREUM)
-      data = enforce_typed_data_v4 data, chain_id
+    def hash(data)
+      data = enforce_typed_data_v4 data
 
       # EIP-191 prefix byte 0x19
       buffer = "\x19"
