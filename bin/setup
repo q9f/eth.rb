@@ -5,3 +5,6 @@ IFS=$'\n\t'
 set -vx
 
 bundle install
+git submodule update --init --recursive
+yard doc
+rspec
