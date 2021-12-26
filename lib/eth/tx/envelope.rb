@@ -21,7 +21,7 @@ module Eth
     # The EIP-2930 transaction type is 1.
     TYPE_2930 = 0x01
 
-    # The EIP-1559 transaction type is 1.
+    # The EIP-1559 transaction type is 2.
     TYPE_1559 = 0x02
 
     # The EIP-2718 transaction envelope.

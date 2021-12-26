@@ -80,7 +80,7 @@ module Eth
         unless price >= 0
           raise ArgumentError, "Invalid gas base price #{price}!"
         end
-        unless limit >= DEFAULT_LIMIT and limit < BLOCK_LIMIT
+        unless limit >= DEFAULT_LIMIT and limit <= BLOCK_LIMIT
           raise ArgumentError, "Invalid gas limit #{limit}!"
         end
         unless nonce >= 0
