@@ -10,6 +10,67 @@ describe Eth::Signature do
     end
   end
 
+  describe ".dissect" do
+    it "can properly dissect signatures in r, s, and v" do
+      signature = "19fc60d0a0bd2d30838b3114c4066dcd980d7c909b215d2ce4a4539281588b7855ff925dbea288385056d811599983c8a65bafa31b6c1bcd2d6ae4bcc34377f526"
+      expected_r = "19fc60d0a0bd2d30838b3114c4066dcd980d7c909b215d2ce4a4539281588b78"
+      expected_s = "55ff925dbea288385056d811599983c8a65bafa31b6c1bcd2d6ae4bcc34377f5"
+      expected_v = "26"
+      r, s, v = Eth::Signature.dissect signature
+      expect(r).to eq expected_r
+      expect(s).to eq expected_s
+      expect(v).to eq expected_v
+      signature = "3eb24bd327df8c2b614c3f652ec86efe13aa721daf203820241c44861a26d37f2bffc6e03e68fc4c3d8d967054c9cb230ed34339b12ef89d512b42ae5bf8c2ae1c"
+      expected_r = "3eb24bd327df8c2b614c3f652ec86efe13aa721daf203820241c44861a26d37f"
+      expected_s = "2bffc6e03e68fc4c3d8d967054c9cb230ed34339b12ef89d512b42ae5bf8c2ae"
+      expected_v = "1c"
+      r, s, v = Eth::Signature.dissect signature
+      expect(r).to eq expected_r
+      expect(s).to eq expected_s
+      expect(v).to eq expected_v
+      signature = "0x5c433983b23738940ce256c59d5bc6a3d5fd12c5bc9bdbf0ffdffb7be1a09d1815ca1db167c61a10945837f3fb4821086d6656b4fa6ede9c4d1aeaf07e2b0adf01"
+      expected_r = "5c433983b23738940ce256c59d5bc6a3d5fd12c5bc9bdbf0ffdffb7be1a09d18"
+      expected_s = "15ca1db167c61a10945837f3fb4821086d6656b4fa6ede9c4d1aeaf07e2b0adf"
+      expected_v = "01"
+      r, s, v = Eth::Signature.dissect signature
+      expect(r).to eq expected_r
+      expect(s).to eq expected_s
+      expect(v).to eq expected_v
+      signature = "0x21fbf0696d5e0aa2ef41a2b4ffb623bcaf070461d61cf7251c74161f82fec3a4370854bc0a34b3ab487c1bc021cd318c734c51ae29374f2beb0e6f2dd49b4bf41c"
+      expected_r = "21fbf0696d5e0aa2ef41a2b4ffb623bcaf070461d61cf7251c74161f82fec3a4"
+      expected_s = "370854bc0a34b3ab487c1bc021cd318c734c51ae29374f2beb0e6f2dd49b4bf4"
+      expected_v = "1c"
+      r, s, v = Eth::Signature.dissect signature
+      expect(r).to eq expected_r
+      expect(s).to eq expected_s
+      expect(v).to eq expected_v
+      signature = "0x4e1ce8ea60bc6dfd4068a35462612495850cb645a1c9f475eb969bff21d0b0fb414112aaf13f01dd18a3527cb648cdd51b618ae49d4999112c33f86b7b26e9731b"
+      expected_r = "4e1ce8ea60bc6dfd4068a35462612495850cb645a1c9f475eb969bff21d0b0fb"
+      expected_s = "414112aaf13f01dd18a3527cb648cdd51b618ae49d4999112c33f86b7b26e973"
+      expected_v = "1b"
+      r, s, v = Eth::Signature.dissect signature
+      expect(r).to eq expected_r
+      expect(s).to eq expected_s
+      expect(v).to eq expected_v
+      signature = "f6cda8eaf5137e8cc15d48d03a002b0512446e2a7acbc576c01cfbe40ad9345663ccda8884520d98dece9a8bfe38102851bdae7f69b3d8612b9808e63378016025"
+      expected_r = "f6cda8eaf5137e8cc15d48d03a002b0512446e2a7acbc576c01cfbe40ad93456"
+      expected_s = "63ccda8884520d98dece9a8bfe38102851bdae7f69b3d8612b9808e633780160"
+      expected_v = "25"
+      r, s, v = Eth::Signature.dissect signature
+      expect(r).to eq expected_r
+      expect(s).to eq expected_s
+      expect(v).to eq expected_v
+      signature = "0x8fbb1df1a6ee4958e1ef900f2632cac95e0d0d62fa95d64a2ddae851f1124b7444776292a62208d729d0621dbe17533163db42a7b6bb13b2497cb73827760c4625"
+      expected_r = "8fbb1df1a6ee4958e1ef900f2632cac95e0d0d62fa95d64a2ddae851f1124b74"
+      expected_s = "44776292a62208d729d0621dbe17533163db42a7b6bb13b2497cb73827760c46"
+      expected_v = "25"
+      r, s, v = Eth::Signature.dissect signature
+      expect(r).to eq expected_r
+      expect(s).to eq expected_s
+      expect(v).to eq expected_v
+    end
+  end
+
   subject(:blob) { Eth::Util.keccak256 "Foo, Bar!" }
 
   describe ".recover" do

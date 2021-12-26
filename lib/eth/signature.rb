@@ -38,6 +38,25 @@ module Eth
       "#{EIP191_PREFIX_BYTE}Ethereum Signed Message:\n#{message.size}#{message}"
     end
 
+    # Dissects a signature blob of 65 bytes into its r, s, and v values.
+    #
+    # @param signature [String] a Secp256k1 signature.
+    # @retrun [String, String, String] the r, s, and v values.
+    # @raise [ArgumentError] if signature is of unknown size.
+    def dissect(signature)
+      unless Util.is_hex? signature
+        signature = Util.bin_to_hex signature
+      end
+      signature = Util.remove_hex_prefix signature
+      if signature.size != 130
+        raise ArgumentError, "Unknown signature length #{signature.size}!"
+      end
+      r = signature[0, 64]
+      s = signature[64, 64]
+      v = signature[128, 2]
+      return r, s, v
+    end
+
     # Recovers a signature from arbitrary data without validation on a given chain.
     #
     # @param blob [String] that arbitrary data to be recovered.
