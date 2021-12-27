@@ -35,6 +35,9 @@ class Eth::Key::Decrypter
     @password = password
   end
 
+  # Method to decrypt key using password
+  #
+  # @return [String] decrypted key
   def perform
     derive_key password
     check_macs

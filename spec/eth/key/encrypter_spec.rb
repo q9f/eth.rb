@@ -35,6 +35,15 @@ describe Eth::Key::Encrypter do
         expect(json["version"]).to eq(3)
       end
 
+      it "uses generated iv and salt to encrypt" do
+        # pass an empty dict for the options param
+        result = Eth::Key::Encrypter.perform key, password, {}
+        json = JSON.parse result
+
+        expect(json["crypto"]["cipherparams"]["iv"]).not_to be_empty
+        expect(json["crypto"]["kdfparams"]["salt"]).not_to be_empty
+      end
+
       describe "detects unknown key derivation functions" do
         let(:bad_options) do
           {
