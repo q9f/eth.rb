@@ -188,8 +188,4 @@ class Eth::Key::Encrypter
   def block_size
     options[:block_size] || 1
   end
-
-  def address
-    Eth::Key.new(priv: key).address.checksummed
-  end
 end
