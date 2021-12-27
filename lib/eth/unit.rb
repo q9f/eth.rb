@@ -12,6 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+require 'bigdecimal'
+
 # Provides the `Eth` module.
 module Eth
 
@@ -19,25 +21,25 @@ module Eth
   module Unit
 
     # Ethereum unit 1 wei := 0.000000000000000001 Ether.
-    WEI = 10 ** 0
+    WEI = BigDecimal("1e0")
 
     # Ethereum unit 1 babbage := 0.000000000000001 Ether or 1_000 wei.
-    BABBAGE = 10 ** 3
+    BABBAGE = BigDecimal("1e3")
 
     # Ethereum unit 1 lovelace := 0.000000000001 Ether or 1_000_000 wei.
-    LOVELACE = 10 ** 6
+    LOVELACE = BigDecimal("1e6")
 
     # Ethereum unit 1 shannon := 0.000000001 Ether or 1_000_000_000 wei.
-    SHANNON = 10 ** 9
+    SHANNON = BigDecimal("1e9")
 
     # Ethereum unit 1 szabo := 0.000_001 Ether or 1_000_000_000_000 wei.
-    SZABO = 10 ** 12
+    SZABO = BigDecimal("1e12")
 
     # Ethereum unit 1 finney := 0.001 Ether or 1_000_000_000_000_000 wei.
-    FINNEY = 10 ** 15
+    FINNEY = BigDecimal("1e15")
 
     # Ethereum unit 1 Ether := 1_000_000_000_000_000_000 wei.
-    ETHER = 10 ** 18
+    ETHER = BigDecimal("1e18")
 
     # Ethereum unit 1 Gwei := 0.000000001 Ether or 1_000_000_000 wei.
     # Same as shannon, but more commonly used (billion wei).

@@ -67,8 +67,8 @@ module Eth
       # @param data [String] the transaction hex-string payload.
       # @param access_list [Array] an optional EIP-2930 access list.
       # @param chain_id [Integer] the EIP-155 Chain ID.
-      def initialize(price, limit, nonce, to = nil, value = 0, data = nil, access_list = [], chain_id = Chain::ETHEREUM)
-        if to.is_a? String
+      def initialize(price, limit, nonce, to = "", value = 0, data = "", access_list = [], chain_id = Chain::ETHEREUM)
+        if to.is_a? String and !to.empty?
           to = Address.new to
         end
         unless price >= 0

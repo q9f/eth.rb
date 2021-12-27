@@ -41,7 +41,7 @@ module Eth
     # Dissects a signature blob of 65 bytes into its r, s, and v values.
     #
     # @param signature [String] a Secp256k1 signature.
-    # @retrun [String, String, String] the r, s, and v values.
+    # @return [String, String, String] the r, s, and v values.
     # @raise [ArgumentError] if signature is of unknown size.
     def dissect(signature)
       unless Util.is_hex? signature
