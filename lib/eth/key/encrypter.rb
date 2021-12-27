@@ -12,10 +12,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-require 'json'
-require 'securerandom'
-require 'openssl'
-require 'scrypt'
+require "json"
+require "securerandom"
+require "openssl"
+require "scrypt"
 
 # The Eth::Key::Encrypter class to handle PBKDF2-SHA-256 encryption
 class Eth::Key::Encrypter
@@ -24,7 +24,7 @@ class Eth::Key::Encrypter
   # Class method `Eth::Key::Encrypter.perform`
   #
   # @return [JSON] formatted with encrypted key (cyphertext) and [other identifying data](https://github.com/ethereum/wiki/wiki/Web3-Secret-Storage-Definition#pbkdf2-sha-256)
-  def self.perform key, password, options = {}
+  def self.perform(key, password, options = {})
     new(key, options).perform(password)
   end
 
@@ -40,7 +40,7 @@ class Eth::Key::Encrypter
   # @option options [String] :iv 128-bit initialisation vector for the cipher
   # @option options [Integer] :parallelization parallelization factor for scrypt, defaults to 8
   # @option options [Integer] :block_size for scrypt, defaults to 1
-  def initialize key, options = {}
+  def initialize(key, options = {})
     @key = key
     @options = options
 
@@ -70,14 +70,14 @@ class Eth::Key::Encrypter
           n: iterations,
           p: parallelization,
           r: block_size,
-          salt: bin_to_hex(salt)
+          salt: bin_to_hex(salt),
         }
       else
         {
           c: iterations,
           dklen: 32,
           prf: prf,
-          salt: bin_to_hex(salt)
+          salt: bin_to_hex(salt),
         }
       end
 
@@ -105,7 +105,7 @@ class Eth::Key::Encrypter
     @cipher ||= OpenSSL::Cipher.new(cipher_name).tap do |cipher|
       cipher.encrypt
       cipher.iv = iv
-      cipher.key = derived_key[0, (key_length/2)]
+      cipher.key = derived_key[0, (key_length / 2)]
     end
   end
 
@@ -126,7 +126,7 @@ class Eth::Key::Encrypter
   end
 
   def mac
-    keccak256(derived_key[(key_length/2), key_length] + encrypted_key)
+    keccak256(derived_key[(key_length / 2), key_length] + encrypted_key)
   end
 
   def kdf
@@ -167,18 +167,18 @@ class Eth::Key::Encrypter
 
   def salt
     @salt ||= if options[:salt]
-      hex_to_bin options[:salt]
-    else
-      SecureRandom.random_bytes(salt_length)
-    end
+        hex_to_bin options[:salt]
+      else
+        SecureRandom.random_bytes(salt_length)
+      end
   end
 
   def iv
     @iv ||= if options[:iv]
-      hex_to_bin options[:iv]
-    else
-      SecureRandom.random_bytes(iv_length)
-    end
+        hex_to_bin options[:iv]
+      else
+        SecureRandom.random_bytes(iv_length)
+      end
   end
 
   def parallelization
