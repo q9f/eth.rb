@@ -23,12 +23,19 @@ describe Eth::Key::Decrypter do
     end
   end
 
-  describe "detects unknown key derivation functions" do
+  describe "detects misconfigured key data" do
     let(:password) { "testunknownkdf" }
     let(:key_data) { read_key_fixture password }
 
     it "detects unknown key derivation functions" do
       expect { Eth::Key::Decrypter.perform key_data, password }.to raise_error(RuntimeError)
+    end
+
+    it "detects authentication code mismatch" do
+      # update mac key to create mismatch
+      data = JSON.parse key_data
+      data["mac"] = "12345"
+      expect { Eth::Key::Decrypter.perform JSON.dump(data), password }.to raise_error(RuntimeError)
     end
   end
 end
