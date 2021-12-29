@@ -13,6 +13,7 @@
 # limitations under the License.
 
 require "rlp"
+require "konstructor"
 require "eth/tx/eip1559"
 require "eth/tx/eip2930"
 require "eth/tx/envelope"

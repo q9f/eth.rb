@@ -10,6 +10,16 @@ describe Eth::Tx::Legacy do
   subject(:legacy) { Eth::Tx::Legacy.new(1, 40 * Eth::Unit::GWEI, 21576, "0xcaa29806044a08e533963b2e573c1230a2cd9a2d", BigDecimal("0.123456789012345678") * Eth::Unit::ETHER, "Lorem Ipsum Ruby Ethereum Test 1-2-3") }
   subject(:testnet) { Eth::Key.new(priv: "0xc6c633f85d3f9a4705623b1d9bd1122a1a9196cd53dd352505e895fcbb8452ef") }
 
+  describe ".decode" do
+    it "decodes transactions" do
+      expected_hex = "f890018509502f900082544894caa29806044a08e533963b2e573c1230a2cd9a2d8801b69b4ba630f34ea44c6f72656d20497073756d205275627920457468657265756d205465737420312d322d332ea0fb4d308f3d3f9770f2652ef40ea8369ab372e59bad814fb227fae1fdfdfa4d3aa066c8a2a2a2abcd391bac8639995a10f1546a873ef5b452bfe5fc367901d9f4ab"
+      expected_hash = "1975df4e715ce4af46c604e3fafb763a51cc133a42e43566779b4d5608bb4af1"
+      tx = Eth::Tx::Legacy.decode(expected_hex)
+      expect(tx.hex).to eq expected_hex
+      expect(tx.hash).to eq expected_hash
+    end
+  end
+
   describe ".initialize" do
     it "creates legacy transaction objects" do
       expect(Eth::Tx::Legacy.new(0, Eth::Unit::GWEI, Eth::Tx::DEFAULT_LIMIT)).to be

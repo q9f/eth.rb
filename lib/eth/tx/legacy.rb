@@ -84,6 +84,33 @@ module Eth
         @payload = data
       end
 
+      konstructor
+
+      def decode(hex)
+        bin = Util.hex_to_bin hex
+        tx = RLP.decode(bin)
+        if tx.size < 9
+          raise "WOOT"
+        end
+        nonce = Util.deserialize_big_endian_to_int tx[0]
+        price = Util.deserialize_big_endian_to_int tx[1]
+        limit = Util.deserialize_big_endian_to_int tx[2]
+        to = Util.bin_to_hex tx[3]
+        value = Util.deserialize_big_endian_to_int tx[4]
+        data = tx[5]
+        v = Util.bin_to_hex tx[6]
+        r = Util.bin_to_hex tx[7]
+        s = Util.bin_to_hex tx[8]
+
+        @signer_nonce = nonce.to_i
+        @gas_price = price.to_i
+        @gas_limit = limit.to_i
+        @destination = to
+        @amount = value.to_i
+        @payload = data
+        set_signature(v, r, s)
+      end
+
       # Sign the transaction with a given key.
       #
       # @param key [Eth::Key] the key-pair to use for signing.
@@ -157,10 +184,18 @@ module Eth
         Util.keccak256 unsigned_encoded
       end
 
+      protected
+
       def is_signed?
         !@signature_v.nil? and signature_v != 0 and
         !signature_r.nil? and signature_v != 0 and
         !signature_s.nil? and signature_v != 0
+      end
+
+      def set_signature(v, r, s)
+        @signature_v = v
+        @signature_r = r
+        @signature_s = s
       end
     end
   end
