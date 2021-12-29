@@ -49,6 +49,9 @@ module Eth
       # The signature `s` value.
       attr_reader :signature_s
 
+      # The EIP-155 chain ID field.
+      attr_reader :chain_id
+
       # Create a legacy transaction object that can be prepared for
       # signature and broadcast. Should not be used unless there is
       # no EIP-1559 support.
@@ -59,7 +62,7 @@ module Eth
       # @param to [Eth::Address] the transaction destination.
       # @param value [Integer] the transaction amount in Wei.
       # @param data [String] the transaction hex-string payload.
-      def initialize(nonce, price, limit, to = "", value = 0, data = "")
+      def initialize(nonce, price, limit, to = "", value = 0, data = "", chain_id = Chain::ETHEREUM)
         unless nonce >= 0
           raise ArgumentError, "Invalid signer nonce #{nonce}!"
         end
@@ -82,16 +85,32 @@ module Eth
         @destination = to
         @amount = value.to_i
         @payload = data
+
+        # The signature v is set to the chain id for unsigned transactions
+        @signature_v = chain_id
+        @chain_id = chain_id
+
+        # the signature fields are empty for unsigned transactions.
+        @signature_r = 0
+        @signature_s = 0
       end
 
+      # Converts the self.decode method into a constructor.
       konstructor
 
+      # Decodes a raw transaction hex into an Eth::Tx::Legacy
+      # transaction object.
+      #
+      # @param hex [String] the raw transaction hex-string.
+      # @return [Eth::Tx::Legacy] transaction object.
       def decode(hex)
         bin = Util.hex_to_bin hex
         tx = RLP.decode(bin)
+
         if tx.size < 9
-          raise "WOOT"
+          raise StandardError, "Transaction missing fields!"
         end
+
         nonce = Util.deserialize_big_endian_to_int tx[0]
         price = Util.deserialize_big_endian_to_int tx[1]
         limit = Util.deserialize_big_endian_to_int tx[2]
@@ -114,15 +133,14 @@ module Eth
       # Sign the transaction with a given key.
       #
       # @param key [Eth::Key] the key-pair to use for signing.
-      # @param chain_id [Integer] the chain to sign on.
       # @raise [StandardError] if the transaction is already signed.
-      def sign(key, chain_id = Chain::ETHEREUM)
+      def sign(key)
         if is_signed?
           raise StandardError, "Transaction is already signed!"
         end
 
         # sign a keccak hash of the unsigned, encoded transaction
-        signature = key.sign(unsigned_hash, chain_id)
+        signature = key.sign(unsigned_hash, @chain_id)
         r, s, v = Signature.dissect signature
         @signature_v = v
         @signature_r = r
@@ -137,7 +155,13 @@ module Eth
         unless is_signed?
           raise StandardError, "Transaction is not signed!"
         end
-        tx_data = unsigned
+        tx_data = []
+        tx_data.push Util.serialize_int_to_big_endian @signer_nonce
+        tx_data.push Util.serialize_int_to_big_endian @gas_price
+        tx_data.push Util.serialize_int_to_big_endian @gas_limit
+        tx_data.push Util.hex_to_bin @destination
+        tx_data.push Util.serialize_int_to_big_endian @amount
+        tx_data.push @payload # @TODO
         tx_data.push Util.hex_to_bin @signature_v
         tx_data.push Util.hex_to_bin @signature_r
         tx_data.push Util.hex_to_bin @signature_s
@@ -151,8 +175,6 @@ module Eth
         Util.bin_to_hex encoded
       end
 
-      alias raw hex
-
       # Gets the transaction hash.
       #
       # @return [String] the transaction hash.
@@ -160,9 +182,10 @@ module Eth
         Util.bin_to_hex Util.keccak256 encoded
       end
 
-      private
-
-      def unsigned
+      # Encodes the unsigned transaction object, required for signing.
+      #
+      # @return [String] an RLP-encoded, unsigned transaction.
+      def unsigned_encoded
         tx_data = []
         tx_data.push Util.serialize_int_to_big_endian @signer_nonce
         tx_data.push Util.serialize_int_to_big_endian @gas_price
@@ -170,27 +193,35 @@ module Eth
         tx_data.push Util.hex_to_bin @destination
         tx_data.push Util.serialize_int_to_big_endian @amount
         tx_data.push @payload # @TODO
+        tx_data.push Util.serialize_int_to_big_endian @signature_v
+        tx_data.push Util.serialize_int_to_big_endian @signature_r
+        tx_data.push Util.serialize_int_to_big_endian @signature_s
+        RLP.encode tx_data
       end
 
-      def unsigned_encoded
-        RLP.encode unsigned
-      end
-
-      def unsigned_hex
-        Util.bin_to_hex unsigned_encoded
-      end
-
+      # Gets the sign-hash required to sign a raw transaction.
+      #
+      # @return [String] a Keccak-256 hash of an unsigned transaction.
       def unsigned_hash
         Util.keccak256 unsigned_encoded
       end
 
-      protected
-
-      def is_signed?
-        !@signature_v.nil? and signature_v != 0 and
-        !signature_r.nil? and signature_v != 0 and
-        !signature_s.nil? and signature_v != 0
+      # Creates an unsigned copy of a transaction.
+      #
+      # @return [Eth::Tx::Legacy] an unsigned transaction object.
+      def copy
+        new(@signer_nonce, @gas_price, @gas_limit, @destination, @amount, @payload, @chain_id)
       end
+
+      # Allows to check wether a transaction is signed already.
+      #
+      # @return [Bool] true if transaction is already signed.
+      def is_signed?
+        !signature_r.nil? and signature_r != 0 and
+        !signature_s.nil? and signature_s != 0
+      end
+
+      private
 
       def set_signature(v, r, s)
         @signature_v = v
