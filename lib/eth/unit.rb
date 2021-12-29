@@ -12,12 +12,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-require 'bigdecimal'
+require "bigdecimal"
 
 # Provides the `Eth` module.
 module Eth
 
-  # Provides constants
+  # Provides constants for common Ethereum units.
   module Unit
 
     # Ethereum unit 1 wei := 0.000000000000000001 Ether.
