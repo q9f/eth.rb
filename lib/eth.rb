@@ -20,6 +20,7 @@ end
 require "eth/abi"
 require "eth/address"
 require "eth/chain"
+require "eth/client"
 require "eth/eip712"
 require "eth/key"
 require "eth/signature"
