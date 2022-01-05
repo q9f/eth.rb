@@ -125,8 +125,6 @@ describe Eth::Abi do
       expect(decoded).to eq args
       expect(Eth::Abi.encode types, decoded).to eq encoded
 
-      # p decoded
-
       nested_types = [
         "bool[]",
         "address[]",

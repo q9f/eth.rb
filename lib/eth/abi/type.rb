@@ -50,7 +50,7 @@ module Eth
       end
 
       # Converts the self.parse method into a constructor.
-      konstructor
+      konstructor :parse
 
       # Attempts to parse a string containing a common Solidity type.
       # Creates a new Type upon success (using konstructor).
