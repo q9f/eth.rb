@@ -26,6 +26,23 @@ describe Eth::Tx::Legacy do
       Eth::Chain::GOERLI
     )
   }
+
+  # ref https://goerli.etherscan.io/tx/0x047e319fc8e587a77f6e9a13c30d90b5a741d93e8b35a54b12c91d6149eda359
+  subject(:ruby) {
+    Eth::Tx::Legacy.new(
+      {
+        nonce: 3,
+        gas_price: 42 * Eth::Unit::GWEI,
+        gas_limit: 23_000,
+        to: "0xCaA29806044A08E533963b2e573C1230A2cd9a2d",
+        value: 0.0069 * Eth::Unit::ETHER,
+        data_bin: "Foo Bar Ruby Ethereum",
+      },
+      Eth::Chain::GOERLI
+    )
+  }
+
+  # ref https://goerli.etherscan.io/address/0x4762119a7249823d18aec7eab73258b2d5061dd8
   subject(:testnet) { Eth::Key.new(priv: "0xc6c633f85d3f9a4705623b1d9bd1122a1a9196cd53dd352505e895fcbb8452ef") }
 
   describe ".decode" do
@@ -57,6 +74,23 @@ describe Eth::Tx::Legacy do
       tx = Eth::Tx::Legacy.decode(expected_hex)
       expect(tx.hex).to eq expected_hex
       expect(tx.hash).to eq expected_hash
+    end
+
+    it "decodes a known goerli transaction signed by ruby eth gem" do
+
+      # ref https://goerli.etherscan.io/getRawTx?tx=0x047e319fc8e587a77f6e9a13c30d90b5a741d93e8b35a54b12c91d6149eda359
+      expected_hex = "0xf880038509c76524008259d894caa29806044a08e533963b2e573c1230a2cd9a2d8718838370f3400095466f6f20426172205275627920457468657265756d2ea0a0133bf9a770032e18a2ce0eda0d8562abbd88920d696d02373e901967f9956da075e6ce3e86db8391524a7dff0331e90c2bf18cedfbd4164f177a86c53e5be4fa"
+      expected_hash = "0x047e319fc8e587a77f6e9a13c30d90b5a741d93e8b35a54b12c91d6149eda359"
+      decoded = Eth::Tx::Legacy.decode(expected_hex)
+      expect(decoded.hex).to eq Eth::Util.remove_hex_prefix expected_hex
+      expect(decoded.hash).to eq Eth::Util.remove_hex_prefix expected_hash
+
+      duplicated = Eth::Tx::Legacy.unsigned_copy decoded
+      duplicated.sign testnet
+      ruby.sign testnet
+
+      expect(ruby.hex).to eq duplicated.hex
+      expect(ruby.hash).to eq duplicated.hash
     end
   end
 

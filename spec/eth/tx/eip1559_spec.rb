@@ -1,3 +1,5 @@
+# -*- encoding : ascii-8bit -*-
+
 require "spec_helper"
 
 describe Eth::Tx::Eip1559 do

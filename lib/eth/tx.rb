@@ -66,6 +66,16 @@ module Eth
       return fields
     end
 
+    # Populates the transaction chain id field with a serializable default
+    # value (1) in case it is undefined.
+    #
+    # @param id [Integer] the transaction chain id.
+    # @return [Integer] the sanitized transaction chain id.
+    def sanitize_chain(id)
+      id = Chain::ETHEREUM if id.nil?
+      return id
+    end
+
     # Populates the transaction destination address with a serializable
     # empty value in case it is undefined; also ensures the address is
     # checksummed but not prefixed for consistency.
@@ -81,6 +91,16 @@ module Eth
       return addr
     end
 
+    # Populates the transaction value field with a serializable empty value
+    # in case it is undefined.
+    #
+    # @param val [Integer] the transaction value.
+    # @return [Integer] the sanitized transaction value.
+    def sanitize_amount(val)
+      val = 0 if val.nil?
+      return val
+    end
+
     # Populates the transaction payload field with a serializable empty value
     # in case it is undefined; also ensures the data is binary not hex.
     #
@@ -94,14 +114,22 @@ module Eth
       return data
     end
 
-    # Populates the transaction value field with a serializable empty value
-    # in case it is undefined.
+    # Populates the transaction access list field with a serializable empty
+    # array in case it is undefined; also ensures the nested data is binary
+    # not hex.
     #
-    # @param val [Integer] the transaction value.
-    # @return [Integer] the sanitized transaction value.
-    def sanitize_amount(val)
-      val = 0 if val.nil?
-      return val
+    # @param list [Array] the transaction access list.
+    # @return [Array] the sanitized transaction access list.
+    def sanitize_list(list)
+      list = [] if list.nil?
+      list.each_with_index do |value, index|
+        if value.is_a? Array
+          list[index] = sanitize_list value
+        elsif Util.is_hex? value
+          list[index] = Util.hex_to_bin value
+        end
+      end
+      return list
     end
 
     # Allows to check wether a transaction is signed already.
