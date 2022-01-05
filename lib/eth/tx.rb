@@ -31,6 +31,9 @@ module Eth
     # The maximum transaction gas limit is bound by the block gas limit.
     BLOCK_LIMIT = 25_000_000
 
+    # The legacy transaction type is 0.
+    TYPE_LEGACY = 0x00
+
     # The EIP-2930 transaction type is 1.
     TYPE_2930 = 0x01
 

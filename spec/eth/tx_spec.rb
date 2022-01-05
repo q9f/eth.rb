@@ -8,6 +8,7 @@ describe Eth::Tx do
     end
 
     it "defines transaction types" do
+      expect(Eth::Tx::TYPE_LEGACY).to eq 0
       expect(Eth::Tx::TYPE_2930).to eq 1
       expect(Eth::Tx::TYPE_1559).to eq 2
     end
