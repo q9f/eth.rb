@@ -20,7 +20,7 @@ module Eth
 
     # Provides support for EIP-1559 transactions utilizing EIP-2718
     # types and envelopes.
-    class Eip1559Payload
+    class Eip1559
 
       # The EIP-155 Chain ID.
       attr_reader :chain_id
