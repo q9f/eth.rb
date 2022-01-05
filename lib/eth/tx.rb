@@ -29,6 +29,6 @@ module Eth
     DEFAULT_LIMIT = 21_000
 
     # The maximum transaction gas limit is bound by the block gas limit.
-    BLOCK_LIMIT = 10_000_000
+    BLOCK_LIMIT = 25_000_000
   end
 end
