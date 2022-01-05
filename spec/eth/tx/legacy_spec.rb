@@ -3,11 +3,29 @@
 require "spec_helper"
 
 describe Eth::Tx::Legacy do
-  subject(:tx) { Eth::Tx::Legacy.new(0, Eth::Unit::WEI, Eth::Tx::DEFAULT_LIMIT) }
+  subject(:tx) {
+    Eth::Tx::Legacy.new({
+      nonce: 0,
+      gas_price: Eth::Unit::WEI,
+      gas_limit: Eth::Tx::DEFAULT_LIMIT,
+    })
+  }
   subject(:cow) { Eth::Key.new(priv: Eth::Util.keccak256("cow")) }
 
   # ref https://goerli.etherscan.io/tx/0x1975df4e715ce4af46c604e3fafb763a51cc133a42e43566779b4d5608bb4af1
-  subject(:legacy) { Eth::Tx::Legacy.new(1, 40 * Eth::Unit::GWEI, 21576, "0xcaa29806044a08e533963b2e573c1230a2cd9a2d", BigDecimal("0.123456789012345678") * Eth::Unit::ETHER, "Lorem Ipsum Ruby Ethereum Test 1-2-3", Eth::Chain::GOERLI) }
+  subject(:legacy) {
+    Eth::Tx::Legacy.new(
+      {
+        nonce: 1,
+        gas_price: 40 * Eth::Unit::GWEI,
+        gas_limit: 21576,
+        to: "0xcaa29806044a08e533963b2e573c1230a2cd9a2d",
+        value: BigDecimal("0.123456789012345678") * Eth::Unit::ETHER,
+        data_bin: "Lorem Ipsum Ruby Ethereum Test 1-2-3",
+      },
+      Eth::Chain::GOERLI
+    )
+  }
   subject(:testnet) { Eth::Key.new(priv: "0xc6c633f85d3f9a4705623b1d9bd1122a1a9196cd53dd352505e895fcbb8452ef") }
 
   describe ".decode" do
@@ -44,17 +62,64 @@ describe Eth::Tx::Legacy do
 
   describe ".initialize" do
     it "creates legacy transaction objects" do
-      expect(Eth::Tx::Legacy.new(0, Eth::Unit::GWEI, Eth::Tx::DEFAULT_LIMIT)).to be
-      expect(Eth::Tx::Legacy.new(0, Eth::Unit::GWEI, Eth::Tx::DEFAULT_LIMIT)).to be_instance_of Eth::Tx::Legacy
+      expect(Eth::Tx::Legacy.new({
+        nonce: 0,
+        gas_price: Eth::Unit::GWEI,
+        gas_limit: Eth::Tx::DEFAULT_LIMIT,
+      })).to be
+      expect(Eth::Tx::Legacy.new({
+        nonce: 0,
+        gas_price: Eth::Unit::GWEI,
+        gas_limit: Eth::Tx::DEFAULT_LIMIT,
+      })).to be_instance_of Eth::Tx::Legacy
     end
 
     it "doesn't create invalid transaction objects" do
-      expect { Eth::Tx::Legacy.new(0, -9 * Eth::Unit::GWEI, Eth::Tx::DEFAULT_LIMIT) }.to raise_error ArgumentError
-      expect { Eth::Tx::Legacy.new(0, Eth::Unit::GWEI, Eth::Tx::DEFAULT_LIMIT - 1) }.to raise_error ArgumentError
-      expect { Eth::Tx::Legacy.new(0, Eth::Unit::GWEI, Eth::Tx::BLOCK_LIMIT + 1) }.to raise_error ArgumentError
-      expect { Eth::Tx::Legacy.new(-1, Eth::Unit::GWEI, Eth::Tx::BLOCK_LIMIT) }.to raise_error ArgumentError
-      expect { Eth::Tx::Legacy.new(0, Eth::Unit::GWEI, Eth::Tx::BLOCK_LIMIT, "foo") }.to raise_error ArgumentError
-      expect { Eth::Tx::Legacy.new(0, Eth::Unit::GWEI, Eth::Tx::BLOCK_LIMIT, "0xef26b1f67797e7a5a3c192c93d821fadef3ba173", -1) }.to raise_error ArgumentError
+      expect {
+        Eth::Tx::Legacy.new({
+          nonce: 0,
+          gas_price: -9 * Eth::Unit::GWEI,
+          gas_limit: Eth::Tx::DEFAULT_LIMIT,
+        })
+      }.to raise_error ArgumentError
+      expect {
+        Eth::Tx::Legacy.new({
+          nonce: 0,
+          gas_price: Eth::Unit::GWEI,
+          gas_limit: Eth::Tx::DEFAULT_LIMIT - 1,
+        })
+      }.to raise_error ArgumentError
+      expect {
+        Eth::Tx::Legacy.new({
+          nonce: 0,
+          gas_price: Eth::Unit::GWEI,
+          gas_limit: Eth::Tx::BLOCK_LIMIT + 1,
+        })
+      }.to raise_error ArgumentError
+      expect {
+        Eth::Tx::Legacy.new({
+          nonce: -1,
+          gas_price: Eth::Unit::GWEI,
+          gas_limit: Eth::Tx::BLOCK_LIMIT,
+        })
+      }.to raise_error ArgumentError
+      expect {
+        Eth::Tx::Legacy.new({
+          nonce: 0,
+          gas_price: Eth::Unit::GWEI,
+          gas_limit: Eth::Tx::BLOCK_LIMIT,
+          to: "foo",
+        })
+      }.to raise_error ArgumentError
+      expect {
+        Eth::Tx::Legacy.new({
+          nonce: 0,
+          gas_price: Eth::Unit::GWEI,
+          gas_limit: Eth::Tx::BLOCK_LIMIT,
+          to: "0xef26b1f67797e7a5a3c192c93d821fadef3ba173",
+          value: -1,
+        })
+      }.to raise_error ArgumentError
     end
   end
 
@@ -116,11 +181,44 @@ describe Eth::Tx::Legacy do
     end
   end
 
+  describe ".copy" do
+    it "can duplicate transactions" do
+      raw = "f9010c80018252088080b8c000000000000000000000000000000000000000000000000000000000000000800000000000000000000000003ea1e26a2119b038eaf9b27e65cdb401502ae7a43d8bfb1368aee2693eb325af9f81244b19304b087b4941a1e892da50bd48dfe1f6d17aad7aff1c87e8481f30395a1595a07b483032affed044e698bf7c43a6fe000000000000000000000000000000000000000000000000000000000000000d4c6f72656d2c20497073756d210000000000000000000000000000000000000026a0e06be7a71c58beebfae09372083865f49fbacb6dfd93f10329f2ca925057fba3a0036c90afd27ea5d2383e319f7091aa23d3e77b09114d7e1d610d04dce8e8169f"
+      legacy = Eth::Tx::Legacy.decode raw
+      duplicate = Eth::Tx::Legacy.unsigned_copy legacy
+      expect(legacy.signer_nonce).to eq duplicate.signer_nonce
+      expect(legacy.gas_price).to eq duplicate.gas_price
+      expect(legacy.gas_limit).to eq duplicate.gas_limit
+      expect(legacy.destination).to eq duplicate.destination
+      expect(legacy.amount).to eq duplicate.amount
+      expect(legacy.payload).to eq duplicate.payload
+      expect(legacy.chain_id).to eq duplicate.chain_id
+
+      # unsigned
+      expect(duplicate.signature_v).to eq legacy.chain_id
+      expect(duplicate.signature_r).to eq 0
+      expect(duplicate.signature_s).to eq 0
+
+      # signed
+      duplicate.sign cow
+      expect(legacy.signature_v).to eq duplicate.signature_v
+      expect(legacy.signature_r).to eq duplicate.signature_r
+      expect(legacy.signature_s).to eq duplicate.signature_s
+      expect(duplicate.hex).to eq raw
+    end
+  end
+
   context "signing transactions the hard way" do
     it "correctly hashes the unsigned python example" do
 
       # ref https://lsongnotes.wordpress.com/2018/01/14/signing-an-ethereum-transaction-the-hard-way/
-      sample = Eth::Tx::Legacy.new(0, 0x0BA43B7400, 0x05208, "0x7917bc33eea648809c285607579c9919fb864f8f", 0x03BAF82D03A000, "", 1)
+      sample = Eth::Tx::Legacy.new({
+        nonce: 0,
+        gas_price: 0x0BA43B7400,
+        gas_limit: 0x05208,
+        to: "0x7917bc33eea648809c285607579c9919fb864f8f",
+        value: 0x03BAF82D03A000,
+      })
       lsong = Eth::Key.new(priv: "00d862c318d05de0a1c25242c21989e15e35e70c55996fbc4238cd2f2f6a8f62")
       expected_address = Eth::Address.new "8d900bfa2353548a4631be870f99939575551b60"
       expected_sign_data = "EB80850BA43B7400825208947917bc33eea648809c285607579c9919fb864f8f8703BAF82D03A00080018080".downcase
@@ -132,6 +230,98 @@ describe Eth::Tx::Legacy do
 
       expected_raw = "F86B80850BA43B7400825208947917bc33eea648809c285607579c9919fb864f8f8703BAF82D03A0008025A0067940651530790861714b2e8fd8b080361d1ada048189000c07a66848afde46A069b041db7c29dbcc6becf42017ca7ac086b12bd53ec8ee494596f790fb6a0a69".downcase
       expect(Eth::Tx::Legacy.decode(expected_raw).hex).to eq expected_raw
+    end
+  end
+
+  context "different :data_bin input formats" do
+    subject(:types) {
+      [
+        "string",
+        "address",
+        "bytes32",
+        "int256",
+      ]
+    }
+    subject(:args) {
+      [
+        "Lorem, Ipsum!",
+        "0x3ea1e26a2119b038eaf9b27e65cdb401502ae7a4",
+        "=\x8B\xFB\x13h\xAE\xE2i>\xB3%\xAF\x9F\x81$K\x190K\b{IA\xA1\xE8\x92\xDAP\xBDH\xDF\xE1",
+        -4153010759215853346544872368790226810347211436084119296615430562753409734914,
+      ]
+    }
+    subject(:expected_hex) { "f9010c80018252088080b8c000000000000000000000000000000000000000000000000000000000000000800000000000000000000000003ea1e26a2119b038eaf9b27e65cdb401502ae7a43d8bfb1368aee2693eb325af9f81244b19304b087b4941a1e892da50bd48dfe1f6d17aad7aff1c87e8481f30395a1595a07b483032affed044e698bf7c43a6fe000000000000000000000000000000000000000000000000000000000000000d4c6f72656d2c20497073756d210000000000000000000000000000000000000026a0e06be7a71c58beebfae09372083865f49fbacb6dfd93f10329f2ca925057fba3a0036c90afd27ea5d2383e319f7091aa23d3e77b09114d7e1d610d04dce8e8169f" }
+    subject(:expected_hash) { "5c62f87970db08d9114b611383e8ef648dc59eb415bf1116c15388f65b82242a" }
+
+    it "can create transactions with binary data" do
+      abi = Eth::Abi.encode types, args
+      some = Eth::Tx::Legacy.new({
+        nonce: 0,
+        gas_price: 1,
+        gas_limit: 21_000,
+        data_bin: abi,
+      })
+
+      # expect to properly accept binary data
+      some.sign cow
+      expect(some.hex).to eq expected_hex
+      expect(some.hash).to eq expected_hash
+
+      # expect to match both decoded transaction and decoded abi
+      other = Eth::Tx::Legacy.decode some.hex
+      expect(other.payload).to eq some.payload
+      expect(other.hex).to eq some.hex
+      expect(other.hash).to eq some.hash
+      expect(Eth::Abi.decode types, some.payload).to eq args
+      expect(Eth::Abi.decode types, other.payload).to eq args
+    end
+
+    it "can create transactions with hexadecimal data" do
+      abi = Eth::Abi.encode types, args
+      hex = Eth::Util.bin_to_hex abi
+      some = Eth::Tx::Legacy.new({
+        nonce: 0,
+        gas_price: 1,
+        gas_limit: 21_000,
+        data_bin: hex,
+      })
+
+      # expect to properly accept hexadecimal data without changing the transaction hash
+      some.sign cow
+      expect(some.hex).to eq expected_hex
+      expect(some.hash).to eq expected_hash
+
+      # expect to match both decoded transaction and decoded abi
+      other = Eth::Tx::Legacy.decode some.hex
+      expect(other.payload).to eq some.payload
+      expect(other.hex).to eq some.hex
+      expect(other.hash).to eq some.hash
+      expect(Eth::Abi.decode types, some.payload).to eq args
+      expect(Eth::Abi.decode types, other.payload).to eq args
+    end
+
+    it "can create transactions with ascii data" do
+      lorem = "Lorem, Ipsum!"
+
+      # usually libraries prevent that, but in any case this allows to send ascii messages
+      some = Eth::Tx::Legacy.new({
+        nonce: 0,
+        gas_price: 1,
+        gas_limit: 21_000,
+        data_bin: lorem,
+      })
+      some.sign cow
+      expect(some.hex).to eq "f858800182520880808d4c6f72656d2c20497073756d2125a054e2ebfe742db1d1e5710246e6057d7ec19f1f6fc9933bd180889cc8d4d4eb3aa07b6c7ea38c2c495f3faa7513700446d0a6971677a73dc802dcac059fd141a164"
+      expect(some.hash).to eq "2aabba7c8b54754a1f69ca8408bc6446ff02afe882c5c36b594554cd1453f2a1"
+
+      # expect to match both decoded transaction and decoded abi
+      other = Eth::Tx::Legacy.decode some.hex
+      expect(other.payload).to eq some.payload
+      expect(other.hex).to eq some.hex
+      expect(other.hash).to eq some.hash
+
+      # same string
+      expect(other.payload).to eq lorem
     end
   end
 end

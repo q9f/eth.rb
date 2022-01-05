@@ -56,47 +56,56 @@ module Eth
       # signature and broadcast. Should not be used unless there is
       # no EIP-1559 support.
       #
-      # @param nonce [Integer] the transaction signer nonce.
-      # @param price [Integer] the transaction gas price in Wei.
-      # @param limit [Integer] the transaction gas limit.
-      # @param to [Eth::Address] the transaction destination.
-      # @param value [Integer] the transaction amount in Wei.
-      # @param data [String] the transaction hex-string payload.
-      def initialize(nonce, price, limit, to = "", value = 0, data = "", chain_id = Chain::ETHEREUM)
-        unless nonce >= 0
-          raise ArgumentError, "Invalid signer nonce #{nonce}!"
-        end
-        unless price >= 0
-          raise ArgumentError, "Invalid gas price #{price}!"
-        end
-        unless limit >= DEFAULT_LIMIT and limit <= BLOCK_LIMIT
-          raise ArgumentError, "Invalid gas limit #{limit}!"
-        end
-        if to.is_a? String and !to.empty?
-          to = Address.new(to).to_s
-          to = Util.remove_hex_prefix to
-        end
-        unless value >= 0
-          raise ArgumentError, "Invalid transaction value #{value}!"
-        end
-        @signer_nonce = nonce.to_i
-        @gas_price = price.to_i
-        @gas_limit = limit.to_i
-        @destination = to
-        @amount = value.to_i
-        @payload = data
+      # @param params [Hash] all necessary transaction fields (nonce, gas_price, gas_limit, to, value, data_bin).
+      # @param chain_id [Integer] the EIP-155 chain id.
+      def initialize(params, chain_id = Chain::ETHEREUM)
+        fields = { v: chain_id, r: 0, s: 0 }.merge params
 
-        # The signature v is set to the chain id for unsigned transactions
-        @signature_v = chain_id
+        # populate optional fields with serializable empty values
+        fields[:to] = "" if fields[:to].nil?
+        fields[:value] = 0 if fields[:value].nil?
+        fields[:data_bin] = "" if fields[:data_bin].nil?
+
+        # ensure payload to be binary if it's hex, otherwise we'll treat it raw
+        fields[:data_bin] = Util.hex_to_bin fields[:data_bin] if Util.is_hex? fields[:data_bin]
+
+        # ensure sane values for all mandatory fields
+        unless fields[:nonce] >= 0
+          raise ArgumentError, "Invalid signer nonce #{fields[:nonce]}!"
+        end
+        unless fields[:gas_price] >= 0
+          raise ArgumentError, "Invalid gas price #{fields[:gas_price]}!"
+        end
+        unless fields[:gas_limit] >= DEFAULT_LIMIT and fields[:gas_limit] <= BLOCK_LIMIT
+          raise ArgumentError, "Invalid gas limit #{fields[:gas_limit]}!"
+        end
+        if fields[:to].is_a? String and !fields[:to].empty?
+          fields[:to] = Address.new(fields[:to]).to_s
+          fields[:to] = Util.remove_hex_prefix fields[:to]
+        end
+        unless fields[:value] >= 0
+          raise ArgumentError, "Invalid transaction value #{fields[:value]}!"
+        end
+
+        # populate class attributes
+        @signer_nonce = fields[:nonce].to_i
+        @gas_price = fields[:gas_price].to_i
+        @gas_limit = fields[:gas_limit].to_i
+        @destination = fields[:to].to_s
+        @amount = fields[:value].to_i
+        @payload = fields[:data_bin]
+
+        # the signature v is set to the chain id for unsigned transactions
+        @signature_v = fields[:v]
         @chain_id = chain_id
 
         # the signature fields are empty for unsigned transactions.
-        @signature_r = 0
-        @signature_s = 0
+        @signature_r = fields[:r]
+        @signature_s = fields[:s]
       end
 
-      # Converts the self.decode method into a constructor.
-      konstructor
+      # overloads the constructor for decoding raw transactions and creating unsigned copies
+      konstructor :decode, :unsigned_copy
 
       # Decodes a raw transaction hex into an Eth::Tx::Legacy
       # transaction object.
@@ -107,27 +116,56 @@ module Eth
         bin = Util.hex_to_bin hex
         tx = RLP.decode(bin)
 
-        if tx.size < 9
-          raise StandardError, "Transaction missing fields!"
-        end
+        # decoded transactions always have 9 fields, even if they are empty or zero
+        raise StandardError, "Transaction missing fields!" if tx.size < 9
 
+        # populate the 9 fields
         nonce = Util.deserialize_big_endian_to_int tx[0]
-        price = Util.deserialize_big_endian_to_int tx[1]
-        limit = Util.deserialize_big_endian_to_int tx[2]
+        gas_price = Util.deserialize_big_endian_to_int tx[1]
+        gas_limit = Util.deserialize_big_endian_to_int tx[2]
         to = Util.bin_to_hex tx[3]
         value = Util.deserialize_big_endian_to_int tx[4]
-        data = tx[5]
+        data_bin = tx[5]
         v = Util.bin_to_hex tx[6]
         r = Util.bin_to_hex tx[7]
         s = Util.bin_to_hex tx[8]
 
+        # try to recover the chain id from v
+        chain_id = Chain.to_chain_id Util.deserialize_big_endian_to_int tx[6]
+
+        # populate class attributes
         @signer_nonce = nonce.to_i
-        @gas_price = price.to_i
-        @gas_limit = limit.to_i
-        @destination = to
+        @gas_price = gas_price.to_i
+        @gas_limit = gas_limit.to_i
+        @destination = to.to_s
         @amount = value.to_i
-        @payload = data
-        set_signature(v, r, s)
+        @payload = data_bin
+        @chain_id = chain_id
+
+        # allows us to force-setting a signature if the transaction is signed already
+        _set_signature(v, r, s)
+      end
+
+      # Creates an unsigned copy of a transaction.
+      #
+      # @param tx [Eth::Tx::Legacy] an legacy transaction object.
+      # @return [Eth::Tx::Legacy] an unsigned transaction object.
+      def unsigned_copy(tx)
+
+        # not checking transaction validity unless it's of a different class
+        raise ArgumentError "Cannot copy transaction of different type!" unless tx.instance_of? Eth::Tx::Legacy
+
+        # populate class attributes
+        @signer_nonce = tx.signer_nonce
+        @gas_price = tx.gas_price
+        @gas_limit = tx.gas_limit
+        @destination = tx.destination
+        @amount = tx.amount
+        @payload = tx.payload
+        @chain_id = tx.chain_id
+
+        # force-set signature to unsigned
+        _set_signature(tx.chain_id, 0, 0)
       end
 
       # Sign the transaction with a given key.
@@ -161,7 +199,7 @@ module Eth
         tx_data.push Util.serialize_int_to_big_endian @gas_limit
         tx_data.push Util.hex_to_bin @destination
         tx_data.push Util.serialize_int_to_big_endian @amount
-        tx_data.push @payload # @TODO
+        tx_data.push @payload
         tx_data.push Util.hex_to_bin @signature_v
         tx_data.push Util.hex_to_bin @signature_r
         tx_data.push Util.hex_to_bin @signature_s
@@ -192,7 +230,7 @@ module Eth
         tx_data.push Util.serialize_int_to_big_endian @gas_limit
         tx_data.push Util.hex_to_bin @destination
         tx_data.push Util.serialize_int_to_big_endian @amount
-        tx_data.push @payload # @TODO
+        tx_data.push @payload
         tx_data.push Util.serialize_int_to_big_endian @signature_v
         tx_data.push Util.serialize_int_to_big_endian @signature_r
         tx_data.push Util.serialize_int_to_big_endian @signature_s
@@ -206,24 +244,17 @@ module Eth
         Util.keccak256 unsigned_encoded
       end
 
-      # Creates an unsigned copy of a transaction.
-      #
-      # @return [Eth::Tx::Legacy] an unsigned transaction object.
-      def copy
-        new(@signer_nonce, @gas_price, @gas_limit, @destination, @amount, @payload, @chain_id)
-      end
-
       # Allows to check wether a transaction is signed already.
       #
       # @return [Bool] true if transaction is already signed.
       def is_signed?
-        !signature_r.nil? and signature_r != 0 and
-        !signature_s.nil? and signature_s != 0
+        !@signature_r.nil? and @signature_r != 0 and
+        !@signature_s.nil? and @signature_s != 0
       end
 
       private
 
-      def set_signature(v, r, s)
+      def _set_signature(v, r, s)
         @signature_v = v
         @signature_r = r
         @signature_s = s
