@@ -59,18 +59,19 @@ module Eth
       # can be prepared for envelope, signature and broadcast. Should not
       # be used unless there is no EIP-1559 support.
       #
-      # @param params [Hash] all necessary transaction fields (nonce, gas_price, gas_limit, to, value, data_bin, access_list).
-      # @param chain_id [Integer] the EIP-155 Chain ID.
-      def initialize(params, chain_id = Chain::ETHEREUM)
+      # @param params [Hash] all necessary transaction fields (chain_id, nonce, gas_price, gas_limit, to, value, data_bin, access_list).
+      def initialize(params)
         fields = { recovery_id: nil, r: 0, s: 0 }.merge params
 
         # populate optional fields with serializable empty values
-        fields[:value] = Tx.sanitize_amount fields[:value]
+        fields[:chain_id] = Tx.sanitize_chain fields[:chain_id]
         fields[:to] = Tx.sanitize_address fields[:to]
+        fields[:value] = Tx.sanitize_amount fields[:value]
         fields[:data_bin] = Tx.sanitize_data fields[:data_bin]
 
         # ensure sane values for all mandatory fields
         fields = Tx.validate_legacy_params fields
+        fields[:access_list] = Tx.sanitize_list fields[:access_list]
 
         # populate class attributes
         @signer_nonce = fields[:nonce].to_i
@@ -83,7 +84,7 @@ module Eth
 
         # the signature v is set to the chain id for unsigned transactions
         @signature_y_parity = fields[:recovery_id]
-        @chain_id = chain_id
+        @chain_id = fields[:chain_id]
 
         # the signature fields are empty for unsigned transactions.
         @signature_r = fields[:r]
@@ -99,6 +100,7 @@ module Eth
       # @param hex [String] the raw transaction hex-string.
       # @return [Eth::Tx::Eip2930] transaction payload.
       def decode(hex)
+        hex = Util.remove_hex_prefix hex
         type = hex[0, 2]
         raise StandardError, "Invalid transaction type #{type}!" if type.to_i(16) != TYPE_2930
 

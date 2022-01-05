@@ -124,8 +124,12 @@ module Eth
       list = [] if list.nil?
       list.each_with_index do |value, index|
         if value.is_a? Array
+
+          # recursively check the entire array
           list[index] = sanitize_list value
         elsif Util.is_hex? value
+
+          # only modify if we find a hex value
           list[index] = Util.hex_to_bin value
         end
       end
