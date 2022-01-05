@@ -124,5 +124,17 @@ module Eth
     def to_v(recovery_id, chain_id = ETHEREUM)
       v = 2 * chain_id + 35 + recovery_id
     end
+
+    # Converst a `v` value into a chain ID. This does not work for legacy signatures
+    # with v < 36 that do not conform with EIP-155.
+    #
+    # @param v [Integer] the signature's `v` value.
+    # @return [Integer] the chain id as per EIP-155 or nil if there is no replay protection.
+    def to_chain_id(v)
+      return nil if v < 36
+      chain_id = (v - 35) / 2
+      return nil if chain_id < 1
+      return chain_id
+    end
   end
 end
