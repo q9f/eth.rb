@@ -45,14 +45,21 @@ module Eth
     # @raise [ArgumentError] if signature is of unknown size.
     def dissect(signature)
       unless Util.is_hex? signature
+
+        # TODO: Tests @q9f
         signature = Util.bin_to_hex signature
       end
       signature = Util.remove_hex_prefix signature
       if signature.size != 130
+
+        # TODO: Tests @q9f
+        # TODO: https://github.com/q9f/eth.rb/issues/30
         raise ArgumentError, "Unknown signature length #{signature.size}!"
       end
       r = signature[0, 64]
       s = signature[64, 64]
+
+      # TODO: https://github.com/q9f/eth.rb/issues/30
       v = signature[128, 2]
       return r, s, v
     end
@@ -68,6 +75,8 @@ module Eth
       context = Secp256k1::Context.new
       rotated_signature = Util.hex_to_bin(signature).bytes.rotate -1
       if rotated_signature.size != 65
+
+        # TODO: https://github.com/q9f/eth.rb/issues/30
         raise ArgumentError, "Invalid signature byte-size #{rotated_signature.size}!"
       end
       signature = rotated_signature[1..-1].pack "c*"
@@ -133,7 +142,7 @@ module Eth
       # raise if we cannot determine the data format
       raise ArgumentError, "Unknown data format to verify: #{blob}" if recovered_key.nil?
 
-      if public_key.instance_of? Eth::Address
+      if public_key.instance_of? Address
 
         # recovering using an Eth::Address
         address = public_key.to_s
@@ -147,7 +156,7 @@ module Eth
       elsif public_key.size == 42
 
         # recovering using an address String
-        address = Eth::Address.new(public_key).to_s
+        address = Address.new(public_key).to_s
         recovered_address = Util.public_key_to_address(recovered_key).to_s
         return address == recovered_address
       elsif public_key.size == 130

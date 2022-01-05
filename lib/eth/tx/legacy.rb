@@ -57,35 +57,17 @@ module Eth
       # no EIP-1559 support.
       #
       # @param params [Hash] all necessary transaction fields (nonce, gas_price, gas_limit, to, value, data_bin).
-      # @param chain_id [Integer] the EIP-155 chain id.
+      # @param chain_id [Integer] the EIP-155 Chain ID.
       def initialize(params, chain_id = Chain::ETHEREUM)
         fields = { v: chain_id, r: 0, s: 0 }.merge params
 
         # populate optional fields with serializable empty values
-        fields[:to] = "" if fields[:to].nil?
-        fields[:value] = 0 if fields[:value].nil?
-        fields[:data_bin] = "" if fields[:data_bin].nil?
-
-        # ensure payload to be binary if it's hex, otherwise we'll treat it raw
-        fields[:data_bin] = Util.hex_to_bin fields[:data_bin] if Util.is_hex? fields[:data_bin]
+        fields[:value] = Tx.sanitize_amount fields[:value]
+        fields[:to] = Tx.sanitize_address fields[:to]
+        fields[:data_bin] = Tx.sanitize_data fields[:data_bin]
 
         # ensure sane values for all mandatory fields
-        unless fields[:nonce] >= 0
-          raise ArgumentError, "Invalid signer nonce #{fields[:nonce]}!"
-        end
-        unless fields[:gas_price] >= 0
-          raise ArgumentError, "Invalid gas price #{fields[:gas_price]}!"
-        end
-        unless fields[:gas_limit] >= DEFAULT_LIMIT and fields[:gas_limit] <= BLOCK_LIMIT
-          raise ArgumentError, "Invalid gas limit #{fields[:gas_limit]}!"
-        end
-        if fields[:to].is_a? String and !fields[:to].empty?
-          fields[:to] = Address.new(fields[:to]).to_s
-          fields[:to] = Util.remove_hex_prefix fields[:to]
-        end
-        unless fields[:value] >= 0
-          raise ArgumentError, "Invalid transaction value #{fields[:value]}!"
-        end
+        fields = Tx.validate_legacy_params fields
 
         # populate class attributes
         @signer_nonce = fields[:nonce].to_i
@@ -153,7 +135,7 @@ module Eth
       def unsigned_copy(tx)
 
         # not checking transaction validity unless it's of a different class
-        raise ArgumentError "Cannot copy transaction of different type!" unless tx.instance_of? Eth::Tx::Legacy
+        raise ArgumentError "Cannot copy transaction of different type!" unless tx.instance_of? Tx::Legacy
 
         # populate class attributes
         @signer_nonce = tx.signer_nonce
@@ -173,7 +155,7 @@ module Eth
       # @param key [Eth::Key] the key-pair to use for signing.
       # @raise [StandardError] if the transaction is already signed.
       def sign(key)
-        if is_signed?
+        if Tx.is_signed? self
           raise StandardError, "Transaction is already signed!"
         end
 
@@ -190,7 +172,7 @@ module Eth
       # @return [String] a raw, RLP-encoded legacy transaction.
       # @raise [StandardError] if the transaction is not yet signed.
       def encoded
-        unless is_signed?
+        unless Tx.is_signed? self
           raise StandardError, "Transaction is not signed!"
         end
         tx_data = []
@@ -242,14 +224,6 @@ module Eth
       # @return [String] a Keccak-256 hash of an unsigned transaction.
       def unsigned_hash
         Util.keccak256 unsigned_encoded
-      end
-
-      # Allows to check wether a transaction is signed already.
-      #
-      # @return [Bool] true if transaction is already signed.
-      def is_signed?
-        !@signature_r.nil? and @signature_r != 0 and
-        !@signature_s.nil? and @signature_s != 0
       end
 
       private

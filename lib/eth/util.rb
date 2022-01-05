@@ -30,7 +30,7 @@ module Eth
     def public_key_to_address(str)
       str = hex_to_bin str if is_hex? str
       bytes = keccak256(str[1..-1])[-20..-1]
-      Eth::Address.new bin_to_prefixed_hex bytes
+      Address.new bin_to_prefixed_hex bytes
     end
 
     # Hashes a string with the Keccak-256 algorithm.
