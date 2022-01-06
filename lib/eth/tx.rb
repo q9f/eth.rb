@@ -40,6 +40,39 @@ module Eth
     # The EIP-1559 transaction type is 2.
     TYPE_1559 = 0x02
 
+    # Validates the common type-2 transaction fields such as nonce, priority
+    # fee, gas fee, gas limit, amount, and access list.
+    #
+    # @param fields [Hash] the transaction fields.
+    # @return [Hash] the validated transaction fields.
+    # @raise [ArgumentError] if nonce is an invalid integer.
+    # @raise [ArgumentError] if priority fee is invalid.
+    # @raise [ArgumentError] if gas fee is invalid.
+    # @raise [ArgumentError] if gas limit is invalid.
+    # @raise [ArgumentError] if amount is invalid.
+    # @raise [ArgumentError] if access list is invalid.
+    def validate_params(fields)
+      unless fields[:nonce] >= 0
+        raise ArgumentError, "Invalid signer nonce #{fields[:nonce]}!"
+      end
+      unless fields[:priority_fee] >= 0
+        raise ArgumentError, "Invalid gas price #{fields[:gas_price]}!"
+      end
+      unless fields[:gas_fee] >= 0
+        raise ArgumentError, "Invalid gas price #{fields[:gas_price]}!"
+      end
+      unless fields[:gas_limit] >= DEFAULT_LIMIT and fields[:gas_limit] <= BLOCK_LIMIT
+        raise ArgumentError, "Invalid gas limit #{fields[:gas_limit]}!"
+      end
+      unless fields[:value] >= 0
+        raise ArgumentError, "Invalid transaction value #{fields[:value]}!"
+      end
+      unless fields[:access_list].nil? or fields[:access_list].is_a? Array
+        raise ArgumentError, "Invalid access list #{fields[:access_list]}!"
+      end
+      return fields
+    end
+
     # Validates the common legacy transaction fields such as nonce, gas
     # price, gas limit, amount, and access list.
     #

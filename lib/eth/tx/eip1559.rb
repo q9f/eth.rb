@@ -46,7 +46,7 @@ module Eth
       # The transaction data payload.
       attr_reader :payload
 
-      # An optional EIP-2930 access list.
+      # An optional EIP-1559 access list.
       attr_reader :access_list
 
       # The signature's y-parity byte (not v).
@@ -61,43 +61,215 @@ module Eth
       # Create a type-2 (EIP-1559) transaction payload object that
       # can be prepared for envelope, signature and broadcast.
       #
-      # @param to [Eth::Address] the transaction destination.
-      # @param fee [Integer] the transaction max priority gas fee in Wei.
-      # @param price [Integer] the transaction base gas fee in Wei.
-      # @param limit [Integer] the transaction gas limit.
-      # @param nonce [Integer] the transaction signer nonce.
-      # @param value [Integer] the transaction amount in Wei.
-      # @param data [String] the transaction hex-string payload.
-      # @param access_list [Array] an optional EIP-2930 access list.
-      # @param chain_id [Integer] the EIP-155 Chain ID.
-      def initialize(fee, price, limit, nonce, to = "", value = 0, data = "", access_list = [], chain_id = Chain::ETHEREUM)
-        if to.is_a? String and !to.empty?
-          to = Address.new to
-        end
-        unless fee >= 0
-          raise ArgumentError, "Invalid gas priority fee #{fee}!"
-        end
-        unless price >= 0
-          raise ArgumentError, "Invalid gas base price #{price}!"
-        end
-        unless limit >= DEFAULT_LIMIT and limit <= BLOCK_LIMIT
-          raise ArgumentError, "Invalid gas limit #{limit}!"
-        end
-        unless nonce >= 0
-          raise ArgumentError, "Invalid signer nonce #{nonce}!"
-        end
-        unless value >= 0
-          raise ArgumentError, "Invalid transaction value #{value}!"
-        end
+      # @param params [Hash] all necessary transaction fields (chain_id, nonce, priority_fee, gas_fee, gas_limit, to, value, data_bin, access_list).
+      def initialize(params)
+        fields = { recovery_id: nil, r: 0, s: 0 }.merge params
+
+        # populate optional fields with serializable empty values
+        fields[:chain_id] = Tx.sanitize_chain fields[:chain_id]
+        fields[:to] = Tx.sanitize_address fields[:to]
+        fields[:value] = Tx.sanitize_amount fields[:value]
+        fields[:data_bin] = Tx.sanitize_data fields[:data_bin]
+
+        # ensure sane values for all mandatory fields
+        fields = Tx.validate_params fields
+        fields[:access_list] = Tx.sanitize_list fields[:access_list]
+
+        # populate class attributes
+        @signer_nonce = fields[:nonce].to_i
+        @max_priority_fee_per_gas = fields[:priority_fee].to_i
+        @max_fee_per_gas = fields[:gas_fee].to_i
+        @gas_limit = fields[:gas_limit].to_i
+        @destination = fields[:to].to_s
+        @amount = fields[:value].to_i
+        @payload = fields[:data_bin]
+        @access_list = fields[:access_list]
+
+        # the signature v is set to the chain id for unsigned transactions
+        @signature_y_parity = fields[:recovery_id]
+        @chain_id = fields[:chain_id]
+
+        # the signature fields are empty for unsigned transactions.
+        @signature_r = fields[:r]
+        @signature_s = fields[:s]
+      end
+
+      # Overloads the constructor for decoding raw transactions and creating unsigned copies
+      konstructor :decode, :unsigned_copy
+
+      # Decodes a raw transaction hex into an Eth::Tx::Eip1559
+      # transaction object.
+      #
+      # @param hex [String] the raw transaction hex-string.
+      # @return [Eth::Tx::Eip1559] transaction payload.
+      def decode(hex)
+        hex = Util.remove_hex_prefix hex
+        type = hex[0, 2]
+        raise StandardError, "Invalid transaction type #{type}!" if type.to_i(16) != TYPE_1559
+
+        bin = Util.hex_to_bin hex[2..]
+        tx = RLP.decode(bin)
+
+        # decoded transactions always have 9 + 3 fields, even if they are empty or zero
+        raise StandardError, "Transaction missing fields!" if tx.size < 9
+
+        # populate the 9 payload fields
+        chain_id = Util.deserialize_big_endian_to_int tx[0]
+        nonce = Util.deserialize_big_endian_to_int tx[1]
+        priority_fee = Util.deserialize_big_endian_to_int tx[2]
+        gas_fee = Util.deserialize_big_endian_to_int tx[3]
+        gas_limit = Util.deserialize_big_endian_to_int tx[4]
+        to = Util.bin_to_hex tx[5]
+        value = Util.deserialize_big_endian_to_int tx[6]
+        data_bin = tx[7]
+        access_list = tx[8]
+
+        # populate class attributes
         @chain_id = chain_id
-        @signer_nonce = nonce
-        @max_priority_fee_per_gas = fee
-        @max_fee_per_gas = price
-        @gas_limit = limit
-        @destination = to
-        @amount = value
-        @payload = data
+        @signer_nonce = nonce.to_i
+        @max_priority_fee_per_gas = priority_fee.to_i
+        @max_fee_per_gas = gas_fee.to_i
+        @gas_limit = gas_limit.to_i
+        @destination = to.to_s
+        @amount = value.to_i
+        @payload = data_bin
         @access_list = access_list
+
+        # populate the 3 signature fields
+        if tx.size == 9
+          _set_signature(nil, 0, 0)
+        elsif tx.size == 12
+          recovery_id = Util.bin_to_hex(tx[9]).to_i(16)
+          r = Util.bin_to_hex tx[10]
+          s = Util.bin_to_hex tx[11]
+
+          # allows us to force-setting a signature if the transaction is signed already
+          _set_signature(recovery_id, r, s)
+        else
+          raise_error StandardError "Cannot decode EIP-1559 payload!"
+        end
+      end
+
+      # Creates an unsigned copy of a transaction payload.
+      #
+      # @param tx [Eth::Tx::Eip1559] an EIP-1559 transaction payload.
+      # @return [Eth::Tx::Eip1559] an unsigned EIP-1559 transaction payload.
+      def unsigned_copy(tx)
+
+        # not checking transaction validity unless it's of a different class
+        raise ArgumentError "Cannot copy transaction of different payload type!" unless tx.instance_of? Tx::Eip1559
+
+        # populate class attributes
+        @signer_nonce = tx.signer_nonce
+        @max_priority_fee_per_gas = tx.max_priority_fee_per_gas
+        @max_fee_per_gas = tx.max_fee_per_gas
+        @gas_limit = tx.gas_limit
+        @destination = tx.destination
+        @amount = tx.amount
+        @payload = tx.payload
+        @access_list = tx.access_list
+        @chain_id = tx.chain_id
+
+        # force-set signature to unsigned
+        _set_signature(nil, 0, 0)
+      end
+
+      # Sign the transaction with a given key.
+      #
+      # @param key [Eth::Key] the key-pair to use for signing.
+      # @raise [StandardError] if the transaction is already signed.
+      def sign(key)
+        if Tx.is_signed? self
+          raise StandardError, "Transaction is already signed!"
+        end
+
+        # sign a keccak hash of the unsigned, encoded transaction
+        signature = key.sign(unsigned_hash, @chain_id)
+        r, s, v = Signature.dissect signature
+        recovery_id = Chain.to_recovery_id v.to_i(16), @chain_id
+        @signature_y_parity = recovery_id
+        @signature_r = r
+        @signature_s = s
+      end
+
+      # Encodes a raw transaction object, wraps it in an EIP-2718 envelope
+      # with an EIP-1559 type prefix.
+      #
+      # @return [String] a raw, RLP-encoded EIP-1559 type transaction object.
+      # @raise [StandardError] if the transaction is not yet signed.
+      def encoded
+        unless Tx.is_signed? self
+          raise StandardError, "Transaction is not signed!"
+        end
+        tx_data = []
+        tx_data.push Util.serialize_int_to_big_endian @chain_id
+        tx_data.push Util.serialize_int_to_big_endian @signer_nonce
+        tx_data.push Util.serialize_int_to_big_endian @max_priority_fee_per_gas
+        tx_data.push Util.serialize_int_to_big_endian @max_fee_per_gas
+        tx_data.push Util.serialize_int_to_big_endian @gas_limit
+        tx_data.push Util.hex_to_bin @destination
+        tx_data.push Util.serialize_int_to_big_endian @amount
+        tx_data.push @payload
+        tx_data.push @access_list
+        tx_data.push Util.serialize_int_to_big_endian @signature_y_parity
+        tx_data.push Util.hex_to_bin @signature_r
+        tx_data.push Util.hex_to_bin @signature_s
+        tx_encoded = RLP.encode tx_data
+
+        # create an EIP-2718 envelope with EIP-1559 type payload
+        tx_type = Util.serialize_int_to_big_endian TYPE_1559
+        return "#{tx_type}#{tx_encoded}"
+      end
+
+      # Gets the encoded, enveloped, raw transaction hex.
+      #
+      # @return [String] the raw transaction hex.
+      def hex
+        Util.bin_to_hex encoded
+      end
+
+      # Gets the transaction hash.
+      #
+      # @return [String] the transaction hash.
+      def hash
+        Util.bin_to_hex Util.keccak256 encoded
+      end
+
+      # Encodes the unsigned transaction payload in an EIP-1559 envelope,
+      # required for signing.
+      #
+      # @return [String] an RLP-encoded, unsigned, enveloped EIP-1559 transaction.
+      def unsigned_encoded
+        tx_data = []
+        tx_data.push Util.serialize_int_to_big_endian @chain_id
+        tx_data.push Util.serialize_int_to_big_endian @signer_nonce
+        tx_data.push Util.serialize_int_to_big_endian @max_priority_fee_per_gas
+        tx_data.push Util.serialize_int_to_big_endian @max_fee_per_gas
+        tx_data.push Util.serialize_int_to_big_endian @gas_limit
+        tx_data.push Util.hex_to_bin @destination
+        tx_data.push Util.serialize_int_to_big_endian @amount
+        tx_data.push @payload
+        tx_data.push @access_list
+        tx_encoded = RLP.encode tx_data
+
+        # create an EIP-2718 envelope with EIP-1559 type payload (unsigned)
+        tx_type = Util.serialize_int_to_big_endian TYPE_1559
+        return "#{tx_type}#{tx_encoded}"
+      end
+
+      # Gets the sign-hash required to sign a raw transaction.
+      #
+      # @return [String] a Keccak-256 hash of an unsigned transaction.
+      def unsigned_hash
+        Util.keccak256 unsigned_encoded
+      end
+
+      private
+
+      def _set_signature(recovery_id, r, s)
+        @signature_y_parity = recovery_id
+        @signature_r = r
+        @signature_s = s
       end
     end
   end
