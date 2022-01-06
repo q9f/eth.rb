@@ -19,6 +19,7 @@ module Eth
 
   # Provides constants for common Ethereum units.
   module Unit
+    extend self
 
     # Ethereum unit 1 wei := 0.000000000000000001 Ether.
     WEI = BigDecimal("1e0")

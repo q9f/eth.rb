@@ -3,8 +3,9 @@ require "spec_helper"
 describe Eth::Tx do
   context "#GAS" do
     it "defines gas limits" do
-      expect(Eth::Tx::DEFAULT_LIMIT).to eq 21_000
-      expect(Eth::Tx::BLOCK_LIMIT).to eq 25_000_000
+      expect(Eth::Tx::DEFAULT_GAS_LIMIT).to eq 21_000
+      expect(Eth::Tx::DEFAULT_GAS_PRICE).to eq 20_000_000_000
+      expect(Eth::Tx::BLOCK_GAS_LIMIT).to eq 25_000_000
     end
 
     it "defines transaction types" do

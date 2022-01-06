@@ -58,6 +58,9 @@ module Eth
       # The signature `s` value.
       attr_reader :signature_s
 
+      # The sender address.
+      attr_reader :sender
+
       # The transaction type.
       attr_reader :type
 
@@ -65,16 +68,17 @@ module Eth
       # can be prepared for envelope, signature and broadcast.
       #
       # @param params [Hash] all necessary transaction fields (chain_id,
-      #        nonce, priority_fee, max_gas_fee, gas_limit, to, value,
-      #        data_bin, access_list).
+      #        nonce, priority_fee, max_gas_fee, gas_limit, from, to,
+      #        value, data, access_list).
       def initialize(params)
         fields = { recovery_id: nil, r: 0, s: 0 }.merge params
 
         # populate optional fields with serializable empty values
         fields[:chain_id] = Tx.sanitize_chain fields[:chain_id]
+        fields[:from] = Tx.sanitize_address fields[:from]
         fields[:to] = Tx.sanitize_address fields[:to]
         fields[:value] = Tx.sanitize_amount fields[:value]
-        fields[:data_bin] = Tx.sanitize_data fields[:data_bin]
+        fields[:data] = Tx.sanitize_data fields[:data]
 
         # ensure sane values for all mandatory fields
         fields = Tx.validate_params fields
@@ -85,9 +89,10 @@ module Eth
         @max_priority_fee_per_gas = fields[:priority_fee].to_i
         @max_fee_per_gas = fields[:max_gas_fee].to_i
         @gas_limit = fields[:gas_limit].to_i
+        @sender = fields[:from].to_s
         @destination = fields[:to].to_s
         @amount = fields[:value].to_i
-        @payload = fields[:data_bin]
+        @payload = fields[:data]
         @access_list = fields[:access_list]
 
         # the signature v is set to the chain id for unsigned transactions
@@ -129,7 +134,7 @@ module Eth
         gas_limit = Util.deserialize_big_endian_to_int tx[4]
         to = Util.bin_to_hex tx[5]
         value = Util.deserialize_big_endian_to_int tx[6]
-        data_bin = tx[7]
+        data = tx[7]
         access_list = tx[8]
 
         # populate class attributes
@@ -140,7 +145,7 @@ module Eth
         @gas_limit = gas_limit.to_i
         @destination = to.to_s
         @amount = value.to_i
-        @payload = data_bin
+        @payload = data
         @access_list = access_list
 
         # populate the 3 signature fields
@@ -156,6 +161,9 @@ module Eth
         else
           raise_error StandardError, "Cannot decode EIP-1559 payload!"
         end
+
+        # keep the 'from' field blank
+        @sender = Tx.sanitize_address nil
 
         # last but not least, set the type.
         @type = TYPE_1559
@@ -184,6 +192,9 @@ module Eth
         # force-set signature to unsigned
         _set_signature(nil, 0, 0)
 
+        # keep the 'from' field blank
+        @sender = Tx.sanitize_address nil
+
         # last but not least, set the type.
         @type = TYPE_1559
       end
@@ -193,9 +204,18 @@ module Eth
       # @param key [Eth::Key] the key-pair to use for signing.
       # @raise [StandardError] if the transaction is already signed.
       # @return [String] a transaction hash.
+      # @raise [StandardError] if transaction is already signed.
+      # @raise [StandardError] if sender address does not match signing key.
       def sign(key)
         if Tx.is_signed? self
           raise StandardError, "Transaction is already signed!"
+        end
+
+        # ensure the sender address matches the given key
+        unless @sender.nil? or sender.empty?
+          signer_address = Tx.sanitize_address key.address.to_s
+          from_address = Tx.sanitize_address @sender
+          raise StandardError, "Signer does not match sender" unless signer_address == from_address
         end
 
         # sign a keccak hash of the unsigned, encoded transaction

@@ -31,7 +31,7 @@ describe Eth::Tx::Eip1559 do
       gas_limit: 230_420,
       to: "0xCaA29806044A08E533963b2e573C1230A2cd9a2d",
       value: 0.069423 * Eth::Unit::ETHER,
-      data_bin: "Foo Bar Ruby Ethereum",
+      data: "Foo Bar Ruby Ethereum",
       access_list: list,
     })
   }
@@ -50,7 +50,7 @@ describe Eth::Tx::Eip1559 do
       nonce: 0,
       priority_fee: 0,
       max_gas_fee: Eth::Unit::WEI,
-      gas_limit: Eth::Tx::DEFAULT_LIMIT,
+      gas_limit: Eth::Tx::DEFAULT_GAS_LIMIT,
     })
   }
 
@@ -68,7 +68,7 @@ describe Eth::Tx::Eip1559 do
           nonce: 0,
           priority_fee: -9,
           max_gas_fee: Eth::Unit::GWEI,
-          gas_limit: Eth::Tx::DEFAULT_LIMIT,
+          gas_limit: Eth::Tx::DEFAULT_GAS_LIMIT,
         })
       }.to raise_error ArgumentError
       expect {
@@ -76,7 +76,7 @@ describe Eth::Tx::Eip1559 do
           nonce: 0,
           priority_fee: 0,
           max_gas_fee: -9 * Eth::Unit::GWEI,
-          gas_limit: Eth::Tx::DEFAULT_LIMIT,
+          gas_limit: Eth::Tx::DEFAULT_GAS_LIMIT,
         })
       }.to raise_error ArgumentError
       expect {
@@ -84,7 +84,7 @@ describe Eth::Tx::Eip1559 do
           nonce: 0,
           priority_fee: 0,
           max_gas_fee: Eth::Unit::GWEI,
-          gas_limit: Eth::Tx::DEFAULT_LIMIT - 1,
+          gas_limit: Eth::Tx::DEFAULT_GAS_LIMIT - 1,
         })
       }.to raise_error ArgumentError
       expect {
@@ -92,7 +92,7 @@ describe Eth::Tx::Eip1559 do
           nonce: 0,
           priority_fee: 0,
           max_gas_fee: Eth::Unit::GWEI,
-          gas_limit: Eth::Tx::BLOCK_LIMIT + 1,
+          gas_limit: Eth::Tx::BLOCK_GAS_LIMIT + 1,
         })
       }.to raise_error ArgumentError
       expect {
@@ -100,7 +100,7 @@ describe Eth::Tx::Eip1559 do
           nonce: -1,
           priority_fee: 0,
           max_gas_fee: Eth::Unit::GWEI,
-          gas_limit: Eth::Tx::BLOCK_LIMIT,
+          gas_limit: Eth::Tx::BLOCK_GAS_LIMIT,
         })
       }.to raise_error ArgumentError
       expect {
@@ -108,7 +108,7 @@ describe Eth::Tx::Eip1559 do
           nonce: 0,
           priority_fee: 0,
           max_gas_fee: Eth::Unit::GWEI,
-          gas_limit: Eth::Tx::BLOCK_LIMIT,
+          gas_limit: Eth::Tx::BLOCK_GAS_LIMIT,
           to: "foo",
         })
       }.to raise_error ArgumentError
@@ -117,7 +117,7 @@ describe Eth::Tx::Eip1559 do
           nonce: 0,
           priority_fee: 0,
           max_gas_fee: Eth::Unit::GWEI,
-          gas_limit: Eth::Tx::BLOCK_LIMIT,
+          gas_limit: Eth::Tx::BLOCK_GAS_LIMIT,
           to: "0xef26b1f67797e7a5a3c192c93d821fadef3ba173",
           value: -1,
         })
@@ -127,7 +127,7 @@ describe Eth::Tx::Eip1559 do
           nonce: 0,
           priority_fee: 0,
           max_gas_fee: Eth::Unit::GWEI,
-          gas_limit: Eth::Tx::BLOCK_LIMIT,
+          gas_limit: Eth::Tx::BLOCK_GAS_LIMIT,
           to: "0xef26b1f67797e7a5a3c192c93d821fadef3ba173",
           value: 1,
           access_list: "bar",

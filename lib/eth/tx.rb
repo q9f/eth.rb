@@ -14,9 +14,12 @@
 
 require "rlp"
 require "konstructor"
+
+require "eth/chain"
 require "eth/tx/eip1559"
 require "eth/tx/eip2930"
 require "eth/tx/legacy"
+require "eth/unit"
 
 # Provides the `Eth` module.
 module Eth
@@ -26,10 +29,13 @@ module Eth
     extend self
 
     # The minimum transaction gas limit required for a value transfer.
-    DEFAULT_LIMIT = 21_000
+    DEFAULT_GAS_LIMIT = 21_000
+
+    # The "default" transaction gas price of 20 GWei. Do not use.
+    DEFAULT_GAS_PRICE = 20 * Unit::GWEI
 
     # The maximum transaction gas limit is bound by the block gas limit.
-    BLOCK_LIMIT = 25_000_000
+    BLOCK_GAS_LIMIT = 25_000_000
 
     # The legacy transaction type is 0.
     TYPE_LEGACY = 0x00
@@ -42,11 +48,11 @@ module Eth
 
     # Creates a new transaction of any type for given parameters and chain ID.
     # Required parameters are (optional in brackets):
-    # - EIP-1559: chain_id, nonce, priority_fee, max_gas_fee, gas_limit(, to,
-    #   value, data_bin, access_list)
-    # - EIP-2930: chain_id, nonce, gas_price, gas_limit, access_list(, to,
-    #   value, data_bin)
-    # - Legacy: nonce, gas_price, gas_lmit(, to, value, data_bin)
+    # - EIP-1559: chain_id, nonce, priority_fee, max_gas_fee, gas_limit(, from, to,
+    #   value, data, access_list)
+    # - EIP-2930: chain_id, nonce, gas_price, gas_limit, access_list(, from, to,
+    #   value, data)
+    # - Legacy: nonce, gas_price, gas_lmit(, from, to, value, data)
     #
     # @param params [Hash] all necessary transaction fields.
     # @param chain_id [Integer] the EIP-155 Chain ID (legacy transactions only).
@@ -65,6 +71,7 @@ module Eth
       end
 
       # if nothing else, go with legacy transactions
+      chain_id = params[:chain_id] if !params[:chain_id].nil? and params[:chain_id] != chain_id
       return Tx::Legacy.new params, chain_id
     end
 
@@ -141,7 +148,7 @@ module Eth
       unless fields[:max_gas_fee] >= 0
         raise ArgumentError, "Invalid max gas fee #{fields[:max_gas_fee]}!"
       end
-      unless fields[:gas_limit] >= DEFAULT_LIMIT and fields[:gas_limit] <= BLOCK_LIMIT
+      unless fields[:gas_limit] >= DEFAULT_GAS_LIMIT and fields[:gas_limit] <= BLOCK_GAS_LIMIT
         raise ArgumentError, "Invalid gas limit #{fields[:gas_limit]}!"
       end
       unless fields[:value] >= 0
@@ -170,7 +177,7 @@ module Eth
       unless fields[:gas_price] >= 0
         raise ArgumentError, "Invalid gas price #{fields[:gas_price]}!"
       end
-      unless fields[:gas_limit] >= DEFAULT_LIMIT and fields[:gas_limit] <= BLOCK_LIMIT
+      unless fields[:gas_limit] >= DEFAULT_GAS_LIMIT and fields[:gas_limit] <= BLOCK_GAS_LIMIT
         raise ArgumentError, "Invalid gas limit #{fields[:gas_limit]}!"
       end
       unless fields[:value] >= 0

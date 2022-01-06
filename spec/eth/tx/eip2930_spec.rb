@@ -29,7 +29,7 @@ describe Eth::Tx::Eip2930 do
       gas_limit: 230_000,
       to: "0xCaA29806044A08E533963b2e573C1230A2cd9a2d",
       value: 0.0137 * Eth::Unit::ETHER,
-      data_bin: "Foo Bar Ruby Ethereum",
+      data: "Foo Bar Ruby Ethereum",
       access_list: list,
     })
   }
@@ -41,7 +41,7 @@ describe Eth::Tx::Eip2930 do
     Eth::Tx.new({
       nonce: 0,
       gas_price: Eth::Unit::WEI,
-      gas_limit: Eth::Tx::DEFAULT_LIMIT,
+      gas_limit: Eth::Tx::DEFAULT_GAS_LIMIT,
       access_list: list,
     })
   }
@@ -78,35 +78,35 @@ describe Eth::Tx::Eip2930 do
         Eth::Tx.new({
           nonce: 0,
           gas_price: -9 * Eth::Unit::GWEI,
-          gas_limit: Eth::Tx::DEFAULT_LIMIT,
+          gas_limit: Eth::Tx::DEFAULT_GAS_LIMIT,
         })
       }.to raise_error ArgumentError
       expect {
         Eth::Tx.new({
           nonce: 0,
           gas_price: Eth::Unit::GWEI,
-          gas_limit: Eth::Tx::DEFAULT_LIMIT - 1,
+          gas_limit: Eth::Tx::DEFAULT_GAS_LIMIT - 1,
         })
       }.to raise_error ArgumentError
       expect {
         Eth::Tx.new({
           nonce: 0,
           gas_price: Eth::Unit::GWEI,
-          gas_limit: Eth::Tx::BLOCK_LIMIT + 1,
+          gas_limit: Eth::Tx::BLOCK_GAS_LIMIT + 1,
         })
       }.to raise_error ArgumentError
       expect {
         Eth::Tx.new({
           nonce: -1,
           gas_price: Eth::Unit::GWEI,
-          gas_limit: Eth::Tx::BLOCK_LIMIT,
+          gas_limit: Eth::Tx::BLOCK_GAS_LIMIT,
         })
       }.to raise_error ArgumentError
       expect {
         Eth::Tx.new({
           nonce: 0,
           gas_price: Eth::Unit::GWEI,
-          gas_limit: Eth::Tx::BLOCK_LIMIT,
+          gas_limit: Eth::Tx::BLOCK_GAS_LIMIT,
           to: "foo",
         })
       }.to raise_error ArgumentError
@@ -114,7 +114,7 @@ describe Eth::Tx::Eip2930 do
         Eth::Tx.new({
           nonce: 0,
           gas_price: Eth::Unit::GWEI,
-          gas_limit: Eth::Tx::BLOCK_LIMIT,
+          gas_limit: Eth::Tx::BLOCK_GAS_LIMIT,
           to: "0xef26b1f67797e7a5a3c192c93d821fadef3ba173",
           value: -1,
         })
@@ -123,7 +123,7 @@ describe Eth::Tx::Eip2930 do
         Eth::Tx.new({
           nonce: 0,
           gas_price: Eth::Unit::GWEI,
-          gas_limit: Eth::Tx::BLOCK_LIMIT,
+          gas_limit: Eth::Tx::BLOCK_GAS_LIMIT,
           to: "0xef26b1f67797e7a5a3c192c93d821fadef3ba173",
           value: 1,
           access_list: "bar",
@@ -247,7 +247,7 @@ describe Eth::Tx::Eip2930 do
     end
   end
 
-  context "different :data_bin input formats" do
+  context "different :data input formats" do
     subject(:types) {
       [
         "string",
@@ -273,7 +273,7 @@ describe Eth::Tx::Eip2930 do
         nonce: 0,
         gas_price: 1,
         gas_limit: 21_000,
-        data_bin: abi,
+        data: abi,
         access_list: list,
       })
 
@@ -299,7 +299,7 @@ describe Eth::Tx::Eip2930 do
         nonce: 0,
         gas_price: 1,
         gas_limit: 21_000,
-        data_bin: hex,
+        data: hex,
         access_list: list,
       })
 
@@ -326,7 +326,7 @@ describe Eth::Tx::Eip2930 do
         nonce: 0,
         gas_price: 1,
         gas_limit: 21_000,
-        data_bin: lorem,
+        data: lorem,
         access_list: list,
       })
       some.sign cow

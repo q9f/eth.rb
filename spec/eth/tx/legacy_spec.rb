@@ -7,7 +7,7 @@ describe Eth::Tx::Legacy do
     Eth::Tx.new({
       nonce: 0,
       gas_price: Eth::Unit::WEI,
-      gas_limit: Eth::Tx::DEFAULT_LIMIT,
+      gas_limit: Eth::Tx::DEFAULT_GAS_LIMIT,
     })
   }
   subject(:cow) { Eth::Key.new(priv: Eth::Util.keccak256("cow")) }
@@ -21,7 +21,7 @@ describe Eth::Tx::Legacy do
         gas_limit: 21576,
         to: "0xcaa29806044a08e533963b2e573c1230a2cd9a2d",
         value: BigDecimal("0.123456789012345678") * Eth::Unit::ETHER,
-        data_bin: "Lorem Ipsum Ruby Ethereum Test 1-2-3",
+        data: "Lorem Ipsum Ruby Ethereum Test 1-2-3",
       },
       Eth::Chain::GOERLI
     )
@@ -36,7 +36,7 @@ describe Eth::Tx::Legacy do
         gas_limit: 23_000,
         to: "0xCaA29806044A08E533963b2e573C1230A2cd9a2d",
         value: 0.0069 * Eth::Unit::ETHER,
-        data_bin: "Foo Bar Ruby Ethereum",
+        data: "Foo Bar Ruby Ethereum",
       },
       Eth::Chain::GOERLI
     )
@@ -99,12 +99,12 @@ describe Eth::Tx::Legacy do
       expect(Eth::Tx.new({
         nonce: 0,
         gas_price: Eth::Unit::GWEI,
-        gas_limit: Eth::Tx::DEFAULT_LIMIT,
+        gas_limit: Eth::Tx::DEFAULT_GAS_LIMIT,
       })).to be
       expect(Eth::Tx.new({
         nonce: 0,
         gas_price: Eth::Unit::GWEI,
-        gas_limit: Eth::Tx::DEFAULT_LIMIT,
+        gas_limit: Eth::Tx::DEFAULT_GAS_LIMIT,
       })).to be_instance_of Eth::Tx::Legacy
     end
 
@@ -113,35 +113,35 @@ describe Eth::Tx::Legacy do
         Eth::Tx.new({
           nonce: 0,
           gas_price: -9 * Eth::Unit::GWEI,
-          gas_limit: Eth::Tx::DEFAULT_LIMIT,
+          gas_limit: Eth::Tx::DEFAULT_GAS_LIMIT,
         })
       }.to raise_error ArgumentError
       expect {
         Eth::Tx.new({
           nonce: 0,
           gas_price: Eth::Unit::GWEI,
-          gas_limit: Eth::Tx::DEFAULT_LIMIT - 1,
+          gas_limit: Eth::Tx::DEFAULT_GAS_LIMIT - 1,
         })
       }.to raise_error ArgumentError
       expect {
         Eth::Tx.new({
           nonce: 0,
           gas_price: Eth::Unit::GWEI,
-          gas_limit: Eth::Tx::BLOCK_LIMIT + 1,
+          gas_limit: Eth::Tx::BLOCK_GAS_LIMIT + 1,
         })
       }.to raise_error ArgumentError
       expect {
         Eth::Tx.new({
           nonce: -1,
           gas_price: Eth::Unit::GWEI,
-          gas_limit: Eth::Tx::BLOCK_LIMIT,
+          gas_limit: Eth::Tx::BLOCK_GAS_LIMIT,
         })
       }.to raise_error ArgumentError
       expect {
         Eth::Tx.new({
           nonce: 0,
           gas_price: Eth::Unit::GWEI,
-          gas_limit: Eth::Tx::BLOCK_LIMIT,
+          gas_limit: Eth::Tx::BLOCK_GAS_LIMIT,
           to: "foo",
         })
       }.to raise_error ArgumentError
@@ -149,7 +149,7 @@ describe Eth::Tx::Legacy do
         Eth::Tx.new({
           nonce: 0,
           gas_price: Eth::Unit::GWEI,
-          gas_limit: Eth::Tx::BLOCK_LIMIT,
+          gas_limit: Eth::Tx::BLOCK_GAS_LIMIT,
           to: "0xef26b1f67797e7a5a3c192c93d821fadef3ba173",
           value: -1,
         })
@@ -268,7 +268,7 @@ describe Eth::Tx::Legacy do
     end
   end
 
-  context "different :data_bin input formats" do
+  context "different :data input formats" do
     subject(:types) {
       [
         "string",
@@ -294,7 +294,7 @@ describe Eth::Tx::Legacy do
         nonce: 0,
         gas_price: 1,
         gas_limit: 21_000,
-        data_bin: abi,
+        data: abi,
       })
 
       # expect to properly accept binary data
@@ -318,7 +318,7 @@ describe Eth::Tx::Legacy do
         nonce: 0,
         gas_price: 1,
         gas_limit: 21_000,
-        data_bin: hex,
+        data: hex,
       })
 
       # expect to properly accept hexadecimal data without changing the transaction hash
@@ -343,7 +343,7 @@ describe Eth::Tx::Legacy do
         nonce: 0,
         gas_price: 1,
         gas_limit: 21_000,
-        data_bin: lorem,
+        data: lorem,
       })
       some.sign cow
       expect(some.hex).to eq "f858800182520880808d4c6f72656d2c20497073756d2125a054e2ebfe742db1d1e5710246e6057d7ec19f1f6fc9933bd180889cc8d4d4eb3aa07b6c7ea38c2c495f3faa7513700446d0a6971677a73dc802dcac059fd141a164"

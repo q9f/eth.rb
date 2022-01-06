@@ -52,6 +52,9 @@ module Eth
       # The EIP-155 chain ID field.
       attr_reader :chain_id
 
+      # The sender address.
+      attr_reader :sender
+
       # The transaction type.
       attr_reader :type
 
@@ -60,15 +63,16 @@ module Eth
       # no EIP-1559 support.
       #
       # @param params [Hash] all necessary transaction fields (nonce,
-      #        gas_price, gas_limit, to, value, data_bin).
+      #        gas_price, gas_limit, from, to, value, data).
       # @param chain_id [Integer] the EIP-155 Chain ID.
       def initialize(params, chain_id = Chain::ETHEREUM)
         fields = { v: chain_id, r: 0, s: 0 }.merge params
 
         # populate optional fields with serializable empty values
         fields[:value] = Tx.sanitize_amount fields[:value]
+        fields[:from] = Tx.sanitize_address fields[:from]
         fields[:to] = Tx.sanitize_address fields[:to]
-        fields[:data_bin] = Tx.sanitize_data fields[:data_bin]
+        fields[:data] = Tx.sanitize_data fields[:data]
 
         # ensure sane values for all mandatory fields
         fields = Tx.validate_legacy_params fields
@@ -77,9 +81,10 @@ module Eth
         @signer_nonce = fields[:nonce].to_i
         @gas_price = fields[:gas_price].to_i
         @gas_limit = fields[:gas_limit].to_i
+        @sender = fields[:from].to_s
         @destination = fields[:to].to_s
         @amount = fields[:value].to_i
-        @payload = fields[:data_bin]
+        @payload = fields[:data]
 
         # the signature v is set to the chain id for unsigned transactions
         @signature_v = fields[:v]
@@ -114,7 +119,7 @@ module Eth
         gas_limit = Util.deserialize_big_endian_to_int tx[2]
         to = Util.bin_to_hex tx[3]
         value = Util.deserialize_big_endian_to_int tx[4]
-        data_bin = tx[5]
+        data = tx[5]
         v = Util.bin_to_hex tx[6]
         r = Util.bin_to_hex tx[7]
         s = Util.bin_to_hex tx[8]
@@ -128,11 +133,14 @@ module Eth
         @gas_limit = gas_limit.to_i
         @destination = to.to_s
         @amount = value.to_i
-        @payload = data_bin
+        @payload = data
         @chain_id = chain_id
 
         # allows us to force-setting a signature if the transaction is signed already
         _set_signature(v, r, s)
+
+        # keep the 'from' field blank ()
+        @sender = Tx.sanitize_address nil
 
         # last but not least, set the type.
         @type = TYPE_LEGACY
@@ -159,6 +167,9 @@ module Eth
         # force-set signature to unsigned
         _set_signature(tx.chain_id, 0, 0)
 
+        # keep the 'from' field blank
+        @sender = Tx.sanitize_address nil
+
         # last but not least, set the type.
         @type = TYPE_LEGACY
       end
@@ -168,9 +179,18 @@ module Eth
       # @param key [Eth::Key] the key-pair to use for signing.
       # @raise [StandardError] if the transaction is already signed.
       # @return [String] a transaction hash.
+      # @raise [StandardError] if transaction is already signed.
+      # @raise [StandardError] if sender address does not match signing key.
       def sign(key)
         if Tx.is_signed? self
           raise StandardError, "Transaction is already signed!"
+        end
+
+        # ensure the sender address matches the given key
+        unless @sender.nil? or sender.empty?
+          signer_address = Tx.sanitize_address key.address.to_s
+          from_address = Tx.sanitize_address @sender
+          raise StandardError, "Signer does not match sender" unless signer_address == from_address
         end
 
         # sign a keccak hash of the unsigned, encoded transaction
@@ -190,17 +210,9 @@ module Eth
         unless Tx.is_signed? self
           raise StandardError, "Transaction is not signed!"
         end
-        tx_data = []
-        tx_data.push Util.serialize_int_to_big_endian @signer_nonce
-        tx_data.push Util.serialize_int_to_big_endian @gas_price
-        tx_data.push Util.serialize_int_to_big_endian @gas_limit
-        tx_data.push Util.hex_to_bin @destination
-        tx_data.push Util.serialize_int_to_big_endian @amount
-        tx_data.push @payload
-        tx_data.push Util.hex_to_bin @signature_v
-        tx_data.push Util.hex_to_bin @signature_r
-        tx_data.push Util.hex_to_bin @signature_s
-        RLP.encode tx_data
+
+        # this is the same for legacy transactions, now containing the signature
+        unsigned_encoded
       end
 
       # Gets the encoded, raw transaction hex.
