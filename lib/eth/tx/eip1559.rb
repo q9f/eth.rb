@@ -61,7 +61,7 @@ module Eth
       # Create a type-2 (EIP-1559) transaction payload object that
       # can be prepared for envelope, signature and broadcast.
       #
-      # @param params [Hash] all necessary transaction fields (chain_id, nonce, priority_fee, gas_fee, gas_limit, to, value, data_bin, access_list).
+      # @param params [Hash] all necessary transaction fields (chain_id, nonce, priority_fee, max_gas_fee, gas_limit, to, value, data_bin, access_list).
       def initialize(params)
         fields = { recovery_id: nil, r: 0, s: 0 }.merge params
 
@@ -78,7 +78,7 @@ module Eth
         # populate class attributes
         @signer_nonce = fields[:nonce].to_i
         @max_priority_fee_per_gas = fields[:priority_fee].to_i
-        @max_fee_per_gas = fields[:gas_fee].to_i
+        @max_fee_per_gas = fields[:max_gas_fee].to_i
         @gas_limit = fields[:gas_limit].to_i
         @destination = fields[:to].to_s
         @amount = fields[:value].to_i
@@ -117,7 +117,7 @@ module Eth
         chain_id = Util.deserialize_big_endian_to_int tx[0]
         nonce = Util.deserialize_big_endian_to_int tx[1]
         priority_fee = Util.deserialize_big_endian_to_int tx[2]
-        gas_fee = Util.deserialize_big_endian_to_int tx[3]
+        max_gas_fee = Util.deserialize_big_endian_to_int tx[3]
         gas_limit = Util.deserialize_big_endian_to_int tx[4]
         to = Util.bin_to_hex tx[5]
         value = Util.deserialize_big_endian_to_int tx[6]
@@ -128,7 +128,7 @@ module Eth
         @chain_id = chain_id
         @signer_nonce = nonce.to_i
         @max_priority_fee_per_gas = priority_fee.to_i
-        @max_fee_per_gas = gas_fee.to_i
+        @max_fee_per_gas = max_gas_fee.to_i
         @gas_limit = gas_limit.to_i
         @destination = to.to_s
         @amount = value.to_i

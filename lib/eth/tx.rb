@@ -56,10 +56,10 @@ module Eth
         raise ArgumentError, "Invalid signer nonce #{fields[:nonce]}!"
       end
       unless fields[:priority_fee] >= 0
-        raise ArgumentError, "Invalid gas price #{fields[:gas_price]}!"
+        raise ArgumentError, "Invalid gas priority fee #{fields[:priority_fee]}!"
       end
-      unless fields[:gas_fee] >= 0
-        raise ArgumentError, "Invalid gas price #{fields[:gas_price]}!"
+      unless fields[:max_gas_fee] >= 0
+        raise ArgumentError, "Invalid max gas fee #{fields[:max_gas_fee]}!"
       end
       unless fields[:gas_limit] >= DEFAULT_LIMIT and fields[:gas_limit] <= BLOCK_LIMIT
         raise ArgumentError, "Invalid gas limit #{fields[:gas_limit]}!"
