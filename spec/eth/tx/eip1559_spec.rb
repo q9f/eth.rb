@@ -3,15 +3,6 @@
 require "spec_helper"
 
 describe Eth::Tx::Eip1559 do
-  subject(:tx) {
-    Eth::Tx::Eip1559.new({
-      nonce: 0,
-      priority_fee: 0,
-      max_gas_fee: Eth::Unit::WEI,
-      gas_limit: Eth::Tx::DEFAULT_LIMIT,
-    })
-  }
-  subject(:cow) { Eth::Key.new(priv: Eth::Util.keccak256("cow")) }
 
   # ref https://goerli.etherscan.io/tx/0x737b57a273ea1e63e6b8f770313fc2fbc4a668706d2921292dd28307b9f9644f#accesslist
   subject(:list) {
@@ -32,7 +23,7 @@ describe Eth::Tx::Eip1559 do
 
   # ref https://goerli.etherscan.io/tx/0x737b57a273ea1e63e6b8f770313fc2fbc4a668706d2921292dd28307b9f9644f
   subject(:type02) {
-    Eth::Tx::Eip1559.new({
+    Eth::Tx.new({
       chain_id: Eth::Chain::GOERLI,
       nonce: 5,
       priority_fee: 3 * Eth::Unit::GWEI,
@@ -54,6 +45,17 @@ describe Eth::Tx::Eip1559 do
   # ref https://goerli.etherscan.io/address/0x4762119a7249823d18aec7eab73258b2d5061dd8
   subject(:testnet) { Eth::Key.new(priv: "0xc6c633f85d3f9a4705623b1d9bd1122a1a9196cd53dd352505e895fcbb8452ef") }
 
+  subject(:tx) {
+    Eth::Tx.new({
+      nonce: 0,
+      priority_fee: 0,
+      max_gas_fee: Eth::Unit::WEI,
+      gas_limit: Eth::Tx::DEFAULT_LIMIT,
+    })
+  }
+
+  subject(:cow) { Eth::Key.new(priv: Eth::Util.keccak256("cow")) }
+
   describe ".initialize" do
     it "creates EIP-1559 transaction objects" do
       expect(tx).to be
@@ -62,7 +64,7 @@ describe Eth::Tx::Eip1559 do
 
     it "doesn't create invalid transaction objects" do
       expect {
-        Eth::Tx::Eip1559.new({
+        Eth::Tx.new({
           nonce: 0,
           priority_fee: -9,
           max_gas_fee: Eth::Unit::GWEI,
@@ -70,7 +72,7 @@ describe Eth::Tx::Eip1559 do
         })
       }.to raise_error ArgumentError
       expect {
-        Eth::Tx::Eip1559.new({
+        Eth::Tx.new({
           nonce: 0,
           priority_fee: 0,
           max_gas_fee: -9 * Eth::Unit::GWEI,
@@ -78,7 +80,7 @@ describe Eth::Tx::Eip1559 do
         })
       }.to raise_error ArgumentError
       expect {
-        Eth::Tx::Eip1559.new({
+        Eth::Tx.new({
           nonce: 0,
           priority_fee: 0,
           max_gas_fee: Eth::Unit::GWEI,
@@ -86,7 +88,7 @@ describe Eth::Tx::Eip1559 do
         })
       }.to raise_error ArgumentError
       expect {
-        Eth::Tx::Eip1559.new({
+        Eth::Tx.new({
           nonce: 0,
           priority_fee: 0,
           max_gas_fee: Eth::Unit::GWEI,
@@ -94,7 +96,7 @@ describe Eth::Tx::Eip1559 do
         })
       }.to raise_error ArgumentError
       expect {
-        Eth::Tx::Eip1559.new({
+        Eth::Tx.new({
           nonce: -1,
           priority_fee: 0,
           max_gas_fee: Eth::Unit::GWEI,
@@ -102,7 +104,7 @@ describe Eth::Tx::Eip1559 do
         })
       }.to raise_error ArgumentError
       expect {
-        Eth::Tx::Eip1559.new({
+        Eth::Tx.new({
           nonce: 0,
           priority_fee: 0,
           max_gas_fee: Eth::Unit::GWEI,
@@ -111,7 +113,7 @@ describe Eth::Tx::Eip1559 do
         })
       }.to raise_error ArgumentError
       expect {
-        Eth::Tx::Eip1559.new({
+        Eth::Tx.new({
           nonce: 0,
           priority_fee: 0,
           max_gas_fee: Eth::Unit::GWEI,
@@ -121,7 +123,7 @@ describe Eth::Tx::Eip1559 do
         })
       }.to raise_error ArgumentError
       expect {
-        Eth::Tx::Eip1559.new({
+        Eth::Tx.new({
           nonce: 0,
           priority_fee: 0,
           max_gas_fee: Eth::Unit::GWEI,
@@ -193,8 +195,8 @@ describe Eth::Tx::Eip1559 do
 
     describe ".copy" do
       it "can duplicate transactions" do
-        eip1559 = Eth::Tx::Eip1559.decode type02_hex
-        duplicate = Eth::Tx::Eip1559.unsigned_copy eip1559
+        eip1559 = Eth::Tx.decode type02_hex
+        duplicate = Eth::Tx.unsigned_copy eip1559
         expect(eip1559.chain_id).to eq duplicate.chain_id
         expect(eip1559.signer_nonce).to eq duplicate.signer_nonce
         expect(eip1559.max_priority_fee_per_gas).to eq duplicate.max_priority_fee_per_gas
@@ -204,6 +206,7 @@ describe Eth::Tx::Eip1559 do
         expect(eip1559.amount).to eq duplicate.amount
         expect(eip1559.payload).to eq duplicate.payload
         expect(eip1559.access_list).to eq duplicate.access_list
+        expect(eip1559.type).to eq duplicate.type
 
         # unsigned
         expect(duplicate.signature_y_parity).not_to be

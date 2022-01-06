@@ -31,7 +31,7 @@ module Eth
       # The transaction max priority fee per gas in Wei.
       attr_reader :max_priority_fee_per_gas
 
-      # The transaction base fee per gas in Wei.
+      # The transaction max fee per gas in Wei.
       attr_reader :max_fee_per_gas
 
       # The gas limit for the transaction.
@@ -46,7 +46,7 @@ module Eth
       # The transaction data payload.
       attr_reader :payload
 
-      # An optional EIP-1559 access list.
+      # An optional EIP-2930 access list.
       attr_reader :access_list
 
       # The signature's y-parity byte (not v).
@@ -58,10 +58,15 @@ module Eth
       # The signature `s` value.
       attr_reader :signature_s
 
+      # The transaction type.
+      attr_reader :type
+
       # Create a type-2 (EIP-1559) transaction payload object that
       # can be prepared for envelope, signature and broadcast.
       #
-      # @param params [Hash] all necessary transaction fields (chain_id, nonce, priority_fee, max_gas_fee, gas_limit, to, value, data_bin, access_list).
+      # @param params [Hash] all necessary transaction fields (chain_id,
+      #        nonce, priority_fee, max_gas_fee, gas_limit, to, value,
+      #        data_bin, access_list).
       def initialize(params)
         fields = { recovery_id: nil, r: 0, s: 0 }.merge params
 
@@ -92,9 +97,12 @@ module Eth
         # the signature fields are empty for unsigned transactions.
         @signature_r = fields[:r]
         @signature_s = fields[:s]
+
+        # last but not least, set the type.
+        @type = TYPE_1559
       end
 
-      # Overloads the constructor for decoding raw transactions and creating unsigned copies
+      # Overloads the constructor for decoding raw transactions and creating unsigned copies.
       konstructor :decode, :unsigned_copy
 
       # Decodes a raw transaction hex into an Eth::Tx::Eip1559
@@ -146,8 +154,11 @@ module Eth
           # allows us to force-setting a signature if the transaction is signed already
           _set_signature(recovery_id, r, s)
         else
-          raise_error StandardError "Cannot decode EIP-1559 payload!"
+          raise_error StandardError, "Cannot decode EIP-1559 payload!"
         end
+
+        # last but not least, set the type.
+        @type = TYPE_1559
       end
 
       # Creates an unsigned copy of a transaction payload.
@@ -157,7 +168,7 @@ module Eth
       def unsigned_copy(tx)
 
         # not checking transaction validity unless it's of a different class
-        raise ArgumentError "Cannot copy transaction of different payload type!" unless tx.instance_of? Tx::Eip1559
+        raise ArgumentError, "Cannot copy transaction of different payload type!" unless tx.instance_of? Tx::Eip1559
 
         # populate class attributes
         @signer_nonce = tx.signer_nonce
@@ -172,12 +183,16 @@ module Eth
 
         # force-set signature to unsigned
         _set_signature(nil, 0, 0)
+
+        # last but not least, set the type.
+        @type = TYPE_1559
       end
 
       # Sign the transaction with a given key.
       #
       # @param key [Eth::Key] the key-pair to use for signing.
       # @raise [StandardError] if the transaction is already signed.
+      # @return [String] a transaction hash.
       def sign(key)
         if Tx.is_signed? self
           raise StandardError, "Transaction is already signed!"
@@ -190,6 +205,7 @@ module Eth
         @signature_y_parity = recovery_id
         @signature_r = r
         @signature_s = s
+        return hash
       end
 
       # Encodes a raw transaction object, wraps it in an EIP-2718 envelope
@@ -217,7 +233,7 @@ module Eth
         tx_encoded = RLP.encode tx_data
 
         # create an EIP-2718 envelope with EIP-1559 type payload
-        tx_type = Util.serialize_int_to_big_endian TYPE_1559
+        tx_type = Util.serialize_int_to_big_endian @type
         return "#{tx_type}#{tx_encoded}"
       end
 
@@ -253,7 +269,7 @@ module Eth
         tx_encoded = RLP.encode tx_data
 
         # create an EIP-2718 envelope with EIP-1559 type payload (unsigned)
-        tx_type = Util.serialize_int_to_big_endian TYPE_1559
+        tx_type = Util.serialize_int_to_big_endian @type
         return "#{tx_type}#{tx_encoded}"
       end
 

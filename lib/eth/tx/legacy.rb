@@ -52,11 +52,15 @@ module Eth
       # The EIP-155 chain ID field.
       attr_reader :chain_id
 
+      # The transaction type.
+      attr_reader :type
+
       # Create a legacy transaction object that can be prepared for
       # signature and broadcast. Should not be used unless there is
       # no EIP-1559 support.
       #
-      # @param params [Hash] all necessary transaction fields (nonce, gas_price, gas_limit, to, value, data_bin).
+      # @param params [Hash] all necessary transaction fields (nonce,
+      #        gas_price, gas_limit, to, value, data_bin).
       # @param chain_id [Integer] the EIP-155 Chain ID.
       def initialize(params, chain_id = Chain::ETHEREUM)
         fields = { v: chain_id, r: 0, s: 0 }.merge params
@@ -84,6 +88,9 @@ module Eth
         # the signature fields are empty for unsigned transactions.
         @signature_r = fields[:r]
         @signature_s = fields[:s]
+
+        # last but not least, set the type.
+        @type = TYPE_LEGACY
       end
 
       # overloads the constructor for decoding raw transactions and creating unsigned copies
@@ -126,6 +133,9 @@ module Eth
 
         # allows us to force-setting a signature if the transaction is signed already
         _set_signature(v, r, s)
+
+        # last but not least, set the type.
+        @type = TYPE_LEGACY
       end
 
       # Creates an unsigned copy of a transaction.
@@ -135,7 +145,7 @@ module Eth
       def unsigned_copy(tx)
 
         # not checking transaction validity unless it's of a different class
-        raise ArgumentError "Cannot copy transaction of different type!" unless tx.instance_of? Tx::Legacy
+        raise ArgumentError, "Cannot copy transaction of different type!" unless tx.instance_of? Tx::Legacy
 
         # populate class attributes
         @signer_nonce = tx.signer_nonce
@@ -148,12 +158,16 @@ module Eth
 
         # force-set signature to unsigned
         _set_signature(tx.chain_id, 0, 0)
+
+        # last but not least, set the type.
+        @type = TYPE_LEGACY
       end
 
       # Sign the transaction with a given key.
       #
       # @param key [Eth::Key] the key-pair to use for signing.
       # @raise [StandardError] if the transaction is already signed.
+      # @return [String] a transaction hash.
       def sign(key)
         if Tx.is_signed? self
           raise StandardError, "Transaction is already signed!"
@@ -165,6 +179,7 @@ module Eth
         @signature_v = v
         @signature_r = r
         @signature_s = s
+        return hash
       end
 
       # Encodes a raw transaction object.

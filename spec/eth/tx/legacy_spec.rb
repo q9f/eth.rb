@@ -4,7 +4,7 @@ require "spec_helper"
 
 describe Eth::Tx::Legacy do
   subject(:tx) {
-    Eth::Tx::Legacy.new({
+    Eth::Tx.new({
       nonce: 0,
       gas_price: Eth::Unit::WEI,
       gas_limit: Eth::Tx::DEFAULT_LIMIT,
@@ -14,7 +14,7 @@ describe Eth::Tx::Legacy do
 
   # ref https://goerli.etherscan.io/tx/0x1975df4e715ce4af46c604e3fafb763a51cc133a42e43566779b4d5608bb4af1
   subject(:legacy) {
-    Eth::Tx::Legacy.new(
+    Eth::Tx.new(
       {
         nonce: 1,
         gas_price: 40 * Eth::Unit::GWEI,
@@ -29,7 +29,7 @@ describe Eth::Tx::Legacy do
 
   # ref https://goerli.etherscan.io/tx/0x047e319fc8e587a77f6e9a13c30d90b5a741d93e8b35a54b12c91d6149eda359
   subject(:ruby) {
-    Eth::Tx::Legacy.new(
+    Eth::Tx.new(
       {
         nonce: 3,
         gas_price: 42 * Eth::Unit::GWEI,
@@ -51,7 +51,7 @@ describe Eth::Tx::Legacy do
       # ref https://etherscan.io/tx/0x5c504ed432cb51138bcf09aa5e8a410dd4a1e204ef84bfed1be16dfba1b22060
       expected_hex = "f86780862d79883d2000825208945df9b87991262f6ba471f09758cde1c0fc1de734827a69801ca088ff6cf0fefd94db46111149ae4bfc179e9b94721fffd821d38d16464b3f71d0a045e0aff800961cfce805daef7016b9b675c137a6a41a548f7b60a3484c06a33a"
       expected_hash = "5c504ed432cb51138bcf09aa5e8a410dd4a1e204ef84bfed1be16dfba1b22060"
-      tx = Eth::Tx::Legacy.decode(expected_hex)
+      tx = Eth::Tx.decode(expected_hex)
       expect(tx.hex).to eq expected_hex
       expect(tx.hash).to eq expected_hash
     end
@@ -61,7 +61,7 @@ describe Eth::Tx::Legacy do
       # ref https://etherscan.io/tx/0x1de3026bb6be99d36d2d263fdfa33c92705ec3a69b4a3577b9983168a6653d9c
       expected_hex = "f869018504a817c8008301daa094fe4fa55500bf397ef429021455c6a95f65a01b3c808441c0e1b51ba034d0434d6f032d982ad4e3b4ae79cd6455f1d13dd3b257b9c2ed3a95e48753c1a036e04c480078005be9c94a2eb4afbb36e8605ce80d809413355769cedf694be2"
       expected_hash = "1de3026bb6be99d36d2d263fdfa33c92705ec3a69b4a3577b9983168a6653d9c"
-      tx = Eth::Tx::Legacy.decode(expected_hex)
+      tx = Eth::Tx.decode(expected_hex)
       expect(tx.hex).to eq expected_hex
       expect(tx.hash).to eq expected_hash
     end
@@ -71,7 +71,7 @@ describe Eth::Tx::Legacy do
       # ref https://goerli.etherscan.io/tx/0x1975df4e715ce4af46c604e3fafb763a51cc133a42e43566779b4d5608bb4af1
       expected_hex = "f890018509502f900082544894caa29806044a08e533963b2e573c1230a2cd9a2d8801b69b4ba630f34ea44c6f72656d20497073756d205275627920457468657265756d205465737420312d322d332ea0fb4d308f3d3f9770f2652ef40ea8369ab372e59bad814fb227fae1fdfdfa4d3aa066c8a2a2a2abcd391bac8639995a10f1546a873ef5b452bfe5fc367901d9f4ab"
       expected_hash = "1975df4e715ce4af46c604e3fafb763a51cc133a42e43566779b4d5608bb4af1"
-      tx = Eth::Tx::Legacy.decode(expected_hex)
+      tx = Eth::Tx.decode(expected_hex)
       expect(tx.hex).to eq expected_hex
       expect(tx.hash).to eq expected_hash
     end
@@ -81,11 +81,11 @@ describe Eth::Tx::Legacy do
       # ref https://goerli.etherscan.io/getRawTx?tx=0x047e319fc8e587a77f6e9a13c30d90b5a741d93e8b35a54b12c91d6149eda359
       expected_hex = "0xf880038509c76524008259d894caa29806044a08e533963b2e573c1230a2cd9a2d8718838370f3400095466f6f20426172205275627920457468657265756d2ea0a0133bf9a770032e18a2ce0eda0d8562abbd88920d696d02373e901967f9956da075e6ce3e86db8391524a7dff0331e90c2bf18cedfbd4164f177a86c53e5be4fa"
       expected_hash = "0x047e319fc8e587a77f6e9a13c30d90b5a741d93e8b35a54b12c91d6149eda359"
-      decoded = Eth::Tx::Legacy.decode(expected_hex)
+      decoded = Eth::Tx.decode(expected_hex)
       expect(decoded.hex).to eq Eth::Util.remove_hex_prefix expected_hex
       expect(decoded.hash).to eq Eth::Util.remove_hex_prefix expected_hash
 
-      duplicated = Eth::Tx::Legacy.unsigned_copy decoded
+      duplicated = Eth::Tx.unsigned_copy decoded
       duplicated.sign testnet
       ruby.sign testnet
 
@@ -96,12 +96,12 @@ describe Eth::Tx::Legacy do
 
   describe ".initialize" do
     it "creates legacy transaction objects" do
-      expect(Eth::Tx::Legacy.new({
+      expect(Eth::Tx.new({
         nonce: 0,
         gas_price: Eth::Unit::GWEI,
         gas_limit: Eth::Tx::DEFAULT_LIMIT,
       })).to be
-      expect(Eth::Tx::Legacy.new({
+      expect(Eth::Tx.new({
         nonce: 0,
         gas_price: Eth::Unit::GWEI,
         gas_limit: Eth::Tx::DEFAULT_LIMIT,
@@ -110,35 +110,35 @@ describe Eth::Tx::Legacy do
 
     it "doesn't create invalid transaction objects" do
       expect {
-        Eth::Tx::Legacy.new({
+        Eth::Tx.new({
           nonce: 0,
           gas_price: -9 * Eth::Unit::GWEI,
           gas_limit: Eth::Tx::DEFAULT_LIMIT,
         })
       }.to raise_error ArgumentError
       expect {
-        Eth::Tx::Legacy.new({
+        Eth::Tx.new({
           nonce: 0,
           gas_price: Eth::Unit::GWEI,
           gas_limit: Eth::Tx::DEFAULT_LIMIT - 1,
         })
       }.to raise_error ArgumentError
       expect {
-        Eth::Tx::Legacy.new({
+        Eth::Tx.new({
           nonce: 0,
           gas_price: Eth::Unit::GWEI,
           gas_limit: Eth::Tx::BLOCK_LIMIT + 1,
         })
       }.to raise_error ArgumentError
       expect {
-        Eth::Tx::Legacy.new({
+        Eth::Tx.new({
           nonce: -1,
           gas_price: Eth::Unit::GWEI,
           gas_limit: Eth::Tx::BLOCK_LIMIT,
         })
       }.to raise_error ArgumentError
       expect {
-        Eth::Tx::Legacy.new({
+        Eth::Tx.new({
           nonce: 0,
           gas_price: Eth::Unit::GWEI,
           gas_limit: Eth::Tx::BLOCK_LIMIT,
@@ -146,7 +146,7 @@ describe Eth::Tx::Legacy do
         })
       }.to raise_error ArgumentError
       expect {
-        Eth::Tx::Legacy.new({
+        Eth::Tx.new({
           nonce: 0,
           gas_price: Eth::Unit::GWEI,
           gas_limit: Eth::Tx::BLOCK_LIMIT,
@@ -218,8 +218,8 @@ describe Eth::Tx::Legacy do
   describe ".copy" do
     it "can duplicate transactions" do
       raw = "f9010c80018252088080b8c000000000000000000000000000000000000000000000000000000000000000800000000000000000000000003ea1e26a2119b038eaf9b27e65cdb401502ae7a43d8bfb1368aee2693eb325af9f81244b19304b087b4941a1e892da50bd48dfe1f6d17aad7aff1c87e8481f30395a1595a07b483032affed044e698bf7c43a6fe000000000000000000000000000000000000000000000000000000000000000d4c6f72656d2c20497073756d210000000000000000000000000000000000000026a0e06be7a71c58beebfae09372083865f49fbacb6dfd93f10329f2ca925057fba3a0036c90afd27ea5d2383e319f7091aa23d3e77b09114d7e1d610d04dce8e8169f"
-      legacy = Eth::Tx::Legacy.decode raw
-      duplicate = Eth::Tx::Legacy.unsigned_copy legacy
+      legacy = Eth::Tx.decode raw
+      duplicate = Eth::Tx.unsigned_copy legacy
       expect(legacy.signer_nonce).to eq duplicate.signer_nonce
       expect(legacy.gas_price).to eq duplicate.gas_price
       expect(legacy.gas_limit).to eq duplicate.gas_limit
@@ -227,6 +227,7 @@ describe Eth::Tx::Legacy do
       expect(legacy.amount).to eq duplicate.amount
       expect(legacy.payload).to eq duplicate.payload
       expect(legacy.chain_id).to eq duplicate.chain_id
+      expect(legacy.type).to eq duplicate.type
 
       # unsigned
       expect(duplicate.signature_v).to eq legacy.chain_id
@@ -246,7 +247,7 @@ describe Eth::Tx::Legacy do
     it "correctly hashes the unsigned python example" do
 
       # ref https://lsongnotes.wordpress.com/2018/01/14/signing-an-ethereum-transaction-the-hard-way/
-      sample = Eth::Tx::Legacy.new({
+      sample = Eth::Tx.new({
         nonce: 0,
         gas_price: 0x0BA43B7400,
         gas_limit: 0x05208,
@@ -263,7 +264,7 @@ describe Eth::Tx::Legacy do
       expect(Eth::Util.bin_to_hex sample.unsigned_hash).to eq expected_sign_hash
 
       expected_raw = "F86B80850BA43B7400825208947917bc33eea648809c285607579c9919fb864f8f8703BAF82D03A0008025A0067940651530790861714b2e8fd8b080361d1ada048189000c07a66848afde46A069b041db7c29dbcc6becf42017ca7ac086b12bd53ec8ee494596f790fb6a0a69".downcase
-      expect(Eth::Tx::Legacy.decode(expected_raw).hex).to eq expected_raw
+      expect(Eth::Tx.decode(expected_raw).hex).to eq expected_raw
     end
   end
 
@@ -289,7 +290,7 @@ describe Eth::Tx::Legacy do
 
     it "can create transactions with binary data" do
       abi = Eth::Abi.encode types, args
-      some = Eth::Tx::Legacy.new({
+      some = Eth::Tx.new({
         nonce: 0,
         gas_price: 1,
         gas_limit: 21_000,
@@ -302,7 +303,7 @@ describe Eth::Tx::Legacy do
       expect(some.hash).to eq expected_hash
 
       # expect to match both decoded transaction and decoded abi
-      other = Eth::Tx::Legacy.decode some.hex
+      other = Eth::Tx.decode some.hex
       expect(other.payload).to eq some.payload
       expect(other.hex).to eq some.hex
       expect(other.hash).to eq some.hash
@@ -313,7 +314,7 @@ describe Eth::Tx::Legacy do
     it "can create transactions with hexadecimal data" do
       abi = Eth::Abi.encode types, args
       hex = Eth::Util.bin_to_hex abi
-      some = Eth::Tx::Legacy.new({
+      some = Eth::Tx.new({
         nonce: 0,
         gas_price: 1,
         gas_limit: 21_000,
@@ -326,7 +327,7 @@ describe Eth::Tx::Legacy do
       expect(some.hash).to eq expected_hash
 
       # expect to match both decoded transaction and decoded abi
-      other = Eth::Tx::Legacy.decode some.hex
+      other = Eth::Tx.decode some.hex
       expect(other.payload).to eq some.payload
       expect(other.hex).to eq some.hex
       expect(other.hash).to eq some.hash
@@ -338,7 +339,7 @@ describe Eth::Tx::Legacy do
       lorem = "Lorem, Ipsum!"
 
       # usually libraries prevent that, but in any case this allows to send ascii messages
-      some = Eth::Tx::Legacy.new({
+      some = Eth::Tx.new({
         nonce: 0,
         gas_price: 1,
         gas_limit: 21_000,
@@ -349,7 +350,7 @@ describe Eth::Tx::Legacy do
       expect(some.hash).to eq "2aabba7c8b54754a1f69ca8408bc6446ff02afe882c5c36b594554cd1453f2a1"
 
       # expect to match both decoded transaction and decoded abi
-      other = Eth::Tx::Legacy.decode some.hex
+      other = Eth::Tx.decode some.hex
       expect(other.payload).to eq some.payload
       expect(other.hex).to eq some.hex
       expect(other.hash).to eq some.hash

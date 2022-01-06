@@ -4,7 +4,7 @@
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
 #
-#     attr_reader :http
+#     http://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
@@ -40,14 +40,94 @@ module Eth
     # The EIP-1559 transaction type is 2.
     TYPE_1559 = 0x02
 
+    # Creates a new transaction of any type for given parameters and chain ID.
+    # Required parameters are (optional in brackets):
+    # - EIP-1559: chain_id, nonce, priority_fee, max_gas_fee, gas_limit(, to,
+    #   value, data_bin, access_list)
+    # - EIP-2930: chain_id, nonce, gas_price, gas_limit, access_list(, to,
+    #   value, data_bin)
+    # - Legacy: nonce, gas_price, gas_lmit(, to, value, data_bin)
+    #
+    # @param params [Hash] all necessary transaction fields.
+    # @param chain_id [Integer] the EIP-155 Chain ID (legacy transactions only).
+    def new(params, chain_id = Chain::ETHEREUM)
+
+      # if we deal with max gas fee parameter, attempt EIP-1559
+      unless params[:max_gas_fee].nil?
+        params[:chain_id] = chain_id if params[:chain_id].nil?
+        return Tx::Eip1559.new params
+      end
+
+      # if we deal with access list parameter, attempt EIP-2930
+      unless params[:access_list].nil?
+        params[:chain_id] = chain_id if params[:chain_id].nil?
+        return Tx::Eip2930.new params
+      end
+
+      # if nothing else, go with legacy transactions
+      return Tx::Legacy.new params, chain_id
+    end
+
+    # Decodes a transaction hex of any known type (2, 1, or legacy).
+    #
+    # @param hex [String] the raw transaction hex-string.
+    # @return [Eth::Tx] transaction payload.
+    # @raise [ArgumentError] if the transaction type is unknown.
+    def decode(hex)
+      hex = Util.remove_hex_prefix hex
+      type = hex[0, 2].to_i(16)
+      case type
+      when TYPE_1559
+
+        # EIP-1559 transaction (type 2)
+        return Tx::Eip1559.decode hex
+      when TYPE_2930
+
+        # EIP-2930 transaction (type 1)
+        return Tx::Eip2930.decode hex
+      else
+
+        # Legacy transaction if first byte is RLP (>= 192)
+        if type >= 0xc0
+          return Tx::Legacy.decode hex
+        else
+          raise ArgumentError, "Cannot decode unknown transaction type #{type}!"
+        end
+      end
+    end
+
+    # Creates an unsigned copy of any transaction object.
+    #
+    # @param tx [Eth::Tx] any transaction payload.
+    # @return [Eth::Tx] an unsigned transaction payload of the same type.
+    # @raise [ArgumentError] if the transaction type is unknown.
+    def unsigned_copy(tx)
+      case tx.type
+      when TYPE_1559
+
+        # EIP-1559 transaction (type 2)
+        return Tx::Eip1559.unsigned_copy tx
+      when TYPE_2930
+
+        # EIP-2930 transaction (type 1)
+        return Tx::Eip2930.unsigned_copy tx
+      when TYPE_LEGACY
+
+        # Legacy transaction ("type 0")
+        return Tx::Legacy.unsigned_copy tx
+      else
+        raise ArgumentError, "Cannot copy unknown transaction type #{tx.type}!"
+      end
+    end
+
     # Validates the common type-2 transaction fields such as nonce, priority
-    # fee, gas fee, gas limit, amount, and access list.
+    # fee, max gas fee, gas limit, amount, and access list.
     #
     # @param fields [Hash] the transaction fields.
     # @return [Hash] the validated transaction fields.
     # @raise [ArgumentError] if nonce is an invalid integer.
     # @raise [ArgumentError] if priority fee is invalid.
-    # @raise [ArgumentError] if gas fee is invalid.
+    # @raise [ArgumentError] if max gas fee is invalid.
     # @raise [ArgumentError] if gas limit is invalid.
     # @raise [ArgumentError] if amount is invalid.
     # @raise [ArgumentError] if access list is invalid.
