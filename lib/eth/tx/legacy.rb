@@ -139,8 +139,17 @@ module Eth
         # allows us to force-setting a signature if the transaction is signed already
         _set_signature(v, r, s)
 
-        # keep the 'from' field blank ()
-        @sender = Tx.sanitize_address nil
+        unless chain_id.nil?
+
+          # recover sender address
+          public_key = Signature.recover(unsigned_hash, "#{r}#{s}#{v}", chain_id)
+          address = Util.public_key_to_address(public_key).to_s
+          @sender = Tx.sanitize_address address
+        else
+
+          # keep the 'from' field blank
+          @sender = Tx.sanitize_address nil
+        end
 
         # last but not least, set the type.
         @type = TYPE_LEGACY
@@ -210,9 +219,17 @@ module Eth
         unless Tx.is_signed? self
           raise StandardError, "Transaction is not signed!"
         end
-
-        # this is the same for legacy transactions, now containing the signature
-        unsigned_encoded
+        tx_data = []
+        tx_data.push Util.serialize_int_to_big_endian @signer_nonce
+        tx_data.push Util.serialize_int_to_big_endian @gas_price
+        tx_data.push Util.serialize_int_to_big_endian @gas_limit
+        tx_data.push Util.hex_to_bin @destination
+        tx_data.push Util.serialize_int_to_big_endian @amount
+        tx_data.push @payload
+        tx_data.push Util.serialize_int_to_big_endian @signature_v
+        tx_data.push Util.serialize_int_to_big_endian @signature_r
+        tx_data.push Util.serialize_int_to_big_endian @signature_s
+        RLP.encode tx_data
       end
 
       # Gets the encoded, raw transaction hex.
@@ -240,9 +257,9 @@ module Eth
         tx_data.push Util.hex_to_bin @destination
         tx_data.push Util.serialize_int_to_big_endian @amount
         tx_data.push @payload
-        tx_data.push Util.serialize_int_to_big_endian @signature_v
-        tx_data.push Util.serialize_int_to_big_endian @signature_r
-        tx_data.push Util.serialize_int_to_big_endian @signature_s
+        tx_data.push Util.serialize_int_to_big_endian @chain_id
+        tx_data.push Util.serialize_int_to_big_endian 0
+        tx_data.push Util.serialize_int_to_big_endian 0
         RLP.encode tx_data
       end
 

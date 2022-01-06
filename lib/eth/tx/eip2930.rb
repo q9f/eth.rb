@@ -133,7 +133,7 @@ module Eth
         access_list = tx[7]
 
         # populate class attributes
-        @chain_id = chain_id
+        @chain_id = chain_id.to_i
         @signer_nonce = nonce.to_i
         @gas_price = gas_price.to_i
         @gas_limit = gas_limit.to_i
@@ -156,11 +156,14 @@ module Eth
           raise_error StandardError, "Cannot decode EIP-2930 payload!"
         end
 
-        # keep the 'from' field blank
-        @sender = Tx.sanitize_address nil
-
         # last but not least, set the type.
         @type = TYPE_2930
+
+        # recover sender address
+        v = Chain.to_v recovery_id, chain_id
+        public_key = Signature.recover(unsigned_hash, "#{r}#{s}#{v.to_s(16)}", chain_id)
+        address = Util.public_key_to_address(public_key).to_s
+        @sender = Tx.sanitize_address address
       end
 
       # Creates an unsigned copy of a transaction payload.
