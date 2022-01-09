@@ -69,6 +69,13 @@ describe Eth::Signature do
       expect(s).to eq expected_s
       expect(v).to eq expected_v
     end
+
+    it "does not dissect invalid signatures" do
+      invalid = Eth::Util.hex_to_bin "19fc600a0bd230838b3114c4066dcd980d7c909b215d2ce4a4539281588b7855ff925dbea288385056d811599983c8a65bafa31b6c1bcd2d6ae4bcc34377f526"
+      expect {
+        Eth::Signature.dissect invalid
+      }.to raise_error Eth::Signature::SignatureError, "Unknown signature length 128!"
+    end
   end
 
   subject(:blob) { Eth::Util.keccak256 "Foo, Bar!" }
