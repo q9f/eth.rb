@@ -14,7 +14,7 @@
 - [2. Usage](#2-usage)
   - [2.1. Ethereum Keys and Addresses (EIP-55)](#21-ethereum-keys-and-addresses-eip-55)
   - [2.2. Ethereum Signatures (EIP-191, EIP-712)](#22-ethereum-signatures-eip-191-eip-712)
-  - [2.3. Ethereum Chains (EIP-155)](#23-ethereum-chains-eip-155)
+  - [2.3. Ethereum Chain (EIP-155)](#23-ethereum-chains-eip-155)
   - [2.4. Ethereum Transactions (EIP-1559, EIP-2718)](#24-ethereum-transactions-eip-1559-eip-2718)
   - [2.5. Ethereum ABI Encoder and Decoder](#25-ethereum-abi-encoder-and-decoder)
 - [3. Documentation](#3-documentation)
@@ -49,6 +49,16 @@ key = Eth::Key.new
 # => #<Eth::Key:0x00005574a6ba80b8 @private_key=#<Secp256k1::PrivateKey:0x00005574a6b9a0a8 @data=")&\x86P\xB5\x16\xD9]\xFA;\x1F\xF6\xD9\xCF\xE3Vj/\xE2\x81\xC0\x9D\xE9\x05o!q\x82G\x9A\x10Q">, @public_key=#<Secp256k1::PublicKey:0x00005574a6b9bf98>>
 ```
 
+Create an password-encrypted Ethereum key-store.
+
+```ruby
+my_key = Eth::Key.new priv: "30137644b564785d01420f8043f043d74dcca64008e57c59f8ce713a0005a54b"
+key_store = Eth::Key::Encrypter.perform my_key, "secret-password-1337"
+# => "{\"crypto\":{\"cipher\":\"aes-128-ctr\",\"cipherparams\":{\"iv\":\"7e5c0fe1e27f4ea61b0f4427dd63555f\"},\"ciphertext\":\"6353653bba494cdae6bcd510febc980cdc6f7b23cfbdf950d7a909a69625c8fd\",\"kdf\":\"pbkdf2\",\"kdfparams\":{\"c\":262144,\"dklen\":32,\"prf\":\"hmac-sha256\",\"salt\":\"cce96286f3c32267fc91f756365307fe6a4c83b6b2a73c69535f721fa407736c\"},\"mac\":\"3361ffd2b158a1d7bca5a5fd86a251ba3e9d80b602c867a2e0f47023a0e17a57\"},\"id\":\"642ee9fc-72e4-4d0a-902f-247c0b59bfda\",\"version\":3}"
+restored_key = Eth::Key::Decrypter.perform key_store, "secret-password-1337"
+# => "30137644b564785d01420f8043f043d74dcca64008e57c59f8ce713a0005a54b"
+```
+
 Manage Ethereum address objects adhering to EIP-55 checksum format.
 
 ```ruby
@@ -60,7 +70,7 @@ address.checksummed # EIP 55
 # => "0xD496b23D61F88A8C7758fca7560dCFac7b3b01F9"
 ```
 
-See `/spec` or [Documentation](https://q9f.github.io/eth.rb/) for encrypting/decrypting key-stores with a secret.
+See `/spec` or [Documentation](https://q9f.github.io/eth.rb/) for more details about key-pairs, encrypting/decrypting key-stores with a secret, and checksummed addresses.
 
 ### 2.2. Ethereum Signatures (EIP-191, EIP-712)
 
@@ -84,11 +94,11 @@ address = Eth::Address.new "0xd496b23d61f88a8c7758fca7560dcfac7b3b01f9"
 # => #<Eth::Address:0x00005574a6bd4fc8 @address="0xd496b23d61f88a8c7758fca7560dcfac7b3b01f9">
 signature = "ac6a59417d8688c8144f01a662384fa691636b48a071d4b7c13902bb87ca472b0bce1d7a758f39a5759ed5e937ce61f50dd1b83158371f8d0faeb9b7d81c19422d"
 # => "ac6a59417d8688c8144f01a662384fa691636b48a071d4b7c13902bb87ca472b0bce1d7a758f39a5759ed5e937ce61f50dd1b83158371f8d0faeb9b7d81c19422d"
-recovered_key = Eth::Signature.personal_recover "Hello World!", signature, Eth::Chains::GOERLI
+recovered_key = Eth::Signature.personal_recover "Hello World!", signature, Eth::Chain::GOERLI
 # => "04b45200621c013a5fbab999ac33b0c836328a04afa0255ffbe6ea0f6fd97e187b02199886d942a9f50f7e279a2bc74c93b2afcbd7255489939f9b36a5eae5e281"
-Eth::Utils.public_key_to_address(recovered_key).to_s
+Eth::Util.public_key_to_address(recovered_key).to_s
 # => "0xD496b23D61F88A8C7758fca7560dCFac7b3b01F9"
-Eth::Signature.verify "Hello World!", signature, address, Eth::Chains::GOERLI
+Eth::Signature.verify "Hello World!", signature, address, Eth::Chain::GOERLI
 # => true
 ```
 
@@ -99,17 +109,42 @@ See `/spec` or [Documentation](https://q9f.github.io/eth.rb/) for signing typed 
 Manage Ethereum chain IDs for EIP-155 replay protection.
 
 ```ruby
-chain_id = Eth::Chains::OPTIMISM
+chain_id = Eth::Chain::OPTIMISM
 # => 10
-v = Eth::Chains.to_v 0, Eth::Chains::OPTIMISM
+v = Eth::Chain.to_v 0, Eth::Chain::OPTIMISM
 # => 55
-recovery_id = Eth::Chains.to_recovery_id v, Eth::Chains::OPTIMISM
+recovery_id = Eth::Chain.to_recovery_id v, Eth::Chain::OPTIMISM
 # => 0
+chain_id = Eth::Chain.to_chain_id v
+# => 10
 ```
 
-### 2.4. Ethereum Transactions (EIP-1559, EIP-2718)
+### 2.4. Ethereum Transactions (EIP-1559, EIP-2718, EIP-2930)
 
-_Coming soon. [#17](https://github.com/q9f/eth.rb/issues/17)_
+Create an EIP-1559-conform transaction:
+
+```ruby
+payload = {
+  chain_id: Eth::Chain::GOERLI,
+  nonce: 5,
+  priority_fee: 3 * Eth::Unit::GWEI,
+  max_gas_fee: 69 * Eth::Unit::GWEI,
+  gas_limit: 230_420,
+  to: "0xCaA29806044A08E533963b2e573C1230A2cd9a2d",
+  value: 0.069423 * Eth::Unit::ETHER,
+}
+# => {:chain_id=>5, :nonce=>5, :priority_fee=>0.3e10, :max_gas_fee=>0.69e11, :gas_limit=>230420, :to=>"0xCaA29806044A08E533963b2e573C1230A2cd9a2d", :value=>0.69423e17}
+tx = Eth::Tx.new payload
+# => #<Eth::Tx::Eip1559:0x0000557e35fc5a68 @access_list=[], @amount=69423000000000000, @chain_id=5, @destination="CaA29806044A08E533963b2e573C1230A2cd9a2d", @gas_limit=230420, @max_fee_per_gas=69000000000, @max_priority_fee_per_gas=3000000000, @payload="", @sender="", @signature_r=0, @signature_s=0, @signature_y_parity=nil, @signer_nonce=5, @type=2>
+my_key = Eth::Key.new priv: "30137644b564785d01420f8043f043d74dcca64008e57c59f8ce713a0005a54b"
+# => #<Eth::Key:0x0000557e36243178 @private_key=#<Secp256k1::PrivateKey:0x0000557e36242d40 @data="0\x13vD\xB5dx]\x01B\x0F\x80C\xF0C\xD7M\xCC\xA6@\b\xE5|Y\xF8\xCEq:\x00\x05\xA5K">, @public_key=#<Secp256k1::PublicKey:0x0000557e36242cf0>>
+tx.sign my_key
+# => "cba302c0ebf8d0205a78ae97f560419b407e32e2426f416abc95a9bfc9dac09c"
+tx.hex
+# => "02f873050584b2d05e00851010b872008303841494caa29806044a08e533963b2e573c1230a2cd9a2d87f6a3d9c63df00080c080a03aa187d10b138d3e0155729adb961cd89e10f988ba2d19d6869770b9e5a23d10a04d40864600136ae214916043c7d63b849c98db757e95c86983a036982816e1af"
+```
+
+This gem also supports access lists and ABI-encoded data payloads. See `/spec` or [Documentation](https://q9f.github.io/eth.rb/) for more details about the various supported transaction types (legacy, type-1, type-2) and payload parameters.
 
 ### 2.5. Ethereum ABI Encoder and Decoder
 
