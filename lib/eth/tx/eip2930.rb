@@ -111,16 +111,19 @@ module Eth
       #
       # @param hex [String] the raw transaction hex-string.
       # @return [Eth::Tx::Eip2930] transaction payload.
+      # @raise [TransactionTypeError] if transaction type is invalid.
+      # @raise [ParameterError] if transaction is missing fields.
+      # @raise [DecoderError] if transaction decoding fails.
       def decode(hex)
         hex = Util.remove_hex_prefix hex
         type = hex[0, 2]
-        raise StandardError, "Invalid transaction type #{type}!" if type.to_i(16) != TYPE_2930
+        raise TransactionTypeError, "Invalid transaction type #{type}!" if type.to_i(16) != TYPE_2930
 
         bin = Util.hex_to_bin hex[2..]
         tx = RLP.decode(bin)
 
         # decoded transactions always have 8 + 3 fields, even if they are empty or zero
-        raise StandardError, "Transaction missing fields!" if tx.size < 8
+        raise ParameterError, "Transaction missing fields!" if tx.size < 8
 
         # populate the 8 payload fields
         chain_id = Util.deserialize_big_endian_to_int tx[0]
@@ -153,7 +156,7 @@ module Eth
           # allows us to force-setting a signature if the transaction is signed already
           _set_signature(recovery_id, r, s)
         else
-          raise_error StandardError, "Cannot decode EIP-2930 payload!"
+          raise_error DecoderError, "Cannot decode EIP-2930 payload!"
         end
 
         # last but not least, set the type.
@@ -170,10 +173,11 @@ module Eth
       #
       # @param tx [Eth::Tx::Eip2930] an EIP-2930 transaction payload.
       # @return [Eth::Tx::Eip2930] an unsigned EIP-2930 transaction payload.
+      # @raise [TransactionTypeError] if transaction type does not match.
       def unsigned_copy(tx)
 
         # not checking transaction validity unless it's of a different class
-        raise ArgumentError, "Cannot copy transaction of different payload type!" unless tx.instance_of? Tx::Eip2930
+        raise TransactionTypeError, "Cannot copy transaction of different payload type!" unless tx.instance_of? Tx::Eip2930
 
         # populate class attributes
         @signer_nonce = tx.signer_nonce
@@ -198,20 +202,19 @@ module Eth
       # Sign the transaction with a given key.
       #
       # @param key [Eth::Key] the key-pair to use for signing.
-      # @raise [StandardError] if the transaction is already signed.
       # @return [String] a transaction hash.
-      # @raise [StandardError] if transaction is already signed.
-      # @raise [StandardError] if sender address does not match signing key.
+      # @raise [SignatureError] if transaction is already signed.
+      # @raise [SignatureError] if sender address does not match signing key.
       def sign(key)
         if Tx.is_signed? self
-          raise StandardError, "Transaction is already signed!"
+          raise Signature::SignatureError, "Transaction is already signed!"
         end
 
         # ensure the sender address matches the given key
         unless @sender.nil? or sender.empty?
           signer_address = Tx.sanitize_address key.address.to_s
           from_address = Tx.sanitize_address @sender
-          raise StandardError, "Signer does not match sender" unless signer_address == from_address
+          raise Signature::SignatureError, "Signer does not match sender" unless signer_address == from_address
         end
 
         # sign a keccak hash of the unsigned, encoded transaction
@@ -228,10 +231,10 @@ module Eth
       # with an EIP-2930 type prefix.
       #
       # @return [String] a raw, RLP-encoded EIP-2930 type transaction object.
-      # @raise [StandardError] if the transaction is not yet signed.
+      # @raise [SignatureError] if the transaction is not yet signed.
       def encoded
         unless Tx.is_signed? self
-          raise StandardError, "Transaction is not signed!"
+          raise Signature::SignatureError, "Transaction is not signed!"
         end
         tx_data = []
         tx_data.push Util.serialize_int_to_big_endian @chain_id

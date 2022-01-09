@@ -80,28 +80,28 @@ describe Eth::Tx::Eip2930 do
           gas_price: -9 * Eth::Unit::GWEI,
           gas_limit: Eth::Tx::DEFAULT_GAS_LIMIT,
         })
-      }.to raise_error ArgumentError
+      }.to raise_error Eth::Tx::ParameterError, "Invalid gas price -0.9e10!"
       expect {
         Eth::Tx.new({
           nonce: 0,
           gas_price: Eth::Unit::GWEI,
           gas_limit: Eth::Tx::DEFAULT_GAS_LIMIT - 1,
         })
-      }.to raise_error ArgumentError
+      }.to raise_error Eth::Tx::ParameterError, "Invalid gas limit 20999!"
       expect {
         Eth::Tx.new({
           nonce: 0,
           gas_price: Eth::Unit::GWEI,
           gas_limit: Eth::Tx::BLOCK_GAS_LIMIT + 1,
         })
-      }.to raise_error ArgumentError
+      }.to raise_error Eth::Tx::ParameterError, "Invalid gas limit 25000001!"
       expect {
         Eth::Tx.new({
           nonce: -1,
           gas_price: Eth::Unit::GWEI,
           gas_limit: Eth::Tx::BLOCK_GAS_LIMIT,
         })
-      }.to raise_error ArgumentError
+      }.to raise_error Eth::Tx::ParameterError, "Invalid signer nonce -1!"
       expect {
         Eth::Tx.new({
           nonce: 0,
@@ -109,7 +109,7 @@ describe Eth::Tx::Eip2930 do
           gas_limit: Eth::Tx::BLOCK_GAS_LIMIT,
           to: "foo",
         })
-      }.to raise_error ArgumentError
+      }.to raise_error Eth::Address::CheckSumError, "Unknown address type foo!"
       expect {
         Eth::Tx.new({
           nonce: 0,
@@ -118,7 +118,7 @@ describe Eth::Tx::Eip2930 do
           to: "0xef26b1f67797e7a5a3c192c93d821fadef3ba173",
           value: -1,
         })
-      }.to raise_error ArgumentError
+      }.to raise_error Eth::Tx::ParameterError, "Invalid transaction value -1!"
       expect {
         Eth::Tx.new({
           nonce: 0,
@@ -128,7 +128,7 @@ describe Eth::Tx::Eip2930 do
           value: 1,
           access_list: "bar",
         })
-      }.to raise_error ArgumentError
+      }.to raise_error Eth::Tx::ParameterError, "Invalid access list bar!"
     end
   end
 

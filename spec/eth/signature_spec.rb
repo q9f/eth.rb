@@ -83,8 +83,8 @@ describe Eth::Signature do
     it "raises argument errors if signature is invalid" do
       signature_invalid_v = "19fc60d0a0bd2d30838b3114c4066dcd980d7c909b215d2ce4a4539281588b7855ff925dbea288385056d811599983c8a65bafa31b6c1bcd2d6ae4bcc34377f5ff"
       signature_invalid_size = "19fc60d0a0bd2d30838b3114c4066dcd980d7c909b215d2ce4a4539281588b7855ff925dbea288385056d811599983c8a65bafa31b6c1bcd2d6ae4bcc34377f52600"
-      expect { Eth::Signature.recover(blob, signature_invalid_v) }.to raise_error ArgumentError
-      expect { Eth::Signature.recover(blob, signature_invalid_size) }.to raise_error ArgumentError
+      expect { Eth::Signature.recover(blob, signature_invalid_v) }.to raise_error Eth::Chain::ReplayProtectionError, "Invalid v 255 value for chain ID 1. Invalid chain ID?"
+      expect { Eth::Signature.recover(blob, signature_invalid_size) }.to raise_error Eth::Signature::SignatureError, "Invalid signature byte-size 66!"
     end
   end
 
@@ -120,8 +120,8 @@ describe Eth::Signature do
       message = "This is proof that I, user A, have access to this address."
       signature_invalid_v = "0x4e1ce8ea60bc6dfd4068a35462612495850cb645a1c9f475eb969bff21d0b0fb414112aaf13f01dd18a3527cb648cdd51b618ae49d4999112c33f86b7b26e97300"
       signature_invalid_size = "0x4e1ce8ea60bc6dfd4068a35462612495850cb645a1c9f475eb969bff21d0b0fb414112aaf13f01dd18a3527cb648cdd51b618ae49d4999112c33f86b7b26e973"
-      expect { Eth::Signature.personal_recover(message, signature_invalid_v) }.to raise_error ArgumentError
-      expect { Eth::Signature.personal_recover(message, signature_invalid_size) }.to raise_error ArgumentError
+      expect { Eth::Signature.personal_recover(message, signature_invalid_v) }.to raise_error Eth::Signature::SignatureError, "Invalid signature v byte 0 for chain ID 1!"
+      expect { Eth::Signature.personal_recover(message, signature_invalid_size) }.to raise_error Eth::Signature::SignatureError, "Invalid signature byte-size 64!"
     end
   end
 
@@ -155,8 +155,8 @@ describe Eth::Signature do
     it "raises argument errors if signature is invalid" do
       signature_invalid_v = "f6cda8eaf5137e8cc15d48d03a002b0512446e2a7acbc576c01cfbe40ad9345663ccda8884520d98dece9a8bfe38102851bdae7f69b3d8612b9808e63378016024"
       signature_invalid_size = "f6cda8eaf5137e8cc15d48d03a002b0512446e2a7acbc576c01cfbe40ad9345663ccda8884520d98dece9a8bfe38102851bdae7f69b3d8612b9808e6337801602"
-      expect { Eth::Signature.recover_typed_data(test_data, signature_invalid_v) }.to raise_error ArgumentError
-      expect { Eth::Signature.recover_typed_data(test_data, signature_invalid_size) }.to raise_error ArgumentError
+      expect { Eth::Signature.recover_typed_data(test_data, signature_invalid_v) }.to raise_error Eth::Chain::ReplayProtectionError, "Invalid v 36 value for chain ID 1. Invalid chain ID?"
+      expect { Eth::Signature.recover_typed_data(test_data, signature_invalid_size) }.to raise_error Eth::Chain::ReplayProtectionError, "Invalid v 32 value for chain ID 1. Invalid chain ID?"
     end
   end
 
@@ -196,7 +196,7 @@ describe Eth::Signature do
       expect(Eth::Signature.verify message, signature, charlie.address.to_s).to be_truthy
       expect(Eth::Signature.verify message, signature, charlie.public_key).to be_truthy
       expect(Eth::Signature.verify message, signature, charlie.public_hex).to be_truthy
-      expect { Eth::Signature.verify message, signature, charlie.private_hex }.to raise_error ArgumentError
+      expect { Eth::Signature.verify message, signature, charlie.private_hex }.to raise_error Eth::Signature::SignatureError, "Invalid public key or address supplied 268be6f4a68c40f6862b7ac9aed8f701dc25a95ddb9a44d8b1f520b75f440a9a!"
     end
 
     it "verifies signed data no matter what format is given" do

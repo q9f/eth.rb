@@ -56,7 +56,9 @@ describe Eth::Address do
 
       it "raises" do
         addresses.each do |address|
-          expect { Eth::Address.new address }.to raise_error ArgumentError
+          expect {
+            Eth::Address.new address
+          }.to raise_error Eth::Address::CheckSumError
         end
       end
     end
@@ -113,10 +115,12 @@ describe Eth::Address do
 
       it "raises" do
         addresses.each do |address|
-          expect { Eth::Address.new address }.to raise_error ArgumentError
+          expect {
+            Eth::Address.new address
+          }.to raise_error Eth::Address::CheckSumError
         end
 
-        expect { Eth::Address.new "foo" }.to raise_error ArgumentError
+        expect { Eth::Address.new "foo" }.to raise_error Eth::Address::CheckSumError, "Unknown address type foo!"
       end
     end
   end
@@ -155,7 +159,7 @@ describe Eth::Address do
       it "raises an error" do
         expect {
           Eth::Address.new(bad).checksummed
-        }.to raise_error ArgumentError
+        }.to raise_error Eth::Address::CheckSumError
       end
     end
   end
