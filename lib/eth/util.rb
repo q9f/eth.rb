@@ -30,7 +30,7 @@ module Eth
     def public_key_to_address(str)
       str = hex_to_bin str if is_hex? str
       bytes = keccak256(str[1..-1])[-20..-1]
-      Eth::Address.new bin_to_prefixed_hex bytes
+      Address.new bin_to_prefixed_hex bytes
     end
 
     # Hashes a string with the Keccak-256 algorithm.
@@ -114,6 +114,7 @@ module Eth
     # return [String] serialized big endian integer string.
     # raises [ArgumentError] if unsigned integer is out of bounds.
     def serialize_int_to_big_endian(num)
+      num = num.to_i(16) if is_hex? num
       unless num.is_a? Integer and num >= 0 and num <= Abi::UINT_MAX
         raise ArgumentError, "Integer invalid or out of range: #{num}"
       end

@@ -26,7 +26,13 @@ module Eth
     #
     # @param address [String] hex string representing an ethereum address.
     def initialize(address)
+      unless Util.is_hex? address
+        raise ArgumentError, "Unknown address type #{address}!"
+      end
       @address = Util.prefix_hex address
+      unless self.valid?
+        raise ArgumentError, "Invalid address provided #{address}"
+      end
     end
 
     # Check that the address is valid.
@@ -46,7 +52,7 @@ module Eth
     #
     # @return [String] prefixed hexstring representing an checksummed address.
     def checksummed
-      raise "Invalid address: #{address}" unless matches_any_format?
+      raise TypeError, "Invalid address: #{address}" unless matches_any_format?
 
       cased = unprefixed.chars.zip(checksum.chars).map do |char, check|
         check.match(/[0-7]/) ? char.downcase : char.upcase

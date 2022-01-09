@@ -5,6 +5,9 @@ source "https://rubygems.org"
 # keccak for hashing everything in ethereum
 gem "keccak", "~> 1.3"
 
+# konstructor gem for overloading constructors
+gem "konstructor", "~> 1.0"
+
 # rbsecp256k1 for key-pairs and signatures
 gem "rbsecp256k1", "~> 5.1"
 

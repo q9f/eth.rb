@@ -14,6 +14,7 @@
 
 # -*- encoding : ascii-8bit -*-
 
+require "konstructor"
 require "eth/abi/constant"
 require "eth/abi/type"
 

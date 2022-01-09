@@ -54,9 +54,9 @@ describe Eth::Address do
         ]
       end
 
-      it "returns false" do
+      it "raises" do
         addresses.each do |address|
-          expect(Eth::Address.new address).not_to be_valid
+          expect { Eth::Address.new address }.to raise_error ArgumentError
         end
       end
     end
@@ -111,10 +111,12 @@ describe Eth::Address do
         ]
       end
 
-      it "returns true" do
+      it "raises" do
         addresses.each do |address|
-          expect(Eth::Address.new address).not_to be_valid
+          expect { Eth::Address.new address }.to raise_error ArgumentError
         end
+
+        expect { Eth::Address.new "foo" }.to raise_error ArgumentError
       end
     end
   end
@@ -153,7 +155,7 @@ describe Eth::Address do
       it "raises an error" do
         expect {
           Eth::Address.new(bad).checksummed
-        }.to raise_error "Invalid address: #{bad}"
+        }.to raise_error ArgumentError
       end
     end
   end
