@@ -48,14 +48,11 @@ module Eth
     # @raise [SignatureError] if signature is of unknown size.
     def dissect(signature)
       unless Util.is_hex? signature
-
-        # TODO: Tests @q9f
         signature = Util.bin_to_hex signature
       end
       signature = Util.remove_hex_prefix signature
       if signature.size != 130
 
-        # TODO: Tests @q9f
         # TODO: https://github.com/q9f/eth.rb/issues/30
         raise SignatureError, "Unknown signature length #{signature.size}!"
       end
