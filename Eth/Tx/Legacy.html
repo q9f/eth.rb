@@ -734,7 +734,7 @@
       
         &mdash;
         <div class='inline'>
-<p>all necessary transaction fields (nonce, gas_price, gas_limit, from, to, value, data).</p>
+<p>all necessary transaction fields.</p>
 </div>
       
     </li>
@@ -759,6 +759,108 @@
   
 </ul>
 
+  
+    
+    
+    <p class="tag_title">Options Hash (<tt>params</tt>):</p>
+    <ul class="option">
+      
+        <li>
+          <span class="name">:nonce</span>
+          <span class="type">(<tt>Integer</tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'>
+<p>the signer nonce.</p>
+</div>
+          
+        </li>
+      
+        <li>
+          <span class="name">:gas_price</span>
+          <span class="type">(<tt>Integer</tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'>
+<p>the gas price.</p>
+</div>
+          
+        </li>
+      
+        <li>
+          <span class="name">:gas_limit</span>
+          <span class="type">(<tt>Integer</tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'>
+<p>the gas limit.</p>
+</div>
+          
+        </li>
+      
+        <li>
+          <span class="name">:from</span>
+          <span class="type">(<tt><span class='object_link'><a href="../Address.html" title="Eth::Address (class)">Eth::Address</a></span></tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'>
+<p>the sender address.</p>
+</div>
+          
+        </li>
+      
+        <li>
+          <span class="name">:to</span>
+          <span class="type">(<tt><span class='object_link'><a href="../Address.html" title="Eth::Address (class)">Eth::Address</a></span></tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'>
+<p>the reciever address.</p>
+</div>
+          
+        </li>
+      
+        <li>
+          <span class="name">:value</span>
+          <span class="type">(<tt>Integer</tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'>
+<p>the transaction value.</p>
+</div>
+          
+        </li>
+      
+        <li>
+          <span class="name">:data</span>
+          <span class="type">(<tt>String</tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'>
+<p>the transaction data payload.</p>
+</div>
+          
+        </li>
+      
+    </ul>
+  
+    
+    
+
 
 </div><table class="source_code">
   <tr>
@@ -766,12 +868,6 @@
       <pre class="lines">
 
 
-68
-69
-70
-71
-72
-73
 74
 75
 76
@@ -797,10 +893,16 @@
 96
 97
 98
-99</pre>
+99
+100
+101
+102
+103
+104
+105</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx/legacy.rb', line 68</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx/legacy.rb', line 74</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='comma'>,</span> <span class='id identifier rubyid_chain_id'>chain_id</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Chain.html" title="Eth::Chain (module)">Chain</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Chain.html#ETHEREUM-constant" title="Eth::Chain::ETHEREUM (constant)">ETHEREUM</a></span></span><span class='rparen'>)</span>
   <span class='id identifier rubyid_fields'>fields</span> <span class='op'>=</span> <span class='lbrace'>{</span> <span class='label'>v:</span> <span class='id identifier rubyid_chain_id'>chain_id</span><span class='comma'>,</span> <span class='label'>r:</span> <span class='int'>0</span><span class='comma'>,</span> <span class='label'>s:</span> <span class='int'>0</span> <span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_merge'>merge</span> <span class='id identifier rubyid_params'>params</span>
@@ -1430,9 +1532,14 @@
     <li>
       
       
-        <span class='type'>(<tt>StandardError</tt>)</span>
+        <span class='type'>(<tt><span class='object_link'><a href="ParameterError.html" title="Eth::Tx::ParameterError (class)">ParameterError</a></span></tt>)</span>
       
       
+      
+        &mdash;
+        <div class='inline'>
+<p>if transaction misses fields.</p>
+</div>
       
     </li>
   
@@ -1444,13 +1551,6 @@
       <pre class="lines">
 
 
-109
-110
-111
-112
-113
-114
-115
 116
 117
 118
@@ -1491,17 +1591,24 @@
 153
 154
 155
-156</pre>
+156
+157
+158
+159
+160
+161
+162
+163</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx/legacy.rb', line 109</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx/legacy.rb', line 116</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_decode'>decode</span><span class='lparen'>(</span><span class='id identifier rubyid_hex'>hex</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_bin'>bin</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_hex_to_bin'><span class='object_link'><a href="../Util.html#hex_to_bin-instance_method" title="Eth::Util#hex_to_bin (method)">hex_to_bin</a></span></span> <span class='id identifier rubyid_hex'>hex</span>
   <span class='id identifier rubyid_tx'>tx</span> <span class='op'>=</span> <span class='const'>RLP</span><span class='period'>.</span><span class='id identifier rubyid_decode'>decode</span><span class='lparen'>(</span><span class='id identifier rubyid_bin'>bin</span><span class='rparen'>)</span>
 
   <span class='comment'># decoded transactions always have 9 fields, even if they are empty or zero
-</span>  <span class='id identifier rubyid_raise'>raise</span> <span class='const'>StandardError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Transaction missing fields!</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_tx'>tx</span><span class='period'>.</span><span class='id identifier rubyid_size'>size</span> <span class='op'>&lt;</span> <span class='int'>9</span>
+</span>  <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="ParameterError.html" title="Eth::Tx::ParameterError (class)">ParameterError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Transaction missing fields!</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_tx'>tx</span><span class='period'>.</span><span class='id identifier rubyid_size'>size</span> <span class='op'>&lt;</span> <span class='int'>9</span>
 
   <span class='comment'># populate the 9 fields
 </span>  <span class='id identifier rubyid_nonce'>nonce</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_deserialize_big_endian_to_int'><span class='object_link'><a href="../Util.html#deserialize_big_endian_to_int-instance_method" title="Eth::Util#deserialize_big_endian_to_int (method)">deserialize_big_endian_to_int</a></span></span> <span class='id identifier rubyid_tx'>tx</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span>
@@ -1592,7 +1699,7 @@
     <li>
       
       
-        <span class='type'>(<tt>StandardError</tt>)</span>
+        <span class='type'>(<tt>SignatureError</tt>)</span>
       
       
       
@@ -1611,13 +1718,6 @@
       <pre class="lines">
 
 
-218
-219
-220
-221
-222
-223
-224
 225
 226
 227
@@ -1626,14 +1726,21 @@
 230
 231
 232
-233</pre>
+233
+234
+235
+236
+237
+238
+239
+240</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx/legacy.rb', line 218</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx/legacy.rb', line 225</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_encoded'>encoded</span>
   <span class='kw'>unless</span> <span class='const'><span class='object_link'><a href="../Tx.html" title="Eth::Tx (module)">Tx</a></span></span><span class='period'>.</span><span class='id identifier rubyid_is_signed?'><span class='object_link'><a href="../Tx.html#is_signed%3F-instance_method" title="Eth::Tx#is_signed? (method)">is_signed?</a></span></span> <span class='kw'>self</span>
-    <span class='id identifier rubyid_raise'>raise</span> <span class='const'>StandardError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Transaction is not signed!</span><span class='tstring_end'>&quot;</span></span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../Signature.html" title="Eth::Signature (module)">Signature</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Signature/SignatureError.html" title="Eth::Signature::SignatureError (class)">SignatureError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Transaction is not signed!</span><span class='tstring_end'>&quot;</span></span>
   <span class='kw'>end</span>
   <span class='id identifier rubyid_tx_data'>tx_data</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
   <span class='id identifier rubyid_tx_data'>tx_data</span><span class='period'>.</span><span class='id identifier rubyid_push'>push</span> <span class='const'><span class='object_link'><a href="../Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_serialize_int_to_big_endian'><span class='object_link'><a href="../Util.html#serialize_int_to_big_endian-instance_method" title="Eth::Util#serialize_int_to_big_endian (method)">serialize_int_to_big_endian</a></span></span> <span class='ivar'>@signer_nonce</span>
@@ -1696,12 +1803,12 @@
       <pre class="lines">
 
 
-245
-246
-247</pre>
+252
+253
+254</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx/legacy.rb', line 245</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx/legacy.rb', line 252</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_hash'>hash</span>
   <span class='const'><span class='object_link'><a href="../Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_bin_to_hex'><span class='object_link'><a href="../Util.html#bin_to_hex-instance_method" title="Eth::Util#bin_to_hex (method)">bin_to_hex</a></span></span> <span class='const'><span class='object_link'><a href="../Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_keccak256'><span class='object_link'><a href="../Util.html#keccak256-instance_method" title="Eth::Util#keccak256 (method)">keccak256</a></span></span> <span class='id identifier rubyid_encoded'>encoded</span>
@@ -1755,12 +1862,12 @@
       <pre class="lines">
 
 
-238
-239
-240</pre>
+245
+246
+247</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx/legacy.rb', line 238</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx/legacy.rb', line 245</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_hex'>hex</span>
   <span class='const'><span class='object_link'><a href="../Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_bin_to_hex'><span class='object_link'><a href="../Util.html#bin_to_hex-instance_method" title="Eth::Util#bin_to_hex (method)">bin_to_hex</a></span></span> <span class='id identifier rubyid_encoded'>encoded</span>
@@ -1833,21 +1940,7 @@
     <li>
       
       
-        <span class='type'>(<tt>StandardError</tt>)</span>
-      
-      
-      
-        &mdash;
-        <div class='inline'>
-<p>if the transaction is already signed.</p>
-</div>
-      
-    </li>
-  
-    <li>
-      
-      
-        <span class='type'>(<tt>StandardError</tt>)</span>
+        <span class='type'>(<tt>SignatureError</tt>)</span>
       
       
       
@@ -1861,7 +1954,7 @@
     <li>
       
       
-        <span class='type'>(<tt>StandardError</tt>)</span>
+        <span class='type'>(<tt>SignatureError</tt>)</span>
       
       
       
@@ -1880,13 +1973,6 @@
       <pre class="lines">
 
 
-193
-194
-195
-196
-197
-198
-199
 200
 201
 202
@@ -1899,21 +1985,28 @@
 209
 210
 211
-212</pre>
+212
+213
+214
+215
+216
+217
+218
+219</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx/legacy.rb', line 193</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx/legacy.rb', line 200</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_sign'>sign</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='rparen'>)</span>
   <span class='kw'>if</span> <span class='const'><span class='object_link'><a href="../Tx.html" title="Eth::Tx (module)">Tx</a></span></span><span class='period'>.</span><span class='id identifier rubyid_is_signed?'><span class='object_link'><a href="../Tx.html#is_signed%3F-instance_method" title="Eth::Tx#is_signed? (method)">is_signed?</a></span></span> <span class='kw'>self</span>
-    <span class='id identifier rubyid_raise'>raise</span> <span class='const'>StandardError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Transaction is already signed!</span><span class='tstring_end'>&quot;</span></span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../Signature.html" title="Eth::Signature (module)">Signature</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Signature/SignatureError.html" title="Eth::Signature::SignatureError (class)">SignatureError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Transaction is already signed!</span><span class='tstring_end'>&quot;</span></span>
   <span class='kw'>end</span>
 
   <span class='comment'># ensure the sender address matches the given key
 </span>  <span class='kw'>unless</span> <span class='ivar'>@sender</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='kw'>or</span> <span class='id identifier rubyid_sender'>sender</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
     <span class='id identifier rubyid_signer_address'>signer_address</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Tx.html" title="Eth::Tx (module)">Tx</a></span></span><span class='period'>.</span><span class='id identifier rubyid_sanitize_address'><span class='object_link'><a href="../Tx.html#sanitize_address-instance_method" title="Eth::Tx#sanitize_address (method)">sanitize_address</a></span></span> <span class='id identifier rubyid_key'>key</span><span class='period'>.</span><span class='id identifier rubyid_address'>address</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>
     <span class='id identifier rubyid_from_address'>from_address</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Tx.html" title="Eth::Tx (module)">Tx</a></span></span><span class='period'>.</span><span class='id identifier rubyid_sanitize_address'><span class='object_link'><a href="../Tx.html#sanitize_address-instance_method" title="Eth::Tx#sanitize_address (method)">sanitize_address</a></span></span> <span class='ivar'>@sender</span>
-    <span class='id identifier rubyid_raise'>raise</span> <span class='const'>StandardError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Signer does not match sender</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_signer_address'>signer_address</span> <span class='op'>==</span> <span class='id identifier rubyid_from_address'>from_address</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../Signature.html" title="Eth::Signature (module)">Signature</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Signature/SignatureError.html" title="Eth::Signature::SignatureError (class)">SignatureError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Signer does not match sender</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_signer_address'>signer_address</span> <span class='op'>==</span> <span class='id identifier rubyid_from_address'>from_address</span>
   <span class='kw'>end</span>
 
   <span class='comment'># sign a keccak hash of the unsigned, encoded transaction
@@ -1992,9 +2085,14 @@
     <li>
       
       
-        <span class='type'>(<tt>ArgumentError</tt>)</span>
+        <span class='type'>(<tt><span class='object_link'><a href="TransactionTypeError.html" title="Eth::Tx::TransactionTypeError (class)">TransactionTypeError</a></span></tt>)</span>
       
       
+      
+        &mdash;
+        <div class='inline'>
+<p>if transaction type does not match.</p>
+</div>
       
     </li>
   
@@ -2006,14 +2104,6 @@
       <pre class="lines">
 
 
-162
-163
-164
-165
-166
-167
-168
-169
 170
 171
 172
@@ -2028,15 +2118,23 @@
 181
 182
 183
-184</pre>
+184
+185
+186
+187
+188
+189
+190
+191
+192</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx/legacy.rb', line 162</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx/legacy.rb', line 170</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_unsigned_copy'>unsigned_copy</span><span class='lparen'>(</span><span class='id identifier rubyid_tx'>tx</span><span class='rparen'>)</span>
 
   <span class='comment'># not checking transaction validity unless it&#39;s of a different class
-</span>  <span class='id identifier rubyid_raise'>raise</span> <span class='const'>ArgumentError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Cannot copy transaction of different type!</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_tx'>tx</span><span class='period'>.</span><span class='id identifier rubyid_instance_of?'>instance_of?</span> <span class='const'><span class='object_link'><a href="../Tx.html" title="Eth::Tx (module)">Tx</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Eth::Tx::Legacy (class)">Legacy</a></span></span>
+</span>  <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="TransactionTypeError.html" title="Eth::Tx::TransactionTypeError (class)">TransactionTypeError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Cannot copy transaction of different type!</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_tx'>tx</span><span class='period'>.</span><span class='id identifier rubyid_instance_of?'>instance_of?</span> <span class='const'><span class='object_link'><a href="../Tx.html" title="Eth::Tx (module)">Tx</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Eth::Tx::Legacy (class)">Legacy</a></span></span>
 
   <span class='comment'># populate class attributes
 </span>  <span class='ivar'>@signer_nonce</span> <span class='op'>=</span> <span class='id identifier rubyid_tx'>tx</span><span class='period'>.</span><span class='id identifier rubyid_signer_nonce'>signer_nonce</span>
@@ -2105,22 +2203,22 @@
       <pre class="lines">
 
 
-252
-253
-254
-255
-256
-257
-258
 259
 260
 261
 262
 263
-264</pre>
+264
+265
+266
+267
+268
+269
+270
+271</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx/legacy.rb', line 252</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx/legacy.rb', line 259</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_unsigned_encoded'>unsigned_encoded</span>
   <span class='id identifier rubyid_tx_data'>tx_data</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
@@ -2184,12 +2282,12 @@
       <pre class="lines">
 
 
-269
-270
-271</pre>
+276
+277
+278</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx/legacy.rb', line 269</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx/legacy.rb', line 276</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_unsigned_hash'>unsigned_hash</span>
   <span class='const'><span class='object_link'><a href="../Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_keccak256'><span class='object_link'><a href="../Util.html#keccak256-instance_method" title="Eth::Util#keccak256 (method)">keccak256</a></span></span> <span class='id identifier rubyid_unsigned_encoded'>unsigned_encoded</span>
@@ -2204,7 +2302,7 @@
 </div>
 
       <div id="footer">
-  Generated on Sun Jan  9 15:24:41 2022 by
+  Generated on Sun Jan  9 16:01:42 2022 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.27 (ruby-2.7.5).
 </div>

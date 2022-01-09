@@ -112,7 +112,7 @@
     
   
     
-      <strong class="classes">Classes:</strong> <span class='object_link'><a href="Tx/Eip1559.html" title="Eth::Tx::Eip1559 (class)">Eip1559</a></span>, <span class='object_link'><a href="Tx/Eip2930.html" title="Eth::Tx::Eip2930 (class)">Eip2930</a></span>, <span class='object_link'><a href="Tx/Legacy.html" title="Eth::Tx::Legacy (class)">Legacy</a></span>
+      <strong class="classes">Classes:</strong> <span class='object_link'><a href="Tx/DecoderError.html" title="Eth::Tx::DecoderError (class)">DecoderError</a></span>, <span class='object_link'><a href="Tx/Eip1559.html" title="Eth::Tx::Eip1559 (class)">Eip1559</a></span>, <span class='object_link'><a href="Tx/Eip2930.html" title="Eth::Tx::Eip2930 (class)">Eip2930</a></span>, <span class='object_link'><a href="Tx/Legacy.html" title="Eth::Tx::Legacy (class)">Legacy</a></span>, <span class='object_link'><a href="Tx/ParameterError.html" title="Eth::Tx::ParameterError (class)">ParameterError</a></span>, <span class='object_link'><a href="Tx/TransactionTypeError.html" title="Eth::Tx::TransactionTypeError (class)">TransactionTypeError</a></span>
     
   
 </p>
@@ -574,7 +574,7 @@
     <li>
       
       
-        <span class='type'>(<tt>ArgumentError</tt>)</span>
+        <span class='type'>(<tt><span class='object_link'><a href="Tx/TransactionTypeError.html" title="Eth::Tx::TransactionTypeError (class)">TransactionTypeError</a></span></tt>)</span>
       
       
       
@@ -593,15 +593,6 @@
       <pre class="lines">
 
 
-83
-84
-85
-86
-87
-88
-89
-90
-91
 92
 93
 94
@@ -614,10 +605,19 @@
 101
 102
 103
-104</pre>
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx.rb', line 83</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx.rb', line 92</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_decode'>decode</span><span class='lparen'>(</span><span class='id identifier rubyid_hex'>hex</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_hex'>hex</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_remove_hex_prefix'><span class='object_link'><a href="Util.html#remove_hex_prefix-instance_method" title="Eth::Util#remove_hex_prefix (method)">remove_hex_prefix</a></span></span> <span class='id identifier rubyid_hex'>hex</span>
@@ -637,7 +637,7 @@
 </span>    <span class='kw'>if</span> <span class='id identifier rubyid_type'>type</span> <span class='op'>&gt;=</span> <span class='int'>0xc0</span>
       <span class='kw'>return</span> <span class='const'><span class='object_link'><a href="" title="Eth::Tx (module)">Tx</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Tx/Legacy.html" title="Eth::Tx::Legacy (class)">Legacy</a></span></span><span class='period'>.</span><span class='id identifier rubyid_decode'><span class='object_link'><a href="Tx/Legacy.html#decode-instance_method" title="Eth::Tx::Legacy#decode (method)">decode</a></span></span> <span class='id identifier rubyid_hex'>hex</span>
     <span class='kw'>else</span>
-      <span class='id identifier rubyid_raise'>raise</span> <span class='const'>ArgumentError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Cannot decode unknown transaction type </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_type'>type</span><span class='embexpr_end'>}</span><span class='tstring_content'>!</span><span class='tstring_end'>&quot;</span></span>
+      <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="Tx/TransactionTypeError.html" title="Eth::Tx::TransactionTypeError (class)">TransactionTypeError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Cannot decode unknown transaction type </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_type'>type</span><span class='embexpr_end'>}</span><span class='tstring_content'>!</span><span class='tstring_end'>&quot;</span></span>
     <span class='kw'>end</span>
   <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
@@ -690,13 +690,13 @@
       <pre class="lines">
 
 
-265
-266
-267
-268</pre>
+273
+274
+275
+276</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx.rb', line 265</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx.rb', line 273</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_is_signed?'>is_signed?</span><span class='lparen'>(</span><span class='id identifier rubyid_tx'>tx</span><span class='rparen'>)</span>
   <span class='op'>!</span><span class='id identifier rubyid_tx'>tx</span><span class='period'>.</span><span class='id identifier rubyid_signature_r'>signature_r</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='kw'>and</span> <span class='id identifier rubyid_tx'>tx</span><span class='period'>.</span><span class='id identifier rubyid_signature_r'>signature_r</span> <span class='op'>!=</span> <span class='int'>0</span> <span class='kw'>and</span>
@@ -778,15 +778,6 @@
       <pre class="lines">
 
 
-59
-60
-61
-62
-63
-64
-65
-66
-67
 68
 69
 70
@@ -795,10 +786,19 @@
 73
 74
 75
-76</pre>
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx.rb', line 59</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx.rb', line 68</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='comma'>,</span> <span class='id identifier rubyid_chain_id'>chain_id</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Chain.html" title="Eth::Chain (module)">Chain</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Chain.html#ETHEREUM-constant" title="Eth::Chain::ETHEREUM (constant)">ETHEREUM</a></span></span><span class='rparen'>)</span>
 
@@ -887,17 +887,17 @@
       <pre class="lines">
 
 
-208
-209
-210
-211
-212
-213
-214
-215</pre>
+216
+217
+218
+219
+220
+221
+222
+223</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx.rb', line 208</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx.rb', line 216</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_sanitize_address'>sanitize_address</span><span class='lparen'>(</span><span class='id identifier rubyid_addr'>addr</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_addr'>addr</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_addr'>addr</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
@@ -976,13 +976,13 @@
       <pre class="lines">
 
 
-222
-223
-224
-225</pre>
+230
+231
+232
+233</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx.rb', line 222</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx.rb', line 230</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_sanitize_amount'>sanitize_amount</span><span class='lparen'>(</span><span class='id identifier rubyid_val'>val</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_val'>val</span> <span class='op'>=</span> <span class='int'>0</span> <span class='kw'>if</span> <span class='id identifier rubyid_val'>val</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
@@ -1057,13 +1057,13 @@
       <pre class="lines">
 
 
-197
-198
-199
-200</pre>
+205
+206
+207
+208</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx.rb', line 197</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx.rb', line 205</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_sanitize_chain'>sanitize_chain</span><span class='lparen'>(</span><span class='id identifier rubyid_id'>id</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_id'>id</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Chain.html" title="Eth::Chain (module)">Chain</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Chain.html#ETHEREUM-constant" title="Eth::Chain::ETHEREUM (constant)">ETHEREUM</a></span></span> <span class='kw'>if</span> <span class='id identifier rubyid_id'>id</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
@@ -1138,16 +1138,16 @@
       <pre class="lines">
 
 
-232
-233
-234
-235
-236
-237
-238</pre>
+240
+241
+242
+243
+244
+245
+246</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx.rb', line 232</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx.rb', line 240</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_sanitize_data'>sanitize_data</span><span class='lparen'>(</span><span class='id identifier rubyid_data'>data</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_data'>data</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_data'>data</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
@@ -1225,24 +1225,24 @@
       <pre class="lines">
 
 
-246
-247
-248
-249
-250
-251
-252
-253
 254
 255
 256
 257
 258
 259
-260</pre>
+260
+261
+262
+263
+264
+265
+266
+267
+268</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx.rb', line 246</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx.rb', line 254</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_sanitize_list'>sanitize_list</span><span class='lparen'>(</span><span class='id identifier rubyid_list'>list</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_list'>list</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span> <span class='kw'>if</span> <span class='id identifier rubyid_list'>list</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
@@ -1327,7 +1327,7 @@
     <li>
       
       
-        <span class='type'>(<tt>ArgumentError</tt>)</span>
+        <span class='type'>(<tt><span class='object_link'><a href="Tx/TransactionTypeError.html" title="Eth::Tx::TransactionTypeError (class)">TransactionTypeError</a></span></tt>)</span>
       
       
       
@@ -1346,15 +1346,6 @@
       <pre class="lines">
 
 
-111
-112
-113
-114
-115
-116
-117
-118
-119
 120
 121
 122
@@ -1363,10 +1354,18 @@
 125
 126
 127
-128</pre>
+128
+129
+130
+131
+132
+133
+134
+135
+136</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx.rb', line 111</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx.rb', line 120</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_unsigned_copy'>unsigned_copy</span><span class='lparen'>(</span><span class='id identifier rubyid_tx'>tx</span><span class='rparen'>)</span>
   <span class='kw'>case</span> <span class='id identifier rubyid_tx'>tx</span><span class='period'>.</span><span class='id identifier rubyid_type'>type</span>
@@ -1382,9 +1381,8 @@
 
     <span class='comment'># Legacy transaction (&quot;type 0&quot;)
 </span>    <span class='kw'>return</span> <span class='const'><span class='object_link'><a href="" title="Eth::Tx (module)">Tx</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Tx/Legacy.html" title="Eth::Tx::Legacy (class)">Legacy</a></span></span><span class='period'>.</span><span class='id identifier rubyid_unsigned_copy'><span class='object_link'><a href="Tx/Legacy.html#unsigned_copy-instance_method" title="Eth::Tx::Legacy#unsigned_copy (method)">unsigned_copy</a></span></span> <span class='id identifier rubyid_tx'>tx</span>
-  <span class='kw'>else</span>
-    <span class='id identifier rubyid_raise'>raise</span> <span class='const'>ArgumentError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Cannot copy unknown transaction type </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_tx'>tx</span><span class='period'>.</span><span class='id identifier rubyid_type'>type</span><span class='embexpr_end'>}</span><span class='tstring_content'>!</span><span class='tstring_end'>&quot;</span></span>
   <span class='kw'>end</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="Tx/TransactionTypeError.html" title="Eth::Tx::TransactionTypeError (class)">TransactionTypeError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Cannot copy unknown transaction type </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_tx'>tx</span><span class='period'>.</span><span class='id identifier rubyid_type'>type</span><span class='embexpr_end'>}</span><span class='tstring_content'>!</span><span class='tstring_end'>&quot;</span></span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1454,7 +1452,7 @@
     <li>
       
       
-        <span class='type'>(<tt>ArgumentError</tt>)</span>
+        <span class='type'>(<tt><span class='object_link'><a href="Tx/ParameterError.html" title="Eth::Tx::ParameterError (class)">ParameterError</a></span></tt>)</span>
       
       
       
@@ -1468,7 +1466,7 @@
     <li>
       
       
-        <span class='type'>(<tt>ArgumentError</tt>)</span>
+        <span class='type'>(<tt><span class='object_link'><a href="Tx/ParameterError.html" title="Eth::Tx::ParameterError (class)">ParameterError</a></span></tt>)</span>
       
       
       
@@ -1482,7 +1480,7 @@
     <li>
       
       
-        <span class='type'>(<tt>ArgumentError</tt>)</span>
+        <span class='type'>(<tt><span class='object_link'><a href="Tx/ParameterError.html" title="Eth::Tx::ParameterError (class)">ParameterError</a></span></tt>)</span>
       
       
       
@@ -1496,7 +1494,7 @@
     <li>
       
       
-        <span class='type'>(<tt>ArgumentError</tt>)</span>
+        <span class='type'>(<tt><span class='object_link'><a href="Tx/ParameterError.html" title="Eth::Tx::ParameterError (class)">ParameterError</a></span></tt>)</span>
       
       
       
@@ -1510,7 +1508,7 @@
     <li>
       
       
-        <span class='type'>(<tt>ArgumentError</tt>)</span>
+        <span class='type'>(<tt><span class='object_link'><a href="Tx/ParameterError.html" title="Eth::Tx::ParameterError (class)">ParameterError</a></span></tt>)</span>
       
       
       
@@ -1529,14 +1527,6 @@
       <pre class="lines">
 
 
-173
-174
-175
-176
-177
-178
-179
-180
 181
 182
 183
@@ -1546,26 +1536,34 @@
 187
 188
 189
-190</pre>
+190
+191
+192
+193
+194
+195
+196
+197
+198</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx.rb', line 173</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx.rb', line 181</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_validate_legacy_params'>validate_legacy_params</span><span class='lparen'>(</span><span class='id identifier rubyid_fields'>fields</span><span class='rparen'>)</span>
   <span class='kw'>unless</span> <span class='id identifier rubyid_fields'>fields</span><span class='lbracket'>[</span><span class='symbol'>:nonce</span><span class='rbracket'>]</span> <span class='op'>&gt;=</span> <span class='int'>0</span>
-    <span class='id identifier rubyid_raise'>raise</span> <span class='const'>ArgumentError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Invalid signer nonce </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_fields'>fields</span><span class='lbracket'>[</span><span class='symbol'>:nonce</span><span class='rbracket'>]</span><span class='embexpr_end'>}</span><span class='tstring_content'>!</span><span class='tstring_end'>&quot;</span></span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="Tx/ParameterError.html" title="Eth::Tx::ParameterError (class)">ParameterError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Invalid signer nonce </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_fields'>fields</span><span class='lbracket'>[</span><span class='symbol'>:nonce</span><span class='rbracket'>]</span><span class='embexpr_end'>}</span><span class='tstring_content'>!</span><span class='tstring_end'>&quot;</span></span>
   <span class='kw'>end</span>
   <span class='kw'>unless</span> <span class='id identifier rubyid_fields'>fields</span><span class='lbracket'>[</span><span class='symbol'>:gas_price</span><span class='rbracket'>]</span> <span class='op'>&gt;=</span> <span class='int'>0</span>
-    <span class='id identifier rubyid_raise'>raise</span> <span class='const'>ArgumentError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Invalid gas price </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_fields'>fields</span><span class='lbracket'>[</span><span class='symbol'>:gas_price</span><span class='rbracket'>]</span><span class='embexpr_end'>}</span><span class='tstring_content'>!</span><span class='tstring_end'>&quot;</span></span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="Tx/ParameterError.html" title="Eth::Tx::ParameterError (class)">ParameterError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Invalid gas price </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_fields'>fields</span><span class='lbracket'>[</span><span class='symbol'>:gas_price</span><span class='rbracket'>]</span><span class='embexpr_end'>}</span><span class='tstring_content'>!</span><span class='tstring_end'>&quot;</span></span>
   <span class='kw'>end</span>
   <span class='kw'>unless</span> <span class='id identifier rubyid_fields'>fields</span><span class='lbracket'>[</span><span class='symbol'>:gas_limit</span><span class='rbracket'>]</span> <span class='op'>&gt;=</span> <span class='const'><span class='object_link'><a href="#DEFAULT_GAS_LIMIT-constant" title="Eth::Tx::DEFAULT_GAS_LIMIT (constant)">DEFAULT_GAS_LIMIT</a></span></span> <span class='kw'>and</span> <span class='id identifier rubyid_fields'>fields</span><span class='lbracket'>[</span><span class='symbol'>:gas_limit</span><span class='rbracket'>]</span> <span class='op'>&lt;=</span> <span class='const'><span class='object_link'><a href="#BLOCK_GAS_LIMIT-constant" title="Eth::Tx::BLOCK_GAS_LIMIT (constant)">BLOCK_GAS_LIMIT</a></span></span>
-    <span class='id identifier rubyid_raise'>raise</span> <span class='const'>ArgumentError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Invalid gas limit </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_fields'>fields</span><span class='lbracket'>[</span><span class='symbol'>:gas_limit</span><span class='rbracket'>]</span><span class='embexpr_end'>}</span><span class='tstring_content'>!</span><span class='tstring_end'>&quot;</span></span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="Tx/ParameterError.html" title="Eth::Tx::ParameterError (class)">ParameterError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Invalid gas limit </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_fields'>fields</span><span class='lbracket'>[</span><span class='symbol'>:gas_limit</span><span class='rbracket'>]</span><span class='embexpr_end'>}</span><span class='tstring_content'>!</span><span class='tstring_end'>&quot;</span></span>
   <span class='kw'>end</span>
   <span class='kw'>unless</span> <span class='id identifier rubyid_fields'>fields</span><span class='lbracket'>[</span><span class='symbol'>:value</span><span class='rbracket'>]</span> <span class='op'>&gt;=</span> <span class='int'>0</span>
-    <span class='id identifier rubyid_raise'>raise</span> <span class='const'>ArgumentError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Invalid transaction value </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_fields'>fields</span><span class='lbracket'>[</span><span class='symbol'>:value</span><span class='rbracket'>]</span><span class='embexpr_end'>}</span><span class='tstring_content'>!</span><span class='tstring_end'>&quot;</span></span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="Tx/ParameterError.html" title="Eth::Tx::ParameterError (class)">ParameterError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Invalid transaction value </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_fields'>fields</span><span class='lbracket'>[</span><span class='symbol'>:value</span><span class='rbracket'>]</span><span class='embexpr_end'>}</span><span class='tstring_content'>!</span><span class='tstring_end'>&quot;</span></span>
   <span class='kw'>end</span>
   <span class='kw'>unless</span> <span class='id identifier rubyid_fields'>fields</span><span class='lbracket'>[</span><span class='symbol'>:access_list</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='kw'>or</span> <span class='id identifier rubyid_fields'>fields</span><span class='lbracket'>[</span><span class='symbol'>:access_list</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span> <span class='const'>Array</span>
-    <span class='id identifier rubyid_raise'>raise</span> <span class='const'>ArgumentError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Invalid access list </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_fields'>fields</span><span class='lbracket'>[</span><span class='symbol'>:access_list</span><span class='rbracket'>]</span><span class='embexpr_end'>}</span><span class='tstring_content'>!</span><span class='tstring_end'>&quot;</span></span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="Tx/ParameterError.html" title="Eth::Tx::ParameterError (class)">ParameterError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Invalid access list </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_fields'>fields</span><span class='lbracket'>[</span><span class='symbol'>:access_list</span><span class='rbracket'>]</span><span class='embexpr_end'>}</span><span class='tstring_content'>!</span><span class='tstring_end'>&quot;</span></span>
   <span class='kw'>end</span>
   <span class='kw'>return</span> <span class='id identifier rubyid_fields'>fields</span>
 <span class='kw'>end</span></pre>
@@ -1637,7 +1635,7 @@
     <li>
       
       
-        <span class='type'>(<tt>ArgumentError</tt>)</span>
+        <span class='type'>(<tt><span class='object_link'><a href="Tx/ParameterError.html" title="Eth::Tx::ParameterError (class)">ParameterError</a></span></tt>)</span>
       
       
       
@@ -1651,7 +1649,7 @@
     <li>
       
       
-        <span class='type'>(<tt>ArgumentError</tt>)</span>
+        <span class='type'>(<tt><span class='object_link'><a href="Tx/ParameterError.html" title="Eth::Tx::ParameterError (class)">ParameterError</a></span></tt>)</span>
       
       
       
@@ -1665,7 +1663,7 @@
     <li>
       
       
-        <span class='type'>(<tt>ArgumentError</tt>)</span>
+        <span class='type'>(<tt><span class='object_link'><a href="Tx/ParameterError.html" title="Eth::Tx::ParameterError (class)">ParameterError</a></span></tt>)</span>
       
       
       
@@ -1679,7 +1677,7 @@
     <li>
       
       
-        <span class='type'>(<tt>ArgumentError</tt>)</span>
+        <span class='type'>(<tt><span class='object_link'><a href="Tx/ParameterError.html" title="Eth::Tx::ParameterError (class)">ParameterError</a></span></tt>)</span>
       
       
       
@@ -1693,7 +1691,7 @@
     <li>
       
       
-        <span class='type'>(<tt>ArgumentError</tt>)</span>
+        <span class='type'>(<tt><span class='object_link'><a href="Tx/ParameterError.html" title="Eth::Tx::ParameterError (class)">ParameterError</a></span></tt>)</span>
       
       
       
@@ -1707,7 +1705,7 @@
     <li>
       
       
-        <span class='type'>(<tt>ArgumentError</tt>)</span>
+        <span class='type'>(<tt><span class='object_link'><a href="Tx/ParameterError.html" title="Eth::Tx::ParameterError (class)">ParameterError</a></span></tt>)</span>
       
       
       
@@ -1726,14 +1724,6 @@
       <pre class="lines">
 
 
-141
-142
-143
-144
-145
-146
-147
-148
 149
 150
 151
@@ -1746,29 +1736,37 @@
 158
 159
 160
-161</pre>
+161
+162
+163
+164
+165
+166
+167
+168
+169</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx.rb', line 141</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx.rb', line 149</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_validate_params'>validate_params</span><span class='lparen'>(</span><span class='id identifier rubyid_fields'>fields</span><span class='rparen'>)</span>
   <span class='kw'>unless</span> <span class='id identifier rubyid_fields'>fields</span><span class='lbracket'>[</span><span class='symbol'>:nonce</span><span class='rbracket'>]</span> <span class='op'>&gt;=</span> <span class='int'>0</span>
-    <span class='id identifier rubyid_raise'>raise</span> <span class='const'>ArgumentError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Invalid signer nonce </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_fields'>fields</span><span class='lbracket'>[</span><span class='symbol'>:nonce</span><span class='rbracket'>]</span><span class='embexpr_end'>}</span><span class='tstring_content'>!</span><span class='tstring_end'>&quot;</span></span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="Tx/ParameterError.html" title="Eth::Tx::ParameterError (class)">ParameterError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Invalid signer nonce </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_fields'>fields</span><span class='lbracket'>[</span><span class='symbol'>:nonce</span><span class='rbracket'>]</span><span class='embexpr_end'>}</span><span class='tstring_content'>!</span><span class='tstring_end'>&quot;</span></span>
   <span class='kw'>end</span>
   <span class='kw'>unless</span> <span class='id identifier rubyid_fields'>fields</span><span class='lbracket'>[</span><span class='symbol'>:priority_fee</span><span class='rbracket'>]</span> <span class='op'>&gt;=</span> <span class='int'>0</span>
-    <span class='id identifier rubyid_raise'>raise</span> <span class='const'>ArgumentError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Invalid gas priority fee </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_fields'>fields</span><span class='lbracket'>[</span><span class='symbol'>:priority_fee</span><span class='rbracket'>]</span><span class='embexpr_end'>}</span><span class='tstring_content'>!</span><span class='tstring_end'>&quot;</span></span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="Tx/ParameterError.html" title="Eth::Tx::ParameterError (class)">ParameterError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Invalid gas priority fee </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_fields'>fields</span><span class='lbracket'>[</span><span class='symbol'>:priority_fee</span><span class='rbracket'>]</span><span class='embexpr_end'>}</span><span class='tstring_content'>!</span><span class='tstring_end'>&quot;</span></span>
   <span class='kw'>end</span>
   <span class='kw'>unless</span> <span class='id identifier rubyid_fields'>fields</span><span class='lbracket'>[</span><span class='symbol'>:max_gas_fee</span><span class='rbracket'>]</span> <span class='op'>&gt;=</span> <span class='int'>0</span>
-    <span class='id identifier rubyid_raise'>raise</span> <span class='const'>ArgumentError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Invalid max gas fee </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_fields'>fields</span><span class='lbracket'>[</span><span class='symbol'>:max_gas_fee</span><span class='rbracket'>]</span><span class='embexpr_end'>}</span><span class='tstring_content'>!</span><span class='tstring_end'>&quot;</span></span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="Tx/ParameterError.html" title="Eth::Tx::ParameterError (class)">ParameterError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Invalid max gas fee </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_fields'>fields</span><span class='lbracket'>[</span><span class='symbol'>:max_gas_fee</span><span class='rbracket'>]</span><span class='embexpr_end'>}</span><span class='tstring_content'>!</span><span class='tstring_end'>&quot;</span></span>
   <span class='kw'>end</span>
   <span class='kw'>unless</span> <span class='id identifier rubyid_fields'>fields</span><span class='lbracket'>[</span><span class='symbol'>:gas_limit</span><span class='rbracket'>]</span> <span class='op'>&gt;=</span> <span class='const'><span class='object_link'><a href="#DEFAULT_GAS_LIMIT-constant" title="Eth::Tx::DEFAULT_GAS_LIMIT (constant)">DEFAULT_GAS_LIMIT</a></span></span> <span class='kw'>and</span> <span class='id identifier rubyid_fields'>fields</span><span class='lbracket'>[</span><span class='symbol'>:gas_limit</span><span class='rbracket'>]</span> <span class='op'>&lt;=</span> <span class='const'><span class='object_link'><a href="#BLOCK_GAS_LIMIT-constant" title="Eth::Tx::BLOCK_GAS_LIMIT (constant)">BLOCK_GAS_LIMIT</a></span></span>
-    <span class='id identifier rubyid_raise'>raise</span> <span class='const'>ArgumentError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Invalid gas limit </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_fields'>fields</span><span class='lbracket'>[</span><span class='symbol'>:gas_limit</span><span class='rbracket'>]</span><span class='embexpr_end'>}</span><span class='tstring_content'>!</span><span class='tstring_end'>&quot;</span></span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="Tx/ParameterError.html" title="Eth::Tx::ParameterError (class)">ParameterError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Invalid gas limit </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_fields'>fields</span><span class='lbracket'>[</span><span class='symbol'>:gas_limit</span><span class='rbracket'>]</span><span class='embexpr_end'>}</span><span class='tstring_content'>!</span><span class='tstring_end'>&quot;</span></span>
   <span class='kw'>end</span>
   <span class='kw'>unless</span> <span class='id identifier rubyid_fields'>fields</span><span class='lbracket'>[</span><span class='symbol'>:value</span><span class='rbracket'>]</span> <span class='op'>&gt;=</span> <span class='int'>0</span>
-    <span class='id identifier rubyid_raise'>raise</span> <span class='const'>ArgumentError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Invalid transaction value </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_fields'>fields</span><span class='lbracket'>[</span><span class='symbol'>:value</span><span class='rbracket'>]</span><span class='embexpr_end'>}</span><span class='tstring_content'>!</span><span class='tstring_end'>&quot;</span></span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="Tx/ParameterError.html" title="Eth::Tx::ParameterError (class)">ParameterError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Invalid transaction value </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_fields'>fields</span><span class='lbracket'>[</span><span class='symbol'>:value</span><span class='rbracket'>]</span><span class='embexpr_end'>}</span><span class='tstring_content'>!</span><span class='tstring_end'>&quot;</span></span>
   <span class='kw'>end</span>
   <span class='kw'>unless</span> <span class='id identifier rubyid_fields'>fields</span><span class='lbracket'>[</span><span class='symbol'>:access_list</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='kw'>or</span> <span class='id identifier rubyid_fields'>fields</span><span class='lbracket'>[</span><span class='symbol'>:access_list</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span> <span class='const'>Array</span>
-    <span class='id identifier rubyid_raise'>raise</span> <span class='const'>ArgumentError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Invalid access list </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_fields'>fields</span><span class='lbracket'>[</span><span class='symbol'>:access_list</span><span class='rbracket'>]</span><span class='embexpr_end'>}</span><span class='tstring_content'>!</span><span class='tstring_end'>&quot;</span></span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="Tx/ParameterError.html" title="Eth::Tx::ParameterError (class)">ParameterError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Invalid access list </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_fields'>fields</span><span class='lbracket'>[</span><span class='symbol'>:access_list</span><span class='rbracket'>]</span><span class='embexpr_end'>}</span><span class='tstring_content'>!</span><span class='tstring_end'>&quot;</span></span>
   <span class='kw'>end</span>
   <span class='kw'>return</span> <span class='id identifier rubyid_fields'>fields</span>
 <span class='kw'>end</span></pre>
@@ -1782,7 +1780,7 @@
 </div>
 
       <div id="footer">
-  Generated on Sun Jan  9 15:24:40 2022 by
+  Generated on Sun Jan  9 16:01:41 2022 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.27 (ruby-2.7.5).
 </div>

@@ -87,11 +87,6 @@
   
   
   
-  <dl>
-      <dt>Includes:</dt>
-      <dd><span class='object_link'><a href="../Util.html" title="Eth::Util (module)">Util</a></span></dd>
-  </dl>
-  
   
 
   
@@ -104,6 +99,27 @@
   
 </div>
 
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    
+<p>The Eth::Key::Decrypter class to handle PBKDF2-SHA-256 decryption.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><h2>Defined Under Namespace</h2>
+<p class="children">
+  
+    
+  
+    
+      <strong class="classes">Classes:</strong> <span class='object_link'><a href="Decrypter/DecrypterError.html" title="Eth::Key::Decrypter::DecrypterError (class)">DecrypterError</a></span>
+    
+  
+</p>
 
 
 
@@ -122,7 +138,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#perform-class_method" title="perform (class method)">.<strong>perform</strong>(data, password)  &#x21d2; String </a>
+      <a href="#perform-class_method" title="perform (class method)">.<strong>perform</strong>(data, password)  &#x21d2; Eth::Key </a>
     
 
     
@@ -205,17 +221,6 @@
     </ul>
   
 
-
-  
-  
-  
-  
-  
-  
-  
-  
-  <h3 class="inherited">Methods included from <span class='object_link'><a href="../Util.html" title="Eth::Util (module)">Util</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="../Util.html#bin_to_hex-instance_method" title="Eth::Util#bin_to_hex (method)">#bin_to_hex</a></span>, <span class='object_link'><a href="../Util.html#bin_to_prefixed_hex-instance_method" title="Eth::Util#bin_to_prefixed_hex (method)">#bin_to_prefixed_hex</a></span>, <span class='object_link'><a href="../Util.html#ceil32-instance_method" title="Eth::Util#ceil32 (method)">#ceil32</a></span>, <span class='object_link'><a href="../Util.html#deserialize_big_endian_to_int-instance_method" title="Eth::Util#deserialize_big_endian_to_int (method)">#deserialize_big_endian_to_int</a></span>, <span class='object_link'><a href="../Util.html#hex_to_bin-instance_method" title="Eth::Util#hex_to_bin (method)">#hex_to_bin</a></span>, <span class='object_link'><a href="../Util.html#is_hex%3F-instance_method" title="Eth::Util#is_hex? (method)">#is_hex?</a></span>, <span class='object_link'><a href="../Util.html#is_prefixed%3F-instance_method" title="Eth::Util#is_prefixed? (method)">#is_prefixed?</a></span>, <span class='object_link'><a href="../Util.html#keccak256-instance_method" title="Eth::Util#keccak256 (method)">#keccak256</a></span>, <span class='object_link'><a href="../Util.html#lpad-instance_method" title="Eth::Util#lpad (method)">#lpad</a></span>, <span class='object_link'><a href="../Util.html#prefix_hex-instance_method" title="Eth::Util#prefix_hex (method)">#prefix_hex</a></span>, <span class='object_link'><a href="../Util.html#public_key_to_address-instance_method" title="Eth::Util#public_key_to_address (method)">#public_key_to_address</a></span>, <span class='object_link'><a href="../Util.html#remove_hex_prefix-instance_method" title="Eth::Util#remove_hex_prefix (method)">#remove_hex_prefix</a></span>, <span class='object_link'><a href="../Util.html#serialize_int_to_big_endian-instance_method" title="Eth::Util#serialize_int_to_big_endian (method)">#serialize_int_to_big_endian</a></span>, <span class='object_link'><a href="../Util.html#zpad-instance_method" title="Eth::Util#zpad (method)">#zpad</a></span>, <span class='object_link'><a href="../Util.html#zpad_hex-instance_method" title="Eth::Util#zpad_hex (method)">#zpad_hex</a></span>, <span class='object_link'><a href="../Util.html#zpad_int-instance_method" title="Eth::Util#zpad_int (method)">#zpad_int</a></span></p>
 <div id="constructor_details" class="method_details_list">
   <h2>Constructor Details</h2>
   
@@ -281,13 +286,13 @@
       <pre class="lines">
 
 
-33
-34
-35
-36</pre>
+38
+39
+40
+41</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/key/decrypter.rb', line 33</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/key/decrypter.rb', line 38</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_data'>data</span><span class='comma'>,</span> <span class='id identifier rubyid_password'>password</span><span class='rparen'>)</span>
   <span class='ivar'>@data</span> <span class='op'>=</span> <span class='const'>JSON</span><span class='period'>.</span><span class='id identifier rubyid_parse'>parse</span><span class='lparen'>(</span><span class='id identifier rubyid_data'>data</span><span class='rparen'>)</span>
@@ -308,7 +313,7 @@
       <div class="method_details first">
   <h3 class="signature first" id="perform-class_method">
   
-    .<strong>perform</strong>(data, password)  &#x21d2; <tt>String</tt> 
+    .<strong>perform</strong>(data, password)  &#x21d2; <tt><span class='object_link'><a href="../Key.html" title="Eth::Key (class)">Eth::Key</a></span></tt> 
   
 
   
@@ -323,11 +328,28 @@
   </div>
 </div>
 <div class="tags">
-  
-<p class="tag_title">Returns:</p>
-<ul class="return">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
   
     <li>
+      
+        <span class='name'>data</span>
+      
+      
+        <span class='type'>(<tt>JSON</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>encryption data including cypherkey</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>password</span>
       
       
         <span class='type'>(<tt>String</tt>)</span>
@@ -336,7 +358,26 @@
       
         &mdash;
         <div class='inline'>
-<p>decrypted key</p>
+<p>password to decrypt the key</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Key.html" title="Eth::Key (class)">Eth::Key</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>decrypted key-pair</p>
 </div>
       
     </li>
@@ -349,12 +390,12 @@
       <pre class="lines">
 
 
-24
-25
-26</pre>
+29
+30
+31</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/key/decrypter.rb', line 24</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/key/decrypter.rb', line 29</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_perform'>perform</span><span class='lparen'>(</span><span class='id identifier rubyid_data'>data</span><span class='comma'>,</span> <span class='id identifier rubyid_password'>password</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_data'>data</span><span class='comma'>,</span> <span class='id identifier rubyid_password'>password</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_perform'>perform</span>
@@ -414,19 +455,21 @@
       <pre class="lines">
 
 
-41
-42
-43
-44
-45</pre>
+46
+47
+48
+49
+50
+51</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/key/decrypter.rb', line 41</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/key/decrypter.rb', line 46</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_perform'>perform</span>
   <span class='id identifier rubyid_derive_key'>derive_key</span> <span class='id identifier rubyid_password'>password</span>
   <span class='id identifier rubyid_check_macs'>check_macs</span>
-  <span class='id identifier rubyid_bin_to_hex'>bin_to_hex</span> <span class='id identifier rubyid_decrypted_data'>decrypted_data</span>
+  <span class='id identifier rubyid_private_key'>private_key</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_bin_to_hex'><span class='object_link'><a href="../Util.html#bin_to_hex-instance_method" title="Eth::Util#bin_to_hex (method)">bin_to_hex</a></span></span> <span class='id identifier rubyid_decrypted_data'>decrypted_data</span>
+  <span class='const'><span class='object_link'><a href="../../Eth.html" title="Eth (module)">Eth</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Key.html" title="Eth::Key (class)">Key</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../Key.html#initialize-instance_method" title="Eth::Key#initialize (method)">new</a></span></span> <span class='label'>priv:</span> <span class='id identifier rubyid_private_key'>private_key</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -438,7 +481,7 @@
 </div>
 
       <div id="footer">
-  Generated on Sun Jan  9 15:24:41 2022 by
+  Generated on Sun Jan  9 16:01:42 2022 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.27 (ruby-2.7.5).
 </div>

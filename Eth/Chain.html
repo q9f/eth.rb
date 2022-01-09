@@ -104,7 +104,17 @@
 <div class="tags">
   
 
-</div>
+</div><h2>Defined Under Namespace</h2>
+<p class="children">
+  
+    
+  
+    
+      <strong class="classes">Classes:</strong> <span class='object_link'><a href="Chain/ReplayProtectionError.html" title="Eth::Chain::ReplayProtectionError (class)">ReplayProtectionError</a></span>
+    
+  
+</p>
+
   
     <h2>
       Constant Summary
@@ -619,12 +629,12 @@
       <pre class="lines">
 
 
-88
-89
-90</pre>
+91
+92
+93</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/chain.rb', line 88</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/chain.rb', line 91</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_is_legacy?'>is_legacy?</span><span class='lparen'>(</span><span class='id identifier rubyid_v'>v</span><span class='rparen'>)</span>
   <span class='lbracket'>[</span><span class='int'>27</span><span class='comma'>,</span> <span class='int'>28</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='id identifier rubyid_v'>v</span>
@@ -698,15 +708,15 @@
       <pre class="lines">
 
 
-133
-134
-135
 136
 137
-138</pre>
+138
+139
+140
+141</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/chain.rb', line 133</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/chain.rb', line 136</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_to_chain_id'>to_chain_id</span><span class='lparen'>(</span><span class='id identifier rubyid_v'>v</span><span class='rparen'>)</span>
   <span class='kw'>return</span> <span class='kw'>nil</span> <span class='kw'>if</span> <span class='id identifier rubyid_v'>v</span> <span class='op'>&lt;</span> <span class='int'>36</span>
@@ -800,7 +810,7 @@
     <li>
       
       
-        <span class='type'>(<tt>ArgumentError</tt>)</span>
+        <span class='type'>(<tt><span class='object_link'><a href="Chain/ReplayProtectionError.html" title="Eth::Chain::ReplayProtectionError (class)">ReplayProtectionError</a></span></tt>)</span>
       
       
       
@@ -819,9 +829,6 @@
       <pre class="lines">
 
 
-99
-100
-101
 102
 103
 104
@@ -837,10 +844,13 @@
 114
 115
 116
-117</pre>
+117
+118
+119
+120</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/chain.rb', line 99</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/chain.rb', line 102</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_to_recovery_id'>to_recovery_id</span><span class='lparen'>(</span><span class='id identifier rubyid_v'>v</span><span class='comma'>,</span> <span class='id identifier rubyid_chain_id'>chain_id</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="#ETHEREUM-constant" title="Eth::Chain::ETHEREUM (constant)">ETHEREUM</a></span></span><span class='rparen'>)</span>
   <span class='id identifier rubyid_e'>e</span> <span class='op'>=</span> <span class='int'>0</span> <span class='op'>+</span> <span class='int'>2</span> <span class='op'>*</span> <span class='id identifier rubyid_chain_id'>chain_id</span> <span class='op'>+</span> <span class='int'>35</span>
@@ -858,7 +868,7 @@
     <span class='comment'># this is the EIP-155 case
 </span>    <span class='kw'>return</span> <span class='id identifier rubyid_v'>v</span> <span class='op'>-</span> <span class='int'>35</span> <span class='op'>-</span> <span class='int'>2</span> <span class='op'>*</span> <span class='id identifier rubyid_chain_id'>chain_id</span>
   <span class='kw'>else</span>
-    <span class='id identifier rubyid_raise'>raise</span> <span class='const'>ArgumentError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Invalid v </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_v'>v</span><span class='embexpr_end'>}</span><span class='tstring_content'> value for chain ID </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_chain_id'>chain_id</span><span class='embexpr_end'>}</span><span class='tstring_content'>. Invalid chain ID?</span><span class='tstring_end'>&quot;</span></span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="Chain/ReplayProtectionError.html" title="Eth::Chain::ReplayProtectionError (class)">ReplayProtectionError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Invalid v </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_v'>v</span><span class='embexpr_end'>}</span><span class='tstring_content'> value for chain ID </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_chain_id'>chain_id</span><span class='embexpr_end'>}</span><span class='tstring_content'>. Invalid chain ID?</span><span class='tstring_end'>&quot;</span></span>
   <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -948,12 +958,12 @@
       <pre class="lines">
 
 
-124
-125
-126</pre>
+127
+128
+129</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/chain.rb', line 124</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/chain.rb', line 127</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_to_v'>to_v</span><span class='lparen'>(</span><span class='id identifier rubyid_recovery_id'>recovery_id</span><span class='comma'>,</span> <span class='id identifier rubyid_chain_id'>chain_id</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="#ETHEREUM-constant" title="Eth::Chain::ETHEREUM (constant)">ETHEREUM</a></span></span><span class='rparen'>)</span>
   <span class='id identifier rubyid_v'>v</span> <span class='op'>=</span> <span class='int'>2</span> <span class='op'>*</span> <span class='id identifier rubyid_chain_id'>chain_id</span> <span class='op'>+</span> <span class='int'>35</span> <span class='op'>+</span> <span class='id identifier rubyid_recovery_id'>recovery_id</span>
@@ -968,7 +978,7 @@
 </div>
 
       <div id="footer">
-  Generated on Sun Jan  9 15:24:40 2022 by
+  Generated on Sun Jan  9 16:01:41 2022 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.27 (ruby-2.7.5).
 </div>

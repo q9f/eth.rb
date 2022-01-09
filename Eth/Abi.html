@@ -1095,7 +1095,7 @@
     <li>
       
       
-        <span class='type'>(<tt>ArgumentError</tt>)</span>
+        <span class='type'>(<tt><span class='object_link'><a href="Abi/EncodingError.html" title="Eth::Abi::EncodingError (class)">EncodingError</a></span></tt>)</span>
       
       
       
@@ -1250,7 +1250,7 @@
     <span class='comment'># unsigned integer numerics
 </span>    <span class='kw'>return</span> <span class='const'><span class='object_link'><a href="Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_zpad_int'><span class='object_link'><a href="Util.html#zpad_int-instance_method" title="Eth::Util#zpad_int (method)">zpad_int</a></span></span> <span class='id identifier rubyid_i'>i</span>
   <span class='kw'>when</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>bool</span><span class='tstring_end'>&quot;</span></span>
-    <span class='id identifier rubyid_raise'>raise</span> <span class='const'>ArgumentError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Argument is not bool: </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_arg'>arg</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_arg'>arg</span><span class='period'>.</span><span class='id identifier rubyid_instance_of?'>instance_of?</span> <span class='const'>TrueClass</span> <span class='kw'>or</span> <span class='id identifier rubyid_arg'>arg</span><span class='period'>.</span><span class='id identifier rubyid_instance_of?'>instance_of?</span> <span class='const'>FalseClass</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="Abi/EncodingError.html" title="Eth::Abi::EncodingError (class)">EncodingError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Argument is not bool: </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_arg'>arg</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_arg'>arg</span><span class='period'>.</span><span class='id identifier rubyid_instance_of?'>instance_of?</span> <span class='const'>TrueClass</span> <span class='kw'>or</span> <span class='id identifier rubyid_arg'>arg</span><span class='period'>.</span><span class='id identifier rubyid_instance_of?'>instance_of?</span> <span class='const'>FalseClass</span>
 
     <span class='comment'># booleans
 </span>    <span class='kw'>return</span> <span class='const'><span class='object_link'><a href="Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_zpad_int'><span class='object_link'><a href="Util.html#zpad_int-instance_method" title="Eth::Util#zpad_int (method)">zpad_int</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_arg'>arg</span> <span class='op'>?</span> <span class='int'>1</span> <span class='op'>:</span> <span class='int'>0</span><span class='rparen'>)</span>
@@ -1416,7 +1416,7 @@
     <li>
       
       
-        <span class='type'>(<tt>ArgumentError</tt>)</span>
+        <span class='type'>(<tt><span class='object_link'><a href="Abi/EncodingError.html" title="Eth::Abi::EncodingError (class)">EncodingError</a></span></tt>)</span>
       
       
       
@@ -1476,14 +1476,14 @@
 
 <span class='kw'>def</span> <span class='id identifier rubyid_encode_type'>encode_type</span><span class='lparen'>(</span><span class='id identifier rubyid_type'>type</span><span class='comma'>,</span> <span class='id identifier rubyid_arg'>arg</span><span class='rparen'>)</span>
   <span class='kw'>if</span> <span class='qwords_beg'>%w(</span><span class='tstring_content'>string</span><span class='words_sep'> </span><span class='tstring_content'>bytes</span><span class='tstring_end'>)</span></span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='id identifier rubyid_type'>type</span><span class='period'>.</span><span class='id identifier rubyid_base_type'>base_type</span> <span class='kw'>and</span> <span class='id identifier rubyid_type'>type</span><span class='period'>.</span><span class='id identifier rubyid_sub_type'>sub_type</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
-    <span class='id identifier rubyid_raise'>raise</span> <span class='const'>ArgumentError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Argument must be a String</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_arg'>arg</span><span class='period'>.</span><span class='id identifier rubyid_instance_of?'>instance_of?</span> <span class='const'>String</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="Abi/EncodingError.html" title="Eth::Abi::EncodingError (class)">EncodingError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Argument must be a String</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_arg'>arg</span><span class='period'>.</span><span class='id identifier rubyid_instance_of?'>instance_of?</span> <span class='const'>String</span>
 
     <span class='comment'># encodes strings and bytes
 </span>    <span class='id identifier rubyid_size'>size</span> <span class='op'>=</span> <span class='id identifier rubyid_encode_type'>encode_type</span> <span class='const'><span class='object_link'><a href="Abi/Type.html" title="Eth::Abi::Type (class)">Type</a></span></span><span class='period'>.</span><span class='id identifier rubyid_size_type'><span class='object_link'><a href="Abi/Type.html#size_type-class_method" title="Eth::Abi::Type.size_type (method)">size_type</a></span></span><span class='comma'>,</span> <span class='id identifier rubyid_arg'>arg</span><span class='period'>.</span><span class='id identifier rubyid_size'>size</span>
     <span class='id identifier rubyid_padding'>padding</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Abi/Constant.html#BYTE_ZERO-constant" title="Eth::Abi::Constant::BYTE_ZERO (constant)">BYTE_ZERO</a></span></span> <span class='op'>*</span> <span class='lparen'>(</span><span class='const'><span class='object_link'><a href="Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_ceil32'><span class='object_link'><a href="Util.html#ceil32-instance_method" title="Eth::Util#ceil32 (method)">ceil32</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_arg'>arg</span><span class='period'>.</span><span class='id identifier rubyid_size'>size</span><span class='rparen'>)</span> <span class='op'>-</span> <span class='id identifier rubyid_arg'>arg</span><span class='period'>.</span><span class='id identifier rubyid_size'>size</span><span class='rparen'>)</span>
     <span class='kw'>return</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_size'>size</span><span class='embexpr_end'>}</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_arg'>arg</span><span class='embexpr_end'>}</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_padding'>padding</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
   <span class='kw'>elsif</span> <span class='id identifier rubyid_type'>type</span><span class='period'>.</span><span class='id identifier rubyid_is_dynamic?'>is_dynamic?</span>
-    <span class='id identifier rubyid_raise'>raise</span> <span class='const'>ArgumentError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Argument must be an Array</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_arg'>arg</span><span class='period'>.</span><span class='id identifier rubyid_instance_of?'>instance_of?</span> <span class='const'>Array</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="Abi/EncodingError.html" title="Eth::Abi::EncodingError (class)">EncodingError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Argument must be an Array</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_arg'>arg</span><span class='period'>.</span><span class='id identifier rubyid_instance_of?'>instance_of?</span> <span class='const'>Array</span>
 
     <span class='comment'># encodes dynamic-sized arrays
 </span>    <span class='id identifier rubyid_head'>head</span><span class='comma'>,</span> <span class='id identifier rubyid_tail'>tail</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_end'>&quot;</span></span>
@@ -1519,7 +1519,7 @@
 </div>
 
       <div id="footer">
-  Generated on Sun Jan  9 15:24:40 2022 by
+  Generated on Sun Jan  9 16:01:41 2022 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.27 (ruby-2.7.5).
 </div>
