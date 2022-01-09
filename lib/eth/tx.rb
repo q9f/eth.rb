@@ -28,6 +28,15 @@ module Eth
   module Tx
     extend self
 
+    # Provides a special transactoin error if transaction type is unknown.
+    class TransactionTypeError < TypeError; end
+
+    # Provides an decoder error if transaction cannot be decoded.
+    class DecoderError < StandardError; end
+
+    # Provides a parameter error if parameter types are invalid.
+    class ParameterError < TypeError; end
+
     # The minimum transaction gas limit required for a value transfer.
     DEFAULT_GAS_LIMIT = 21_000
 
@@ -79,7 +88,7 @@ module Eth
     #
     # @param hex [String] the raw transaction hex-string.
     # @return [Eth::Tx] transaction payload.
-    # @raise [ArgumentError] if the transaction type is unknown.
+    # @raise [TransactionTypeError] if the transaction type is unknown.
     def decode(hex)
       hex = Util.remove_hex_prefix hex
       type = hex[0, 2].to_i(16)
@@ -98,7 +107,7 @@ module Eth
         if type >= 0xc0
           return Tx::Legacy.decode hex
         else
-          raise ArgumentError, "Cannot decode unknown transaction type #{type}!"
+          raise TransactionTypeError, "Cannot decode unknown transaction type #{type}!"
         end
       end
     end
@@ -107,7 +116,7 @@ module Eth
     #
     # @param tx [Eth::Tx] any transaction payload.
     # @return [Eth::Tx] an unsigned transaction payload of the same type.
-    # @raise [ArgumentError] if the transaction type is unknown.
+    # @raise [TransactionTypeError] if the transaction type is unknown.
     def unsigned_copy(tx)
       case tx.type
       when TYPE_1559
@@ -122,9 +131,8 @@ module Eth
 
         # Legacy transaction ("type 0")
         return Tx::Legacy.unsigned_copy tx
-      else
-        raise ArgumentError, "Cannot copy unknown transaction type #{tx.type}!"
       end
+      raise TransactionTypeError, "Cannot copy unknown transaction type #{tx.type}!"
     end
 
     # Validates the common type-2 transaction fields such as nonce, priority
@@ -132,30 +140,30 @@ module Eth
     #
     # @param fields [Hash] the transaction fields.
     # @return [Hash] the validated transaction fields.
-    # @raise [ArgumentError] if nonce is an invalid integer.
-    # @raise [ArgumentError] if priority fee is invalid.
-    # @raise [ArgumentError] if max gas fee is invalid.
-    # @raise [ArgumentError] if gas limit is invalid.
-    # @raise [ArgumentError] if amount is invalid.
-    # @raise [ArgumentError] if access list is invalid.
+    # @raise [ParameterError] if nonce is an invalid integer.
+    # @raise [ParameterError] if priority fee is invalid.
+    # @raise [ParameterError] if max gas fee is invalid.
+    # @raise [ParameterError] if gas limit is invalid.
+    # @raise [ParameterError] if amount is invalid.
+    # @raise [ParameterError] if access list is invalid.
     def validate_params(fields)
       unless fields[:nonce] >= 0
-        raise ArgumentError, "Invalid signer nonce #{fields[:nonce]}!"
+        raise ParameterError, "Invalid signer nonce #{fields[:nonce]}!"
       end
       unless fields[:priority_fee] >= 0
-        raise ArgumentError, "Invalid gas priority fee #{fields[:priority_fee]}!"
+        raise ParameterError, "Invalid gas priority fee #{fields[:priority_fee]}!"
       end
       unless fields[:max_gas_fee] >= 0
-        raise ArgumentError, "Invalid max gas fee #{fields[:max_gas_fee]}!"
+        raise ParameterError, "Invalid max gas fee #{fields[:max_gas_fee]}!"
       end
       unless fields[:gas_limit] >= DEFAULT_GAS_LIMIT and fields[:gas_limit] <= BLOCK_GAS_LIMIT
-        raise ArgumentError, "Invalid gas limit #{fields[:gas_limit]}!"
+        raise ParameterError, "Invalid gas limit #{fields[:gas_limit]}!"
       end
       unless fields[:value] >= 0
-        raise ArgumentError, "Invalid transaction value #{fields[:value]}!"
+        raise ParameterError, "Invalid transaction value #{fields[:value]}!"
       end
       unless fields[:access_list].nil? or fields[:access_list].is_a? Array
-        raise ArgumentError, "Invalid access list #{fields[:access_list]}!"
+        raise ParameterError, "Invalid access list #{fields[:access_list]}!"
       end
       return fields
     end
@@ -165,26 +173,26 @@ module Eth
     #
     # @param fields [Hash] the transaction fields.
     # @return [Hash] the validated transaction fields.
-    # @raise [ArgumentError] if nonce is an invalid integer.
-    # @raise [ArgumentError] if gas price is invalid.
-    # @raise [ArgumentError] if gas limit is invalid.
-    # @raise [ArgumentError] if amount is invalid.
-    # @raise [ArgumentError] if access list is invalid.
+    # @raise [ParameterError] if nonce is an invalid integer.
+    # @raise [ParameterError] if gas price is invalid.
+    # @raise [ParameterError] if gas limit is invalid.
+    # @raise [ParameterError] if amount is invalid.
+    # @raise [ParameterError] if access list is invalid.
     def validate_legacy_params(fields)
       unless fields[:nonce] >= 0
-        raise ArgumentError, "Invalid signer nonce #{fields[:nonce]}!"
+        raise ParameterError, "Invalid signer nonce #{fields[:nonce]}!"
       end
       unless fields[:gas_price] >= 0
-        raise ArgumentError, "Invalid gas price #{fields[:gas_price]}!"
+        raise ParameterError, "Invalid gas price #{fields[:gas_price]}!"
       end
       unless fields[:gas_limit] >= DEFAULT_GAS_LIMIT and fields[:gas_limit] <= BLOCK_GAS_LIMIT
-        raise ArgumentError, "Invalid gas limit #{fields[:gas_limit]}!"
+        raise ParameterError, "Invalid gas limit #{fields[:gas_limit]}!"
       end
       unless fields[:value] >= 0
-        raise ArgumentError, "Invalid transaction value #{fields[:value]}!"
+        raise ParameterError, "Invalid transaction value #{fields[:value]}!"
       end
       unless fields[:access_list].nil? or fields[:access_list].is_a? Array
-        raise ArgumentError, "Invalid access list #{fields[:access_list]}!"
+        raise ParameterError, "Invalid access list #{fields[:access_list]}!"
       end
       return fields
     end

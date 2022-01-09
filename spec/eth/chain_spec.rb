@@ -80,9 +80,9 @@ describe Eth::Chain do
     end
 
     it "raises an error for invalid v on chain ids" do
-      expect { Eth::Chain.to_recovery_id -1 }.to raise_error ArgumentError
-      expect { Eth::Chain.to_recovery_id 36 }.to raise_error ArgumentError
-      expect { Eth::Chain.to_recovery_id 843258, Eth::Chain::PRIVATE_GETH }.to raise_error ArgumentError
+      expect { Eth::Chain.to_recovery_id -1 }.to raise_error Eth::Chain::ReplayProtectionError, "Invalid v -1 value for chain ID 1. Invalid chain ID?"
+      expect { Eth::Chain.to_recovery_id 36 }.to raise_error Eth::Chain::ReplayProtectionError, "Invalid v 36 value for chain ID 1. Invalid chain ID?"
+      expect { Eth::Chain.to_recovery_id 843258, Eth::Chain::PRIVATE_GETH }.to raise_error Eth::Chain::ReplayProtectionError, "Invalid v 843258 value for chain ID 1337. Invalid chain ID?"
     end
 
     it "can recover chain ids from v" do

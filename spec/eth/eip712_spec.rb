@@ -90,9 +90,9 @@ describe Eth::Eip712 do
     end
 
     it "raises errors for non-primary types" do
-      expect { Eth::Eip712.encode_type "address", types }.to raise_error ArgumentError
-      expect { Eth::Eip712.encode_type "string", types }.to raise_error ArgumentError
-      expect { Eth::Eip712.encode_type "uint256", types }.to raise_error ArgumentError
+      expect { Eth::Eip712.encode_type "address", types }.to raise_error Eth::Eip712::TypedDataError, "Non-primary type found: address!"
+      expect { Eth::Eip712.encode_type "string", types }.to raise_error Eth::Eip712::TypedDataError, "Non-primary type found: string!"
+      expect { Eth::Eip712.encode_type "uint256", types }.to raise_error Eth::Eip712::TypedDataError, "Non-primary type found: uint256!"
     end
   end
 

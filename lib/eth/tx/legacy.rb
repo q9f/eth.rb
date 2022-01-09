@@ -62,8 +62,14 @@ module Eth
       # signature and broadcast. Should not be used unless there is
       # no EIP-1559 support.
       #
-      # @param params [Hash] all necessary transaction fields (nonce,
-      #        gas_price, gas_limit, from, to, value, data).
+      # @param params [Hash] all necessary transaction fields.
+      # @option params [Integer] :nonce the signer nonce.
+      # @option params [Integer] :gas_price the gas price.
+      # @option params [Integer] :gas_limit the gas limit.
+      # @option params [Eth::Address] :from the sender address.
+      # @option params [Eth::Address] :to the reciever address.
+      # @option params [Integer] :value the transaction value.
+      # @option params [String] :data the transaction data payload.
       # @param chain_id [Integer] the EIP-155 Chain ID.
       def initialize(params, chain_id = Chain::ETHEREUM)
         fields = { v: chain_id, r: 0, s: 0 }.merge params
@@ -106,12 +112,13 @@ module Eth
       #
       # @param hex [String] the raw transaction hex-string.
       # @return [Eth::Tx::Legacy] transaction object.
+      # @raise [ParameterError] if transaction misses fields.
       def decode(hex)
         bin = Util.hex_to_bin hex
         tx = RLP.decode(bin)
 
         # decoded transactions always have 9 fields, even if they are empty or zero
-        raise StandardError, "Transaction missing fields!" if tx.size < 9
+        raise ParameterError, "Transaction missing fields!" if tx.size < 9
 
         # populate the 9 fields
         nonce = Util.deserialize_big_endian_to_int tx[0]
@@ -159,10 +166,11 @@ module Eth
       #
       # @param tx [Eth::Tx::Legacy] an legacy transaction object.
       # @return [Eth::Tx::Legacy] an unsigned transaction object.
+      # @raise [TransactionTypeError] if transaction type does not match.
       def unsigned_copy(tx)
 
         # not checking transaction validity unless it's of a different class
-        raise ArgumentError, "Cannot copy transaction of different type!" unless tx.instance_of? Tx::Legacy
+        raise TransactionTypeError, "Cannot copy transaction of different type!" unless tx.instance_of? Tx::Legacy
 
         # populate class attributes
         @signer_nonce = tx.signer_nonce
@@ -186,20 +194,19 @@ module Eth
       # Sign the transaction with a given key.
       #
       # @param key [Eth::Key] the key-pair to use for signing.
-      # @raise [StandardError] if the transaction is already signed.
       # @return [String] a transaction hash.
-      # @raise [StandardError] if transaction is already signed.
-      # @raise [StandardError] if sender address does not match signing key.
+      # @raise [SignatureError] if transaction is already signed.
+      # @raise [SignatureError] if sender address does not match signing key.
       def sign(key)
         if Tx.is_signed? self
-          raise StandardError, "Transaction is already signed!"
+          raise Signature::SignatureError, "Transaction is already signed!"
         end
 
         # ensure the sender address matches the given key
         unless @sender.nil? or sender.empty?
           signer_address = Tx.sanitize_address key.address.to_s
           from_address = Tx.sanitize_address @sender
-          raise StandardError, "Signer does not match sender" unless signer_address == from_address
+          raise Signature::SignatureError, "Signer does not match sender" unless signer_address == from_address
         end
 
         # sign a keccak hash of the unsigned, encoded transaction
@@ -214,10 +221,10 @@ module Eth
       # Encodes a raw transaction object.
       #
       # @return [String] a raw, RLP-encoded legacy transaction.
-      # @raise [StandardError] if the transaction is not yet signed.
+      # @raise [SignatureError] if the transaction is not yet signed.
       def encoded
         unless Tx.is_signed? self
-          raise StandardError, "Transaction is not signed!"
+          raise Signature::SignatureError, "Transaction is not signed!"
         end
         tx_data = []
         tx_data.push Util.serialize_int_to_big_endian @signer_nonce

@@ -20,6 +20,9 @@ module Eth
   module Chain
     extend self
 
+    # Provides a special replay protection error if EIP-155 is violated.
+    class ReplayProtectionError < StandardError; end
+
     # Chain ID for Ethereum mainnet
     ETHEREUM = 1
 
@@ -95,7 +98,7 @@ module Eth
     # @param v [Integer] the signature's `v` value
     # @param chain_id [Integer] the chain id the signature was generated on.
     # @return [Integer] the recovery id corresponding to `v`.
-    # @raise [ArgumentError] if the given `v` is invalid.
+    # @raise [ReplayProtectionError] if the given `v` is invalid.
     def to_recovery_id(v, chain_id = ETHEREUM)
       e = 0 + 2 * chain_id + 35
       i = 1 + 2 * chain_id + 35
@@ -112,7 +115,7 @@ module Eth
         # this is the EIP-155 case
         return v - 35 - 2 * chain_id
       else
-        raise ArgumentError, "Invalid v #{v} value for chain ID #{chain_id}. Invalid chain ID?"
+        raise ReplayProtectionError, "Invalid v #{v} value for chain ID #{chain_id}. Invalid chain ID?"
       end
     end
 

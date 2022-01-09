@@ -80,28 +80,28 @@ describe Eth::Tx::Eip2930 do
           gas_price: -9 * Eth::Unit::GWEI,
           gas_limit: Eth::Tx::DEFAULT_GAS_LIMIT,
         })
-      }.to raise_error ArgumentError
+      }.to raise_error Eth::Tx::ParameterError, "Invalid gas price -0.9e10!"
       expect {
         Eth::Tx.new({
           nonce: 0,
           gas_price: Eth::Unit::GWEI,
           gas_limit: Eth::Tx::DEFAULT_GAS_LIMIT - 1,
         })
-      }.to raise_error ArgumentError
+      }.to raise_error Eth::Tx::ParameterError, "Invalid gas limit 20999!"
       expect {
         Eth::Tx.new({
           nonce: 0,
           gas_price: Eth::Unit::GWEI,
           gas_limit: Eth::Tx::BLOCK_GAS_LIMIT + 1,
         })
-      }.to raise_error ArgumentError
+      }.to raise_error Eth::Tx::ParameterError, "Invalid gas limit 25000001!"
       expect {
         Eth::Tx.new({
           nonce: -1,
           gas_price: Eth::Unit::GWEI,
           gas_limit: Eth::Tx::BLOCK_GAS_LIMIT,
         })
-      }.to raise_error ArgumentError
+      }.to raise_error Eth::Tx::ParameterError, "Invalid signer nonce -1!"
       expect {
         Eth::Tx.new({
           nonce: 0,
@@ -109,7 +109,7 @@ describe Eth::Tx::Eip2930 do
           gas_limit: Eth::Tx::BLOCK_GAS_LIMIT,
           to: "foo",
         })
-      }.to raise_error ArgumentError
+      }.to raise_error Eth::Address::CheckSumError, "Unknown address type foo!"
       expect {
         Eth::Tx.new({
           nonce: 0,
@@ -118,7 +118,7 @@ describe Eth::Tx::Eip2930 do
           to: "0xef26b1f67797e7a5a3c192c93d821fadef3ba173",
           value: -1,
         })
-      }.to raise_error ArgumentError
+      }.to raise_error Eth::Tx::ParameterError, "Invalid transaction value -1!"
       expect {
         Eth::Tx.new({
           nonce: 0,
@@ -128,7 +128,7 @@ describe Eth::Tx::Eip2930 do
           value: 1,
           access_list: "bar",
         })
-      }.to raise_error ArgumentError
+      }.to raise_error Eth::Tx::ParameterError, "Invalid access list bar!"
     end
   end
 
@@ -145,6 +145,22 @@ describe Eth::Tx::Eip2930 do
       expect(testnet.address.to_s).to eq "0x4762119a7249823D18aec7EAB73258B2D5061Dd8"
       type01.sign(testnet)
       expect { type01.sign(testnet) }.to raise_error StandardError, "Transaction is already signed!"
+    end
+
+    it "checks for valid sender" do
+      tx_from_cow = Eth::Tx.new({
+        nonce: 0,
+        gas_price: Eth::Unit::WEI,
+        gas_limit: Eth::Tx::DEFAULT_GAS_LIMIT,
+        from: "0xCD2a3d9F938E13CD947Ec05AbC7FE734Df8DD826",
+        access_list: list,
+      })
+      expect {
+        tx_from_cow.sign testnet
+      }.to raise_error Eth::Signature::SignatureError, "Signer does not match sender"
+      expect {
+        tx_from_cow.sign cow
+      }.not_to raise_error
     end
   end
 

@@ -72,17 +72,17 @@ module Eth
     # @param type [Eth::Abi::Type] type to be encoded.
     # @param arg [String, Number] value to be encoded.
     # @return [String] the encoded type.
-    # @raise [ArgumentError] if value does not match type.
+    # @raise [EncodingError] if value does not match type.
     def encode_type(type, arg)
       if %w(string bytes).include? type.base_type and type.sub_type.empty?
-        raise ArgumentError, "Argument must be a String" unless arg.instance_of? String
+        raise EncodingError, "Argument must be a String" unless arg.instance_of? String
 
         # encodes strings and bytes
         size = encode_type Type.size_type, arg.size
         padding = BYTE_ZERO * (Util.ceil32(arg.size) - arg.size)
         return "#{size}#{arg}#{padding}"
       elsif type.is_dynamic?
-        raise ArgumentError, "Argument must be an Array" unless arg.instance_of? Array
+        raise EncodingError, "Argument must be an Array" unless arg.instance_of? Array
 
         # encodes dynamic-sized arrays
         head, tail = "", ""
@@ -114,7 +114,7 @@ module Eth
     # @param type [Eth::Abi::Type] type to be encoded.
     # @param arg [String, Number] value to be encoded.
     # @return [String] the encoded primitive type.
-    # @raise [ArgumentError] if value does not match type.
+    # @raise [EncodingError] if value does not match type.
     # @raise [ValueOutOfBounds] if value is out of bounds for type.
     # @raise [EncodingError] if encoding fails for type.
     def encode_primitive_type(type, arg)
@@ -128,7 +128,7 @@ module Eth
         # unsigned integer numerics
         return Util.zpad_int i
       when "bool"
-        raise ArgumentError, "Argument is not bool: #{arg}" unless arg.instance_of? TrueClass or arg.instance_of? FalseClass
+        raise EncodingError, "Argument is not bool: #{arg}" unless arg.instance_of? TrueClass or arg.instance_of? FalseClass
 
         # booleans
         return Util.zpad_int(arg ? 1 : 0)

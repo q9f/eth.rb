@@ -59,7 +59,7 @@ module Eth
     # @param primary_type [String] the type which we want to encode.
     # @param types [Array] all existing types in the data structure.
     # @return [String] an EIP-712 encoded type-string.
-    # @raise [ArgumentError] if non-primary type found.
+    # @raise [TypedDataError] if non-primary type found.
     def encode_type(primary_type, types)
 
       # get all used types
@@ -78,7 +78,7 @@ module Eth
       dependencies.each do |type|
 
         # dependencies should not have non-primary types (such as string, address)
-        raise ArgumentError, "Non-primary type found: #{type}!" if types[type.to_sym].nil?
+        raise TypedDataError, "Non-primary type found: #{type}!" if types[type.to_sym].nil?
 
         result += "#{type}("
         result += types[type.to_sym].map { |t| "#{t[:type]} #{t[:name]}" }.join(",")

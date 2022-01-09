@@ -21,6 +21,9 @@ module Eth
   module Signature
     extend self
 
+    # Provides a special signature error if signature is invalid.
+    class SignatureError < StandardError; end
+
     # EIP-191 prefix byte 0x19
     EIP191_PREFIX_BYTE = "\x19"
 
@@ -42,19 +45,16 @@ module Eth
     #
     # @param signature [String] a Secp256k1 signature.
     # @return [String, String, String] the r, s, and v values.
-    # @raise [ArgumentError] if signature is of unknown size.
+    # @raise [SignatureError] if signature is of unknown size.
     def dissect(signature)
       unless Util.is_hex? signature
-
-        # TODO: Tests @q9f
         signature = Util.bin_to_hex signature
       end
       signature = Util.remove_hex_prefix signature
       if signature.size != 130
 
-        # TODO: Tests @q9f
         # TODO: https://github.com/q9f/eth.rb/issues/30
-        raise ArgumentError, "Unknown signature length #{signature.size}!"
+        raise SignatureError, "Unknown signature length #{signature.size}!"
       end
       r = signature[0, 64]
       s = signature[64, 64]
@@ -70,19 +70,19 @@ module Eth
     # @param signature [String] the hex string containing the signature.
     # @param chain_id [Integer] the chain ID the signature should be recovered from.
     # @return [String] a hexa-decimal, uncompressed public key.
-    # @raise [ArgumentError] if signature is of invalid size or invalid v.
+    # @raise [SignatureError] if signature is of invalid size or invalid v.
     def recover(blob, signature, chain_id = Chain::ETHEREUM)
       context = Secp256k1::Context.new
       rotated_signature = Util.hex_to_bin(signature).bytes.rotate -1
       if rotated_signature.size != 65
 
         # TODO: https://github.com/q9f/eth.rb/issues/30
-        raise ArgumentError, "Invalid signature byte-size #{rotated_signature.size}!"
+        raise SignatureError, "Invalid signature byte-size #{rotated_signature.size}!"
       end
       signature = rotated_signature[1..-1].pack "c*"
       v = rotated_signature.first
       if v < chain_id
-        raise ArgumentError, "Invalid signature v byte #{v} for chain ID #{chain_id}!"
+        raise SignatureError, "Invalid signature v byte #{v} for chain ID #{chain_id}!"
       end
       recovery_id = Chain.to_recovery_id v, chain_id
       recoverable_signature = context.recoverable_signature_from_compact signature, recovery_id
@@ -122,7 +122,7 @@ module Eth
     # @param public_key [String] either a public key or an Ethereum address.
     # @param chain_id [Integer] the chain ID used to sign.
     # @return [Boolean] true if signature matches provided public key.
-    # @raise [ArgumentError] if it cannot determine the type of data or public key.
+    # @raise [SignatureError] if it cannot determine the type of data or public key.
     def verify(blob, signature, public_key, chain_id = Chain::ETHEREUM)
       recovered_key = nil
       if blob.instance_of? Array or blob.instance_of? Hash
@@ -140,7 +140,7 @@ module Eth
       end
 
       # raise if we cannot determine the data format
-      raise ArgumentError, "Unknown data format to verify: #{blob}" if recovered_key.nil?
+      raise SignatureError, "Unknown data format to verify: #{blob}" if recovered_key.nil?
 
       if public_key.instance_of? Address
 
@@ -166,7 +166,7 @@ module Eth
       else
 
         # raise if we cannot determine the public key format used
-        raise ArgumentError, "Invalid public key or address supplied #{public_key}!"
+        raise SignatureError, "Invalid public key or address supplied #{public_key}!"
       end
     end
   end
