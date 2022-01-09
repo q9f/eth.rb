@@ -62,8 +62,14 @@ module Eth
       # signature and broadcast. Should not be used unless there is
       # no EIP-1559 support.
       #
-      # @param params [Hash] all necessary transaction fields (nonce,
-      #        gas_price, gas_limit, from, to, value, data).
+      # @param params [Hash] all necessary transaction fields.
+      # @option params [Integer] :nonce the signer nonce.
+      # @option params [Integer] :gas_price the gas price.
+      # @option params [Integer] :gas_limit the gas limit.
+      # @option params [Eth::Address] :from the sender address.
+      # @option params [Eth::Address] :to the reciever address.
+      # @option params [Integer] :value the transaction value.
+      # @option params [String] :data the transaction data payload.
       # @param chain_id [Integer] the EIP-155 Chain ID.
       def initialize(params, chain_id = Chain::ETHEREUM)
         fields = { v: chain_id, r: 0, s: 0 }.merge params

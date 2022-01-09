@@ -65,8 +65,16 @@ module Eth
       # can be prepared for envelope, signature and broadcast. Should not
       # be used unless there is no EIP-1559 support.
       #
-      # @param params [Hash] all necessary transaction fields (chain_id,
-      #        nonce, gas_price, gas_limit, from, to, value, data, access_list).
+      #
+      # @param params [Hash] all necessary transaction fields.
+      # @option params [Integer] :nonce the signer nonce.
+      # @option params [Integer] :gas_price the gas price.
+      # @option params [Integer] :gas_limit the gas limit.
+      # @option params [Eth::Address] :from the sender address.
+      # @option params [Eth::Address] :to the reciever address.
+      # @option params [Integer] :value the transaction value.
+      # @option params [String] :data the transaction data payload.
+      # @option params [Array] :access_list an optional access list.
       def initialize(params)
         fields = { recovery_id: nil, r: 0, s: 0 }.merge params
 
