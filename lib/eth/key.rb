@@ -12,9 +12,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+require "json"
+require "openssl"
 require "rbsecp256k1"
+require "scrypt"
 require "securerandom"
 
+# Provides the `Eth` module.
 module Eth
 
   # The `Eth::Key` class to handle Secp256k1 private/public key-pairs.

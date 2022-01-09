@@ -1,10 +1,12 @@
+require "spec_helper"
+
 # These test vectors are specified in the ethereum wiki:
 # https://github.com/ethereum/wiki/wiki/Web3-Secret-Storage-Definition
 
 describe Eth::Key::Encrypter do
   describe ".perform" do
     let(:password) { "testpassword" }
-    let(:key) { "7a28b5ba57c53603b0b07b56bba752f7784bf506fa95edc395f5cf6c7514fe9d" }
+    let(:key) { Eth::Key.new priv: "7a28b5ba57c53603b0b07b56bba752f7784bf506fa95edc395f5cf6c7514fe9d" }
     let(:uuid) { "3198bc9c-6672-5ab3-d995-4942343ae5b6" }
 
     context "pbkdf2 test vector" do
@@ -55,7 +57,9 @@ describe Eth::Key::Encrypter do
         end
 
         it "detects unknown key derivation functions" do
-          expect { Eth::Key::Encrypter.perform key, password, bad_options }.to raise_error(RuntimeError)
+          expect {
+            Eth::Key::Encrypter.perform key, password, bad_options
+          }.to raise_error Eth::Key::Encrypter::EncrypterError, "Unsupported key derivation function: badfunction!"
         end
       end
     end
