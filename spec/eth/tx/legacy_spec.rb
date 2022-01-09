@@ -171,6 +171,21 @@ describe Eth::Tx::Legacy do
       legacy.sign(testnet)
       expect { legacy.sign(testnet) }.to raise_error StandardError, "Transaction is already signed!"
     end
+
+    it "checks for valid sender" do
+      tx_from_cow = Eth::Tx.new({
+        nonce: 0,
+        gas_price: Eth::Unit::WEI,
+        gas_limit: Eth::Tx::DEFAULT_GAS_LIMIT,
+        from: "0xCD2a3d9F938E13CD947Ec05AbC7FE734Df8DD826",
+      })
+      expect {
+        tx_from_cow.sign testnet
+      }.to raise_error Eth::Signature::SignatureError, "Signer does not match sender"
+      expect {
+        tx_from_cow.sign cow
+      }.not_to raise_error
+    end
   end
 
   describe ".encoded" do
