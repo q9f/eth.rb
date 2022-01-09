@@ -131,9 +131,8 @@ module Eth
 
         # Legacy transaction ("type 0")
         return Tx::Legacy.unsigned_copy tx
-      else
-        raise TransactionTypeError, "Cannot copy unknown transaction type #{tx.type}!"
       end
+      raise TransactionTypeError, "Cannot copy unknown transaction type #{tx.type}!"
     end
 
     # Validates the common type-2 transaction fields such as nonce, priority
