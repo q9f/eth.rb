@@ -10,6 +10,25 @@
 [![GitHub top language](https://img.shields.io/github/languages/top/q9f/eth.rb?color=red)](https://github.com/q9f/eth.rb/pulse)
 [![GitHub](https://img.shields.io/github/license/q9f/eth.rb)](LICENSE)
 
+A simple library to build and sign Ethereum transactions. Allows separation of key and node management. Sign transactions and handle keys anywhere you can run ruby, broadcast transactions through any node. Sign messages and recover signatures for authentication.
+
+What you get:
+- [x] Secp256k1 Key-Pairs and Encrypted Ethereum Key-Stores (JSON)
+- [x] EIP-55 Checksummed Ethereum Addresses
+- [x] EIP-155 Replay protection with Chain IDs (with presets)
+- [x] EIP-191 Ethereum Signed Messages (with prefix and type)
+- [x] EIP-712 Ethereum Signed Type Data
+- [x] EIP-1559 Ethereum Type-2 Transactions (with priority fee and max gas fee)
+- [x] EIP-2718 Ethereum Transaction Envelopes (and types)
+- [x] EIP-2930 Ethereum Type-1 Transactions (with access lists)
+- [x] ABI-Encoder and Decoder (including type parser)
+
+Soon (TM):
+- [ ] RLP-Encoder and Decoder (including sedes)
+- [ ] RPC-Client (HTTP) for Execution APIs and Consensus APIs
+- [ ] Smart Contracts and Solidity
+
+Contents:
 - [1. Installation](#1-installation)
 - [2. Usage](#2-usage)
   - [2.1. Ethereum Keys and Addresses (EIP-55)](#21-ethereum-keys-and-addresses-eip-55)
@@ -21,8 +40,6 @@
 - [4. Testing](#4-testing)
 - [5. Contributing](#5-contributing)
 - [6. License and Credits](#6-license-and-credits)
-
-A simple library to build and sign Ethereum transactions. Allows separation of key and node management. Sign transactions and handle keys anywhere you can run ruby, broadcast transactions through any node. Sign messages and recover signatures for authentication.
 
 ## 1. Installation
 
