@@ -696,12 +696,12 @@
       <pre class="lines">
 
 
-122
-123
-124</pre>
+81
+82
+83</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/abi/type.rb', line 122</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/abi/type.rb', line 81</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_size_type'>size_type</span>
   <span class='ivar'>@size_type</span> <span class='op'>||=</span> <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>uint</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='int'>256</span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='rbracket'>]</span><span class='rparen'>)</span>
@@ -781,14 +781,14 @@
       <pre class="lines">
 
 
-130
-131
-132
-133
-134</pre>
+89
+90
+91
+92
+93</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/abi/type.rb', line 130</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/abi/type.rb', line 89</span>
 
 <span class='kw'>def</span> <span class='op'>==</span><span class='lparen'>(</span><span class='id identifier rubyid_another_type'>another_type</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_base_type'>base_type</span> <span class='op'>==</span> <span class='id identifier rubyid_another_type'>another_type</span><span class='period'>.</span><span class='id identifier rubyid_base_type'>base_type</span> <span class='kw'>and</span>
@@ -844,12 +844,12 @@
       <pre class="lines">
 
 
-158
-159
-160</pre>
+117
+118
+119</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/abi/type.rb', line 158</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/abi/type.rb', line 117</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_is_dynamic?'>is_dynamic?</span>
   <span class='id identifier rubyid_size'>size</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
@@ -903,12 +903,12 @@
       <pre class="lines">
 
 
-165
-166
-167</pre>
+124
+125
+126</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/abi/type.rb', line 165</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/abi/type.rb', line 124</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_nested_sub'>nested_sub</span>
   <span class='ivar'>@nested_sub</span> <span class='op'>||=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_base_type'>base_type</span><span class='comma'>,</span> <span class='id identifier rubyid_sub_type'>sub_type</span><span class='comma'>,</span> <span class='id identifier rubyid_dimensions'>dimensions</span><span class='lbracket'>[</span><span class='int'>0</span><span class='op'>...</span><span class='op'>-</span><span class='int'>1</span><span class='rbracket'>]</span><span class='rparen'>)</span>
@@ -1015,48 +1015,7 @@
 73
 74
 75
-76
-77
-78
-79
-80
-81
-82
-83
-84
-85
-86
-87
-88
-89
-90
-91
-92
-93
-94
-95
-96
-97
-98
-99
-100
-101
-102
-103
-104
-105
-106
-107
-108
-109
-110
-111
-112
-113
-114
-115
-116
-117</pre>
+76</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/eth/abi/type.rb', line 61</span>
@@ -1068,49 +1027,8 @@
 </span>  <span class='id identifier rubyid_dims'>dims</span> <span class='op'>=</span> <span class='id identifier rubyid_dimension'>dimension</span><span class='period'>.</span><span class='id identifier rubyid_scan'>scan</span><span class='lparen'>(</span><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>\[[0-9]*\]</span><span class='regexp_end'>/</span></span><span class='rparen'>)</span>
   <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="Type/ParseError.html" title="Eth::Abi::Type::ParseError (class)">ParseError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Unknown characters found in array declaration</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_dims'>dims</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span> <span class='op'>!=</span> <span class='id identifier rubyid_dimension'>dimension</span>
 
-  <span class='kw'>case</span> <span class='id identifier rubyid_base_type'>base_type</span>
-  <span class='kw'>when</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>string</span><span class='tstring_end'>&quot;</span></span>
-
-    <span class='comment'># string can not have any suffix
-</span>    <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="Type/ParseError.html" title="Eth::Abi::Type::ParseError (class)">ParseError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>String type must have no suffix or numerical suffix</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_sub_type'>sub_type</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
-  <span class='kw'>when</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>bytes</span><span class='tstring_end'>&quot;</span></span>
-
-    <span class='comment'># bytes can be no longer than 32 bytes
-</span>    <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="Type/ParseError.html" title="Eth::Abi::Type::ParseError (class)">ParseError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Maximum 32 bytes for fixed-length string or bytes</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_sub_type'>sub_type</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span> <span class='op'>||</span> <span class='id identifier rubyid_sub_type'>sub_type</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span> <span class='op'>&lt;=</span> <span class='int'>32</span>
-  <span class='kw'>when</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>uint</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>int</span><span class='tstring_end'>&quot;</span></span>
-
-    <span class='comment'># integers must have a numerical suffix
-</span>    <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="Type/ParseError.html" title="Eth::Abi::Type::ParseError (class)">ParseError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Integer type must have numerical suffix</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_sub_type'>sub_type</span> <span class='op'>=~</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>\A[0-9]+\z</span><span class='regexp_end'>/</span></span>
-
-    <span class='comment'># integer size must be valid
-</span>    <span class='id identifier rubyid_size'>size</span> <span class='op'>=</span> <span class='id identifier rubyid_sub_type'>sub_type</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span>
-    <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="Type/ParseError.html" title="Eth::Abi::Type::ParseError (class)">ParseError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Integer size out of bounds</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_size'>size</span> <span class='op'>&gt;=</span> <span class='int'>8</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_size'>size</span> <span class='op'>&lt;=</span> <span class='int'>256</span>
-    <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="Type/ParseError.html" title="Eth::Abi::Type::ParseError (class)">ParseError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Integer size must be multiple of 8</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_size'>size</span> <span class='op'>%</span> <span class='int'>8</span> <span class='op'>==</span> <span class='int'>0</span>
-  <span class='kw'>when</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>ureal</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>real</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>fixed</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>ufixed</span><span class='tstring_end'>&quot;</span></span>
-
-    <span class='comment'># floats must have valid dimensional suffix
-</span>    <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="Type/ParseError.html" title="Eth::Abi::Type::ParseError (class)">ParseError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Real type must have suffix of form &lt;high&gt;x&lt;low&gt;, e.g. 128x128</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_sub_type'>sub_type</span> <span class='op'>=~</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>\A[0-9]+x[0-9]+\z</span><span class='regexp_end'>/</span></span>
-    <span class='id identifier rubyid_high'>high</span><span class='comma'>,</span> <span class='id identifier rubyid_low'>low</span> <span class='op'>=</span> <span class='id identifier rubyid_sub_type'>sub_type</span><span class='period'>.</span><span class='id identifier rubyid_split'>split</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>x</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:to_i</span><span class='rparen'>)</span>
-    <span class='id identifier rubyid_total'>total</span> <span class='op'>=</span> <span class='id identifier rubyid_high'>high</span> <span class='op'>+</span> <span class='id identifier rubyid_low'>low</span>
-    <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="Type/ParseError.html" title="Eth::Abi::Type::ParseError (class)">ParseError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Real size out of bounds (max 32 bytes)</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_total'>total</span> <span class='op'>&gt;=</span> <span class='int'>8</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_total'>total</span> <span class='op'>&lt;=</span> <span class='int'>256</span>
-    <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="Type/ParseError.html" title="Eth::Abi::Type::ParseError (class)">ParseError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Real high/low sizes must be multiples of 8</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_high'>high</span> <span class='op'>%</span> <span class='int'>8</span> <span class='op'>==</span> <span class='int'>0</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_low'>low</span> <span class='op'>%</span> <span class='int'>8</span> <span class='op'>==</span> <span class='int'>0</span>
-  <span class='kw'>when</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>hash</span><span class='tstring_end'>&quot;</span></span>
-
-    <span class='comment'># hashs must have numerical suffix
-</span>    <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="Type/ParseError.html" title="Eth::Abi::Type::ParseError (class)">ParseError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Hash type must have numerical suffix</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_sub_type'>sub_type</span> <span class='op'>=~</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>\A[0-9]+\z</span><span class='regexp_end'>/</span></span>
-  <span class='kw'>when</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>address</span><span class='tstring_end'>&quot;</span></span>
-
-    <span class='comment'># addresses cannot have any suffix
-</span>    <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="Type/ParseError.html" title="Eth::Abi::Type::ParseError (class)">ParseError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Address cannot have suffix</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_sub_type'>sub_type</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
-  <span class='kw'>when</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>bool</span><span class='tstring_end'>&quot;</span></span>
-
-    <span class='comment'># booleans cannot have any suffix
-</span>    <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="Type/ParseError.html" title="Eth::Abi::Type::ParseError (class)">ParseError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Bool cannot have suffix</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_sub_type'>sub_type</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
-  <span class='kw'>else</span>
-
-    <span class='comment'># we cannot parse arbitrary types such as &#39;decimal&#39; or &#39;hex&#39;
-</span>    <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="Type/ParseError.html" title="Eth::Abi::Type::ParseError (class)">ParseError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Unknown base type</span><span class='tstring_end'>&quot;</span></span>
-  <span class='kw'>end</span>
+  <span class='comment'># enforce base types
+</span>  <span class='id identifier rubyid_validate_base_type'>validate_base_type</span> <span class='id identifier rubyid_base_type'>base_type</span><span class='comma'>,</span> <span class='id identifier rubyid_sub_type'>sub_type</span>
 
   <span class='comment'># return a new Type (using konstructor)
 </span>  <span class='id identifier rubyid_sub_type'>sub_type</span> <span class='op'>=</span> <span class='id identifier rubyid_sub_type'>sub_type</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>
@@ -1167,24 +1085,24 @@
       <pre class="lines">
 
 
-139
-140
-141
-142
-143
-144
-145
-146
-147
-148
-149
-150
-151
-152
-153</pre>
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/abi/type.rb', line 139</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/abi/type.rb', line 98</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_size'>size</span>
   <span class='id identifier rubyid_s'>s</span> <span class='op'>=</span> <span class='kw'>nil</span>
@@ -1211,7 +1129,7 @@
 </div>
 
       <div id="footer">
-  Generated on Mon Jan 10 11:32:27 2022 by
+  Generated on Mon Jan 10 12:57:07 2022 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.27 (ruby-2.7.5).
 </div>
