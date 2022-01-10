@@ -120,92 +120,21 @@ module Eth
     def encode_primitive_type(type, arg)
       case type.base_type
       when "uint"
-        raise ValueOutOfBounds, "Number out of range: #{arg}" if arg > UINT_MAX or arg < UINT_MIN
-        real_size = type.sub_type.to_i
-        i = arg.to_i
-        raise ValueOutOfBounds, arg unless i >= 0 and i < 2 ** real_size
-
-        # unsigned integer numerics
-        return Util.zpad_int i
+        return encode_uint arg, type
       when "bool"
-        raise EncodingError, "Argument is not bool: #{arg}" unless arg.instance_of? TrueClass or arg.instance_of? FalseClass
-
-        # booleans
-        return Util.zpad_int(arg ? 1 : 0)
+        return encode_bool arg
       when "int"
-        raise ValueOutOfBounds, "Number out of range: #{arg}" if arg > INT_MAX or arg < INT_MIN
-        real_size = type.sub_type.to_i
-        i = arg.to_i
-        raise ValueOutOfBounds, arg unless i >= -2 ** (real_size - 1) and i < 2 ** (real_size - 1)
-
-        # integer numerics
-        return Util.zpad_int(i % 2 ** type.sub_type.to_i)
+        return encode_int arg, type
       when "ureal", "ufixed"
-        high, low = type.sub_type.split("x").map(&:to_i)
-        raise ValueOutOfBounds, arg unless arg >= 0 and arg < 2 ** high
-
-        # unsigned fixed point numerics
-        return Util.zpad_int((arg * 2 ** low).to_i)
+        return encode_ufixed arg, type
       when "real", "fixed"
-        high, low = type.sub_type.split("x").map(&:to_i)
-        raise ValueOutOfBounds, arg unless arg >= -2 ** (high - 1) and arg < 2 ** (high - 1)
-        i = (arg * 2 ** low).to_i
-
-        # fixed point numerics
-        return Util.zpad_int(i % 2 ** (high + low))
+        return encode_fixed arg, type
       when "string", "bytes"
-        raise EncodingError, "Expecting String: #{arg}" unless arg.instance_of? String
-        if type.sub_type.empty?
-          size = Util.zpad_int arg.size
-          padding = BYTE_ZERO * (Util.ceil32(arg.size) - arg.size)
-
-          # variable length string/bytes
-          return "#{size}#{arg}#{padding}"
-        else
-          raise ValueOutOfBounds, arg unless arg.size <= type.sub_type.to_i
-          padding = BYTE_ZERO * (32 - arg.size)
-
-          # fixed length string/bytes
-          return "#{arg}#{padding}"
-        end
+        return encode_bytes arg, type
       when "hash"
-        size = type.sub_type.to_i
-        raise EncodingError, "Argument too long: #{arg}" unless size > 0 and size <= 32
-        if arg.is_a? Integer
-
-          # hash from integer
-          return Util.zpad_int arg
-        elsif arg.size == size
-
-          # hash from encoded hash
-          return Util.zpad arg, 32
-        elsif arg.size == size * 2
-
-          # hash from hexa-decimal hash
-          return Util.zpad_hex arg
-        else
-          raise EncodingError, "Could not parse hash: #{arg}"
-        end
+        return encode_hash arg, type
       when "address"
-        if arg.is_a? Integer
-
-          # address from integer
-          return Util.zpad_int arg
-        elsif arg.size == 20
-
-          # address from encoded address
-          return Util.zpad arg, 32
-        elsif arg.size == 40
-
-          # address from hexa-decimal address with 0x prefix
-          return Util.zpad_hex arg
-        elsif arg.size == 42 and arg[0, 2] == "0x"
-
-          # address from hexa-decimal address
-          return Util.zpad_hex arg[2..-1]
-        else
-          raise EncodingError, "Could not parse address: #{arg}"
-        end
+        return encode_address arg
       else
         raise EncodingError, "Unhandled type: #{type.base_type} #{type.sub_type}"
       end
@@ -359,6 +288,101 @@ module Eth
         return data[-1] == BYTE_ONE
       else
         raise DecodingError, "Unknown primitive type: #{type.base_type}"
+      end
+    end
+
+    private
+
+    def encode_uint(arg, type)
+      raise ValueOutOfBounds, "Number out of range: #{arg}" if arg > UINT_MAX or arg < UINT_MIN
+      real_size = type.sub_type.to_i
+      i = arg.to_i
+      raise ValueOutOfBounds, arg unless i >= 0 and i < 2 ** real_size
+      return Util.zpad_int i
+    end
+
+    def encode_int(arg, type)
+      raise ValueOutOfBounds, "Number out of range: #{arg}" if arg > INT_MAX or arg < INT_MIN
+      real_size = type.sub_type.to_i
+      i = arg.to_i
+      raise ValueOutOfBounds, arg unless i >= -2 ** (real_size - 1) and i < 2 ** (real_size - 1)
+      return Util.zpad_int(i % 2 ** type.sub_type.to_i)
+    end
+
+    def encode_bool(arg)
+      raise EncodingError, "Argument is not bool: #{arg}" unless arg.instance_of? TrueClass or arg.instance_of? FalseClass
+      return Util.zpad_int(arg ? 1 : 0)
+    end
+
+    def encode_ufixed(arg, type)
+      high, low = type.sub_type.split("x").map(&:to_i)
+      raise ValueOutOfBounds, arg unless arg >= 0 and arg < 2 ** high
+      return Util.zpad_int((arg * 2 ** low).to_i)
+    end
+
+    def encode_fixed(arg, type)
+      high, low = type.sub_type.split("x").map(&:to_i)
+      raise ValueOutOfBounds, arg unless arg >= -2 ** (high - 1) and arg < 2 ** (high - 1)
+      i = (arg * 2 ** low).to_i
+      return Util.zpad_int(i % 2 ** (high + low))
+    end
+
+    def encode_bytes(arg, type)
+      raise EncodingError, "Expecting String: #{arg}" unless arg.instance_of? String
+      if type.sub_type.empty?
+        size = Util.zpad_int arg.size
+        padding = BYTE_ZERO * (Util.ceil32(arg.size) - arg.size)
+
+        # variable length string/bytes
+        return "#{size}#{arg}#{padding}"
+      else
+        raise ValueOutOfBounds, arg unless arg.size <= type.sub_type.to_i
+        padding = BYTE_ZERO * (32 - arg.size)
+
+        # fixed length string/bytes
+        return "#{arg}#{padding}"
+      end
+    end
+
+    def encode_hash(arg, type)
+      size = type.sub_type.to_i
+      raise EncodingError, "Argument too long: #{arg}" unless size > 0 and size <= 32
+      if arg.is_a? Integer
+
+        # hash from integer
+        return Util.zpad_int arg
+      elsif arg.size == size
+
+        # hash from encoded hash
+        return Util.zpad arg, 32
+      elsif arg.size == size * 2
+
+        # hash from hexa-decimal hash
+        return Util.zpad_hex arg
+      else
+        raise EncodingError, "Could not parse hash: #{arg}"
+      end
+    end
+
+    def encode_address(arg)
+      if arg.is_a? Integer
+
+        # address from integer
+        return Util.zpad_int arg
+      elsif arg.size == 20
+
+        # address from encoded address
+        return Util.zpad arg, 32
+      elsif arg.size == 40
+
+        # address from hexa-decimal address with 0x prefix
+        return Util.zpad_hex arg
+      elsif arg.size == 42 and arg[0, 2] == "0x"
+
+        # address from hexa-decimal address
+        return Util.zpad_hex arg[2..-1]
+      else
+        raise EncodingError, "Could not parse address: #{arg}"
       end
     end
   end
