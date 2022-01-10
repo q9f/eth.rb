@@ -711,12 +711,12 @@
       <pre class="lines">
 
 
-150
-151
-152</pre>
+154
+155
+156</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/key.rb', line 150</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/key.rb', line 154</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_address'>address</span>
   <span class='const'><span class='object_link'><a href="Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_public_key_to_address'><span class='object_link'><a href="Util.html#public_key_to_address-instance_method" title="Eth::Util#public_key_to_address (method)">public_key_to_address</a></span></span> <span class='id identifier rubyid_public_bytes'>public_bytes</span>
@@ -808,14 +808,14 @@
       <pre class="lines">
 
 
-83
-84
-85
-86
-87</pre>
+87
+88
+89
+90
+91</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/key.rb', line 83</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/key.rb', line 87</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_personal_sign'>personal_sign</span><span class='lparen'>(</span><span class='id identifier rubyid_message'>message</span><span class='comma'>,</span> <span class='id identifier rubyid_chain_id'>chain_id</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Chain.html" title="Eth::Chain (module)">Chain</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Chain.html#ETHEREUM-constant" title="Eth::Chain::ETHEREUM (constant)">ETHEREUM</a></span></span><span class='rparen'>)</span>
   <span class='id identifier rubyid_prefixed_message'>prefixed_message</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Signature.html" title="Eth::Signature (module)">Signature</a></span></span><span class='period'>.</span><span class='id identifier rubyid_prefix_message'><span class='object_link'><a href="Signature.html#prefix_message-instance_method" title="Eth::Signature#prefix_message (method)">prefix_message</a></span></span> <span class='id identifier rubyid_message'>message</span>
@@ -871,12 +871,12 @@
       <pre class="lines">
 
 
-112
-113
-114</pre>
+116
+117
+118</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/key.rb', line 112</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/key.rb', line 116</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_private_bytes'>private_bytes</span>
   <span class='ivar'>@private_key</span><span class='period'>.</span><span class='id identifier rubyid_data'>data</span>
@@ -930,12 +930,12 @@
       <pre class="lines">
 
 
-104
-105
-106</pre>
+108
+109
+110</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/key.rb', line 104</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/key.rb', line 108</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_private_hex'>private_hex</span>
   <span class='const'><span class='object_link'><a href="Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_bin_to_hex'><span class='object_link'><a href="Util.html#bin_to_hex-instance_method" title="Eth::Util#bin_to_hex (method)">bin_to_hex</a></span></span> <span class='ivar'>@private_key</span><span class='period'>.</span><span class='id identifier rubyid_data'>data</span>
@@ -989,12 +989,12 @@
       <pre class="lines">
 
 
-136
-137
-138</pre>
+140
+141
+142</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/key.rb', line 136</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/key.rb', line 140</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_public_bytes'>public_bytes</span>
   <span class='ivar'>@public_key</span><span class='period'>.</span><span class='id identifier rubyid_uncompressed'>uncompressed</span>
@@ -1048,12 +1048,12 @@
       <pre class="lines">
 
 
-143
-144
-145</pre>
+147
+148
+149</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/key.rb', line 143</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/key.rb', line 147</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_public_bytes_compressed'>public_bytes_compressed</span>
   <span class='ivar'>@public_key</span><span class='period'>.</span><span class='id identifier rubyid_compressed'>compressed</span>
@@ -1107,12 +1107,12 @@
       <pre class="lines">
 
 
-120
-121
-122</pre>
+124
+125
+126</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/key.rb', line 120</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/key.rb', line 124</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_public_hex'>public_hex</span>
   <span class='const'><span class='object_link'><a href="Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_bin_to_hex'><span class='object_link'><a href="Util.html#bin_to_hex-instance_method" title="Eth::Util#bin_to_hex (method)">bin_to_hex</a></span></span> <span class='ivar'>@public_key</span><span class='period'>.</span><span class='id identifier rubyid_uncompressed'>uncompressed</span>
@@ -1166,12 +1166,12 @@
       <pre class="lines">
 
 
-128
-129
-130</pre>
+132
+133
+134</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/key.rb', line 128</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/key.rb', line 132</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_public_hex_compressed'>public_hex_compressed</span>
   <span class='const'><span class='object_link'><a href="Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_bin_to_hex'><span class='object_link'><a href="Util.html#bin_to_hex-instance_method" title="Eth::Util#bin_to_hex (method)">bin_to_hex</a></span></span> <span class='ivar'>@public_key</span><span class='period'>.</span><span class='id identifier rubyid_compressed'>compressed</span>
@@ -1270,7 +1270,11 @@
 71
 72
 73
-74</pre>
+74
+75
+76
+77
+78</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/eth/key.rb', line 67</span>
@@ -1280,7 +1284,11 @@
   <span class='id identifier rubyid_compact'>compact</span><span class='comma'>,</span> <span class='id identifier rubyid_recovery_id'>recovery_id</span> <span class='op'>=</span> <span class='id identifier rubyid_context'>context</span><span class='period'>.</span><span class='id identifier rubyid_sign_recoverable'>sign_recoverable</span><span class='lparen'>(</span><span class='ivar'>@private_key</span><span class='comma'>,</span> <span class='id identifier rubyid_blob'>blob</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_compact'>compact</span>
   <span class='id identifier rubyid_signature'>signature</span> <span class='op'>=</span> <span class='id identifier rubyid_compact'>compact</span><span class='period'>.</span><span class='id identifier rubyid_bytes'>bytes</span>
   <span class='id identifier rubyid_v'>v</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Chain.html" title="Eth::Chain (module)">Chain</a></span></span><span class='period'>.</span><span class='id identifier rubyid_to_v'><span class='object_link'><a href="Chain.html#to_v-instance_method" title="Eth::Chain#to_v (method)">to_v</a></span></span> <span class='id identifier rubyid_recovery_id'>recovery_id</span><span class='comma'>,</span> <span class='id identifier rubyid_chain_id'>chain_id</span>
-  <span class='id identifier rubyid_signature'>signature</span> <span class='op'>=</span> <span class='id identifier rubyid_signature'>signature</span><span class='period'>.</span><span class='id identifier rubyid_append'>append</span> <span class='id identifier rubyid_v'>v</span>
+  <span class='id identifier rubyid_is_leading_zero'>is_leading_zero</span> <span class='op'>=</span> <span class='kw'>true</span>
+  <span class='lbracket'>[</span><span class='id identifier rubyid_v'>v</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_pack'>pack</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>N</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_unpack'>unpack</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>C*</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_byte'>byte</span><span class='op'>|</span>
+    <span class='id identifier rubyid_is_leading_zero'>is_leading_zero</span> <span class='op'>=</span> <span class='kw'>false</span> <span class='kw'>if</span> <span class='id identifier rubyid_byte'>byte</span> <span class='op'>&gt;</span> <span class='int'>0</span> <span class='kw'>and</span> <span class='id identifier rubyid_is_leading_zero'>is_leading_zero</span>
+    <span class='id identifier rubyid_signature'>signature</span><span class='period'>.</span><span class='id identifier rubyid_append'>append</span> <span class='id identifier rubyid_byte'>byte</span> <span class='kw'>unless</span> <span class='id identifier rubyid_is_leading_zero'>is_leading_zero</span> <span class='kw'>and</span> <span class='id identifier rubyid_byte'>byte</span> <span class='op'>===</span> <span class='int'>0</span>
+  <span class='kw'>end</span>
   <span class='const'><span class='object_link'><a href="Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_bin_to_hex'><span class='object_link'><a href="Util.html#bin_to_hex-instance_method" title="Eth::Util#bin_to_hex (method)">bin_to_hex</a></span></span> <span class='id identifier rubyid_signature'>signature</span><span class='period'>.</span><span class='id identifier rubyid_pack'>pack</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>c*</span><span class='tstring_end'>&quot;</span></span>
 <span class='kw'>end</span></pre>
     </td>
@@ -1370,13 +1378,13 @@
       <pre class="lines">
 
 
-96
-97
-98
-99</pre>
+100
+101
+102
+103</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/key.rb', line 96</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/key.rb', line 100</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_sign_typed_data'>sign_typed_data</span><span class='lparen'>(</span><span class='id identifier rubyid_typed_data'>typed_data</span><span class='comma'>,</span> <span class='id identifier rubyid_chain_id'>chain_id</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Chain.html" title="Eth::Chain (module)">Chain</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Chain.html#ETHEREUM-constant" title="Eth::Chain::ETHEREUM (constant)">ETHEREUM</a></span></span><span class='rparen'>)</span>
   <span class='id identifier rubyid_hash_to_sign'>hash_to_sign</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Eip712.html" title="Eth::Eip712 (module)">Eip712</a></span></span><span class='period'>.</span><span class='id identifier rubyid_hash'><span class='object_link'><a href="Eip712.html#hash-instance_method" title="Eth::Eip712#hash (method)">hash</a></span></span> <span class='id identifier rubyid_typed_data'>typed_data</span>
@@ -1392,7 +1400,7 @@
 </div>
 
       <div id="footer">
-  Generated on Mon Jan 10 12:57:07 2022 by
+  Generated on Mon Jan 10 13:15:19 2022 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.27 (ruby-2.7.5).
 </div>
