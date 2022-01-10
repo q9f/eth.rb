@@ -65,49 +65,8 @@ module Eth
         dims = dimension.scan(/\[[0-9]*\]/)
         raise ParseError, "Unknown characters found in array declaration" if dims.join != dimension
 
-        case base_type
-        when "string"
-
-          # string can not have any suffix
-          raise ParseError, "String type must have no suffix or numerical suffix" unless sub_type.empty?
-        when "bytes"
-
-          # bytes can be no longer than 32 bytes
-          raise ParseError, "Maximum 32 bytes for fixed-length string or bytes" unless sub_type.empty? || sub_type.to_i <= 32
-        when "uint", "int"
-
-          # integers must have a numerical suffix
-          raise ParseError, "Integer type must have numerical suffix" unless sub_type =~ /\A[0-9]+\z/
-
-          # integer size must be valid
-          size = sub_type.to_i
-          raise ParseError, "Integer size out of bounds" unless size >= 8 && size <= 256
-          raise ParseError, "Integer size must be multiple of 8" unless size % 8 == 0
-        when "ureal", "real", "fixed", "ufixed"
-
-          # floats must have valid dimensional suffix
-          raise ParseError, "Real type must have suffix of form <high>x<low>, e.g. 128x128" unless sub_type =~ /\A[0-9]+x[0-9]+\z/
-          high, low = sub_type.split("x").map(&:to_i)
-          total = high + low
-          raise ParseError, "Real size out of bounds (max 32 bytes)" unless total >= 8 && total <= 256
-          raise ParseError, "Real high/low sizes must be multiples of 8" unless high % 8 == 0 && low % 8 == 0
-        when "hash"
-
-          # hashs must have numerical suffix
-          raise ParseError, "Hash type must have numerical suffix" unless sub_type =~ /\A[0-9]+\z/
-        when "address"
-
-          # addresses cannot have any suffix
-          raise ParseError, "Address cannot have suffix" unless sub_type.empty?
-        when "bool"
-
-          # booleans cannot have any suffix
-          raise ParseError, "Bool cannot have suffix" unless sub_type.empty?
-        else
-
-          # we cannot parse arbitrary types such as 'decimal' or 'hex'
-          raise ParseError, "Unknown base type"
-        end
+        # enforce base types
+        validate_base_type base_type, sub_type
 
         # return a new Type (using konstructor)
         sub_type = sub_type.to_s
@@ -164,6 +123,54 @@ module Eth
       # @return [Eth::Abi::Type] nested sub-type.
       def nested_sub
         @nested_sub ||= self.class.new(base_type, sub_type, dimensions[0...-1])
+      end
+
+      private
+
+      def validate_base_type(base_type, sub_type)
+        case base_type
+        when "string"
+
+          # string can not have any suffix
+          raise ParseError, "String type must have no suffix or numerical suffix" unless sub_type.empty?
+        when "bytes"
+
+          # bytes can be no longer than 32 bytes
+          raise ParseError, "Maximum 32 bytes for fixed-length string or bytes" unless sub_type.empty? || sub_type.to_i <= 32
+        when "uint", "int"
+
+          # integers must have a numerical suffix
+          raise ParseError, "Integer type must have numerical suffix" unless sub_type =~ /\A[0-9]+\z/
+
+          # integer size must be valid
+          size = sub_type.to_i
+          raise ParseError, "Integer size out of bounds" unless size >= 8 && size <= 256
+          raise ParseError, "Integer size must be multiple of 8" unless size % 8 == 0
+        when "ureal", "real", "fixed", "ufixed"
+
+          # floats must have valid dimensional suffix
+          raise ParseError, "Real type must have suffix of form <high>x<low>, e.g. 128x128" unless sub_type =~ /\A[0-9]+x[0-9]+\z/
+          high, low = sub_type.split("x").map(&:to_i)
+          total = high + low
+          raise ParseError, "Real size out of bounds (max 32 bytes)" unless total >= 8 && total <= 256
+          raise ParseError, "Real high/low sizes must be multiples of 8" unless high % 8 == 0 && low % 8 == 0
+        when "hash"
+
+          # hashs must have numerical suffix
+          raise ParseError, "Hash type must have numerical suffix" unless sub_type =~ /\A[0-9]+\z/
+        when "address"
+
+          # addresses cannot have any suffix
+          raise ParseError, "Address cannot have suffix" unless sub_type.empty?
+        when "bool"
+
+          # booleans cannot have any suffix
+          raise ParseError, "Bool cannot have suffix" unless sub_type.empty?
+        else
+
+          # we cannot parse arbitrary types such as 'decimal' or 'hex'
+          raise ParseError, "Unknown base type"
+        end
       end
     end
   end
