@@ -61,31 +61,14 @@
 <h1 id="label-Eth+for+Ruby">Eth for Ruby</h1>
 
 <p><a href="https://github.com/q9f/eth.rb/actions"><img src="https://img.shields.io/github/workflow/status/q9f/eth.rb/Spec"></a> <a href="https://github.com/q9f/eth.rb/releases"><img src="https://img.shields.io/github/v/release/q9f/eth.rb"></a> <a href="https://rubygems.org/gems/eth"><img src="https://img.shields.io/gem/v/eth"></a> <a href="https://rubygems.org/gems/eth"><img src="https://img.shields.io/gem/dt/eth"></a> <a href="https://codecov.io/gh/q9f/eth.rb"><img src="https://codecov.io/gh/q9f/eth.rb/branch/main/graph/badge.svg?token=IK7USBPBZY"></a> <a href="https://codeclimate.com/github/q9f/eth.rb/maintainability"><img src="https://api.codeclimate.com/v1/badges/469e6f66425198ad7614/maintainability"></a> <a href="https://q9f.github.io/eth.rb"><img src="https://img.shields.io/badge/docs-API-blue"></a> <a href="https://github.com/q9f/eth.rb/pulse"><img src="https://img.shields.io/github/languages/top/q9f/eth.rb?color=red"></a> <a href="LICENSE"><img src="https://img.shields.io/github/license/q9f/eth.rb"></a></p>
-<ul><li>
-<p><a href="#1-installation">1. Installation</a></p>
-</li><li>
-<p><a href="#2-usage">2. Usage</a></p>
-</li><li>
-<p><a href="#21-ethereum-keys-and-addresses-eip-55">2.1. Ethereum Keys and Addresses (EIP-55)</a></p>
-</li><li>
-<p><a href="#22-ethereum-signatures-eip-191-eip-712">2.2. Ethereum Signatures (EIP-191, EIP-712)</a></p>
-</li><li>
-<p><a href="#23-ethereum-chains-eip-155">2.3. Ethereum Chains (EIP-155)</a></p>
-</li><li>
-<p><a href="#24-ethereum-transactions-eip-1559-eip-2718-eip-2930">2.4. Ethereum Transactions (EIP-1559, EIP-2718, EIP-2930)</a></p>
-</li><li>
-<p><a href="#25-ethereum-abi-encoder-and-decoder">2.5. Ethereum ABI Encoder and Decoder</a></p>
-</li><li>
-<p><a href="#3-documentation">3. Documentation</a></p>
-</li><li>
-<p><a href="#4-testing">4. Testing</a></p>
-</li><li>
-<p><a href="#5-contributing">5. Contributing</a></p>
-</li><li>
-<p><a href="#6-license-and-credits">6. License and Credits</a></p>
-</li></ul>
 
 <p>A simple library to build and sign Ethereum transactions. Allows separation of key and node management. Sign transactions and handle keys anywhere you can run ruby, broadcast transactions through any node. Sign messages and recover signatures for authentication.</p>
+
+<p>What you get: - [x] Secp256k1 Key-Pairs and Encrypted Ethereum Key-Stores (JSON) - [x] EIP-55 Checksummed Ethereum Addresses - [x] EIP-155 Replay protection with Chain IDs (with presets) - [x] EIP-191 Ethereum Signed Messages (with prefix and type) - [x] EIP-712 Ethereum Signed Type Data - [x] EIP-1559 Ethereum Type-2 Transactions (with priority fee and max gas fee) - [x] EIP-2718 Ethereum Transaction Envelopes (and types) - [x] EIP-2930 Ethereum Type-1 Transactions (with access lists) - [x] ABI-Encoder and Decoder (including type parser)</p>
+
+<p>Soon (TM): - [ ] RLP-Encoder and Decoder (including sedes) - [ ] RPC-Client (HTTP) for Execution APIs and Consensus APIs - [ ] Smart Contracts and Solidity</p>
+
+<p>Contents: - <a href="#1-installation">1. Installation</a> - <a href="#2-usage">2. Usage</a>  - <a href="#21-ethereum-keys-and-addresses-eip-55">2.1. Ethereum Keys and Addresses (EIP-55)</a>  - <a href="#22-ethereum-signatures-eip-191-eip-712">2.2. Ethereum Signatures (EIP-191, EIP-712)</a>  - <a href="#23-ethereum-chains-eip-155">2.3. Ethereum Chains (EIP-155)</a>  - <a href="#24-ethereum-transactions-eip-1559-eip-2718-eip-2930">2.4. Ethereum Transactions (EIP-1559, EIP-2718, EIP-2930)</a>  - <a href="#25-ethereum-abi-encoder-and-decoder">2.5. Ethereum ABI Encoder and Decoder</a> - <a href="#3-documentation">3. Documentation</a> - <a href="#4-testing">4. Testing</a> - <a href="#5-contributing">5. Contributing</a> - <a href="#6-license-and-credits">6. License and Credits</a></p>
 
 <h2 id="label-1.+Installation">1. Installation</h2>
 
@@ -248,7 +231,7 @@ rspec
 </div></div>
 
       <div id="footer">
-  Generated on Sun Jan  9 16:01:41 2022 by
+  Generated on Mon Jan 10 11:32:26 2022 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.27 (ruby-2.7.5).
 </div>
