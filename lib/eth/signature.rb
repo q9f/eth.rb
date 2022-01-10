@@ -47,20 +47,14 @@ module Eth
     # @return [String, String, String] the r, s, and v values.
     # @raise [SignatureError] if signature is of unknown size.
     def dissect(signature)
-      unless Util.is_hex? signature
-        signature = Util.bin_to_hex signature
-      end
+      signature = Util.bin_to_hex signature unless Util.is_hex? signature
       signature = Util.remove_hex_prefix signature
-      if signature.size != 130
-
-        # TODO: https://github.com/q9f/eth.rb/issues/30
+      if signature.size < 130
         raise SignatureError, "Unknown signature length #{signature.size}!"
       end
       r = signature[0, 64]
       s = signature[64, 64]
-
-      # TODO: https://github.com/q9f/eth.rb/issues/30
-      v = signature[128, 2]
+      v = signature[128..]
       return r, s, v
     end
 
@@ -73,19 +67,12 @@ module Eth
     # @raise [SignatureError] if signature is of invalid size or invalid v.
     def recover(blob, signature, chain_id = Chain::ETHEREUM)
       context = Secp256k1::Context.new
-      rotated_signature = Util.hex_to_bin(signature).bytes.rotate -1
-      if rotated_signature.size != 65
-
-        # TODO: https://github.com/q9f/eth.rb/issues/30
-        raise SignatureError, "Invalid signature byte-size #{rotated_signature.size}!"
-      end
-      signature = rotated_signature[1..-1].pack "c*"
-      v = rotated_signature.first
-      if v < chain_id
-        raise SignatureError, "Invalid signature v byte #{v} for chain ID #{chain_id}!"
-      end
+      r, s, v = dissect signature
+      v = v.to_i(16)
+      raise SignatureError, "Invalid signature v byte #{v} for chain ID #{chain_id}!" if v < chain_id
       recovery_id = Chain.to_recovery_id v, chain_id
-      recoverable_signature = context.recoverable_signature_from_compact signature, recovery_id
+      signature_rs = Util.hex_to_bin "#{r}#{s}"
+      recoverable_signature = context.recoverable_signature_from_compact signature_rs, recovery_id
       public_key = recoverable_signature.recover_public_key blob
       Util.bin_to_hex public_key.uncompressed
     end

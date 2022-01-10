@@ -89,9 +89,9 @@ describe Eth::Signature do
 
     it "raises argument errors if signature is invalid" do
       signature_invalid_v = "19fc60d0a0bd2d30838b3114c4066dcd980d7c909b215d2ce4a4539281588b7855ff925dbea288385056d811599983c8a65bafa31b6c1bcd2d6ae4bcc34377f5ff"
-      signature_invalid_size = "19fc60d0a0bd2d30838b3114c4066dcd980d7c909b215d2ce4a4539281588b7855ff925dbea288385056d811599983c8a65bafa31b6c1bcd2d6ae4bcc34377f52600"
+      signature_invalid_size = "19fc60d0a0bd2d30838b3114c4066dcd980d7c9b215d2ce4a4539281588b7855ff925dbe288385056d811599983c8a65bafa31b6c1bcd26ae4bcc34377f52600"
       expect { Eth::Signature.recover(blob, signature_invalid_v) }.to raise_error Eth::Chain::ReplayProtectionError, "Invalid v 255 value for chain ID 1. Invalid chain ID?"
-      expect { Eth::Signature.recover(blob, signature_invalid_size) }.to raise_error Eth::Signature::SignatureError, "Invalid signature byte-size 66!"
+      expect { Eth::Signature.recover(blob, signature_invalid_size) }.to raise_error Eth::Signature::SignatureError, "Unknown signature length 128!"
     end
   end
 
@@ -128,7 +128,7 @@ describe Eth::Signature do
       signature_invalid_v = "0x4e1ce8ea60bc6dfd4068a35462612495850cb645a1c9f475eb969bff21d0b0fb414112aaf13f01dd18a3527cb648cdd51b618ae49d4999112c33f86b7b26e97300"
       signature_invalid_size = "0x4e1ce8ea60bc6dfd4068a35462612495850cb645a1c9f475eb969bff21d0b0fb414112aaf13f01dd18a3527cb648cdd51b618ae49d4999112c33f86b7b26e973"
       expect { Eth::Signature.personal_recover(message, signature_invalid_v) }.to raise_error Eth::Signature::SignatureError, "Invalid signature v byte 0 for chain ID 1!"
-      expect { Eth::Signature.personal_recover(message, signature_invalid_size) }.to raise_error Eth::Signature::SignatureError, "Invalid signature byte-size 64!"
+      expect { Eth::Signature.personal_recover(message, signature_invalid_size) }.to raise_error Eth::Signature::SignatureError, "Unknown signature length 128!"
     end
   end
 
@@ -163,7 +163,7 @@ describe Eth::Signature do
       signature_invalid_v = "f6cda8eaf5137e8cc15d48d03a002b0512446e2a7acbc576c01cfbe40ad9345663ccda8884520d98dece9a8bfe38102851bdae7f69b3d8612b9808e63378016024"
       signature_invalid_size = "f6cda8eaf5137e8cc15d48d03a002b0512446e2a7acbc576c01cfbe40ad9345663ccda8884520d98dece9a8bfe38102851bdae7f69b3d8612b9808e6337801602"
       expect { Eth::Signature.recover_typed_data(test_data, signature_invalid_v) }.to raise_error Eth::Chain::ReplayProtectionError, "Invalid v 36 value for chain ID 1. Invalid chain ID?"
-      expect { Eth::Signature.recover_typed_data(test_data, signature_invalid_size) }.to raise_error Eth::Chain::ReplayProtectionError, "Invalid v 32 value for chain ID 1. Invalid chain ID?"
+      expect { Eth::Signature.recover_typed_data(test_data, signature_invalid_size) }.to raise_error Eth::Signature::SignatureError, "Unknown signature length 129!"
     end
   end
 
@@ -222,6 +222,28 @@ describe Eth::Signature do
       sig_judy = "19fc60d0a0bd2d30838b3114c4066dcd980d7c909b215d2ce4a4539281588b7855ff925dbea288385056d811599983c8a65bafa31b6c1bcd2d6ae4bcc34377f526"
       pub_judy = "0403a2a97e514ca6bac70d517761ba6db46cd52c6aa7f51d574de997aec914712a1312992d5bb85c2cf66063b62bc6c76c56a74438a4bd6f2a83977686b29e86ef"
       expect(Eth::Signature.verify blob, sig_judy, pub_judy).to be_truthy
+    end
+
+    it "can sign and verify for chain IDs > 255" do
+      key = Eth::Key.new priv: "8e091dfb95a1b03cdd22890248c3f1b0f048186f2f3aa93257bc5271339eb306"
+      msg = "Hello, Private Geth!"
+      chain_id = Eth::Chain::PRIVATE_GETH
+      sig = key.personal_sign msg, chain_id
+      r, s, v = Eth::Signature.dissect sig
+      expect(Eth::Chain.to_chain_id v.to_i(16)).to eq chain_id
+      expect(Eth::Signature.personal_recover msg, sig, chain_id).to eq key.public_hex
+      expect(Eth::Signature.verify msg, sig, key.public_hex, chain_id).to be_truthy
+    end
+
+    it "can sign and verify for chain IDs > 65535" do
+      key = Eth::Key.new priv: "8e091dfb95a1b03cdd22890248c3f1b0f048186f2f3aa93257bc5271339eb306"
+      msg = "Hello, Rinkeby Arbitrum!"
+      chain_id = Eth::Chain::RINKEBY_ARBITRUM
+      sig = key.personal_sign msg, chain_id
+      r, s, v = Eth::Signature.dissect sig
+      expect(Eth::Chain.to_chain_id v.to_i(16)).to eq chain_id
+      expect(Eth::Signature.personal_recover msg, sig, chain_id).to eq key.public_hex
+      expect(Eth::Signature.verify msg, sig, key.public_hex, chain_id).to be_truthy
     end
   end
 end
