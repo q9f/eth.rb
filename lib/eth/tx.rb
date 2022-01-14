@@ -38,22 +38,37 @@ module Eth
     class ParameterError < TypeError; end
 
     # The minimum transaction gas limit required for a value transfer.
-    DEFAULT_GAS_LIMIT = 21_000
+    DEFAULT_GAS_LIMIT = 21_000.freeze
 
     # The "default" transaction gas price of 20 GWei. Do not use.
-    DEFAULT_GAS_PRICE = 20 * Unit::GWEI
+    DEFAULT_GAS_PRICE = (20 * Unit::GWEI).freeze
+
+    # The calldata gas cost of a non-zero byte as per EIP-2028.
+    COST_NON_ZERO_BYTE = 16.freeze
+
+    # The calldata gas cost of a zero byte.
+    COST_ZERO_BYTE = 4.freeze
+
+    # The access list gas cost of a storage key as per EIP-2930.
+    COST_STORAGE_KEY = 1_900.freeze
+
+    # The access list gas cost of an address as per EIP-2930.
+    COST_ADDRESS = 2_400.freeze
 
     # The maximum transaction gas limit is bound by the block gas limit.
-    BLOCK_GAS_LIMIT = 25_000_000
+    BLOCK_GAS_LIMIT = 25_000_000.freeze
 
     # The legacy transaction type is 0.
-    TYPE_LEGACY = 0x00
+    TYPE_LEGACY = 0x00.freeze
 
     # The EIP-2930 transaction type is 1.
-    TYPE_2930 = 0x01
+    TYPE_2930 = 0x01.freeze
 
     # The EIP-1559 transaction type is 2.
-    TYPE_1559 = 0x02
+    TYPE_1559 = 0x02.freeze
+
+    # The zero byte is 0x00.
+    ZERO_BYTE = "\x00".freeze
 
     # Creates a new transaction of any type for given parameters and chain ID.
     # Required parameters are (optional in brackets):
@@ -133,6 +148,41 @@ module Eth
         return Tx::Legacy.unsigned_copy tx
       end
       raise TransactionTypeError, "Cannot copy unknown transaction type #{tx.type}!"
+    end
+
+    # Estimates intrinsic gas for provided call data (EIP-2028) and
+    # access lists (EIP-2930).
+    #
+    # @param data [String] the call data.
+    # @param list [Array] the access list.
+    # @return [Integer] the estimated intrinsic gas cost.
+    def estimate_intrinsic_gas(data = "", list = [])
+      gas = DEFAULT_GAS_LIMIT
+      unless data.nil? or data.empty?
+        data = Util.hex_to_bin data if Util.is_hex? data
+
+        # count zero bytes
+        zero = data.count ZERO_BYTE
+        gas += zero * COST_ZERO_BYTE
+
+        # count non-zero bytes
+        none = data.size - zero
+        gas += none * COST_NON_ZERO_BYTE
+      end
+      unless list.nil? or list.empty?
+        list.each do |entry|
+
+          # count addresses
+          gas += COST_ADDRESS
+
+          entry.last.each do |key|
+
+            # count storage keys
+            gas += COST_STORAGE_KEY
+          end
+        end
+      end
+      return gas
     end
 
     # Validates the common type-2 transaction fields such as nonce, priority

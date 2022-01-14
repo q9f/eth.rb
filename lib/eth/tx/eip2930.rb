@@ -89,6 +89,10 @@ module Eth
         fields = Tx.validate_legacy_params fields
         fields[:access_list] = Tx.sanitize_list fields[:access_list]
 
+        # ensure gas limit is not too low
+        minimum_cost = Tx.estimate_intrinsic_gas fields[:data], fields[:access_list]
+        raise ParameterError, "Transaction gas limit is too low, try #{minimum_cost}!" if fields[:gas_limit].to_i < minimum_cost
+
         # populate class attributes
         @signer_nonce = fields[:nonce].to_i
         @gas_price = fields[:gas_price].to_i

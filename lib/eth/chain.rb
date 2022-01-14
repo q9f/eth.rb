@@ -24,64 +24,64 @@ module Eth
     class ReplayProtectionError < StandardError; end
 
     # Chain ID for Ethereum mainnet
-    ETHEREUM = 1
+    ETHEREUM = 1.freeze
 
     # Chain ID for Expanse mainnet
-    EXPANSE = 2
+    EXPANSE = 2.freeze
 
     # Chain ID for Optimistic Ethereum mainnet
-    OPTIMISM = 10
+    OPTIMISM = 10.freeze
 
     # Chain ID for Ethereum Classic mainnet
-    CLASSIC = 61
+    CLASSIC = 61.freeze
 
     # Chain ID for POA Network mainnet
-    POA_NET = 99
+    POA_NET = 99.freeze
 
     # Chain ID for xDAI mainnet
-    XDAI = 100
+    XDAI = 100.freeze
 
     # Chain ID for Arbitrum mainnet
-    ARBITRUM = 42161
+    ARBITRUM = 42161.freeze
 
     # Chain ID for Morden (Ethereum) testnet
-    MORDEN = 2
+    MORDEN = 2.freeze
 
     # Chain ID for Ropsten testnet
-    ROPSTEN = 3
+    ROPSTEN = 3.freeze
 
     # Chain ID for Rinkeby testnet
-    RINKEBY = 4
+    RINKEBY = 4.freeze
 
     # Chain ID for Goerli testnet
-    GOERLI = 5
+    GOERLI = 5.freeze
 
     # Chain ID for Kotti testnet
-    KOTTI = 6
+    KOTTI = 6.freeze
 
     # Chain ID for Kovan testnet
-    KOVAN = 42
+    KOVAN = 42.freeze
 
     # Chain ID for Morden (Classic) testnet
-    MORDEN_CLASSIC = 62
+    MORDEN_CLASSIC = 62.freeze
 
     # Chain ID for Mordor testnet
-    MORDOR = 63
+    MORDOR = 63.freeze
 
     # Chain ID for Optimistik Kovan testnet
-    KOVAN_OPTIMISM = 69
+    KOVAN_OPTIMISM = 69.freeze
 
     # Chain ID for Arbitrum xDAI testnet
-    XDAI_ARBITRUM = 200
+    XDAI_ARBITRUM = 200.freeze
 
     # Chain ID for Optimistic Goerli testnet
-    GOERLI_OPTIMISM = 420
+    GOERLI_OPTIMISM = 420.freeze
 
     # Chain ID for Arbitrum Rinkeby testnet
-    RINKEBY_ARBITRUM = 421611
+    RINKEBY_ARBITRUM = 421611.freeze
 
     # Chain ID for the geth private network preset
-    PRIVATE_GETH = 1337
+    PRIVATE_GETH = 1337.freeze
 
     # Indicates wether the given `v` indicates a legacy chain value
     # without EIP-155 replay protection.

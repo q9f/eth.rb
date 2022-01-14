@@ -41,7 +41,7 @@ describe Tx::Eip2930 do
     Tx.new({
       nonce: 0,
       gas_price: Unit::WEI,
-      gas_limit: Tx::DEFAULT_GAS_LIMIT,
+      gas_limit: 29_600,
       access_list: list,
     })
   }
@@ -92,6 +92,14 @@ describe Tx::Eip2930 do
         Tx.new({
           nonce: 0,
           gas_price: Unit::GWEI,
+          gas_limit: Tx::DEFAULT_GAS_LIMIT,
+          access_list: list,
+        })
+      }.to raise_error Tx::ParameterError, "Transaction gas limit is too low, try 29600!"
+      expect {
+        Tx.new({
+          nonce: 0,
+          gas_price: Unit::GWEI,
           gas_limit: Tx::BLOCK_GAS_LIMIT + 1,
         })
       }.to raise_error Tx::ParameterError, "Invalid gas limit 25000001!"
@@ -136,8 +144,8 @@ describe Tx::Eip2930 do
     it "signs the default transaction" do
       tx.sign(cow)
       expect(tx.signature_y_parity).to eq 0
-      expect(tx.signature_r).to eq "e2bcb80677101931c84867cddefdb7fee6c5dce3252af619fa7da0d18ca000b3"
-      expect(tx.signature_s).to eq "1ef108cd4f85c7634b429842421dd9f6d2dcb9d6dba427bbb77c054bb70b174e"
+      expect(tx.signature_r).to eq "19b12f69aa343e253042851598e77aa7dd3cd2cae03363bc865b4064bffd7184"
+      expect(tx.signature_s).to eq "1215becbad16e52044bda5af69e084c888bfad5202817ff5ce244a6b312e47da"
     end
 
     it "it does not sign a transaction twice" do
@@ -151,7 +159,7 @@ describe Tx::Eip2930 do
       tx_from_cow = Tx.new({
         nonce: 0,
         gas_price: Unit::WEI,
-        gas_limit: Tx::DEFAULT_GAS_LIMIT,
+        gas_limit: 29_600,
         from: "0xCD2a3d9F938E13CD947Ec05AbC7FE734Df8DD826",
         access_list: list,
       })
@@ -168,7 +176,7 @@ describe Tx::Eip2930 do
     it "encodes the default transaction" do
       expect { tx.encoded }.to raise_error StandardError, "Transaction is not signed!"
       tx.sign(cow)
-      expect(tx.encoded).to eq "\x01\xF8\xC0\x01\x80\x01\x82R\b\x80\x80\x80\xF8r\xF8Y\x94\xDE\v)Vi\xA9\xFD\x93\xD5\xF2\x8D\x9E\xC8^@\xF4\xCBi{\xAE\xF8B\xA0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x03\xA0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\a\xD6\x94\xBB\x9B\xC2D\xD7\x98\x12?\xDEx?\xCC\x1Cr\xD3\xBB\x8C\x18\x94\x13\xC0\x80\xA0\xE2\xBC\xB8\x06w\x10\x191\xC8Hg\xCD\xDE\xFD\xB7\xFE\xE6\xC5\xDC\xE3%*\xF6\x19\xFA}\xA0\xD1\x8C\xA0\x00\xB3\xA0\x1E\xF1\b\xCDO\x85\xC7cKB\x98BB\x1D\xD9\xF6\xD2\xDC\xB9\xD6\xDB\xA4'\xBB\xB7|\x05K\xB7\v\x17N"
+      expect(tx.encoded).to eq "\x01\xF8\xC0\x01\x80\x01\x82s\xA0\x80\x80\x80\xF8r\xF8Y\x94\xDE\v)Vi\xA9\xFD\x93\xD5\xF2\x8D\x9E\xC8^@\xF4\xCBi{\xAE\xF8B\xA0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x03\xA0\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\a\xD6\x94\xBB\x9B\xC2D\xD7\x98\x12?\xDEx?\xCC\x1Cr\xD3\xBB\x8C\x18\x94\x13\xC0\x80\xA0\x19\xB1/i\xAA4>%0B\x85\x15\x98\xE7z\xA7\xDD<\xD2\xCA\xE03c\xBC\x86[@d\xBF\xFDq\x84\xA0\x12\x15\xBE\xCB\xAD\x16\xE5 D\xBD\xA5\xAFi\xE0\x84\xC8\x88\xBF\xADR\x02\x81\x7F\xF5\xCE$Jk1.G\xDA"
     end
 
     it "encodes a known goerli transaction" do
@@ -182,7 +190,7 @@ describe Tx::Eip2930 do
     it "hexes the default transaction" do
       expect { tx.hex }.to raise_error StandardError, "Transaction is not signed!"
       tx.sign(cow)
-      expect(tx.hex).to eq "01f8c0018001825208808080f872f85994de0b295669a9fd93d5f28d9ec85e40f4cb697baef842a00000000000000000000000000000000000000000000000000000000000000003a00000000000000000000000000000000000000000000000000000000000000007d694bb9bc244d798123fde783fcc1c72d3bb8c189413c080a0e2bcb80677101931c84867cddefdb7fee6c5dce3252af619fa7da0d18ca000b3a01ef108cd4f85c7634b429842421dd9f6d2dcb9d6dba427bbb77c054bb70b174e"
+      expect(tx.hex).to eq "01f8c00180018273a0808080f872f85994de0b295669a9fd93d5f28d9ec85e40f4cb697baef842a00000000000000000000000000000000000000000000000000000000000000003a00000000000000000000000000000000000000000000000000000000000000007d694bb9bc244d798123fde783fcc1c72d3bb8c189413c080a019b12f69aa343e253042851598e77aa7dd3cd2cae03363bc865b4064bffd7184a01215becbad16e52044bda5af69e084c888bfad5202817ff5ce244a6b312e47da"
     end
 
     it "hexes a known goerli transaction" do
@@ -196,7 +204,7 @@ describe Tx::Eip2930 do
     it "hashes the default transaction" do
       expect { tx.hash }.to raise_error StandardError, "Transaction is not signed!"
       tx.sign(cow)
-      expect(tx.hash).to eq "b43ad05f172992fee221137c1e5e66b60124eba359f4f49321619d56f54ccae3"
+      expect(tx.hash).to eq "2a9b3ffd67a2b4117fd754c5f9d8561af549c1e8fceb1690c6e4b55af8645736"
     end
 
     it "hashes a known goerli transaction" do
@@ -240,7 +248,7 @@ describe Tx::Eip2930 do
       sample = Tx.new({
         nonce: 0,
         gas_price: 0x0BA43B7400,
-        gas_limit: 0x05208,
+        gas_limit: 0x073a0,
         to: "0x7917bc33eea648809c285607579c9919fb864f8f",
         value: 0x03BAF82D03A000,
         access_list: list,
@@ -249,8 +257,8 @@ describe Tx::Eip2930 do
       expected_address = Address.new "8d900bfa2353548a4631be870f99939575551b60"
 
       # a secp256k1 signature over keccak256(0x01 || rlp([chainId, nonce, gasPrice, gasLimit, to, value, data, accessList]))
-      expected_sign_data = "01f89d0180850ba43b7400825208947917bc33eea648809c285607579c9919fb864f8f8703baf82d03a00080f872f85994de0b295669a9fd93d5f28d9ec85e40f4cb697baef842a00000000000000000000000000000000000000000000000000000000000000003a00000000000000000000000000000000000000000000000000000000000000007d694bb9bc244d798123fde783fcc1c72d3bb8c189413c0"
-      expected_sign_hash = "25ef982de4f77cc1a2967e03f4a1020f5188afcf54678b3326d26c8c4d378edc"
+      expected_sign_data = "01f89d0180850ba43b74008273a0947917bc33eea648809c285607579c9919fb864f8f8703baf82d03a00080f872f85994de0b295669a9fd93d5f28d9ec85e40f4cb697baef842a00000000000000000000000000000000000000000000000000000000000000003a00000000000000000000000000000000000000000000000000000000000000007d694bb9bc244d798123fde783fcc1c72d3bb8c189413c0"
+      expected_sign_hash = "c129e3830bdfca2973a26d718b92b5f10564b2f57a02fa0f3888de3273d5b974"
 
       # first byte is type 01 as per EIP-2930
       expect(Util.bin_to_hex (sample.unsigned_encoded)[0, 1]).to eq "01"
@@ -280,15 +288,15 @@ describe Tx::Eip2930 do
         -4153010759215853346544872368790226810347211436084119296615430562753409734914,
       ]
     }
-    subject(:expected_hex) { "01f901810180018252088080b8c000000000000000000000000000000000000000000000000000000000000000800000000000000000000000003ea1e26a2119b038eaf9b27e65cdb401502ae7a43d8bfb1368aee2693eb325af9f81244b19304b087b4941a1e892da50bd48dfe1f6d17aad7aff1c87e8481f30395a1595a07b483032affed044e698bf7c43a6fe000000000000000000000000000000000000000000000000000000000000000d4c6f72656d2c20497073756d2100000000000000000000000000000000000000f872f85994de0b295669a9fd93d5f28d9ec85e40f4cb697baef842a00000000000000000000000000000000000000000000000000000000000000003a00000000000000000000000000000000000000000000000000000000000000007d694bb9bc244d798123fde783fcc1c72d3bb8c189413c001a06f66ac1d842983fb1bbb7d3a803e133e5a4da464070424d2d7dfad445f3f0c1ea0615debd87b2f56b55ac24e300fc8aba44a79101a8a4b0300d3f26e3545c2a557" }
-    subject(:expected_hash) { "fcd5d923437f14e5af9b2057c1f1323f4fe48ba82eb261795409ea3d4cc8a14e" }
+    subject(:expected_hex) { "01f90181018001827b448080b8c000000000000000000000000000000000000000000000000000000000000000800000000000000000000000003ea1e26a2119b038eaf9b27e65cdb401502ae7a43d8bfb1368aee2693eb325af9f81244b19304b087b4941a1e892da50bd48dfe1f6d17aad7aff1c87e8481f30395a1595a07b483032affed044e698bf7c43a6fe000000000000000000000000000000000000000000000000000000000000000d4c6f72656d2c20497073756d2100000000000000000000000000000000000000f872f85994de0b295669a9fd93d5f28d9ec85e40f4cb697baef842a00000000000000000000000000000000000000000000000000000000000000003a00000000000000000000000000000000000000000000000000000000000000007d694bb9bc244d798123fde783fcc1c72d3bb8c189413c001a047abf8694b14a2d84b5b8e0d8270e79f7772ac71419f5770ce7318bfaae952dba0141d4c6e7cad5af300a1c90924704394a09f9f3476b7c1a219ee799ffb91e765" }
+    subject(:expected_hash) { "800a8f4816dffee600600cd36f202b14e2d802ae7369aafae9ecb0e5c4906cbc" }
 
     it "can create transactions with binary data" do
       abi = Abi.encode types, args
       some = Tx.new({
         nonce: 0,
         gas_price: 1,
-        gas_limit: 21_000,
+        gas_limit: 31_556,
         data: abi,
         access_list: list,
       })
@@ -314,7 +322,7 @@ describe Tx::Eip2930 do
       some = Tx.new({
         nonce: 0,
         gas_price: 1,
-        gas_limit: 21_000,
+        gas_limit: 31_556,
         data: hex,
         access_list: list,
       })
@@ -341,13 +349,13 @@ describe Tx::Eip2930 do
       some = Tx.new({
         nonce: 0,
         gas_price: 1,
-        gas_limit: 21_000,
+        gas_limit: 29_808,
         data: lorem,
         access_list: list,
       })
       some.sign cow
-      expect(some.hex).to eq "01f8cd01800182520880808d4c6f72656d2c20497073756d21f872f85994de0b295669a9fd93d5f28d9ec85e40f4cb697baef842a00000000000000000000000000000000000000000000000000000000000000003a00000000000000000000000000000000000000000000000000000000000000007d694bb9bc244d798123fde783fcc1c72d3bb8c189413c001a005e17c2d775df7c6bd80c7edb2b1ba3f0e88253ae34ad861be89e615832ce4f3a068f581d6664febd872bf847bf87b87ecbd5044f540fd54e2515c4df72a68ee40"
-      expect(some.hash).to eq "a87f2db1b0e64fe58a893c36fe831436a484b0c2d850455501848721bef586d1"
+      expect(some.hex).to eq "01f8cd01800182747080808d4c6f72656d2c20497073756d21f872f85994de0b295669a9fd93d5f28d9ec85e40f4cb697baef842a00000000000000000000000000000000000000000000000000000000000000003a00000000000000000000000000000000000000000000000000000000000000007d694bb9bc244d798123fde783fcc1c72d3bb8c189413c080a0aa8fb1b77d26ee25034e7012fd5098c2ffb46ec26f852f492adf38d0ce4480a3a019b93db449c5320f237d6ffa2612055afb8b4286c5f7fe9123c78a287b61af91"
+      expect(some.hash).to eq "8a3ac899feaf2260701cd92fb094924b0453552286e867f56c4d0c41d1214c25"
 
       # expect to match both decoded transaction and decoded abi
       other = Tx.decode some.hex
