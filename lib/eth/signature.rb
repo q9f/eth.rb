@@ -25,10 +25,10 @@ module Eth
     class SignatureError < StandardError; end
 
     # EIP-191 prefix byte 0x19
-    EIP191_PREFIX_BYTE = "\x19"
+    EIP191_PREFIX_BYTE = "\x19".freeze
 
     # EIP-712 version byte 0x01
-    EIP712_VERSION_BYTE = "\x01"
+    EIP712_VERSION_BYTE = "\x01".freeze
 
     # Prefix message as per EIP-191 with 0x19 to ensure the data is not
     # valid RLP and thus not mistaken for a transaction.
