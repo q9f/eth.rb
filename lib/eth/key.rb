@@ -68,7 +68,7 @@ module Eth
     # @param blob [String] that arbitrary data to be signed.
     # @param chain_id [Integer] the chain id the signature should be generated on.
     # @return [String] a hexa-decimal signature.
-    def sign(blob, chain_id = Chain::ETHEREUM)
+    def sign(blob, chain_id = nil)
       context = Secp256k1::Context.new
       compact, recovery_id = context.sign_recoverable(@private_key, blob).compact
       signature = compact.bytes
@@ -88,7 +88,7 @@ module Eth
     # @param message [String] the message string to be prefixed and signed.
     # @param chain_id [Integer] the chain id the signature should be generated on.
     # @return [String] an EIP-191 conform, hexa-decimal signature.
-    def personal_sign(message, chain_id = Chain::ETHEREUM)
+    def personal_sign(message, chain_id = nil)
       prefixed_message = Signature.prefix_message message
       hashed_message = Util.keccak256 prefixed_message
       sign hashed_message, chain_id
@@ -101,7 +101,7 @@ module Eth
     # @param typed_data [Array] all the data in the typed data structure to be signed.
     # @param chain_id [Integer] the chain id the signature should be generated on.
     # @return [String] an EIP-712 conform, hexa-decimal signature.
-    def sign_typed_data(typed_data, chain_id = Chain::ETHEREUM)
+    def sign_typed_data(typed_data, chain_id = nil)
       hash_to_sign = Eip712.hash typed_data
       sign hash_to_sign, chain_id
     end

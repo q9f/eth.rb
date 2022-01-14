@@ -44,8 +44,10 @@ describe Chain do
 
   describe ".to_v .to_recovery_id .to_chain_id" do
     it "can convert ethereum recovery ids to v" do
-      expect(Chain.to_v 0).to eq 37
-      expect(Chain.to_v 1).to eq 38
+      expect(Chain.to_v 0).to eq 27
+      expect(Chain.to_v 1).to eq 28
+      expect(Chain.to_v 0, Chain::ETHEREUM).to eq 37
+      expect(Chain.to_v 1, Chain::ETHEREUM).to eq 38
     end
 
     it "can convert other chain's recovery ids to v" do
