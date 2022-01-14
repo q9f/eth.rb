@@ -92,6 +92,15 @@ describe Tx::Eip1559 do
           nonce: 0,
           priority_fee: 0,
           max_gas_fee: Unit::GWEI,
+          gas_limit: Tx::DEFAULT_GAS_LIMIT,
+          access_list: list,
+        })
+      }.to raise_error Tx::ParameterError, "Transaction gas limit is too low, try 29600!"
+      expect {
+        Tx.new({
+          nonce: 0,
+          priority_fee: 0,
+          max_gas_fee: Unit::GWEI,
           gas_limit: Tx::BLOCK_GAS_LIMIT + 1,
         })
       }.to raise_error Tx::ParameterError, "Invalid gas limit 25000001!"
