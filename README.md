@@ -19,6 +19,7 @@ What you get:
 - [x] EIP-191 Ethereum Signed Messages (with prefix and type)
 - [x] EIP-712 Ethereum Signed Type Data
 - [x] EIP-1559 Ethereum Type-2 Transactions (with priority fee and max gas fee)
+- [x] EIP-2028 Call-data intrinsic gas cost estimats (plus access lists)
 - [x] EIP-2718 Ethereum Transaction Envelopes (and types)
 - [x] EIP-2930 Ethereum Type-1 Transactions (with access lists)
 - [x] ABI-Encoder and Decoder (including type parser)
@@ -26,7 +27,9 @@ What you get:
 Soon (TM):
 - [ ] RLP-Encoder and Decoder (including sedes)
 - [ ] RPC-Client (HTTP) for Execution APIs and Consensus APIs
-- [ ] Smart Contracts and Solidity
+- [ ] Smart Contracts and Solidity Support
+- [ ] EIP-1271 Smart-Contract Authentification
+- [ ] HD-Wallets (BIP-32) and Mnemonics (BIP-39)
 
 Contents:
 - [1. Installation](#1-installation)
@@ -161,7 +164,7 @@ tx.hex
 # => "02f873050584b2d05e00851010b872008303841494caa29806044a08e533963b2e573c1230a2cd9a2d87f6a3d9c63df00080c080a03aa187d10b138d3e0155729adb961cd89e10f988ba2d19d6869770b9e5a23d10a04d40864600136ae214916043c7d63b849c98db757e95c86983a036982816e1af"
 ```
 
-This gem also supports access lists and ABI-encoded data payloads. See `/spec` or [Documentation](https://q9f.github.io/eth.rb/) for more details about the various supported transaction types (legacy, type-1, type-2) and payload parameters.
+This gem also supports access lists and ABI-encoded data payloads. See `/spec` or [Documentation](https://q9f.github.io/eth.rb/) for more details about the various supported transaction types (legacy, type-1, type-2), payload parameters, and how to estimate intrinsic gas costs.
 
 ### 2.5. Ethereum ABI Encoder and Decoder
 
