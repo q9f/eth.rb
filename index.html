@@ -64,9 +64,9 @@
 
 <p>A simple library to build and sign Ethereum transactions. Allows separation of key and node management. Sign transactions and handle keys anywhere you can run ruby, broadcast transactions through any node. Sign messages and recover signatures for authentication.</p>
 
-<p>What you get: - [x] Secp256k1 Key-Pairs and Encrypted Ethereum Key-Stores (JSON) - [x] EIP-55 Checksummed Ethereum Addresses - [x] EIP-155 Replay protection with Chain IDs (with presets) - [x] EIP-191 Ethereum Signed Messages (with prefix and type) - [x] EIP-712 Ethereum Signed Type Data - [x] EIP-1559 Ethereum Type-2 Transactions (with priority fee and max gas fee) - [x] EIP-2718 Ethereum Transaction Envelopes (and types) - [x] EIP-2930 Ethereum Type-1 Transactions (with access lists) - [x] ABI-Encoder and Decoder (including type parser)</p>
+<p>What you get: - [x] Secp256k1 Key-Pairs and Encrypted Ethereum Key-Stores (JSON) - [x] EIP-55 Checksummed Ethereum Addresses - [x] EIP-155 Replay protection with Chain IDs (with presets) - [x] EIP-191 Ethereum Signed Messages (with prefix and type) - [x] EIP-712 Ethereum Signed Type Data - [x] EIP-1559 Ethereum Type-2 Transactions (with priority fee and max gas fee) - [x] EIP-2028 Call-data intrinsic gas cost estimates (plus access lists) - [x] EIP-2718 Ethereum Transaction Envelopes (and types) - [x] EIP-2930 Ethereum Type-1 Transactions (with access lists) - [x] ABI-Encoder and Decoder (including type parser)</p>
 
-<p>Soon (TM): - [ ] RLP-Encoder and Decoder (including sedes) - [ ] RPC-Client (HTTP) for Execution APIs and Consensus APIs - [ ] Smart Contracts and Solidity</p>
+<p>Soon (TM): - [ ] RLP-Encoder and Decoder (including sedes) - [ ] RPC-Client (HTTP) for Execution APIs and Consensus APIs - [ ] Smart Contracts and Solidity Support - [ ] EIP-1271 Smart-Contract Authentification - [ ] HD-Wallets (BIP-32) and Mnemonics (BIP-39)</p>
 
 <p>Contents: - <a href="#1-installation">1. Installation</a> - <a href="#2-usage">2. Usage</a>  - <a href="#21-ethereum-keys-and-addresses-eip-55">2.1. Ethereum Keys and Addresses (EIP-55)</a>  - <a href="#22-ethereum-signatures-eip-191-eip-712">2.2. Ethereum Signatures (EIP-191, EIP-712)</a>  - <a href="#23-ethereum-chains-eip-155">2.3. Ethereum Chains (EIP-155)</a>  - <a href="#24-ethereum-transactions-eip-1559-eip-2718-eip-2930">2.4. Ethereum Transactions (EIP-1559, EIP-2718, EIP-2930)</a>  - <a href="#25-ethereum-abi-encoder-and-decoder">2.5. Ethereum ABI Encoder and Decoder</a> - <a href="#3-documentation">3. Documentation</a> - <a href="#4-testing">4. Testing</a> - <a href="#5-contributing">5. Contributing</a> - <a href="#6-license-and-credits">6. License and Credits</a></p>
 
@@ -181,7 +181,7 @@
 <span class='comment'># =&gt; &quot;02f873050584b2d05e00851010b872008303841494caa29806044a08e533963b2e573c1230a2cd9a2d87f6a3d9c63df00080c080a03aa187d10b138d3e0155729adb961cd89e10f988ba2d19d6869770b9e5a23d10a04d40864600136ae214916043c7d63b849c98db757e95c86983a036982816e1af&quot;
 </span></code></pre>
 
-<p>This gem also supports access lists and ABI-encoded data payloads. See <code>/spec</code> or <a href="https://q9f.github.io/eth.rb/">Documentation</a> for more details about the various supported transaction types (legacy, type-1, type-2) and payload parameters.</p>
+<p>This gem also supports access lists and ABI-encoded data payloads. See <code>/spec</code> or <a href="https://q9f.github.io/eth.rb/">Documentation</a> for more details about the various supported transaction types (legacy, type-1, type-2), payload parameters, and how to estimate intrinsic gas costs.</p>
 
 <h3 id="label-2.5.+Ethereum+ABI+Encoder+and+Decoder">2.5. Ethereum ABI Encoder and Decoder</h3>
 
@@ -231,7 +231,7 @@ rspec
 </div></div>
 
       <div id="footer">
-  Generated on Fri Jan 14 11:59:39 2022 by
+  Generated on Fri Jan 14 12:09:54 2022 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.27 (ruby-2.7.5).
 </div>
