@@ -19,7 +19,7 @@ What you get:
 - [x] EIP-191 Ethereum Signed Messages (with prefix and type)
 - [x] EIP-712 Ethereum Signed Type Data
 - [x] EIP-1559 Ethereum Type-2 Transactions (with priority fee and max gas fee)
-- [x] EIP-2028 Call-data intrinsic gas cost estimats (plus access lists)
+- [x] EIP-2028 Call-data intrinsic gas cost estimates (plus access lists)
 - [x] EIP-2718 Ethereum Transaction Envelopes (and types)
 - [x] EIP-2930 Ethereum Type-1 Transactions (with access lists)
 - [x] ABI-Encoder and Decoder (including type parser)
