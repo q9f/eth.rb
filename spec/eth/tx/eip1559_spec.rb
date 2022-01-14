@@ -2,7 +2,7 @@
 
 require "spec_helper"
 
-describe Eth::Tx::Eip1559 do
+describe Tx::Eip1559 do
 
   # ref https://goerli.etherscan.io/tx/0x737b57a273ea1e63e6b8f770313fc2fbc4a668706d2921292dd28307b9f9644f#accesslist
   subject(:list) {
@@ -23,14 +23,14 @@ describe Eth::Tx::Eip1559 do
 
   # ref https://goerli.etherscan.io/tx/0x737b57a273ea1e63e6b8f770313fc2fbc4a668706d2921292dd28307b9f9644f
   subject(:type02) {
-    Eth::Tx.new({
-      chain_id: Eth::Chain::GOERLI,
+    Tx.new({
+      chain_id: Chain::GOERLI,
       nonce: 5,
-      priority_fee: 3 * Eth::Unit::GWEI,
-      max_gas_fee: 69 * Eth::Unit::GWEI,
+      priority_fee: 3 * Unit::GWEI,
+      max_gas_fee: 69 * Unit::GWEI,
       gas_limit: 230_420,
       to: "0xCaA29806044A08E533963b2e573C1230A2cd9a2d",
-      value: 0.069423 * Eth::Unit::ETHER,
+      value: 0.069423 * Unit::ETHER,
       data: "Foo Bar Ruby Ethereum",
       access_list: list,
     })
@@ -43,96 +43,96 @@ describe Eth::Tx::Eip1559 do
   subject(:type02_hash) { "0x737b57a273ea1e63e6b8f770313fc2fbc4a668706d2921292dd28307b9f9644f" }
 
   # ref https://goerli.etherscan.io/address/0x4762119a7249823d18aec7eab73258b2d5061dd8
-  subject(:testnet) { Eth::Key.new(priv: "0xc6c633f85d3f9a4705623b1d9bd1122a1a9196cd53dd352505e895fcbb8452ef") }
+  subject(:testnet) { Key.new(priv: "0xc6c633f85d3f9a4705623b1d9bd1122a1a9196cd53dd352505e895fcbb8452ef") }
 
   subject(:tx) {
-    Eth::Tx.new({
+    Tx.new({
       nonce: 0,
       priority_fee: 0,
-      max_gas_fee: Eth::Unit::WEI,
-      gas_limit: Eth::Tx::DEFAULT_GAS_LIMIT,
+      max_gas_fee: Unit::WEI,
+      gas_limit: Tx::DEFAULT_GAS_LIMIT,
     })
   }
 
-  subject(:cow) { Eth::Key.new(priv: Eth::Util.keccak256("cow")) }
+  subject(:cow) { Key.new(priv: Util.keccak256("cow")) }
 
   describe ".initialize" do
     it "creates EIP-1559 transaction objects" do
       expect(tx).to be
-      expect(tx).to be_instance_of Eth::Tx::Eip1559
+      expect(tx).to be_instance_of Tx::Eip1559
     end
 
     it "doesn't create invalid transaction objects" do
       expect {
-        Eth::Tx.new({
+        Tx.new({
           nonce: 0,
           priority_fee: -9,
-          max_gas_fee: Eth::Unit::GWEI,
-          gas_limit: Eth::Tx::DEFAULT_GAS_LIMIT,
+          max_gas_fee: Unit::GWEI,
+          gas_limit: Tx::DEFAULT_GAS_LIMIT,
         })
-      }.to raise_error Eth::Tx::ParameterError, "Invalid gas priority fee -9!"
+      }.to raise_error Tx::ParameterError, "Invalid gas priority fee -9!"
       expect {
-        Eth::Tx.new({
+        Tx.new({
           nonce: 0,
           priority_fee: 0,
-          max_gas_fee: -9 * Eth::Unit::GWEI,
-          gas_limit: Eth::Tx::DEFAULT_GAS_LIMIT,
+          max_gas_fee: -9 * Unit::GWEI,
+          gas_limit: Tx::DEFAULT_GAS_LIMIT,
         })
-      }.to raise_error Eth::Tx::ParameterError, "Invalid max gas fee -0.9e10!"
+      }.to raise_error Tx::ParameterError, "Invalid max gas fee -0.9e10!"
       expect {
-        Eth::Tx.new({
+        Tx.new({
           nonce: 0,
           priority_fee: 0,
-          max_gas_fee: Eth::Unit::GWEI,
-          gas_limit: Eth::Tx::DEFAULT_GAS_LIMIT - 1,
+          max_gas_fee: Unit::GWEI,
+          gas_limit: Tx::DEFAULT_GAS_LIMIT - 1,
         })
-      }.to raise_error Eth::Tx::ParameterError, "Invalid gas limit 20999!"
+      }.to raise_error Tx::ParameterError, "Invalid gas limit 20999!"
       expect {
-        Eth::Tx.new({
+        Tx.new({
           nonce: 0,
           priority_fee: 0,
-          max_gas_fee: Eth::Unit::GWEI,
-          gas_limit: Eth::Tx::BLOCK_GAS_LIMIT + 1,
+          max_gas_fee: Unit::GWEI,
+          gas_limit: Tx::BLOCK_GAS_LIMIT + 1,
         })
-      }.to raise_error Eth::Tx::ParameterError, "Invalid gas limit 25000001!"
+      }.to raise_error Tx::ParameterError, "Invalid gas limit 25000001!"
       expect {
-        Eth::Tx.new({
+        Tx.new({
           nonce: -1,
           priority_fee: 0,
-          max_gas_fee: Eth::Unit::GWEI,
-          gas_limit: Eth::Tx::BLOCK_GAS_LIMIT,
+          max_gas_fee: Unit::GWEI,
+          gas_limit: Tx::BLOCK_GAS_LIMIT,
         })
-      }.to raise_error Eth::Tx::ParameterError, "Invalid signer nonce -1!"
+      }.to raise_error Tx::ParameterError, "Invalid signer nonce -1!"
       expect {
-        Eth::Tx.new({
+        Tx.new({
           nonce: 0,
           priority_fee: 0,
-          max_gas_fee: Eth::Unit::GWEI,
-          gas_limit: Eth::Tx::BLOCK_GAS_LIMIT,
+          max_gas_fee: Unit::GWEI,
+          gas_limit: Tx::BLOCK_GAS_LIMIT,
           to: "foo",
         })
-      }.to raise_error Eth::Address::CheckSumError, "Unknown address type foo!"
+      }.to raise_error Address::CheckSumError, "Unknown address type foo!"
       expect {
-        Eth::Tx.new({
+        Tx.new({
           nonce: 0,
           priority_fee: 0,
-          max_gas_fee: Eth::Unit::GWEI,
-          gas_limit: Eth::Tx::BLOCK_GAS_LIMIT,
+          max_gas_fee: Unit::GWEI,
+          gas_limit: Tx::BLOCK_GAS_LIMIT,
           to: "0xef26b1f67797e7a5a3c192c93d821fadef3ba173",
           value: -1,
         })
-      }.to raise_error Eth::Tx::ParameterError, "Invalid transaction value -1!"
+      }.to raise_error Tx::ParameterError, "Invalid transaction value -1!"
       expect {
-        Eth::Tx.new({
+        Tx.new({
           nonce: 0,
           priority_fee: 0,
-          max_gas_fee: Eth::Unit::GWEI,
-          gas_limit: Eth::Tx::BLOCK_GAS_LIMIT,
+          max_gas_fee: Unit::GWEI,
+          gas_limit: Tx::BLOCK_GAS_LIMIT,
           to: "0xef26b1f67797e7a5a3c192c93d821fadef3ba173",
           value: 1,
           access_list: "bar",
         })
-      }.to raise_error Eth::Tx::ParameterError, "Invalid access list bar!"
+      }.to raise_error Tx::ParameterError, "Invalid access list bar!"
     end
 
     describe ".sign" do
@@ -151,16 +151,16 @@ describe Eth::Tx::Eip1559 do
       end
 
       it "checks for valid sender" do
-        tx_from_cow = Eth::Tx.new({
+        tx_from_cow = Tx.new({
           nonce: 0,
-          priority_fee: Eth::Unit::WEI,
-          max_gas_fee: Eth::Unit::WEI,
-          gas_limit: Eth::Tx::DEFAULT_GAS_LIMIT,
+          priority_fee: Unit::WEI,
+          max_gas_fee: Unit::WEI,
+          gas_limit: Tx::DEFAULT_GAS_LIMIT,
           from: "0xCD2a3d9F938E13CD947Ec05AbC7FE734Df8DD826",
         })
         expect {
           tx_from_cow.sign testnet
-        }.to raise_error Eth::Signature::SignatureError, "Signer does not match sender"
+        }.to raise_error Signature::SignatureError, "Signer does not match sender"
         expect {
           tx_from_cow.sign cow
         }.not_to raise_error
@@ -191,7 +191,7 @@ describe Eth::Tx::Eip1559 do
       it "hexes a known goerli transaction" do
         expect { type02.hex }.to raise_error StandardError, "Transaction is not signed!"
         type02.sign(testnet)
-        expect(type02.hex).to eq Eth::Util.remove_hex_prefix type02_hex
+        expect(type02.hex).to eq Util.remove_hex_prefix type02_hex
       end
     end
 
@@ -205,14 +205,14 @@ describe Eth::Tx::Eip1559 do
       it "hashes a known goerli transaction" do
         expect { type02.hash }.to raise_error StandardError, "Transaction is not signed!"
         type02.sign(testnet)
-        expect(type02.hash).to eq Eth::Util.remove_hex_prefix type02_hash
+        expect(type02.hash).to eq Util.remove_hex_prefix type02_hash
       end
     end
 
     describe ".copy" do
       it "can duplicate transactions" do
-        eip1559 = Eth::Tx.decode type02_hex
-        duplicate = Eth::Tx.unsigned_copy eip1559
+        eip1559 = Tx.decode type02_hex
+        duplicate = Tx.unsigned_copy eip1559
         expect(eip1559.chain_id).to eq duplicate.chain_id
         expect(eip1559.signer_nonce).to eq duplicate.signer_nonce
         expect(eip1559.max_priority_fee_per_gas).to eq duplicate.max_priority_fee_per_gas
@@ -234,7 +234,7 @@ describe Eth::Tx::Eip1559 do
         expect(eip1559.signature_y_parity).to eq duplicate.signature_y_parity
         expect(eip1559.signature_r).to eq duplicate.signature_r
         expect(eip1559.signature_s).to eq duplicate.signature_s
-        expect(duplicate.hex).to eq Eth::Util.remove_hex_prefix type02_hex
+        expect(duplicate.hex).to eq Util.remove_hex_prefix type02_hex
       end
     end
   end

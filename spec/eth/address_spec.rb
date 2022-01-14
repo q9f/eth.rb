@@ -1,17 +1,17 @@
 require "spec_helper"
 
-describe Eth::Address do
+describe Address do
   describe ".initialize" do
     # alice is initialized with an unprefixed address
-    subject(:alice) { Eth::Address.new "c1c0f155bd054597c60cb33e6da7edbc9c70275b" }
+    subject(:alice) { Address.new "c1c0f155bd054597c60cb33e6da7edbc9c70275b" }
     # bob is initialized with a prefixed address
-    subject(:bob) { Eth::Address.new "0x7291d3cd257053bac810ee2c55fd7c154bd455af" }
+    subject(:bob) { Address.new "0x7291d3cd257053bac810ee2c55fd7c154bd455af" }
 
     it "generates functional addresses" do
 
-      # generates a functional key for alice of type Eth::Address
-      expect(alice).to be_an_instance_of Eth::Address
-      expect(bob).to be_an_instance_of Eth::Address
+      # generates a functional key for alice of type Address
+      expect(alice).to be_an_instance_of Address
+      expect(bob).to be_an_instance_of Address
 
       # ensure both addresses are not the same
       expect(alice.address).not_to eq bob.address
@@ -39,7 +39,7 @@ describe Eth::Address do
 
       it "returns true" do
         addresses.each do |address|
-          expect(Eth::Address.new address).to be_valid
+          expect(Address.new address).to be_valid
         end
       end
     end
@@ -57,8 +57,8 @@ describe Eth::Address do
       it "raises" do
         addresses.each do |address|
           expect {
-            Eth::Address.new address
-          }.to raise_error Eth::Address::CheckSumError
+            Address.new address
+          }.to raise_error Address::CheckSumError
         end
       end
     end
@@ -78,7 +78,7 @@ describe Eth::Address do
 
       it "returns true" do
         addresses.each do |address|
-          expect(Eth::Address.new address).to be_valid
+          expect(Address.new address).to be_valid
         end
       end
     end
@@ -98,7 +98,7 @@ describe Eth::Address do
 
       it "returns true" do
         addresses.each do |address|
-          expect(Eth::Address.new address).to be_valid
+          expect(Address.new address).to be_valid
         end
       end
     end
@@ -116,11 +116,11 @@ describe Eth::Address do
       it "raises" do
         addresses.each do |address|
           expect {
-            Eth::Address.new address
-          }.to raise_error Eth::Address::CheckSumError
+            Address.new address
+          }.to raise_error Address::CheckSumError
         end
 
-        expect { Eth::Address.new "foo" }.to raise_error Eth::Address::CheckSumError, "Unknown address type foo!"
+        expect { Address.new "foo" }.to raise_error Address::CheckSumError, "Unknown address type foo!"
       end
     end
   end
@@ -148,7 +148,7 @@ describe Eth::Address do
 
     it "follows EIP55 standard" do
       addresses.each do |plain, checksummed|
-        address = Eth::Address.new(plain)
+        address = Address.new(plain)
         expect(address.checksummed).to eq checksummed
       end
     end
@@ -158,8 +158,8 @@ describe Eth::Address do
 
       it "raises an error" do
         expect {
-          Eth::Address.new(bad).checksummed
-        }.to raise_error Eth::Address::CheckSumError
+          Address.new(bad).checksummed
+        }.to raise_error Address::CheckSumError
       end
     end
   end

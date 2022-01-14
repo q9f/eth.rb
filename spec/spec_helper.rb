@@ -13,3 +13,5 @@ require "eth"
 require "json"
 RSpec.configure do |config|
 end
+
+include Eth

@@ -3,10 +3,10 @@ require "spec_helper"
 # These test vectors are specified in the ethereum wiki:
 # https://github.com/ethereum/wiki/wiki/Web3-Secret-Storage-Definition
 
-describe Eth::Key::Encrypter do
+describe Key::Encrypter do
   describe ".perform" do
     let(:password) { "testpassword" }
-    let(:key) { Eth::Key.new priv: "7a28b5ba57c53603b0b07b56bba752f7784bf506fa95edc395f5cf6c7514fe9d" }
+    let(:key) { Key.new priv: "7a28b5ba57c53603b0b07b56bba752f7784bf506fa95edc395f5cf6c7514fe9d" }
     let(:uuid) { "3198bc9c-6672-5ab3-d995-4942343ae5b6" }
 
     context "pbkdf2 test vector" do
@@ -21,7 +21,7 @@ describe Eth::Key::Encrypter do
       end
 
       it "recovers the key using pbkdf2" do
-        result = Eth::Key::Encrypter.perform key, password, options
+        result = Key::Encrypter.perform key, password, options
         json = JSON.parse result
 
         expect(json["crypto"]["cipher"]).to eq("aes-128-ctr")
@@ -39,7 +39,7 @@ describe Eth::Key::Encrypter do
 
       it "uses generated iv and salt to encrypt" do
         # pass an empty dict for the options param
-        result = Eth::Key::Encrypter.perform key, password, {}
+        result = Key::Encrypter.perform key, password, {}
         json = JSON.parse result
 
         expect(json["crypto"]["cipherparams"]["iv"]).not_to be_empty
@@ -58,8 +58,8 @@ describe Eth::Key::Encrypter do
 
         it "detects unknown key derivation functions" do
           expect {
-            Eth::Key::Encrypter.perform key, password, bad_options
-          }.to raise_error Eth::Key::Encrypter::EncrypterError, "Unsupported key derivation function: badfunction!"
+            Key::Encrypter.perform key, password, bad_options
+          }.to raise_error Key::Encrypter::EncrypterError, "Unsupported key derivation function: badfunction!"
         end
       end
     end
@@ -77,7 +77,7 @@ describe Eth::Key::Encrypter do
       end
 
       it "recovers the key using scrypt" do
-        result = Eth::Key::Encrypter.perform key, password, options
+        result = Key::Encrypter.perform key, password, options
         json = JSON.parse result
 
         expect(json["crypto"]["cipher"]).to eq("aes-128-ctr")

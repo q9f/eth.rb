@@ -2,7 +2,7 @@
 
 require "spec_helper"
 
-describe Eth::Tx::Eip2930 do
+describe Tx::Eip2930 do
   # ref https://goerli.etherscan.io/tx/0xaed08e43736c8c99d6fa3a10b7a66f59a08f0b0999bbf6d050b2f65a5608d988#accesslist
   subject(:list) {
     [
@@ -22,31 +22,31 @@ describe Eth::Tx::Eip2930 do
 
   # ref https://goerli.etherscan.io/tx/0xaed08e43736c8c99d6fa3a10b7a66f59a08f0b0999bbf6d050b2f65a5608d988
   subject(:type01) {
-    Eth::Tx.new({
-      chain_id: Eth::Chain::GOERLI,
+    Tx.new({
+      chain_id: Chain::GOERLI,
       nonce: 4,
-      gas_price: 42 * Eth::Unit::GWEI,
+      gas_price: 42 * Unit::GWEI,
       gas_limit: 230_000,
       to: "0xCaA29806044A08E533963b2e573C1230A2cd9a2d",
-      value: 0.0137 * Eth::Unit::ETHER,
+      value: 0.0137 * Unit::ETHER,
       data: "Foo Bar Ruby Ethereum",
       access_list: list,
     })
   }
 
   # ref https://goerli.etherscan.io/address/0x4762119a7249823d18aec7eab73258b2d5061dd8
-  subject(:testnet) { Eth::Key.new(priv: "0xc6c633f85d3f9a4705623b1d9bd1122a1a9196cd53dd352505e895fcbb8452ef") }
+  subject(:testnet) { Key.new(priv: "0xc6c633f85d3f9a4705623b1d9bd1122a1a9196cd53dd352505e895fcbb8452ef") }
 
   subject(:tx) {
-    Eth::Tx.new({
+    Tx.new({
       nonce: 0,
-      gas_price: Eth::Unit::WEI,
-      gas_limit: Eth::Tx::DEFAULT_GAS_LIMIT,
+      gas_price: Unit::WEI,
+      gas_limit: Tx::DEFAULT_GAS_LIMIT,
       access_list: list,
     })
   }
 
-  subject(:cow) { Eth::Key.new(priv: Eth::Util.keccak256("cow")) }
+  subject(:cow) { Key.new(priv: Util.keccak256("cow")) }
 
   describe ".decode" do
     it "decodes a known goerli transaction signed by ruby eth gem" do
@@ -54,11 +54,11 @@ describe Eth::Tx::Eip2930 do
       # ref https://goerli.etherscan.io/getRawTx?tx=0xaed08e43736c8c99d6fa3a10b7a66f59a08f0b0999bbf6d050b2f65a5608d988
       expected_hex = "0x01f8f605048509c76524008303827094caa29806044a08e533963b2e573c1230a2cd9a2d8730ac13d16c400095466f6f20426172205275627920457468657265756df872f85994de0b295669a9fd93d5f28d9ec85e40f4cb697baef842a00000000000000000000000000000000000000000000000000000000000000003a00000000000000000000000000000000000000000000000000000000000000007d694bb9bc244d798123fde783fcc1c72d3bb8c189413c001a068555b1d5406469aff0fed6eaf1e49087a530c9bb6c79d294376f2c849cedb52a012b1529b344930bc1f3b380c1f31cfe452404f0f7859933776b7e33c8aa1bc6c"
       expected_hash = "0xaed08e43736c8c99d6fa3a10b7a66f59a08f0b0999bbf6d050b2f65a5608d988"
-      decoded = Eth::Tx.decode(expected_hex)
-      expect(decoded.hex).to eq Eth::Util.remove_hex_prefix expected_hex
-      expect(decoded.hash).to eq Eth::Util.remove_hex_prefix expected_hash
+      decoded = Tx.decode(expected_hex)
+      expect(decoded.hex).to eq Util.remove_hex_prefix expected_hex
+      expect(decoded.hash).to eq Util.remove_hex_prefix expected_hash
 
-      duplicated = Eth::Tx.unsigned_copy decoded
+      duplicated = Tx.unsigned_copy decoded
       duplicated.sign testnet
       type01.sign testnet
 
@@ -70,65 +70,65 @@ describe Eth::Tx::Eip2930 do
   describe ".initialize" do
     it "creates EIP-2930 transaction objects" do
       expect(tx).to be
-      expect(tx).to be_instance_of Eth::Tx::Eip2930
+      expect(tx).to be_instance_of Tx::Eip2930
     end
 
     it "doesn't create invalid transaction objects" do
       expect {
-        Eth::Tx.new({
+        Tx.new({
           nonce: 0,
-          gas_price: -9 * Eth::Unit::GWEI,
-          gas_limit: Eth::Tx::DEFAULT_GAS_LIMIT,
+          gas_price: -9 * Unit::GWEI,
+          gas_limit: Tx::DEFAULT_GAS_LIMIT,
         })
-      }.to raise_error Eth::Tx::ParameterError, "Invalid gas price -0.9e10!"
+      }.to raise_error Tx::ParameterError, "Invalid gas price -0.9e10!"
       expect {
-        Eth::Tx.new({
+        Tx.new({
           nonce: 0,
-          gas_price: Eth::Unit::GWEI,
-          gas_limit: Eth::Tx::DEFAULT_GAS_LIMIT - 1,
+          gas_price: Unit::GWEI,
+          gas_limit: Tx::DEFAULT_GAS_LIMIT - 1,
         })
-      }.to raise_error Eth::Tx::ParameterError, "Invalid gas limit 20999!"
+      }.to raise_error Tx::ParameterError, "Invalid gas limit 20999!"
       expect {
-        Eth::Tx.new({
+        Tx.new({
           nonce: 0,
-          gas_price: Eth::Unit::GWEI,
-          gas_limit: Eth::Tx::BLOCK_GAS_LIMIT + 1,
+          gas_price: Unit::GWEI,
+          gas_limit: Tx::BLOCK_GAS_LIMIT + 1,
         })
-      }.to raise_error Eth::Tx::ParameterError, "Invalid gas limit 25000001!"
+      }.to raise_error Tx::ParameterError, "Invalid gas limit 25000001!"
       expect {
-        Eth::Tx.new({
+        Tx.new({
           nonce: -1,
-          gas_price: Eth::Unit::GWEI,
-          gas_limit: Eth::Tx::BLOCK_GAS_LIMIT,
+          gas_price: Unit::GWEI,
+          gas_limit: Tx::BLOCK_GAS_LIMIT,
         })
-      }.to raise_error Eth::Tx::ParameterError, "Invalid signer nonce -1!"
+      }.to raise_error Tx::ParameterError, "Invalid signer nonce -1!"
       expect {
-        Eth::Tx.new({
+        Tx.new({
           nonce: 0,
-          gas_price: Eth::Unit::GWEI,
-          gas_limit: Eth::Tx::BLOCK_GAS_LIMIT,
+          gas_price: Unit::GWEI,
+          gas_limit: Tx::BLOCK_GAS_LIMIT,
           to: "foo",
         })
-      }.to raise_error Eth::Address::CheckSumError, "Unknown address type foo!"
+      }.to raise_error Address::CheckSumError, "Unknown address type foo!"
       expect {
-        Eth::Tx.new({
+        Tx.new({
           nonce: 0,
-          gas_price: Eth::Unit::GWEI,
-          gas_limit: Eth::Tx::BLOCK_GAS_LIMIT,
+          gas_price: Unit::GWEI,
+          gas_limit: Tx::BLOCK_GAS_LIMIT,
           to: "0xef26b1f67797e7a5a3c192c93d821fadef3ba173",
           value: -1,
         })
-      }.to raise_error Eth::Tx::ParameterError, "Invalid transaction value -1!"
+      }.to raise_error Tx::ParameterError, "Invalid transaction value -1!"
       expect {
-        Eth::Tx.new({
+        Tx.new({
           nonce: 0,
-          gas_price: Eth::Unit::GWEI,
-          gas_limit: Eth::Tx::BLOCK_GAS_LIMIT,
+          gas_price: Unit::GWEI,
+          gas_limit: Tx::BLOCK_GAS_LIMIT,
           to: "0xef26b1f67797e7a5a3c192c93d821fadef3ba173",
           value: 1,
           access_list: "bar",
         })
-      }.to raise_error Eth::Tx::ParameterError, "Invalid access list bar!"
+      }.to raise_error Tx::ParameterError, "Invalid access list bar!"
     end
   end
 
@@ -148,16 +148,16 @@ describe Eth::Tx::Eip2930 do
     end
 
     it "checks for valid sender" do
-      tx_from_cow = Eth::Tx.new({
+      tx_from_cow = Tx.new({
         nonce: 0,
-        gas_price: Eth::Unit::WEI,
-        gas_limit: Eth::Tx::DEFAULT_GAS_LIMIT,
+        gas_price: Unit::WEI,
+        gas_limit: Tx::DEFAULT_GAS_LIMIT,
         from: "0xCD2a3d9F938E13CD947Ec05AbC7FE734Df8DD826",
         access_list: list,
       })
       expect {
         tx_from_cow.sign testnet
-      }.to raise_error Eth::Signature::SignatureError, "Signer does not match sender"
+      }.to raise_error Signature::SignatureError, "Signer does not match sender"
       expect {
         tx_from_cow.sign cow
       }.not_to raise_error
@@ -209,8 +209,8 @@ describe Eth::Tx::Eip2930 do
   describe ".copy" do
     it "can duplicate transactions" do
       raw = "0x01f8f605048509c76524008303827094caa29806044a08e533963b2e573c1230a2cd9a2d8730ac13d16c400095466f6f20426172205275627920457468657265756df872f85994de0b295669a9fd93d5f28d9ec85e40f4cb697baef842a00000000000000000000000000000000000000000000000000000000000000003a00000000000000000000000000000000000000000000000000000000000000007d694bb9bc244d798123fde783fcc1c72d3bb8c189413c001a068555b1d5406469aff0fed6eaf1e49087a530c9bb6c79d294376f2c849cedb52a012b1529b344930bc1f3b380c1f31cfe452404f0f7859933776b7e33c8aa1bc6c"
-      eip2930 = Eth::Tx.decode raw
-      duplicate = Eth::Tx.unsigned_copy eip2930
+      eip2930 = Tx.decode raw
+      duplicate = Tx.unsigned_copy eip2930
       expect(eip2930.chain_id).to eq duplicate.chain_id
       expect(eip2930.signer_nonce).to eq duplicate.signer_nonce
       expect(eip2930.gas_price).to eq duplicate.gas_price
@@ -231,13 +231,13 @@ describe Eth::Tx::Eip2930 do
       expect(eip2930.signature_y_parity).to eq duplicate.signature_y_parity
       expect(eip2930.signature_r).to eq duplicate.signature_r
       expect(eip2930.signature_s).to eq duplicate.signature_s
-      expect(duplicate.hex).to eq Eth::Util.remove_hex_prefix raw
+      expect(duplicate.hex).to eq Util.remove_hex_prefix raw
     end
   end
 
   context "signing transactions the hard way" do
     it "correctly hashes an unsigned example" do
-      sample = Eth::Tx.new({
+      sample = Tx.new({
         nonce: 0,
         gas_price: 0x0BA43B7400,
         gas_limit: 0x05208,
@@ -245,21 +245,21 @@ describe Eth::Tx::Eip2930 do
         value: 0x03BAF82D03A000,
         access_list: list,
       })
-      lsong = Eth::Key.new(priv: "00d862c318d05de0a1c25242c21989e15e35e70c55996fbc4238cd2f2f6a8f62")
-      expected_address = Eth::Address.new "8d900bfa2353548a4631be870f99939575551b60"
+      lsong = Key.new(priv: "00d862c318d05de0a1c25242c21989e15e35e70c55996fbc4238cd2f2f6a8f62")
+      expected_address = Address.new "8d900bfa2353548a4631be870f99939575551b60"
 
       # a secp256k1 signature over keccak256(0x01 || rlp([chainId, nonce, gasPrice, gasLimit, to, value, data, accessList]))
       expected_sign_data = "01f89d0180850ba43b7400825208947917bc33eea648809c285607579c9919fb864f8f8703baf82d03a00080f872f85994de0b295669a9fd93d5f28d9ec85e40f4cb697baef842a00000000000000000000000000000000000000000000000000000000000000003a00000000000000000000000000000000000000000000000000000000000000007d694bb9bc244d798123fde783fcc1c72d3bb8c189413c0"
       expected_sign_hash = "25ef982de4f77cc1a2967e03f4a1020f5188afcf54678b3326d26c8c4d378edc"
 
       # first byte is type 01 as per EIP-2930
-      expect(Eth::Util.bin_to_hex (sample.unsigned_encoded)[0, 1]).to eq "01"
-      expect(Eth::Util.bin_to_hex sample.unsigned_encoded).to eq expected_sign_data
-      expect(Eth::Util.bin_to_hex sample.unsigned_hash).to eq expected_sign_hash
+      expect(Util.bin_to_hex (sample.unsigned_encoded)[0, 1]).to eq "01"
+      expect(Util.bin_to_hex sample.unsigned_encoded).to eq expected_sign_data
+      expect(Util.bin_to_hex sample.unsigned_hash).to eq expected_sign_hash
 
       sample.sign lsong
-      expect(Eth::Tx.decode(sample.hex).hex).to eq sample.hex
-      expect(Eth::Tx.decode(sample.hex).hash).to eq sample.hash
+      expect(Tx.decode(sample.hex).hex).to eq sample.hex
+      expect(Tx.decode(sample.hex).hash).to eq sample.hash
     end
   end
 
@@ -284,8 +284,8 @@ describe Eth::Tx::Eip2930 do
     subject(:expected_hash) { "fcd5d923437f14e5af9b2057c1f1323f4fe48ba82eb261795409ea3d4cc8a14e" }
 
     it "can create transactions with binary data" do
-      abi = Eth::Abi.encode types, args
-      some = Eth::Tx.new({
+      abi = Abi.encode types, args
+      some = Tx.new({
         nonce: 0,
         gas_price: 1,
         gas_limit: 21_000,
@@ -299,19 +299,19 @@ describe Eth::Tx::Eip2930 do
       expect(some.hash).to eq expected_hash
 
       # expect to match both decoded transaction and decoded abi
-      other = Eth::Tx.decode some.hex
+      other = Tx.decode some.hex
       expect(other.payload).to eq some.payload
       expect(other.access_list).to eq some.access_list
       expect(other.hex).to eq some.hex
       expect(other.hash).to eq some.hash
-      expect(Eth::Abi.decode types, some.payload).to eq args
-      expect(Eth::Abi.decode types, other.payload).to eq args
+      expect(Abi.decode types, some.payload).to eq args
+      expect(Abi.decode types, other.payload).to eq args
     end
 
     it "can create transactions with hexadecimal data" do
-      abi = Eth::Abi.encode types, args
-      hex = Eth::Util.bin_to_hex abi
-      some = Eth::Tx.new({
+      abi = Abi.encode types, args
+      hex = Util.bin_to_hex abi
+      some = Tx.new({
         nonce: 0,
         gas_price: 1,
         gas_limit: 21_000,
@@ -325,20 +325,20 @@ describe Eth::Tx::Eip2930 do
       expect(some.hash).to eq expected_hash
 
       # expect to match both decoded transaction and decoded abi
-      other = Eth::Tx.decode some.hex
+      other = Tx.decode some.hex
       expect(other.payload).to eq some.payload
       expect(other.access_list).to eq some.access_list
       expect(other.hex).to eq some.hex
       expect(other.hash).to eq some.hash
-      expect(Eth::Abi.decode types, some.payload).to eq args
-      expect(Eth::Abi.decode types, other.payload).to eq args
+      expect(Abi.decode types, some.payload).to eq args
+      expect(Abi.decode types, other.payload).to eq args
     end
 
     it "can create transactions with ascii data" do
       lorem = "Lorem, Ipsum!"
 
       # usually libraries prevent that, but in any case this allows to send ascii messages
-      some = Eth::Tx.new({
+      some = Tx.new({
         nonce: 0,
         gas_price: 1,
         gas_limit: 21_000,
@@ -350,7 +350,7 @@ describe Eth::Tx::Eip2930 do
       expect(some.hash).to eq "a87f2db1b0e64fe58a893c36fe831436a484b0c2d850455501848721bef586d1"
 
       # expect to match both decoded transaction and decoded abi
-      other = Eth::Tx.decode some.hex
+      other = Tx.decode some.hex
       expect(other.payload).to eq some.payload
       expect(other.access_list).to eq some.access_list
       expect(other.hex).to eq some.hex
