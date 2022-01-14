@@ -23,7 +23,11 @@ module Eth
 
   # The `Eth::Key` class to handle Secp256k1 private/public key-pairs.
   class Key
+
+    # The Eth::Key::Decrypter class to handle PBKDF2-SHA-256 decryption.
     autoload :Decrypter, "eth/key/decrypter"
+
+    # The Eth::Key::Encrypter class to handle PBKDF2-SHA-256 encryption.
     autoload :Encrypter, "eth/key/encrypter"
 
     # The `Secp256k1::PrivateKey` of the `Eth::Key` pair.

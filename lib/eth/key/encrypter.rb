@@ -16,7 +16,7 @@
 module Eth
 
   # The Eth::Key::Encrypter class to handle PBKDF2-SHA-256 encryption.
-  class Eth::Key::Encrypter
+  class Key::Encrypter
 
     # Provides a specific encrypter error if decryption fails.
     class EncrypterError < StandardError; end
