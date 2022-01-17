@@ -12,13 +12,23 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+require "json"
+require "openssl"
 require "rbsecp256k1"
+require "scrypt"
 require "securerandom"
 
+# Provides the `Eth` module.
 module Eth
 
   # The `Eth::Key` class to handle Secp256k1 private/public key-pairs.
   class Key
+
+    # The Eth::Key::Decrypter class to handle PBKDF2-SHA-256 decryption.
+    autoload :Decrypter, "eth/key/decrypter"
+
+    # The Eth::Key::Encrypter class to handle PBKDF2-SHA-256 encryption.
+    autoload :Encrypter, "eth/key/encrypter"
 
     # The `Secp256k1::PrivateKey` of the `Eth::Key` pair.
     attr_reader :private_key
@@ -58,12 +68,16 @@ module Eth
     # @param blob [String] that arbitrary data to be signed.
     # @param chain_id [Integer] the chain id the signature should be generated on.
     # @return [String] a hexa-decimal signature.
-    def sign(blob, chain_id = Chain::ETHEREUM)
+    def sign(blob, chain_id = nil)
       context = Secp256k1::Context.new
       compact, recovery_id = context.sign_recoverable(@private_key, blob).compact
       signature = compact.bytes
       v = Chain.to_v recovery_id, chain_id
-      signature = signature.append v
+      is_leading_zero = true
+      [v].pack("N").unpack("C*").each do |byte|
+        is_leading_zero = false if byte > 0 and is_leading_zero
+        signature.append byte unless is_leading_zero and byte === 0
+      end
       Util.bin_to_hex signature.pack "c*"
     end
 
@@ -74,7 +88,7 @@ module Eth
     # @param message [String] the message string to be prefixed and signed.
     # @param chain_id [Integer] the chain id the signature should be generated on.
     # @return [String] an EIP-191 conform, hexa-decimal signature.
-    def personal_sign(message, chain_id = Chain::ETHEREUM)
+    def personal_sign(message, chain_id = nil)
       prefixed_message = Signature.prefix_message message
       hashed_message = Util.keccak256 prefixed_message
       sign hashed_message, chain_id
@@ -87,7 +101,7 @@ module Eth
     # @param typed_data [Array] all the data in the typed data structure to be signed.
     # @param chain_id [Integer] the chain id the signature should be generated on.
     # @return [String] an EIP-712 conform, hexa-decimal signature.
-    def sign_typed_data(typed_data, chain_id = Chain::ETHEREUM)
+    def sign_typed_data(typed_data, chain_id = nil)
       hash_to_sign = Eip712.hash typed_data
       sign hash_to_sign, chain_id
     end

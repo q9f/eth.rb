@@ -33,22 +33,22 @@ module Eth
       BYTE_ONE = "\x01".freeze
 
       # The size of a 32-bit number.
-      TT32 = 2 ** 32
+      TT32 = (2 ** 32).freeze
 
       # The size of a 256-bit number.
-      TT256 = 2 ** 256
+      TT256 = (2 ** 256).freeze
 
       # The maximum possible value of an UInt256.
-      UINT_MAX = 2 ** 256 - 1
+      UINT_MAX = (2 ** 256 - 1).freeze
 
       # The minimum possible value of an UInt256.
-      UINT_MIN = 0
+      UINT_MIN = 0.freeze
 
       # The maximum possible value of an Int256.
-      INT_MAX = 2 ** 255 - 1
+      INT_MAX = (2 ** 255 - 1).freeze
 
       # The minimum possible value of an Int256.
-      INT_MIN = -2 ** 255
+      INT_MIN = (-2 ** 255).freeze
 
       # A hash containing only zeros.
       HASH_ZERO = ("\x00" * 32).freeze

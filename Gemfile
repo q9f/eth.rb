@@ -2,15 +2,6 @@
 
 source "https://rubygems.org"
 
-# keccak for hashing everything in ethereum
-gem "keccak", "~> 1.3"
-
-# rbsecp256k1 for key-pairs and signatures
-gem "rbsecp256k1", "~> 5.1"
-
-# rlp for transaction encoding
-gem "rlp", "~> 0.7"
-
 group :test, :development do
   gem "bundler", "~> 2.2"
   gem "codecov", "~> 0.6"
@@ -22,3 +13,5 @@ group :test, :development do
   gem "simplecov", "~> 0.21"
   gem "yard", "~> 0.9"
 end
+
+gemspec

@@ -18,6 +18,9 @@ module Eth
   # The `Eth::Address` class to handle checksummed Ethereum addresses.
   class Address
 
+    # Provides a special checksum error if EIP-55 is violated.
+    class CheckSumError < StandardError; end
+
     # The prefixed and checksummed Ethereum address.
     attr_reader :address
 
@@ -26,7 +29,13 @@ module Eth
     #
     # @param address [String] hex string representing an ethereum address.
     def initialize(address)
+      unless Util.is_hex? address
+        raise CheckSumError, "Unknown address type #{address}!"
+      end
       @address = Util.prefix_hex address
+      unless self.valid?
+        raise CheckSumError, "Invalid address provided #{address}"
+      end
     end
 
     # Check that the address is valid.
@@ -46,7 +55,7 @@ module Eth
     #
     # @return [String] prefixed hexstring representing an checksummed address.
     def checksummed
-      raise "Invalid address: #{address}" unless matches_any_format?
+      raise CheckSumError, "Invalid address: #{address}" unless matches_any_format?
 
       cased = unprefixed.chars.zip(checksum.chars).map do |char, check|
         check.match(/[0-7]/) ? char.downcase : char.upcase
