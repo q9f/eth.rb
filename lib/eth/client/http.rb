@@ -17,47 +17,32 @@ require "json"
 
 # Provides the `Eth` module.
 module Eth
-  class HttpClient < Client
-    attr_accessor :host
-    attr_accessor :port
-    attr_accessor :uri
-    attr_accessor :ssl
-    attr_accessor :proxy
+  module Client
+    class Http < Client
+      attr_reader :host
+      attr_reader :port
+      attr_reader :uri
+      attr_reader :ssl
 
-    def initialize(host, proxy = nil, log = false)
-      # super(log)
-      uri = URI.parse(host)
-      raise ArgumentError unless ["http", "https"].include? uri.scheme
-      @host = uri.host
-      @port = uri.port
-      @proxy = proxy
+      def initialize(host)
+        super
+        uri = URI.parse(host)
+        raise ArgumentError, "Foo bar" unless ["http", "https"].include? uri.scheme
+        @host = uri.host
+        @port = uri.port
+        @ssl = uri.scheme == "https"
+        @uri = URI("#{uri.scheme}://#{@host}:#{@port}#{uri.path}")
+      end
 
-      @ssl = uri.scheme == "https"
-      @uri = URI("#{uri.scheme}://#{@host}:#{@port}#{uri.path}")
-    end
-
-    def send_single(payload)
-      if @proxy.present?
-        _, p_username, p_password, p_host, p_port = @proxy.gsub(/(:|\/|@)/, " ").squeeze(" ").split
-        http = ::Net::HTTP.new(@host, @port, p_host, p_port, p_username, p_password)
-      else
+      def send(payload)
         http = ::Net::HTTP.new(@host, @port)
+        http.use_ssl = @ssl
+        header = { "Content-Type" => "application/json" }
+        request = ::Net::HTTP::Post.new(@uri, header)
+        request.body = payload
+        response = http.request(request)
+        response.body
       end
-
-      if @ssl
-        http.use_ssl = true
-      end
-      header = { "Content-Type" => "application/json" }
-      request = ::Net::HTTP::Post.new(uri, header)
-      request.body = payload
-      response = http.request(request)
-      response.body
-    end
-
-    def send_batch(batch)
-      result = send_single(batch.to_json)
-      result = JSON.parse(result)
-      result.sort_by! { |c| c["id"] }
     end
   end
 end
