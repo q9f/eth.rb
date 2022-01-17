@@ -25,7 +25,7 @@ module Eth
     def self.create(host)
       return Client::Ipc.new host if host.end_with? ".ipc"
       return Client::Http.new host if host.start_with? "http"
-      raise ArgumentError, "Unable to detect client type"
+      raise ArgumentError, "Unable to detect client type!"
     end
 
     def initialize(_)
