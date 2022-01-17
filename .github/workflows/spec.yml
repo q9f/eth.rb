@@ -26,11 +26,23 @@ jobs:
       with:
         ruby-version: ${{ matrix.ruby }}
         bundler-cache: false
-    - name: Homebrew maketools
+    - name: MacOs Dependencies
       run: |
-        brew install --verbose pkg-config automake autogen
+        brew tap ethereum/ethereum
+        brew install --verbose pkg-config automake autogen ethereum
       if: startsWith(matrix.os, 'macOS')
-    - name: Install Dependencies
+    - name: Ubuntu Dependencies
+      run: |
+        sudo add-apt-repository -y ppa:ethereum/ethereum
+        sudo apt-get update
+        sudo apt-get install ethereum
+      if: startsWith(matrix.os, 'Ubuntu')
+
+    - name: Run Geth
+      run: |
+        geth --dev --http &
+        disown &
+    - name: Gem Dependencies
       run: |
         git submodule update --init
         bundle install
