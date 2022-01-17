@@ -94,5 +94,25 @@ describe Key::Encrypter do
         expect(json["version"]).to eq(3)
       end
     end
+
+    context "official ethereum test fixtures" do
+
+      # load official ethereum/tests fixtures for key stores
+      let(:basic_keystore_tests_file) { File.read "spec/fixtures/ethereum/tests/KeyStoreTests/basic_tests.json" }
+      subject(:basic_keystore_tests) { JSON.parse basic_keystore_tests_file }
+
+      it "can encrypt the test cases" do
+        basic_keystore_tests.each do |test|
+          key_store = test[1]["json"]
+          password = test[1]["password"]
+          priv = test[1]["priv"]
+          encrypted = Key::Encrypter.perform priv, password
+
+          # the easiest way to ensure this wored is to decrypt again and compare to initially provided private key
+          decrypted = Key::Decrypter.perform encrypted, password
+          expect(decrypted.private_hex).to eq priv
+        end
+      end
+    end
   end
 end
