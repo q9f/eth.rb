@@ -37,7 +37,6 @@ jobs:
         sudo apt-get update
         sudo apt-get install ethereum
       if: startsWith(matrix.os, 'Ubuntu')
-
     - name: Run Geth
       run: |
         geth --dev --http &

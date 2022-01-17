@@ -15,22 +15,20 @@
 require "socket"
 
 module Eth
-  module Client
-    class Ipc < Client
-      attr_accessor :path
+  class Ipc < Client
+    attr_accessor :path
 
-      def initialize(path)
-        super
-        @path = path
-      end
+    def initialize(path)
+      super
+      @path = path
+    end
 
-      def send(payload)
-        socket = UNIXSocket.new(@path)
-        socket.puts(payload)
-        read = socket.recvmsg(nil)[0]
-        socket.close
-        return read
-      end
+    def send(payload)
+      socket = UNIXSocket.new(@path)
+      socket.puts(payload)
+      read = socket.recvmsg(nil)[0]
+      socket.close
+      return read
     end
   end
 end

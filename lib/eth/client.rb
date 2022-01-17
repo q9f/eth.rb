@@ -12,8 +12,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-require "eth/client/http"
-
 # Provides the `Eth` module.
 module Eth
   class Client
@@ -94,8 +92,8 @@ module Eth
       end
     end
 
-    Client::Api::COMMANDS.each do |cmd|
-      method_name = cmd.underscore
+    Api::COMMANDS.each do |cmd|
+      method_name = cmd.gsub(/([a-z\d])([A-Z])/, '\1_\2').downcase
       define_method method_name do |*args|
         send_command cmd, args
       end

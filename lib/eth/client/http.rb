@@ -12,37 +12,35 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-require "net/http"
 require "json"
+require "net/http"
 
 # Provides the `Eth` module.
 module Eth
-  module Client
-    class Http < Client
-      attr_reader :host
-      attr_reader :port
-      attr_reader :uri
-      attr_reader :ssl
+  class Http < Client
+    attr_reader :host
+    attr_reader :port
+    attr_reader :uri
+    attr_reader :ssl
 
-      def initialize(host)
-        super
-        uri = URI.parse(host)
-        raise ArgumentError, "Foo bar" unless ["http", "https"].include? uri.scheme
-        @host = uri.host
-        @port = uri.port
-        @ssl = uri.scheme == "https"
-        @uri = URI("#{uri.scheme}://#{@host}:#{@port}#{uri.path}")
-      end
+    def initialize(host)
+      super
+      uri = URI.parse(host)
+      raise ArgumentError, "Foo bar" unless ["http", "https"].include? uri.scheme
+      @host = uri.host
+      @port = uri.port
+      @ssl = uri.scheme == "https"
+      @uri = URI("#{uri.scheme}://#{@host}:#{@port}#{uri.path}")
+    end
 
-      def send(payload)
-        http = ::Net::HTTP.new(@host, @port)
-        http.use_ssl = @ssl
-        header = { "Content-Type" => "application/json" }
-        request = ::Net::HTTP::Post.new(@uri, header)
-        request.body = payload
-        response = http.request(request)
-        response.body
-      end
+    def send(payload)
+      http = ::Net::HTTP.new(@host, @port)
+      http.use_ssl = @ssl
+      header = { "Content-Type" => "application/json" }
+      request = ::Net::HTTP::Post.new(@uri, header)
+      request.body = payload
+      response = http.request(request)
+      response.body
     end
   end
 end
