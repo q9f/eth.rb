@@ -17,7 +17,7 @@ require "net/http"
 
 # Provides the `Eth` module.
 module Eth
-  class Http < Client
+  class Client::Http < Client
     attr_reader :host
     attr_reader :port
     attr_reader :uri

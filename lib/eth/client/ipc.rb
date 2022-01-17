@@ -15,7 +15,7 @@
 require "socket"
 
 module Eth
-  class Ipc < Client
+  class Client::Ipc < Client
     attr_accessor :path
 
     def initialize(path)

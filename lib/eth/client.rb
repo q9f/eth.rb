@@ -22,17 +22,17 @@ module Eth
     attr_accessor :max_fee_per_gas
     attr_accessor :gas_limit
 
-    def initialize
+    def self.create(host)
+      return Client::Ipc.new host if host.end_with? ".ipc"
+      return Client::Http.new host if host.start_with? "http"
+      raise ArgumentError, "Unable to detect client type"
+    end
+
+    def initialize(_)
       @id = 0
       @max_priority_fee_per_gas = 0
       @max_fee_per_gas = Tx::DEFAULT_GAS_PRICE
       @gas_limit = Tx::DEFAULT_GAS_LIMIT
-    end
-
-    def create(host)
-      return Client::Ipc.new host if host.end_with? ".ipc"
-      return Client::Http.new host if host.start_with? "http"
-      raise ArgumentError, "Unable to detect client type"
     end
 
     def default_account
