@@ -17,12 +17,25 @@ require "net/http"
 
 # Provides the `Eth` module.
 module Eth
+
+  # Provides an HTTP/S-RPC client.
   class Client::Http < Client
+
+    # The host of the HTTP endpoint.
     attr_reader :host
+
+    # The port of the HTTP endpoint.
     attr_reader :port
+
+    # The full URI of the HTTP endpoint, including path.
     attr_reader :uri
+
+    # Attribute indicator for SSL.
     attr_reader :ssl
 
+    # Constructor for the HTTP Client.
+    #
+    # @param host [String] an URI pointing to an HTTP RPC-API.
     def initialize(host)
       super
       uri = URI.parse(host)
@@ -33,6 +46,10 @@ module Eth
       @uri = URI("#{uri.scheme}://#{@host}:#{@port}#{uri.path}")
     end
 
+    # Sends an RPC request to the connected HTTP client.
+    #
+    # @param payload [Hash] the RPC request parameters.
+    # @return [String] a JSON-encoded response.
     def send(payload)
       http = ::Net::HTTP.new(@host, @port)
       http.use_ssl = @ssl

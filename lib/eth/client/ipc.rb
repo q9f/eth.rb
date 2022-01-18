@@ -14,15 +14,27 @@
 
 require "socket"
 
+# Provides the `Eth` module.
 module Eth
+
+  # Provides an IPC-RPC client.
   class Client::Ipc < Client
+
+    # The path of the IPC socket.
     attr_accessor :path
 
+    # Constructor for the IPC Client.
+    #
+    # @param path [String] an URI pointing to an IPC RPC-API.
     def initialize(path)
       super
       @path = path
     end
 
+    # Sends an RPC request to the connected IPC socket.
+    #
+    # @param payload [Hash] the RPC request parameters.
+    # @return [String] a JSON-encoded response.
     def send(payload)
       socket = UNIXSocket.new(@path)
       socket.puts(payload)
