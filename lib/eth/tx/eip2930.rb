@@ -312,6 +312,7 @@ module Eth
 
       private
 
+      # Force-sets an existing signature of a decoded transaction.
       def _set_signature(recovery_id, r, s)
         @signature_y_parity = recovery_id
         @signature_r = r

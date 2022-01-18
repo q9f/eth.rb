@@ -68,30 +68,37 @@ module Eth
 
     private
 
+    # Checks whether the address checksum matches.
     def checksum_matches?
       address == checksummed
     end
 
+    # Checks whether the address is not checksummed.
     def not_checksummed?
       all_uppercase? || all_lowercase?
     end
 
+    # Checks whether the address is all upper-case.
     def all_uppercase?
       address.match /(?:0[xX])[A-F0-9]{40}/
     end
 
+    # Checks whether the address is all lower-case.
     def all_lowercase?
       address.match /(?:0[xX])[a-f0-9]{40}/
     end
 
+    # Checks whether the address matches any known format.
     def matches_any_format?
       address.match /\A(?:0[xX])[a-fA-F0-9]{40}\z/
     end
 
+    # Computes the checksum of the address.
     def checksum
       Util.bin_to_hex Util.keccak256 unprefixed.downcase
     end
 
+    # Removes the hex prefix.
     def unprefixed
       Util.remove_hex_prefix address
     end

@@ -283,6 +283,7 @@ module Eth
 
       private
 
+      # Force-sets an existing signature of a decoded transaction.
       def _set_signature(v, r, s)
         @signature_v = v
         @signature_r = r

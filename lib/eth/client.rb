@@ -194,8 +194,9 @@ module Eth
 
     private
 
+    # Prepares parameters and sends the command to the client.
     def send_command(command, args)
-      args << "latest" if ["eth_getBalance", "eth_call"].include?(command)
+      args << "latest" if ["eth_getBalance", "eth_call"].include? command
       payload = {
         jsonrpc: "2.0",
         method: command,
@@ -207,10 +208,12 @@ module Eth
       return output
     end
 
+    # Increments the request id.
     def next_id
       @id += 1
     end
 
+    # Recursively marshals all request parameters.
     def marshal(params)
       if params.is_a? Array
         return params.map! { |param| marshal(param) }
