@@ -44,50 +44,63 @@ module Eth
     end
 
     def get_balance(address)
-      eth_get_balance(address.to_s)["result"].to_i 16
+      eth_get_balance(address)["result"].to_i 16
     end
 
     def get_nonce(address)
-      eth_get_transaction_count(address.to_s, "pending")["result"].to_i 16
+      eth_get_transaction_count(address, "pending")["result"].to_i 16
     end
 
-    def transfer_and_wait(key, address, amount)
-      wait_for(transfer(key, address, amount))
+    def transfer_and_wait(destination, amount, sender_key = nil)
+      wait_for_tx(transfer(destination, amount, sender_key))
     end
 
-    def transfer(key, address, amount)
-      Eth.configure { |c| c.chain_id = net_version["result"].to_i }
-      args = {
-        from: key.address,
-        to: address,
+    def transfer(destination, amount, sender_key = nil)
+      params = {
         value: amount,
-        nonce: get_nonce(key.address),
+        to: destination,
         gas_limit: gas_limit,
         priority_fee: max_priority_fee_per_gas,
         max_gas_fee: max_fee_per_gas,
         chain_id: chain_id,
       }
-      tx = Eth::Tx.new(args)
-      tx.sign key
-      eth_send_raw_transaction(tx.hex)["result"]
+      unless sender_key.nil?
+
+        # use the provided key as sender and signer
+        params.merge!({
+          from: sender_key.address,
+          nonce: get_nonce(sender_key.address),
+        })
+        tx = Eth::Tx.new(params)
+        tx.sign sender_key
+        return eth_send_raw_transaction(tx.hex)["result"]
+      else
+
+        # use the default account as sender and external signer
+        params.merge!({
+          from: default_account,
+          nonce: get_nonce(default_account),
+        })
+        return eth_send_transaction(params)["result"]
+      end
     end
 
     def reset_id
       @id = 0
     end
 
-    def is_mined?(tx)
-      mined_tx = eth_get_transaction_by_hash tx.hash
-      !mined_tx.nil? && !mined_tx["result"].nil? && mined_tx["result"]["blockNumber"].present?
+    def is_mined_tx?(hash)
+      mined_tx = eth_get_transaction_by_hash hash
+      !mined_tx.nil? && !mined_tx["result"].nil? && !mined_tx["result"]["blockNumber"].nil?
     end
 
-    def wait_for(tx)
+    def wait_for_tx(hash)
       start_time = Time.now
-      timeout = 300.seconds
-      retry_rate = 5.seconds
+      timeout = 300
+      retry_rate = 1
       loop do
         raise Timeout::Error if ((Time.now - start_time) > timeout)
-        return tx.hash if is_mined? tx
+        return hash if is_mined_tx? hash
         sleep retry_rate
       end
     end
@@ -106,7 +119,7 @@ module Eth
       payload = {
         jsonrpc: "2.0",
         method: command,
-        params: sanitize_params(args),
+        params: marshal(args),
         id: next_id,
       }
       output = JSON.parse(send(payload.to_json))
@@ -118,12 +131,20 @@ module Eth
       @id += 1
     end
 
-    def sanitize_params(params)
-      params.map(&method(:int_to_hex))
-    end
-
-    def int_to_hex(p)
-      p.is_a?(Integer) ? Util.prefix_hex("#{p.to_s(16)}") : p
+    def marshal(params)
+      if params.is_a? Array
+        return params.map! { |param| marshal(param) }
+      elsif params.is_a? Hash
+        return params.transform_values! { |param| marshal(param) }
+      elsif params.is_a? Numeric
+        return Util.prefix_hex "#{params.to_i.to_s(16)}"
+      elsif params.is_a? Address
+        return params.to_s
+      elsif Util.is_hex? params
+        return Util.prefix_hex params
+      else
+        return params
+      end
     end
   end
 end
