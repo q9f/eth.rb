@@ -36,7 +36,8 @@ module Eth
     # @param data [JSON] encryption data including cypherkey
     # @param password [String] password to decrypt the key
     def initialize(data, password)
-      @data = JSON.parse(data)
+      data = JSON.parse(data) if data.is_a? String
+      @data = data
       @password = password
     end
 

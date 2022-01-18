@@ -51,6 +51,7 @@ module Eth
     # @option options [Integer] :parallelization parallelization factor for scrypt, defaults to 8
     # @option options [Integer] :block_size for scrypt, defaults to 1
     def initialize(key, options = {})
+      key = Key.new(priv: key) if key.is_a? String
       @key = key
       @options = options
 

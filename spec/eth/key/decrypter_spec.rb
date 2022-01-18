@@ -44,4 +44,21 @@ describe Key::Decrypter do
       }.to raise_error Key::Decrypter::DecrypterError, "Unsupported key derivation function: nosuchalgorithm!"
     end
   end
+
+  context "official ethereum test fixtures" do
+
+    # load official ethereum/tests fixtures for key stores
+    let(:basic_keystore_tests_file) { File.read "spec/fixtures/ethereum/tests/KeyStoreTests/basic_tests.json" }
+    subject(:basic_keystore_tests) { JSON.parse basic_keystore_tests_file }
+
+    it "can decrypt the test cases" do
+      basic_keystore_tests.each do |test|
+        key_store = test[1]["json"]
+        password = test[1]["password"]
+        priv = Key.new priv: test[1]["priv"]
+        decrypted = Key::Decrypter.perform key_store, password
+        expect(decrypted.private_hex).to eq priv.private_hex
+      end
+    end
+  end
 end
