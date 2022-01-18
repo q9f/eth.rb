@@ -52,9 +52,9 @@ describe Client do
   describe ".transfer .transfer_and_wait" do
     it "funds a random account and returns the money" do
       geth_dev_http.transfer_and_wait(test_key.address, 1337 * Unit::ETHER)
-      expect(geth_dev_http.get_balance test_key.address).to be 1337 * Unit::ETHER
+      expect(geth_dev_http.get_balance test_key.address).to eq 1337 * Unit::ETHER
       geth_dev_ipc.transfer_and_wait(geth_dev_ipc.default_account, 42 * Unit::ETHER, test_key)
-      expect(geth_dev_ipc.get_nonce test_key.address).to be 1
+      expect(geth_dev_ipc.get_nonce test_key.address).to eq 1
     end
   end
 end
