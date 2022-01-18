@@ -12,7 +12,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-require "json"
 require "net/http"
 
 # Provides the `Eth` module.
@@ -39,7 +38,7 @@ module Eth
     def initialize(host)
       super
       uri = URI.parse(host)
-      raise ArgumentError, "Foo bar" unless ["http", "https"].include? uri.scheme
+      raise ArgumentError, "Unable to parse the HTTP-URI!" unless ["http", "https"].include? uri.scheme
       @host = uri.host
       @port = uri.port
       @ssl = uri.scheme == "https"
@@ -51,10 +50,10 @@ module Eth
     # @param payload [Hash] the RPC request parameters.
     # @return [String] a JSON-encoded response.
     def send(payload)
-      http = ::Net::HTTP.new(@host, @port)
+      http = Net::HTTP.new(@host, @port)
       http.use_ssl = @ssl
       header = { "Content-Type" => "application/json" }
-      request = ::Net::HTTP::Post.new(@uri, header)
+      request = Net::HTTP::Post.new(@uri, header)
       request.body = payload
       response = http.request(request)
       response.body
