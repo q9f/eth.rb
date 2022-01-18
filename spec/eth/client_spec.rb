@@ -8,7 +8,6 @@ describe Client do
   let(:geth_dev_http_path) { "http://127.0.0.1:8545" }
   subject(:geth_dev_ipc) { Client.create geth_dev_ipc_path }
   subject(:geth_dev_http) { Client.create geth_dev_http_path }
-  subject(:test_key) { Key.new }
 
   describe ".create .initialize" do
     it "creates an http client" do
@@ -50,11 +49,21 @@ describe Client do
   end
 
   describe ".transfer .transfer_and_wait" do
+    subject(:test_key) { Key.new }
+    subject(:another_key) { Key.new }
+
     it "funds a random account and returns the money" do
       geth_dev_http.transfer_and_wait(test_key.address, 1337 * Unit::ETHER)
       expect(geth_dev_http.get_balance test_key.address).to eq 1337 * Unit::ETHER
       geth_dev_ipc.transfer_and_wait(geth_dev_ipc.default_account, 42 * Unit::ETHER, test_key)
       expect(geth_dev_ipc.get_nonce test_key.address).to eq 1
+    end
+
+    it "funds a random account using legacy transactions" do
+      geth_dev_http.transfer_and_wait(another_key.address, 69 * Unit::ETHER, nil, true)
+      expect(geth_dev_http.get_balance another_key.address).to eq 69 * Unit::ETHER
+      geth_dev_ipc.transfer_and_wait(geth_dev_ipc.default_account, 23 * Unit::ETHER, another_key, true)
+      expect(geth_dev_ipc.get_nonce another_key.address).to eq 1
     end
   end
 end

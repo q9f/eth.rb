@@ -95,9 +95,10 @@ module Eth
     # @param destination [Eth::Address] the destination address.
     # @param amount [Integer] the transfer amount in Wei.
     # @param sender_key [Eth::Key] the sender private key.
+    # @param legacy [Bool] enables legacy transactions (pre-EIP-1559).
     # @return [String] the transaction hash.
-    def transfer_and_wait(destination, amount, sender_key = nil)
-      wait_for_tx(transfer(destination, amount, sender_key))
+    def transfer_and_wait(destination, amount, sender_key = nil, legacy = false)
+      wait_for_tx(transfer(destination, amount, sender_key, legacy))
     end
 
     # Simply transfer Ether to an account without any call data or
@@ -107,8 +108,9 @@ module Eth
     # @param destination [Eth::Address] the destination address.
     # @param amount [Integer] the transfer amount in Wei.
     # @param sender_key [Eth::Key] the sender private key.
+    # @param legacy [Bool] enables legacy transactions (pre-EIP-1559).
     # @return [String] the transaction hash.
-    def transfer(destination, amount, sender_key = nil)
+    def transfer(destination, amount, sender_key = nil, legacy = false)
       params = {
         value: amount,
         to: destination,
@@ -117,6 +119,16 @@ module Eth
         max_gas_fee: max_fee_per_gas,
         chain_id: chain_id,
       }
+      unless legacy
+        params.merge!({
+          gas_price: max_fee_per_gas,
+        })
+      else
+        params.merge!({
+          priority_fee: max_priority_fee_per_gas,
+          max_gas_fee: max_fee_per_gas,
+        })
+      end
       unless sender_key.nil?
 
         # use the provided key as sender and signer
