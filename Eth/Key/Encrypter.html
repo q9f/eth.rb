@@ -423,12 +423,14 @@
 59
 60
 61
-62</pre>
+62
+63</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/eth/key/encrypter.rb', line 53</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_key'>key</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Key.html" title="Eth::Key (class)">Key</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../Key.html#initialize-instance_method" title="Eth::Key#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='label'>priv:</span> <span class='id identifier rubyid_key'>key</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_key'>key</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span> <span class='const'>String</span>
   <span class='ivar'>@key</span> <span class='op'>=</span> <span class='id identifier rubyid_key'>key</span>
   <span class='ivar'>@options</span> <span class='op'>=</span> <span class='id identifier rubyid_options'>options</span>
 
@@ -701,7 +703,6 @@
       <pre class="lines">
 
 
-78
 79
 80
 81
@@ -734,10 +735,11 @@
 108
 109
 110
-111</pre>
+111
+112</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/key/encrypter.rb', line 78</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/key/encrypter.rb', line 79</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_data'>data</span>
   <span class='comment'># default to pbkdf2
@@ -842,14 +844,14 @@
       <pre class="lines">
 
 
-68
 69
 70
 71
-72</pre>
+72
+73</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/key/encrypter.rb', line 68</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/key/encrypter.rb', line 69</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_perform'>perform</span><span class='lparen'>(</span><span class='id identifier rubyid_password'>password</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_derive_key'>derive_key</span> <span class='id identifier rubyid_password'>password</span>
@@ -866,7 +868,7 @@
 </div>
 
       <div id="footer">
-  Generated on Fri Jan 14 12:09:55 2022 by
+  Generated on Tue Jan 18 09:39:38 2022 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.27 (ruby-2.7.5).
 </div>
