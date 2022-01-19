@@ -108,6 +108,16 @@ module Eth
       hex.match /\A0x/
     end
 
+    def make_immutable!(obj)
+      if obj.is_a?(Sedes::Serializable)
+        obj.make_immutable!
+      elsif list?(obj)
+        obj.map { |e| make_immutable!(e) }
+      else
+        obj
+      end
+    end
+
     # Serializes an unsigned integer to big endian.
     #
     # @param num [Integer] unsigned integer to be serialized.
@@ -115,10 +125,16 @@ module Eth
     # raises [ArgumentError] if unsigned integer is out of bounds.
     def serialize_int_to_big_endian(num)
       num = num.to_i(16) if is_hex? num
-      unless num.is_a? Integer and num >= 0 and num <= Abi::UINT_MAX
+      unless num.is_a? Integer and num >= 0 and num <= Constant::UINT_MAX
         raise ArgumentError, "Integer invalid or out of range: #{num}"
       end
-      RLP::Sedes.big_endian_int.serialize num
+      Rlp::Sedes.big_endian_int.serialize num
+    end
+
+    def int_to_big_endian(num)
+      hex = num.to_s(16) unless is_hex? num
+      hex = "0#{hex}" if hex.size.odd?
+      hex_to_bin hex
     end
 
     # Deserializes big endian data string to integer.
@@ -126,7 +142,31 @@ module Eth
     # @param str [String] serialized big endian integer string.
     # @return [Integer] an deserialized unsigned integer.
     def deserialize_big_endian_to_int(str)
-      RLP::Sedes.big_endian_int.deserialize str.sub(/\A(\x00)+/, "")
+      Rlp::Sedes.big_endian_int.deserialize str.sub(/\A(\x00)+/, "")
+    end
+
+    def big_endian_to_int(str)
+      str.unpack("H*").first.to_i(16)
+    end
+
+    def str_to_bytes(str)
+      is_bytes?(str) ? str : str.b
+    end
+
+    def bytes_to_str(bin)
+      bin.unpack("U*").pack("U*")
+    end
+
+    def is_bytes?(str)
+      str && str.instance_of?(String) && str.encoding.name == Constant::BINARY_ENCODING
+    end
+
+    def is_primitive?(item)
+      item.instance_of?(String)
+    end
+
+    def is_list?(item)
+      !is_primitive?(item) && item.respond_to?(:each)
     end
 
     # Ceil and integer to the next multiple of 32 bytes.
@@ -154,7 +194,7 @@ module Eth
     # @param len [Integer] number of symbols for the final string.
     # @return [String] a zero-padded serialized string of wanted size.
     def zpad(str, len)
-      lpad str, Abi::BYTE_ZERO, len
+      lpad str, Constant::BYTE_ZERO, len
     end
 
     # Left-pad a hex number with zeros.
