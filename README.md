@@ -32,17 +32,18 @@ Soon (TM):
 - [ ] HD-Wallets (BIP-32) and Mnemonics (BIP-39)
 
 Contents:
-- [1. Installation](#1-installation)
-- [2. Usage](#2-usage)
-  - [2.1. Ethereum Keys and Addresses (EIP-55)](#21-ethereum-keys-and-addresses-eip-55)
-  - [2.2. Ethereum Signatures (EIP-191, EIP-712)](#22-ethereum-signatures-eip-191-eip-712)
-  - [2.3. Ethereum Chains (EIP-155)](#23-ethereum-chains-eip-155)
-  - [2.4. Ethereum Transactions (EIP-1559, EIP-2718, EIP-2930)](#24-ethereum-transactions-eip-1559-eip-2718-eip-2930)
-  - [2.5. Ethereum ABI Encoder and Decoder](#25-ethereum-abi-encoder-and-decoder)
-- [3. Documentation](#3-documentation)
-- [4. Testing](#4-testing)
-- [5. Contributing](#5-contributing)
-- [6. License and Credits](#6-license-and-credits)
+- [Eth for Ruby](#eth-for-ruby)
+  - [1. Installation](#1-installation)
+  - [2. Usage](#2-usage)
+    - [2.1. Ethereum Keys and Addresses (EIP-55)](#21-ethereum-keys-and-addresses-eip-55)
+    - [2.2. Ethereum Signatures (EIP-191, EIP-712)](#22-ethereum-signatures-eip-191-eip-712)
+    - [2.3. Ethereum Chains (EIP-155)](#23-ethereum-chains-eip-155)
+    - [2.4. Ethereum Transactions (EIP-1559, EIP-2718, EIP-2930)](#24-ethereum-transactions-eip-1559-eip-2718-eip-2930)
+    - [2.5. Ethereum ABI Encoder and Decoder](#25-ethereum-abi-encoder-and-decoder)
+  - [3. Documentation](#3-documentation)
+  - [4. Testing](#4-testing)
+  - [5. Contributing](#5-contributing)
+  - [6. License and Credits](#6-license-and-credits)
 
 ## 1. Installation
 
@@ -219,3 +220,6 @@ This gem is a complete rewrite of the old `eth` gem by Steve Ellis.
 
 It also contains a revised version the ABI gem by Jan Xie and Zhang Yaning.
 * https://github.com/cryptape/ruby-ethereum-abi (MIT)
+
+It also contains a revised version the RLP gem by Jan Xie and Zhang Yaning.
+* https://github.com/cryptape/ruby-rlp (MIT)
