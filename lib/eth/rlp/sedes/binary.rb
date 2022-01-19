@@ -21,8 +21,6 @@ module Eth
   module Rlp
     module Sedes
       class Binary
-        INFINITY = (1.0 / 0.0).freeze
-
         class << self
           def fixed_length(l, allow_empty: false)
             new(min_length: l, max_length: l, allow_empty: allow_empty)
@@ -33,7 +31,7 @@ module Eth
           end
         end
 
-        def initialize(min_length: 0, max_length: INFINITY, allow_empty: false)
+        def initialize(min_length: 0, max_length: Constant::INFINITY, allow_empty: false)
           @min_length = min_length
           @max_length = max_length
           @allow_empty = allow_empty
@@ -55,8 +53,7 @@ module Eth
         private
 
         def valid_length?(len)
-          (@min_length <= len && len <= @max_length) ||
-            (@allow_empty && len == 0)
+          (@min_length <= len && len <= @max_length) || (@allow_empty && len == 0)
         end
       end
     end

@@ -21,6 +21,7 @@ describe Eth::Constant do
       expect(Constant::LONG_LENGTH_LIMIT).to eq 18446744073709551616
       expect(Constant::PRIMITIVE_PREFIX_OFFSET).to eq 128
       expect(Constant::LIST_PREFIX_OFFSET).to eq 192
+      expect(Constant::INFINITY).to eq 1.0 / 0.0
     end
   end
 end

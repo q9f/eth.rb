@@ -107,16 +107,6 @@ module Eth
       hex.match /\A0x/
     end
 
-    def make_immutable!(obj)
-      if obj.is_a?(Sedes::Serializable)
-        obj.make_immutable!
-      elsif list?(obj)
-        obj.map { |e| make_immutable!(e) }
-      else
-        obj
-      end
-    end
-
     # Serializes an unsigned integer to big endian.
     #
     # @param num [Integer] unsigned integer to be serialized.

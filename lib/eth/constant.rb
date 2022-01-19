@@ -73,5 +73,7 @@ module Eth
     BINARY_ENCODING = "ASCII-8BIT".freeze
 
     EMPTY_LIST = Rlp.encode([]).freeze
+
+    INFINITY = (1.0 / 0.0).freeze
   end
 end
