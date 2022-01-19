@@ -135,7 +135,7 @@ module Eth
         raise TransactionTypeError, "Invalid transaction type #{type}!" if type.to_i(16) != TYPE_1559
 
         bin = Util.hex_to_bin hex[2..]
-        tx = RLP.decode(bin)
+        tx = Rlp.decode bin
 
         # decoded transactions always have 9 + 3 fields, even if they are empty or zero
         raise ParameterError, "Transaction missing fields!" if tx.size < 9
@@ -267,7 +267,7 @@ module Eth
         tx_data.push Util.serialize_int_to_big_endian @signature_y_parity
         tx_data.push Util.hex_to_bin @signature_r
         tx_data.push Util.hex_to_bin @signature_s
-        tx_encoded = RLP.encode tx_data
+        tx_encoded = Rlp.encode tx_data
 
         # create an EIP-2718 envelope with EIP-1559 type payload
         tx_type = Util.serialize_int_to_big_endian @type
@@ -303,7 +303,7 @@ module Eth
         tx_data.push Util.serialize_int_to_big_endian @amount
         tx_data.push @payload
         tx_data.push @access_list
-        tx_encoded = RLP.encode tx_data
+        tx_encoded = Rlp.encode tx_data
 
         # create an EIP-2718 envelope with EIP-1559 type payload (unsigned)
         tx_type = Util.serialize_int_to_big_endian @type
