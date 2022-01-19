@@ -13,7 +13,6 @@
 # limitations under the License.
 
 require "digest/keccak"
-require "rlp"
 
 # Provides the `Eth` module.
 module Eth
