@@ -18,10 +18,11 @@ Gem::Specification.new do |spec|
   spec.license = "Apache-2.0"
 
   spec.metadata = {
-    "homepage_uri" => "https://github.com/q9f/eth.rb",
-    "source_code_uri" => "https://github.com/q9f/eth.rb",
-    "github_repo" => "https://github.com/q9f/eth.rb",
     "bug_tracker_uri" => "https://github.com/q9f/eth.rb/issues",
+    "changelog_uri" => "https://github.com/q9f/eth.rb/blob/main/CHANGELOG.md",
+    "documentation_uri" => "https://q9f.github.io/eth.rb/",
+    "github_repo" => "https://github.com/q9f/eth.rb",
+    "source_code_uri" => "https://github.com/q9f/eth.rb",
   }.freeze
 
   spec.files = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
