@@ -42,9 +42,6 @@ Gem::Specification.new do |spec|
   # rbsecp256k1 for key-pairs and signatures
   spec.add_dependency "rbsecp256k1", "~> 5.1"
 
-  # rlp for transaction encoding
-  spec.add_dependency "rlp", "~> 0.7"
-
   # openssl for encrypted key derivation
   spec.add_dependency "openssl", "~> 3.0"
 
