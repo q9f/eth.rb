@@ -127,6 +127,7 @@ module Eth
 
       private
 
+      # Validates all known base types and raises if an issue occurs.
       def validate_base_type(base_type, sub_type)
         case base_type
         when "string"

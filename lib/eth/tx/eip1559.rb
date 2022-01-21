@@ -68,6 +68,7 @@ module Eth
       # can be prepared for envelope, signature and broadcast.
       #
       # @param params [Hash] all necessary transaction fields.
+      # @option params [Integer] :chain_id the chain ID.
       # @option params [Integer] :nonce the signer nonce.
       # @option params [Integer] :priority_fee the max priority fee per gas.
       # @option params [Integer] :max_gas_fee the max transaction fee per gas.
@@ -319,6 +320,7 @@ module Eth
 
       private
 
+      # Force-sets an existing signature of a decoded transaction.
       def _set_signature(recovery_id, r, s)
         @signature_y_parity = recovery_id
         @signature_r = r

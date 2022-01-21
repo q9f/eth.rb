@@ -67,6 +67,7 @@ module Eth
       #
       #
       # @param params [Hash] all necessary transaction fields.
+      # @option params [Integer] :chain_id the chain ID.
       # @option params [Integer] :nonce the signer nonce.
       # @option params [Integer] :gas_price the gas price.
       # @option params [Integer] :gas_limit the gas limit.
@@ -311,6 +312,7 @@ module Eth
 
       private
 
+      # Force-sets an existing signature of a decoded transaction.
       def _set_signature(recovery_id, r, s)
         @signature_y_parity = recovery_id
         @signature_r = r
