@@ -294,6 +294,7 @@ module Eth
 
     private
 
+    # Properly encodes unsigned integers.
     def encode_uint(arg, type)
       raise ValueOutOfBounds, "Number out of range: #{arg}" if arg > UINT_MAX or arg < UINT_MIN
       real_size = type.sub_type.to_i
@@ -302,6 +303,7 @@ module Eth
       return Util.zpad_int i
     end
 
+    # Properly encodes signed integers.
     def encode_int(arg, type)
       raise ValueOutOfBounds, "Number out of range: #{arg}" if arg > INT_MAX or arg < INT_MIN
       real_size = type.sub_type.to_i
@@ -310,17 +312,20 @@ module Eth
       return Util.zpad_int(i % 2 ** type.sub_type.to_i)
     end
 
+    # Properly encodes booleans.
     def encode_bool(arg)
       raise EncodingError, "Argument is not bool: #{arg}" unless arg.instance_of? TrueClass or arg.instance_of? FalseClass
       return Util.zpad_int(arg ? 1 : 0)
     end
 
+    # Properly encodes unsigned fixed-point numbers.
     def encode_ufixed(arg, type)
       high, low = type.sub_type.split("x").map(&:to_i)
       raise ValueOutOfBounds, arg unless arg >= 0 and arg < 2 ** high
       return Util.zpad_int((arg * 2 ** low).to_i)
     end
 
+    # Properly encodes signed fixed-point numbers.
     def encode_fixed(arg, type)
       high, low = type.sub_type.split("x").map(&:to_i)
       raise ValueOutOfBounds, arg unless arg >= -2 ** (high - 1) and arg < 2 ** (high - 1)
@@ -328,6 +333,7 @@ module Eth
       return Util.zpad_int(i % 2 ** (high + low))
     end
 
+    # Properly encodes byte-strings.
     def encode_bytes(arg, type)
       raise EncodingError, "Expecting String: #{arg}" unless arg.instance_of? String
       if type.sub_type.empty?
@@ -345,6 +351,7 @@ module Eth
       end
     end
 
+    # Properly encodes hash-strings.
     def encode_hash(arg, type)
       size = type.sub_type.to_i
       raise EncodingError, "Argument too long: #{arg}" unless size > 0 and size <= 32
@@ -365,6 +372,7 @@ module Eth
       end
     end
 
+    # Properly encodes addresses.
     def encode_address(arg)
       if arg.is_a? Integer
 

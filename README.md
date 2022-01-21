@@ -23,10 +23,10 @@ What you get:
 - [x] EIP-2718 Ethereum Transaction Envelopes (and types)
 - [x] EIP-2930 Ethereum Type-1 Transactions (with access lists)
 - [x] ABI-Encoder and Decoder (including type parser)
+- [x] RPC-Client (IPC/HTTP) for Execution-Layer APIs
 
 Soon (TM):
 - [ ] RLP-Encoder and Decoder (including sedes)
-- [ ] RPC-Client (HTTP) for Execution APIs and Consensus APIs
 - [ ] Smart Contracts and Solidity Support
 - [ ] EIP-1271 Smart-Contract Authentification
 - [ ] HD-Wallets (BIP-32) and Mnemonics (BIP-39)
@@ -39,6 +39,7 @@ Contents:
   - [2.3. Ethereum Chains (EIP-155)](#23-ethereum-chains-eip-155)
   - [2.4. Ethereum Transactions (EIP-1559, EIP-2718, EIP-2930)](#24-ethereum-transactions-eip-1559-eip-2718-eip-2930)
   - [2.5. Ethereum ABI Encoder and Decoder](#25-ethereum-abi-encoder-and-decoder)
+  - [2.6. Ethereum RPC-Client](#26-ethereum-rpc-client)
 - [3. Documentation](#3-documentation)
 - [4. Testing](#4-testing)
 - [5. Contributing](#5-contributing)
@@ -176,6 +177,38 @@ Eth::Util.bin_to_hex Eth::Abi.encode(["string", "address"], ["Hello, Bob!", "0xd
 Eth::Abi.decode(["string", "address"], "0000000000000000000000000000000000000000000000000000000000000040000000000000000000000000d496b23d61f88a8c7758fca7560dcfac7b3b01f9000000000000000000000000000000000000000000000000000000000000000b48656c6c6f2c20426f6221000000000000000000000000000000000000000000")
 # => ["Hello, Bob!", "0xd496b23d61f88a8c7758fca7560dcfac7b3b01f9"]
 ```
+
+### 2.6. Ethereum RPC-Client
+
+Create an IPC- or HTTP-RPC-API client to seamlessly query the chain state, e.g., Infura over HTTPS with access token:
+
+```ruby
+infura = Eth::Client.create "https://mainnet.infura.io/v3/#{access_token}"
+# => #<Eth::Client::Http:0x000055d43f3ca460 @gas_limit=21000, @host="mainnet.infura.io", @id=0, @max_fee_per_gas=0.2e11, @max_priority_fee_per_gas=0, @port=443, @ssl=true, @uri=#<URI::HTTPS https://mainnet.infura.io/v3/31b...d93>>
+deposit_contract = Eth::Address.new "0x00000000219ab540356cBB839Cbe05303d7705Fa"
+# => #<Eth::Address:0x000055d43f381738 @address="0x00000000219ab540356cBB839Cbe05303d7705Fa">
+infura.get_balance deposit_contract
+# => 9087314000069000000000069
+```
+
+Or set up a local development environment with `geth --dev`:
+
+```ruby
+cli = Eth::Client.create "/tmp/geth.ipc"
+# => #<Eth::Client::Ipc:0x000055d43f51c390 @gas_limit=21000, @id=0, @max_fee_per_gas=0.2e11, @max_priority_fee_per_gas=0, @path="/tmp/geth.ipc">
+cli.eth_coinbase
+# => {"jsonrpc"=>"2.0", "id"=>1, "result"=>"0x6868074fb21c48dfad0c448fbabd99383a6598e4"}
+tx = cli.transfer_and_wait(Eth::Key.new.address, 1337 * Eth::Unit::ETHER)
+# => "0x141c6dff40df34fe4fce5a65588d2161dab3e0e977fb8049ff7d79bc901034f7"
+cli.eth_get_transaction_by_hash tx
+# => {"jsonrpc"=>"2.0", "id"=>8, "result"=> {"blockHash"=>"0x47e742038c75851348dbda87b15fde044d54c442c371f43bea881a44d5589de3", "blockNumber"=>"0x1", "from"=>"0x6868074fb21c48dfad0c448fbabd99383a6598e4", "gas"=>"0x5208", "gasPrice"=>"0x342770c1", "maxFeePerGas"=>"0x77359401", "maxPriorityFeePerGas"=>"0x1", "hash"=>"0x141c6dff40df34fe4fce5a65588d2161dab3e0e977fb8049ff7d79bc901034f7", "input"=>"0x", "nonce"=>"0x0", "to"=>"0x311c61e5dc6123ad016bb7fd687d283c327bcd5f", "transactionIndex"=>"0x0", "value"=>"0x487a9a304539440000", "type"=>"0x2", "accessList"=>[], "chainId"=>"0x539", "v"=>"0x0", "r"=>"0xb42477d69eae65a3a3d91d9cb173e4a45a403fb0a15fa729dbfdc9d13211d7b5", "s"=>"0x4a2f98fc2b61c2d7c907520bc8c6ebe42ea6fe1cb6824f95e4b30e9464395100"}}
+cli.get_balance "0x311c61e5dc6123ad016bb7fd687d283c327bcd5f"
+# => 1337000000000000000000
+cli.get_nonce cli.eth_coinbase["result"]
+# => 1
+```
+
+Check out `Eth::Api` for a list of supported RPC-APIs or consult the [Documentation](https://q9f.github.io/eth.rb/) for more details.
 
 ## 3. Documentation
 
