@@ -38,14 +38,14 @@ module Eth
         end
 
         def serialize(obj)
-          raise ListSerializationError.new(message: "Can only serialize sequences", obj: obj) unless Util.is_list?(obj)
-          raise ListSerializationError.new(message: "List has wrong length", obj: obj) if (@strict && self.size != obj.size) || self.size < obj.size
+          raise Error::ListSerializationError.new(message: "Can only serialize sequences", obj: obj) unless Util.is_list?(obj)
+          raise Error::ListSerializationError.new(message: "List has wrong length", obj: obj) if (@strict && self.size != obj.size) || self.size < obj.size
           result = []
           obj.zip(self).each_with_index do |(element, sedes), i|
             begin
               result.push sedes.serialize(element)
             rescue Error::SerializationError => e
-              raise ListSerializationError.new(obj: obj, element_exception: e, index: i)
+              raise Error::ListSerializationError.new(obj: obj, element_exception: e, index: i)
             end
           end
           result
