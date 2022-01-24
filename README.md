@@ -23,10 +23,10 @@ What you get:
 - [x] EIP-2718 Ethereum Transaction Envelopes (and types)
 - [x] EIP-2930 Ethereum Type-1 Transactions (with access lists)
 - [x] ABI-Encoder and Decoder (including type parser)
+- [x] RLP-Encoder and Decoder (including sedes)
 - [x] RPC-Client (IPC/HTTP) for Execution-Layer APIs
 
 Soon (TM):
-- [ ] RLP-Encoder and Decoder (including sedes)
 - [ ] Smart Contracts and Solidity Support
 - [ ] EIP-1271 Smart-Contract Authentification
 - [ ] HD-Wallets (BIP-32) and Mnemonics (BIP-39)
@@ -39,7 +39,8 @@ Contents:
   - [2.3. Ethereum Chains (EIP-155)](#23-ethereum-chains-eip-155)
   - [2.4. Ethereum Transactions (EIP-1559, EIP-2718, EIP-2930)](#24-ethereum-transactions-eip-1559-eip-2718-eip-2930)
   - [2.5. Ethereum ABI Encoder and Decoder](#25-ethereum-abi-encoder-and-decoder)
-  - [2.6. Ethereum RPC-Client](#26-ethereum-rpc-client)
+  - [2.6. Ethereum RLP Encoder and Decoder](#26-ethereum-rlp-encoder-and-decoder)
+  - [2.7. Ethereum RPC-Client](#27-ethereum-rpc-client)
 - [3. Documentation](#3-documentation)
 - [4. Testing](#4-testing)
 - [5. Contributing](#5-contributing)
@@ -178,7 +179,25 @@ Eth::Abi.decode(["string", "address"], "0000000000000000000000000000000000000000
 # => ["Hello, Bob!", "0xd496b23d61f88a8c7758fca7560dcfac7b3b01f9"]
 ```
 
-### 2.6. Ethereum RPC-Client
+### 2.6. Ethereum RLP Encoder and Decoder
+
+Serialize and deserialize Ethereum recursive-length prefix data (RLP).
+
+```ruby
+Eth::Util.bin_to_hex Eth::Rlp.encode ["Hello, Bob!", "0xd496b23d61f88a8c7758fca7560dcfac7b3b01f9"]
+# => "f78b48656c6c6f2c20426f6221aa307864343936623233643631663838613863373735386663613735363064636661633762336230316639"
+Eth::Rlp.decode "f78b48656c6c6f2c20426f6221aa307864343936623233643631663838613863373735386663613735363064636661633762336230316639"
+# => ["Hello, Bob!", "0xd496b23d61f88a8c7758fca7560dcfac7b3b01f9"]
+```
+
+Or ;-)
+
+```ruby
+Eth::Rlp.decode "c7c0c1c0c3c0c1c0"
+# => [[], [[]], [[], [[]]]]
+```
+
+### 2.7. Ethereum RPC-Client
 
 Create an IPC- or HTTP-RPC-API client to seamlessly query the chain state, e.g., Infura over HTTPS with access token:
 
