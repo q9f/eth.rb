@@ -23,6 +23,7 @@ module Eth
       extend self
 
       def perform(rlp)
+        rlp = Util.hex_to_bin rlp if Util.is_hex? rlp
         rlp = Util.str_to_bytes rlp
         begin
           item, next_start = consume_item rlp, 0
@@ -43,6 +44,7 @@ module Eth
       def consume_length_prefix(rlp, start)
         b0 = rlp[start].ord
         if b0 < Constant::PRIMITIVE_PREFIX_OFFSET
+
           # single byte
           [:str, 1, start]
         elsif b0 < Constant::PRIMITIVE_PREFIX_OFFSET + Constant::SHORT_LENGTH_LIMIT
