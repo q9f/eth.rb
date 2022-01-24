@@ -45,7 +45,7 @@ module Eth
         end
 
         def deserialize(serial)
-          raise Error::DeserializationError.new("Objects of type #{serial.class} cannot be deserialized", serial) unless primitive?(serial)
+          raise Error::DeserializationError.new("Objects of type #{serial.class} cannot be deserialized", serial) unless Util.is_primitive?(serial)
           raise Error::DeserializationError.new("#{serial.class} has invalid length", serial) unless valid_length?(serial.size)
           serial
         end

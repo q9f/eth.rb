@@ -67,5 +67,8 @@ describe Rlp::Sedes::BigEndianInt do
     [256 ** 4, 256 ** 4 + 1, 256 ** 5, (-1 - 256), "asdf"].each do |i|
       expect { s.serialize(i) }.to raise_error Error::SerializationError
     end
+
+    t = Rlp::Sedes::BigEndianInt.new 2
+    expect{t.serialize 256**4}.to raise_error Error::SerializationError, "Integer too large (does not fit in 2 bytes)"
   end
 end
