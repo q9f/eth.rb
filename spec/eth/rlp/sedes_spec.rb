@@ -23,7 +23,7 @@ describe Rlp::Sedes do
           inferred = Rlp::Sedes.infer obj
           expect(inferred).to eq sedes
         else
-          expect {Rlp::Sedes.infer obj}.to raise_error TypeError
+          expect { Rlp::Sedes.infer obj }.to raise_error TypeError
         end
       end
     end
