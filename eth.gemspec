@@ -47,7 +47,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "rlp", "~> 0.7"
 
   # openssl for encrypted key derivation
-  spec.add_dependency "openssl", "~> 3.0"
+  spec.add_dependency "openssl", "~> 2.2"
 
   # scrypt for encrypted key derivation
   spec.add_dependency "scrypt", "~> 3.0"
