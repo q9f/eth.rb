@@ -38,15 +38,15 @@ module Eth
         end
 
         def serialize(obj)
-          raise Error::SerializationError.new("Object is not a serializable (#{obj.class})", obj) unless self.class.valid_type?(obj)
+          raise SerializationError, "Object is not a serializable (#{obj.class})" unless self.class.valid_type?(obj)
           serial = Util.str_to_bytes obj
-          raise Error::SerializationError.new("Object has invalid length", serial) unless valid_length?(serial.size)
+          raise SerializationError, "Object has invalid length" unless valid_length?(serial.size)
           serial
         end
 
         def deserialize(serial)
-          raise Error::DeserializationError.new("Objects of type #{serial.class} cannot be deserialized", serial) unless Util.is_primitive?(serial)
-          raise Error::DeserializationError.new("#{serial.class} has invalid length", serial) unless valid_length?(serial.size)
+          raise DeserializationError, "Objects of type #{serial.class} cannot be deserialized" unless Util.is_primitive?(serial)
+          raise DeserializationError, "#{serial.class} has invalid length" unless valid_length?(serial.size)
           serial
         end
 

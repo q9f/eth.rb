@@ -20,7 +20,7 @@ describe Rlp::Sedes::BigEndianInt do
 
   it "cannot serialize negative integers" do
     negatives.each do |n|
-      expect { Rlp::Sedes.big_endian_int.serialize n }.to raise_error Error::SerializationError, "Cannot serialize negative integers"
+      expect { Rlp::Sedes.big_endian_int.serialize n }.to raise_error Rlp::SerializationError, "Cannot serialize negative integers"
     end
   end
 
@@ -65,10 +65,10 @@ describe Rlp::Sedes::BigEndianInt do
     end
 
     [256 ** 4, 256 ** 4 + 1, 256 ** 5, (-1 - 256), "asdf"].each do |i|
-      expect { s.serialize(i) }.to raise_error Error::SerializationError
+      expect { s.serialize(i) }.to raise_error Rlp::SerializationError
     end
 
     t = Rlp::Sedes::BigEndianInt.new 2
-    expect { t.serialize 256 ** 4 }.to raise_error Error::SerializationError, "Integer too large (does not fit in 2 bytes)"
+    expect { t.serialize 256 ** 4 }.to raise_error Rlp::SerializationError, "Integer too large (does not fit in 2 bytes)"
   end
 end

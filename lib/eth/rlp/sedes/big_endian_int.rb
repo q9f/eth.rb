@@ -26,19 +26,16 @@ module Eth
         end
 
         def serialize(obj)
-          raise Error::SerializationError.new("Can only serialize integers", obj) unless obj.is_a?(Integer)
-          raise Error::SerializationError.new("Cannot serialize negative integers", obj) if obj < 0
-          if @size && obj >= 256 ** @size
-            msg = "Integer too large (does not fit in #{@size} bytes)"
-            raise Error::SerializationError.new(msg, obj)
-          end
+          raise SerializationError, "Can only serialize integers" unless obj.is_a?(Integer)
+          raise SerializationError, "Cannot serialize negative integers" if obj < 0
+          raise SerializationError, "Integer too large (does not fit in #{@size} bytes)" if @size && obj >= 256 ** @size
           s = obj == 0 ? Constant::BYTE_EMPTY : Util.int_to_big_endian(obj)
           @size ? "#{Constant::BYTE_ZERO * [0, @size - s.size].max}#{s}" : s
         end
 
         def deserialize(serial)
-          raise Error::DeserializationError.new("Invalid serialization (wrong size)", serial) if @size && serial.size != @size
-          raise Error::DeserializationError.new("Invalid serialization (not minimal length)", serial) if !@size && serial.size > 0 && serial[0] == Constant::BYTE_ZERO
+          raise DeserializationError, "Invalid serialization (wrong size)" if @size && serial.size != @size
+          raise DeserializationError, "Invalid serialization (not minimal length)" if !@size && serial.size > 0 && serial[0] == Constant::BYTE_ZERO
           serial = serial || Constant::BYTE_ZERO
           Util.big_endian_to_int(serial)
         end

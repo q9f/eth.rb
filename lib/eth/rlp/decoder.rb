@@ -28,9 +28,9 @@ module Eth
         begin
           item, next_start = consume_item rlp, 0
         rescue Exception => e
-          raise Error::DecodingError.new("Cannot decode rlp string: #{e}", rlp)
+          raise DecodingError, "Cannot decode rlp string: #{e}"
         end
-        raise Error::DecodingError.new("RLP string ends with #{rlp.size - next_start} superfluous bytes", rlp) if next_start != rlp.size
+        raise DecodingError, "RLP string ends with #{rlp.size - next_start} superfluous bytes" if next_start != rlp.size
         return item
       end
 
@@ -48,29 +48,29 @@ module Eth
           # single byte
           [:str, 1, start]
         elsif b0 < Constant::PRIMITIVE_PREFIX_OFFSET + Constant::SHORT_LENGTH_LIMIT
-          raise Error::DecodingError.new("Encoded as short string although single byte was possible", rlp) if (b0 - Constant::PRIMITIVE_PREFIX_OFFSET == 1) && rlp[start + 1].ord < Constant::PRIMITIVE_PREFIX_OFFSET
+          raise DecodingError, "Encoded as short string although single byte was possible" if (b0 - Constant::PRIMITIVE_PREFIX_OFFSET == 1) && rlp[start + 1].ord < Constant::PRIMITIVE_PREFIX_OFFSET
 
           # short string
           [:str, b0 - Constant::PRIMITIVE_PREFIX_OFFSET, start + 1]
         elsif b0 < Constant::LIST_PREFIX_OFFSET
-          raise Error::DecodingError.new("Length starts with zero bytes", rlp) if rlp.slice(start + 1) == Constant::BYTE_ZERO
+          raise DecodingError, "Length starts with zero bytes" if rlp.slice(start + 1) == Constant::BYTE_ZERO
 
           # long string
           ll = b0 - Constant::PRIMITIVE_PREFIX_OFFSET - Constant::SHORT_LENGTH_LIMIT + 1
           l = Util.big_endian_to_int rlp[(start + 1)...(start + 1 + ll)]
-          raise Error::DecodingError.new("Long string prefix used for short string", rlp) if l < Constant::SHORT_LENGTH_LIMIT
+          raise DecodingError, "Long string prefix used for short string" if l < Constant::SHORT_LENGTH_LIMIT
           [:str, l, start + 1 + ll]
         elsif b0 < Constant::LIST_PREFIX_OFFSET + Constant::SHORT_LENGTH_LIMIT
 
           # short list
           [:list, b0 - Constant::LIST_PREFIX_OFFSET, start + 1]
         else
-          raise Error::DecodingError.new("Length starts with zero bytes", rlp) if rlp.slice(start + 1) == Constant::BYTE_ZERO
+          raise DecodingError, "Length starts with zero bytes" if rlp.slice(start + 1) == Constant::BYTE_ZERO
 
           # long list
           ll = b0 - Constant::LIST_PREFIX_OFFSET - Constant::SHORT_LENGTH_LIMIT + 1
           l = Util.big_endian_to_int rlp[(start + 1)...(start + 1 + ll)]
-          raise Error::DecodingError.new("Long list prefix used for short list", rlp) if l < Constant::SHORT_LENGTH_LIMIT
+          raise DecodingError, "Long list prefix used for short list" if l < Constant::SHORT_LENGTH_LIMIT
           [:list, l, start + 1 + ll]
         end
       end
@@ -87,7 +87,7 @@ module Eth
             item, next_item_start = consume_item rlp, next_item_start
             items.push item
           end
-          raise Error::DecodingError.new("List length prefix announced a too small length", rlp) if next_item_start > payload_end
+          raise DecodingError, "List length prefix announced a too small length" if next_item_start > payload_end
           [items, next_item_start]
         else
           raise TypeError, "Type must be either :str or :list"

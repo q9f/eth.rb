@@ -38,32 +38,24 @@ module Eth
         end
 
         def serialize(obj)
-          raise Error::ListSerializationError.new(message: "Can only serialize sequences", obj: obj) unless Util.is_list?(obj)
-          raise Error::ListSerializationError.new(message: "List has wrong length", obj: obj) if (@strict && self.size != obj.size) || self.size < obj.size
+          raise SerializationError, "Can only serialize sequences" unless Util.is_list?(obj)
+          raise SerializationError, "List has wrong length" if (@strict && self.size != obj.size) || self.size < obj.size
           result = []
           obj.zip(self).each_with_index do |(element, sedes), i|
-            begin
-              result.push sedes.serialize(element)
-            rescue Error::SerializationError => e
-              raise Error::ListSerializationError.new(obj: obj, element_exception: e, index: i)
-            end
+            result.push sedes.serialize(element)
           end
           result
         end
 
         def deserialize(serial)
-          raise Error::ListDeserializationError.new(message: "Can only deserialize sequences", serial: serial) unless Util.is_list?(serial)
-          raise Error::ListDeserializationError.new(message: "List has wrong length", serial: serial) if @strict && serial.size != self.size
+          raise DeserializationError, "Can only deserialize sequences" unless Util.is_list?(serial)
+          raise DeserializationError, "List has wrong length" if @strict && serial.size != self.size
           result = []
           len = [serial.size, self.size].min
           len.times do |i|
-            begin
-              sedes = self[i]
-              element = serial[i]
-              result.push sedes.deserialize(element)
-            rescue Error::DeserializationError => e
-              raise Error::ListDeserializationError.new(serial: serial, element_exception: e, index: i)
-            end
+            sedes = self[i]
+            element = serial[i]
+            result.push sedes.deserialize(element)
           end
           result.freeze
         end

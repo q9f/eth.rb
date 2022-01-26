@@ -33,7 +33,7 @@ module Eth
         return item if item.instance_of? Rlp::Data
         return encode_primitive item if Util.is_primitive? item
         return encode_list item if Util.is_list? item
-        raise Error::EncodingError.new("Cannot encode object of type #{item.class.name}", item)
+        raise EncodingError "Cannot encode object of type #{item.class.name}"
       end
 
       def encode_primitive(item)
@@ -57,7 +57,7 @@ module Eth
           length_len = (offset + Constant::SHORT_LENGTH_LIMIT - 1 + length_string.size).chr
           "#{length_len}#{length_string}"
         else
-          raise ArgumentError, "Length greater than 256**8"
+          raise EncodingError, "Length greater than 256**8: #{length}"
         end
       end
     end

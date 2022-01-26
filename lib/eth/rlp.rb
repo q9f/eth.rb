@@ -26,6 +26,12 @@ module Eth
   module Rlp
     extend self
 
+    class RlpException < StandardError; end
+    class EncodingError < RlpException; end
+    class DecodingError < RlpException; end
+    class SerializationError < RlpException; end
+    class DeserializationError < RlpException; end
+
     # A wrapper to represent already RLP encoded data
     class Data < String; end
 
