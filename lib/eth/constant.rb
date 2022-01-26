@@ -67,13 +67,16 @@ module Eth
     # The RLP primitive type offset.
     PRIMITIVE_PREFIX_OFFSET = 0x80.freeze
 
-    # THe RLP array type offset.
+    # The RLP array type offset.
     LIST_PREFIX_OFFSET = 0xc0.freeze
 
+    # An RLP-encoded empty list.
+    LIST_EMPTY = Rlp.encode([]).freeze
+
+    # The binary encoding is ASCII (8-bit).
     BINARY_ENCODING = "ASCII-8BIT".freeze
 
-    EMPTY_LIST = Rlp.encode([]).freeze
-
+    # Infinity as constant for convenience.
     INFINITY = (1.0 / 0.0).freeze
   end
 end

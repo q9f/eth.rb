@@ -19,12 +19,27 @@ module Eth
 
   # Provides an recursive-length prefix (RLP) encoder and decoder.
   module Rlp
+
+    # Provides serializable and deserializable types (SeDes).
     module Sedes
+
+      # A serializable, big-endian, unsigned integer.
       class BigEndianInt
+
+        # Create a serializable, big-endian, unsigned integer.
+        #
+        # @param size [Integer] the size of the big endian.
         def initialize(size = nil)
           @size = size
         end
 
+        # Serialize a big-endian integer.
+        #
+        # @param obj [Integer] the integer to be serialized.
+        # @return [String] a serialized big-endian integer.
+        # @raise [SerializationError] if provided object is not an integer.
+        # @raise [SerializationError] if provided integer is negative.
+        # @raise [SerializationError] if provided integer is too big for @size.
         def serialize(obj)
           raise SerializationError, "Can only serialize integers" unless obj.is_a?(Integer)
           raise SerializationError, "Cannot serialize negative integers" if obj < 0
@@ -33,6 +48,12 @@ module Eth
           @size ? "#{Constant::BYTE_ZERO * [0, @size - s.size].max}#{s}" : s
         end
 
+        # Deserializes an unsigned integer.
+        #
+        # @param serial [String] the serialized integer.
+        # @return [Integer] a number.
+        # @raise [DeserializationError] if provided serial is of wrong size.
+        # @raise [DeserializationError] if provided serial is not of minimal length.
         def deserialize(serial)
           raise DeserializationError, "Invalid serialization (wrong size)" if @size && serial.size != @size
           raise DeserializationError, "Invalid serialization (not minimal length)" if !@size && serial.size > 0 && serial[0] == Constant::BYTE_ZERO

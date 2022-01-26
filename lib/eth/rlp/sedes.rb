@@ -23,6 +23,8 @@ module Eth
 
   # Provides an recursive-length prefix (RLP) encoder and decoder.
   module Rlp
+
+    # Provides serializable and deserializable types (SeDes).
     module Sedes
       class << self
         def infer(obj)
@@ -43,6 +45,10 @@ module Eth
 
         def binary
           @binary ||= Binary.new
+        end
+
+        def list
+          @list ||= List.new
         end
       end
     end

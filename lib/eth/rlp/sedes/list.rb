@@ -19,6 +19,8 @@ module Eth
 
   # Provides an recursive-length prefix (RLP) encoder and decoder.
   module Rlp
+
+    # Provides serializable and deserializable types (SeDes).
     module Sedes
 
       # A sedes for lists of fixed length
