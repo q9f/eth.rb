@@ -19,4 +19,10 @@ describe Rlp::Sedes::List do
       expect { l3.serialize(d) }.to raise_error Error::ListSerializationError
     end
   end
+
+  it "it does deserialize valid lists" do
+    expect(l1.deserialize []).to eq []
+    expect(l2.deserialize ["\x89", "\x01v"]).to eq [137, 374]
+    expect(l3.deserialize [[], ["\x89", "\x01v"], [[[]]]]).to eq [[], [137, 374], [[[]]]]
+  end
 end
