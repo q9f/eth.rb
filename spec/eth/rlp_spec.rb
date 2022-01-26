@@ -26,12 +26,6 @@ describe Rlp do
 
     it "can decode rlp" do
       rlp_tests.each do |test|
-
-        # this test passes but we would have to iterate the nested list items
-        # to deserialize each item; we skip this for the sake of other priorities
-        #    expected: ["zw", [4], 1]
-        #    got: ["zw", ["\x04"], "\x01"]
-        next if test.first == "multilist"
         expected = test.last["in"]
 
         # big integers defined as '#' will be treated as numbers
@@ -44,6 +38,12 @@ describe Rlp do
         # we have to work with assumptions here, if the input is to be expected
         # a numeric, we also deserialize it for test-convenience
         decoded = Util.deserialize_big_endian_to_int decoded if expected.is_a? Numeric
+
+        # another very specific assumption: for the multilist test case,
+        # we need to specifically deserialize the entire list first
+        multilist = Rlp::Sedes::List.new elements: [Rlp::Sedes.binary, [Rlp::Sedes.big_endian_int], Rlp::Sedes.big_endian_int]
+        decoded = multilist.deserialize decoded if test.first == "multilist"
+
         expect(decoded).to eq expected
       end
     end
@@ -66,11 +66,11 @@ describe Rlp do
         # a numeric, we also deserialize it for test-convenience
         decoded = Util.deserialize_big_endian_to_int decoded if object.is_a? Numeric
 
-        # this test passes but we would have to iterate the nested list items
-        # to deserialize each item; we skip this for the sake of other priorities
-        #    expected: ["zw", [4], 1]
-        #    got: ["zw", ["\x04"], "\x01"]
-        next if test.first == "multilist"
+        # another very specific assumption: for the multilist test case,
+        # we need to specifically deserialize the entire list first
+        multilist = Rlp::Sedes::List.new elements: [Rlp::Sedes.binary, [Rlp::Sedes.big_endian_int], Rlp::Sedes.big_endian_int]
+        decoded = multilist.deserialize decoded if test.first == "multilist"
+
         expect(decoded).to eq object
         encoded_again = Rlp.encode decoded
         expect(Util.bin_to_hex encoded_again).to eq rlp
