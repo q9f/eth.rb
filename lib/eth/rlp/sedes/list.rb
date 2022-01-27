@@ -25,6 +25,8 @@ module Eth
 
       # A sedes type for lists of fixed length.
       class List < Array
+
+        # Create a serializable list of fixed size.
         def initialize(elements: [], strict: true)
           super()
           @strict = strict

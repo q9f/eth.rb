@@ -25,6 +25,8 @@ module Eth
 
       # A sedes type for binary values.
       class Binary
+
+        # A singleton class for binary values of fixed length.
         class << self
           def fixed_length(l, allow_empty: false)
             new(min_length: l, max_length: l, allow_empty: allow_empty)
