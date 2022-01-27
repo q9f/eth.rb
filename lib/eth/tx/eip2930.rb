@@ -257,7 +257,7 @@ module Eth
         tx_data.push Util.hex_to_bin @destination
         tx_data.push Util.serialize_int_to_big_endian @amount
         tx_data.push RLP::Sedes.binary.serialize @payload
-        tx_data.push @access_list # TODO serialize
+        tx_data.push RLP::Sedes.infer(@access_list).serialize @access_list
         tx_data.push Util.serialize_int_to_big_endian @signature_y_parity
         tx_data.push Util.serialize_int_to_big_endian @signature_r
         tx_data.push Util.serialize_int_to_big_endian @signature_s
@@ -295,7 +295,7 @@ module Eth
         tx_data.push Util.hex_to_bin @destination
         tx_data.push Util.serialize_int_to_big_endian @amount
         tx_data.push RLP::Sedes.binary.serialize @payload
-        tx_data.push @access_list # TODO serialize
+        tx_data.push RLP::Sedes.infer(@access_list).serialize @access_list
         tx_encoded = RLP.encode tx_data
 
         # create an EIP-2718 envelope with EIP-2930 type payload (unsigned)
