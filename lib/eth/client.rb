@@ -115,11 +115,9 @@ module Eth
         value: amount,
         to: destination,
         gas_limit: gas_limit,
-        priority_fee: max_priority_fee_per_gas,
-        max_gas_fee: max_fee_per_gas,
         chain_id: chain_id,
       }
-      unless legacy
+      if legacy
         params.merge!({
           gas_price: max_fee_per_gas,
         })

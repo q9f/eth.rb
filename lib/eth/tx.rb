@@ -196,16 +196,16 @@ module Eth
     # @raise [ParameterError] if amount is invalid.
     # @raise [ParameterError] if access list is invalid.
     def validate_params(fields)
-      unless fields[:nonce] >= 0
+      if fields[:nonce].nil? or fields[:nonce] < 0
         raise ParameterError, "Invalid signer nonce #{fields[:nonce]}!"
       end
-      unless fields[:priority_fee] >= 0
+      if fields[:priority_fee].nil? or fields[:priority_fee] < 0
         raise ParameterError, "Invalid gas priority fee #{fields[:priority_fee]}!"
       end
-      unless fields[:max_gas_fee] >= 0
+      if fields[:max_gas_fee].nil? or fields[:max_gas_fee] < 0
         raise ParameterError, "Invalid max gas fee #{fields[:max_gas_fee]}!"
       end
-      unless fields[:gas_limit] >= DEFAULT_GAS_LIMIT and fields[:gas_limit] <= BLOCK_GAS_LIMIT
+      if fields[:gas_limit].nil? or fields[:gas_limit] < DEFAULT_GAS_LIMIT or fields[:gas_limit] > BLOCK_GAS_LIMIT
         raise ParameterError, "Invalid gas limit #{fields[:gas_limit]}!"
       end
       unless fields[:value] >= 0
@@ -228,13 +228,13 @@ module Eth
     # @raise [ParameterError] if amount is invalid.
     # @raise [ParameterError] if access list is invalid.
     def validate_legacy_params(fields)
-      unless fields[:nonce] >= 0
+      if fields[:nonce].nil? or fields[:nonce] < 0
         raise ParameterError, "Invalid signer nonce #{fields[:nonce]}!"
       end
-      unless fields[:gas_price] >= 0
+      if fields[:gas_price].nil? or fields[:gas_price] < 0
         raise ParameterError, "Invalid gas price #{fields[:gas_price]}!"
       end
-      unless fields[:gas_limit] >= DEFAULT_GAS_LIMIT and fields[:gas_limit] <= BLOCK_GAS_LIMIT
+      if fields[:gas_limit].nil? or fields[:gas_limit] < DEFAULT_GAS_LIMIT or fields[:gas_limit] > BLOCK_GAS_LIMIT
         raise ParameterError, "Invalid gas limit #{fields[:gas_limit]}!"
       end
       unless fields[:value] >= 0
