@@ -26,19 +26,36 @@ module Eth
   module Rlp
     extend self
 
+    # The Rlp module exposes a variety of exceptions grouped as RlpException.
     class RlpException < StandardError; end
+
+    # An error-type to point out RLP-encoding errors.
     class EncodingError < RlpException; end
+
+    # An error-type to point out RLP-decoding errors.
     class DecodingError < RlpException; end
+
+    # An error-type to point out RLP-type serialization errors.
     class SerializationError < RlpException; end
+
+    # An error-type to point out RLP-type serialization errors.
     class DeserializationError < RlpException; end
 
     # A wrapper to represent already RLP encoded data
     class Data < String; end
 
+    # Performes an Eth::Rlp::Encoder on any ruby object.
+    #
+    # @param obj [Object] any ruby object.
+    # @return [String] a packed, RLP-encoded item.
     def encode(obj)
       Rlp::Encoder.perform obj
     end
 
+    # Performes an Eth::Rlp::Decoder on any RLP-encoded item.
+    #
+    # @param rlp [String] a packed, RLP-encoded item.
+    # @return [Object] a decoded ruby object.
     def decode(rlp)
       Rlp::Decoder.perform rlp
     end

@@ -23,7 +23,7 @@ module Eth
     # Provides serializable and deserializable types (SeDes).
     module Sedes
 
-      # A sedes for lists of fixed length
+      # A sedes type for lists of fixed length.
       class List < Array
         def initialize(elements: [], strict: true)
           super()

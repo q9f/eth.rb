@@ -19,9 +19,18 @@ module Eth
 
   # Provides an recursive-length prefix (RLP) encoder and decoder.
   module Rlp
+
+    # Provides an RLP-decoder.
     module Decoder
       extend self
 
+      # Decodes an RLP-encoded object.
+      #
+      # @param rlp [String] an RLP-encoded object.
+      # @return [Object] the decoded and maybe deserialized object.
+      # @raise [Eth::Rlp::DecodingError] if the input string does not end after
+      #     the root item.
+      # @raise [Eht::Rlp::DeserializationError] if the deserialization fails.
       def perform(rlp)
         rlp = Util.hex_to_bin rlp if Util.is_hex? rlp
         rlp = Util.str_to_bytes rlp
@@ -36,11 +45,13 @@ module Eth
 
       private
 
+      # Consume an RLP-encoded item from the given start.
       def consume_item(rlp, start)
         t, l, s = consume_length_prefix rlp, start
         consume_payload rlp, s, t, l
       end
 
+      # Consume an RLP length prefix at the given position.
       def consume_length_prefix(rlp, start)
         b0 = rlp[start].ord
         if b0 < Constant::PRIMITIVE_PREFIX_OFFSET
@@ -75,6 +86,7 @@ module Eth
         end
       end
 
+      # Consume an RLP payload at the given position of given type and size.
       def consume_payload(rlp, start, type, length)
         case type
         when :str

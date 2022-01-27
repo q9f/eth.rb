@@ -22,6 +22,8 @@ module Eth
 
     # Provides serializable and deserializable types (SeDes).
     module Sedes
+
+      # A sedes type for binary values.
       class Binary
         class << self
           def fixed_length(l, allow_empty: false)

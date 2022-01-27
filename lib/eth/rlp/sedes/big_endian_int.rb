@@ -23,7 +23,7 @@ module Eth
     # Provides serializable and deserializable types (SeDes).
     module Sedes
 
-      # A serializable, big-endian, unsigned integer.
+      # A serializable, big-endian, unsigned integer sedes type.
       class BigEndianInt
 
         # Create a serializable, big-endian, unsigned integer.

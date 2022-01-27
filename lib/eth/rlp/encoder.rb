@@ -19,9 +19,18 @@ module Eth
 
   # Provides an recursive-length prefix (RLP) encoder and decoder.
   module Rlp
+
+    # Provides an RLP-encoder.
     module Encoder
       extend self
 
+      # Encodes a Ruby object in RLP format.
+      #
+      # @param obj [Object] a Ruby object.
+      # @return [String] the RLP encoded item.
+      # @raise [Eth::Rlp::EncodingError] in the rather unlikely case that the item
+      #     is too big to encode (will not happen).
+      # @raise [Eth::Rlp::SerializationError] if the serialization fails.
       def perform(obj)
         item = Sedes.infer(obj).serialize(obj)
         result = encode_raw item
@@ -29,6 +38,7 @@ module Eth
 
       private
 
+      # Encodes the raw item.
       def encode_raw(item)
         return item if item.instance_of? Rlp::Data
         return encode_primitive item if Util.is_primitive? item
@@ -36,6 +46,7 @@ module Eth
         raise EncodingError "Cannot encode object of type #{item.class.name}"
       end
 
+      # Encodes a single primitive.
       def encode_primitive(item)
         return Util.str_to_bytes item if item.size == 1 && item.ord < Constant::PRIMITIVE_PREFIX_OFFSET
         payload = Util.str_to_bytes item
@@ -43,12 +54,14 @@ module Eth
         "#{prefix}#{payload}"
       end
 
+      # Encodes a single list.
       def encode_list(list)
         payload = list.map { |item| encode_raw item }.join
         prefix = length_prefix payload.size, Constant::LIST_PREFIX_OFFSET
         "#{prefix}#{payload}"
       end
 
+      # Determines a length prefix.
       def length_prefix(length, offset)
         if length < Constant::SHORT_LENGTH_LIMIT
           (offset + length).chr
