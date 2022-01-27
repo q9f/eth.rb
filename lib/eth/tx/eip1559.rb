@@ -263,11 +263,11 @@ module Eth
         tx_data.push Util.serialize_int_to_big_endian @gas_limit
         tx_data.push Util.hex_to_bin @destination
         tx_data.push Util.serialize_int_to_big_endian @amount
-        tx_data.push @payload
-        tx_data.push @access_list
+        tx_data.push RLP::Sedes.binary.serialize @payload
+        tx_data.push @access_list # TODO serialize
         tx_data.push Util.serialize_int_to_big_endian @signature_y_parity
-        tx_data.push Util.hex_to_bin @signature_r
-        tx_data.push Util.hex_to_bin @signature_s
+        tx_data.push Util.serialize_int_to_big_endian @signature_r
+        tx_data.push Util.serialize_int_to_big_endian @signature_s
         tx_encoded = RLP.encode tx_data
 
         # create an EIP-2718 envelope with EIP-1559 type payload
@@ -302,8 +302,8 @@ module Eth
         tx_data.push Util.serialize_int_to_big_endian @gas_limit
         tx_data.push Util.hex_to_bin @destination
         tx_data.push Util.serialize_int_to_big_endian @amount
-        tx_data.push @payload
-        tx_data.push @access_list
+        tx_data.push RLP::Sedes.binary.serialize @payload
+        tx_data.push @access_list # TODO serialize
         tx_encoded = RLP.encode tx_data
 
         # create an EIP-2718 envelope with EIP-1559 type payload (unsigned)

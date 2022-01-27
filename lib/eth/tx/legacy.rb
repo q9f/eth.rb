@@ -236,7 +236,7 @@ module Eth
         tx_data.push Util.serialize_int_to_big_endian @gas_limit
         tx_data.push Util.hex_to_bin @destination
         tx_data.push Util.serialize_int_to_big_endian @amount
-        tx_data.push @payload
+        tx_data.push RLP::Sedes.binary.serialize @payload
         tx_data.push Util.serialize_int_to_big_endian @signature_v
         tx_data.push Util.serialize_int_to_big_endian @signature_r
         tx_data.push Util.serialize_int_to_big_endian @signature_s
@@ -267,7 +267,7 @@ module Eth
         tx_data.push Util.serialize_int_to_big_endian @gas_limit
         tx_data.push Util.hex_to_bin @destination
         tx_data.push Util.serialize_int_to_big_endian @amount
-        tx_data.push @payload
+        tx_data.push RLP::Sedes.binary.serialize @payload
         tx_data.push Util.serialize_int_to_big_endian @chain_id
         tx_data.push Util.serialize_int_to_big_endian 0
         tx_data.push Util.serialize_int_to_big_endian 0
