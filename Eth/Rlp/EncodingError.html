@@ -4,7 +4,7 @@
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>
-  Exception: Eth::Eip712::TypedDataError
+  Exception: Eth::Rlp::EncodingError
   
     &mdash; Documentation by YARD 0.9.27
   
@@ -15,7 +15,7 @@
   <link rel="stylesheet" href="../../css/common.css" type="text/css" />
 
 <script type="text/javascript">
-  pathId = "Eth::Eip712::TypedDataError";
+  pathId = "Eth::Rlp::EncodingError";
   relpath = '../../';
 </script>
 
@@ -36,10 +36,10 @@
       <div id="header">
         <div id="menu">
   
-    <a href="../../_index.html">Index (T)</a> &raquo;
-    <span class='title'><span class='object_link'><a href="../../Eth.html" title="Eth (module)">Eth</a></span></span> &raquo; <span class='title'><span class='object_link'><a href="../Eip712.html" title="Eth::Eip712 (module)">Eip712</a></span></span>
+    <a href="../../_index.html">Index (E)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../../Eth.html" title="Eth (module)">Eth</a></span></span> &raquo; <span class='title'><span class='object_link'><a href="../Rlp.html" title="Eth::Rlp (module)">Rlp</a></span></span>
      &raquo; 
-    <span class="title">TypedDataError</span>
+    <span class="title">EncodingError</span>
   
 </div>
 
@@ -59,7 +59,7 @@
         <div class="clear"></div>
       </div>
 
-      <div id="content"><h1>Exception: Eth::Eip712::TypedDataError
+      <div id="content"><h1>Exception: Eth::Rlp::EncodingError
   
   
   
@@ -69,14 +69,16 @@
   <dl>
     <dt>Inherits:</dt>
     <dd>
-      <span class="inheritName">StandardError</span>
+      <span class="inheritName"><span class='object_link'><a href="RlpException.html" title="Eth::Rlp::RlpException (class)">RlpException</a></span></span>
       
         <ul class="fullTree">
           <li>Object</li>
           
             <li class="next">StandardError</li>
           
-            <li class="next">Eth::Eip712::TypedDataError</li>
+            <li class="next"><span class='object_link'><a href="RlpException.html" title="Eth::Rlp::RlpException (class)">RlpException</a></span></li>
+          
+            <li class="next">Eth::Rlp::EncodingError</li>
           
         </ul>
         <a href="#" class="inheritanceTree">show all</a>
@@ -96,7 +98,7 @@
   
   <dl>
     <dt>Defined in:</dt>
-    <dd>lib/eth/eip712.rb</dd>
+    <dd>lib/eth/rlp.rb</dd>
   </dl>
   
 </div>
@@ -104,7 +106,7 @@
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
     
-<p>Provides a special typed-data error if data structure fails basic verification.</p>
+<p>An error-type to point out RLP-encoding errors.</p>
 
 
   </div>
@@ -120,6 +122,12 @@
 
 
 
+  
+  
+  
+  
+  
+  
   
 
 </div>

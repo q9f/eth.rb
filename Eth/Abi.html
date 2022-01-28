@@ -76,11 +76,6 @@
   
   
   
-  <dl>
-      <dt>Includes:</dt>
-      <dd><span class='object_link'><a href="Abi/Constant.html" title="Eth::Abi::Constant (module)">Constant</a></span></dd>
-  </dl>
-  
   
 
   
@@ -94,7 +89,7 @@
   <dl>
     <dt>Defined in:</dt>
     <dd>lib/eth/abi.rb<span class="defines">,<br />
-  lib/eth/abi/type.rb,<br /> lib/eth/abi/constant.rb</span>
+  lib/eth/abi/type.rb</span>
 </dd>
   </dl>
   
@@ -115,8 +110,6 @@
 <p class="children">
   
     
-      <strong class="modules">Modules:</strong> <span class='object_link'><a href="Abi/Constant.html" title="Eth::Abi::Constant (module)">Constant</a></span>
-    
   
     
       <strong class="classes">Classes:</strong> <span class='object_link'><a href="Abi/DecodingError.html" title="Eth::Abi::DecodingError (class)">DecodingError</a></span>, <span class='object_link'><a href="Abi/EncodingError.html" title="Eth::Abi::EncodingError (class)">EncodingError</a></span>, <span class='object_link'><a href="Abi/Type.html" title="Eth::Abi::Type (class)">Type</a></span>, <span class='object_link'><a href="Abi/ValueOutOfBounds.html" title="Eth::Abi::ValueOutOfBounds (class)">ValueOutOfBounds</a></span>
@@ -125,12 +118,6 @@
 </p>
 
 
-
-  <h2>Constant Summary</h2>
-  
-  <h3 class="inherited">Constants included
-     from <span class='object_link'><a href="Abi/Constant.html" title="Eth::Abi::Constant (module)">Constant</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="Abi/Constant.html#BYTE_EMPTY-constant" title="Eth::Abi::Constant::BYTE_EMPTY (constant)">Constant::BYTE_EMPTY</a></span>, <span class='object_link'><a href="Abi/Constant.html#BYTE_ONE-constant" title="Eth::Abi::Constant::BYTE_ONE (constant)">Constant::BYTE_ONE</a></span>, <span class='object_link'><a href="Abi/Constant.html#BYTE_ZERO-constant" title="Eth::Abi::Constant::BYTE_ZERO (constant)">Constant::BYTE_ZERO</a></span>, <span class='object_link'><a href="Abi/Constant.html#HASH_ZERO-constant" title="Eth::Abi::Constant::HASH_ZERO (constant)">Constant::HASH_ZERO</a></span>, <span class='object_link'><a href="Abi/Constant.html#INT_MAX-constant" title="Eth::Abi::Constant::INT_MAX (constant)">Constant::INT_MAX</a></span>, <span class='object_link'><a href="Abi/Constant.html#INT_MIN-constant" title="Eth::Abi::Constant::INT_MIN (constant)">Constant::INT_MIN</a></span>, <span class='object_link'><a href="Abi/Constant.html#PRIVKEY_ZERO-constant" title="Eth::Abi::Constant::PRIVKEY_ZERO (constant)">Constant::PRIVKEY_ZERO</a></span>, <span class='object_link'><a href="Abi/Constant.html#PRIVKEY_ZERO_HEX-constant" title="Eth::Abi::Constant::PRIVKEY_ZERO_HEX (constant)">Constant::PRIVKEY_ZERO_HEX</a></span>, <span class='object_link'><a href="Abi/Constant.html#TT256-constant" title="Eth::Abi::Constant::TT256 (constant)">Constant::TT256</a></span>, <span class='object_link'><a href="Abi/Constant.html#TT32-constant" title="Eth::Abi::Constant::TT32 (constant)">Constant::TT32</a></span>, <span class='object_link'><a href="Abi/Constant.html#UINT_MAX-constant" title="Eth::Abi::Constant::UINT_MAX (constant)">Constant::UINT_MAX</a></span>, <span class='object_link'><a href="Abi/Constant.html#UINT_MIN-constant" title="Eth::Abi::Constant::UINT_MIN (constant)">Constant::UINT_MIN</a></span></p>
 
 
 
@@ -292,12 +279,6 @@
   
 
 
-  
-  
-  
-  
-  
-  
 
   <div id="instance_method_details" class="method_details_list">
     <h2>Instance Method Details</h2>
@@ -396,6 +377,8 @@
       <pre class="lines">
 
 
+148
+149
 150
 151
 152
@@ -443,12 +426,10 @@
 194
 195
 196
-197
-198
-199</pre>
+197</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/abi.rb', line 150</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/abi.rb', line 148</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_decode'>decode</span><span class='lparen'>(</span><span class='id identifier rubyid_types'>types</span><span class='comma'>,</span> <span class='id identifier rubyid_data'>data</span><span class='rparen'>)</span>
 
@@ -603,6 +584,8 @@
       <pre class="lines">
 
 
+241
+242
 243
 244
 245
@@ -651,12 +634,10 @@
 288
 289
 290
-291
-292
-293</pre>
+291</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/abi.rb', line 243</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/abi.rb', line 241</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_decode_primitive_type'>decode_primitive_type</span><span class='lparen'>(</span><span class='id identifier rubyid_type'>type</span><span class='comma'>,</span> <span class='id identifier rubyid_data'>data</span><span class='rparen'>)</span>
   <span class='kw'>case</span> <span class='id identifier rubyid_type'>type</span><span class='period'>.</span><span class='id identifier rubyid_base_type'>base_type</span>
@@ -704,7 +685,7 @@
   <span class='kw'>when</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>bool</span><span class='tstring_end'>&quot;</span></span>
 
     <span class='comment'># decoded boolean
-</span>    <span class='kw'>return</span> <span class='id identifier rubyid_data'>data</span><span class='lbracket'>[</span><span class='op'>-</span><span class='int'>1</span><span class='rbracket'>]</span> <span class='op'>==</span> <span class='const'><span class='object_link'><a href="Abi/Constant.html#BYTE_ONE-constant" title="Eth::Abi::Constant::BYTE_ONE (constant)">BYTE_ONE</a></span></span>
+</span>    <span class='kw'>return</span> <span class='id identifier rubyid_data'>data</span><span class='lbracket'>[</span><span class='op'>-</span><span class='int'>1</span><span class='rbracket'>]</span> <span class='op'>==</span> <span class='const'><span class='object_link'><a href="Constant.html" title="Eth::Constant (module)">Constant</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Constant.html#BYTE_ONE-constant" title="Eth::Constant::BYTE_ONE (constant)">BYTE_ONE</a></span></span>
   <span class='kw'>else</span>
     <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="Abi/DecodingError.html" title="Eth::Abi::DecodingError (class)">DecodingError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Unknown primitive type: </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_type'>type</span><span class='period'>.</span><span class='id identifier rubyid_base_type'>base_type</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
   <span class='kw'>end</span>
@@ -812,6 +793,8 @@
       <pre class="lines">
 
 
+205
+206
 207
 208
 209
@@ -838,12 +821,10 @@
 230
 231
 232
-233
-234
-235</pre>
+233</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/abi.rb', line 207</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/abi.rb', line 205</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_decode_type'>decode_type</span><span class='lparen'>(</span><span class='id identifier rubyid_type'>type</span><span class='comma'>,</span> <span class='id identifier rubyid_arg'>arg</span><span class='rparen'>)</span>
   <span class='kw'>if</span> <span class='qwords_beg'>%w(</span><span class='tstring_content'>string</span><span class='words_sep'> </span><span class='tstring_content'>bytes</span><span class='tstring_end'>)</span></span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='id identifier rubyid_type'>type</span><span class='period'>.</span><span class='id identifier rubyid_base_type'>base_type</span><span class='rparen'>)</span> <span class='kw'>and</span> <span class='id identifier rubyid_type'>type</span><span class='period'>.</span><span class='id identifier rubyid_sub_type'>sub_type</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
@@ -959,6 +940,8 @@
       <pre class="lines">
 
 
+44
+45
 46
 47
 48
@@ -980,12 +963,10 @@
 64
 65
 66
-67
-68
-69</pre>
+67</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/abi.rb', line 46</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/abi.rb', line 44</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_encode'>encode</span><span class='lparen'>(</span><span class='id identifier rubyid_types'>types</span><span class='comma'>,</span> <span class='id identifier rubyid_args'>args</span><span class='rparen'>)</span>
 
@@ -1142,6 +1123,8 @@
       <pre class="lines">
 
 
+119
+120
 121
 122
 123
@@ -1161,12 +1144,10 @@
 137
 138
 139
-140
-141
-142</pre>
+140</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/abi.rb', line 121</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/abi.rb', line 119</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_encode_primitive_type'>encode_primitive_type</span><span class='lparen'>(</span><span class='id identifier rubyid_type'>type</span><span class='comma'>,</span> <span class='id identifier rubyid_arg'>arg</span><span class='rparen'>)</span>
   <span class='kw'>case</span> <span class='id identifier rubyid_type'>type</span><span class='period'>.</span><span class='id identifier rubyid_base_type'>base_type</span>
@@ -1293,6 +1274,8 @@
       <pre class="lines">
 
 
+75
+76
 77
 78
 79
@@ -1325,12 +1308,10 @@
 106
 107
 108
-109
-110
-111</pre>
+109</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/abi.rb', line 77</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/abi.rb', line 75</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_encode_type'>encode_type</span><span class='lparen'>(</span><span class='id identifier rubyid_type'>type</span><span class='comma'>,</span> <span class='id identifier rubyid_arg'>arg</span><span class='rparen'>)</span>
   <span class='kw'>if</span> <span class='qwords_beg'>%w(</span><span class='tstring_content'>string</span><span class='words_sep'> </span><span class='tstring_content'>bytes</span><span class='tstring_end'>)</span></span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='id identifier rubyid_type'>type</span><span class='period'>.</span><span class='id identifier rubyid_base_type'>base_type</span> <span class='kw'>and</span> <span class='id identifier rubyid_type'>type</span><span class='period'>.</span><span class='id identifier rubyid_sub_type'>sub_type</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
@@ -1338,7 +1319,7 @@
 
     <span class='comment'># encodes strings and bytes
 </span>    <span class='id identifier rubyid_size'>size</span> <span class='op'>=</span> <span class='id identifier rubyid_encode_type'>encode_type</span> <span class='const'><span class='object_link'><a href="Abi/Type.html" title="Eth::Abi::Type (class)">Type</a></span></span><span class='period'>.</span><span class='id identifier rubyid_size_type'><span class='object_link'><a href="Abi/Type.html#size_type-class_method" title="Eth::Abi::Type.size_type (method)">size_type</a></span></span><span class='comma'>,</span> <span class='id identifier rubyid_arg'>arg</span><span class='period'>.</span><span class='id identifier rubyid_size'>size</span>
-    <span class='id identifier rubyid_padding'>padding</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Abi/Constant.html#BYTE_ZERO-constant" title="Eth::Abi::Constant::BYTE_ZERO (constant)">BYTE_ZERO</a></span></span> <span class='op'>*</span> <span class='lparen'>(</span><span class='const'><span class='object_link'><a href="Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_ceil32'><span class='object_link'><a href="Util.html#ceil32-instance_method" title="Eth::Util#ceil32 (method)">ceil32</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_arg'>arg</span><span class='period'>.</span><span class='id identifier rubyid_size'>size</span><span class='rparen'>)</span> <span class='op'>-</span> <span class='id identifier rubyid_arg'>arg</span><span class='period'>.</span><span class='id identifier rubyid_size'>size</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_padding'>padding</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Constant.html" title="Eth::Constant (module)">Constant</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Constant.html#BYTE_ZERO-constant" title="Eth::Constant::BYTE_ZERO (constant)">BYTE_ZERO</a></span></span> <span class='op'>*</span> <span class='lparen'>(</span><span class='const'><span class='object_link'><a href="Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_ceil32'><span class='object_link'><a href="Util.html#ceil32-instance_method" title="Eth::Util#ceil32 (method)">ceil32</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_arg'>arg</span><span class='period'>.</span><span class='id identifier rubyid_size'>size</span><span class='rparen'>)</span> <span class='op'>-</span> <span class='id identifier rubyid_arg'>arg</span><span class='period'>.</span><span class='id identifier rubyid_size'>size</span><span class='rparen'>)</span>
     <span class='kw'>return</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_size'>size</span><span class='embexpr_end'>}</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_arg'>arg</span><span class='embexpr_end'>}</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_padding'>padding</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
   <span class='kw'>elsif</span> <span class='id identifier rubyid_type'>type</span><span class='period'>.</span><span class='id identifier rubyid_is_dynamic?'>is_dynamic?</span>
     <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="Abi/EncodingError.html" title="Eth::Abi::EncodingError (class)">EncodingError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Argument must be an Array</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_arg'>arg</span><span class='period'>.</span><span class='id identifier rubyid_instance_of?'>instance_of?</span> <span class='const'>Array</span>
@@ -1377,7 +1358,7 @@
 </div>
 
       <div id="footer">
-  Generated on Thu Jan 27 13:31:43 2022 by
+  Generated on Fri Jan 28 11:36:32 2022 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.27 (ruby-2.7.5).
 </div>

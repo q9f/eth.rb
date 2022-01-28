@@ -4,31 +4,31 @@
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>
-  Module: Eth::Abi::Constant
+  Module: Eth::Constant
   
     &mdash; Documentation by YARD 0.9.27
   
 </title>
 
-  <link rel="stylesheet" href="../../css/style.css" type="text/css" />
+  <link rel="stylesheet" href="../css/style.css" type="text/css" />
 
-  <link rel="stylesheet" href="../../css/common.css" type="text/css" />
+  <link rel="stylesheet" href="../css/common.css" type="text/css" />
 
 <script type="text/javascript">
-  pathId = "Eth::Abi::Constant";
-  relpath = '../../';
+  pathId = "Eth::Constant";
+  relpath = '../';
 </script>
 
 
-  <script type="text/javascript" charset="utf-8" src="../../js/jquery.js"></script>
+  <script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
 
-  <script type="text/javascript" charset="utf-8" src="../../js/app.js"></script>
+  <script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
 
 
   </head>
   <body>
     <div class="nav_wrap">
-      <iframe id="nav" src="../../class_list.html?1"></iframe>
+      <iframe id="nav" src="../class_list.html?1"></iframe>
       <div id="resizer"></div>
     </div>
 
@@ -36,8 +36,8 @@
       <div id="header">
         <div id="menu">
   
-    <a href="../../_index.html">Index (C)</a> &raquo;
-    <span class='title'><span class='object_link'><a href="../../Eth.html" title="Eth (module)">Eth</a></span></span> &raquo; <span class='title'><span class='object_link'><a href="../Abi.html" title="Eth::Abi (module)">Abi</a></span></span>
+    <a href="../_index.html">Index (C)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../Eth.html" title="Eth (module)">Eth</a></span></span>
      &raquo; 
     <span class="title">Constant</span>
   
@@ -46,7 +46,7 @@
         <div id="search">
   
     <a class="full_list_link" id="class_list_link"
-        href="../../class_list.html">
+        href="../class_list.html">
 
         <svg width="24" height="24">
           <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
@@ -59,7 +59,7 @@
         <div class="clear"></div>
       </div>
 
-      <div id="content"><h1>Module: Eth::Abi::Constant
+      <div id="content"><h1>Module: Eth::Constant
   
   
   
@@ -74,16 +74,11 @@
   
 
   
-  <dl>
-    <dt>Included in:</dt>
-    <dd><span class='object_link'><a href="../Abi.html" title="Eth::Abi (module)">Eth::Abi</a></span></dd>
-  </dl>
-  
 
   
   <dl>
     <dt>Defined in:</dt>
-    <dd>lib/eth/abi/constant.rb</dd>
+    <dd>lib/eth/constant.rb</dd>
   </dl>
   
 </div>
@@ -300,6 +295,118 @@
         </dt>
         <dd><pre class="code"><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>0</span><span class='tstring_end'>&quot;</span></span> <span class='op'>*</span> <span class='int'>64</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
       
+        <dt id="SHORT_LENGTH_LIMIT-constant" class="">SHORT_LENGTH_LIMIT =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>The RLP short length limit.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='int'>56</span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="LONG_LENGTH_LIMIT-constant" class="">LONG_LENGTH_LIMIT =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>The RLP long length limit.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='lparen'>(</span><span class='int'>256</span> <span class='op'>**</span> <span class='int'>8</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="PRIMITIVE_PREFIX_OFFSET-constant" class="">PRIMITIVE_PREFIX_OFFSET =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>The RLP primitive type offset.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='int'>0x80</span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="LIST_PREFIX_OFFSET-constant" class="">LIST_PREFIX_OFFSET =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>The RLP array type offset.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='int'>0xc0</span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="LIST_EMPTY-constant" class="">LIST_EMPTY =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>An RLP-encoded empty list.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='const'><span class='object_link'><a href="Rlp.html" title="Eth::Rlp (module)">Rlp</a></span></span><span class='period'>.</span><span class='id identifier rubyid_encode'><span class='object_link'><a href="Rlp.html#encode-instance_method" title="Eth::Rlp#encode (method)">encode</a></span></span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='rbracket'>]</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="BINARY_ENCODING-constant" class="">BINARY_ENCODING =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>The binary encoding is ASCII (8-bit).</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>ASCII-8BIT</span><span class='tstring_end'>&quot;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="INFINITY-constant" class="">INFINITY =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>Infinity as constant for convenience.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='lparen'>(</span><span class='float'>1.0</span> <span class='op'>/</span> <span class='float'>0.0</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
     </dl>
   
 
@@ -314,7 +421,7 @@
 </div>
 
       <div id="footer">
-  Generated on Thu Jan 27 13:31:44 2022 by
+  Generated on Fri Jan 28 11:36:33 2022 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.27 (ruby-2.7.5).
 </div>

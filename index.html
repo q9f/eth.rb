@@ -64,11 +64,11 @@
 
 <p>A simple library to build and sign Ethereum transactions. Allows separation of key and node management. Sign transactions and handle keys anywhere you can run ruby, broadcast transactions through any node. Sign messages and recover signatures for authentication.</p>
 
-<p>What you get: - [x] Secp256k1 Key-Pairs and Encrypted Ethereum Key-Stores (JSON) - [x] EIP-55 Checksummed Ethereum Addresses - [x] EIP-155 Replay protection with Chain IDs (with presets) - [x] EIP-191 Ethereum Signed Messages (with prefix and type) - [x] EIP-712 Ethereum Signed Type Data - [x] EIP-1559 Ethereum Type-2 Transactions (with priority fee and max gas fee) - [x] EIP-2028 Call-data intrinsic gas cost estimates (plus access lists) - [x] EIP-2718 Ethereum Transaction Envelopes (and types) - [x] EIP-2930 Ethereum Type-1 Transactions (with access lists) - [x] ABI-Encoder and Decoder (including type parser) - [x] RPC-Client (IPC/HTTP) for Execution-Layer APIs</p>
+<p>What you get: - [x] Secp256k1 Key-Pairs and Encrypted Ethereum Key-Stores (JSON) - [x] EIP-55 Checksummed Ethereum Addresses - [x] EIP-155 Replay protection with Chain IDs (with presets) - [x] EIP-191 Ethereum Signed Messages (with prefix and type) - [x] EIP-712 Ethereum Signed Type Data - [x] EIP-1559 Ethereum Type-2 Transactions (with priority fee and max gas fee) - [x] EIP-2028 Call-data intrinsic gas cost estimates (plus access lists) - [x] EIP-2718 Ethereum Transaction Envelopes (and types) - [x] EIP-2930 Ethereum Type-1 Transactions (with access lists) - [x] ABI-Encoder and Decoder (including type parser) - [x] RLP-Encoder and Decoder (including sedes) - [x] RPC-Client (IPC/HTTP) for Execution-Layer APIs</p>
 
-<p>Soon (TM): - [ ] RLP-Encoder and Decoder (including sedes) - [ ] Smart Contracts and Solidity Support - [ ] EIP-1271 Smart-Contract Authentification - [ ] HD-Wallets (BIP-32) and Mnemonics (BIP-39)</p>
+<p>Soon (TM): - [ ] Smart Contracts and Solidity Support - [ ] EIP-1271 Smart-Contract Authentification - [ ] HD-Wallets (BIP-32) and Mnemonics (BIP-39)</p>
 
-<p>Contents: - <a href="#1-installation">1. Installation</a> - <a href="#2-usage">2. Usage</a>  - <a href="#21-ethereum-keys-and-addresses-eip-55">2.1. Ethereum Keys and Addresses (EIP-55)</a>  - <a href="#22-ethereum-signatures-eip-191-eip-712">2.2. Ethereum Signatures (EIP-191, EIP-712)</a>  - <a href="#23-ethereum-chains-eip-155">2.3. Ethereum Chains (EIP-155)</a>  - <a href="#24-ethereum-transactions-eip-1559-eip-2718-eip-2930">2.4. Ethereum Transactions (EIP-1559, EIP-2718, EIP-2930)</a>  - <a href="#25-ethereum-abi-encoder-and-decoder">2.5. Ethereum ABI Encoder and Decoder</a>  - <a href="#26-ethereum-rpc-client">2.6. Ethereum RPC-Client</a> - <a href="#3-documentation">3. Documentation</a> - <a href="#4-testing">4. Testing</a> - <a href="#5-contributing">5. Contributing</a> - <a href="#6-license-and-credits">6. License and Credits</a></p>
+<p>Contents: - <a href="#1-installation">1. Installation</a> - <a href="#2-usage">2. Usage</a>  - <a href="#21-ethereum-keys-and-addresses-eip-55">2.1. Ethereum Keys and Addresses (EIP-55)</a>  - <a href="#22-ethereum-signatures-eip-191-eip-712">2.2. Ethereum Signatures (EIP-191, EIP-712)</a>  - <a href="#23-ethereum-chains-eip-155">2.3. Ethereum Chains (EIP-155)</a>  - <a href="#24-ethereum-transactions-eip-1559-eip-2718-eip-2930">2.4. Ethereum Transactions (EIP-1559, EIP-2718, EIP-2930)</a>  - <a href="#25-ethereum-abi-encoder-and-decoder">2.5. Ethereum ABI Encoder and Decoder</a>  - <a href="#26-ethereum-rlp-encoder-and-decoder">2.6. Ethereum RLP Encoder and Decoder</a>  - <a href="#27-ethereum-rpc-client">2.7. Ethereum RPC-Client</a> - <a href="#3-documentation">3. Documentation</a> - <a href="#4-testing">4. Testing</a> - <a href="#5-contributing">5. Contributing</a> - <a href="#6-license-and-credits">6. License and Credits</a></p>
 
 <h2 id="label-1.+Installation">1. Installation</h2>
 
@@ -193,7 +193,23 @@
 <span class='comment'># =&gt; [&quot;Hello, Bob!&quot;, &quot;0xd496b23d61f88a8c7758fca7560dcfac7b3b01f9&quot;]
 </span></code></pre>
 
-<h3 id="label-2.6.+Ethereum+RPC-Client">2.6. Ethereum RPC-Client</h3>
+<h3 id="label-2.6.+Ethereum+RLP+Encoder+and+Decoder">2.6. Ethereum RLP Encoder and Decoder</h3>
+
+<p>Serialize and deserialize Ethereum recursive-length prefix data (RLP).</p>
+
+<pre class="code ruby"><code class="ruby"><span class='const'><span class='object_link'><a href="Eth.html" title="Eth (module)">Eth</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Eth/Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_bin_to_hex'><span class='object_link'><a href="Eth/Util.html#bin_to_hex-instance_method" title="Eth::Util#bin_to_hex (method)">bin_to_hex</a></span></span> <span class='const'><span class='object_link'><a href="Eth.html" title="Eth (module)">Eth</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Eth/Rlp.html" title="Eth::Rlp (module)">Rlp</a></span></span><span class='period'>.</span><span class='id identifier rubyid_encode'><span class='object_link'><a href="Eth/Rlp.html#encode-instance_method" title="Eth::Rlp#encode (method)">encode</a></span></span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Hello, Bob!</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>0xd496b23d61f88a8c7758fca7560dcfac7b3b01f9</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span>
+<span class='comment'># =&gt; &quot;f78b48656c6c6f2c20426f6221aa307864343936623233643631663838613863373735386663613735363064636661633762336230316639&quot;
+</span><span class='const'><span class='object_link'><a href="Eth.html" title="Eth (module)">Eth</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Eth/Rlp.html" title="Eth::Rlp (module)">Rlp</a></span></span><span class='period'>.</span><span class='id identifier rubyid_decode'><span class='object_link'><a href="Eth/Rlp.html#decode-instance_method" title="Eth::Rlp#decode (method)">decode</a></span></span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>f78b48656c6c6f2c20426f6221aa307864343936623233643631663838613863373735386663613735363064636661633762336230316639</span><span class='tstring_end'>&quot;</span></span>
+<span class='comment'># =&gt; [&quot;Hello, Bob!&quot;, &quot;0xd496b23d61f88a8c7758fca7560dcfac7b3b01f9&quot;]
+</span></code></pre>
+
+<p>Or ;-)</p>
+
+<pre class="code ruby"><code class="ruby"><span class='const'><span class='object_link'><a href="Eth.html" title="Eth (module)">Eth</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Eth/Rlp.html" title="Eth::Rlp (module)">Rlp</a></span></span><span class='period'>.</span><span class='id identifier rubyid_decode'><span class='object_link'><a href="Eth/Rlp.html#decode-instance_method" title="Eth::Rlp#decode (method)">decode</a></span></span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>c7c0c1c0c3c0c1c0</span><span class='tstring_end'>&quot;</span></span>
+<span class='comment'># =&gt; [[], [[]], [[], [[]]]]
+</span></code></pre>
+
+<h3 id="label-2.7.+Ethereum+RPC-Client">2.7. Ethereum RPC-Client</h3>
 
 <p>Create an IPC- or HTTP-RPC-API client to seamlessly query the chain state, e.g., Infura over HTTPS with access token:</p>
 
@@ -258,10 +274,12 @@ rspec
 <p>This gem is a complete rewrite of the old <code>eth</code> gem by Steve Ellis. * <a href="https://github.com/se3000/ruby-eth">github.com/se3000/ruby-eth</a>/ (MIT)</p>
 
 <p>It also contains a revised version the ABI gem by Jan Xie and Zhang Yaning. * <a href="https://github.com/cryptape/ruby-ethereum-abi">github.com/cryptape/ruby-ethereum-abi</a> (MIT)</p>
+
+<p>It also contains a revised version the RLP gem by Jan Xie and Zhang Yaning. * <a href="https://github.com/cryptape/ruby-rlp">github.com/cryptape/ruby-rlp</a> (MIT)</p>
 </div></div>
 
       <div id="footer">
-  Generated on Thu Jan 27 13:31:43 2022 by
+  Generated on Fri Jan 28 11:36:32 2022 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.27 (ruby-2.7.5).
 </div>
