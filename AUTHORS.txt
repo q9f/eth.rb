@@ -14,3 +14,8 @@ The latest version of the Ruby-Eth gem contains a revised version the
 ABI gem by Jan Xie (@janx) and Zhang Yaning (@u2) licensed under MIT
 conditions:
 * https://github.com/cryptape/ruby-ethereum-abi
+
+The latest version of the Ruby-Eth gem contains a revised version the
+RLP gem by Jan Xie (@janx) and Zhang Yaning (@u2) licensed under MIT
+conditions:
+* https://github.com/cryptape/ruby-rlp

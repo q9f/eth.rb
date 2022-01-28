@@ -4,6 +4,7 @@
 $LOAD_PATH.unshift File.expand_path("../../lib", __FILE__)
 
 require "eth"
-require "pry"
+include Eth
 
+require "pry"
 Pry.start

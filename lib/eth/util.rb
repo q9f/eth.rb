@@ -13,7 +13,6 @@
 # limitations under the License.
 
 require "digest/keccak"
-require "rlp"
 
 # Provides the `Eth` module.
 module Eth
@@ -115,10 +114,20 @@ module Eth
     # raises [ArgumentError] if unsigned integer is out of bounds.
     def serialize_int_to_big_endian(num)
       num = num.to_i(16) if is_hex? num
-      unless num.is_a? Integer and num >= 0 and num <= Abi::UINT_MAX
+      unless num.is_a? Integer and num >= 0 and num <= Constant::UINT_MAX
         raise ArgumentError, "Integer invalid or out of range: #{num}"
       end
-      RLP::Sedes.big_endian_int.serialize num
+      Rlp::Sedes.big_endian_int.serialize num
+    end
+
+    # Converts an integer to big endian.
+    #
+    # @param num [Integer] integer to be converted.
+    # return [String] packed, big-endian integer string.
+    def int_to_big_endian(num)
+      hex = num.to_s(16) unless is_hex? num
+      hex = "0#{hex}" if hex.size.odd?
+      hex_to_bin hex
     end
 
     # Deserializes big endian data string to integer.
@@ -126,7 +135,55 @@ module Eth
     # @param str [String] serialized big endian integer string.
     # @return [Integer] an deserialized unsigned integer.
     def deserialize_big_endian_to_int(str)
-      RLP::Sedes.big_endian_int.deserialize str.sub(/\A(\x00)+/, "")
+      Rlp::Sedes.big_endian_int.deserialize str.sub(/\A(\x00)+/, "")
+    end
+
+    # Converts a big endian to an interger.
+    #
+    # @param str [String] big endian to be converted.
+    # return [Integer] an unpacked integer number.
+    def big_endian_to_int(str)
+      str.unpack("H*").first.to_i(16)
+    end
+
+    # Converts a binary string to bytes.
+    #
+    # @param str [String] binary string to be converted.
+    # return [Object] the string bytes.
+    def str_to_bytes(str)
+      is_bytes?(str) ? str : str.b
+    end
+
+    # Converts bytes to a binary string.
+    #
+    # @param bin [Object] bytes to be converted.
+    # return [String] a packed binary string.
+    def bytes_to_str(bin)
+      bin.unpack("U*").pack("U*")
+    end
+
+    # Checks if a string is a byte-string.
+    #
+    # @param str [String] a string to check.
+    # @return [Boolean] true if it's an ASCII-8bit encoded byte-string.
+    def is_bytes?(str)
+      str && str.instance_of?(String) && str.encoding.name == Constant::BINARY_ENCODING
+    end
+
+    # Checks if the given item is a string primitive.
+    #
+    # @param item [Object] the item to check.
+    # @return [Boolean] true if it's a string primitive.
+    def is_primitive?(item)
+      item.instance_of?(String)
+    end
+
+    # Checks if the given item is a list.
+    #
+    # @param item [Object] the item to check.
+    # @return [Boolean] true if it's a list.
+    def is_list?(item)
+      !is_primitive?(item) && item.respond_to?(:each)
     end
 
     # Ceil and integer to the next multiple of 32 bytes.
@@ -154,7 +211,7 @@ module Eth
     # @param len [Integer] number of symbols for the final string.
     # @return [String] a zero-padded serialized string of wanted size.
     def zpad(str, len)
-      lpad str, Abi::BYTE_ZERO, len
+      lpad str, Constant::BYTE_ZERO, len
     end
 
     # Left-pad a hex number with zeros.

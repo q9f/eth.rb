@@ -113,7 +113,7 @@ describe Util do
     end
   end
 
-  describe ".serialize_int_to_big_endian" do
+  describe ".serialize_int_to_big_endian .int_to_big_endian" do
     it "can serialize random integers to big endian" do
       expect(Util.serialize_int_to_big_endian 0).to eq ""
       expect(Util.serialize_int_to_big_endian 1).to eq "\x01"
@@ -128,6 +128,15 @@ describe Util do
       expect(Util.serialize_int_to_big_endian 48930248348219540325894323584235894327865439258743754893066).to eq "\a\xCB\x87\xA1\n\x89\xFE\xAF\xA6\x16@\x92\xC0\xFE\xD6T\x14\x8B\xDC\xF0i7B\xA7\n"
     end
 
+    it "can convert int to big endian" do
+      int = [0, 100000, 100000000, 2 ** 256 - 1]
+      bytes = ["\x00", "\x01\x86\xa0", "\x05\xf5\xe1\x00", "\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff"].map { |s| s }
+
+      int.zip(bytes).each do |i, b|
+        expect(Util.int_to_big_endian i).to eq b
+      end
+    end
+
     it "can raises if integers are invalid" do
       negative_ints = [-1, -100, -255, -256, -2342423]
       negative_ints.each do |n|
@@ -136,7 +145,7 @@ describe Util do
     end
   end
 
-  describe ".deserialize_big_endian_to_int" do
+  describe ".deserialize_big_endian_to_int .big_endian_to_int" do
     it "can deserialize random integers from big endian string data" do
       expect(Util.deserialize_big_endian_to_int "").to eq 0
       expect(Util.deserialize_big_endian_to_int "\x00").to eq 0
@@ -153,6 +162,15 @@ describe Util do
       expect(Util.deserialize_big_endian_to_int "\x1C\xCEm@").to eq 483290432
       expect(Util.deserialize_big_endian_to_int "fW:\xC6\xD1\xF8\xA8rf\xB7").to eq 483290483290482039482039
       expect(Util.deserialize_big_endian_to_int "\a\xCB\x87\xA1\n\x89\xFE\xAF\xA6\x16@\x92\xC0\xFE\xD6T\x14\x8B\xDC\xF0i7B\xA7\n").to eq 48930248348219540325894323584235894327865439258743754893066
+    end
+
+    it "can convert big endian to int" do
+      int = [0, 100000, 100000000, 2 ** 256 - 1]
+      bytes = ["\x00", "\x01\x86\xa0", "\x05\xf5\xe1\x00", "\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff"].map { |s| s }
+
+      int.zip(bytes).each do |i, b|
+        expect(Util.big_endian_to_int b).to eq i
+      end
     end
   end
 
@@ -181,6 +199,24 @@ describe Util do
       expect(Util.zpad_int 0, 1).to eq "\x00"
       expect(Util.zpad_int 16, 3).to eq "\x00\x00\x10"
       expect(Util.zpad_int 55, 10).to eq "\x00\x00\x00\x00\x00\x00\x00\x00\x007"
+    end
+  end
+
+  describe ".str_to_bytes .bytes_to_str" do
+    it "can convert string to bytes" do
+      expect(Util.str_to_bytes("abc").encoding.name).to eq "ASCII-8BIT"
+    end
+
+    it "can convert bytes to string" do
+      expect(Util.bytes_to_str("abc").encoding.name).to eq "UTF-8"
+    end
+  end
+
+  describe ".is_bytes? .is_primitive? .is_list?" do
+    it "can detect RLP types" do
+      expect(Util.is_bytes? Util.str_to_bytes "").to be_truthy
+      expect(Util.is_primitive? "").to be_truthy
+      expect(Util.is_list? []).to be_truthy
     end
   end
 end

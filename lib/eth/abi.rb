@@ -16,7 +16,6 @@
 
 require "konstructor"
 
-require "eth/abi/constant"
 require "eth/abi/type"
 
 # Provides the `Eth` module.
@@ -26,7 +25,6 @@ module Eth
   # ref: https://docs.soliditylang.org/en/develop/abi-spec.html
   module Abi
     extend self
-    include Constant
 
     # Provides a special encoding error if anything fails to encode.
     class EncodingError < StandardError; end
@@ -80,7 +78,7 @@ module Eth
 
         # encodes strings and bytes
         size = encode_type Type.size_type, arg.size
-        padding = BYTE_ZERO * (Util.ceil32(arg.size) - arg.size)
+        padding = Constant::BYTE_ZERO * (Util.ceil32(arg.size) - arg.size)
         return "#{size}#{arg}#{padding}"
       elsif type.is_dynamic?
         raise EncodingError, "Argument must be an Array" unless arg.instance_of? Array
@@ -286,7 +284,7 @@ module Eth
       when "bool"
 
         # decoded boolean
-        return data[-1] == BYTE_ONE
+        return data[-1] == Constant::BYTE_ONE
       else
         raise DecodingError, "Unknown primitive type: #{type.base_type}"
       end
@@ -296,7 +294,7 @@ module Eth
 
     # Properly encodes unsigned integers.
     def encode_uint(arg, type)
-      raise ValueOutOfBounds, "Number out of range: #{arg}" if arg > UINT_MAX or arg < UINT_MIN
+      raise ValueOutOfBounds, "Number out of range: #{arg}" if arg > Constant::UINT_MAX or arg < Constant::UINT_MIN
       real_size = type.sub_type.to_i
       i = arg.to_i
       raise ValueOutOfBounds, arg unless i >= 0 and i < 2 ** real_size
@@ -305,7 +303,7 @@ module Eth
 
     # Properly encodes signed integers.
     def encode_int(arg, type)
-      raise ValueOutOfBounds, "Number out of range: #{arg}" if arg > INT_MAX or arg < INT_MIN
+      raise ValueOutOfBounds, "Number out of range: #{arg}" if arg > Constant::INT_MAX or arg < Constant::INT_MIN
       real_size = type.sub_type.to_i
       i = arg.to_i
       raise ValueOutOfBounds, arg unless i >= -2 ** (real_size - 1) and i < 2 ** (real_size - 1)
@@ -338,13 +336,13 @@ module Eth
       raise EncodingError, "Expecting String: #{arg}" unless arg.instance_of? String
       if type.sub_type.empty?
         size = Util.zpad_int arg.size
-        padding = BYTE_ZERO * (Util.ceil32(arg.size) - arg.size)
+        padding = Constant::BYTE_ZERO * (Util.ceil32(arg.size) - arg.size)
 
         # variable length string/bytes
         return "#{size}#{arg}#{padding}"
       else
         raise ValueOutOfBounds, arg unless arg.size <= type.sub_type.to_i
-        padding = BYTE_ZERO * (32 - arg.size)
+        padding = Constant::BYTE_ZERO * (32 - arg.size)
 
         # fixed length string/bytes
         return "#{arg}#{padding}"

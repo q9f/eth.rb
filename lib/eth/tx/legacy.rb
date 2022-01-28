@@ -119,7 +119,7 @@ module Eth
       # @raise [ParameterError] if transaction misses fields.
       def decode(hex)
         bin = Util.hex_to_bin hex
-        tx = RLP.decode(bin)
+        tx = Rlp.decode bin
 
         # decoded transactions always have 9 fields, even if they are empty or zero
         raise ParameterError, "Transaction missing fields!" if tx.size < 9
@@ -236,11 +236,11 @@ module Eth
         tx_data.push Util.serialize_int_to_big_endian @gas_limit
         tx_data.push Util.hex_to_bin @destination
         tx_data.push Util.serialize_int_to_big_endian @amount
-        tx_data.push RLP::Sedes.binary.serialize @payload
+        tx_data.push Rlp::Sedes.binary.serialize @payload
         tx_data.push Util.serialize_int_to_big_endian @signature_v
         tx_data.push Util.serialize_int_to_big_endian @signature_r
         tx_data.push Util.serialize_int_to_big_endian @signature_s
-        RLP.encode tx_data
+        Rlp.encode tx_data
       end
 
       # Gets the encoded, raw transaction hex.
@@ -267,11 +267,11 @@ module Eth
         tx_data.push Util.serialize_int_to_big_endian @gas_limit
         tx_data.push Util.hex_to_bin @destination
         tx_data.push Util.serialize_int_to_big_endian @amount
-        tx_data.push RLP::Sedes.binary.serialize @payload
+        tx_data.push Rlp::Sedes.binary.serialize @payload
         tx_data.push Util.serialize_int_to_big_endian @chain_id
         tx_data.push Util.serialize_int_to_big_endian 0
         tx_data.push Util.serialize_int_to_big_endian 0
-        RLP.encode tx_data
+        Rlp.encode tx_data
       end
 
       # Gets the sign-hash required to sign a raw transaction.

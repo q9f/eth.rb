@@ -42,3 +42,7 @@ jobs:
           gem install rufo
           rufo --check ./lib
           rufo --check ./spec
+      - name: "Run yard documentation checks"
+        run: |
+          gem install yard
+          yard doc --fail-on-warning
