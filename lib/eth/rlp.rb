@@ -41,7 +41,7 @@ module Eth
     # An error-type to point out RLP-type serialization errors.
     class DeserializationError < RlpException; end
 
-    # A wrapper to represent already RLP encoded data
+    # A wrapper to represent already RLP encoded data.
     class Data < String; end
 
     # Performes an Eth::Rlp::Encoder on any ruby object.

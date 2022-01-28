@@ -14,8 +14,6 @@
 
 #  -*- encoding : ascii-8bit -*-
 
-require "eth/rlp"
-
 # Provides the `Eth` module.
 module Eth
 
@@ -69,9 +67,6 @@ module Eth
 
     # The RLP array type offset.
     LIST_PREFIX_OFFSET = 0xc0.freeze
-
-    # An RLP-encoded empty list.
-    LIST_EMPTY = Rlp.encode([]).freeze
 
     # The binary encoding is ASCII (8-bit).
     BINARY_ENCODING = "ASCII-8BIT".freeze
