@@ -27,6 +27,9 @@ module Eth
       class List < Array
 
         # Create a serializable list of fixed size.
+        #
+        # @param elements [Array] an array indicating the structure of the list.
+        # @param strict [Boolean] an option to enforce the given structure.
         def initialize(elements: [], strict: true)
           super()
           @strict = strict
@@ -41,6 +44,12 @@ module Eth
           end
         end
 
+        # Serialize an array.
+        #
+        # @param obj [Array] the array to be serialized.
+        # @return [Array] a serialized list.
+        # @raise [SerializationError] if provided array is not a sequence.
+        # @raise [SerializationError] if provided array is of wrong length.
         def serialize(obj)
           raise SerializationError, "Can only serialize sequences" unless Util.is_list?(obj)
           raise SerializationError, "List has wrong length" if (@strict && self.size != obj.size) || self.size < obj.size
@@ -51,6 +60,12 @@ module Eth
           result
         end
 
+        # Deserializes a list.
+        #
+        # @param serial [Array] the serialized list.
+        # @return [Array] a deserialized list.
+        # @raise [DeserializationError] if provided serial is not a sequence.
+        # @raise [DeserializationError] if provided serial is of wrong length.
         def deserialize(serial)
           raise DeserializationError, "Can only deserialize sequences" unless Util.is_list?(serial)
           raise DeserializationError, "List has wrong length" if @strict && serial.size != self.size
