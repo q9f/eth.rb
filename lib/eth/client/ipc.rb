@@ -14,7 +14,7 @@
 
 require "socket"
 
-# Provides the `Eth` module.
+# Provides the {Eth} module.
 module Eth
 
   # Provides an IPC-RPC client.
@@ -23,7 +23,8 @@ module Eth
     # The path of the IPC socket.
     attr_accessor :path
 
-    # Constructor for the IPC Client.
+    # Constructor for the IPC Client. Should not be used; use
+    # {Client.create} intead.
     #
     # @param path [String] an URI pointing to an IPC RPC-API.
     def initialize(path)

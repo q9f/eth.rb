@@ -14,7 +14,7 @@
 
 # -*- encoding : ascii-8bit -*-
 
-# Provides the `Eth` module.
+# Provides the {Eth} module.
 module Eth
 
   # Provides a Ruby implementation of the Ethereum Applicatoin Binary Interface (ABI).
@@ -26,7 +26,7 @@ module Eth
       # Provides a specific parser error if type cannot be determined.
       class ParseError < StandardError; end
 
-      # The base attribute, e.g., `string` or `bytes`
+      # The base attribute, e.g., `string` or `bytes`.
       attr :base_type
 
       # The sub-type attribute, e.g., `256` as size of an uint256.
@@ -36,7 +36,7 @@ module Eth
       attr :dimensions
 
       # Create a new Type object for base types, sub types, and dimensions.
-      # Should use the `Type.parse` parser.
+      # Should not be used; use {Type.parse} instead.
       #
       # @param base_type [String] the base-type attribute.
       # @param sub_type [String] the sub-type attribute.
@@ -75,7 +75,7 @@ module Eth
         @dimensions = dims.map { |x| x[1...-1].to_i }
       end
 
-      # Creata new uint256 type used for size.
+      # Creates a new uint256 type used for size.
       #
       # @return [Eth::Abi::Type] a uint256 size type.
       def self.size_type
@@ -85,7 +85,7 @@ module Eth
       # Compares two types for their attributes.
       #
       # @param another_type [Eth::Abi::Type] another type to be compared.
-      # @return [Bool] true if all attributes match.
+      # @return [Boolean] true if all attributes match.
       def ==(another_type)
         base_type == another_type.base_type and
           sub_type == another_type.sub_type and
@@ -111,9 +111,9 @@ module Eth
         @size ||= s
       end
 
-      # Helper to determine whether array is of dynamic size.
+      # Helpes to determine whether array is of dynamic size.
       #
-      # @return [Bool] true if array is of dynamic size.
+      # @return [Boolean] true if array is of dynamic size.
       def is_dynamic?
         size.nil?
       end

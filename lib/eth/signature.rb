@@ -14,7 +14,7 @@
 
 require "rbsecp256k1"
 
-# Provides the `Eth` module.
+# Provides the {Eth} module.
 module Eth
 
   # Defines handy tools for verifying and recovering signatures.
@@ -30,21 +30,22 @@ module Eth
     # EIP-712 version byte 0x01
     EIP712_VERSION_BYTE = "\x01".freeze
 
-    # Prefix message as per EIP-191 with 0x19 to ensure the data is not
+    # Prefix message as per EIP-191 with `0x19` to ensure the data is not
     # valid RLP and thus not mistaken for a transaction.
-    # EIP-191 Version byte: 0x45 (E)
-    # ref: https://eips.ethereum.org/EIPS/eip-191
+    # EIP-191 Version byte: `0x45` (`E`)
+    # Ref: https://eips.ethereum.org/EIPS/eip-191
     #
     # @param message [String] the message string to be prefixed.
-    # @return [String] an EIP-191 prefixed string
+    # @return [String] an EIP-191 prefixed string.
     def prefix_message(message)
       "#{EIP191_PREFIX_BYTE}Ethereum Signed Message:\n#{message.size}#{message}"
     end
 
-    # Dissects a signature blob of 65 bytes into its r, s, and v values.
+    # Dissects a signature blob of 65+ bytes into its `r`, `s`, and `v`
+    # values.
     #
-    # @param signature [String] a Secp256k1 signature.
-    # @return [String, String, String] the r, s, and v values.
+    # @param signature [String] a concatenated Secp256k1 signature string.
+    # @return [String, String, String] the `r`, `s`, and `v` values.
     # @raise [SignatureError] if signature is of unknown size.
     def dissect(signature)
       signature = Util.bin_to_hex signature unless Util.is_hex? signature
@@ -79,6 +80,7 @@ module Eth
 
     # Recovers a public key from a prefixed, personal message and
     # a signature on a given chain. (EIP-191)
+    # Ref: https://eips.ethereum.org/EIPS/eip-191
     #
     # @param message [String] the message string.
     # @param signature [String] the hex string containing the signature.
@@ -92,6 +94,7 @@ module Eth
 
     # Recovers a public key from a typed data structure and a signature
     # on a given chain. (EIP-712)
+    # Ref: https://eips.ethereum.org/EIPS/eip-712
     #
     # @param typed_data [Array] all the data in the typed data structure to be recovered.
     # @param signature [String] the hex string containing the signature.

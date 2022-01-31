@@ -18,28 +18,28 @@ require "rbsecp256k1"
 require "scrypt"
 require "securerandom"
 
-# Provides the `Eth` module.
+# Provides the {Eth} module.
 module Eth
 
-  # The `Eth::Key` class to handle Secp256k1 private/public key-pairs.
+  # The {Eth::Key} class to handle Secp256k1 private/public key-pairs.
   class Key
 
-    # The Eth::Key::Decrypter class to handle PBKDF2-SHA-256 decryption.
+    # The {Eth::Key::Decrypter} class to handle PBKDF2-SHA-256 decryption.
     autoload :Decrypter, "eth/key/decrypter"
 
-    # The Eth::Key::Encrypter class to handle PBKDF2-SHA-256 encryption.
+    # The {Eth::Key::Encrypter} class to handle PBKDF2-SHA-256 encryption.
     autoload :Encrypter, "eth/key/encrypter"
 
-    # The `Secp256k1::PrivateKey` of the `Eth::Key` pair.
+    # The `Secp256k1::PrivateKey` of the {Eth::Key} pair.
     attr_reader :private_key
 
-    # The `Secp256k1::PublicKey` of the `Eth::Key` pair.
+    # The `Secp256k1::PublicKey` of the {Eth::Key} pair.
     attr_reader :public_key
 
-    # Constructor of the `Eth::Key` class. Creates a new random key-pair
+    # Constructor of the {Eth::Key} class. Creates a new random key-pair
     # if no `priv` key is provided.
     #
-    # @param priv [String] binary string of private key data (optional).
+    # @param priv [String] binary string of private key data.
     def initialize(priv: nil)
 
       # Creates a new, randomized libsecp256k1 context.
@@ -63,9 +63,10 @@ module Eth
     end
 
     # Signs arbitrary data without validation. Should not be used unless really
-    # desired. See also: personal_sign, sign_typed_data.
+    # desired. See also: {Key.personal_sign}, {Key.sign_typed_data}, and
+    # {Signature.recover}.
     #
-    # @param blob [String] that arbitrary data to be signed.
+    # @param blob [Object] that arbitrary data to be signed.
     # @param chain_id [Integer] the chain id the signature should be generated on.
     # @return [String] a hexa-decimal signature.
     def sign(blob, chain_id = nil)
@@ -81,9 +82,11 @@ module Eth
       Util.bin_to_hex signature.pack "c*"
     end
 
-    # Prefixes a message with "\x19Ethereum Signed Message:" and signs
+    # Prefixes a message with `\x19Ethereum Signed Message:` and signs
     # it in the common way used by many web3 wallets. Complies with
-    # EIP-191 prefix 0x19 and version byte 0x45 (E).
+    # EIP-191 prefix `0x19` and version byte `0x45` (`E`). See also
+    # {Signature.personal_recover}.
+    # Ref: https://eips.ethereum.org/EIPS/eip-191
     #
     # @param message [String] the message string to be prefixed and signed.
     # @param chain_id [Integer] the chain id the signature should be generated on.
@@ -95,8 +98,10 @@ module Eth
     end
 
     # Prefixes, hashes, and signes a typed data structure in the common
-    # way used by many web3 wallets. Complies with EIP-191 prefix 0x19
-    # and EIP-712 version byte 0x01. Supports `V3`, `V4`.
+    # way used by many web3 wallets. Complies with EIP-191 prefix `0x19`
+    # and EIP-712 version byte `0x01`. Supports `V3`, `V4`. See also
+    # {Signature.recover_typed_data}.
+    # Ref: https://eips.ethereum.org/EIPS/eip-712
     #
     # @param typed_data [Array] all the data in the typed data structure to be signed.
     # @param chain_id [Integer] the chain id the signature should be generated on.
@@ -114,7 +119,7 @@ module Eth
     end
 
     # Exports the private key bytes in a wrapper function to maintain
-    # backward-compatibility with older versions of `Eth::Key`.
+    # backward-compatibility with older versions of {Eth::Key}.
     #
     # @return [String] private key as packed byte-string.
     def private_bytes
@@ -138,7 +143,7 @@ module Eth
     end
 
     # Exports the uncompressed public key bytes in a wrapper function to
-    # maintain backward-compatibility with older versions of `Eth::Key`.
+    # maintain backward-compatibility with older versions of {Eth::Key}.
     #
     # @return [String] uncompressed public key as packed byte-string.
     def public_bytes

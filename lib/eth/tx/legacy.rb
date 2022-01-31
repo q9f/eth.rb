@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Provides the `Eth` module.
+# Provides the {Eth} module.
 module Eth
 
   # Provides the `Tx` module supporting various transaction types.
@@ -50,6 +50,7 @@ module Eth
       attr_reader :signature_s
 
       # The EIP-155 chain ID field.
+      # Ref: https://eips.ethereum.org/EIPS/eip-155
       attr_reader :chain_id
 
       # The sender address.
@@ -71,6 +72,7 @@ module Eth
       # @option params [Integer] :value the transaction value.
       # @option params [String] :data the transaction data payload.
       # @param chain_id [Integer] the EIP-155 Chain ID.
+      # @raise [ParameterError] if gas limit is too low.
       def initialize(params, chain_id = Chain::ETHEREUM)
         fields = { v: chain_id, r: 0, s: 0 }.merge params
 
@@ -111,7 +113,7 @@ module Eth
       # overloads the constructor for decoding raw transactions and creating unsigned copies
       konstructor :decode, :unsigned_copy
 
-      # Decodes a raw transaction hex into an Eth::Tx::Legacy
+      # Decodes a raw transaction hex into an {Eth::Tx::Legacy}
       # transaction object.
       #
       # @param hex [String] the raw transaction hex-string.
@@ -199,8 +201,8 @@ module Eth
       #
       # @param key [Eth::Key] the key-pair to use for signing.
       # @return [String] a transaction hash.
-      # @raise [SignatureError] if transaction is already signed.
-      # @raise [SignatureError] if sender address does not match signing key.
+      # @raise [Signature::SignatureError] if transaction is already signed.
+      # @raise [Signature::SignatureError] if sender address does not match signing key.
       def sign(key)
         if Tx.is_signed? self
           raise Signature::SignatureError, "Transaction is already signed!"
@@ -225,7 +227,7 @@ module Eth
       # Encodes a raw transaction object.
       #
       # @return [String] a raw, RLP-encoded legacy transaction.
-      # @raise [SignatureError] if the transaction is not yet signed.
+      # @raise [Signature::SignatureError] if the transaction is not yet signed.
       def encoded
         unless Tx.is_signed? self
           raise Signature::SignatureError, "Transaction is not signed!"

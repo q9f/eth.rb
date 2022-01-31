@@ -14,7 +14,7 @@
 
 #  -*- encoding : ascii-8bit -*-
 
-# Provides the `Eth` module.
+# Provides the {Eth} module.
 module Eth
 
   # Provides commonly used constants, such as zero bytes or zero keys.
@@ -49,12 +49,6 @@ module Eth
 
     # A hash containing only zeros.
     HASH_ZERO = ("\x00" * 32).freeze
-
-    # A private key containing only zeros.
-    PRIVKEY_ZERO = ("\x00" * 32).freeze
-
-    # A private key containing only zeros (hex).
-    PRIVKEY_ZERO_HEX = ("0" * 64).freeze
 
     # The RLP short length limit.
     SHORT_LENGTH_LIMIT = 56.freeze

@@ -12,38 +12,40 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Provides the `Eth` module.
+# Provides the {Eth} module.
 module Eth
 
-  # The Eth::Key::Decrypter class to handle PBKDF2-SHA-256 decryption.
+  # The {Eth::Key::Decrypter} class to handle PBKDF2-SHA-256 decryption.
   class Key::Decrypter
 
     # Provides a specific decrypter error if decryption fails.
     class DecrypterError < StandardError; end
 
-    # Class method `Eth::Key::Decrypter.perform`
+    # Class method {Eth::Key::Decrypter.perform} to perform an keystore
+    # decryption.
     #
-    # @param data [JSON] encryption data including cypherkey
-    # @param password [String] password to decrypt the key
-    # @return [Eth::Key] decrypted key-pair
+    # @param data [JSON] encryption data including cypherkey.
+    # @param password [String] password to decrypt the key.
+    # @return [Eth::Key] decrypted key-pair.
     def self.perform(data, password)
       new(data, password).perform
     end
 
-    # Constructor of the `Eth::Key::Decrypter` class for secret key
-    # encryption.
+    # Constructor of the {Eth::Key::Decrypter} class for secret key
+    # decryption. Should not be used; use {Eth::Key::Decrypter.perform}
+    # instead.
     #
-    # @param data [JSON] encryption data including cypherkey
-    # @param password [String] password to decrypt the key
+    # @param data [JSON] encryption data including cypherkey.
+    # @param password [String] password to decrypt the key.
     def initialize(data, password)
       data = JSON.parse(data) if data.is_a? String
       @data = data
       @password = password
     end
 
-    # Method to decrypt key using password
+    # Method to decrypt key using password.
     #
-    # @return [String] decrypted key
+    # @return [Eth::Key] decrypted key.
     def perform
       derive_key password
       check_macs

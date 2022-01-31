@@ -14,7 +14,7 @@
 
 require "net/http"
 
-# Provides the `Eth` module.
+# Provides the {Eth} module.
 module Eth
 
   # Provides an HTTP/S-RPC client.
@@ -32,7 +32,8 @@ module Eth
     # Attribute indicator for SSL.
     attr_reader :ssl
 
-    # Constructor for the HTTP Client.
+    # Constructor for the HTTP Client. Should not be used; use
+    # {Client.create} intead.
     #
     # @param host [String] an URI pointing to an HTTP RPC-API.
     def initialize(host)

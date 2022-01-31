@@ -12,11 +12,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Provides the `Eth` module.
+# Provides the {Eth} module.
 module Eth
 end
 
-# Loads the `Eth` module classes.
+# Loads the {Eth} module classes.
 require "eth/abi"
 require "eth/api"
 require "eth/address"

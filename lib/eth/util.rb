@@ -14,10 +14,10 @@
 
 require "digest/keccak"
 
-# Provides the `Eth` module.
+# Provides the {Eth} module.
 module Eth
 
-  # Defines handy tools for the `Eth` gem for convenience.
+  # Defines handy tools for the {Eth} gem for convenience.
   module Util
     extend self
 
@@ -92,7 +92,7 @@ module Eth
     # Checks if a string is hex-adecimal.
     #
     # @param str [String] a string to be checked.
-    # @return [String] a match if true; nil if not.
+    # @return [String] a match if true; `nil` if not.
     def is_hex?(str)
       return false unless str.is_a? String
       str = remove_hex_prefix str
@@ -102,7 +102,7 @@ module Eth
     # Checks if a string is prefixed with `0x`.
     #
     # @param hex [String] a string to be checked.
-    # @return [String] a match if true; nil if not.
+    # @return [String] a match if true; `nil` if not.
     def is_prefixed?(hex)
       hex.match /\A0x/
     end
@@ -110,8 +110,8 @@ module Eth
     # Serializes an unsigned integer to big endian.
     #
     # @param num [Integer] unsigned integer to be serialized.
-    # return [String] serialized big endian integer string.
-    # raises [ArgumentError] if unsigned integer is out of bounds.
+    # @return [String] serialized big endian integer string.
+    # @raise [ArgumentError] if unsigned integer is out of bounds.
     def serialize_int_to_big_endian(num)
       num = num.to_i(16) if is_hex? num
       unless num.is_a? Integer and num >= 0 and num <= Constant::UINT_MAX
@@ -123,7 +123,7 @@ module Eth
     # Converts an integer to big endian.
     #
     # @param num [Integer] integer to be converted.
-    # return [String] packed, big-endian integer string.
+    # @return [String] packed, big-endian integer string.
     def int_to_big_endian(num)
       hex = num.to_s(16) unless is_hex? num
       hex = "0#{hex}" if hex.size.odd?
@@ -141,7 +141,7 @@ module Eth
     # Converts a big endian to an interger.
     #
     # @param str [String] big endian to be converted.
-    # return [Integer] an unpacked integer number.
+    # @return [Integer] an unpacked integer number.
     def big_endian_to_int(str)
       str.unpack("H*").first.to_i(16)
     end
@@ -149,7 +149,7 @@ module Eth
     # Converts a binary string to bytes.
     #
     # @param str [String] binary string to be converted.
-    # return [Object] the string bytes.
+    # @return [Object] the string bytes.
     def str_to_bytes(str)
       is_bytes?(str) ? str : str.b
     end
@@ -157,7 +157,7 @@ module Eth
     # Converts bytes to a binary string.
     #
     # @param bin [Object] bytes to be converted.
-    # return [String] a packed binary string.
+    # @return [String] a packed binary string.
     def bytes_to_str(bin)
       bin.unpack("U*").pack("U*")
     end

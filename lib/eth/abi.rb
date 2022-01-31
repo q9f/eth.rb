@@ -18,7 +18,7 @@ require "konstructor"
 
 require "eth/abi/type"
 
-# Provides the `Eth` module.
+# Provides the {Eth} module.
 module Eth
 
   # Provides a Ruby implementation of the Ethereum Applicatoin Binary Interface (ABI).
@@ -69,7 +69,7 @@ module Eth
     # Encodes a specific value, either static or dynamic.
     #
     # @param type [Eth::Abi::Type] type to be encoded.
-    # @param arg [String, Number] value to be encoded.
+    # @param arg [String|Number] value to be encoded.
     # @return [String] the encoded type.
     # @raise [EncodingError] if value does not match type.
     def encode_type(type, arg)
@@ -111,7 +111,7 @@ module Eth
     # Encodes primitive types.
     #
     # @param type [Eth::Abi::Type] type to be encoded.
-    # @param arg [String, Number] value to be encoded.
+    # @param arg [String|Number] value to be encoded.
     # @return [String] the encoded primitive type.
     # @raise [EncodingError] if value does not match type.
     # @raise [ValueOutOfBounds] if value is out of bounds for type.

@@ -25,6 +25,7 @@ describe Chain do
       expect(Chain::XDAI_ARBITRUM).to eq 200
       expect(Chain::GOERLI_OPTIMISM).to eq 420
       expect(Chain::RINKEBY_ARBITRUM).to eq 421611
+      expect(Chain::SEPOLIA).to eq 11155111
 
       # Chain IDs for selected private networks
       expect(Chain::PRIVATE_GETH).to eq 1337

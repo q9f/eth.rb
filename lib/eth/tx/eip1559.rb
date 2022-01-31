@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Provides the `Eth` module.
+# Provides the {Eth} module.
 module Eth
 
   # Provides the `Tx` module supporting various transaction types.
@@ -20,9 +20,11 @@ module Eth
 
     # Provides support for EIP-1559 transactions utilizing EIP-2718
     # types and envelopes.
+    # Ref: https://eips.ethereum.org/EIPS/eip-1559
     class Eip1559
 
       # The EIP-155 Chain ID.
+      # Ref: https://eips.ethereum.org/EIPS/eip-155
       attr_reader :chain_id
 
       # The transaction nonce provided by the signer.
@@ -47,6 +49,7 @@ module Eth
       attr_reader :payload
 
       # An optional EIP-2930 access list.
+      # Ref: https://eips.ethereum.org/EIPS/eip-2930
       attr_reader :access_list
 
       # The signature's y-parity byte (not v).
@@ -66,6 +69,7 @@ module Eth
 
       # Create a type-2 (EIP-1559) transaction payload object that
       # can be prepared for envelope, signature and broadcast.
+      # Ref: https://eips.ethereum.org/EIPS/eip-1559
       #
       # @param params [Hash] all necessary transaction fields.
       # @option params [Integer] :chain_id the chain ID.
@@ -78,6 +82,7 @@ module Eth
       # @option params [Integer] :value the transaction value.
       # @option params [String] :data the transaction data payload.
       # @option params [Array] :access_list an optional access list.
+      # @raise [ParameterError] if gas limit is too low.
       def initialize(params)
         fields = { recovery_id: nil, r: 0, s: 0 }.merge params
 
@@ -122,7 +127,7 @@ module Eth
       # Overloads the constructor for decoding raw transactions and creating unsigned copies.
       konstructor :decode, :unsigned_copy
 
-      # Decodes a raw transaction hex into an Eth::Tx::Eip1559
+      # Decodes a raw transaction hex into an {Eth::Tx::Eip1559}
       # transaction object.
       #
       # @param hex [String] the raw transaction hex-string.
@@ -222,8 +227,8 @@ module Eth
       #
       # @param key [Eth::Key] the key-pair to use for signing.
       # @return [String] a transaction hash.
-      # @raise [SignatureError] if transaction is already signed.
-      # @raise [SignatureError] if sender address does not match signing key.
+      # @raise [Signature::SignatureError] if transaction is already signed.
+      # @raise [Signature::SignatureError] if sender address does not match signing key.
       def sign(key)
         if Tx.is_signed? self
           raise Signature::SignatureError, "Transaction is already signed!"
@@ -250,7 +255,7 @@ module Eth
       # with an EIP-1559 type prefix.
       #
       # @return [String] a raw, RLP-encoded EIP-1559 type transaction object.
-      # @raise [SignatureError] if the transaction is not yet signed.
+      # @raise [Signature::SignatureError] if the transaction is not yet signed.
       def encoded
         unless Tx.is_signed? self
           raise Signature::SignatureError, "Transaction is not signed!"
