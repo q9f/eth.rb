@@ -102,7 +102,7 @@
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
     
-<p>Provides the `Eth::Client` super-class to connect to Ethereum network&#39;s RPC-API endpoints (IPC or HTTP).</p>
+<p>Provides the <span class='object_link'><a href="" title="Eth::Client (class)">Client</a></span> super-class to connect to Ethereum network&#39;s RPC-API endpoints (IPC or HTTP).</p>
 
 
   </div>
@@ -208,7 +208,7 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>The gas limit for the transaction.</p>
+<p>The default gas limit for the transaction.</p>
 </div></span>
   
 </li>
@@ -264,7 +264,7 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>The transaction max fee per gas in Wei.</p>
+<p>The default transaction max fee per gas in Wei.</p>
 </div></span>
   
 </li>
@@ -291,7 +291,7 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>The transaction max priority fee per gas in Wei.</p>
+<p>The default transaction max priority fee per gas in Wei.</p>
 </div></span>
   
 </li>
@@ -411,7 +411,7 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Constructor for the Eth::Client super-class.</p>
+<p>Constructor for the <span class='object_link'><a href="" title="Eth::Client (class)">Client</a></span> super-class.</p>
 </div></span>
   
 </li>
@@ -420,7 +420,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#is_mined_tx%3F-instance_method" title="#is_mined_tx? (instance method)">#<strong>is_mined_tx?</strong>(hash)  &#x21d2; Bool </a>
+      <a href="#is_mined_tx%3F-instance_method" title="#is_mined_tx? (instance method)">#<strong>is_mined_tx?</strong>(hash)  &#x21d2; Boolean </a>
     
 
     
@@ -555,7 +555,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Constructor for the Eth::Client super-class.</p>
+<p>Constructor for the <span class='object_link'><a href="" title="Eth::Client (class)">Eth::Client</a></span> super-class. Should not be used; use <span class='object_link'><a href="#create-class_method" title="Eth::Client.create (method)">create</a></span> intead.</p>
 
 
   </div>
@@ -569,15 +569,15 @@
       <pre class="lines">
 
 
-54
 55
 56
 57
 58
-59</pre>
+59
+60</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 54</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 55</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid__'>_</span><span class='rparen'>)</span>
   <span class='ivar'>@id</span> <span class='op'>=</span> <span class='int'>0</span>
@@ -731,7 +731,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>The gas limit for the transaction.</p>
+<p>The default gas limit for the transaction.</p>
 
 
   </div>
@@ -817,7 +817,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>The transaction max fee per gas in Wei.</p>
+<p>The default transaction max fee per gas in Wei.</p>
 
 
   </div>
@@ -860,7 +860,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>The transaction max priority fee per gas in Wei.</p>
+<p>The default transaction max priority fee per gas in Wei.</p>
 
 
   </div>
@@ -1081,12 +1081,12 @@
       <pre class="lines">
 
 
-79
 80
-81</pre>
+81
+82</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 79</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 80</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_get_balance'>get_balance</span><span class='lparen'>(</span><span class='id identifier rubyid_address'>address</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_eth_get_balance'>eth_get_balance</span><span class='lparen'>(</span><span class='id identifier rubyid_address'>address</span><span class='rparen'>)</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>result</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span> <span class='int'>16</span>
@@ -1160,12 +1160,12 @@
       <pre class="lines">
 
 
-87
 88
-89</pre>
+89
+90</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 87</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 88</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_get_nonce'>get_nonce</span><span class='lparen'>(</span><span class='id identifier rubyid_address'>address</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_eth_get_transaction_count'>eth_get_transaction_count</span><span class='lparen'>(</span><span class='id identifier rubyid_address'>address</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>pending</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>result</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span> <span class='int'>16</span>
@@ -1178,7 +1178,7 @@
       <div class="method_details ">
   <h3 class="signature " id="is_mined_tx?-instance_method">
   
-    #<strong>is_mined_tx?</strong>(hash)  &#x21d2; <tt>Bool</tt> 
+    #<strong>is_mined_tx?</strong>(hash)  &#x21d2; <tt>Boolean</tt> 
   
 
   
@@ -1220,7 +1220,7 @@
     <li>
       
       
-        <span class='type'>(<tt>Bool</tt>)</span>
+        <span class='type'>(<tt>Boolean</tt>)</span>
       
       
       
@@ -1239,13 +1239,13 @@
       <pre class="lines">
 
 
-163
 164
 165
-166</pre>
+166
+167</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 163</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 164</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_is_mined_tx?'>is_mined_tx?</span><span class='lparen'>(</span><span class='id identifier rubyid_hash'>hash</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_mined_tx'>mined_tx</span> <span class='op'>=</span> <span class='id identifier rubyid_eth_get_transaction_by_hash'>eth_get_transaction_by_hash</span> <span class='id identifier rubyid_hash'>hash</span>
@@ -1300,12 +1300,12 @@
       <pre class="lines">
 
 
-155
 156
-157</pre>
+157
+158</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 155</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 156</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_reset_id'>reset_id</span>
   <span class='ivar'>@id</span> <span class='op'>=</span> <span class='int'>0</span>
@@ -1327,7 +1327,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Simply transfer Ether to an account without any call data or access lists attached. Uses `eth_coinbase` and external signer if no sender key is provided.</p>
+<p>Simply transfer Ether to an account without any call data or access lists attached. Uses <code>eth_coinbase</code> and external signer if no sender key is provided.</p>
 
 
   </div>
@@ -1391,7 +1391,7 @@
         <span class='name'>legacy</span>
       
       
-        <span class='type'>(<tt>Bool</tt>)</span>
+        <span class='type'>(<tt>Boolean</tt>)</span>
       
       
         <em class="default">(defaults to: <tt>false</tt>)</em>
@@ -1431,7 +1431,6 @@
       <pre class="lines">
 
 
-113
 114
 115
 116
@@ -1467,10 +1466,11 @@
 146
 147
 148
-149</pre>
+149
+150</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 113</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 114</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_transfer'>transfer</span><span class='lparen'>(</span><span class='id identifier rubyid_destination'>destination</span><span class='comma'>,</span> <span class='id identifier rubyid_amount'>amount</span><span class='comma'>,</span> <span class='id identifier rubyid_sender_key'>sender_key</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='id identifier rubyid_legacy'>legacy</span> <span class='op'>=</span> <span class='kw'>false</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_params'>params</span> <span class='op'>=</span> <span class='lbrace'>{</span>
@@ -1526,7 +1526,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Simply transfer Ether to an account and waits for it to be mined. Uses `eth_coinbase` and external signer if no  sender key is provided.</p>
+<p>Simply transfer Ether to an account and waits for it to be mined. Uses <code>eth_coinbase</code> and external signer if no sender key is provided.</p>
 
 
   </div>
@@ -1590,7 +1590,7 @@
         <span class='name'>legacy</span>
       
       
-        <span class='type'>(<tt>Bool</tt>)</span>
+        <span class='type'>(<tt>Boolean</tt>)</span>
       
       
         <em class="default">(defaults to: <tt>false</tt>)</em>
@@ -1630,12 +1630,12 @@
       <pre class="lines">
 
 
-100
 101
-102</pre>
+102
+103</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 100</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 101</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_transfer_and_wait'>transfer_and_wait</span><span class='lparen'>(</span><span class='id identifier rubyid_destination'>destination</span><span class='comma'>,</span> <span class='id identifier rubyid_amount'>amount</span><span class='comma'>,</span> <span class='id identifier rubyid_sender_key'>sender_key</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='id identifier rubyid_legacy'>legacy</span> <span class='op'>=</span> <span class='kw'>false</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_wait_for_tx'>wait_for_tx</span><span class='lparen'>(</span><span class='id identifier rubyid_transfer'>transfer</span><span class='lparen'>(</span><span class='id identifier rubyid_destination'>destination</span><span class='comma'>,</span> <span class='id identifier rubyid_amount'>amount</span><span class='comma'>,</span> <span class='id identifier rubyid_sender_key'>sender_key</span><span class='comma'>,</span> <span class='id identifier rubyid_legacy'>legacy</span><span class='rparen'>)</span><span class='rparen'>)</span>
@@ -1727,7 +1727,6 @@
       <pre class="lines">
 
 
-173
 174
 175
 176
@@ -1736,10 +1735,11 @@
 179
 180
 181
-182</pre>
+182
+183</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 173</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 174</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_wait_for_tx'>wait_for_tx</span><span class='lparen'>(</span><span class='id identifier rubyid_hash'>hash</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_start_time'>start_time</span> <span class='op'>=</span> <span class='const'>Time</span><span class='period'>.</span><span class='id identifier rubyid_now'>now</span>
@@ -1761,7 +1761,7 @@
 </div>
 
       <div id="footer">
-  Generated on Fri Jan 28 11:42:45 2022 by
+  Generated on Mon Jan 31 17:11:36 2022 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.27 (ruby-2.7.5).
 </div>

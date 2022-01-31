@@ -102,7 +102,7 @@
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
     
-<p>The Eth::Key::Decrypter class to handle PBKDF2-SHA-256 decryption.</p>
+<p>The <span class='object_link'><a href="" title="Eth::Key::Decrypter (class)">Decrypter</a></span> class to handle PBKDF2-SHA-256 decryption.</p>
 
 
   </div>
@@ -153,7 +153,7 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Class method `Eth::Key::Decrypter.perform`.</p>
+<p>Class method <span class='object_link'><a href="#perform-class_method" title="Eth::Key::Decrypter.perform (method)">Decrypter.perform</a></span> to perform an keystore decryption.</p>
 </div></span>
   
 </li>
@@ -188,7 +188,7 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Constructor of the `Eth::Key::Decrypter` class for secret key encryption.</p>
+<p>Constructor of the <span class='object_link'><a href="" title="Eth::Key::Decrypter (class)">Decrypter</a></span> class for secret key decryption.</p>
 </div></span>
   
 </li>
@@ -197,7 +197,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#perform-instance_method" title="#perform (instance method)">#<strong>perform</strong>  &#x21d2; String </a>
+      <a href="#perform-instance_method" title="#perform (instance method)">#<strong>perform</strong>  &#x21d2; Eth::Key </a>
     
 
     
@@ -236,7 +236,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Constructor of the `Eth::Key::Decrypter` class for secret key encryption.</p>
+<p>Constructor of the <span class='object_link'><a href="" title="Eth::Key::Decrypter (class)">Eth::Key::Decrypter</a></span> class for secret key decryption. Should not be used; use <span class='object_link'><a href="#perform-class_method" title="Eth::Key::Decrypter.perform (method)">perform</a></span> instead.</p>
 
 
   </div>
@@ -256,7 +256,7 @@
       
         &mdash;
         <div class='inline'>
-<p>encryption data including cypherkey</p>
+<p>encryption data including cypherkey.</p>
 </div>
       
     </li>
@@ -272,7 +272,7 @@
       
         &mdash;
         <div class='inline'>
-<p>password to decrypt the key</p>
+<p>password to decrypt the key.</p>
 </div>
       
     </li>
@@ -286,14 +286,14 @@
       <pre class="lines">
 
 
-38
-39
 40
 41
-42</pre>
+42
+43
+44</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/key/decrypter.rb', line 38</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/key/decrypter.rb', line 40</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_data'>data</span><span class='comma'>,</span> <span class='id identifier rubyid_password'>password</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_data'>data</span> <span class='op'>=</span> <span class='const'>JSON</span><span class='period'>.</span><span class='id identifier rubyid_parse'>parse</span><span class='lparen'>(</span><span class='id identifier rubyid_data'>data</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_data'>data</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span> <span class='const'>String</span>
@@ -324,7 +324,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Class method `Eth::Key::Decrypter.perform`</p>
+<p>Class method <span class='object_link'><a href="#perform-class_method" title="Eth::Key::Decrypter.perform (method)">perform</a></span> to perform an keystore decryption.</p>
 
 
   </div>
@@ -344,7 +344,7 @@
       
         &mdash;
         <div class='inline'>
-<p>encryption data including cypherkey</p>
+<p>encryption data including cypherkey.</p>
 </div>
       
     </li>
@@ -360,7 +360,7 @@
       
         &mdash;
         <div class='inline'>
-<p>password to decrypt the key</p>
+<p>password to decrypt the key.</p>
 </div>
       
     </li>
@@ -379,7 +379,7 @@
       
         &mdash;
         <div class='inline'>
-<p>decrypted key-pair</p>
+<p>decrypted key-pair.</p>
 </div>
       
     </li>
@@ -392,12 +392,12 @@
       <pre class="lines">
 
 
-29
 30
-31</pre>
+31
+32</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/key/decrypter.rb', line 29</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/key/decrypter.rb', line 30</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_perform'>perform</span><span class='lparen'>(</span><span class='id identifier rubyid_data'>data</span><span class='comma'>,</span> <span class='id identifier rubyid_password'>password</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_data'>data</span><span class='comma'>,</span> <span class='id identifier rubyid_password'>password</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_perform'>perform</span>
@@ -416,7 +416,7 @@
       <div class="method_details first">
   <h3 class="signature first" id="perform-instance_method">
   
-    #<strong>perform</strong>  &#x21d2; <tt>String</tt> 
+    #<strong>perform</strong>  &#x21d2; <tt><span class='object_link'><a href="../Key.html" title="Eth::Key (class)">Eth::Key</a></span></tt> 
   
 
   
@@ -425,7 +425,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Method to decrypt key using password</p>
+<p>Method to decrypt key using password.</p>
 
 
   </div>
@@ -438,13 +438,13 @@
     <li>
       
       
-        <span class='type'>(<tt>String</tt>)</span>
+        <span class='type'>(<tt><span class='object_link'><a href="../Key.html" title="Eth::Key (class)">Eth::Key</a></span></tt>)</span>
       
       
       
         &mdash;
         <div class='inline'>
-<p>decrypted key</p>
+<p>decrypted key.</p>
 </div>
       
     </li>
@@ -457,15 +457,15 @@
       <pre class="lines">
 
 
-47
-48
 49
 50
 51
-52</pre>
+52
+53
+54</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/key/decrypter.rb', line 47</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/key/decrypter.rb', line 49</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_perform'>perform</span>
   <span class='id identifier rubyid_derive_key'>derive_key</span> <span class='id identifier rubyid_password'>password</span>
@@ -483,7 +483,7 @@
 </div>
 
       <div id="footer">
-  Generated on Fri Jan 28 11:42:46 2022 by
+  Generated on Mon Jan 31 17:11:37 2022 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.27 (ruby-2.7.5).
 </div>

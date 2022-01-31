@@ -127,6 +127,63 @@
 
   
     <h2>
+      Class Method Summary
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#decode-class_method" title="#decode (class method)">.<strong>decode</strong>(rlp)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Performes an <span class='object_link'><a href="Rlp/Decoder.html" title="Eth::Rlp::Decoder (module)">Decoder</a></span> on any RLP-encoded item.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#encode-class_method" title="#encode (class method)">.<strong>encode</strong>(obj)  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Performes an <span class='object_link'><a href="Rlp/Encoder.html" title="Eth::Rlp::Encoder (module)">Encoder</a></span> on any ruby object.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+    <h2>
       Instance Method Summary
       <small><a href="#" class="summary_toggle">collapse</a></small>
     </h2>
@@ -151,7 +208,7 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Performes an Eth::Rlp::Decoder on any RLP-encoded item.</p>
+<p>Performes an <span class='object_link'><a href="Rlp/Decoder.html" title="Eth::Rlp::Decoder (module)">Decoder</a></span> on any RLP-encoded item.</p>
 </div></span>
   
 </li>
@@ -175,7 +232,7 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Performes an Eth::Rlp::Encoder on any ruby object.</p>
+<p>Performes an <span class='object_link'><a href="Rlp/Encoder.html" title="Eth::Rlp::Encoder (module)">Encoder</a></span> on any ruby object.</p>
 </div></span>
   
 </li>
@@ -185,6 +242,170 @@
   
 
 
+
+  <div id="class_method_details" class="method_details_list">
+    <h2>Class Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="decode-class_method">
+  
+    .<strong>decode</strong>(rlp)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Performes an <span class='object_link'><a href="Rlp/Decoder.html" title="Eth::Rlp::Decoder (module)">Decoder</a></span> on any RLP-encoded item.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>rlp</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>a packed, RLP-encoded item.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Object</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>a decoded ruby object.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+59
+60
+61</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/eth/rlp.rb', line 59</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_decode'>decode</span><span class='lparen'>(</span><span class='id identifier rubyid_rlp'>rlp</span><span class='rparen'>)</span>
+  <span class='const'><span class='object_link'><a href="" title="Eth::Rlp (module)">Rlp</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Rlp/Decoder.html" title="Eth::Rlp::Decoder (module)">Decoder</a></span></span><span class='period'>.</span><span class='id identifier rubyid_perform'><span class='object_link'><a href="Rlp/Decoder.html#perform-instance_method" title="Eth::Rlp::Decoder#perform (method)">perform</a></span></span> <span class='id identifier rubyid_rlp'>rlp</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="encode-class_method">
+  
+    .<strong>encode</strong>(obj)  &#x21d2; <tt>String</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Performes an <span class='object_link'><a href="Rlp/Encoder.html" title="Eth::Rlp::Encoder (module)">Encoder</a></span> on any ruby object.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>obj</span>
+      
+      
+        <span class='type'>(<tt>Object</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>any ruby object.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>a packed, RLP-encoded item.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+51
+52
+53</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/eth/rlp.rb', line 51</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_encode'>encode</span><span class='lparen'>(</span><span class='id identifier rubyid_obj'>obj</span><span class='rparen'>)</span>
+  <span class='const'><span class='object_link'><a href="" title="Eth::Rlp (module)">Rlp</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Rlp/Encoder.html" title="Eth::Rlp::Encoder (module)">Encoder</a></span></span><span class='period'>.</span><span class='id identifier rubyid_perform'><span class='object_link'><a href="Rlp/Encoder.html#perform-instance_method" title="Eth::Rlp::Encoder#perform (method)">perform</a></span></span> <span class='id identifier rubyid_obj'>obj</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
 
   <div id="instance_method_details" class="method_details_list">
     <h2>Instance Method Details</h2>
@@ -202,7 +423,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Performes an Eth::Rlp::Decoder on any RLP-encoded item.</p>
+<p>Performes an <span class='object_link'><a href="Rlp/Decoder.html" title="Eth::Rlp::Decoder (module)">Decoder</a></span> on any RLP-encoded item.</p>
 
 
   </div>
@@ -281,7 +502,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Performes an Eth::Rlp::Encoder on any ruby object.</p>
+<p>Performes an <span class='object_link'><a href="Rlp/Encoder.html" title="Eth::Rlp::Encoder (module)">Encoder</a></span> on any ruby object.</p>
 
 
   </div>
@@ -353,7 +574,7 @@
 </div>
 
       <div id="footer">
-  Generated on Fri Jan 28 11:42:45 2022 by
+  Generated on Mon Jan 31 17:11:33 2022 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.27 (ruby-2.7.5).
 </div>

@@ -166,6 +166,159 @@
 
   
     <h2>
+      Class Method Summary
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#dissect-class_method" title="#dissect (class method)">.<strong>dissect</strong>(signature)  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Dissects a signature blob of 65+ bytes into its <code>r</code>, <code>s</code>, and <code>v</code> values.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#personal_recover-class_method" title="#personal_recover (class method)">.<strong>personal_recover</strong>(message, signature, chain_id = Chain::ETHEREUM)  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Recovers a public key from a prefixed, personal message and a signature on a given chain.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#prefix_message-class_method" title="#prefix_message (class method)">.<strong>prefix_message</strong>(message)  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Prefix message as per EIP-191 with <code>0x19</code> to ensure the data is not valid RLP and thus not mistaken for a transaction.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#recover-class_method" title="#recover (class method)">.<strong>recover</strong>(blob, signature, chain_id = Chain::ETHEREUM)  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Recovers a signature from arbitrary data without validation on a given chain.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#recover_typed_data-class_method" title="#recover_typed_data (class method)">.<strong>recover_typed_data</strong>(typed_data, signature, chain_id = Chain::ETHEREUM)  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Recovers a public key from a typed data structure and a signature on a given chain.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#verify-class_method" title="#verify (class method)">.<strong>verify</strong>(blob, signature, public_key, chain_id = Chain::ETHEREUM)  &#x21d2; Boolean </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Verifies a signature for a given public key or address.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+    <h2>
       Instance Method Summary
       <small><a href="#" class="summary_toggle">collapse</a></small>
     </h2>
@@ -190,7 +343,7 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Dissects a signature blob of 65 bytes into its r, s, and v values.</p>
+<p>Dissects a signature blob of 65+ bytes into its <code>r</code>, <code>s</code>, and <code>v</code> values.</p>
 </div></span>
   
 </li>
@@ -238,7 +391,7 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Prefix message as per EIP-191 with 0x19 to ensure the data is not valid RLP and thus not mistaken for a transaction.</p>
+<p>Prefix message as per EIP-191 with <code>0x19</code> to ensure the data is not valid RLP and thus not mistaken for a transaction.</p>
 </div></span>
   
 </li>
@@ -321,14 +474,14 @@
 
 
 
-  <div id="instance_method_details" class="method_details_list">
-    <h2>Instance Method Details</h2>
+  <div id="class_method_details" class="method_details_list">
+    <h2>Class Method Details</h2>
 
     
       <div class="method_details first">
-  <h3 class="signature first" id="dissect-instance_method">
+  <h3 class="signature first" id="dissect-class_method">
   
-    #<strong>dissect</strong>(signature)  &#x21d2; <tt>String</tt> 
+    .<strong>dissect</strong>(signature)  &#x21d2; <tt>String</tt> 
   
 
   
@@ -337,7 +490,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Dissects a signature blob of 65 bytes into its r, s, and v values.</p>
+<p>Dissects a signature blob of 65+ bytes into its <code>r</code>, <code>s</code>, and <code>v</code> values.</p>
 
 
   </div>
@@ -357,7 +510,7 @@
       
         &mdash;
         <div class='inline'>
-<p>a Secp256k1 signature.</p>
+<p>a concatenated Secp256k1 signature string.</p>
 </div>
       
     </li>
@@ -376,7 +529,7 @@
       
         &mdash;
         <div class='inline'>
-<p>the r, s, and v values.</p>
+<p>the <code>r</code>, <code>s</code>, and <code>v</code> values.</p>
 </div>
       
     </li>
@@ -407,7 +560,6 @@
       <pre class="lines">
 
 
-49
 50
 51
 52
@@ -417,10 +569,11 @@
 56
 57
 58
-59</pre>
+59
+60</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/signature.rb', line 49</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/signature.rb', line 50</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_dissect'>dissect</span><span class='lparen'>(</span><span class='id identifier rubyid_signature'>signature</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_signature'>signature</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_bin_to_hex'><span class='object_link'><a href="Util.html#bin_to_hex-instance_method" title="Eth::Util#bin_to_hex (method)">bin_to_hex</a></span></span> <span class='id identifier rubyid_signature'>signature</span> <span class='kw'>unless</span> <span class='const'><span class='object_link'><a href="Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_is_hex?'><span class='object_link'><a href="Util.html#is_hex%3F-instance_method" title="Eth::Util#is_hex? (method)">is_hex?</a></span></span> <span class='id identifier rubyid_signature'>signature</span>
@@ -439,9 +592,9 @@
 </div>
     
       <div class="method_details ">
-  <h3 class="signature " id="personal_recover-instance_method">
+  <h3 class="signature " id="personal_recover-class_method">
   
-    #<strong>personal_recover</strong>(message, signature, chain_id = Chain::ETHEREUM)  &#x21d2; <tt>String</tt> 
+    .<strong>personal_recover</strong>(message, signature, chain_id = Chain::ETHEREUM)  &#x21d2; <tt>String</tt> 
   
 
   
@@ -450,7 +603,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Recovers a public key from a prefixed, personal message and a signature on a given chain. (EIP-191)</p>
+<p>Recovers a public key from a prefixed, personal message and a signature on a given chain. (EIP-191) Ref: <a href="https://eips.ethereum.org/EIPS/eip-191">eips.ethereum.org/EIPS/eip-191</a></p>
 
 
   </div>
@@ -536,14 +689,14 @@
       <pre class="lines">
 
 
-87
-88
 89
 90
-91</pre>
+91
+92
+93</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/signature.rb', line 87</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/signature.rb', line 89</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_personal_recover'>personal_recover</span><span class='lparen'>(</span><span class='id identifier rubyid_message'>message</span><span class='comma'>,</span> <span class='id identifier rubyid_signature'>signature</span><span class='comma'>,</span> <span class='id identifier rubyid_chain_id'>chain_id</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Chain.html" title="Eth::Chain (module)">Chain</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Chain.html#ETHEREUM-constant" title="Eth::Chain::ETHEREUM (constant)">ETHEREUM</a></span></span><span class='rparen'>)</span>
   <span class='id identifier rubyid_prefixed_message'>prefixed_message</span> <span class='op'>=</span> <span class='id identifier rubyid_prefix_message'>prefix_message</span> <span class='id identifier rubyid_message'>message</span>
@@ -556,9 +709,9 @@
 </div>
     
       <div class="method_details ">
-  <h3 class="signature " id="prefix_message-instance_method">
+  <h3 class="signature " id="prefix_message-class_method">
   
-    #<strong>prefix_message</strong>(message)  &#x21d2; <tt>String</tt> 
+    .<strong>prefix_message</strong>(message)  &#x21d2; <tt>String</tt> 
   
 
   
@@ -567,7 +720,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Prefix message as per EIP-191 with 0x19 to ensure the data is not valid RLP and thus not mistaken for a transaction. EIP-191 Version byte: 0x45 (E) ref: <a href="https://eips.ethereum.org/EIPS/eip-191">eips.ethereum.org/EIPS/eip-191</a></p>
+<p>Prefix message as per EIP-191 with <code>0x19</code> to ensure the data is not valid RLP and thus not mistaken for a transaction. EIP-191 Version byte: <code>0x45</code> (<code>E</code>) Ref: <a href="https://eips.ethereum.org/EIPS/eip-191">eips.ethereum.org/EIPS/eip-191</a></p>
 
 
   </div>
@@ -606,7 +759,817 @@
       
         &mdash;
         <div class='inline'>
-<p>an EIP-191 prefixed string</p>
+<p>an EIP-191 prefixed string.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+40
+41
+42</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/eth/signature.rb', line 40</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_prefix_message'>prefix_message</span><span class='lparen'>(</span><span class='id identifier rubyid_message'>message</span><span class='rparen'>)</span>
+  <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='const'><span class='object_link'><a href="#EIP191_PREFIX_BYTE-constant" title="Eth::Signature::EIP191_PREFIX_BYTE (constant)">EIP191_PREFIX_BYTE</a></span></span><span class='embexpr_end'>}</span><span class='tstring_content'>Ethereum Signed Message:\n</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_message'>message</span><span class='period'>.</span><span class='id identifier rubyid_size'>size</span><span class='embexpr_end'>}</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_message'>message</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="recover-class_method">
+  
+    .<strong>recover</strong>(blob, signature, chain_id = Chain::ETHEREUM)  &#x21d2; <tt>String</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Recovers a signature from arbitrary data without validation on a given chain.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>blob</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>that arbitrary data to be recovered.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>signature</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the hex string containing the signature.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>chain_id</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>Chain::ETHEREUM</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the chain ID the signature should be recovered from.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>a hexa-decimal, uncompressed public key.</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Signature/SignatureError.html" title="Eth::Signature::SignatureError (class)">SignatureError</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>if signature is of invalid size or invalid v.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/eth/signature.rb', line 69</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_recover'>recover</span><span class='lparen'>(</span><span class='id identifier rubyid_blob'>blob</span><span class='comma'>,</span> <span class='id identifier rubyid_signature'>signature</span><span class='comma'>,</span> <span class='id identifier rubyid_chain_id'>chain_id</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Chain.html" title="Eth::Chain (module)">Chain</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Chain.html#ETHEREUM-constant" title="Eth::Chain::ETHEREUM (constant)">ETHEREUM</a></span></span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_context'>context</span> <span class='op'>=</span> <span class='const'>Secp256k1</span><span class='op'>::</span><span class='const'>Context</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span>
+  <span class='id identifier rubyid_r'>r</span><span class='comma'>,</span> <span class='id identifier rubyid_s'>s</span><span class='comma'>,</span> <span class='id identifier rubyid_v'>v</span> <span class='op'>=</span> <span class='id identifier rubyid_dissect'>dissect</span> <span class='id identifier rubyid_signature'>signature</span>
+  <span class='id identifier rubyid_v'>v</span> <span class='op'>=</span> <span class='id identifier rubyid_v'>v</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span><span class='lparen'>(</span><span class='int'>16</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="Signature/SignatureError.html" title="Eth::Signature::SignatureError (class)">SignatureError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Invalid signature v byte </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_v'>v</span><span class='embexpr_end'>}</span><span class='tstring_content'> for chain ID </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_chain_id'>chain_id</span><span class='embexpr_end'>}</span><span class='tstring_content'>!</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_v'>v</span> <span class='op'>&lt;</span> <span class='id identifier rubyid_chain_id'>chain_id</span>
+  <span class='id identifier rubyid_recovery_id'>recovery_id</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Chain.html" title="Eth::Chain (module)">Chain</a></span></span><span class='period'>.</span><span class='id identifier rubyid_to_recovery_id'><span class='object_link'><a href="Chain.html#to_recovery_id-instance_method" title="Eth::Chain#to_recovery_id (method)">to_recovery_id</a></span></span> <span class='id identifier rubyid_v'>v</span><span class='comma'>,</span> <span class='id identifier rubyid_chain_id'>chain_id</span>
+  <span class='id identifier rubyid_signature_rs'>signature_rs</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_hex_to_bin'><span class='object_link'><a href="Util.html#hex_to_bin-instance_method" title="Eth::Util#hex_to_bin (method)">hex_to_bin</a></span></span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_r'>r</span><span class='embexpr_end'>}</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_s'>s</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
+  <span class='id identifier rubyid_recoverable_signature'>recoverable_signature</span> <span class='op'>=</span> <span class='id identifier rubyid_context'>context</span><span class='period'>.</span><span class='id identifier rubyid_recoverable_signature_from_compact'>recoverable_signature_from_compact</span> <span class='id identifier rubyid_signature_rs'>signature_rs</span><span class='comma'>,</span> <span class='id identifier rubyid_recovery_id'>recovery_id</span>
+  <span class='id identifier rubyid_public_key'>public_key</span> <span class='op'>=</span> <span class='id identifier rubyid_recoverable_signature'>recoverable_signature</span><span class='period'>.</span><span class='id identifier rubyid_recover_public_key'>recover_public_key</span> <span class='id identifier rubyid_blob'>blob</span>
+  <span class='const'><span class='object_link'><a href="Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_bin_to_hex'><span class='object_link'><a href="Util.html#bin_to_hex-instance_method" title="Eth::Util#bin_to_hex (method)">bin_to_hex</a></span></span> <span class='id identifier rubyid_public_key'>public_key</span><span class='period'>.</span><span class='id identifier rubyid_uncompressed'>uncompressed</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="recover_typed_data-class_method">
+  
+    .<strong>recover_typed_data</strong>(typed_data, signature, chain_id = Chain::ETHEREUM)  &#x21d2; <tt>String</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Recovers a public key from a typed data structure and a signature on a given chain. (EIP-712) Ref: <a href="https://eips.ethereum.org/EIPS/eip-712">eips.ethereum.org/EIPS/eip-712</a></p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>typed_data</span>
+      
+      
+        <span class='type'>(<tt>Array</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>all the data in the typed data structure to be recovered.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>signature</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the hex string containing the signature.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>chain_id</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>Chain::ETHEREUM</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the chain ID the signature should be recovered from.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>a hexa-decimal, uncompressed public key.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+103
+104
+105
+106</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/eth/signature.rb', line 103</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_recover_typed_data'>recover_typed_data</span><span class='lparen'>(</span><span class='id identifier rubyid_typed_data'>typed_data</span><span class='comma'>,</span> <span class='id identifier rubyid_signature'>signature</span><span class='comma'>,</span> <span class='id identifier rubyid_chain_id'>chain_id</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Chain.html" title="Eth::Chain (module)">Chain</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Chain.html#ETHEREUM-constant" title="Eth::Chain::ETHEREUM (constant)">ETHEREUM</a></span></span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_hash_to_sign'>hash_to_sign</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Eip712.html" title="Eth::Eip712 (module)">Eip712</a></span></span><span class='period'>.</span><span class='id identifier rubyid_hash'><span class='object_link'><a href="Eip712.html#hash-instance_method" title="Eth::Eip712#hash (method)">hash</a></span></span> <span class='id identifier rubyid_typed_data'>typed_data</span>
+  <span class='id identifier rubyid_recover'>recover</span> <span class='id identifier rubyid_hash_to_sign'>hash_to_sign</span><span class='comma'>,</span> <span class='id identifier rubyid_signature'>signature</span><span class='comma'>,</span> <span class='id identifier rubyid_chain_id'>chain_id</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="verify-class_method">
+  
+    .<strong>verify</strong>(blob, signature, public_key, chain_id = Chain::ETHEREUM)  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Verifies a signature for a given public key or address.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>blob</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>that arbitrary data to be verified.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>signature</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the hex string containing the signature.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>public_key</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>either a public key or an Ethereum address.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>chain_id</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>Chain::ETHEREUM</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the chain ID used to sign.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>true if signature matches provided public key.</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Signature/SignatureError.html" title="Eth::Signature::SignatureError (class)">SignatureError</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>if it cannot determine the type of data or public key.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/eth/signature.rb', line 116</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_verify'>verify</span><span class='lparen'>(</span><span class='id identifier rubyid_blob'>blob</span><span class='comma'>,</span> <span class='id identifier rubyid_signature'>signature</span><span class='comma'>,</span> <span class='id identifier rubyid_public_key'>public_key</span><span class='comma'>,</span> <span class='id identifier rubyid_chain_id'>chain_id</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Chain.html" title="Eth::Chain (module)">Chain</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Chain.html#ETHEREUM-constant" title="Eth::Chain::ETHEREUM (constant)">ETHEREUM</a></span></span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_recovered_key'>recovered_key</span> <span class='op'>=</span> <span class='kw'>nil</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_blob'>blob</span><span class='period'>.</span><span class='id identifier rubyid_instance_of?'>instance_of?</span> <span class='const'>Array</span> <span class='kw'>or</span> <span class='id identifier rubyid_blob'>blob</span><span class='period'>.</span><span class='id identifier rubyid_instance_of?'>instance_of?</span> <span class='const'>Hash</span>
+
+    <span class='comment'># recover Array from sign_typed_data
+</span>    <span class='id identifier rubyid_recovered_key'>recovered_key</span> <span class='op'>=</span> <span class='id identifier rubyid_recover_typed_data'>recover_typed_data</span> <span class='id identifier rubyid_blob'>blob</span><span class='comma'>,</span> <span class='id identifier rubyid_signature'>signature</span><span class='comma'>,</span> <span class='id identifier rubyid_chain_id'>chain_id</span>
+  <span class='kw'>elsif</span> <span class='id identifier rubyid_blob'>blob</span><span class='period'>.</span><span class='id identifier rubyid_instance_of?'>instance_of?</span> <span class='const'>String</span> <span class='kw'>and</span> <span class='id identifier rubyid_blob'>blob</span><span class='period'>.</span><span class='id identifier rubyid_encoding'>encoding</span> <span class='op'>!=</span> <span class='const'>Encoding</span><span class='op'>::</span><span class='const'>ASCII_8BIT</span>
+
+    <span class='comment'># recover message from personal_sign
+</span>    <span class='id identifier rubyid_recovered_key'>recovered_key</span> <span class='op'>=</span> <span class='id identifier rubyid_personal_recover'>personal_recover</span> <span class='id identifier rubyid_blob'>blob</span><span class='comma'>,</span> <span class='id identifier rubyid_signature'>signature</span><span class='comma'>,</span> <span class='id identifier rubyid_chain_id'>chain_id</span>
+  <span class='kw'>elsif</span> <span class='id identifier rubyid_blob'>blob</span><span class='period'>.</span><span class='id identifier rubyid_instance_of?'>instance_of?</span> <span class='const'>String</span> <span class='kw'>and</span> <span class='lparen'>(</span><span class='const'><span class='object_link'><a href="Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_is_hex?'><span class='object_link'><a href="Util.html#is_hex%3F-instance_method" title="Eth::Util#is_hex? (method)">is_hex?</a></span></span> <span class='id identifier rubyid_blob'>blob</span> <span class='kw'>or</span> <span class='id identifier rubyid_blob'>blob</span><span class='period'>.</span><span class='id identifier rubyid_encoding'>encoding</span> <span class='op'>==</span> <span class='const'>Encoding</span><span class='op'>::</span><span class='const'>ASCII_8BIT</span><span class='rparen'>)</span>
+
+    <span class='comment'># if nothing else, recover from arbitrary signature
+</span>    <span class='id identifier rubyid_recovered_key'>recovered_key</span> <span class='op'>=</span> <span class='id identifier rubyid_recover'>recover</span> <span class='id identifier rubyid_blob'>blob</span><span class='comma'>,</span> <span class='id identifier rubyid_signature'>signature</span><span class='comma'>,</span> <span class='id identifier rubyid_chain_id'>chain_id</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'># raise if we cannot determine the data format
+</span>  <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="Signature/SignatureError.html" title="Eth::Signature::SignatureError (class)">SignatureError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Unknown data format to verify: </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_blob'>blob</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_recovered_key'>recovered_key</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+
+  <span class='kw'>if</span> <span class='id identifier rubyid_public_key'>public_key</span><span class='period'>.</span><span class='id identifier rubyid_instance_of?'>instance_of?</span> <span class='const'><span class='object_link'><a href="Address.html" title="Eth::Address (class)">Address</a></span></span>
+
+    <span class='comment'># recovering using an Eth::Address
+</span>    <span class='id identifier rubyid_address'>address</span> <span class='op'>=</span> <span class='id identifier rubyid_public_key'>public_key</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>
+    <span class='id identifier rubyid_recovered_address'>recovered_address</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_public_key_to_address'><span class='object_link'><a href="Util.html#public_key_to_address-instance_method" title="Eth::Util#public_key_to_address (method)">public_key_to_address</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_recovered_key'>recovered_key</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>
+    <span class='kw'>return</span> <span class='id identifier rubyid_address'>address</span> <span class='op'>==</span> <span class='id identifier rubyid_recovered_address'>recovered_address</span>
+  <span class='kw'>elsif</span> <span class='id identifier rubyid_public_key'>public_key</span><span class='period'>.</span><span class='id identifier rubyid_instance_of?'>instance_of?</span> <span class='const'>Secp256k1</span><span class='op'>::</span><span class='const'>PublicKey</span>
+
+    <span class='comment'># recovering using an Secp256k1::PublicKey
+</span>    <span class='id identifier rubyid_public_hex'>public_hex</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_bin_to_hex'><span class='object_link'><a href="Util.html#bin_to_hex-instance_method" title="Eth::Util#bin_to_hex (method)">bin_to_hex</a></span></span> <span class='id identifier rubyid_public_key'>public_key</span><span class='period'>.</span><span class='id identifier rubyid_uncompressed'>uncompressed</span>
+    <span class='kw'>return</span> <span class='id identifier rubyid_public_hex'>public_hex</span> <span class='op'>==</span> <span class='id identifier rubyid_recovered_key'>recovered_key</span>
+  <span class='kw'>elsif</span> <span class='id identifier rubyid_public_key'>public_key</span><span class='period'>.</span><span class='id identifier rubyid_size'>size</span> <span class='op'>==</span> <span class='int'>42</span>
+
+    <span class='comment'># recovering using an address String
+</span>    <span class='id identifier rubyid_address'>address</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Address.html" title="Eth::Address (class)">Address</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="Address.html#initialize-instance_method" title="Eth::Address#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_public_key'>public_key</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>
+    <span class='id identifier rubyid_recovered_address'>recovered_address</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_public_key_to_address'><span class='object_link'><a href="Util.html#public_key_to_address-instance_method" title="Eth::Util#public_key_to_address (method)">public_key_to_address</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_recovered_key'>recovered_key</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>
+    <span class='kw'>return</span> <span class='id identifier rubyid_address'>address</span> <span class='op'>==</span> <span class='id identifier rubyid_recovered_address'>recovered_address</span>
+  <span class='kw'>elsif</span> <span class='id identifier rubyid_public_key'>public_key</span><span class='period'>.</span><span class='id identifier rubyid_size'>size</span> <span class='op'>==</span> <span class='int'>130</span>
+
+    <span class='comment'># recovering using an uncompressed public key String
+</span>    <span class='kw'>return</span> <span class='id identifier rubyid_public_key'>public_key</span> <span class='op'>==</span> <span class='id identifier rubyid_recovered_key'>recovered_key</span>
+  <span class='kw'>else</span>
+
+    <span class='comment'># raise if we cannot determine the public key format used
+</span>    <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="Signature/SignatureError.html" title="Eth::Signature::SignatureError (class)">SignatureError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Invalid public key or address supplied </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_public_key'>public_key</span><span class='embexpr_end'>}</span><span class='tstring_content'>!</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="dissect-instance_method">
+  
+    #<strong>dissect</strong>(signature)  &#x21d2; <tt>String</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Dissects a signature blob of 65+ bytes into its <code>r</code>, <code>s</code>, and <code>v</code> values.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>signature</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>a concatenated Secp256k1 signature string.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>String</tt>, <tt>String</tt>, <tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the <code>r</code>, <code>s</code>, and <code>v</code> values.</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Signature/SignatureError.html" title="Eth::Signature::SignatureError (class)">SignatureError</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>if signature is of unknown size.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/eth/signature.rb', line 50</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_dissect'>dissect</span><span class='lparen'>(</span><span class='id identifier rubyid_signature'>signature</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_signature'>signature</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_bin_to_hex'><span class='object_link'><a href="Util.html#bin_to_hex-instance_method" title="Eth::Util#bin_to_hex (method)">bin_to_hex</a></span></span> <span class='id identifier rubyid_signature'>signature</span> <span class='kw'>unless</span> <span class='const'><span class='object_link'><a href="Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_is_hex?'><span class='object_link'><a href="Util.html#is_hex%3F-instance_method" title="Eth::Util#is_hex? (method)">is_hex?</a></span></span> <span class='id identifier rubyid_signature'>signature</span>
+  <span class='id identifier rubyid_signature'>signature</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_remove_hex_prefix'><span class='object_link'><a href="Util.html#remove_hex_prefix-instance_method" title="Eth::Util#remove_hex_prefix (method)">remove_hex_prefix</a></span></span> <span class='id identifier rubyid_signature'>signature</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_signature'>signature</span><span class='period'>.</span><span class='id identifier rubyid_size'>size</span> <span class='op'>&lt;</span> <span class='int'>130</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="Signature/SignatureError.html" title="Eth::Signature::SignatureError (class)">SignatureError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Unknown signature length </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_signature'>signature</span><span class='period'>.</span><span class='id identifier rubyid_size'>size</span><span class='embexpr_end'>}</span><span class='tstring_content'>!</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>end</span>
+  <span class='id identifier rubyid_r'>r</span> <span class='op'>=</span> <span class='id identifier rubyid_signature'>signature</span><span class='lbracket'>[</span><span class='int'>0</span><span class='comma'>,</span> <span class='int'>64</span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_s'>s</span> <span class='op'>=</span> <span class='id identifier rubyid_signature'>signature</span><span class='lbracket'>[</span><span class='int'>64</span><span class='comma'>,</span> <span class='int'>64</span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_v'>v</span> <span class='op'>=</span> <span class='id identifier rubyid_signature'>signature</span><span class='lbracket'>[</span><span class='int'>128</span><span class='op'>..</span><span class='rbracket'>]</span>
+  <span class='kw'>return</span> <span class='id identifier rubyid_r'>r</span><span class='comma'>,</span> <span class='id identifier rubyid_s'>s</span><span class='comma'>,</span> <span class='id identifier rubyid_v'>v</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="personal_recover-instance_method">
+  
+    #<strong>personal_recover</strong>(message, signature, chain_id = Chain::ETHEREUM)  &#x21d2; <tt>String</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Recovers a public key from a prefixed, personal message and a signature on a given chain. (EIP-191) Ref: <a href="https://eips.ethereum.org/EIPS/eip-191">eips.ethereum.org/EIPS/eip-191</a></p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>message</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the message string.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>signature</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the hex string containing the signature.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>chain_id</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>Chain::ETHEREUM</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the chain ID the signature should be recovered from.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>a hexa-decimal, uncompressed public key.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+89
+90
+91
+92
+93</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/eth/signature.rb', line 89</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_personal_recover'>personal_recover</span><span class='lparen'>(</span><span class='id identifier rubyid_message'>message</span><span class='comma'>,</span> <span class='id identifier rubyid_signature'>signature</span><span class='comma'>,</span> <span class='id identifier rubyid_chain_id'>chain_id</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Chain.html" title="Eth::Chain (module)">Chain</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Chain.html#ETHEREUM-constant" title="Eth::Chain::ETHEREUM (constant)">ETHEREUM</a></span></span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_prefixed_message'>prefixed_message</span> <span class='op'>=</span> <span class='id identifier rubyid_prefix_message'>prefix_message</span> <span class='id identifier rubyid_message'>message</span>
+  <span class='id identifier rubyid_hashed_message'>hashed_message</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_keccak256'><span class='object_link'><a href="Util.html#keccak256-instance_method" title="Eth::Util#keccak256 (method)">keccak256</a></span></span> <span class='id identifier rubyid_prefixed_message'>prefixed_message</span>
+  <span class='id identifier rubyid_recover'>recover</span> <span class='id identifier rubyid_hashed_message'>hashed_message</span><span class='comma'>,</span> <span class='id identifier rubyid_signature'>signature</span><span class='comma'>,</span> <span class='id identifier rubyid_chain_id'>chain_id</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="prefix_message-instance_method">
+  
+    #<strong>prefix_message</strong>(message)  &#x21d2; <tt>String</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Prefix message as per EIP-191 with <code>0x19</code> to ensure the data is not valid RLP and thus not mistaken for a transaction. EIP-191 Version byte: <code>0x45</code> (<code>E</code>) Ref: <a href="https://eips.ethereum.org/EIPS/eip-191">eips.ethereum.org/EIPS/eip-191</a></p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>message</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the message string to be prefixed.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>an EIP-191 prefixed string.</p>
 </div>
       
     </li>
@@ -750,7 +1713,6 @@
       <pre class="lines">
 
 
-68
 69
 70
 71
@@ -760,10 +1722,11 @@
 75
 76
 77
-78</pre>
+78
+79</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/signature.rb', line 68</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/signature.rb', line 69</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_recover'>recover</span><span class='lparen'>(</span><span class='id identifier rubyid_blob'>blob</span><span class='comma'>,</span> <span class='id identifier rubyid_signature'>signature</span><span class='comma'>,</span> <span class='id identifier rubyid_chain_id'>chain_id</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Chain.html" title="Eth::Chain (module)">Chain</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Chain.html#ETHEREUM-constant" title="Eth::Chain::ETHEREUM (constant)">ETHEREUM</a></span></span><span class='rparen'>)</span>
   <span class='id identifier rubyid_context'>context</span> <span class='op'>=</span> <span class='const'>Secp256k1</span><span class='op'>::</span><span class='const'>Context</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span>
@@ -793,7 +1756,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Recovers a public key from a typed data structure and a signature on a given chain. (EIP-712)</p>
+<p>Recovers a public key from a typed data structure and a signature on a given chain. (EIP-712) Ref: <a href="https://eips.ethereum.org/EIPS/eip-712">eips.ethereum.org/EIPS/eip-712</a></p>
 
 
   </div>
@@ -879,13 +1842,13 @@
       <pre class="lines">
 
 
-100
-101
-102
-103</pre>
+103
+104
+105
+106</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/signature.rb', line 100</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/signature.rb', line 103</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_recover_typed_data'>recover_typed_data</span><span class='lparen'>(</span><span class='id identifier rubyid_typed_data'>typed_data</span><span class='comma'>,</span> <span class='id identifier rubyid_signature'>signature</span><span class='comma'>,</span> <span class='id identifier rubyid_chain_id'>chain_id</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Chain.html" title="Eth::Chain (module)">Chain</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Chain.html#ETHEREUM-constant" title="Eth::Chain::ETHEREUM (constant)">ETHEREUM</a></span></span><span class='rparen'>)</span>
   <span class='id identifier rubyid_hash_to_sign'>hash_to_sign</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Eip712.html" title="Eth::Eip712 (module)">Eip712</a></span></span><span class='period'>.</span><span class='id identifier rubyid_hash'><span class='object_link'><a href="Eip712.html#hash-instance_method" title="Eth::Eip712#hash (method)">hash</a></span></span> <span class='id identifier rubyid_typed_data'>typed_data</span>
@@ -1028,9 +1991,6 @@
       <pre class="lines">
 
 
-113
-114
-115
 116
 117
 118
@@ -1073,10 +2033,13 @@
 155
 156
 157
-158</pre>
+158
+159
+160
+161</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/signature.rb', line 113</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/signature.rb', line 116</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_verify'>verify</span><span class='lparen'>(</span><span class='id identifier rubyid_blob'>blob</span><span class='comma'>,</span> <span class='id identifier rubyid_signature'>signature</span><span class='comma'>,</span> <span class='id identifier rubyid_public_key'>public_key</span><span class='comma'>,</span> <span class='id identifier rubyid_chain_id'>chain_id</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Chain.html" title="Eth::Chain (module)">Chain</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Chain.html#ETHEREUM-constant" title="Eth::Chain::ETHEREUM (constant)">ETHEREUM</a></span></span><span class='rparen'>)</span>
   <span class='id identifier rubyid_recovered_key'>recovered_key</span> <span class='op'>=</span> <span class='kw'>nil</span>
@@ -1134,7 +2097,7 @@
 </div>
 
       <div id="footer">
-  Generated on Fri Jan 28 11:42:45 2022 by
+  Generated on Mon Jan 31 17:11:35 2022 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.27 (ruby-2.7.5).
 </div>

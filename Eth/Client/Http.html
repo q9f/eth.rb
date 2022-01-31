@@ -239,11 +239,6 @@
 
 
 
-  
-  
-  <h3 class="inherited">Attributes inherited from <span class='object_link'><a href="../Client.html" title="Eth::Client (class)">Eth::Client</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="../Client.html#chain_id-instance_method" title="Eth::Client#chain_id (method)">#chain_id</a></span>, <span class='object_link'><a href="../Client.html#default_account-instance_method" title="Eth::Client#default_account (method)">#default_account</a></span>, <span class='object_link'><a href="../Client.html#gas_limit-instance_method" title="Eth::Client#gas_limit (method)">#gas_limit</a></span>, <span class='object_link'><a href="../Client.html#id-instance_method" title="Eth::Client#id (method)">#id</a></span>, <span class='object_link'><a href="../Client.html#max_fee_per_gas-instance_method" title="Eth::Client#max_fee_per_gas (method)">#max_fee_per_gas</a></span>, <span class='object_link'><a href="../Client.html#max_priority_fee_per_gas-instance_method" title="Eth::Client#max_priority_fee_per_gas (method)">#max_priority_fee_per_gas</a></span></p>
-
 
   
     <h2>
@@ -308,16 +303,7 @@
 
 
   
-  
-  
-  
-  
-  
-  
-  
-  <h3 class="inherited">Methods inherited from <span class='object_link'><a href="../Client.html" title="Eth::Client (class)">Eth::Client</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="../Client.html#create-class_method" title="Eth::Client.create (method)">create</a></span>, <span class='object_link'><a href="../Client.html#get_balance-instance_method" title="Eth::Client#get_balance (method)">#get_balance</a></span>, <span class='object_link'><a href="../Client.html#get_nonce-instance_method" title="Eth::Client#get_nonce (method)">#get_nonce</a></span>, <span class='object_link'><a href="../Client.html#is_mined_tx%3F-instance_method" title="Eth::Client#is_mined_tx? (method)">#is_mined_tx?</a></span>, <span class='object_link'><a href="../Client.html#reset_id-instance_method" title="Eth::Client#reset_id (method)">#reset_id</a></span>, <span class='object_link'><a href="../Client.html#transfer-instance_method" title="Eth::Client#transfer (method)">#transfer</a></span>, <span class='object_link'><a href="../Client.html#transfer_and_wait-instance_method" title="Eth::Client#transfer_and_wait (method)">#transfer_and_wait</a></span>, <span class='object_link'><a href="../Client.html#wait_for_tx-instance_method" title="Eth::Client#wait_for_tx (method)">#wait_for_tx</a></span></p>
-<div id="constructor_details" class="method_details_list">
+  <div id="constructor_details" class="method_details_list">
   <h2>Constructor Details</h2>
   
     <div class="method_details first">
@@ -332,7 +318,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Constructor for the HTTP Client.</p>
+<p>Constructor for the HTTP Client. Should not be used; use <span class='object_link'><a href="../Client.html#create-class_method" title="Eth::Client.create (method)">Eth::Client.create</a></span> intead.</p>
 
 
   </div>
@@ -379,7 +365,6 @@
       <pre class="lines">
 
 
-38
 39
 40
 41
@@ -387,10 +372,11 @@
 43
 44
 45
-46</pre>
+46
+47</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/client/http.rb', line 38</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/client/http.rb', line 39</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_host'>host</span><span class='rparen'>)</span>
   <span class='kw'>super</span>
@@ -654,7 +640,6 @@
       <pre class="lines">
 
 
-52
 53
 54
 55
@@ -662,10 +647,11 @@
 57
 58
 59
-60</pre>
+60
+61</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/client/http.rb', line 52</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/client/http.rb', line 53</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_send'>send</span><span class='lparen'>(</span><span class='id identifier rubyid_payload'>payload</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_http'>http</span> <span class='op'>=</span> <span class='const'>Net</span><span class='op'>::</span><span class='const'>HTTP</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='ivar'>@host</span><span class='comma'>,</span> <span class='ivar'>@port</span><span class='rparen'>)</span>
@@ -686,7 +672,7 @@
 </div>
 
       <div id="footer">
-  Generated on Fri Jan 28 11:42:46 2022 by
+  Generated on Mon Jan 31 17:11:37 2022 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.27 (ruby-2.7.5).
 </div>

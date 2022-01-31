@@ -102,7 +102,7 @@
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
     
-<p>Provides legacy support for transactions on blockchains that do not implement EIP-1559 but still want to utilize EIP-2718 envelopes.</p>
+<p>Provides legacy support for transactions on blockchains that do not implement EIP-1559 but still want to utilize EIP-2718 envelopes. Ref: <a href="https://eips.ethereum.org/EIPS/eip-2930">eips.ethereum.org/EIPS/eip-2930</a></p>
 
 
   </div>
@@ -372,7 +372,7 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>The signature `r` value.</p>
+<p>The signature <code>r</code> value.</p>
 </div></span>
   
 </li>
@@ -401,7 +401,7 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>The signature `s` value.</p>
+<p>The signature <code>s</code> value.</p>
 </div></span>
   
 </li>
@@ -430,7 +430,7 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>The signature&#39;s y-parity byte (not v).</p>
+<p>The signature&#39;s <code>y</code>-parity byte (not <code>v</code>).</p>
 </div></span>
   
 </li>
@@ -525,7 +525,7 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Decodes a raw transaction hex into an Eth::Tx::Eip2930 transaction object.</p>
+<p>Decodes a raw transaction hex into an <span class='object_link'><a href="" title="Eth::Tx::Eip2930 (class)">Eip2930</a></span> transaction object.</p>
 </div></span>
   
 </li>
@@ -743,7 +743,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Create a legacy type-1 (EIP-2930) transaction payload object that can be prepared for envelope, signature and broadcast. Should not be used unless there is no EIP-1559 support.</p>
+<p>Create a legacy type-1 (EIP-2930) transaction payload object that can be prepared for envelope, signature and broadcast. Should not be used unless there is no EIP-1559 support. Ref: <a href="https://eips.ethereum.org/EIPS/eip-2930">eips.ethereum.org/EIPS/eip-2930</a></p>
 
 
   </div>
@@ -906,6 +906,11 @@
       
       
       
+        &mdash;
+        <div class='inline'>
+<p>if gas limit is too low.</p>
+</div>
+      
     </li>
   
 </ul>
@@ -916,11 +921,6 @@
       <pre class="lines">
 
 
-79
-80
-81
-82
-83
 84
 85
 86
@@ -954,10 +954,15 @@
 114
 115
 116
-117</pre>
+117
+118
+119
+120
+121
+122</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip2930.rb', line 79</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip2930.rb', line 84</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_fields'>fields</span> <span class='op'>=</span> <span class='lbrace'>{</span> <span class='label'>recovery_id:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>r:</span> <span class='int'>0</span><span class='comma'>,</span> <span class='label'>s:</span> <span class='int'>0</span> <span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_merge'>merge</span> <span class='id identifier rubyid_params'>params</span>
@@ -1022,7 +1027,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>An optional EIP-2930 access list.</p>
+<p>An optional EIP-2930 access list. Ref: <a href="https://eips.ethereum.org/EIPS/eip-2930">eips.ethereum.org/EIPS/eip-2930</a></p>
 
 
   </div>
@@ -1036,12 +1041,12 @@
       <pre class="lines">
 
 
-47
-48
-49</pre>
+50
+51
+52</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip2930.rb', line 47</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip2930.rb', line 50</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_access_list'>access_list</span>
   <span class='ivar'>@access_list</span>
@@ -1079,12 +1084,12 @@
       <pre class="lines">
 
 
-41
-42
-43</pre>
+43
+44
+45</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip2930.rb', line 41</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip2930.rb', line 43</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_amount'>amount</span>
   <span class='ivar'>@amount</span>
@@ -1108,7 +1113,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>The EIP-155 Chain ID.</p>
+<p>The EIP-155 Chain ID. Ref: <a href="https://eips.ethereum.org/EIPS/eip-155">eips.ethereum.org/EIPS/eip-155</a></p>
 
 
   </div>
@@ -1122,12 +1127,12 @@
       <pre class="lines">
 
 
-26
-27
-28</pre>
+28
+29
+30</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip2930.rb', line 26</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip2930.rb', line 28</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_chain_id'>chain_id</span>
   <span class='ivar'>@chain_id</span>
@@ -1165,12 +1170,12 @@
       <pre class="lines">
 
 
-38
-39
-40</pre>
+40
+41
+42</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip2930.rb', line 38</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip2930.rb', line 40</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_destination'>destination</span>
   <span class='ivar'>@destination</span>
@@ -1208,12 +1213,12 @@
       <pre class="lines">
 
 
-35
-36
-37</pre>
+37
+38
+39</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip2930.rb', line 35</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip2930.rb', line 37</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_gas_limit'>gas_limit</span>
   <span class='ivar'>@gas_limit</span>
@@ -1251,12 +1256,12 @@
       <pre class="lines">
 
 
-32
-33
-34</pre>
+34
+35
+36</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip2930.rb', line 32</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip2930.rb', line 34</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_gas_price'>gas_price</span>
   <span class='ivar'>@gas_price</span>
@@ -1294,12 +1299,12 @@
       <pre class="lines">
 
 
-44
-45
-46</pre>
+46
+47
+48</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip2930.rb', line 44</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip2930.rb', line 46</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_payload'>payload</span>
   <span class='ivar'>@payload</span>
@@ -1337,12 +1342,12 @@
       <pre class="lines">
 
 
-59
-60
-61</pre>
+62
+63
+64</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip2930.rb', line 59</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip2930.rb', line 62</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_sender'>sender</span>
   <span class='ivar'>@sender</span>
@@ -1366,7 +1371,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>The signature `r` value.</p>
+<p>The signature <code>r</code> value.</p>
 
 
   </div>
@@ -1380,12 +1385,12 @@
       <pre class="lines">
 
 
-53
-54
-55</pre>
+56
+57
+58</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip2930.rb', line 53</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip2930.rb', line 56</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_signature_r'>signature_r</span>
   <span class='ivar'>@signature_r</span>
@@ -1409,7 +1414,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>The signature `s` value.</p>
+<p>The signature <code>s</code> value.</p>
 
 
   </div>
@@ -1423,12 +1428,12 @@
       <pre class="lines">
 
 
-56
-57
-58</pre>
+59
+60
+61</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip2930.rb', line 56</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip2930.rb', line 59</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_signature_s'>signature_s</span>
   <span class='ivar'>@signature_s</span>
@@ -1452,7 +1457,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>The signature&#39;s y-parity byte (not v).</p>
+<p>The signature&#39;s <code>y</code>-parity byte (not <code>v</code>).</p>
 
 
   </div>
@@ -1466,12 +1471,12 @@
       <pre class="lines">
 
 
-50
-51
-52</pre>
+53
+54
+55</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip2930.rb', line 50</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip2930.rb', line 53</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_signature_y_parity'>signature_y_parity</span>
   <span class='ivar'>@signature_y_parity</span>
@@ -1509,12 +1514,12 @@
       <pre class="lines">
 
 
-29
-30
-31</pre>
+31
+32
+33</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip2930.rb', line 29</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip2930.rb', line 31</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_signer_nonce'>signer_nonce</span>
   <span class='ivar'>@signer_nonce</span>
@@ -1552,12 +1557,12 @@
       <pre class="lines">
 
 
-62
-63
-64</pre>
+65
+66
+67</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip2930.rb', line 62</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip2930.rb', line 65</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_type'>type</span>
   <span class='ivar'>@type</span>
@@ -1586,7 +1591,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Decodes a raw transaction hex into an Eth::Tx::Eip2930 transaction object.</p>
+<p>Decodes a raw transaction hex into an <span class='object_link'><a href="" title="Eth::Tx::Eip2930 (class)">Eth::Tx::Eip2930</a></span> transaction object.</p>
 
 
   </div>
@@ -1684,11 +1689,6 @@
       <pre class="lines">
 
 
-130
-131
-132
-133
-134
 135
 136
 137
@@ -1737,10 +1737,15 @@
 180
 181
 182
-183</pre>
+183
+184
+185
+186
+187
+188</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip2930.rb', line 130</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip2930.rb', line 135</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_decode'>decode</span><span class='lparen'>(</span><span class='id identifier rubyid_hex'>hex</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_hex'>hex</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_remove_hex_prefix'><span class='object_link'><a href="../Util.html#remove_hex_prefix-instance_method" title="Eth::Util#remove_hex_prefix (method)">remove_hex_prefix</a></span></span> <span class='id identifier rubyid_hex'>hex</span>
@@ -1844,7 +1849,7 @@
     <li>
       
       
-        <span class='type'>(<tt>SignatureError</tt>)</span>
+        <span class='type'>(<tt><span class='object_link'><a href="../Signature/SignatureError.html" title="Eth::Signature::SignatureError (class)">Signature::SignatureError</a></span></tt>)</span>
       
       
       
@@ -1863,11 +1868,6 @@
       <pre class="lines">
 
 
-248
-249
-250
-251
-252
 253
 254
 255
@@ -1884,10 +1884,15 @@
 266
 267
 268
-269</pre>
+269
+270
+271
+272
+273
+274</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip2930.rb', line 248</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip2930.rb', line 253</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_encoded'>encoded</span>
   <span class='kw'>unless</span> <span class='const'><span class='object_link'><a href="../Tx.html" title="Eth::Tx (module)">Tx</a></span></span><span class='period'>.</span><span class='id identifier rubyid_is_signed?'><span class='object_link'><a href="../Tx.html#is_signed%3F-instance_method" title="Eth::Tx#is_signed? (method)">is_signed?</a></span></span> <span class='kw'>self</span>
@@ -1960,12 +1965,12 @@
       <pre class="lines">
 
 
-281
-282
-283</pre>
+286
+287
+288</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip2930.rb', line 281</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip2930.rb', line 286</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_hash'>hash</span>
   <span class='const'><span class='object_link'><a href="../Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_bin_to_hex'><span class='object_link'><a href="../Util.html#bin_to_hex-instance_method" title="Eth::Util#bin_to_hex (method)">bin_to_hex</a></span></span> <span class='const'><span class='object_link'><a href="../Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_keccak256'><span class='object_link'><a href="../Util.html#keccak256-instance_method" title="Eth::Util#keccak256 (method)">keccak256</a></span></span> <span class='id identifier rubyid_encoded'>encoded</span>
@@ -2019,12 +2024,12 @@
       <pre class="lines">
 
 
-274
-275
-276</pre>
+279
+280
+281</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip2930.rb', line 274</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip2930.rb', line 279</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_hex'>hex</span>
   <span class='const'><span class='object_link'><a href="../Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_bin_to_hex'><span class='object_link'><a href="../Util.html#bin_to_hex-instance_method" title="Eth::Util#bin_to_hex (method)">bin_to_hex</a></span></span> <span class='id identifier rubyid_encoded'>encoded</span>
@@ -2097,7 +2102,7 @@
     <li>
       
       
-        <span class='type'>(<tt>SignatureError</tt>)</span>
+        <span class='type'>(<tt><span class='object_link'><a href="../Signature/SignatureError.html" title="Eth::Signature::SignatureError (class)">Signature::SignatureError</a></span></tt>)</span>
       
       
       
@@ -2111,7 +2116,7 @@
     <li>
       
       
-        <span class='type'>(<tt>SignatureError</tt>)</span>
+        <span class='type'>(<tt><span class='object_link'><a href="../Signature/SignatureError.html" title="Eth::Signature::SignatureError (class)">Signature::SignatureError</a></span></tt>)</span>
       
       
       
@@ -2130,11 +2135,6 @@
       <pre class="lines">
 
 
-221
-222
-223
-224
-225
 226
 227
 228
@@ -2150,10 +2150,15 @@
 238
 239
 240
-241</pre>
+241
+242
+243
+244
+245
+246</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip2930.rb', line 221</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip2930.rb', line 226</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_sign'>sign</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='rparen'>)</span>
   <span class='kw'>if</span> <span class='const'><span class='object_link'><a href="../Tx.html" title="Eth::Tx (module)">Tx</a></span></span><span class='period'>.</span><span class='id identifier rubyid_is_signed?'><span class='object_link'><a href="../Tx.html#is_signed%3F-instance_method" title="Eth::Tx#is_signed? (method)">is_signed?</a></span></span> <span class='kw'>self</span>
@@ -2263,11 +2268,6 @@
       <pre class="lines">
 
 
-190
-191
-192
-193
-194
 195
 196
 197
@@ -2286,10 +2286,15 @@
 210
 211
 212
-213</pre>
+213
+214
+215
+216
+217
+218</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip2930.rb', line 190</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip2930.rb', line 195</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_unsigned_copy'>unsigned_copy</span><span class='lparen'>(</span><span class='id identifier rubyid_tx'>tx</span><span class='rparen'>)</span>
 
@@ -2364,11 +2369,6 @@
       <pre class="lines">
 
 
-289
-290
-291
-292
-293
 294
 295
 296
@@ -2379,10 +2379,15 @@
 301
 302
 303
-304</pre>
+304
+305
+306
+307
+308
+309</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip2930.rb', line 289</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip2930.rb', line 294</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_unsigned_encoded'>unsigned_encoded</span>
   <span class='id identifier rubyid_tx_data'>tx_data</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
@@ -2449,12 +2454,12 @@
       <pre class="lines">
 
 
-309
-310
-311</pre>
+314
+315
+316</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip2930.rb', line 309</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip2930.rb', line 314</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_unsigned_hash'>unsigned_hash</span>
   <span class='const'><span class='object_link'><a href="../Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_keccak256'><span class='object_link'><a href="../Util.html#keccak256-instance_method" title="Eth::Util#keccak256 (method)">keccak256</a></span></span> <span class='id identifier rubyid_unsigned_encoded'>unsigned_encoded</span>
@@ -2469,7 +2474,7 @@
 </div>
 
       <div id="footer">
-  Generated on Fri Jan 28 11:42:46 2022 by
+  Generated on Mon Jan 31 17:11:37 2022 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.27 (ruby-2.7.5).
 </div>

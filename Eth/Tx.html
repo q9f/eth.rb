@@ -98,7 +98,7 @@
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
     
-<p>Provides the `Tx` module supporting various transaction types.</p>
+<p>Provides the <code>Tx</code> module supporting various transaction types.</p>
 
 
   </div>
@@ -310,6 +310,303 @@
 
 
 
+  
+    <h2>
+      Class Method Summary
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#decode-class_method" title="#decode (class method)">.<strong>decode</strong>(hex)  &#x21d2; Eth::Tx </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Decodes a transaction hex of any known type (2, 1, or legacy).</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#estimate_intrinsic_gas-class_method" title="#estimate_intrinsic_gas (class method)">.<strong>estimate_intrinsic_gas</strong>(data = &quot;&quot;, list = [])  &#x21d2; Integer </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Estimates intrinsic gas for provided call data (EIP-2028) and access lists (EIP-2930).</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#is_signed%3F-class_method" title="#is_signed? (class method)">.<strong>is_signed?</strong>(tx)  &#x21d2; Bool </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Allows to check wether a transaction is signed already.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#new-class_method" title="#new (class method)">.<strong>new</strong>(params, chain_id = Chain::ETHEREUM)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Creates a new transaction of any type for given parameters and chain ID.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#sanitize_address-class_method" title="#sanitize_address (class method)">.<strong>sanitize_address</strong>(addr)  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Populates the transaction destination address with a serializable empty value in case it is undefined; also ensures the address is checksummed but not prefixed for consistency.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#sanitize_amount-class_method" title="#sanitize_amount (class method)">.<strong>sanitize_amount</strong>(val)  &#x21d2; Integer </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Populates the transaction value field with a serializable empty value in case it is undefined.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#sanitize_chain-class_method" title="#sanitize_chain (class method)">.<strong>sanitize_chain</strong>(id)  &#x21d2; Integer </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Populates the transaction chain id field with a serializable default value (1) in case it is undefined.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#sanitize_data-class_method" title="#sanitize_data (class method)">.<strong>sanitize_data</strong>(data)  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Populates the transaction payload field with a serializable empty value in case it is undefined; also ensures the data is binary not hex.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#sanitize_list-class_method" title="#sanitize_list (class method)">.<strong>sanitize_list</strong>(list)  &#x21d2; Array </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Populates the transaction access list field with a serializable empty array in case it is undefined; also ensures the nested data is binary not hex.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#unsigned_copy-class_method" title="#unsigned_copy (class method)">.<strong>unsigned_copy</strong>(tx)  &#x21d2; Eth::Tx </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Creates an unsigned copy of any transaction object.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#validate_legacy_params-class_method" title="#validate_legacy_params (class method)">.<strong>validate_legacy_params</strong>(fields)  &#x21d2; Hash </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Validates the common legacy transaction fields such as nonce, gas price, gas limit, amount, and access list.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#validate_params-class_method" title="#validate_params (class method)">.<strong>validate_params</strong>(fields)  &#x21d2; Hash </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Validates the common type-2 transaction fields such as nonce, priority fee, max gas fee, gas limit, amount, and access list.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
   
     <h2>
       Instance Method Summary
@@ -610,6 +907,1418 @@
   
 
 
+
+  <div id="class_method_details" class="method_details_list">
+    <h2>Class Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="decode-class_method">
+  
+    .<strong>decode</strong>(hex)  &#x21d2; <tt><span class='object_link'><a href="" title="Eth::Tx (module)">Eth::Tx</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Decodes a transaction hex of any known type (2, 1, or legacy).</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>hex</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the raw transaction hex-string.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="" title="Eth::Tx (module)">Eth::Tx</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>transaction payload.</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Tx/TransactionTypeError.html" title="Eth::Tx::TransactionTypeError (class)">TransactionTypeError</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>if the transaction type is unknown.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx.rb', line 106</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_decode'>decode</span><span class='lparen'>(</span><span class='id identifier rubyid_hex'>hex</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_hex'>hex</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_remove_hex_prefix'><span class='object_link'><a href="Util.html#remove_hex_prefix-instance_method" title="Eth::Util#remove_hex_prefix (method)">remove_hex_prefix</a></span></span> <span class='id identifier rubyid_hex'>hex</span>
+  <span class='id identifier rubyid_type'>type</span> <span class='op'>=</span> <span class='id identifier rubyid_hex'>hex</span><span class='lbracket'>[</span><span class='int'>0</span><span class='comma'>,</span> <span class='int'>2</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span><span class='lparen'>(</span><span class='int'>16</span><span class='rparen'>)</span>
+  <span class='kw'>case</span> <span class='id identifier rubyid_type'>type</span>
+  <span class='kw'>when</span> <span class='const'><span class='object_link'><a href="#TYPE_1559-constant" title="Eth::Tx::TYPE_1559 (constant)">TYPE_1559</a></span></span>
+
+    <span class='comment'># EIP-1559 transaction (type 2)
+</span>    <span class='kw'>return</span> <span class='const'><span class='object_link'><a href="" title="Eth::Tx (module)">Tx</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Tx/Eip1559.html" title="Eth::Tx::Eip1559 (class)">Eip1559</a></span></span><span class='period'>.</span><span class='id identifier rubyid_decode'><span class='object_link'><a href="Tx/Eip1559.html#decode-instance_method" title="Eth::Tx::Eip1559#decode (method)">decode</a></span></span> <span class='id identifier rubyid_hex'>hex</span>
+  <span class='kw'>when</span> <span class='const'><span class='object_link'><a href="#TYPE_2930-constant" title="Eth::Tx::TYPE_2930 (constant)">TYPE_2930</a></span></span>
+
+    <span class='comment'># EIP-2930 transaction (type 1)
+</span>    <span class='kw'>return</span> <span class='const'><span class='object_link'><a href="" title="Eth::Tx (module)">Tx</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Tx/Eip2930.html" title="Eth::Tx::Eip2930 (class)">Eip2930</a></span></span><span class='period'>.</span><span class='id identifier rubyid_decode'><span class='object_link'><a href="Tx/Eip2930.html#decode-instance_method" title="Eth::Tx::Eip2930#decode (method)">decode</a></span></span> <span class='id identifier rubyid_hex'>hex</span>
+  <span class='kw'>else</span>
+
+    <span class='comment'># Legacy transaction if first byte is RLP (&gt;= 192)
+</span>    <span class='kw'>if</span> <span class='id identifier rubyid_type'>type</span> <span class='op'>&gt;=</span> <span class='int'>0xc0</span>
+      <span class='kw'>return</span> <span class='const'><span class='object_link'><a href="" title="Eth::Tx (module)">Tx</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Tx/Legacy.html" title="Eth::Tx::Legacy (class)">Legacy</a></span></span><span class='period'>.</span><span class='id identifier rubyid_decode'><span class='object_link'><a href="Tx/Legacy.html#decode-instance_method" title="Eth::Tx::Legacy#decode (method)">decode</a></span></span> <span class='id identifier rubyid_hex'>hex</span>
+    <span class='kw'>else</span>
+      <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="Tx/TransactionTypeError.html" title="Eth::Tx::TransactionTypeError (class)">TransactionTypeError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Cannot decode unknown transaction type </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_type'>type</span><span class='embexpr_end'>}</span><span class='tstring_content'>!</span><span class='tstring_end'>&quot;</span></span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="estimate_intrinsic_gas-class_method">
+  
+    .<strong>estimate_intrinsic_gas</strong>(data = &quot;&quot;, list = [])  &#x21d2; <tt>Integer</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Estimates intrinsic gas for provided call data (EIP-2028) and access lists (EIP-2930).</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>data</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>&quot;&quot;</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the call data.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>list</span>
+      
+      
+        <span class='type'>(<tt>Array</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>[]</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the access list.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the estimated intrinsic gas cost.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx.rb', line 158</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_estimate_intrinsic_gas'>estimate_intrinsic_gas</span><span class='lparen'>(</span><span class='id identifier rubyid_data'>data</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='id identifier rubyid_list'>list</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_gas'>gas</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="#DEFAULT_GAS_LIMIT-constant" title="Eth::Tx::DEFAULT_GAS_LIMIT (constant)">DEFAULT_GAS_LIMIT</a></span></span>
+  <span class='kw'>unless</span> <span class='id identifier rubyid_data'>data</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='kw'>or</span> <span class='id identifier rubyid_data'>data</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
+    <span class='id identifier rubyid_data'>data</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_hex_to_bin'><span class='object_link'><a href="Util.html#hex_to_bin-instance_method" title="Eth::Util#hex_to_bin (method)">hex_to_bin</a></span></span> <span class='id identifier rubyid_data'>data</span> <span class='kw'>if</span> <span class='const'><span class='object_link'><a href="Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_is_hex?'><span class='object_link'><a href="Util.html#is_hex%3F-instance_method" title="Eth::Util#is_hex? (method)">is_hex?</a></span></span> <span class='id identifier rubyid_data'>data</span>
+
+    <span class='comment'># count zero bytes
+</span>    <span class='id identifier rubyid_zero'>zero</span> <span class='op'>=</span> <span class='id identifier rubyid_data'>data</span><span class='period'>.</span><span class='id identifier rubyid_count'>count</span> <span class='const'><span class='object_link'><a href="#ZERO_BYTE-constant" title="Eth::Tx::ZERO_BYTE (constant)">ZERO_BYTE</a></span></span>
+    <span class='id identifier rubyid_gas'>gas</span> <span class='op'>+=</span> <span class='id identifier rubyid_zero'>zero</span> <span class='op'>*</span> <span class='const'><span class='object_link'><a href="#COST_ZERO_BYTE-constant" title="Eth::Tx::COST_ZERO_BYTE (constant)">COST_ZERO_BYTE</a></span></span>
+
+    <span class='comment'># count non-zero bytes
+</span>    <span class='id identifier rubyid_none'>none</span> <span class='op'>=</span> <span class='id identifier rubyid_data'>data</span><span class='period'>.</span><span class='id identifier rubyid_size'>size</span> <span class='op'>-</span> <span class='id identifier rubyid_zero'>zero</span>
+    <span class='id identifier rubyid_gas'>gas</span> <span class='op'>+=</span> <span class='id identifier rubyid_none'>none</span> <span class='op'>*</span> <span class='const'><span class='object_link'><a href="#COST_NON_ZERO_BYTE-constant" title="Eth::Tx::COST_NON_ZERO_BYTE (constant)">COST_NON_ZERO_BYTE</a></span></span>
+  <span class='kw'>end</span>
+  <span class='kw'>unless</span> <span class='id identifier rubyid_list'>list</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='kw'>or</span> <span class='id identifier rubyid_list'>list</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
+    <span class='id identifier rubyid_list'>list</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_entry'>entry</span><span class='op'>|</span>
+
+      <span class='comment'># count addresses
+</span>      <span class='id identifier rubyid_gas'>gas</span> <span class='op'>+=</span> <span class='const'><span class='object_link'><a href="#COST_ADDRESS-constant" title="Eth::Tx::COST_ADDRESS (constant)">COST_ADDRESS</a></span></span>
+
+      <span class='id identifier rubyid_entry'>entry</span><span class='period'>.</span><span class='id identifier rubyid_last'>last</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_key'>key</span><span class='op'>|</span>
+
+        <span class='comment'># count storage keys
+</span>        <span class='id identifier rubyid_gas'>gas</span> <span class='op'>+=</span> <span class='const'><span class='object_link'><a href="#COST_STORAGE_KEY-constant" title="Eth::Tx::COST_STORAGE_KEY (constant)">COST_STORAGE_KEY</a></span></span>
+      <span class='kw'>end</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+  <span class='kw'>return</span> <span class='id identifier rubyid_gas'>gas</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="is_signed?-class_method">
+  
+    .<strong>is_signed?</strong>(tx)  &#x21d2; <tt>Bool</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Allows to check wether a transaction is signed already.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Bool</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>true if transaction is already signed.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+322
+323
+324
+325</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx.rb', line 322</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_is_signed?'>is_signed?</span><span class='lparen'>(</span><span class='id identifier rubyid_tx'>tx</span><span class='rparen'>)</span>
+  <span class='op'>!</span><span class='id identifier rubyid_tx'>tx</span><span class='period'>.</span><span class='id identifier rubyid_signature_r'>signature_r</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='kw'>and</span> <span class='id identifier rubyid_tx'>tx</span><span class='period'>.</span><span class='id identifier rubyid_signature_r'>signature_r</span> <span class='op'>!=</span> <span class='int'>0</span> <span class='kw'>and</span>
+  <span class='op'>!</span><span class='id identifier rubyid_tx'>tx</span><span class='period'>.</span><span class='id identifier rubyid_signature_s'>signature_s</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='kw'>and</span> <span class='id identifier rubyid_tx'>tx</span><span class='period'>.</span><span class='id identifier rubyid_signature_s'>signature_s</span> <span class='op'>!=</span> <span class='int'>0</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="new-class_method">
+  
+    .<strong>new</strong>(params, chain_id = Chain::ETHEREUM)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Creates a new transaction of any type for given parameters and chain ID. Required parameters are (optional in brackets): - EIP-1559: chain_id, nonce, priority_fee, max_gas_fee, gas_limit(, from, to,  value, data, access_list) - EIP-2930: chain_id, nonce, gas_price, gas_limit, access_list(, from, to,  value, data) - Legacy: nonce, gas_price, gas_lmit(, from, to, value, data)</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>params</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>all necessary transaction fields.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>chain_id</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>Chain::ETHEREUM</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the EIP-155 Chain ID (legacy transactions only).</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx.rb', line 82</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='comma'>,</span> <span class='id identifier rubyid_chain_id'>chain_id</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Chain.html" title="Eth::Chain (module)">Chain</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Chain.html#ETHEREUM-constant" title="Eth::Chain::ETHEREUM (constant)">ETHEREUM</a></span></span><span class='rparen'>)</span>
+
+  <span class='comment'># if we deal with max gas fee parameter, attempt EIP-1559
+</span>  <span class='kw'>unless</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:max_gas_fee</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+    <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:chain_id</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_chain_id'>chain_id</span> <span class='kw'>if</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:chain_id</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+    <span class='kw'>return</span> <span class='const'><span class='object_link'><a href="" title="Eth::Tx (module)">Tx</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Tx/Eip1559.html" title="Eth::Tx::Eip1559 (class)">Eip1559</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span> <span class='id identifier rubyid_params'>params</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'># if we deal with access list parameter, attempt EIP-2930
+</span>  <span class='kw'>unless</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:access_list</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+    <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:chain_id</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_chain_id'>chain_id</span> <span class='kw'>if</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:chain_id</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+    <span class='kw'>return</span> <span class='const'><span class='object_link'><a href="" title="Eth::Tx (module)">Tx</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Tx/Eip2930.html" title="Eth::Tx::Eip2930 (class)">Eip2930</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span> <span class='id identifier rubyid_params'>params</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'># if nothing else, go with legacy transactions
+</span>  <span class='id identifier rubyid_chain_id'>chain_id</span> <span class='op'>=</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:chain_id</span><span class='rbracket'>]</span> <span class='kw'>if</span> <span class='op'>!</span><span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:chain_id</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='kw'>and</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:chain_id</span><span class='rbracket'>]</span> <span class='op'>!=</span> <span class='id identifier rubyid_chain_id'>chain_id</span>
+  <span class='kw'>return</span> <span class='const'><span class='object_link'><a href="" title="Eth::Tx (module)">Tx</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Tx/Legacy.html" title="Eth::Tx::Legacy (class)">Legacy</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span> <span class='id identifier rubyid_params'>params</span><span class='comma'>,</span> <span class='id identifier rubyid_chain_id'>chain_id</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="sanitize_address-class_method">
+  
+    .<strong>sanitize_address</strong>(addr)  &#x21d2; <tt>String</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Populates the transaction destination address with a serializable empty value in case it is undefined; also ensures the address is checksummed but not prefixed for consistency.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>addr</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the transaction destination address.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the sanitized transaction destination address.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+265
+266
+267
+268
+269
+270
+271
+272</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx.rb', line 265</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_sanitize_address'>sanitize_address</span><span class='lparen'>(</span><span class='id identifier rubyid_addr'>addr</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_addr'>addr</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_addr'>addr</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_addr'>addr</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span> <span class='const'>String</span> <span class='kw'>and</span> <span class='op'>!</span><span class='id identifier rubyid_addr'>addr</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
+    <span class='id identifier rubyid_addr'>addr</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Address.html" title="Eth::Address (class)">Address</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="Address.html#initialize-instance_method" title="Eth::Address#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_addr'>addr</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>
+    <span class='id identifier rubyid_addr'>addr</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_remove_hex_prefix'><span class='object_link'><a href="Util.html#remove_hex_prefix-instance_method" title="Eth::Util#remove_hex_prefix (method)">remove_hex_prefix</a></span></span> <span class='id identifier rubyid_addr'>addr</span>
+  <span class='kw'>end</span>
+  <span class='kw'>return</span> <span class='id identifier rubyid_addr'>addr</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="sanitize_amount-class_method">
+  
+    .<strong>sanitize_amount</strong>(val)  &#x21d2; <tt>Integer</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Populates the transaction value field with a serializable empty value in case it is undefined.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>val</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the transaction value.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the sanitized transaction value.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+279
+280
+281
+282</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx.rb', line 279</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_sanitize_amount'>sanitize_amount</span><span class='lparen'>(</span><span class='id identifier rubyid_val'>val</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_val'>val</span> <span class='op'>=</span> <span class='int'>0</span> <span class='kw'>if</span> <span class='id identifier rubyid_val'>val</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+  <span class='kw'>return</span> <span class='id identifier rubyid_val'>val</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="sanitize_chain-class_method">
+  
+    .<strong>sanitize_chain</strong>(id)  &#x21d2; <tt>Integer</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Populates the transaction chain id field with a serializable default value (1) in case it is undefined.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>id</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the transaction chain id.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the sanitized transaction chain id.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+254
+255
+256
+257</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx.rb', line 254</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_sanitize_chain'>sanitize_chain</span><span class='lparen'>(</span><span class='id identifier rubyid_id'>id</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_id'>id</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Chain.html" title="Eth::Chain (module)">Chain</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Chain.html#ETHEREUM-constant" title="Eth::Chain::ETHEREUM (constant)">ETHEREUM</a></span></span> <span class='kw'>if</span> <span class='id identifier rubyid_id'>id</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+  <span class='kw'>return</span> <span class='id identifier rubyid_id'>id</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="sanitize_data-class_method">
+  
+    .<strong>sanitize_data</strong>(data)  &#x21d2; <tt>String</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Populates the transaction payload field with a serializable empty value in case it is undefined; also ensures the data is binary not hex.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>data</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the transaction payload data.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the sanitized transaction payload data.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+289
+290
+291
+292
+293
+294
+295</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx.rb', line 289</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_sanitize_data'>sanitize_data</span><span class='lparen'>(</span><span class='id identifier rubyid_data'>data</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_data'>data</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_data'>data</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+
+  <span class='comment'># ensure payload to be binary if it&#39;s hex, otherwise we&#39;ll treat it raw
+</span>  <span class='id identifier rubyid_data'>data</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_hex_to_bin'><span class='object_link'><a href="Util.html#hex_to_bin-instance_method" title="Eth::Util#hex_to_bin (method)">hex_to_bin</a></span></span> <span class='id identifier rubyid_data'>data</span> <span class='kw'>if</span> <span class='const'><span class='object_link'><a href="Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_is_hex?'><span class='object_link'><a href="Util.html#is_hex%3F-instance_method" title="Eth::Util#is_hex? (method)">is_hex?</a></span></span> <span class='id identifier rubyid_data'>data</span>
+  <span class='kw'>return</span> <span class='id identifier rubyid_data'>data</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="sanitize_list-class_method">
+  
+    .<strong>sanitize_list</strong>(list)  &#x21d2; <tt>Array</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Populates the transaction access list field with a serializable empty array in case it is undefined; also ensures the nested data is binary not hex.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>list</span>
+      
+      
+        <span class='type'>(<tt>Array</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the transaction access list.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Array</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the sanitized transaction access list.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+303
+304
+305
+306
+307
+308
+309
+310
+311
+312
+313
+314
+315
+316
+317</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx.rb', line 303</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_sanitize_list'>sanitize_list</span><span class='lparen'>(</span><span class='id identifier rubyid_list'>list</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_list'>list</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span> <span class='kw'>if</span> <span class='id identifier rubyid_list'>list</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+  <span class='id identifier rubyid_list'>list</span><span class='period'>.</span><span class='id identifier rubyid_each_with_index'>each_with_index</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_value'>value</span><span class='comma'>,</span> <span class='id identifier rubyid_index'>index</span><span class='op'>|</span>
+    <span class='kw'>if</span> <span class='id identifier rubyid_value'>value</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span> <span class='const'>Array</span>
+
+      <span class='comment'># recursively check the entire array
+</span>      <span class='id identifier rubyid_list'>list</span><span class='lbracket'>[</span><span class='id identifier rubyid_index'>index</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_sanitize_list'>sanitize_list</span> <span class='id identifier rubyid_value'>value</span>
+    <span class='kw'>elsif</span> <span class='const'><span class='object_link'><a href="Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_is_hex?'><span class='object_link'><a href="Util.html#is_hex%3F-instance_method" title="Eth::Util#is_hex? (method)">is_hex?</a></span></span> <span class='id identifier rubyid_value'>value</span>
+
+      <span class='comment'># only modify if we find a hex value
+</span>      <span class='id identifier rubyid_list'>list</span><span class='lbracket'>[</span><span class='id identifier rubyid_index'>index</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_hex_to_bin'><span class='object_link'><a href="Util.html#hex_to_bin-instance_method" title="Eth::Util#hex_to_bin (method)">hex_to_bin</a></span></span> <span class='id identifier rubyid_value'>value</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+  <span class='kw'>return</span> <span class='id identifier rubyid_list'>list</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="unsigned_copy-class_method">
+  
+    .<strong>unsigned_copy</strong>(tx)  &#x21d2; <tt><span class='object_link'><a href="" title="Eth::Tx (module)">Eth::Tx</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Creates an unsigned copy of any transaction object.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>tx</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="" title="Eth::Tx (module)">Eth::Tx</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>any transaction payload.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="" title="Eth::Tx (module)">Eth::Tx</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>an unsigned transaction payload of the same type.</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Tx/TransactionTypeError.html" title="Eth::Tx::TransactionTypeError (class)">TransactionTypeError</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>if the transaction type is unknown.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx.rb', line 134</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_unsigned_copy'>unsigned_copy</span><span class='lparen'>(</span><span class='id identifier rubyid_tx'>tx</span><span class='rparen'>)</span>
+  <span class='kw'>case</span> <span class='id identifier rubyid_tx'>tx</span><span class='period'>.</span><span class='id identifier rubyid_type'>type</span>
+  <span class='kw'>when</span> <span class='const'><span class='object_link'><a href="#TYPE_1559-constant" title="Eth::Tx::TYPE_1559 (constant)">TYPE_1559</a></span></span>
+
+    <span class='comment'># EIP-1559 transaction (type 2)
+</span>    <span class='kw'>return</span> <span class='const'><span class='object_link'><a href="" title="Eth::Tx (module)">Tx</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Tx/Eip1559.html" title="Eth::Tx::Eip1559 (class)">Eip1559</a></span></span><span class='period'>.</span><span class='id identifier rubyid_unsigned_copy'><span class='object_link'><a href="Tx/Eip1559.html#unsigned_copy-instance_method" title="Eth::Tx::Eip1559#unsigned_copy (method)">unsigned_copy</a></span></span> <span class='id identifier rubyid_tx'>tx</span>
+  <span class='kw'>when</span> <span class='const'><span class='object_link'><a href="#TYPE_2930-constant" title="Eth::Tx::TYPE_2930 (constant)">TYPE_2930</a></span></span>
+
+    <span class='comment'># EIP-2930 transaction (type 1)
+</span>    <span class='kw'>return</span> <span class='const'><span class='object_link'><a href="" title="Eth::Tx (module)">Tx</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Tx/Eip2930.html" title="Eth::Tx::Eip2930 (class)">Eip2930</a></span></span><span class='period'>.</span><span class='id identifier rubyid_unsigned_copy'><span class='object_link'><a href="Tx/Eip2930.html#unsigned_copy-instance_method" title="Eth::Tx::Eip2930#unsigned_copy (method)">unsigned_copy</a></span></span> <span class='id identifier rubyid_tx'>tx</span>
+  <span class='kw'>when</span> <span class='const'><span class='object_link'><a href="#TYPE_LEGACY-constant" title="Eth::Tx::TYPE_LEGACY (constant)">TYPE_LEGACY</a></span></span>
+
+    <span class='comment'># Legacy transaction (&quot;type 0&quot;)
+</span>    <span class='kw'>return</span> <span class='const'><span class='object_link'><a href="" title="Eth::Tx (module)">Tx</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Tx/Legacy.html" title="Eth::Tx::Legacy (class)">Legacy</a></span></span><span class='period'>.</span><span class='id identifier rubyid_unsigned_copy'><span class='object_link'><a href="Tx/Legacy.html#unsigned_copy-instance_method" title="Eth::Tx::Legacy#unsigned_copy (method)">unsigned_copy</a></span></span> <span class='id identifier rubyid_tx'>tx</span>
+  <span class='kw'>end</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="Tx/TransactionTypeError.html" title="Eth::Tx::TransactionTypeError (class)">TransactionTypeError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Cannot copy unknown transaction type </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_tx'>tx</span><span class='period'>.</span><span class='id identifier rubyid_type'>type</span><span class='embexpr_end'>}</span><span class='tstring_content'>!</span><span class='tstring_end'>&quot;</span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="validate_legacy_params-class_method">
+  
+    .<strong>validate_legacy_params</strong>(fields)  &#x21d2; <tt>Hash</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Validates the common legacy transaction fields such as nonce, gas price, gas limit, amount, and access list.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>fields</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the transaction fields.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the validated transaction fields.</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Tx/ParameterError.html" title="Eth::Tx::ParameterError (class)">ParameterError</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>if nonce is an invalid integer.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Tx/ParameterError.html" title="Eth::Tx::ParameterError (class)">ParameterError</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>if gas price is invalid.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Tx/ParameterError.html" title="Eth::Tx::ParameterError (class)">ParameterError</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>if gas limit is invalid.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Tx/ParameterError.html" title="Eth::Tx::ParameterError (class)">ParameterError</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>if amount is invalid.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Tx/ParameterError.html" title="Eth::Tx::ParameterError (class)">ParameterError</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>if access list is invalid.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx.rb', line 230</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_validate_legacy_params'>validate_legacy_params</span><span class='lparen'>(</span><span class='id identifier rubyid_fields'>fields</span><span class='rparen'>)</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_fields'>fields</span><span class='lbracket'>[</span><span class='symbol'>:nonce</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='kw'>or</span> <span class='id identifier rubyid_fields'>fields</span><span class='lbracket'>[</span><span class='symbol'>:nonce</span><span class='rbracket'>]</span> <span class='op'>&lt;</span> <span class='int'>0</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="Tx/ParameterError.html" title="Eth::Tx::ParameterError (class)">ParameterError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Invalid signer nonce </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_fields'>fields</span><span class='lbracket'>[</span><span class='symbol'>:nonce</span><span class='rbracket'>]</span><span class='embexpr_end'>}</span><span class='tstring_content'>!</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>end</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_fields'>fields</span><span class='lbracket'>[</span><span class='symbol'>:gas_price</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='kw'>or</span> <span class='id identifier rubyid_fields'>fields</span><span class='lbracket'>[</span><span class='symbol'>:gas_price</span><span class='rbracket'>]</span> <span class='op'>&lt;</span> <span class='int'>0</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="Tx/ParameterError.html" title="Eth::Tx::ParameterError (class)">ParameterError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Invalid gas price </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_fields'>fields</span><span class='lbracket'>[</span><span class='symbol'>:gas_price</span><span class='rbracket'>]</span><span class='embexpr_end'>}</span><span class='tstring_content'>!</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>end</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_fields'>fields</span><span class='lbracket'>[</span><span class='symbol'>:gas_limit</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='kw'>or</span> <span class='id identifier rubyid_fields'>fields</span><span class='lbracket'>[</span><span class='symbol'>:gas_limit</span><span class='rbracket'>]</span> <span class='op'>&lt;</span> <span class='const'><span class='object_link'><a href="#DEFAULT_GAS_LIMIT-constant" title="Eth::Tx::DEFAULT_GAS_LIMIT (constant)">DEFAULT_GAS_LIMIT</a></span></span> <span class='kw'>or</span> <span class='id identifier rubyid_fields'>fields</span><span class='lbracket'>[</span><span class='symbol'>:gas_limit</span><span class='rbracket'>]</span> <span class='op'>&gt;</span> <span class='const'><span class='object_link'><a href="#BLOCK_GAS_LIMIT-constant" title="Eth::Tx::BLOCK_GAS_LIMIT (constant)">BLOCK_GAS_LIMIT</a></span></span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="Tx/ParameterError.html" title="Eth::Tx::ParameterError (class)">ParameterError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Invalid gas limit </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_fields'>fields</span><span class='lbracket'>[</span><span class='symbol'>:gas_limit</span><span class='rbracket'>]</span><span class='embexpr_end'>}</span><span class='tstring_content'>!</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>end</span>
+  <span class='kw'>unless</span> <span class='id identifier rubyid_fields'>fields</span><span class='lbracket'>[</span><span class='symbol'>:value</span><span class='rbracket'>]</span> <span class='op'>&gt;=</span> <span class='int'>0</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="Tx/ParameterError.html" title="Eth::Tx::ParameterError (class)">ParameterError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Invalid transaction value </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_fields'>fields</span><span class='lbracket'>[</span><span class='symbol'>:value</span><span class='rbracket'>]</span><span class='embexpr_end'>}</span><span class='tstring_content'>!</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>end</span>
+  <span class='kw'>unless</span> <span class='id identifier rubyid_fields'>fields</span><span class='lbracket'>[</span><span class='symbol'>:access_list</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='kw'>or</span> <span class='id identifier rubyid_fields'>fields</span><span class='lbracket'>[</span><span class='symbol'>:access_list</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span> <span class='const'>Array</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="Tx/ParameterError.html" title="Eth::Tx::ParameterError (class)">ParameterError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Invalid access list </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_fields'>fields</span><span class='lbracket'>[</span><span class='symbol'>:access_list</span><span class='rbracket'>]</span><span class='embexpr_end'>}</span><span class='tstring_content'>!</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>end</span>
+  <span class='kw'>return</span> <span class='id identifier rubyid_fields'>fields</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="validate_params-class_method">
+  
+    .<strong>validate_params</strong>(fields)  &#x21d2; <tt>Hash</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Validates the common type-2 transaction fields such as nonce, priority fee, max gas fee, gas limit, amount, and access list.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>fields</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the transaction fields.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the validated transaction fields.</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Tx/ParameterError.html" title="Eth::Tx::ParameterError (class)">ParameterError</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>if nonce is an invalid integer.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Tx/ParameterError.html" title="Eth::Tx::ParameterError (class)">ParameterError</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>if priority fee is invalid.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Tx/ParameterError.html" title="Eth::Tx::ParameterError (class)">ParameterError</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>if max gas fee is invalid.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Tx/ParameterError.html" title="Eth::Tx::ParameterError (class)">ParameterError</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>if gas limit is invalid.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Tx/ParameterError.html" title="Eth::Tx::ParameterError (class)">ParameterError</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>if amount is invalid.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Tx/ParameterError.html" title="Eth::Tx::ParameterError (class)">ParameterError</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>if access list is invalid.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx.rb', line 198</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_validate_params'>validate_params</span><span class='lparen'>(</span><span class='id identifier rubyid_fields'>fields</span><span class='rparen'>)</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_fields'>fields</span><span class='lbracket'>[</span><span class='symbol'>:nonce</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='kw'>or</span> <span class='id identifier rubyid_fields'>fields</span><span class='lbracket'>[</span><span class='symbol'>:nonce</span><span class='rbracket'>]</span> <span class='op'>&lt;</span> <span class='int'>0</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="Tx/ParameterError.html" title="Eth::Tx::ParameterError (class)">ParameterError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Invalid signer nonce </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_fields'>fields</span><span class='lbracket'>[</span><span class='symbol'>:nonce</span><span class='rbracket'>]</span><span class='embexpr_end'>}</span><span class='tstring_content'>!</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>end</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_fields'>fields</span><span class='lbracket'>[</span><span class='symbol'>:priority_fee</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='kw'>or</span> <span class='id identifier rubyid_fields'>fields</span><span class='lbracket'>[</span><span class='symbol'>:priority_fee</span><span class='rbracket'>]</span> <span class='op'>&lt;</span> <span class='int'>0</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="Tx/ParameterError.html" title="Eth::Tx::ParameterError (class)">ParameterError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Invalid gas priority fee </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_fields'>fields</span><span class='lbracket'>[</span><span class='symbol'>:priority_fee</span><span class='rbracket'>]</span><span class='embexpr_end'>}</span><span class='tstring_content'>!</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>end</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_fields'>fields</span><span class='lbracket'>[</span><span class='symbol'>:max_gas_fee</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='kw'>or</span> <span class='id identifier rubyid_fields'>fields</span><span class='lbracket'>[</span><span class='symbol'>:max_gas_fee</span><span class='rbracket'>]</span> <span class='op'>&lt;</span> <span class='int'>0</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="Tx/ParameterError.html" title="Eth::Tx::ParameterError (class)">ParameterError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Invalid max gas fee </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_fields'>fields</span><span class='lbracket'>[</span><span class='symbol'>:max_gas_fee</span><span class='rbracket'>]</span><span class='embexpr_end'>}</span><span class='tstring_content'>!</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>end</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_fields'>fields</span><span class='lbracket'>[</span><span class='symbol'>:gas_limit</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='kw'>or</span> <span class='id identifier rubyid_fields'>fields</span><span class='lbracket'>[</span><span class='symbol'>:gas_limit</span><span class='rbracket'>]</span> <span class='op'>&lt;</span> <span class='const'><span class='object_link'><a href="#DEFAULT_GAS_LIMIT-constant" title="Eth::Tx::DEFAULT_GAS_LIMIT (constant)">DEFAULT_GAS_LIMIT</a></span></span> <span class='kw'>or</span> <span class='id identifier rubyid_fields'>fields</span><span class='lbracket'>[</span><span class='symbol'>:gas_limit</span><span class='rbracket'>]</span> <span class='op'>&gt;</span> <span class='const'><span class='object_link'><a href="#BLOCK_GAS_LIMIT-constant" title="Eth::Tx::BLOCK_GAS_LIMIT (constant)">BLOCK_GAS_LIMIT</a></span></span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="Tx/ParameterError.html" title="Eth::Tx::ParameterError (class)">ParameterError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Invalid gas limit </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_fields'>fields</span><span class='lbracket'>[</span><span class='symbol'>:gas_limit</span><span class='rbracket'>]</span><span class='embexpr_end'>}</span><span class='tstring_content'>!</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>end</span>
+  <span class='kw'>unless</span> <span class='id identifier rubyid_fields'>fields</span><span class='lbracket'>[</span><span class='symbol'>:value</span><span class='rbracket'>]</span> <span class='op'>&gt;=</span> <span class='int'>0</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="Tx/ParameterError.html" title="Eth::Tx::ParameterError (class)">ParameterError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Invalid transaction value </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_fields'>fields</span><span class='lbracket'>[</span><span class='symbol'>:value</span><span class='rbracket'>]</span><span class='embexpr_end'>}</span><span class='tstring_content'>!</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>end</span>
+  <span class='kw'>unless</span> <span class='id identifier rubyid_fields'>fields</span><span class='lbracket'>[</span><span class='symbol'>:access_list</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='kw'>or</span> <span class='id identifier rubyid_fields'>fields</span><span class='lbracket'>[</span><span class='symbol'>:access_list</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span> <span class='const'>Array</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="Tx/ParameterError.html" title="Eth::Tx::ParameterError (class)">ParameterError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Invalid access list </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_fields'>fields</span><span class='lbracket'>[</span><span class='symbol'>:access_list</span><span class='rbracket'>]</span><span class='embexpr_end'>}</span><span class='tstring_content'>!</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>end</span>
+  <span class='kw'>return</span> <span class='id identifier rubyid_fields'>fields</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
 
   <div id="instance_method_details" class="method_details_list">
     <h2>Instance Method Details</h2>
@@ -972,14 +2681,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Creates a new transaction of any type for given parameters and chain ID. Required parameters are (optional in brackets):</p>
-<ul><li>
-<p>EIP-1559: chain_id, nonce, priority_fee, max_gas_fee, gas_limit(, from, to, value, data, access_list)</p>
-</li><li>
-<p>EIP-2930: chain_id, nonce, gas_price, gas_limit, access_list(, from, to, value, data)</p>
-</li><li>
-<p>Legacy: nonce, gas_price, gas_lmit(, from, to, value, data)</p>
-</li></ul>
+<p>Creates a new transaction of any type for given parameters and chain ID. Required parameters are (optional in brackets): - EIP-1559: chain_id, nonce, priority_fee, max_gas_fee, gas_limit(, from, to,  value, data, access_list) - EIP-2930: chain_id, nonce, gas_price, gas_limit, access_list(, from, to,  value, data) - Legacy: nonce, gas_price, gas_lmit(, from, to, value, data)</p>
 
 
   </div>
@@ -2033,7 +3735,7 @@
 </div>
 
       <div id="footer">
-  Generated on Fri Jan 28 11:42:45 2022 by
+  Generated on Mon Jan 31 17:11:33 2022 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.27 (ruby-2.7.5).
 </div>

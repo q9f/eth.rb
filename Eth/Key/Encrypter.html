@@ -102,7 +102,7 @@
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
     
-<p>The Eth::Key::Encrypter class to handle PBKDF2-SHA-256 encryption.</p>
+<p>The <span class='object_link'><a href="" title="Eth::Key::Encrypter (class)">Encrypter</a></span> class to handle PBKDF2-SHA-256 encryption.</p>
 
 
   </div>
@@ -153,7 +153,7 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Class method `Eth::Key::Encrypter.perform` to performa an key-store encryption.</p>
+<p>Class method <span class='object_link'><a href="#perform-class_method" title="Eth::Key::Encrypter.perform (method)">Encrypter.perform</a></span> to performa an key-store encryption.</p>
 </div></span>
   
 </li>
@@ -186,7 +186,7 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Output containing the encrypted key and [other identifying data](<a href="https://github.com/ethereum/wiki/wiki/Web3-Secret-Storage-Definition#pbkdf2-sha-256">github.com/ethereum/wiki/wiki/Web3-Secret-Storage-Definition#pbkdf2-sha-256</a>).</p>
+<p>Output containing the encrypted key and <a href="https://github.com/ethereum/wiki/wiki/Web3-Secret-Storage-Definition#pbkdf2-sha-256">other identifying data</a>.</p>
 </div></span>
   
 </li>
@@ -212,7 +212,7 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Constructor of the `Eth::Key::Encrypter` class for secret key encryption.</p>
+<p>Constructor of the <span class='object_link'><a href="" title="Eth::Key::Encrypter (class)">Encrypter</a></span> class for secret key encryption.</p>
 </div></span>
   
 </li>
@@ -260,7 +260,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Constructor of the `Eth::Key::Encrypter` class for secret key encryption.</p>
+<p>Constructor of the <span class='object_link'><a href="" title="Eth::Key::Encrypter (class)">Eth::Key::Encrypter</a></span> class for secret key encryption. Should not be used; use <span class='object_link'><a href="#perform-class_method" title="Eth::Key::Encrypter.perform (method)">perform</a></span> instead.</p>
 
 
   </div>
@@ -280,7 +280,7 @@
       
         &mdash;
         <div class='inline'>
-<p>representing a secret key-pair used for encryption</p>
+<p>representing a secret key-pair used for encryption.</p>
 </div>
       
     </li>
@@ -298,7 +298,7 @@
       
         &mdash;
         <div class='inline'>
-<p>the options to encrypt with</p>
+<p>the options to encrypt with.</p>
 </div>
       
     </li>
@@ -321,7 +321,7 @@
           </span>
           
             &mdash; <div class='inline'>
-<p>key derivation function defaults to pbkdf2</p>
+<p>key derivation function defaults to pbkdf2.</p>
 </div>
           
         </li>
@@ -334,7 +334,7 @@
           </span>
           
             &mdash; <div class='inline'>
-<p>uuid given to the secret key</p>
+<p>uuid given to the secret key.</p>
 </div>
           
         </li>
@@ -347,7 +347,7 @@
           </span>
           
             &mdash; <div class='inline'>
-<p>number of iterations for the hash function</p>
+<p>number of iterations for the hash function.</p>
 </div>
           
         </li>
@@ -360,7 +360,7 @@
           </span>
           
             &mdash; <div class='inline'>
-<p>passed to PBKDF</p>
+<p>passed to PBKDF.</p>
 </div>
           
         </li>
@@ -373,7 +373,7 @@
           </span>
           
             &mdash; <div class='inline'>
-<p>128-bit initialisation vector for the cipher</p>
+<p>128-bit initialisation vector for the cipher.</p>
 </div>
           
         </li>
@@ -386,7 +386,7 @@
           </span>
           
             &mdash; <div class='inline'>
-<p>parallelization factor for scrypt, defaults to 8</p>
+<p>parallelization factor for scrypt, defaults to 8.</p>
 </div>
           
         </li>
@@ -399,7 +399,7 @@
           </span>
           
             &mdash; <div class='inline'>
-<p>for scrypt, defaults to 1</p>
+<p>for scrypt, defaults to 1.</p>
 </div>
           
         </li>
@@ -414,7 +414,6 @@
       <pre class="lines">
 
 
-53
 54
 55
 56
@@ -424,10 +423,11 @@
 60
 61
 62
-63</pre>
+63
+64</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/key/encrypter.rb', line 53</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/key/encrypter.rb', line 54</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_key'>key</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Key.html" title="Eth::Key (class)">Key</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../Key.html#initialize-instance_method" title="Eth::Key#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='label'>priv:</span> <span class='id identifier rubyid_key'>key</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_key'>key</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span> <span class='const'>String</span>
@@ -464,7 +464,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Class method `Eth::Key::Encrypter.perform` to performa an key-store encryption.</p>
+<p>Class method <span class='object_link'><a href="#perform-class_method" title="Eth::Key::Encrypter.perform (method)">perform</a></span> to performa an key-store encryption.</p>
 
 
   </div>
@@ -484,7 +484,7 @@
       
         &mdash;
         <div class='inline'>
-<p>representing a secret key-pair used for encryption</p>
+<p>representing a secret key-pair used for encryption.</p>
 </div>
       
     </li>
@@ -502,7 +502,7 @@
       
         &mdash;
         <div class='inline'>
-<p>the options to encrypt with</p>
+<p>the options to encrypt with.</p>
 </div>
       
     </li>
@@ -527,7 +527,7 @@
           </span>
           
             &mdash; <div class='inline'>
-<p>key derivation function defaults to pbkdf2</p>
+<p>key derivation function defaults to pbkdf2.</p>
 </div>
           
         </li>
@@ -540,7 +540,7 @@
           </span>
           
             &mdash; <div class='inline'>
-<p>uuid given to the secret key</p>
+<p>uuid given to the secret key.</p>
 </div>
           
         </li>
@@ -553,7 +553,7 @@
           </span>
           
             &mdash; <div class='inline'>
-<p>number of iterations for the hash function</p>
+<p>number of iterations for the hash function.</p>
 </div>
           
         </li>
@@ -566,7 +566,7 @@
           </span>
           
             &mdash; <div class='inline'>
-<p>passed to PBKDF</p>
+<p>passed to PBKDF.</p>
 </div>
           
         </li>
@@ -579,7 +579,7 @@
           </span>
           
             &mdash; <div class='inline'>
-<p>128-bit initialisation vector for the cipher</p>
+<p>128-bit initialisation vector for the cipher.</p>
 </div>
           
         </li>
@@ -592,7 +592,7 @@
           </span>
           
             &mdash; <div class='inline'>
-<p>parallelization factor for scrypt, defaults to 8</p>
+<p>parallelization factor for scrypt, defaults to 8.</p>
 </div>
           
         </li>
@@ -605,7 +605,7 @@
           </span>
           
             &mdash; <div class='inline'>
-<p>for scrypt, defaults to 1</p>
+<p>for scrypt, defaults to 1.</p>
 </div>
           
         </li>
@@ -625,7 +625,7 @@
       
         &mdash;
         <div class='inline'>
-<p>formatted with encrypted key (cyphertext) and [other identifying data](<a href="https://github.com/ethereum/wiki/wiki/Web3-Secret-Storage-Definition#pbkdf2-sha-256">github.com/ethereum/wiki/wiki/Web3-Secret-Storage-Definition#pbkdf2-sha-256</a>)</p>
+<p>formatted with encrypted key (cyphertext) and <a href="https://github.com/ethereum/wiki/wiki/Web3-Secret-Storage-Definition#pbkdf2-sha-256">other identifying data</a>.</p>
 </div>
       
     </li>
@@ -671,7 +671,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Output containing the encrypted key and [other identifying data](<a href="https://github.com/ethereum/wiki/wiki/Web3-Secret-Storage-Definition#pbkdf2-sha-256">github.com/ethereum/wiki/wiki/Web3-Secret-Storage-Definition#pbkdf2-sha-256</a>)</p>
+<p>Output containing the encrypted key and <a href="https://github.com/ethereum/wiki/wiki/Web3-Secret-Storage-Definition#pbkdf2-sha-256">other identifying data</a></p>
 
 
   </div>
@@ -703,7 +703,6 @@
       <pre class="lines">
 
 
-79
 80
 81
 82
@@ -736,10 +735,11 @@
 109
 110
 111
-112</pre>
+112
+113</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/key/encrypter.rb', line 79</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/key/encrypter.rb', line 80</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_data'>data</span>
   <span class='comment'># default to pbkdf2
@@ -831,7 +831,7 @@
       
         &mdash;
         <div class='inline'>
-<p>a json-formatted keystore string.</p>
+<p>a JSON-formatted keystore string.</p>
 </div>
       
     </li>
@@ -844,14 +844,14 @@
       <pre class="lines">
 
 
-69
 70
 71
 72
-73</pre>
+73
+74</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/key/encrypter.rb', line 69</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/key/encrypter.rb', line 70</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_perform'>perform</span><span class='lparen'>(</span><span class='id identifier rubyid_password'>password</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_derive_key'>derive_key</span> <span class='id identifier rubyid_password'>password</span>
@@ -868,7 +868,7 @@
 </div>
 
       <div id="footer">
-  Generated on Fri Jan 28 11:42:46 2022 by
+  Generated on Mon Jan 31 17:11:37 2022 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.27 (ruby-2.7.5).
 </div>
