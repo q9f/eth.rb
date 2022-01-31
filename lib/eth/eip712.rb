@@ -12,11 +12,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Provides the `Eth` module.
+# Provides the {Eth} module.
 module Eth
 
   # Defines handy tools for encoding typed structured data as per EIP-712.
-  # ref: https://eips.ethereum.org/EIPS/eip-712
+  # Ref: https://eips.ethereum.org/EIPS/eip-712
   module Eip712
     extend self
 

@@ -12,10 +12,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Provides the `Eth` module.
+# Provides the {Eth} module.
 module Eth
 
-  # Provides the `Eth::Client` super-class to connect to Ethereum
+  # Provides the {Eth::Client} super-class to connect to Ethereum
   # network's RPC-API endpoints (IPC or HTTP).
   class Client
 
@@ -28,13 +28,13 @@ module Eth
     # The connected network's client coinbase.
     attr_accessor :default_account
 
-    # The transaction max priority fee per gas in Wei.
+    # The default transaction max priority fee per gas in Wei.
     attr_accessor :max_priority_fee_per_gas
 
-    # The transaction max fee per gas in Wei.
+    # The default transaction max fee per gas in Wei.
     attr_accessor :max_fee_per_gas
 
-    # The gas limit for the transaction.
+    # The default gas limit for the transaction.
     attr_accessor :gas_limit
 
     # Creates a new RPC-Client, either by providing an HTTP/S host or
@@ -50,7 +50,8 @@ module Eth
       raise ArgumentError, "Unable to detect client type!"
     end
 
-    # Constructor for the Eth::Client super-class.
+    # Constructor for the {Eth::Client} super-class. Should not be used;
+    # use {Client.create} intead.
     def initialize(_)
       @id = 0
       @max_priority_fee_per_gas = 0
@@ -95,7 +96,7 @@ module Eth
     # @param destination [Eth::Address] the destination address.
     # @param amount [Integer] the transfer amount in Wei.
     # @param sender_key [Eth::Key] the sender private key.
-    # @param legacy [Bool] enables legacy transactions (pre-EIP-1559).
+    # @param legacy [Boolean] enables legacy transactions (pre-EIP-1559).
     # @return [String] the transaction hash.
     def transfer_and_wait(destination, amount, sender_key = nil, legacy = false)
       wait_for_tx(transfer(destination, amount, sender_key, legacy))
@@ -108,7 +109,7 @@ module Eth
     # @param destination [Eth::Address] the destination address.
     # @param amount [Integer] the transfer amount in Wei.
     # @param sender_key [Eth::Key] the sender private key.
-    # @param legacy [Bool] enables legacy transactions (pre-EIP-1559).
+    # @param legacy [Boolean] enables legacy transactions (pre-EIP-1559).
     # @return [String] the transaction hash.
     def transfer(destination, amount, sender_key = nil, legacy = false)
       params = {
@@ -159,7 +160,7 @@ module Eth
     # Checkes wether a transaction is mined or not.
     #
     # @param hash [String] the transaction hash.
-    # @return [Bool] true if included in a block.
+    # @return [Boolean] true if included in a block.
     def is_mined_tx?(hash)
       mined_tx = eth_get_transaction_by_hash hash
       !mined_tx.nil? && !mined_tx["result"].nil? && !mined_tx["result"]["blockNumber"].nil?

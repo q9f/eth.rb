@@ -20,14 +20,14 @@ require "eth/tx/eip2930"
 require "eth/tx/legacy"
 require "eth/unit"
 
-# Provides the `Eth` module.
+# Provides the {Eth} module.
 module Eth
 
   # Provides the `Tx` module supporting various transaction types.
   module Tx
     extend self
 
-    # Provides a special transactoin error if transaction type is unknown.
+    # Provides a special transaction error if transaction type is unknown.
     class TransactionTypeError < TypeError; end
 
     # Provides an decoder error if transaction cannot be decoded.

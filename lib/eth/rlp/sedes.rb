@@ -18,7 +18,7 @@ require "eth/rlp/sedes/big_endian_int"
 require "eth/rlp/sedes/binary"
 require "eth/rlp/sedes/list"
 
-# Provides the `Eth` module.
+# Provides the {Eth} module.
 module Eth
 
   # Provides an recursive-length prefix (RLP) encoder and decoder.
@@ -27,13 +27,13 @@ module Eth
     # Provides serializable and deserializable types (SeDes).
     module Sedes
 
-      # Provides a singleton Eth::Rlp::Sedes class to infer objects and types.
+      # Provides a singleton {Eth::Rlp::Sedes} class to infer objects and types.
       class << self
 
         # Tries to find a sedes objects suitable for a given Ruby object.
         #
-        # The sedes objects considered are `obj`'s class, `big_endian_int` and
-        # `binary`. If `obj` is a list, an `Eth::Rlp::Sedes::List` will be
+        # The sedes objects considered are `obj`'s class, {big_endian_int} and
+        # {binary}. If `obj` is a list, an {Eth::Rlp::Sedes::List} will be
         # constructed recursively.
         #
         # @param obj [Object] the Ruby object for which to find a sedes object.

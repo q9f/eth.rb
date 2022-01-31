@@ -14,7 +14,7 @@
 
 # -*- encoding : ascii-8bit -*-
 
-# Provides the `Eth` module.
+# Provides the {Eth} module.
 module Eth
 
   # Provides an recursive-length prefix (RLP) encoder and decoder.
@@ -30,7 +30,6 @@ module Eth
       # @return [Object] the decoded and maybe deserialized object.
       # @raise [Eth::Rlp::DecodingError] if the input string does not end after
       #     the root item.
-      # @raise [Eht::Rlp::DeserializationError] if the deserialization fails.
       def perform(rlp)
         rlp = Util.hex_to_bin rlp if Util.is_hex? rlp
         rlp = Util.str_to_bytes rlp

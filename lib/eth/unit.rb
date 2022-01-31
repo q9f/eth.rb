@@ -14,7 +14,7 @@
 
 require "bigdecimal"
 
-# Provides the `Eth` module.
+# Provides the {Eth} module.
 module Eth
 
   # Provides constants for common Ethereum units.

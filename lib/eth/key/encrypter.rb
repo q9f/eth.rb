@@ -12,44 +12,45 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Provides the `Eth` module.
+# Provides the {Eth} module.
 module Eth
 
-  # The Eth::Key::Encrypter class to handle PBKDF2-SHA-256 encryption.
+  # The {Eth::Key::Encrypter} class to handle PBKDF2-SHA-256 encryption.
   class Key::Encrypter
 
     # Provides a specific encrypter error if decryption fails.
     class EncrypterError < StandardError; end
 
-    # Class method `Eth::Key::Encrypter.perform` to performa an key-store
+    # Class method {Eth::Key::Encrypter.perform} to performa an key-store
     # encryption.
     #
-    # @param key [Eth::Key] representing a secret key-pair used for encryption
-    # @param options [Hash] the options to encrypt with
-    # @option options [String] :kdf key derivation function defaults to pbkdf2
-    # @option options [String] :id uuid given to the secret key
-    # @option options [String] :iterations number of iterations for the hash function
-    # @option options [String] :salt passed to PBKDF
-    # @option options [String] :iv 128-bit initialisation vector for the cipher
-    # @option options [Integer] :parallelization parallelization factor for scrypt, defaults to 8
-    # @option options [Integer] :block_size for scrypt, defaults to 1
-    # @return [JSON] formatted with encrypted key (cyphertext) and [other identifying data](https://github.com/ethereum/wiki/wiki/Web3-Secret-Storage-Definition#pbkdf2-sha-256)
+    # @param key [Eth::Key] representing a secret key-pair used for encryption.
+    # @param options [Hash] the options to encrypt with.
+    # @option options [String] :kdf key derivation function defaults to pbkdf2.
+    # @option options [String] :id uuid given to the secret key.
+    # @option options [String] :iterations number of iterations for the hash function.
+    # @option options [String] :salt passed to PBKDF.
+    # @option options [String] :iv 128-bit initialisation vector for the cipher.
+    # @option options [Integer] :parallelization parallelization factor for scrypt, defaults to 8.
+    # @option options [Integer] :block_size for scrypt, defaults to 1.
+    # @return [JSON] formatted with encrypted key (cyphertext) and [other identifying data](https://github.com/ethereum/wiki/wiki/Web3-Secret-Storage-Definition#pbkdf2-sha-256).
     def self.perform(key, password, options = {})
       new(key, options).perform(password)
     end
 
-    # Constructor of the `Eth::Key::Encrypter` class for secret key
-    # encryption.
+    # Constructor of the {Eth::Key::Encrypter} class for secret key
+    # encryption. Should not be used; use {Eth::Key::Encrypter.perform}
+    # instead.
     #
-    # @param key [Eth::Key] representing a secret key-pair used for encryption
-    # @param options [Hash] the options to encrypt with
-    # @option options [String] :kdf key derivation function defaults to pbkdf2
-    # @option options [String] :id uuid given to the secret key
-    # @option options [String] :iterations number of iterations for the hash function
-    # @option options [String] :salt passed to PBKDF
-    # @option options [String] :iv 128-bit initialisation vector for the cipher
-    # @option options [Integer] :parallelization parallelization factor for scrypt, defaults to 8
-    # @option options [Integer] :block_size for scrypt, defaults to 1
+    # @param key [Eth::Key] representing a secret key-pair used for encryption.
+    # @param options [Hash] the options to encrypt with.
+    # @option options [String] :kdf key derivation function defaults to pbkdf2.
+    # @option options [String] :id uuid given to the secret key.
+    # @option options [String] :iterations number of iterations for the hash function.
+    # @option options [String] :salt passed to PBKDF.
+    # @option options [String] :iv 128-bit initialisation vector for the cipher.
+    # @option options [Integer] :parallelization parallelization factor for scrypt, defaults to 8.
+    # @option options [Integer] :block_size for scrypt, defaults to 1.
     def initialize(key, options = {})
       key = Key.new(priv: key) if key.is_a? String
       @key = key
@@ -65,7 +66,7 @@ module Eth
     # Encrypt the key with a given password.
     #
     # @param password [String] a secret key used for encryption
-    # @return [String] a json-formatted keystore string.
+    # @return [String] a JSON-formatted keystore string.
     def perform(password)
       derive_key password
       encrypt

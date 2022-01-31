@@ -19,14 +19,14 @@ require "eth/rlp/encoder"
 require "eth/rlp/sedes"
 require "eth/util"
 
-# Provides the `Eth` module.
+# Provides the {Eth} module.
 module Eth
 
   # Provides an recursive-length prefix (RLP) encoder and decoder.
   module Rlp
     extend self
 
-    # The Rlp module exposes a variety of exceptions grouped as RlpException.
+    # The Rlp module exposes a variety of exceptions grouped as {RlpException}.
     class RlpException < StandardError; end
 
     # An error-type to point out RLP-encoding errors.
@@ -41,10 +41,10 @@ module Eth
     # An error-type to point out RLP-type serialization errors.
     class DeserializationError < RlpException; end
 
-    # A wrapper to represent already RLP encoded data.
+    # A wrapper to represent already RLP-encoded data.
     class Data < String; end
 
-    # Performes an Eth::Rlp::Encoder on any ruby object.
+    # Performes an {Eth::Rlp::Encoder} on any ruby object.
     #
     # @param obj [Object] any ruby object.
     # @return [String] a packed, RLP-encoded item.
@@ -52,7 +52,7 @@ module Eth
       Rlp::Encoder.perform obj
     end
 
-    # Performes an Eth::Rlp::Decoder on any RLP-encoded item.
+    # Performes an {Eth::Rlp::Decoder} on any RLP-encoded item.
     #
     # @param rlp [String] a packed, RLP-encoded item.
     # @return [Object] a decoded ruby object.

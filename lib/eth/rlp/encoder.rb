@@ -14,7 +14,7 @@
 
 # -*- encoding : ascii-8bit -*-
 
-# Provides the `Eth` module.
+# Provides the {Eth} module.
 module Eth
 
   # Provides an recursive-length prefix (RLP) encoder and decoder.
