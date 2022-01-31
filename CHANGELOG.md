@@ -1,6 +1,19 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## [0.5.1]
+### Changed
+- Docs: update changelog ([#61](https://github.com/q9f/eth.rb/pull/61))
+- Eth/chain: add sepolia chain id; docs ([#60](https://github.com/q9f/eth.rb/pull/60))
+- Eth/rlp: cleanup ([#59](https://github.com/q9f/eth.rb/pull/59))
+- Add eth::rlp module ([#52](https://github.com/q9f/eth.rb/pull/52))
+- Eth/tx: properly serialize signatures ([#58](https://github.com/q9f/eth.rb/pull/58))
+- Eth/client: fix legacy transfer ([#57](https://github.com/q9f/eth.rb/pull/57))
+- Gem: relax openssl requirement ([#56](https://github.com/q9f/eth.rb/pull/56))
+- Eth/client: implement http/ipc ([#37](https://github.com/q9f/eth.rb/pull/37))
+- Docs: update changelog ([#53](https://github.com/q9f/eth.rb/pull/53))
+- Spec: add upstream test fixtures for keystore ([#50](https://github.com/q9f/eth.rb/pull/50))
+
 ## [0.5.0]
 ### Changed
 - Docs: update readme with features [#49](https://github.com/q9f/eth.rb/pull/49)
