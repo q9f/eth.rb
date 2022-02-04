@@ -63,7 +63,7 @@ module Eth
           # short string
           [:str, b0 - Constant::PRIMITIVE_PREFIX_OFFSET, start + 1]
         elsif b0 < Constant::LIST_PREFIX_OFFSET
-          raise DecodingError, "Length starts with zero bytes" if rlp.slice(start + 1) == Constant::BYTE_ZERO
+          enforce_no_zero_bytes rlp, start
 
           # long string
           ll = b0 - Constant::PRIMITIVE_PREFIX_OFFSET - Constant::SHORT_LENGTH_LIMIT + 1
@@ -75,7 +75,7 @@ module Eth
           # short list
           [:list, b0 - Constant::LIST_PREFIX_OFFSET, start + 1]
         else
-          raise DecodingError, "Length starts with zero bytes" if rlp.slice(start + 1) == Constant::BYTE_ZERO
+          enforce_no_zero_bytes rlp, start
 
           # long list
           ll = b0 - Constant::LIST_PREFIX_OFFSET - Constant::SHORT_LENGTH_LIMIT + 1
@@ -83,6 +83,11 @@ module Eth
           raise DecodingError, "Long list prefix used for short list" if l < Constant::SHORT_LENGTH_LIMIT
           [:list, l, start + 1 + ll]
         end
+      end
+
+      # Enforce RLP slices to not start with empty bytes.
+      def enforce_no_zero_bytes(rlp, start)
+        raise DecodingError, "Length starts with zero bytes" if rlp.slice(start + 1) == Constant::BYTE_ZERO
       end
 
       # Consume an RLP payload at the given position of given type and size.
