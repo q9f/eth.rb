@@ -268,8 +268,8 @@ This gem is a complete rewrite of the old `eth` gem by Steve Ellis.
 It is not only a rewrite the `eth` gem but also a partial merge of the `ethereum` gem by Marek Kirejczyk and Yuta Kurotaki.
 * https://github.com/EthWorks/ethereum.rb (MIT)
 
-This gem also includes a revised version the ABI gem by Jan Xie and Zhang Yaning.
+This gem also includes a revised version of the ABI gem by Jan Xie and Zhang Yaning.
 * https://github.com/cryptape/ruby-ethereum-abi (MIT)
 
-It also contains a condensed version the RLP gem by Jan Xie and Zhang Yaning.
+It also contains a condensed version of the RLP gem by Jan Xie and Zhang Yaning.
 * https://github.com/cryptape/ruby-rlp (MIT)
