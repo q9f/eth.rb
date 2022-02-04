@@ -184,26 +184,18 @@ module Eth
       return gas
     end
 
-    # Validates the common type-2 transaction fields such as nonce, priority
-    # fee, max gas fee, gas limit, amount, and access list.
+    # Validates the common transaction fields such as nonce, gas limit,
+    # amount, and access list.
     #
     # @param fields [Hash] the transaction fields.
     # @return [Hash] the validated transaction fields.
     # @raise [ParameterError] if nonce is an invalid integer.
-    # @raise [ParameterError] if priority fee is invalid.
-    # @raise [ParameterError] if max gas fee is invalid.
     # @raise [ParameterError] if gas limit is invalid.
     # @raise [ParameterError] if amount is invalid.
     # @raise [ParameterError] if access list is invalid.
     def validate_params(fields)
       if fields[:nonce].nil? or fields[:nonce] < 0
         raise ParameterError, "Invalid signer nonce #{fields[:nonce]}!"
-      end
-      if fields[:priority_fee].nil? or fields[:priority_fee] < 0
-        raise ParameterError, "Invalid gas priority fee #{fields[:priority_fee]}!"
-      end
-      if fields[:max_gas_fee].nil? or fields[:max_gas_fee] < 0
-        raise ParameterError, "Invalid max gas fee #{fields[:max_gas_fee]}!"
       end
       if fields[:gas_limit].nil? or fields[:gas_limit] < DEFAULT_GAS_LIMIT or fields[:gas_limit] > BLOCK_GAS_LIMIT
         raise ParameterError, "Invalid gas limit #{fields[:gas_limit]}!"
@@ -217,31 +209,31 @@ module Eth
       return fields
     end
 
-    # Validates the common legacy transaction fields such as nonce, gas
-    # price, gas limit, amount, and access list.
+    # Validates the common type-2 transaction fields such as priority
+    # fee and max gas fee.
     #
     # @param fields [Hash] the transaction fields.
     # @return [Hash] the validated transaction fields.
-    # @raise [ParameterError] if nonce is an invalid integer.
-    # @raise [ParameterError] if gas price is invalid.
-    # @raise [ParameterError] if gas limit is invalid.
-    # @raise [ParameterError] if amount is invalid.
-    # @raise [ParameterError] if access list is invalid.
-    def validate_legacy_params(fields)
-      if fields[:nonce].nil? or fields[:nonce] < 0
-        raise ParameterError, "Invalid signer nonce #{fields[:nonce]}!"
+    # @raise [ParameterError] if priority fee is invalid.
+    # @raise [ParameterError] if max gas fee is invalid.
+    def validate_eip1559_params(fields)
+      if fields[:priority_fee].nil? or fields[:priority_fee] < 0
+        raise ParameterError, "Invalid gas priority fee #{fields[:priority_fee]}!"
       end
+      if fields[:max_gas_fee].nil? or fields[:max_gas_fee] < 0
+        raise ParameterError, "Invalid max gas fee #{fields[:max_gas_fee]}!"
+      end
+      return fields
+    end
+
+    # Validates the common legacy transaction fields such as gas price.
+    #
+    # @param fields [Hash] the transaction fields.
+    # @return [Hash] the validated transaction fields.
+    # @raise [ParameterError] if gas price is invalid.
+    def validate_legacy_params(fields)
       if fields[:gas_price].nil? or fields[:gas_price] < 0
         raise ParameterError, "Invalid gas price #{fields[:gas_price]}!"
-      end
-      if fields[:gas_limit].nil? or fields[:gas_limit] < DEFAULT_GAS_LIMIT or fields[:gas_limit] > BLOCK_GAS_LIMIT
-        raise ParameterError, "Invalid gas limit #{fields[:gas_limit]}!"
-      end
-      unless fields[:value] >= 0
-        raise ParameterError, "Invalid transaction value #{fields[:value]}!"
-      end
-      unless fields[:access_list].nil? or fields[:access_list].is_a? Array
-        raise ParameterError, "Invalid access list #{fields[:access_list]}!"
       end
       return fields
     end

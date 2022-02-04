@@ -95,6 +95,7 @@ module Eth
 
         # ensure sane values for all mandatory fields
         fields = Tx.validate_params fields
+        fields = Tx.validate_eip1559_params fields
         fields[:access_list] = Tx.sanitize_list fields[:access_list]
 
         # ensure gas limit is not too low

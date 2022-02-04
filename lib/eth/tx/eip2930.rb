@@ -92,6 +92,7 @@ module Eth
         fields[:data] = Tx.sanitize_data fields[:data]
 
         # ensure sane values for all mandatory fields
+        fields = Tx.validate_params fields
         fields = Tx.validate_legacy_params fields
         fields[:access_list] = Tx.sanitize_list fields[:access_list]
 
