@@ -265,7 +265,7 @@ The `eth` gem is licensed under the conditions of [Apache 2.0](./LICENSE.txt). P
 This gem is a complete rewrite of the old `eth` gem by Steve Ellis.
 * https://github.com/se3000/ruby-eth/ (MIT)
 
-It is not only a rewrite the `eth` gem but also a partial merge of the `ethereum` gem by Marek Kirejczyk and Yuta Kurotaki.
+It is not only a rewrite of the `eth` gem but also a partial merge of the `ethereum` gem by Marek Kirejczyk and Yuta Kurotaki.
 * https://github.com/EthWorks/ethereum.rb (MIT)
 
 This gem also includes a revised version of the ABI gem by Jan Xie and Zhang Yaning.
