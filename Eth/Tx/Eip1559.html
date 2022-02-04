@@ -1002,7 +1002,8 @@
 122
 123
 124
-125</pre>
+125
+126</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/eth/tx/eip1559.rb', line 86</span>
@@ -1019,6 +1020,7 @@
 
   <span class='comment'># ensure sane values for all mandatory fields
 </span>  <span class='id identifier rubyid_fields'>fields</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Tx.html" title="Eth::Tx (module)">Tx</a></span></span><span class='period'>.</span><span class='id identifier rubyid_validate_params'><span class='object_link'><a href="../Tx.html#validate_params-instance_method" title="Eth::Tx#validate_params (method)">validate_params</a></span></span> <span class='id identifier rubyid_fields'>fields</span>
+  <span class='id identifier rubyid_fields'>fields</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Tx.html" title="Eth::Tx (module)">Tx</a></span></span><span class='period'>.</span><span class='id identifier rubyid_validate_eip1559_params'><span class='object_link'><a href="../Tx.html#validate_eip1559_params-instance_method" title="Eth::Tx#validate_eip1559_params (method)">validate_eip1559_params</a></span></span> <span class='id identifier rubyid_fields'>fields</span>
   <span class='id identifier rubyid_fields'>fields</span><span class='lbracket'>[</span><span class='symbol'>:access_list</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Tx.html" title="Eth::Tx (module)">Tx</a></span></span><span class='period'>.</span><span class='id identifier rubyid_sanitize_list'><span class='object_link'><a href="../Tx.html#sanitize_list-instance_method" title="Eth::Tx#sanitize_list (method)">sanitize_list</a></span></span> <span class='id identifier rubyid_fields'>fields</span><span class='lbracket'>[</span><span class='symbol'>:access_list</span><span class='rbracket'>]</span>
 
   <span class='comment'># ensure gas limit is not too low
@@ -1776,7 +1778,6 @@
       <pre class="lines">
 
 
-138
 139
 140
 141
@@ -1831,10 +1832,11 @@
 190
 191
 192
-193</pre>
+193
+194</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip1559.rb', line 138</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip1559.rb', line 139</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_decode'>decode</span><span class='lparen'>(</span><span class='id identifier rubyid_hex'>hex</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_hex'>hex</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_remove_hex_prefix'><span class='object_link'><a href="../Util.html#remove_hex_prefix-instance_method" title="Eth::Util#remove_hex_prefix (method)">remove_hex_prefix</a></span></span> <span class='id identifier rubyid_hex'>hex</span>
@@ -1959,7 +1961,6 @@
       <pre class="lines">
 
 
-259
 260
 261
 262
@@ -1981,10 +1982,11 @@
 278
 279
 280
-281</pre>
+281
+282</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip1559.rb', line 259</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip1559.rb', line 260</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_encoded'>encoded</span>
   <span class='kw'>unless</span> <span class='const'><span class='object_link'><a href="../Tx.html" title="Eth::Tx (module)">Tx</a></span></span><span class='period'>.</span><span class='id identifier rubyid_is_signed?'><span class='object_link'><a href="../Tx.html#is_signed%3F-instance_method" title="Eth::Tx#is_signed? (method)">is_signed?</a></span></span> <span class='kw'>self</span>
@@ -2058,12 +2060,12 @@
       <pre class="lines">
 
 
-293
 294
-295</pre>
+295
+296</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip1559.rb', line 293</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip1559.rb', line 294</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_hash'>hash</span>
   <span class='const'><span class='object_link'><a href="../Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_bin_to_hex'><span class='object_link'><a href="../Util.html#bin_to_hex-instance_method" title="Eth::Util#bin_to_hex (method)">bin_to_hex</a></span></span> <span class='const'><span class='object_link'><a href="../Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_keccak256'><span class='object_link'><a href="../Util.html#keccak256-instance_method" title="Eth::Util#keccak256 (method)">keccak256</a></span></span> <span class='id identifier rubyid_encoded'>encoded</span>
@@ -2117,12 +2119,12 @@
       <pre class="lines">
 
 
-286
 287
-288</pre>
+288
+289</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip1559.rb', line 286</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip1559.rb', line 287</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_hex'>hex</span>
   <span class='const'><span class='object_link'><a href="../Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_bin_to_hex'><span class='object_link'><a href="../Util.html#bin_to_hex-instance_method" title="Eth::Util#bin_to_hex (method)">bin_to_hex</a></span></span> <span class='id identifier rubyid_encoded'>encoded</span>
@@ -2228,7 +2230,6 @@
       <pre class="lines">
 
 
-232
 233
 234
 235
@@ -2248,10 +2249,11 @@
 249
 250
 251
-252</pre>
+252
+253</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip1559.rb', line 232</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip1559.rb', line 233</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_sign'>sign</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='rparen'>)</span>
   <span class='kw'>if</span> <span class='const'><span class='object_link'><a href="../Tx.html" title="Eth::Tx (module)">Tx</a></span></span><span class='period'>.</span><span class='id identifier rubyid_is_signed?'><span class='object_link'><a href="../Tx.html#is_signed%3F-instance_method" title="Eth::Tx#is_signed? (method)">is_signed?</a></span></span> <span class='kw'>self</span>
@@ -2361,7 +2363,6 @@
       <pre class="lines">
 
 
-200
 201
 202
 203
@@ -2385,10 +2386,11 @@
 221
 222
 223
-224</pre>
+224
+225</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip1559.rb', line 200</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip1559.rb', line 201</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_unsigned_copy'>unsigned_copy</span><span class='lparen'>(</span><span class='id identifier rubyid_tx'>tx</span><span class='rparen'>)</span>
 
@@ -2464,7 +2466,6 @@
       <pre class="lines">
 
 
-301
 302
 303
 304
@@ -2480,10 +2481,11 @@
 314
 315
 316
-317</pre>
+317
+318</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip1559.rb', line 301</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip1559.rb', line 302</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_unsigned_encoded'>unsigned_encoded</span>
   <span class='id identifier rubyid_tx_data'>tx_data</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
@@ -2551,12 +2553,12 @@
       <pre class="lines">
 
 
-322
 323
-324</pre>
+324
+325</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip1559.rb', line 322</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip1559.rb', line 323</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_unsigned_hash'>unsigned_hash</span>
   <span class='const'><span class='object_link'><a href="../Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_keccak256'><span class='object_link'><a href="../Util.html#keccak256-instance_method" title="Eth::Util#keccak256 (method)">keccak256</a></span></span> <span class='id identifier rubyid_unsigned_encoded'>unsigned_encoded</span>
@@ -2571,7 +2573,7 @@
 </div>
 
       <div id="footer">
-  Generated on Mon Jan 31 17:29:08 2022 by
+  Generated on Fri Feb  4 17:14:49 2022 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.27 (ruby-2.7.5).
 </div>

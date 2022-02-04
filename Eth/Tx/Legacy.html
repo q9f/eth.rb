@@ -921,7 +921,8 @@
 108
 109
 110
-111</pre>
+111
+112</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/eth/tx/legacy.rb', line 76</span>
@@ -936,7 +937,8 @@
   <span class='id identifier rubyid_fields'>fields</span><span class='lbracket'>[</span><span class='symbol'>:data</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Tx.html" title="Eth::Tx (module)">Tx</a></span></span><span class='period'>.</span><span class='id identifier rubyid_sanitize_data'><span class='object_link'><a href="../Tx.html#sanitize_data-instance_method" title="Eth::Tx#sanitize_data (method)">sanitize_data</a></span></span> <span class='id identifier rubyid_fields'>fields</span><span class='lbracket'>[</span><span class='symbol'>:data</span><span class='rbracket'>]</span>
 
   <span class='comment'># ensure sane values for all mandatory fields
-</span>  <span class='id identifier rubyid_fields'>fields</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Tx.html" title="Eth::Tx (module)">Tx</a></span></span><span class='period'>.</span><span class='id identifier rubyid_validate_legacy_params'><span class='object_link'><a href="../Tx.html#validate_legacy_params-instance_method" title="Eth::Tx#validate_legacy_params (method)">validate_legacy_params</a></span></span> <span class='id identifier rubyid_fields'>fields</span>
+</span>  <span class='id identifier rubyid_fields'>fields</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Tx.html" title="Eth::Tx (module)">Tx</a></span></span><span class='period'>.</span><span class='id identifier rubyid_validate_params'><span class='object_link'><a href="../Tx.html#validate_params-instance_method" title="Eth::Tx#validate_params (method)">validate_params</a></span></span> <span class='id identifier rubyid_fields'>fields</span>
+  <span class='id identifier rubyid_fields'>fields</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Tx.html" title="Eth::Tx (module)">Tx</a></span></span><span class='period'>.</span><span class='id identifier rubyid_validate_legacy_params'><span class='object_link'><a href="../Tx.html#validate_legacy_params-instance_method" title="Eth::Tx#validate_legacy_params (method)">validate_legacy_params</a></span></span> <span class='id identifier rubyid_fields'>fields</span>
 
   <span class='comment'># ensure gas limit is not too low
 </span>  <span class='id identifier rubyid_minimum_cost'>minimum_cost</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Tx.html" title="Eth::Tx (module)">Tx</a></span></span><span class='period'>.</span><span class='id identifier rubyid_estimate_intrinsic_gas'><span class='object_link'><a href="../Tx.html#estimate_intrinsic_gas-instance_method" title="Eth::Tx#estimate_intrinsic_gas (method)">estimate_intrinsic_gas</a></span></span> <span class='id identifier rubyid_fields'>fields</span><span class='lbracket'>[</span><span class='symbol'>:data</span><span class='rbracket'>]</span>
@@ -1577,7 +1579,6 @@
       <pre class="lines">
 
 
-122
 123
 124
 125
@@ -1624,10 +1625,11 @@
 166
 167
 168
-169</pre>
+169
+170</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx/legacy.rb', line 122</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx/legacy.rb', line 123</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_decode'>decode</span><span class='lparen'>(</span><span class='id identifier rubyid_hex'>hex</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_bin'>bin</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_hex_to_bin'><span class='object_link'><a href="../Util.html#hex_to_bin-instance_method" title="Eth::Util#hex_to_bin (method)">hex_to_bin</a></span></span> <span class='id identifier rubyid_hex'>hex</span>
@@ -1744,7 +1746,6 @@
       <pre class="lines">
 
 
-231
 232
 233
 234
@@ -1759,10 +1760,11 @@
 243
 244
 245
-246</pre>
+246
+247</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx/legacy.rb', line 231</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx/legacy.rb', line 232</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_encoded'>encoded</span>
   <span class='kw'>unless</span> <span class='const'><span class='object_link'><a href="../Tx.html" title="Eth::Tx (module)">Tx</a></span></span><span class='period'>.</span><span class='id identifier rubyid_is_signed?'><span class='object_link'><a href="../Tx.html#is_signed%3F-instance_method" title="Eth::Tx#is_signed? (method)">is_signed?</a></span></span> <span class='kw'>self</span>
@@ -1829,12 +1831,12 @@
       <pre class="lines">
 
 
-258
 259
-260</pre>
+260
+261</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx/legacy.rb', line 258</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx/legacy.rb', line 259</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_hash'>hash</span>
   <span class='const'><span class='object_link'><a href="../Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_bin_to_hex'><span class='object_link'><a href="../Util.html#bin_to_hex-instance_method" title="Eth::Util#bin_to_hex (method)">bin_to_hex</a></span></span> <span class='const'><span class='object_link'><a href="../Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_keccak256'><span class='object_link'><a href="../Util.html#keccak256-instance_method" title="Eth::Util#keccak256 (method)">keccak256</a></span></span> <span class='id identifier rubyid_encoded'>encoded</span>
@@ -1888,12 +1890,12 @@
       <pre class="lines">
 
 
-251
 252
-253</pre>
+253
+254</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx/legacy.rb', line 251</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx/legacy.rb', line 252</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_hex'>hex</span>
   <span class='const'><span class='object_link'><a href="../Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_bin_to_hex'><span class='object_link'><a href="../Util.html#bin_to_hex-instance_method" title="Eth::Util#bin_to_hex (method)">bin_to_hex</a></span></span> <span class='id identifier rubyid_encoded'>encoded</span>
@@ -1999,7 +2001,6 @@
       <pre class="lines">
 
 
-206
 207
 208
 209
@@ -2018,10 +2019,11 @@
 222
 223
 224
-225</pre>
+225
+226</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx/legacy.rb', line 206</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx/legacy.rb', line 207</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_sign'>sign</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='rparen'>)</span>
   <span class='kw'>if</span> <span class='const'><span class='object_link'><a href="../Tx.html" title="Eth::Tx (module)">Tx</a></span></span><span class='period'>.</span><span class='id identifier rubyid_is_signed?'><span class='object_link'><a href="../Tx.html#is_signed%3F-instance_method" title="Eth::Tx#is_signed? (method)">is_signed?</a></span></span> <span class='kw'>self</span>
@@ -2130,7 +2132,6 @@
       <pre class="lines">
 
 
-176
 177
 178
 179
@@ -2152,10 +2153,11 @@
 195
 196
 197
-198</pre>
+198
+199</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx/legacy.rb', line 176</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx/legacy.rb', line 177</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_unsigned_copy'>unsigned_copy</span><span class='lparen'>(</span><span class='id identifier rubyid_tx'>tx</span><span class='rparen'>)</span>
 
@@ -2229,7 +2231,6 @@
       <pre class="lines">
 
 
-265
 266
 267
 268
@@ -2241,10 +2242,11 @@
 274
 275
 276
-277</pre>
+277
+278</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx/legacy.rb', line 265</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx/legacy.rb', line 266</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_unsigned_encoded'>unsigned_encoded</span>
   <span class='id identifier rubyid_tx_data'>tx_data</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
@@ -2308,12 +2310,12 @@
       <pre class="lines">
 
 
-282
 283
-284</pre>
+284
+285</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx/legacy.rb', line 282</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx/legacy.rb', line 283</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_unsigned_hash'>unsigned_hash</span>
   <span class='const'><span class='object_link'><a href="../Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_keccak256'><span class='object_link'><a href="../Util.html#keccak256-instance_method" title="Eth::Util#keccak256 (method)">keccak256</a></span></span> <span class='id identifier rubyid_unsigned_encoded'>unsigned_encoded</span>
@@ -2328,7 +2330,7 @@
 </div>
 
       <div id="footer">
-  Generated on Mon Jan 31 17:29:08 2022 by
+  Generated on Fri Feb  4 17:14:48 2022 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.27 (ruby-2.7.5).
 </div>
