@@ -10,12 +10,18 @@ The Ruby-Eth project was maintained 2016-2020 in Steve Ellis's (@se3000)
 repository licensed under MIT conditions:
 * https://github.com/se3000/ruby-eth
 
-The latest version of the Ruby-Eth gem contains a revised version the
+The latest Ruby-Eth gem is not only a rewrite of the aforementioned gem 
+but also a partial merge of the Ethereum.rb Ruby Ethereum library by
+Marek Kirejczyk (@marekkirejczyk) and Yuta Kurotaki (@kurotaky) licensed 
+under MIT conditions:
+* https://github.com/EthWorks/ethereum.rb
+
+The latest version of the Ruby-Eth gem includes a revised version of the
 ABI gem by Jan Xie (@janx) and Zhang Yaning (@u2) licensed under MIT
 conditions:
 * https://github.com/cryptape/ruby-ethereum-abi
 
-The latest version of the Ruby-Eth gem contains a revised version the
+The latest version of the Ruby-Eth gem contains a condensed version of the
 RLP gem by Jan Xie (@janx) and Zhang Yaning (@u2) licensed under MIT
 conditions:
 * https://github.com/cryptape/ruby-rlp
