@@ -58,11 +58,11 @@
       </div>
 
       <div id="content"><div id='filecontents'>
-<h1 id="label-Eth+for+Ruby">Eth for Ruby</h1>
+<h1 id="label-Ethereum+for+Ruby">Ethereum for Ruby</h1>
 
-<p><a href="https://github.com/q9f/eth.rb/actions"><img src="https://img.shields.io/github/workflow/status/q9f/eth.rb/Spec"></a> <a href="https://github.com/q9f/eth.rb/releases"><img src="https://img.shields.io/github/v/release/q9f/eth.rb"></a> <a href="https://rubygems.org/gems/eth"><img src="https://img.shields.io/gem/v/eth"></a> <a href="https://rubygems.org/gems/eth"><img src="https://img.shields.io/gem/dt/eth"></a> <a href="https://codecov.io/gh/q9f/eth.rb"><img src="https://codecov.io/gh/q9f/eth.rb/branch/main/graph/badge.svg?token=IK7USBPBZY"></a> <a href="https://codeclimate.com/github/q9f/eth.rb/maintainability"><img src="https://api.codeclimate.com/v1/badges/469e6f66425198ad7614/maintainability"></a> <a href="https://q9f.github.io/eth.rb"><img src="https://img.shields.io/badge/docs-API-blue"></a> <a href="https://github.com/q9f/eth.rb/pulse"><img src="https://img.shields.io/github/languages/top/q9f/eth.rb?color=red"></a> <a href="LICENSE"><img src="https://img.shields.io/github/license/q9f/eth.rb"></a></p>
+<p><a href="https://github.com/q9f/eth.rb/actions"><img src="https://img.shields.io/github/workflow/status/q9f/eth.rb/Spec"></a> <a href="https://github.com/q9f/eth.rb/releases"><img src="https://img.shields.io/github/v/release/q9f/eth.rb"></a> <a href="https://rubygems.org/gems/eth"><img src="https://img.shields.io/gem/v/eth"></a> <a href="https://rubygems.org/gems/eth"><img src="https://img.shields.io/gem/dt/eth"></a> <a href="https://hits.seeyoufarm.com"><img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2Fq9f%2Feth.rb&count_bg=%2379C83D&title_bg=%23555555&icon=rubygems.svg&icon_color=%23FF0000&title=visitors&edge_flat=false"></a> <a href="https://codecov.io/gh/q9f/eth.rb"><img src="https://codecov.io/gh/q9f/eth.rb/branch/main/graph/badge.svg?token=IK7USBPBZY"></a> <a href="https://codeclimate.com/github/q9f/eth.rb/maintainability"><img src="https://api.codeclimate.com/v1/badges/469e6f66425198ad7614/maintainability"></a> <a href="https://github.com/q9f/eth.rb/pulse"><img src="https://img.shields.io/github/languages/top/q9f/eth.rb?color=red"></a> <a href="https://q9f.github.io/eth.rb"><img src="https://img.shields.io/badge/documentation-API-blue"></a> <a href="LICENSE"><img src="https://img.shields.io/github/license/q9f/eth.rb"></a> <a href="https://github.com/q9f/eth.rb/issues"><img src="https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat"></a></p>
 
-<p>A simple library to build and sign Ethereum transactions. Allows separation of key and node management. Sign transactions and handle keys anywhere you can run ruby, broadcast transactions through any node. Sign messages and recover signatures for authentication.</p>
+<p>A straightforward library to build, sign, and broadcast Ethereum transactions. It allows the separation of key and node management. Sign transactions and handle keys anywhere you can run Ruby and broadcast transactions through any local or remote node. Sign messages and recover signatures for authentication.</p>
 
 <p>What you get: - [x] Secp256k1 Key-Pairs and Encrypted Ethereum Key-Stores (JSON) - [x] EIP-55 Checksummed Ethereum Addresses - [x] EIP-155 Replay protection with Chain IDs (with presets) - [x] EIP-191 Ethereum Signed Messages (with prefix and type) - [x] EIP-712 Ethereum Signed Type Data - [x] EIP-1559 Ethereum Type-2 Transactions (with priority fee and max gas fee) - [x] EIP-2028 Call-data intrinsic gas cost estimates (plus access lists) - [x] EIP-2718 Ethereum Transaction Envelopes (and types) - [x] EIP-2930 Ethereum Type-1 Transactions (with access lists) - [x] ABI-Encoder and Decoder (including type parser) - [x] RLP-Encoder and Decoder (including sedes) - [x] RPC-Client (IPC/HTTP) for Execution-Layer APIs</p>
 
@@ -254,7 +254,12 @@ yard doc
 
 <h2 id="label-4.+Testing">4. Testing</h2>
 
-<p>To run tests, simply use <code>rspec</code>. Note, that the Ethereum tests fixtures are required.</p>
+<p>The test suite expects working local HTTP and IPC endpoints with a prefunded developer account, e.g.:</p>
+
+<pre class="code ruby"><code class="ruby">geth --dev --http --ipcpath /tmp/geth.ipc &amp;
+</code></pre>
+
+<p>To run tests, simply use <code>rspec</code>. Note, that the Ethereum test fixtures are also required.</p>
 
 <pre class="code ruby"><code class="ruby">git submodule update --init --recursive
 bundle install
@@ -273,13 +278,15 @@ rspec
 
 <p>This gem is a complete rewrite of the old <code>eth</code> gem by Steve Ellis. * <a href="https://github.com/se3000/ruby-eth">github.com/se3000/ruby-eth</a>/ (MIT)</p>
 
-<p>It also contains a revised version the ABI gem by Jan Xie and Zhang Yaning. * <a href="https://github.com/cryptape/ruby-ethereum-abi">github.com/cryptape/ruby-ethereum-abi</a> (MIT)</p>
+<p>It is not only a rewrite of the <code>eth</code> gem but also a partial merge of the <code>ethereum</code> gem by Marek Kirejczyk and Yuta Kurotaki. * <a href="https://github.com/EthWorks/ethereum.rb">github.com/EthWorks/ethereum.rb</a> (MIT)</p>
 
-<p>It also contains a revised version the RLP gem by Jan Xie and Zhang Yaning. * <a href="https://github.com/cryptape/ruby-rlp">github.com/cryptape/ruby-rlp</a> (MIT)</p>
+<p>This gem also includes a revised version of the ABI gem by Jan Xie and Zhang Yaning. * <a href="https://github.com/cryptape/ruby-ethereum-abi">github.com/cryptape/ruby-ethereum-abi</a> (MIT)</p>
+
+<p>It also contains a condensed version of the RLP gem by Jan Xie and Zhang Yaning. * <a href="https://github.com/cryptape/ruby-rlp">github.com/cryptape/ruby-rlp</a> (MIT)</p>
 </div></div>
 
       <div id="footer">
-  Generated on Fri Feb  4 17:34:20 2022 by
+  Generated on Fri Feb  4 18:43:44 2022 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.27 (ruby-2.7.5).
 </div>
