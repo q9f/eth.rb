@@ -29,13 +29,13 @@ jobs:
     - name: MacOs Dependencies
       run: |
         brew tap ethereum/ethereum
-        brew install --verbose pkg-config automake autogen ethereum
+        brew install --verbose pkg-config automake autogen ethereum solidity
       if: startsWith(matrix.os, 'macOS')
     - name: Ubuntu Dependencies
       run: |
         sudo add-apt-repository -y ppa:ethereum/ethereum
         sudo apt-get update
-        sudo apt-get install ethereum
+        sudo apt-get install ethereum solc
       if: startsWith(matrix.os, 'Ubuntu')
     - name: Run Geth
       run: |
