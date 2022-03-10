@@ -27,6 +27,11 @@ describe Solidity do
     expect(result["Greeter"]["bin"]).to start_with "608060405234801561001057600080fd5b5060"
   end
 
+  it "handles file-system errors" do
+    contract = "#{Dir.pwd}/spec/fixtures/contracts/null.sol"
+    expect { solc.compile contract }.to raise_error Errno::ENOENT, /No such file or directory - Contract file not found:/
+  end
+
   it "handles compiler errors" do
     contract = "#{Dir.pwd}/spec/fixtures/contracts/error.sol"
     expect { solc.compile contract }.to raise_error Solidity::CompilerError, /Error: Identifier not found or not unique./

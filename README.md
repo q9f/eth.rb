@@ -232,7 +232,7 @@ cli.get_nonce cli.eth_coinbase["result"]
 Check out `Eth::Api` for a list of supported RPC-APIs or consult the [Documentation](https://q9f.github.io/eth.rb/) for more details.
 
 ### 2.8 Solidity Compiler Bindings
-Link a system level Solidity compiler (`solc`) to your Ruby library and compile contracts.
+Link a system-level Solidity compiler (`solc`) to your Ruby library and compile contracts.
 
 ```ruby
 solc = Eth::Solidity.new
