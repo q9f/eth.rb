@@ -28,9 +28,10 @@ What you get:
 - [x] ABI-Encoder and Decoder (including type parser)
 - [x] RLP-Encoder and Decoder (including sedes)
 - [x] RPC-Client (IPC/HTTP) for Execution-Layer APIs
+- [x] Solidity bindings (compile contracts from Ruby)
 
 Soon (TM):
-- [ ] Smart Contracts and Solidity Support
+- [ ] Smart Contract Support
 - [ ] EIP-1271 Smart-Contract Authentification
 - [ ] HD-Wallets (BIP-32) and Mnemonics (BIP-39)
 
@@ -44,6 +45,7 @@ Contents:
   - [2.5. Ethereum ABI Encoder and Decoder](#25-ethereum-abi-encoder-and-decoder)
   - [2.6. Ethereum RLP Encoder and Decoder](#26-ethereum-rlp-encoder-and-decoder)
   - [2.7. Ethereum RPC-Client](#27-ethereum-rpc-client)
+  - [2.8 Solidity Compiler Bindings](#28-solidity-compiler-bindings)
 - [3. Documentation](#3-documentation)
 - [4. Testing](#4-testing)
 - [5. Contributing](#5-contributing)
@@ -228,6 +230,28 @@ cli.get_nonce cli.eth_coinbase["result"]
 ```
 
 Check out `Eth::Api` for a list of supported RPC-APIs or consult the [Documentation](https://q9f.github.io/eth.rb/) for more details.
+
+### 2.8 Solidity Compiler Bindings
+Link a system level Solidity compiler (`solc`) to your Ruby library and compile contracts.
+
+```ruby
+solc = Eth::Solidity.new
+# => #<Eth::Solidity:0x000055f05040c6d0 @compiler="/usr/bin/solc">
+contract = solc.compile "spec/fixtures/contracts/greeter.sol"
+# => {"Greeter"=>
+#   {"abi"=>
+#     [{"inputs"=>[{"internalType"=>"string", "name"=>"message", "type"=>"string"}], "stateMutability"=>"nonpayable", "type"=>"constructor"},
+#      {"inputs"=>[], "name"=>"greet", "outputs"=>[{"internalType"=>"string", "name"=>"", "type"=>"string"}], "stateMutability"=>"view", "type"=>"function"},
+#      {"inputs"=>[], "name"=>"kill", "outputs"=>[], "stateMutability"=>"nonpayable", "type"=>"function"}],
+#    "bin"=>
+#     "6080604052348015...6c634300080c0033"},
+#  "Mortal"=>
+#   {"abi"=>[{"inputs"=>[], "stateMutability"=>"nonpayable", "type"=>"constructor"}, {"inputs"=>[], "name"=>"kill", "outputs"=>[], "stateMutability"=>"nonpayable", "type"=>"function"}],
+#    "bin"=>
+#     "6080604052348015...6c634300080c0033"}}
+```
+
+The `contract["Greeter"]["bin"]` could be directly used to deploy the contract as `Eth::Tx` payload. Check out the [Documentation](https://q9f.github.io/eth.rb/) for more details.
 
 ## 3. Documentation
 The documentation can be found at: https://q9f.github.io/eth.rb
