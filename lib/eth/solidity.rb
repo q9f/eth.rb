@@ -62,9 +62,7 @@ module Eth
     # Tries to find a system executable path for the given compiler binary name.
     def get_compiler_path(name = "solc")
       extensions = [""]
-      unless ENV["PATHEXT"].nil?
-        extensions = ENV["PATHEXT"].split(";")
-      end
+      extensions = ENV["PATHEXT"].split(";") unless ENV["PATHEXT"].nil?
       ENV["PATH"].split(File::PATH_SEPARATOR).each do |path|
         extensions.each do |ext|
           executable = File.join path, "#{name}#{ext}"
