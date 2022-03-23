@@ -39,7 +39,7 @@ describe Solidity do
       priority_fee: 0,
       max_gas_fee: Unit::GWEI,
       gas_limit: Tx.estimate_intrinsic_gas(payload),
-      data: payload
+      data: payload,
     }
     deploy = geth.eth_send_transaction(params)
     hash = deploy["result"]
@@ -49,7 +49,7 @@ describe Solidity do
     expect(receipt["result"]).to be
     address = receipt["result"]["contractAddress"]
     expect(address).to be
-    expect{Address.new address}.not_to raise_error
+    expect { Address.new address }.not_to raise_error
   end
 
   it "handles file-system errors" do
