@@ -40,6 +40,9 @@ module Eth
       socket = UNIXSocket.new(@path)
       socket.puts(payload)
       read = socket.recvmsg(nil)[0]
+      until read.end_with?("\n")
+        read = read << socket.recvmsg(nil)[0]
+      end
       socket.close
       return read
     end
