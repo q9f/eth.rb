@@ -222,46 +222,6 @@ module Eth
       @class_object = class_methods
     end
 
-    # Get the list of paths where to look up Truffle artifacts files.
-    #
-    # @return [Array<String>] Returns the array containing the list of lookup paths.
-
-    def self.truffle_paths()
-      @truffle_paths = [] unless @truffle_paths
-      @truffle_paths
-    end
-
-    # Set the list of paths where to look up Truffle artifacts files.
-    #
-    # @param paths [Array<String>, nil] The array containing the list of lookup paths; a `nil` value is
-    #  converted to the empty array.
-
-    def self.truffle_paths=(paths)
-      @truffle_paths = (paths.is_a?(Array)) ? paths : []
-    end
-
-    # Looks up and loads a Truffle artifacts file.
-    # This method iterates over the `truffle_path` elements, looking for an artifact file in the
-    # `build/contracts` subdirectory.
-    #
-    # @param name [String] The name of the contract whose artifacts to look up.
-    # @param paths [Array<String>] An additional list of paths to look up; this list, if present, is
-    #  prepended to the `truffle_path`.
-    #
-    # @return [Hash,nil] Returns a hash containing the parsed JSON from the artifacts file; if no file
-    #  was found, returns `nil`.
-
-    def self.find_truffle_artifacts(name, paths = [])
-      subpath = File.join('build', 'contracts', "#{name}.json")
-
-      found = paths.concat(truffle_paths).find { |p| File.file?(File.join(p, subpath)) }
-      if (found)
-        JSON.parse(IO.read(File.join(found, subpath)))
-      else
-        nil
-      end
-    end
-
     private
       def add_gas_options_args(args)
         args[:gas] = "0x#{gas_limit.to_s(16)}" if gas_limit.present?
