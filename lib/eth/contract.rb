@@ -31,7 +31,7 @@ module Eth
       contract = nil
       client = Eth::Client.create "/tmp/geth.ipc"
       if File.exist?(file)
-        contracts = Eth::Initializer.new(file, client).build_all
+        contracts = Eth::Contract::Initializer.new(file, client).build_all
         raise "No contracts compiled" if contracts.empty?
         if contract_index
           contract = contracts[contract_index].class_object.new

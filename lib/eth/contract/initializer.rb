@@ -1,5 +1,5 @@
 module Eth
-  class Initializer
+  class Contract::Initializer
     attr_accessor :contracts, :file, :client
 
     def initialize(file, client)
