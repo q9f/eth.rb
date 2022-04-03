@@ -66,4 +66,16 @@ describe Client do
       expect(geth_dev_ipc.get_nonce another_key.address).to eq 1
     end
   end
+
+  describe ".deploy .deploy_and_wait" do
+    subject(:solc) { Eth::Solidity.new }
+    subject(:contract) { solc.compile "spec/fixtures/contracts/dummy.sol" }
+
+    it "deploy the contract and the address is returned" do
+      address = geth_dev_http.deploy_and_wait(contract)
+      expect(address).to start_with "0x"
+      address = geth_dev_ipc.deploy_and_wait(contract)
+      expect(address).to start_with "0x"
+    end
+  end
 end

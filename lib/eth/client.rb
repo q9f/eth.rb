@@ -149,6 +149,48 @@ module Eth
       end
     end
 
+    def deploy_and_wait(contract, sender_key = nil, legacy = false)
+      wait_for_tx(deploy(contract, sender_key, legacy))
+    end
+
+    def deploy(contract, sender_key = nil, legacy = false)
+      name = contract.keys[0]
+      params = {
+        value: 0,
+        gas_limit: gas_limit,
+        chain_id: chain_id,
+        data: contract[name]["bin"]
+      }
+      if legacy
+        params.merge!({
+          gas_price: max_fee_per_gas,
+        })
+      else
+        params.merge!({
+          priority_fee: max_priority_fee_per_gas,
+          max_gas_fee: max_fee_per_gas,
+        })
+      end
+      unless sender_key.nil?
+
+        # use the provided key as sender and signer
+        params.merge!({
+          from: sender_key.address,
+          nonce: get_nonce(sender_key.address),
+        })
+        tx = Eth::Tx.new(params)
+        tx.sign sender_key
+        return eth_send_raw_transaction(tx.hex)["result"]
+      else
+        # use the default account as sender and external signer
+        params.merge!({
+          from: default_account,
+          nonce: get_nonce(default_account),
+        })
+        return eth_send_transaction(params)["result"]
+      end
+    end
+
     # Gives control over resetting the RPC request ID back to zero.
     # Usually not needed.
     #
