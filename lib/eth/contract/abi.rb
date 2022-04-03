@@ -2,7 +2,7 @@ module Eth
   class Contract::Abi
     def self.parse_abi(abi)
       constructor = abi.detect {|x| x["type"] == "constructor"}
-      if !constructor.empty?
+      if constructor.present?
         constructor_inputs = constructor["inputs"].map { |input| Eth::Contract::FunctionInput.new(input) }
       else
         constructor_inputs = []

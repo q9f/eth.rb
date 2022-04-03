@@ -14,6 +14,7 @@ module Eth
       @name = name
       @bin = bin
       @abi = abi
+      @constructor_inputs, @functions, @events = Eth::Contract::Abi.parse_abi(abi)
     end
 
     # Creates a contract wrapper.
@@ -39,9 +40,10 @@ module Eth
     end
 
     def address=(addr)
-      @address = addr
+      address = Eth::Address.new addr
+      @address = address.address
       @events.each do |event|
-        event.set_address(addr)
+        event.set_address(@address)
         event.set_client(@client)
       end
     end
