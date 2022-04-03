@@ -5,25 +5,15 @@ module Eth
     attr_reader :address
     attr_accessor :key
     attr_accessor :gas_limit, :gas_price, :max_fee_per_gas, :max_priority_fee_per_gas, :nonce
-    attr_accessor :code, :name, :abi, :class_object, :sender, :deployment, :client
+    attr_accessor :bin, :name, :abi, :class_object, :sender, :deployment, :client
     attr_accessor :events, :functions, :constructor_inputs
     attr_accessor :call_raw_proxy, :call_proxy, :transact_proxy, :transact_and_wait_proxy
     attr_accessor :new_filter_proxy, :get_filter_logs_proxy, :get_filter_change_proxy
 
-    def initialize(name, code, abi, client)
+    def initialize(name, bin, abi)
       @name = name
-      @code = code
+      @bin = bin
       @abi = abi
-      @client = client
-      @constructor_inputs, @functions, @events = Eth::Contract::Abi.parse_abi(abi)
-      @encoder = Eth::Contract::Encoder.new
-      @formatter = Eth::Contract::Formatter.new
-      @decoder = Eth::Contract::Decoder.new
-      @sender = client.default_account
-      @gas_limit = @client.gas_limit
-      @gas_price = @client.max_fee_per_gas
-      @max_fee_per_gas = @client.max_fee_per_gas
-      @max_priority_fee_per_gas = @client.max_priority_fee_per_gas
     end
 
     # Creates a contract wrapper.
