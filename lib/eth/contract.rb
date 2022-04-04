@@ -18,11 +18,10 @@ module Eth
     end
 
     # Creates a contract wrapper.
-    def self.create(file: nil, client: nil, code: nil, abi: nil, address: nil, name: nil, contract_index: nil)
+    def self.create(file: nil, bin: nil, abi: nil, address: nil, name: nil, contract_index: nil)
       contract = nil
-      client = Eth::Client.create "/tmp/geth.ipc"
       if File.exist?(file)
-        contracts = Eth::Contract::Initializer.new(file, client).build_all
+        contracts = Eth::Contract::Initializer.new(file).build_all
         raise "No contracts compiled" if contracts.empty?
         if contract_index
           contract = contracts[contract_index].class_object.new
@@ -31,7 +30,7 @@ module Eth
         end
       else
         abi = abi.is_a?(String) ? JSON.parse(abi) : abi.map(&:deep_stringify_keys)
-        contract = Eth::Contract.new(name, code, abi, client)
+        contract = Eth::Contract.new(name, bin, abi)
         contract.build
         contract = contract.class_object.new
       end

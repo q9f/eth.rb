@@ -1,9 +1,8 @@
 module Eth
   class Contract::Initializer
-    attr_accessor :contracts, :file, :client
+    attr_accessor :contracts, :file
 
-    def initialize(file, client)
-      @client = client
+    def initialize(file)
       sol_output = Eth::Solidity.new.compile(file)
       contracts = sol_output.keys
 
@@ -12,7 +11,7 @@ module Eth
         abi = sol_output[contract]["abi"]
         name = contract
         code = sol_output[contract]["bin"]
-        @contracts << Contract.new(name, code, abi, @client)
+        @contracts << Contract.new(name, code, abi)
       end
     end
 
