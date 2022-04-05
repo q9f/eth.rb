@@ -30,6 +30,7 @@ describe Contract do
   describe ".create" do
     it "create contract from file" do
       contract = Contract.create(file: file)
+      expect(contract).to be_instance_of(Eth::Contract::Dummy)
     end
   end
 end
