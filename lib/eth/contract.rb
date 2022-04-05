@@ -39,8 +39,7 @@ module Eth
     end
 
     def address=(addr)
-      address = Eth::Address.new addr
-      @address = address.address
+      @address = addr.nil? ? nil : Eth::Address.new(addr).address
       @events.each do |event|
         event.set_address(@address)
         event.set_client(@client)
