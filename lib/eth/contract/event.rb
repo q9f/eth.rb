@@ -1,5 +1,5 @@
 module Eth
-  class Contract::ContractEvent
+  class Contract::Event
 
     attr_accessor :name, :signature, :input_types, :inputs, :event_string, :address, :client
 

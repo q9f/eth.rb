@@ -8,7 +8,7 @@ module Eth
         constructor_inputs = []
       end
       functions = abi.select {|x| x["type"] == "function" }.map { |fun| Eth::Contract::Function.new(fun) }
-      events = abi.select {|x| x["type"] == "event" }.map { |evt| Eth::Contract::ContractEvent.new(evt) }
+      events = abi.select {|x| x["type"] == "event" }.map { |evt| Eth::Contract::Event.new(evt) }
       [constructor_inputs, functions, events]
     end
 
