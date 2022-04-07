@@ -290,6 +290,38 @@ module Eth
       end
     end
 
+    # Decodes event log argument values.
+    #
+    # @param inputs [Array] event ABI types.
+    # @param data [String] ABI event data to be decoded.
+    # @param topics [Array] ABI event topics to be decoded.
+    # @return [[Array, Hash]] decoded positional arguments and decoded keyword arguments.
+    # @raise [DecodingError] if decoding fails for type.
+    def decode_event_log(inputs, data, topics)
+      topic_inputs, data_inputs = inputs.partition { |i| i["indexed"] }
+
+      topic_types = topic_inputs.map { |i| i["type"] }
+      data_types = data_inputs.map { |i| i["type"] }
+
+      decoded_topics = topics[1..-1].map.with_index { |t, i| decode([topic_types[i]], t)[0] }
+      decoded_data = decode(data_types, data)
+
+      args = []
+      kwargs = {}
+
+      inputs.each_with_index do |input, index|
+        if input["indexed"]
+          value = decoded_topics[topic_inputs.index(input)]
+        else
+          value = decoded_data[data_inputs.index(input)]
+        end
+        args[index] = value
+        kwargs[input["name"].to_sym] = value
+      end
+
+      return args, kwargs
+    end
+
     private
 
     # Properly encodes unsigned integers.
