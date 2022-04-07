@@ -29,15 +29,22 @@ module Eth
       # @param inputs [Array] event ABI types.
       # @param data [String] ABI event data to be decoded.
       # @param topics [Array] ABI event topics to be decoded.
+      # @param anonymous [Boolean] If event signature is excluded from topics.
       # @return [[Array, Hash]] decoded positional arguments and decoded keyword arguments.
       # @raise [DecodingError] if decoding fails for type.
-      def decode_log(inputs, data, topics)
+      def decode_log(inputs, data, topics, anonymous = false)
         topic_inputs, data_inputs = inputs.partition { |i| i["indexed"] }
 
         topic_types = topic_inputs.map { |i| i["type"] }
         data_types = data_inputs.map { |i| i["type"] }
 
-        decoded_topics = topics[1..-1].map.with_index { |t, i| Abi.decode([topic_types[i]], t)[0] }
+        # If event is anonymous, all topics are arguments. Otherwise, the first
+        # topic will be the event signature.
+        if anonymous == false
+          topics = topics[1..-1]
+        end
+
+        decoded_topics = topics.map.with_index { |t, i| Abi.decode([topic_types[i]], t)[0] }
         decoded_data = Abi.decode(data_types, data)
 
         args = []

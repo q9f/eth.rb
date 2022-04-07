@@ -118,4 +118,33 @@ describe Abi::Event do
       expect(kwargs[:values]).to eq [1, 1]
     end
   end
+
+  it "can decode anonymous Transfer event" do
+    interface = {
+      "type" => "event",
+      "name" => "Transfer",
+      "anonymous" => true,
+      "inputs" => [
+        { "indexed" => true, "internalType" => "address", "name" => "from", "type" => "address" },
+        { "indexed" => true, "internalType" => "address", "name" => "to", "type" => "address" },
+        { "indexed" => false, "internalType" => "uint256", "name" => "value", "type" => "uint256" },
+      ],
+    }
+
+    data = "0x00000000000000000000000000000000000000000000000000000002540be400"
+    topics = [
+      "0x00000000000000000000000071660c4005ba85c37ccec55d0c4493e66fe775d3",
+      "0x000000000000000000000000639671019ddd8ec28d35113d8d1c5f1bbfd7e0be",
+    ]
+
+    args, kwargs = Eth::Abi::Event.decode_log(interface["inputs"], data, topics, true)
+
+    expect(args[0]).to eq "0x71660c4005ba85c37ccec55d0c4493e66fe775d3"
+    expect(args[1]).to eq "0x639671019ddd8ec28d35113d8d1c5f1bbfd7e0be"
+    expect(args[2]).to eq 10000000000
+
+    expect(kwargs[:from]).to eq "0x71660c4005ba85c37ccec55d0c4493e66fe775d3"
+    expect(kwargs[:to]).to eq "0x639671019ddd8ec28d35113d8d1c5f1bbfd7e0be"
+    expect(kwargs[:value]).to eq 10000000000
+  end
 end
