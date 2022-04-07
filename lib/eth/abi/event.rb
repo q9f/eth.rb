@@ -24,6 +24,15 @@ module Eth
     module Event
       extend self
 
+      # Compute topic for ABI event interface.
+      #
+      # @param interface [Hash] ABI event interface.
+      # @return [String] a hex-string topic.
+      def compute_topic(interface)
+        sig = Abi.signature(interface)
+        Util.prefix_hex(Util.bin_to_hex(Util.keccak256(sig)))
+      end
+
       # Decodes event log argument values.
       #
       # @param inputs [Array] event ABI types.

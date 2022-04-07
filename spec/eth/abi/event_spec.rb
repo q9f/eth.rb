@@ -6,8 +6,27 @@ describe Abi::Event do
   let(:erc20_abi_file) { File.read "spec/fixtures/abi/ERC20.json" }
   subject(:erc20_abi) { JSON.parse erc20_abi_file }
 
+  let(:erc721_abi_file) { File.read "spec/fixtures/abi/ERC721.json" }
+  subject(:erc721_abi) { JSON.parse erc721_abi_file }
+
   let(:erc1155_abi_file) { File.read "spec/fixtures/abi/ERC1155.json" }
   subject(:erc1155_abi) { JSON.parse erc1155_abi_file }
+
+  describe ".compute_topic" do
+    it "computes topic hash for event interfaces" do
+      interface = erc20_abi.find { |i| i["type"] == "event" && i["name"] == "Transfer" }
+      expect(Abi::Event.compute_topic(interface)).to eq "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef"
+
+      interface = erc20_abi.find { |i| i["type"] == "event" && i["name"] == "Approval" }
+      expect(Abi::Event.compute_topic(interface)).to eq "0x8c5be1e5ebec7d5bd14f71427d1e84f3dd0314c0f7b2291e5b200ac8c7c3b925"
+
+      interface = erc721_abi.find { |i| i["type"] == "event" && i["name"] == "Transfer" }
+      expect(Abi::Event.compute_topic(interface)).to eq "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef"
+
+      interface = erc1155_abi.find { |i| i["type"] == "event" && i["name"] == "TransferSingle" }
+      expect(Abi::Event.compute_topic(interface)).to eq "0xc3d58168c5ae7397731d063d5bbf3d657854427343f4c083240f7aacaa2d0f62"
+    end
+  end
 
   describe ".decode_log" do
     it "can decode ERC-20 Transfer event" do
