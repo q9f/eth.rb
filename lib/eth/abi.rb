@@ -291,6 +291,17 @@ module Eth
       end
     end
 
+    # Build event signature string from ABI interface.
+    #
+    # @param interface [Hash] ABI event interface.
+    # @return [String] interface signature string.
+    def signature(interface)
+      name = interface.fetch("name")
+      inputs = interface.fetch("inputs", [])
+      types = inputs.map { |i| i.fetch("type") }
+      "#{name}(#{types.join(",")})"
+    end
+
     private
 
     # Properly encodes unsigned integers.
