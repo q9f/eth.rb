@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  Module: Eth::Abi::Event
+  
+    &mdash; Documentation by YARD 0.9.27
+  
+</title>
+
+  <link rel="stylesheet" href="../../css/style.css" type="text/css" />
+
+  <link rel="stylesheet" href="../../css/common.css" type="text/css" />
+
+<script type="text/javascript">
+  pathId = "Eth::Abi::Event";
+  relpath = '../../';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="../../class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="../../_index.html">Index (E)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../../Eth.html" title="Eth (module)">Eth</a></span></span> &raquo; <span class='title'><span class='object_link'><a href="../Abi.html" title="Eth::Abi (module)">Abi</a></span></span>
+     &raquo; 
+    <span class="title">Event</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../../class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><h1>Module: Eth::Abi::Event
+  
+  
+  
+</h1>
+<div class="box_info">
+  
+
+  
+  
+  <dl>
+      <dt>Extended by:</dt>
+      <dd><span class='object_link'><a href="" title="Eth::Abi::Event (module)">Event</a></span></dd>
+  </dl>
+  
+  
+  
+  
+
+  
+  <dl>
+    <dt>Included in:</dt>
+    <dd><span class='object_link'><a href="" title="Eth::Abi::Event (module)">Event</a></span></dd>
+  </dl>
+  
+
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>lib/eth/abi/event.rb</dd>
+  </dl>
+  
+</div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    
+<p>Provides a module to decode transaction log events.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+
+
+
+
+
+
+  
+    <h2>
+      Class Method Summary
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#decode_log-class_method" title="#decode_log (class method)">.<strong>decode_log</strong>(inputs, data, topics)  &#x21d2; [Array, Hash] </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Decodes event log argument values.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+    <h2>
+      Instance Method Summary
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#decode_log-instance_method" title="#decode_log (instance method)">#<strong>decode_log</strong>(inputs, data, topics)  &#x21d2; [Array, Hash] </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Decodes event log argument values.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+
+  <div id="class_method_details" class="method_details_list">
+    <h2>Class Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="decode_log-class_method">
+  
+    .<strong>decode_log</strong>(inputs, data, topics)  &#x21d2; <tt>[Array, Hash]</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Decodes event log argument values.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>inputs</span>
+      
+      
+        <span class='type'>(<tt>Array</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>event ABI types.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>data</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>ABI event data to be decoded.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>topics</span>
+      
+      
+        <span class='type'>(<tt>Array</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>ABI event topics to be decoded.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>[Array, Hash]</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>decoded positional arguments and decoded keyword arguments.</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="DecodingError.html" title="Eth::Abi::DecodingError (class)">DecodingError</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>if decoding fails for type.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/eth/abi/event.rb', line 34</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_decode_log'>decode_log</span><span class='lparen'>(</span><span class='id identifier rubyid_inputs'>inputs</span><span class='comma'>,</span> <span class='id identifier rubyid_data'>data</span><span class='comma'>,</span> <span class='id identifier rubyid_topics'>topics</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_topic_inputs'>topic_inputs</span><span class='comma'>,</span> <span class='id identifier rubyid_data_inputs'>data_inputs</span> <span class='op'>=</span> <span class='id identifier rubyid_inputs'>inputs</span><span class='period'>.</span><span class='id identifier rubyid_partition'>partition</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_i'>i</span><span class='op'>|</span> <span class='id identifier rubyid_i'>i</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>indexed</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span> <span class='rbrace'>}</span>
+
+  <span class='id identifier rubyid_topic_types'>topic_types</span> <span class='op'>=</span> <span class='id identifier rubyid_topic_inputs'>topic_inputs</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_i'>i</span><span class='op'>|</span> <span class='id identifier rubyid_i'>i</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>type</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span> <span class='rbrace'>}</span>
+  <span class='id identifier rubyid_data_types'>data_types</span> <span class='op'>=</span> <span class='id identifier rubyid_data_inputs'>data_inputs</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_i'>i</span><span class='op'>|</span> <span class='id identifier rubyid_i'>i</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>type</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span> <span class='rbrace'>}</span>
+
+  <span class='id identifier rubyid_decoded_topics'>decoded_topics</span> <span class='op'>=</span> <span class='id identifier rubyid_topics'>topics</span><span class='lbracket'>[</span><span class='int'>1</span><span class='op'>..</span><span class='op'>-</span><span class='int'>1</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span><span class='period'>.</span><span class='id identifier rubyid_with_index'>with_index</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_t'>t</span><span class='comma'>,</span> <span class='id identifier rubyid_i'>i</span><span class='op'>|</span> <span class='const'><span class='object_link'><a href="../Abi.html" title="Eth::Abi (module)">Abi</a></span></span><span class='period'>.</span><span class='id identifier rubyid_decode'><span class='object_link'><a href="../Abi.html#decode-instance_method" title="Eth::Abi#decode (method)">decode</a></span></span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='id identifier rubyid_topic_types'>topic_types</span><span class='lbracket'>[</span><span class='id identifier rubyid_i'>i</span><span class='rbracket'>]</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id identifier rubyid_t'>t</span><span class='rparen'>)</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span> <span class='rbrace'>}</span>
+  <span class='id identifier rubyid_decoded_data'>decoded_data</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Abi.html" title="Eth::Abi (module)">Abi</a></span></span><span class='period'>.</span><span class='id identifier rubyid_decode'><span class='object_link'><a href="../Abi.html#decode-instance_method" title="Eth::Abi#decode (method)">decode</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_data_types'>data_types</span><span class='comma'>,</span> <span class='id identifier rubyid_data'>data</span><span class='rparen'>)</span>
+
+  <span class='id identifier rubyid_args'>args</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_kwargs'>kwargs</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
+
+  <span class='id identifier rubyid_inputs'>inputs</span><span class='period'>.</span><span class='id identifier rubyid_each_with_index'>each_with_index</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_input'>input</span><span class='comma'>,</span> <span class='id identifier rubyid_index'>index</span><span class='op'>|</span>
+    <span class='kw'>if</span> <span class='id identifier rubyid_input'>input</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>indexed</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span>
+      <span class='id identifier rubyid_value'>value</span> <span class='op'>=</span> <span class='id identifier rubyid_decoded_topics'>decoded_topics</span><span class='lbracket'>[</span><span class='id identifier rubyid_topic_inputs'>topic_inputs</span><span class='period'>.</span><span class='id identifier rubyid_index'>index</span><span class='lparen'>(</span><span class='id identifier rubyid_input'>input</span><span class='rparen'>)</span><span class='rbracket'>]</span>
+    <span class='kw'>else</span>
+      <span class='id identifier rubyid_value'>value</span> <span class='op'>=</span> <span class='id identifier rubyid_decoded_data'>decoded_data</span><span class='lbracket'>[</span><span class='id identifier rubyid_data_inputs'>data_inputs</span><span class='period'>.</span><span class='id identifier rubyid_index'>index</span><span class='lparen'>(</span><span class='id identifier rubyid_input'>input</span><span class='rparen'>)</span><span class='rbracket'>]</span>
+    <span class='kw'>end</span>
+    <span class='id identifier rubyid_args'>args</span><span class='lbracket'>[</span><span class='id identifier rubyid_index'>index</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_value'>value</span>
+    <span class='id identifier rubyid_kwargs'>kwargs</span><span class='lbracket'>[</span><span class='id identifier rubyid_input'>input</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>name</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_value'>value</span>
+  <span class='kw'>end</span>
+
+  <span class='kw'>return</span> <span class='id identifier rubyid_args'>args</span><span class='comma'>,</span> <span class='id identifier rubyid_kwargs'>kwargs</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="decode_log-instance_method">
+  
+    #<strong>decode_log</strong>(inputs, data, topics)  &#x21d2; <tt>[Array, Hash]</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Decodes event log argument values.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>inputs</span>
+      
+      
+        <span class='type'>(<tt>Array</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>event ABI types.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>data</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>ABI event data to be decoded.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>topics</span>
+      
+      
+        <span class='type'>(<tt>Array</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>ABI event topics to be decoded.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>[Array, Hash]</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>decoded positional arguments and decoded keyword arguments.</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="DecodingError.html" title="Eth::Abi::DecodingError (class)">DecodingError</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>if decoding fails for type.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/eth/abi/event.rb', line 34</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_decode_log'>decode_log</span><span class='lparen'>(</span><span class='id identifier rubyid_inputs'>inputs</span><span class='comma'>,</span> <span class='id identifier rubyid_data'>data</span><span class='comma'>,</span> <span class='id identifier rubyid_topics'>topics</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_topic_inputs'>topic_inputs</span><span class='comma'>,</span> <span class='id identifier rubyid_data_inputs'>data_inputs</span> <span class='op'>=</span> <span class='id identifier rubyid_inputs'>inputs</span><span class='period'>.</span><span class='id identifier rubyid_partition'>partition</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_i'>i</span><span class='op'>|</span> <span class='id identifier rubyid_i'>i</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>indexed</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span> <span class='rbrace'>}</span>
+
+  <span class='id identifier rubyid_topic_types'>topic_types</span> <span class='op'>=</span> <span class='id identifier rubyid_topic_inputs'>topic_inputs</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_i'>i</span><span class='op'>|</span> <span class='id identifier rubyid_i'>i</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>type</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span> <span class='rbrace'>}</span>
+  <span class='id identifier rubyid_data_types'>data_types</span> <span class='op'>=</span> <span class='id identifier rubyid_data_inputs'>data_inputs</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_i'>i</span><span class='op'>|</span> <span class='id identifier rubyid_i'>i</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>type</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span> <span class='rbrace'>}</span>
+
+  <span class='id identifier rubyid_decoded_topics'>decoded_topics</span> <span class='op'>=</span> <span class='id identifier rubyid_topics'>topics</span><span class='lbracket'>[</span><span class='int'>1</span><span class='op'>..</span><span class='op'>-</span><span class='int'>1</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span><span class='period'>.</span><span class='id identifier rubyid_with_index'>with_index</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_t'>t</span><span class='comma'>,</span> <span class='id identifier rubyid_i'>i</span><span class='op'>|</span> <span class='const'><span class='object_link'><a href="../Abi.html" title="Eth::Abi (module)">Abi</a></span></span><span class='period'>.</span><span class='id identifier rubyid_decode'><span class='object_link'><a href="../Abi.html#decode-instance_method" title="Eth::Abi#decode (method)">decode</a></span></span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='id identifier rubyid_topic_types'>topic_types</span><span class='lbracket'>[</span><span class='id identifier rubyid_i'>i</span><span class='rbracket'>]</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id identifier rubyid_t'>t</span><span class='rparen'>)</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span> <span class='rbrace'>}</span>
+  <span class='id identifier rubyid_decoded_data'>decoded_data</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Abi.html" title="Eth::Abi (module)">Abi</a></span></span><span class='period'>.</span><span class='id identifier rubyid_decode'><span class='object_link'><a href="../Abi.html#decode-instance_method" title="Eth::Abi#decode (method)">decode</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_data_types'>data_types</span><span class='comma'>,</span> <span class='id identifier rubyid_data'>data</span><span class='rparen'>)</span>
+
+  <span class='id identifier rubyid_args'>args</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_kwargs'>kwargs</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
+
+  <span class='id identifier rubyid_inputs'>inputs</span><span class='period'>.</span><span class='id identifier rubyid_each_with_index'>each_with_index</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_input'>input</span><span class='comma'>,</span> <span class='id identifier rubyid_index'>index</span><span class='op'>|</span>
+    <span class='kw'>if</span> <span class='id identifier rubyid_input'>input</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>indexed</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span>
+      <span class='id identifier rubyid_value'>value</span> <span class='op'>=</span> <span class='id identifier rubyid_decoded_topics'>decoded_topics</span><span class='lbracket'>[</span><span class='id identifier rubyid_topic_inputs'>topic_inputs</span><span class='period'>.</span><span class='id identifier rubyid_index'>index</span><span class='lparen'>(</span><span class='id identifier rubyid_input'>input</span><span class='rparen'>)</span><span class='rbracket'>]</span>
+    <span class='kw'>else</span>
+      <span class='id identifier rubyid_value'>value</span> <span class='op'>=</span> <span class='id identifier rubyid_decoded_data'>decoded_data</span><span class='lbracket'>[</span><span class='id identifier rubyid_data_inputs'>data_inputs</span><span class='period'>.</span><span class='id identifier rubyid_index'>index</span><span class='lparen'>(</span><span class='id identifier rubyid_input'>input</span><span class='rparen'>)</span><span class='rbracket'>]</span>
+    <span class='kw'>end</span>
+    <span class='id identifier rubyid_args'>args</span><span class='lbracket'>[</span><span class='id identifier rubyid_index'>index</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_value'>value</span>
+    <span class='id identifier rubyid_kwargs'>kwargs</span><span class='lbracket'>[</span><span class='id identifier rubyid_input'>input</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>name</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_value'>value</span>
+  <span class='kw'>end</span>
+
+  <span class='kw'>return</span> <span class='id identifier rubyid_args'>args</span><span class='comma'>,</span> <span class='id identifier rubyid_kwargs'>kwargs</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+      <div id="footer">
+  Generated on Thu Apr  7 16:53:13 2022 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.27 (ruby-2.7.5).
+</div>
+
+    </div>
+  </body>
+</html>
