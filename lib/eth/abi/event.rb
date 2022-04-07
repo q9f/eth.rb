@@ -33,6 +33,39 @@ module Eth
         Util.prefix_hex(Util.bin_to_hex(Util.keccak256(sig)))
       end
 
+      # Decodes a stream of receipt logs with a set of ABI interfaces.
+      #
+      # @param interfaces [Array] event ABI types.
+      # @param logs [Array] transaction receipt logs
+      # @return [Hash] an enumerator of decoded log objects.
+      def decode_logs(interfaces, logs)
+        Enumerator.new do |y|
+          topic_to_interfaces = Hash[interfaces.map { |i| [compute_topic(i), i] }]
+
+          logs.each do |log|
+            result = { log: log }
+            topics = log.fetch("topics", [])
+            topic = topics[0]
+
+            if interface = topic_to_interfaces[topic]
+              result[:name] = interface.fetch("name")
+              result[:signature] = Abi.signature(interface)
+              result[:topic] = topic
+
+              inputs = interface.fetch("inputs")
+              data = log.fetch("data")
+              anonymous = interface.fetch("anonymous", false)
+
+              args, kwargs = decode_log(inputs, data, topics, anonymous)
+              result[:args] = args
+              result[:kwargs] = kwargs
+            end
+
+            y << result
+          end
+        end
+      end
+
       # Decodes event log argument values.
       #
       # @param inputs [Array] event ABI types.

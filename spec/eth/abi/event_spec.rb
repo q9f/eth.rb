@@ -166,4 +166,59 @@ describe Abi::Event do
     expect(kwargs[:to]).to eq "0x639671019ddd8ec28d35113d8d1c5f1bbfd7e0be"
     expect(kwargs[:value]).to eq 10000000000
   end
+
+  describe ".decode_logs" do
+    it "can decode ERC-20 Transfer event" do
+      logs = [
+        {
+          "address" => "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+          "blockHash" => "0x41bbb59a6ae30e1e62379d100b0bc3485384843c51bad2c2f7a7a9b86848f19e",
+          "blockNumber" => "0xddcb4d",
+          "data" => "0x00000000000000000000000000000000000000000000000000000002540be400",
+          "logIndex" => "0xcd",
+          "removed" => false,
+          "topics" => [
+            "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef",
+            "0x00000000000000000000000071660c4005ba85c37ccec55d0c4493e66fe775d3",
+            "0x000000000000000000000000639671019ddd8ec28d35113d8d1c5f1bbfd7e0be",
+          ],
+          "transactionHash" => "0xcff6d58021eb9f743e29ca84cb94964332cc91babcc3533714d34264535ed3c5",
+          "transactionIndex" => "0x8c",
+        },
+        {
+          "address" => "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+          "blockHash" => "0x7461cf774021f421441df69bb1a04c66fac58fb72071c8286b2874d2e41ba448",
+          "blockNumber" => "0xdcc880",
+          "data" => "0x00000000000000000000000000000000000000000000000000000000aa3752a2",
+          "logIndex" => "0xbc",
+          "removed" => false,
+          "topics" => [
+            "0x8c5be1e5ebec7d5bd14f71427d1e84f3dd0314c0f7b2291e5b200ac8c7c3b925",
+            "0x0000000000000000000000007f8c1877ed0da352f78be4fe4cda58bb804a30df",
+            "0x00000000000000000000000068b3465833fb72a70ecdf485e0e4c7bd8665fc45",
+          ],
+          "transactionHash" => "0xcbf51c188fb3d24760d083c6b53a4b604d2658321ef92cd48489ce3804b3de2b",
+          "transactionIndex" => "0x78",
+        },
+      ]
+
+      results = Eth::Abi::Event.decode_logs(erc20_abi, logs).to_a
+
+      expect(results[0][:log]).to eq logs[0]
+      expect(results[0][:name]).to eq "Transfer"
+      expect(results[0][:signature]).to eq "Transfer(address,address,uint256)"
+      expect(results[0][:topic]).to eq "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef"
+      expect(results[0][:kwargs][:from]).to eq "0x71660c4005ba85c37ccec55d0c4493e66fe775d3"
+      expect(results[0][:kwargs][:to]).to eq "0x639671019ddd8ec28d35113d8d1c5f1bbfd7e0be"
+      expect(results[0][:kwargs][:value]).to eq 10000000000
+
+      expect(results[1][:log]).to eq logs[1]
+      expect(results[1][:name]).to eq "Approval"
+      expect(results[1][:signature]).to eq "Approval(address,address,uint256)"
+      expect(results[1][:topic]).to eq "0x8c5be1e5ebec7d5bd14f71427d1e84f3dd0314c0f7b2291e5b200ac8c7c3b925"
+      expect(results[1][:kwargs][:owner]).to eq "0x7f8c1877ed0da352f78be4fe4cda58bb804a30df"
+      expect(results[1][:kwargs][:spender]).to eq "0x68b3465833fb72a70ecdf485e0e4c7bd8665fc45"
+      expect(results[1][:kwargs][:value]).to eq 2855752354
+    end
+  end
 end
