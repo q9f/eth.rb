@@ -16,6 +16,7 @@
 
 require "konstructor"
 
+require "eth/abi/event"
 require "eth/abi/type"
 
 # Provides the {Eth} module.
