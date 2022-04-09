@@ -200,6 +200,15 @@ describe Abi::Event do
           "transactionHash" => "0xcbf51c188fb3d24760d083c6b53a4b604d2658321ef92cd48489ce3804b3de2b",
           "transactionIndex" => "0x78",
         },
+        {
+          "address" => "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+          "data" => "0x0000000000000000000000000000000000000000000000000000000000000000",
+          "topics" => [
+            "0x0000000000000000000000000000000000000000000000000000000000000000",
+            "0x0000000000000000000000000000000000000000000000000000000000000000",
+            "0x0000000000000000000000000000000000000000000000000000000000000000",
+          ],
+        },
       ]
 
       results = Eth::Abi::Event.decode_logs(erc20_abi, logs).to_a
@@ -221,6 +230,10 @@ describe Abi::Event do
       expect(decoded_log.kwargs[:owner]).to eq "0x7f8c1877ed0da352f78be4fe4cda58bb804a30df"
       expect(decoded_log.kwargs[:spender]).to eq "0x68b3465833fb72a70ecdf485e0e4c7bd8665fc45"
       expect(decoded_log.kwargs[:value]).to eq 2855752354
+
+      log, decoded_log = results[2]
+      expect(log).to eq logs[2]
+      expect(decoded_log).to eq nil
     end
   end
 end
