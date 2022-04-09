@@ -204,21 +204,23 @@ describe Abi::Event do
 
       results = Eth::Abi::Event.decode_logs(erc20_abi, logs).to_a
 
-      expect(results[0][:log]).to eq logs[0]
-      expect(results[0][:name]).to eq "Transfer"
-      expect(results[0][:signature]).to eq "Transfer(address,address,uint256)"
-      expect(results[0][:topic]).to eq "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef"
-      expect(results[0][:kwargs][:from]).to eq "0x71660c4005ba85c37ccec55d0c4493e66fe775d3"
-      expect(results[0][:kwargs][:to]).to eq "0x639671019ddd8ec28d35113d8d1c5f1bbfd7e0be"
-      expect(results[0][:kwargs][:value]).to eq 10000000000
+      log, decoded_log = results[0]
+      expect(log).to eq logs[0]
+      expect(decoded_log.name).to eq "Transfer"
+      expect(decoded_log.signature).to eq "Transfer(address,address,uint256)"
+      expect(decoded_log.topic).to eq "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef"
+      expect(decoded_log.kwargs[:from]).to eq "0x71660c4005ba85c37ccec55d0c4493e66fe775d3"
+      expect(decoded_log.kwargs[:to]).to eq "0x639671019ddd8ec28d35113d8d1c5f1bbfd7e0be"
+      expect(decoded_log.kwargs[:value]).to eq 10000000000
 
-      expect(results[1][:log]).to eq logs[1]
-      expect(results[1][:name]).to eq "Approval"
-      expect(results[1][:signature]).to eq "Approval(address,address,uint256)"
-      expect(results[1][:topic]).to eq "0x8c5be1e5ebec7d5bd14f71427d1e84f3dd0314c0f7b2291e5b200ac8c7c3b925"
-      expect(results[1][:kwargs][:owner]).to eq "0x7f8c1877ed0da352f78be4fe4cda58bb804a30df"
-      expect(results[1][:kwargs][:spender]).to eq "0x68b3465833fb72a70ecdf485e0e4c7bd8665fc45"
-      expect(results[1][:kwargs][:value]).to eq 2855752354
+      log, decoded_log = results[1]
+      expect(log).to eq logs[1]
+      expect(decoded_log.name).to eq "Approval"
+      expect(decoded_log.signature).to eq "Approval(address,address,uint256)"
+      expect(decoded_log.topic).to eq "0x8c5be1e5ebec7d5bd14f71427d1e84f3dd0314c0f7b2291e5b200ac8c7c3b925"
+      expect(decoded_log.kwargs[:owner]).to eq "0x7f8c1877ed0da352f78be4fe4cda58bb804a30df"
+      expect(decoded_log.kwargs[:spender]).to eq "0x68b3465833fb72a70ecdf485e0e4c7bd8665fc45"
+      expect(decoded_log.kwargs[:value]).to eq 2855752354
     end
   end
 end

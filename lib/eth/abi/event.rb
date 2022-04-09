@@ -33,35 +33,63 @@ module Eth
         Util.prefix_hex(Util.bin_to_hex(Util.keccak256(sig)))
       end
 
+      # A decoded event log.
+      class LogDescription
+        # The event ABI interface used to decode the log.
+        attr_accessor :event_interface
+
+        # The the input argument of the event.
+        attr_accessor :args
+
+        # The named input argument of the event.
+        attr_accessor :kwargs
+
+        # The topic hash.
+        attr_accessor :topic
+
+        # Decodes event log argument values.
+        #
+        # @param event_interface [Hash] event ABI type.
+        # @param log [Hash] transaction receipt log
+        def initialize(event_interface, log)
+          @event_interface = event_interface
+
+          inputs = event_interface.fetch("inputs")
+          data = log.fetch("data")
+          topics = log.fetch("topics", [])
+          anonymous = event_interface.fetch("anonymous", false)
+
+          @topic = topics[0] if !anonymous
+          @args, @kwargs = Event.decode_log(inputs, data, topics, anonymous)
+        end
+
+        # The event name. (e.g. Transfer)
+        def name
+          @name ||= event_interface.fetch("name")
+        end
+
+        # The event signature. (e.g. Transfer(address,address,uint256))
+        def signature
+          @signature ||= Abi.signature(event_interface)
+        end
+      end
+
       # Decodes a stream of receipt logs with a set of ABI interfaces.
       #
       # @param interfaces [Array] event ABI types.
       # @param logs [Array] transaction receipt logs
-      # @return [Hash] an enumerator of decoded log objects.
+      # @return [Hash] an enumerator of LogDescription objects.
       def decode_logs(interfaces, logs)
         Enumerator.new do |y|
           topic_to_interfaces = Hash[interfaces.map { |i| [compute_topic(i), i] }]
 
           logs.each do |log|
-            result = { log: log }
-            topics = log.fetch("topics", [])
-            topic = topics[0]
-
-            if interface = topic_to_interfaces[topic]
-              result[:name] = interface.fetch("name")
-              result[:signature] = Abi.signature(interface)
-              result[:topic] = topic
-
-              inputs = interface.fetch("inputs")
-              data = log.fetch("data")
-              anonymous = interface.fetch("anonymous", false)
-
-              args, kwargs = decode_log(inputs, data, topics, anonymous)
-              result[:args] = args
-              result[:kwargs] = kwargs
+            topic = log.fetch("topics", [])[0]
+            if topic && interface = topic_to_interfaces[topic]
+              y << [log, LogDescription.new(interface, log)]
+            else
+              y << [log, nil]
             end
-
-            y << result
           end
         end
       end
