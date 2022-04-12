@@ -191,6 +191,61 @@ module Eth
       end
     end
 
+    def call_payload(fun, args)
+      "0x" + fun.signature + (Eth::Contract::Encoder.new.encode_arguments(fun.inputs, args).presence || "0"*64)
+    end
+
+    def call_args(fun, args)
+      {to: @address, from: @sender, data: call_payload(fun, args)}
+    end
+
+    def call_raw(fun, sender_key = nil, legacy = false, *args)
+      params = call_args(fun, args) 
+      params.merge!({
+        gas_limit: gas_limit,
+        chain_id: chain_id,
+      })
+      if legacy
+        params.merge!({
+          gas_price: max_fee_per_gas,
+        })
+      else
+        params.merge!({
+          priority_fee: max_priority_fee_per_gas,
+          max_gas_fee: max_fee_per_gas,
+        })
+      end
+      unless sender_key.nil?
+        # use the provided key as sender and signer
+        params.merge!({
+          from: sender_key.address,
+          nonce: get_nonce(sender_key.address),
+        })
+        tx = Eth::Tx.new(params)
+        tx.sign sender_key
+      else
+        # use the default account as sender and external signer
+        params.merge!({
+          from: default_account,
+          nonce: get_nonce(default_account),
+        })
+      end
+      raw_result = eth_call(params)["result"]
+      output = Eth::Contract::Decoder.new.decode_arguments(fun.outputs, raw_result)
+      return {data: call_payload(fun, args), raw: raw_result, formatted: output}
+    end
+
+    def call(contract, function_name, sender_key = nil, legacy = false, *args)
+      func = contract.functions.select {|func| func.name == function_name }[0]
+      raise ArgumentError, "function_name does not exist!" if func.nil?
+      output = call_raw(func, *args)[:formatted]
+      if output.length == 1
+        return output[0]
+      else
+        return output
+      end
+    end
+
     # Gives control over resetting the RPC request ID back to zero.
     # Usually not needed.
     #

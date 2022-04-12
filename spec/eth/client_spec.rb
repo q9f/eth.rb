@@ -78,4 +78,17 @@ describe Client do
       expect(address).to start_with "0x"
     end
   end
+
+  describe ".call" do
+    subject(:contract) { Eth::Contract.create(file: "spec/fixtures/contracts/dummy.sol") }
+
+    it "call function name" do
+      result = geth_dev_http.call(contract, "get")
+      expect(result).to eq(0)
+    end
+
+    it "called function name not defined" do
+      expect { geth_dev_http.call(contract, "ge") }.to raise_error ArgumentError
+    end
+  end
 end

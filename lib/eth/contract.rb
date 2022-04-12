@@ -59,7 +59,7 @@ module Eth
     end
 
     def send_transaction(tx_args)
-        @client.eth_send_transaction(tx_args)["result"]
+      @client.eth_send_transaction(tx_args)["result"]
     end
 
     def send_raw_transaction(payload, to = nil)
@@ -79,53 +79,9 @@ module Eth
       @client.eth_send_raw_transaction(tx.hex)["result"]
     end
 
-    def deploy(*params)
-      if key
-        tx = send_raw_transaction(deploy_payload(params))
-      else
-        tx = send_transaction(deploy_args(params))
-      end
-      tx_failed = tx.nil? || tx == "0x0000000000000000000000000000000000000000000000000000000000000000"
-      raise IOError, "Failed to deploy, did you unlock #{sender} account? Transaction hash: #{tx}" if tx_failed
-      @deployment = Eth::Contract::Deployment.new(tx, @client)
-    end
-
-    def deploy_and_wait(*params, **args, &block)
-      deploy(*params)
-      @deployment.wait_for_deployment(**args, &block)
-      self.events.each do |event|
-        event.set_address(@address)
-        event.set_client(@client)
-      end
-      @address = @deployment.contract_address
-    end
-
     def estimate(*params)
       result = @client.eth_estimate_gas(deploy_args(params))
       @decoder.decode_int(result["result"])
-    end
-
-    def call_payload(fun, args)
-      "0x" + fun.signature + (@encoder.encode_arguments(fun.inputs, args).presence || "0"*64)
-    end
-
-    def call_args(fun, args)
-      add_gas_options_args({to: @address, from: @sender, data: call_payload(fun, args)})
-    end
-
-    def call_raw(fun, *args)
-      raw_result = @client.eth_call(call_args(fun, args))["result"]
-      output = @decoder.decode_arguments(fun.outputs, raw_result)
-      return {data: call_payload(fun, args), raw: raw_result, formatted: output}
-    end
-
-    def call(fun, *args)
-      output = call_raw(fun, *args)[:formatted]
-      if output.length == 1
-        return output[0]
-      else
-        return output
-      end
     end
 
     def transact(fun, *args)
@@ -203,6 +159,7 @@ module Eth
         def_delegator :parent, :new_filter_proxy, :new_filter
         def_delegator :parent, :get_filter_logs_proxy, :get_filter_logs
         def_delegator :parent, :get_filter_change_proxy, :get_filter_changes
+        def_delegator :parent, :functions
         define_method :parent do
           parent
         end
@@ -213,16 +170,6 @@ module Eth
     end
 
     private
-      def add_gas_options_args(args)
-        args[:gas] = "0x#{gas_limit.to_s(16)}" if gas_limit.present?
-        if gas_price.present?
-          args[:gasPrice] = "0x#{gas_price.to_s(16)}"
-        else
-          args[:maxFeePerGas] = @client.max_fee_per_gas if max_fee_per_gas.present?
-          args[:maxPriorityFeePerGas] = @client.max_priority_fee_per_gas if max_priority_fee_per_gas.present?
-        end
-        args
-      end
 
       def create_function_proxies
         parent = self
