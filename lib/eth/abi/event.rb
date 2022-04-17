@@ -24,20 +24,97 @@ module Eth
     module Event
       extend self
 
+      # Compute topic for ABI event interface.
+      #
+      # @param interface [Hash] ABI event interface.
+      # @return [String] a hex-string topic.
+      def compute_topic(interface)
+        sig = Abi.signature(interface)
+        Util.prefix_hex(Util.bin_to_hex(Util.keccak256(sig)))
+      end
+
+      # A decoded event log.
+      class LogDescription
+        # The event ABI interface used to decode the log.
+        attr_accessor :event_interface
+
+        # The the input argument of the event.
+        attr_accessor :args
+
+        # The named input argument of the event.
+        attr_accessor :kwargs
+
+        # The topic hash.
+        attr_accessor :topic
+
+        # Decodes event log argument values.
+        #
+        # @param event_interface [Hash] event ABI type.
+        # @param log [Hash] transaction receipt log
+        def initialize(event_interface, log)
+          @event_interface = event_interface
+
+          inputs = event_interface.fetch("inputs")
+          data = log.fetch("data")
+          topics = log.fetch("topics", [])
+          anonymous = event_interface.fetch("anonymous", false)
+
+          @topic = topics[0] if !anonymous
+          @args, @kwargs = Event.decode_log(inputs, data, topics, anonymous)
+        end
+
+        # The event name. (e.g. Transfer)
+        def name
+          @name ||= event_interface.fetch("name")
+        end
+
+        # The event signature. (e.g. Transfer(address,address,uint256))
+        def signature
+          @signature ||= Abi.signature(event_interface)
+        end
+      end
+
+      # Decodes a stream of receipt logs with a set of ABI interfaces.
+      #
+      # @param interfaces [Array] event ABI types.
+      # @param logs [Array] transaction receipt logs
+      # @return [Hash] an enumerator of LogDescription objects.
+      def decode_logs(interfaces, logs)
+        Enumerator.new do |y|
+          topic_to_interfaces = Hash[interfaces.map { |i| [compute_topic(i), i] }]
+
+          logs.each do |log|
+            topic = log.fetch("topics", [])[0]
+            if topic && interface = topic_to_interfaces[topic]
+              y << [log, LogDescription.new(interface, log)]
+            else
+              y << [log, nil]
+            end
+          end
+        end
+      end
+
       # Decodes event log argument values.
       #
       # @param inputs [Array] event ABI types.
       # @param data [String] ABI event data to be decoded.
       # @param topics [Array] ABI event topics to be decoded.
+      # @param anonymous [Boolean] If event signature is excluded from topics.
       # @return [[Array, Hash]] decoded positional arguments and decoded keyword arguments.
       # @raise [DecodingError] if decoding fails for type.
-      def decode_log(inputs, data, topics)
+      def decode_log(inputs, data, topics, anonymous = false)
         topic_inputs, data_inputs = inputs.partition { |i| i["indexed"] }
 
         topic_types = topic_inputs.map { |i| i["type"] }
         data_types = data_inputs.map { |i| i["type"] }
 
-        decoded_topics = topics[1..-1].map.with_index { |t, i| Abi.decode([topic_types[i]], t)[0] }
+        # If event is anonymous, all topics are arguments. Otherwise, the first
+        # topic will be the event signature.
+        if anonymous == false
+          topics = topics[1..-1]
+        end
+
+        decoded_topics = topics.map.with_index { |t, i| Abi.decode([topic_types[i]], t)[0] }
         decoded_data = Abi.decode(data_types, data)
 
         args = []

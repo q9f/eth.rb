@@ -320,4 +320,21 @@ describe Abi do
       expect { Abi.decode_primitive_type(Abi::Type.new("foo", 32, []), "bar") }.to raise_error Abi::DecodingError
     end
   end
+
+  let(:erc20_abi_file) { File.read "spec/fixtures/abi/ERC20.json" }
+  subject(:erc20_abi) { JSON.parse erc20_abi_file }
+
+  describe ".signature" do
+    it "generates Transfer event signature" do
+      abi = erc20_abi.find { |i| i["type"] == "event" && i["name"] == "Transfer" }
+      signature = Eth::Abi.signature(abi)
+      expect(signature).to eq "Transfer(address,address,uint256)"
+    end
+
+    it "generates transfer function signature" do
+      abi = erc20_abi.find { |i| i["type"] == "function" && i["name"] == "transfer" }
+      signature = Eth::Abi.signature(abi)
+      expect(signature).to eq "transfer(address,uint256)"
+    end
+  end
 end
