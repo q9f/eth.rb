@@ -141,7 +141,6 @@ module Eth
     def build
       class_name = @name
       parent = self
-      create_function_proxies
       create_event_proxies
       class_methods = Class.new do
         extend Forwardable
@@ -170,18 +169,6 @@ module Eth
     end
 
     private
-
-      def create_function_proxies
-        parent = self
-        call_raw_proxy, call_proxy, transact_proxy, transact_and_wait_proxy = Class.new, Class.new, Class.new, Class.new
-        @functions.each do |fun|
-          call_raw_proxy.send(:define_method, parent.function_name(fun)) { |*args| parent.call_raw(fun, *args) }
-          call_proxy.send(:define_method, parent.function_name(fun)) { |*args| parent.call(fun, *args) }
-          transact_proxy.send(:define_method, parent.function_name(fun)) { |*args| parent.transact(fun, *args) }
-          transact_and_wait_proxy.send(:define_method, parent.function_name(fun)) { |*args| parent.transact_and_wait(fun, *args) }
-        end
-        @call_raw_proxy, @call_proxy, @transact_proxy, @transact_and_wait_proxy =  call_raw_proxy.new, call_proxy.new, transact_proxy.new, transact_and_wait_proxy.new
-      end
 
       def create_event_proxies
         parent = self
