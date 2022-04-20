@@ -199,7 +199,7 @@ module Eth
       {to: @address, from: @sender, data: call_payload(fun, args)}
     end
 
-    def call_raw(fun, sender_key = nil, legacy = false, *args)
+    def call_raw(fun, sender_key = nil, legacy = false, args)
       params = call_args(fun, args) 
       params.merge!({
         gas_limit: gas_limit,
@@ -238,7 +238,7 @@ module Eth
     def call(contract, function_name, sender_key = nil, legacy = false, *args)
       func = contract.functions.select {|func| func.name == function_name }[0]
       raise ArgumentError, "function_name does not exist!" if func.nil?
-      output = call_raw(func, *args)[:formatted]
+      output = call_raw(func, nil, nil, args)[:formatted]
       if output.length == 1
         return output[0]
       else
