@@ -16,10 +16,6 @@
 module Eth
 end
 
-# Loads the Active Support
-require 'active_support'
-require 'active_support/core_ext'
-
 # Loads the {Eth} module classes.
 require "eth/abi"
 require "eth/api"
@@ -35,7 +31,6 @@ require "eth/contract/function_output"
 require "eth/contract/encoder"
 require "eth/contract/decoder"
 require "eth/contract/formatter"
-require "eth/contract/deployment"
 require "eth/contract/initializer"
 require "eth/client"
 require "eth/client/http"
