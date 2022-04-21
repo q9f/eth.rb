@@ -48,7 +48,4 @@ Gem::Specification.new do |spec|
 
   # scrypt for encrypted key derivation
   spec.add_dependency "scrypt", "~> 3.0"
-
-  # activesupport for smart contract support
-  spec.add_dependency "activesupport", "~> 7.0"
 end
