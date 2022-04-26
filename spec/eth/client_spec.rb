@@ -84,6 +84,11 @@ describe Client do
       address = geth_dev_http.deploy_and_wait(contract, test_key)
       expect(address).to start_with "0x"
     end
+
+    it "deploy the contract using legacy transactions" do
+      address = geth_dev_http.deploy_and_wait(contract, nil, true)
+      expect(address).to start_with "0x" 
+    end
   end
 
   describe ".call" do
