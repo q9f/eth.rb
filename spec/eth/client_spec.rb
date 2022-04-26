@@ -70,11 +70,18 @@ describe Client do
   describe ".deploy .deploy_and_wait" do
     subject(:solc) { Eth::Solidity.new }
     subject(:contract) { solc.compile "spec/fixtures/contracts/dummy.sol" }
+    subject(:test_key) { Key.new }
 
     it "deploy the contract and the address is returned" do
       address = geth_dev_http.deploy_and_wait(contract)
       expect(address).to start_with "0x"
       address = geth_dev_ipc.deploy_and_wait(contract)
+      expect(address).to start_with "0x"
+    end
+
+    it "deploy the contract with key" do
+      geth_dev_http.transfer_and_wait(test_key.address, 1337 * Unit::ETHER)
+      address = geth_dev_http.deploy_and_wait(contract, test_key)
       expect(address).to start_with "0x"
     end
   end

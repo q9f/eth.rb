@@ -82,7 +82,7 @@ module Eth
       end
 
       def bitsize(subtype, default = 256)
-        subtype.present? ? subtype.to_i : default
+        !subtype.empty? ? subtype.to_i : default
       end
 
       def fixed_bitsize(subtype = nil)

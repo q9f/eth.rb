@@ -155,6 +155,7 @@ module Eth
 
     def deploy(contract, sender_key = nil, legacy = false)
       name = contract.keys[0]
+      gas_limit =  Tx.estimate_intrinsic_gas(contract[name]["bin"]) - Tx::DEFAULT_GAS_LIMIT + 53000
       params = {
         value: 0,
         gas_limit: gas_limit,
@@ -172,7 +173,6 @@ module Eth
         })
       end
       unless sender_key.nil?
-
         # use the provided key as sender and signer
         params.merge!({
           from: sender_key.address,
@@ -192,7 +192,8 @@ module Eth
     end
 
     def call_payload(fun, args)
-      "0x" + fun.signature + (Eth::Contract::Encoder.new.encode_arguments(fun.inputs, args).presence || "0"*64)
+      encoded_str = Eth::Contract::Encoder.new.encode_arguments(fun.inputs, args)
+      "0x" + fun.signature + (encoded_str.empty? ? "0"*64 : encoded_str)
     end
 
     def call_args(fun, args)
