@@ -211,16 +211,15 @@ module Eth
       "0x" + fun.signature + (encoded_str.empty? ? "0"*64 : encoded_str)
     end
 
-    def call_args(fun, args)
-      {to: @address, from: @sender, data: call_payload(fun, args)}
-    end
-
-    def call_raw(fun, sender_key = nil, legacy = false, args)
-      params = call_args(fun, args) 
-      params.merge!({
+    def call_raw(contract, fun, sender_key = nil, legacy = false, args)
+      params= {
         gas_limit: gas_limit,
         chain_id: chain_id,
-      })
+        data: call_payload(fun, args) 
+      }
+      if contract.address
+        params.merge!({to: contract.address})
+      end
       if legacy
         params.merge!({
           gas_price: max_fee_per_gas,
@@ -254,12 +253,55 @@ module Eth
     def call(contract, function_name, sender_key = nil, legacy = false, *args)
       func = contract.functions.select {|func| func.name == function_name }[0]
       raise ArgumentError, "function_name does not exist!" if func.nil?
-      output = call_raw(func, nil, nil, args)[:formatted]
+      output = call_raw(contract, func, nil, nil, args)[:formatted]
       if output.length == 1
         return output[0]
       else
         return output
       end
+    end
+
+    def transact(contract, function_name, sender_key = nil, legacy = false, to = nil, args)
+      gas_limit =  Tx.estimate_intrinsic_gas(contract.bin) - Tx::DEFAULT_GAS_LIMIT + 53000
+      fun = contract.functions.select {|func| func.name == function_name }[0]
+      params = {
+        value: 0,
+        gas_limit: gas_limit,
+        chain_id: chain_id,
+        to: to,
+        data: call_payload(fun, args)
+      }
+      if legacy
+        params.merge!({
+          gas_price: max_fee_per_gas,
+        })
+      else
+        params.merge!({
+          priority_fee: max_priority_fee_per_gas,
+          max_gas_fee: max_fee_per_gas,
+        })
+      end
+      unless sender_key.nil?
+        # use the provided key as sender and signer
+        params.merge!({
+          from: sender_key.address,
+          nonce: get_nonce(sender_key.address),
+        })
+        tx = Eth::Tx.new(params)
+        tx.sign sender_key
+        return eth_send_raw_transaction(tx.hex)["result"]
+      else
+        # use the default account as sender and external signer
+        params.merge!({
+          from: default_account,
+          nonce: get_nonce(default_account),
+        })
+        return eth_send_transaction(params)["result"]
+      end
+    end
+
+    def transact_and_wait(contract, fun, sender_key = nil, legacy = false, to = nil, *args)
+      wait_for_tx(transact(contract, fun, sender_key, legacy, to, args))
     end
 
     # Gives control over resetting the RPC request ID back to zero.

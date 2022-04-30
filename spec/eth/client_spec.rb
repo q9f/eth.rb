@@ -105,4 +105,17 @@ describe Client do
       expect { geth_dev_http.call(contract, "ge") }.to raise_error ArgumentError
     end
   end
+
+  describe ".transact .transact_and_wait" do
+    subject(:contract) { Eth::Contract.create(file: "spec/fixtures/contracts/dummy.sol") }
+
+    it "the value can be set with the set function" do
+      address = geth_dev_http.deploy_and_wait(contract)
+      response = geth_dev_http.call(contract, "get", nil, nil)
+      expect(response).to eq(0)
+      geth_dev_http.transact_and_wait(contract, "set", nil, nil, address, 42)
+      response = geth_dev_http.call(contract, "get", nil, nil)
+      expect(response).to eq(42)
+    end
+  end
 end
