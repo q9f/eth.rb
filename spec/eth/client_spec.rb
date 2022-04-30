@@ -68,8 +68,7 @@ describe Client do
   end
 
   describe ".deploy .deploy_and_wait" do
-    subject(:solc) { Eth::Solidity.new }
-    subject(:contract) { solc.compile "spec/fixtures/contracts/dummy.sol" }
+    subject(:contract) { Eth::Contract.create(file: "spec/fixtures/contracts/dummy.sol") }
     subject(:test_key) { Key.new }
 
     it "deploy the contract and the address is returned" do
@@ -95,6 +94,7 @@ describe Client do
     subject(:contract) { Eth::Contract.create(file: "spec/fixtures/contracts/dummy.sol") }
 
     it "call function name" do
+      address = geth_dev_http.deploy_and_wait(contract)
       result = geth_dev_http.call(contract, "get")
       expect(result).to eq(0)
     end

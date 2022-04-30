@@ -149,18 +149,32 @@ module Eth
       end
     end
 
+    # Deploy contract and waits for it to be mined.
+    # Uses `eth_coinbase` and external signer
+    # if no sender key is provided.
+    #
+    # @param contract [Eth::Contract] contracts to deploy.
+    # @param sender_key [Eth::Key] the sender private key.
+    # @param legacy [Boolean] enables legacy transactions (pre-EIP-1559).
+    # @return [String] the transaction hash.
     def deploy_and_wait(contract, sender_key = nil, legacy = false)
       wait_for_tx(deploy(contract, sender_key, legacy))
     end
 
+    # Deploy contract. Uses `eth_coinbase` and external signer
+    # if no sender key is provided.
+    #
+    # @param contract [Eth::Contract] contracts to deploy.
+    # @param sender_key [Eth::Key] the sender private key.
+    # @param legacy [Boolean] enables legacy transactions (pre-EIP-1559).
+    # @return [String] the transaction hash.
     def deploy(contract, sender_key = nil, legacy = false)
-      name = contract.keys[0]
-      gas_limit =  Tx.estimate_intrinsic_gas(contract[name]["bin"]) - Tx::DEFAULT_GAS_LIMIT + 53000
+      gas_limit =  Tx.estimate_intrinsic_gas(contract.bin) - Tx::DEFAULT_GAS_LIMIT + 53000
       params = {
         value: 0,
         gas_limit: gas_limit,
         chain_id: chain_id,
-        data: contract[name]["bin"]
+        data: contract.bin
       }
       if legacy
         params.merge!({

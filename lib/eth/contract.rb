@@ -56,9 +56,10 @@ module Eth
       class_methods = Class.new do
         extend Forwardable
         def_delegators :parent, :key, :key=
+        def_delegators :parent, :name, :abi, :bin
         def_delegators :parent, :gas_limit, :gas_price, :gas_limit=, :gas_price=, :nonce, :nonce=
         def_delegators :parent, :max_fee_per_gas, :max_fee_per_gas=, :max_priority_fee_per_gas, :max_priority_fee_per_gas=
-        def_delegators :parent, :abi, :deployment, :events
+        def_delegators :parent, :deployment, :events
         def_delegators :parent, :address, :address=, :sender, :sender=
         def_delegator :parent, :functions
         define_method :parent do
