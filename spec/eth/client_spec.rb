@@ -74,8 +74,10 @@ describe Client do
     it "deploy the contract and the address is returned" do
       address = geth_dev_http.deploy_and_wait(contract)
       expect(address).to start_with "0x"
+      expect(address.length).to eq 42
       address = geth_dev_ipc.deploy_and_wait(contract)
       expect(address).to start_with "0x"
+      expect(address.length).to eq 42
     end
 
     it "deploy the contract with key" do
@@ -86,7 +88,7 @@ describe Client do
 
     it "deploy the contract using legacy transactions" do
       address = geth_dev_http.deploy_and_wait(contract, nil, true)
-      expect(address).to start_with "0x" 
+      expect(address).to start_with "0x"
     end
   end
 

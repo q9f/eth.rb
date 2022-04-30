@@ -156,9 +156,10 @@ module Eth
     # @param contract [Eth::Contract] contracts to deploy.
     # @param sender_key [Eth::Key] the sender private key.
     # @param legacy [Boolean] enables legacy transactions (pre-EIP-1559).
-    # @return [String] the transaction hash.
+    # @return [String] the contract address.
     def deploy_and_wait(contract, sender_key = nil, legacy = false)
-      wait_for_tx(deploy(contract, sender_key, legacy))
+      hash = wait_for_tx(deploy(contract, sender_key, legacy))
+      contract.address = eth_get_transaction_receipt(hash)["result"]["contractAddress"]
     end
 
     # Deploy contract. Uses `eth_coinbase` and external signer
