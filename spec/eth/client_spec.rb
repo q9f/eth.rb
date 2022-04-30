@@ -82,12 +82,12 @@ describe Client do
 
     it "deploy the contract with key" do
       geth_dev_http.transfer_and_wait(test_key.address, 1337 * Unit::ETHER)
-      address = geth_dev_http.deploy_and_wait(contract, test_key)
+      address = geth_dev_http.deploy_and_wait(contract, sender_key: test_key)
       expect(address).to start_with "0x"
     end
 
     it "deploy the contract using legacy transactions" do
-      address = geth_dev_http.deploy_and_wait(contract, nil, true)
+      address = geth_dev_http.deploy_and_wait(contract, legacy: true)
       expect(address).to start_with "0x"
     end
   end
@@ -111,10 +111,10 @@ describe Client do
 
     it "the value can be set with the set function" do
       address = geth_dev_http.deploy_and_wait(contract)
-      response = geth_dev_http.call(contract, "get", nil, nil)
+      response = geth_dev_http.call(contract, "get")
       expect(response).to eq(0)
-      geth_dev_http.transact_and_wait(contract, "set", nil, nil, address, 42)
-      response = geth_dev_http.call(contract, "get", nil, nil)
+      geth_dev_http.transact_and_wait(contract, "set", 42, address: address)
+      response = geth_dev_http.call(contract, "get")
       expect(response).to eq(42)
     end
   end
