@@ -96,6 +96,7 @@ describe Client do
     subject(:contract) { Eth::Contract.create(file: "spec/fixtures/contracts/dummy.sol") }
 
     it "call function name" do
+      geth_dev_http.deploy_and_wait(contract)
       result = geth_dev_http.call(contract, "get")
       expect(result).to eq(0)
     end

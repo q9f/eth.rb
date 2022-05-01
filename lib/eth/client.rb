@@ -256,7 +256,8 @@ module Eth
         })
       end
       raw_result = eth_call(params)["result"]
-      output = Eth::Contract::Decoder.new.decode_arguments(func.outputs, raw_result)
+      types = func.outputs.map {|i| i.type}
+      Eth::Abi.decode(types, raw_result)
     end
 
     # Non-transactional function calls.
