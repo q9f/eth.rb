@@ -208,7 +208,8 @@ module Eth
 
     # Encoding for function calls.
     def call_payload(fun, args)
-      encoded_str = Eth::Contract::Encoder.new.encode_arguments(fun.inputs, args)
+      types = fun.inputs.map {|i| i.type}
+      encoded_str = Util.bin_to_hex(Eth::Abi.encode(types, args))
       "0x" + fun.signature + (encoded_str.empty? ? "0"*64 : encoded_str)
     end
 
