@@ -5,7 +5,7 @@ module Eth
     attr_reader :address
     attr_accessor :key
     attr_accessor :gas_limit, :gas_price, :max_fee_per_gas, :max_priority_fee_per_gas, :nonce
-    attr_accessor :bin, :name, :abi, :class_object, :sender, :deployment, :client
+    attr_accessor :bin, :name, :abi, :class_object, :sender
     attr_accessor :events, :functions, :constructor_inputs
 
     def initialize(name, bin, abi)
@@ -40,14 +40,7 @@ module Eth
       @address = addr.nil? ? nil : Eth::Address.new(addr).address
       @events.each do |event|
         event.set_address(@address)
-        event.set_client(@client)
       end
-    end
-
-    def function_name(fun)
-      count = functions.select {|x| x.name == fun.name }.count
-      name = (count == 1) ? "#{fun.name.underscore}" : "#{fun.name.underscore}__#{fun.inputs.collect {|x| x.type}.join("__")}"
-      name.to_sym
     end
 
     def build
@@ -59,7 +52,7 @@ module Eth
         def_delegators :parent, :name, :abi, :bin
         def_delegators :parent, :gas_limit, :gas_price, :gas_limit=, :gas_price=, :nonce, :nonce=
         def_delegators :parent, :max_fee_per_gas, :max_fee_per_gas=, :max_priority_fee_per_gas, :max_priority_fee_per_gas=
-        def_delegators :parent, :deployment, :events
+        def_delegators :parent, :events
         def_delegators :parent, :address, :address=, :sender, :sender=
         def_delegator :parent, :functions
         define_method :parent do

@@ -1,7 +1,7 @@
 module Eth
   class Contract::Event
 
-    attr_accessor :name, :signature, :input_types, :inputs, :event_string, :address, :client
+    attr_accessor :name, :signature, :input_types, :inputs, :event_string, :address
 
     def initialize(data)
       @name = data["name"]
@@ -14,10 +14,5 @@ module Eth
     def set_address(address)
       @address = address
     end
-
-    def set_client(client)
-      @client = client
-    end
-
   end
 end
