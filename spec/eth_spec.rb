@@ -1,9 +1,9 @@
 require "spec_helper"
 
 describe Eth do
-  it "0.5.2 works" do
+  it "0.5.3 works" do
 
     # placeholder to set up spec in future
-    expect(Eth::VERSION).to eq "0.5.2"
+    expect(Eth::VERSION).to eq "0.5.3"
   end
 end
