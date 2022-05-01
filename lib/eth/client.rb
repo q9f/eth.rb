@@ -206,16 +206,25 @@ module Eth
       end
     end
 
+    # Encoding for function calls.
     def call_payload(fun, args)
       encoded_str = Eth::Contract::Encoder.new.encode_arguments(fun.inputs, args)
       "0x" + fun.signature + (encoded_str.empty? ? "0"*64 : encoded_str)
     end
 
-    def call_raw(contract, fun, *args, **kwargs)
+    # Non-transactional function call called from call(). 
+    #
+    # @param contract [Eth::Contract] subject contract to call.
+    # @param func [Eth::Contract::Function] method name to be called.
+    # @param *args [Object] function arguments.
+    # @param sender_key [Eth::Key] the sender private key.
+    # @param legacy [Boolean] enables legacy transactions (pre-EIP-1559).
+    # @return [Object] returns the result of the call.
+    def call_raw(contract, func, *args, **kwargs)
       params= {
         gas_limit: gas_limit,
         chain_id: chain_id,
-        data: call_payload(fun, args) 
+        data: call_payload(func, args) 
       }
       if contract.address
         params.merge!({to: contract.address})
@@ -246,14 +255,21 @@ module Eth
         })
       end
       raw_result = eth_call(params)["result"]
-      output = Eth::Contract::Decoder.new.decode_arguments(fun.outputs, raw_result)
-      return {data: call_payload(fun, args), raw: raw_result, formatted: output}
+      output = Eth::Contract::Decoder.new.decode_arguments(func.outputs, raw_result)
     end
 
+    # Non-transactional function calls.
+    #
+    # @param contract [Eth::Contract] subject contract to call.
+    # @param function_name [String] method name to be called.
+    # @param *args [Object] function arguments.
+    # @param sender_key [Eth::Key] the sender private key.
+    # @param legacy [Boolean] enables legacy transactions (pre-EIP-1559).
+    # @return [Object] returns the result of the call.
     def call(contract, function_name, *args, **kwargs)
       func = contract.functions.select {|func| func.name == function_name }[0]
       raise ArgumentError, "function_name does not exist!" if func.nil?
-      output = call_raw(contract, func, *args, **kwargs)[:formatted]
+      output = call_raw(contract, func, *args, **kwargs)
       if output.length == 1
         return output[0]
       else
@@ -261,6 +277,15 @@ module Eth
       end
     end
 
+    # Function call with transaction. 
+    #
+    # @param contract [Eth::Contract] subject contract to call.
+    # @param function_name [String] method name to be called.
+    # @param *args [Object] function arguments.
+    # @param sender_key [Eth::Key] the sender private key.
+    # @param legacy [Boolean] enables legacy transactions (pre-EIP-1559).
+    # @param address [String] contract address.
+    # @return [Object] returns the result of the call.
     def transact(contract, function_name, *args, **kwargs)
       gas_limit =  Tx.estimate_intrinsic_gas(contract.bin) - Tx::DEFAULT_GAS_LIMIT + 53000
       fun = contract.functions.select {|func| func.name == function_name }[0]
@@ -300,8 +325,17 @@ module Eth
       end
     end
 
-    def transact_and_wait(contract, fun, *args, **kwargs)
-      wait_for_tx(transact(contract, fun, *args, **kwargs))
+    # Function call with transaction and waits for it to be mined.
+    #
+    # @param contract [Eth::Contract] subject contract to call.
+    # @param function_name [String] Method name to be called.
+    # @param *args [Object] function arguments.
+    # @param sender_key [Eth::Key] the sender private key.
+    # @param legacy [Boolean] enables legacy transactions (pre-EIP-1559).
+    # @param address [String] contract address.
+    # @return [Object] returns the result of the call.
+    def transact_and_wait(contract, function_name, *args, **kwargs)
+      wait_for_tx(transact(contract, function_name, *args, **kwargs))
     end
 
     # Gives control over resetting the RPC request ID back to zero.
