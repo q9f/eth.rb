@@ -11,20 +11,5 @@ module Eth
       events = abi.select {|x| x["type"] == "event" }.map { |evt| Eth::Contract::Event.new(evt) }
       [constructor_inputs, functions, events]
     end
-
-    def self.parse_type(type)
-      raise NotImplementedError if type.end_with?("]")
-      match = /(\D+)(\d.*)?/.match(type)
-      [match[1], match[2]]
-    end
-
-    def self.parse_array_type(type)
-      match = /(.+)\[(\d*)\]\z/.match(type)
-      if match
-        [true, match[2].present? ? match[2].to_i : nil, match[1]]
-      else
-        [false, nil, nil]
-      end
-    end
   end
 end
