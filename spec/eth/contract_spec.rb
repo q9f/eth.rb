@@ -32,5 +32,27 @@ describe Contract do
       contract = Contract.create(file: file)
       expect(contract).to be_instance_of(Eth::Contract::Dummy)
     end
+
+    it "create contract from abi" do
+      contract = Contract.create(name: name, abi: abi, bin: bin)
+      expect(contract).to be_instance_of(Eth::Contract::Dummy)
+    end
+
+    it "arguments are missing" do
+      expect { Contract.create(name: name, abi: abi) }.to raise_error ArgumentError
+    end
+
+    it "invalid abi json parsing fails" do
+      abi = abi.to_json + '"'
+      expect { Contract.create(name: name, abi: abi, bin: bin) }.to raise_error JSON::ParserError
+    end
+
+    it "contact index can be specified" do
+      file = "spec/fixtures/contracts/greeter.sol"
+      greeter = Contract.create(file: file, contract_index: 0)
+      expect(greeter).to be_instance_of(Eth::Contract::Greeter)
+      mortal = Contract.create(file: file, contract_index: 1)
+      expect(mortal).to be_instance_of(Eth::Contract::Mortal)
+    end
   end
 end

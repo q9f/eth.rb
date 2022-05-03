@@ -17,8 +17,7 @@ module Eth
 
     # Creates a contract wrapper.
     def self.create(file: nil, bin: nil, abi: nil, address: nil, name: nil, contract_index: nil)
-      contract = nil
-      if File.exist?(file)
+      if File.exist?(file.to_s)
         contracts = Eth::Contract::Initializer.new(file).build_all
         raise "No contracts compiled" if contracts.empty?
         if contract_index
@@ -26,11 +25,17 @@ module Eth
         else
           contract = contracts.first.class_object.new
         end
-      else
-        abi = abi.is_a?(String) ? JSON.parse(abi) : abi.map(&:deep_stringify_keys)
+      elsif ![name, bin, abi].include? nil
+        begin
+          abi = abi.is_a?(Array) ? abi : JSON.parse(abi)
+        rescue JSON::ParserError => e
+          raise e
+        end
         contract = Eth::Contract.new(name, bin, abi)
         contract.build
         contract = contract.class_object.new
+      else
+        raise ArgumentError, "The argument is incorrect."
       end
       contract.address = address
       contract
@@ -65,4 +70,3 @@ module Eth
     end
   end
 end
-
