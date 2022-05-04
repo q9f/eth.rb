@@ -35,7 +35,7 @@ module Eth
     #
     # @param address [String] contract address.
     def set_address(address)
-      @address = address
+      @address = address.nil? ? nil : Eth::Address.new(address).address
     end
   end
 end
