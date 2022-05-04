@@ -222,6 +222,7 @@ module Eth
     # @param legacy [Boolean] enables legacy transactions (pre-EIP-1559).
     # @return [Object] returns the result of the call.
     def call_raw(contract, func, *args, **kwargs)
+      gas_limit =  Tx.estimate_intrinsic_gas(contract.bin) - Tx::DEFAULT_GAS_LIMIT + 53000
       params= {
         gas_limit: gas_limit,
         chain_id: chain_id,
@@ -243,11 +244,11 @@ module Eth
       unless kwargs[:sender_key].nil?
         # use the provided key as sender and signer
         params.merge!({
-          from: sender_key.address,
-          nonce: get_nonce(sender_key.address),
+          from: kwargs[:sender_key].address,
+          nonce: get_nonce(kwargs[:sender_key].address),
         })
         tx = Eth::Tx.new(params)
-        tx.sign sender_key
+        tx.sign kwargs[:sender_key]
       else
         # use the default account as sender and external signer
         params.merge!({
