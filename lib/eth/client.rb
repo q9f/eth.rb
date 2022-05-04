@@ -153,9 +153,15 @@ module Eth
     # Uses `eth_coinbase` and external signer
     # if no sender key is provided.
     #
-    # @param contract [Eth::Contract] contracts to deploy.
-    # @param sender_key [Eth::Key] the sender private key.
-    # @param legacy [Boolean] enables legacy transactions (pre-EIP-1559).
+    # @overload deploy(contract)
+    #   @param contract [Eth::Contract] contracts to deploy.
+    # @overload deploy(contract, sender_key)
+    #   @param contract [Eth::Contract] contracts to deploy.
+    #   @param sender_key [Eth::Key] the sender private key.
+    # @overload deploy(contract, sender_key, legacy)
+    #   @param contract [Eth::Contract] contracts to deploy.
+    #   @param sender_key [Eth::Key] the sender private key.
+    #   @param legacy [Boolean] enables legacy transactions (pre-EIP-1559).
     # @return [String] the contract address.
     def deploy_and_wait(contract, sender_key: nil, legacy: false)
       hash = wait_for_tx(deploy(contract, sender_key: sender_key, legacy: legacy))
@@ -165,9 +171,15 @@ module Eth
     # Deploy contract. Uses `eth_coinbase` and external signer
     # if no sender key is provided.
     #
-    # @param contract [Eth::Contract] contracts to deploy.
-    # @param sender_key [Eth::Key] the sender private key.
-    # @param legacy [Boolean] enables legacy transactions (pre-EIP-1559).
+    # @overload deploy(contract)
+    #   @param contract [Eth::Contract] contracts to deploy.
+    # @overload deploy(contract, sender_key)
+    #   @param contract [Eth::Contract] contracts to deploy.
+    #   @param sender_key [Eth::Key] the sender private key.
+    # @overload deploy(contract, sender_key, legacy)
+    #   @param contract [Eth::Contract] contracts to deploy.
+    #   @param sender_key [Eth::Key] the sender private key.
+    #   @param legacy [Boolean] enables legacy transactions (pre-EIP-1559).
     # @return [String] the transaction hash.
     def deploy(contract, sender_key: nil, legacy: false)
       gas_limit = Tx.estimate_intrinsic_gas(contract.bin) - Tx::DEFAULT_GAS_LIMIT + 53000
@@ -215,11 +227,19 @@ module Eth
 
     # Non-transactional function call called from call().
     #
-    # @param contract [Eth::Contract] subject contract to call.
-    # @param func [Eth::Contract::Function] method name to be called.
-    # @param *args [Object] function arguments.
-    # @param sender_key [Eth::Key] the sender private key.
-    # @param legacy [Boolean] enables legacy transactions (pre-EIP-1559).
+    # @overload call_raw(contract, func)
+    #   @param contract [Eth::Contract] subject contract to call.
+    #   @param func [Eth::Contract::Function] method name to be called.
+    # @overload call_raw(contract, func, value)
+    #   @param contract [Eth::Contract] subject contract to call.
+    #   @param func [Eth::Contract::Function] method name to be called.
+    #   @param value [Integer|String] function arguments.
+    # @overload call_raw(contract, func, value, sender_key, legacy)
+    #   @param contract [Eth::Contract] subject contract to call.
+    #   @param func [Eth::Contract::Function] method name to be called.
+    #   @param value [Integer|String] function arguments.
+    #   @param sender_key [Eth::Key] the sender private key.
+    #   @param legacy [Boolean] enables legacy transactions (pre-EIP-1559).
     # @return [Object] returns the result of the call.
     def call_raw(contract, func, *args, **kwargs)
       gas_limit = Tx.estimate_intrinsic_gas(contract.bin) - Tx::DEFAULT_GAS_LIMIT + 53000
@@ -263,11 +283,19 @@ module Eth
 
     # Non-transactional function calls.
     #
-    # @param contract [Eth::Contract] subject contract to call.
-    # @param function_name [String] method name to be called.
-    # @param *args [Object] function arguments.
-    # @param sender_key [Eth::Key] the sender private key.
-    # @param legacy [Boolean] enables legacy transactions (pre-EIP-1559).
+    # @overload call(contract, function_name)
+    #   @param contract [Eth::Contract] subject contract to call.
+    #   @param function_name [String] method name to be called.
+    # @overload call(contract, function_name, value)
+    #   @param contract [Eth::Contract] subject contract to call.
+    #   @param function_name [String] method name to be called.
+    #   @param value [Integer|String] function arguments.
+    # @overload call(contract, function_name, value, sender_key, legacy)
+    #   @param contract [Eth::Contract] subject contract to call.
+    #   @param function_name [String] method name to be called.
+    #   @param value [Integer|String] function arguments.
+    #   @param sender_key [Eth::Key] the sender private key.
+    #   @param legacy [Boolean] enables legacy transactions (pre-EIP-1559).
     # @return [Object] returns the result of the call.
     def call(contract, function_name, *args, **kwargs)
       func = contract.functions.select { |func| func.name == function_name }[0]
@@ -282,12 +310,20 @@ module Eth
 
     # Function call with transaction.
     #
-    # @param contract [Eth::Contract] subject contract to call.
-    # @param function_name [String] method name to be called.
-    # @param *args [Object] function arguments.
-    # @param sender_key [Eth::Key] the sender private key.
-    # @param legacy [Boolean] enables legacy transactions (pre-EIP-1559).
-    # @param address [String] contract address.
+    # @overload transact(contract, function_name)
+    #   @param contract [Eth::Contract] subject contract to call.
+    #   @param function_name [String] method name to be called.
+    # @overload transact(contract, function_name, value)
+    #   @param contract [Eth::Contract] subject contract to call.
+    #   @param function_name [String] method name to be called.
+    #   @param value [Integer|String] function arguments.
+    # @overload transact(contract, function_name, value, sender_key, legacy, address)
+    #   @param contract [Eth::Contract] subject contract to call.
+    #   @param function_name [String] method name to be called.
+    #   @param value [Integer|String] function arguments.
+    #   @param sender_key [Eth::Key] the sender private key.
+    #   @param legacy [Boolean] enables legacy transactions (pre-EIP-1559).
+    #   @param address [String] contract address.
     # @return [Object] returns the result of the call.
     def transact(contract, function_name, *args, **kwargs)
       gas_limit = Tx.estimate_intrinsic_gas(contract.bin) - Tx::DEFAULT_GAS_LIMIT + 53000
@@ -330,12 +366,20 @@ module Eth
 
     # Function call with transaction and waits for it to be mined.
     #
-    # @param contract [Eth::Contract] subject contract to call.
-    # @param function_name [String] Method name to be called.
-    # @param *args [Object] function arguments.
-    # @param sender_key [Eth::Key] the sender private key.
-    # @param legacy [Boolean] enables legacy transactions (pre-EIP-1559).
-    # @param address [String] contract address.
+    # @overload transact_and_wait(contract, function_name)
+    #   @param contract [Eth::Contract] subject contract to call.
+    #   @param function_name [String] method name to be called.
+    # @overload transact_and_wait(contract, function_name, value)
+    #   @param contract [Eth::Contract] subject contract to call.
+    #   @param function_name [String] method name to be called.
+    #   @param value [Integer|String] function arguments.
+    # @overload transact_and_wait(contract, function_name, value, sender_key, legacy, address)
+    #   @param contract [Eth::Contract] subject contract to call.
+    #   @param function_name [String] method name to be called.
+    #   @param value [Integer|String] function arguments.
+    #   @param sender_key [Eth::Key] the sender private key.
+    #   @param legacy [Boolean] enables legacy transactions (pre-EIP-1559).
+    #   @param address [String] contract address.
     # @return [Object] returns the result of the call.
     def transact_and_wait(contract, function_name, *args, **kwargs)
       wait_for_tx(transact(contract, function_name, *args, **kwargs))
