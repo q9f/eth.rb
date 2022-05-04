@@ -3,7 +3,7 @@ require "spec_helper"
 describe Contract::Function do
   let(:erc20_abi_file) { File.read "spec/fixtures/abi/ERC20.json" }
   let(:abi) { JSON.parse erc20_abi_file }
-  subject(:functions) { abi.select {|x| x["type"] == "function" }.map { |fun| Eth::Contract::Function.new(fun) }}
+  subject(:functions) { abi.select { |x| x["type"] == "function" }.map { |fun| Eth::Contract::Function.new(fun) } }
 
   it "creates Function objects" do
     expect(functions[0].class).to eq(Eth::Contract::Function)

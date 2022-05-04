@@ -1,6 +1,5 @@
 module Eth
   class Contract::Function
-
     attr_accessor :name, :inputs, :outputs, :signature, :constant, :function_string
 
     def initialize(data)
@@ -17,7 +16,7 @@ module Eth
     end
 
     def self.calc_signature(name, inputs)
-      "#{name}(#{inputs.collect {|x| x.type }.join(",")})"
+      "#{name}(#{inputs.collect { |x| x.type }.join(",")})"
     end
 
     def self.calc_id(signature)

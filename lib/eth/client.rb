@@ -170,12 +170,12 @@ module Eth
     # @param legacy [Boolean] enables legacy transactions (pre-EIP-1559).
     # @return [String] the transaction hash.
     def deploy(contract, sender_key: nil, legacy: false)
-      gas_limit =  Tx.estimate_intrinsic_gas(contract.bin) - Tx::DEFAULT_GAS_LIMIT + 53000
+      gas_limit = Tx.estimate_intrinsic_gas(contract.bin) - Tx::DEFAULT_GAS_LIMIT + 53000
       params = {
         value: 0,
         gas_limit: gas_limit,
         chain_id: chain_id,
-        data: contract.bin
+        data: contract.bin,
       }
       if legacy
         params.merge!({
@@ -208,12 +208,12 @@ module Eth
 
     # Encoding for function calls.
     def call_payload(fun, args)
-      types = fun.inputs.map {|i| i.type}
+      types = fun.inputs.map { |i| i.type }
       encoded_str = Util.bin_to_hex(Eth::Abi.encode(types, args))
-      "0x" + fun.signature + (encoded_str.empty? ? "0"*64 : encoded_str)
+      "0x" + fun.signature + (encoded_str.empty? ? "0" * 64 : encoded_str)
     end
 
-    # Non-transactional function call called from call(). 
+    # Non-transactional function call called from call().
     #
     # @param contract [Eth::Contract] subject contract to call.
     # @param func [Eth::Contract::Function] method name to be called.
@@ -222,14 +222,14 @@ module Eth
     # @param legacy [Boolean] enables legacy transactions (pre-EIP-1559).
     # @return [Object] returns the result of the call.
     def call_raw(contract, func, *args, **kwargs)
-      gas_limit =  Tx.estimate_intrinsic_gas(contract.bin) - Tx::DEFAULT_GAS_LIMIT + 53000
-      params= {
+      gas_limit = Tx.estimate_intrinsic_gas(contract.bin) - Tx::DEFAULT_GAS_LIMIT + 53000
+      params = {
         gas_limit: gas_limit,
         chain_id: chain_id,
-        data: call_payload(func, args) 
+        data: call_payload(func, args),
       }
       if contract.address
-        params.merge!({to: contract.address})
+        params.merge!({ to: contract.address })
       end
       if kwargs[:legacy]
         params.merge!({
@@ -257,7 +257,7 @@ module Eth
         })
       end
       raw_result = eth_call(params)["result"]
-      types = func.outputs.map {|i| i.type}
+      types = func.outputs.map { |i| i.type }
       Eth::Abi.decode(types, raw_result)
     end
 
@@ -270,7 +270,7 @@ module Eth
     # @param legacy [Boolean] enables legacy transactions (pre-EIP-1559).
     # @return [Object] returns the result of the call.
     def call(contract, function_name, *args, **kwargs)
-      func = contract.functions.select {|func| func.name == function_name }[0]
+      func = contract.functions.select { |func| func.name == function_name }[0]
       raise ArgumentError, "function_name does not exist!" if func.nil?
       output = call_raw(contract, func, *args, **kwargs)
       if output.length == 1
@@ -280,7 +280,7 @@ module Eth
       end
     end
 
-    # Function call with transaction. 
+    # Function call with transaction.
     #
     # @param contract [Eth::Contract] subject contract to call.
     # @param function_name [String] method name to be called.
@@ -290,14 +290,14 @@ module Eth
     # @param address [String] contract address.
     # @return [Object] returns the result of the call.
     def transact(contract, function_name, *args, **kwargs)
-      gas_limit =  Tx.estimate_intrinsic_gas(contract.bin) - Tx::DEFAULT_GAS_LIMIT + 53000
-      fun = contract.functions.select {|func| func.name == function_name }[0]
+      gas_limit = Tx.estimate_intrinsic_gas(contract.bin) - Tx::DEFAULT_GAS_LIMIT + 53000
+      fun = contract.functions.select { |func| func.name == function_name }[0]
       params = {
         value: 0,
         gas_limit: gas_limit,
         chain_id: chain_id,
         to: kwargs[:address],
-        data: call_payload(fun, args)
+        data: call_payload(fun, args),
       }
       if kwargs[:legacy]
         params.merge!({
