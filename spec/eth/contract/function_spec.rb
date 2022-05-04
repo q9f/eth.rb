@@ -27,8 +27,8 @@ describe Contract::Function do
     expect(signature_2).to eq("approve(address,uint256)")
   end
 
-  it ".calc_id(signature)" do
+  it ".encoded_function_signature(signature)" do
     signature = Contract::Function.calc_signature(functions[0].name, functions[0].inputs)
-    expect(Contract::Function.calc_id(signature)).to eq("dd62ed3e")
+    expect(Contract::Function.encoded_function_signature(signature)).to eq("dd62ed3e")
   end
 end

@@ -33,7 +33,7 @@ module Eth
         Eth::Contract::FunctionOutput.new(output)
       end
       @function_string = self.class.calc_signature(@name, @inputs)
-      @signature = self.class.calc_id(@function_string)
+      @signature = self.class.encoded_function_signature(@function_string)
     end
 
     # Create function strings.
@@ -49,7 +49,7 @@ module Eth
     #
     # @param signature [String] function signature.
     # @return [String] encoded function signature string.
-    def self.calc_id(signature)
+    def self.encoded_function_signature(signature)
       Digest::Keccak.hexdigest(signature, 256)[0..7]
     end
   end
