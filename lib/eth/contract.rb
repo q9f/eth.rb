@@ -1,6 +1,25 @@
+# Copyright (c) 2016-2022 The Ruby-Eth Contributors
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# -*- encoding : ascii-8bit -*-
+
 require "forwardable"
 
+# Provides the {Eth} module.
 module Eth
+
+  # Provides classes to access smart contracts
   class Contract
     attr_reader :address
     attr_accessor :key
@@ -8,11 +27,16 @@ module Eth
     attr_accessor :bin, :name, :abi, :class_object
     attr_accessor :events, :functions, :constructor_inputs
 
+    # Constructor of the {Eth::Contract} class.
+    #
+    # @param name [String] contract name.
+    # @param bin [String] contract bin string.
+    # @param abi [String] contract abi string.
     def initialize(name, bin, abi)
       @name = name
       @bin = bin
       @abi = abi
-      @constructor_inputs, @functions, @events = Eth::Contract::Abi.parse_abi(abi)
+      @constructor_inputs, @functions, @events = parse_abi(abi)
     end
 
     # Creates a contract wrapper.
@@ -79,6 +103,20 @@ module Eth
       Eth::Contract.send(:remove_const, class_name) if Eth::Contract.const_defined?(class_name, false)
       Eth::Contract.const_set(class_name, class_methods)
       @class_object = class_methods
+    end
+
+    private
+
+    def parse_abi(abi)
+      constructor = abi.detect { |x| x["type"] == "constructor" }
+      if !constructor.nil?
+        constructor_inputs = constructor["inputs"].map { |input| Eth::Contract::FunctionInput.new(input) }
+      else
+        constructor_inputs = []
+      end
+      functions = abi.select { |x| x["type"] == "function" }.map { |fun| Eth::Contract::Function.new(fun) }
+      events = abi.select { |x| x["type"] == "event" }.map { |evt| Eth::Contract::Event.new(evt) }
+      [constructor_inputs, functions, events]
     end
   end
 end
