@@ -46,6 +46,7 @@ Contents:
   - [2.6. Ethereum RLP Encoder and Decoder](#26-ethereum-rlp-encoder-and-decoder)
   - [2.7. Ethereum RPC-Client](#27-ethereum-rpc-client)
   - [2.8 Solidity Compiler Bindings](#28-solidity-compiler-bindings)
+  - [2.9 Interact with Smart Contract](#29-interact-with-smart-contract)
 - [3. Documentation](#3-documentation)
 - [4. Testing](#4-testing)
 - [5. Contributing](#5-contributing)
@@ -252,6 +253,23 @@ contract = solc.compile "spec/fixtures/contracts/greeter.sol"
 ```
 
 The `contract["Greeter"]["bin"]` could be directly used to deploy the contract as `Eth::Tx` payload. Check out the [Documentation](https://q9f.github.io/eth.rb/) for more details.
+
+### 2.9 Interact with Smart Contract
+
+Functions to interact with smart contract.
+
+```ruby
+contract = Eth::Contract.create(file: 'spec/fixtures/contracts/dummy.sol')
+# => #<Eth::Contract::Dummy:0x00007fbeee936598>
+cli = Eth::Client.create "/tmp/geth.ipc"
+# => #<Eth::Client::Ipc:0x00007fbeee946128 @gas_limit=21000, @id=0, @max_fee_per_gas=0.2e11, @max_priority_fee_per_gas=0, @path="/tmp/geth.ipc">
+address = cli.deploy_and_wait(contract)
+# => "0x2f2faa160420cee087ded96bad52475147136bd8"
+cli.transact_and_wait(contract, "set", 1234)
+# => "0x49ca4c0a5729da19a1d2574de9a444a9cd3219bdad81745b54f9cf3bb83b6a06"
+cli.call(contract, "get")
+# => 1234
+```
 
 ## 3. Documentation
 The documentation can be found at: https://q9f.github.io/eth.rb
