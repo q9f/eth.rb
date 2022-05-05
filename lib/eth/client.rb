@@ -248,8 +248,8 @@ module Eth
         chain_id: chain_id,
         data: call_payload(func, args),
       }
-      if contract.address
-        params.merge!({ to: contract.address })
+      if kwargs[:address] || contract.address
+        params.merge!({ to: kwargs[:address] || contract.address })
       end
       if kwargs[:legacy]
         params.merge!({

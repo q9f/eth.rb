@@ -95,6 +95,7 @@ describe Client do
   describe ".call" do
     subject(:test_key) { Key.new }
     subject(:contract) { Eth::Contract.create(file: "spec/fixtures/contracts/dummy.sol") }
+    subject(:test_contract) { Eth::Contract.create(file: "spec/fixtures/contracts/simple_registry.sol") }
 
     it "call function name" do
       geth_dev_http.deploy_and_wait(contract)
@@ -116,6 +117,15 @@ describe Client do
       geth_dev_http.deploy_and_wait(contract)
       result = geth_dev_http.call(contract, "get", legacy: true)
       expect(result).to eq(0)
+    end
+
+    it "processing when two numbers are returned" do
+      address = geth_dev_http.deploy_and_wait(test_contract)
+      response = geth_dev_http.call(test_contract, "get")
+      expect(response).to eq([0, 0])
+      geth_dev_http.transact_and_wait(test_contract, "set", 12, 24, address: address)
+      response = geth_dev_http.call(test_contract, "get")
+      expect(response).to eq([12, 24])
     end
   end
 
