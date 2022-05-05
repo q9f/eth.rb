@@ -332,7 +332,7 @@ module Eth
         value: 0,
         gas_limit: gas_limit,
         chain_id: chain_id,
-        to: kwargs[:address],
+        to: kwargs[:address] || contract.address,
         data: call_payload(fun, args),
       }
       if kwargs[:legacy]
