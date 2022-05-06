@@ -22,7 +22,7 @@ library LibBytes {
 
 contract Signer {
   using LibBytes for bytes;
-  address constant internal OWNER = 0xCaA29806044A08E533963b2e573C1230A2cd9a2d;
+  address constant internal OWNER = 0xd5732335EB868F17B750B29fF4097987DF8D0D35;
   bytes4 constant internal MAGIC_VALUE = 0x1626ba7e;
 
   function isValidSignature(
@@ -52,7 +52,7 @@ contract Signer {
     uint8 v = uint8(_signature[64]);
     bytes32 r = _signature.readBytes32(0);
     bytes32 s = _signature.readBytes32(32);
-    signer = ecrecover(keccak256(abi.encodePacked("\x19Ethereum Signed Message:\n32", _hash)), v, r, s);
+    signer = ecrecover(_hash, v, r, s);
     return signer;
   }
 }

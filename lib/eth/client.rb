@@ -385,6 +385,15 @@ module Eth
       wait_for_tx(transact(contract, function_name, *args, **kwargs))
     end
 
+    def is_valid_signature(contract, hash, signature, magic = "1626ba7e")
+      raise ArgumentError, "Contract not deployed yet." if contract.address.nil?
+      hash = Util.hex_to_bin hash if Util.is_hex? hash
+      signature = Util.hex_to_bin signature if Util.is_hex? signature
+      magic = Util.hex_to_bin magic if Util.is_hex? magic
+      result = call(contract, "isValidSignature", hash, signature)
+      return result === magic
+    end
+
     # Gives control over resetting the RPC request ID back to zero.
     # Usually not needed.
     #
