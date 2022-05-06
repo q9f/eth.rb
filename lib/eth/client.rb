@@ -168,7 +168,7 @@ module Eth
       contract.address = eth_get_transaction_receipt(hash)["result"]["contractAddress"]
     end
 
-    # Deploy contract. Uses `eth_coinbase` and external signer
+    # Deploy contract. Uses `eth_coinbase` or external signer
     # if no sender key is provided.
     #
     # @overload deploy(contract)
