@@ -150,7 +150,7 @@ module Eth
     end
 
     # Deploy contract and waits for it to be mined.
-    # Uses `eth_coinbase` and external signer
+    # Uses `eth_coinbase` or external signer
     # if no sender key is provided.
     #
     # @overload deploy(contract)
