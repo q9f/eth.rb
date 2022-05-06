@@ -17,7 +17,7 @@
 # Provides the {Eth} module.
 module Eth
 
-  # Provides a Ruby implementation of the Ethereum Applicatoin Binary Interface (ABI).
+  # Provides a Ruby implementation of the Ethereum Application Binary Interface (ABI).
   module Abi
 
     # Provides a module to decode transaction log events.

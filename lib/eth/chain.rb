@@ -136,7 +136,7 @@ module Eth
       return v
     end
 
-    # Converst a `v` value into a chain ID. This does not work for legacy signatures
+    # Converts a `v` value into a chain ID. This does not work for legacy signatures
     # with `v < 36` that do not conform with EIP-155.
     #
     # @param v [Integer] the signature's `v` value.
