@@ -2,7 +2,7 @@ require "spec_helper"
 
 describe Eip712 do
 
-  # The EIP-712 domain specifcation descriptor.
+  # The EIP-712 domain specification descriptor.
   subject(:eip712_domain) {
     [
       { :name => "name", :type => "string" },

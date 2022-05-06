@@ -22,7 +22,7 @@ require "eth/abi/type"
 # Provides the {Eth} module.
 module Eth
 
-  # Provides a Ruby implementation of the Ethereum Applicatoin Binary Interface (ABI).
+  # Provides a Ruby implementation of the Ethereum Application Binary Interface (ABI).
   # ref: https://docs.soliditylang.org/en/develop/abi-spec.html
   module Abi
     extend self
@@ -44,7 +44,7 @@ module Eth
     # @return [String] the encoded ABI data.
     def encode(types, args)
 
-      # prase all types
+      # parse all types
       parsed_types = types.map { |t| Type.parse(t) }
 
       # prepare the "head"

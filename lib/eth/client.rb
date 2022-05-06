@@ -405,7 +405,7 @@ module Eth
     # Waits for an transaction to be mined by the connected chain.
     #
     # @param hash [String] the transaction hash.
-    # @return [String] the transactin hash once the transaction is mined.
+    # @return [String] the transaction hash once the transaction is mined.
     # @raise [Timeout::Error] if it's not mined within 5 minutes.
     def wait_for_tx(hash)
       start_time = Time.now

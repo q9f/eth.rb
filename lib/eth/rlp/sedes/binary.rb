@@ -29,7 +29,7 @@ module Eth
         # A singleton class for binary values of fixed length.
         class << self
 
-          # Create a serializable bianry of fixed size.
+          # Create a serializable binary of fixed size.
           #
           # @param l [Integer] the fixed size of the binary.
           # @param allow_empty [Boolean] indicator wether empty binaries should be allowed.
@@ -47,7 +47,7 @@ module Eth
           end
         end
 
-        # Create a serializable bianry of variable size.
+        # Create a serializable binary of variable size.
         #
         # @param min_length [Integer] the minimum size of the binary.
         # @param max_length [Integer] the maximum size of the binary.

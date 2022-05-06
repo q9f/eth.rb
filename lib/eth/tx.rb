@@ -78,7 +78,7 @@ module Eth
     #   value, data, access_list)
     # - EIP-2930: chain_id, nonce, gas_price, gas_limit, access_list(, from, to,
     #   value, data)
-    # - Legacy: nonce, gas_price, gas_lmit(, from, to, value, data)
+    # - Legacy: nonce, gas_price, gas_limit(, from, to, value, data)
     #
     # @param params [Hash] all necessary transaction fields.
     # @param chain_id [Integer] the EIP-155 Chain ID (legacy transactions only).
