@@ -66,4 +66,93 @@ describe Client do
       expect(geth_dev_ipc.get_nonce another_key.address).to eq 1
     end
   end
+
+  describe ".deploy .deploy_and_wait" do
+    subject(:contract) { Eth::Contract.create(file: "spec/fixtures/contracts/dummy.sol") }
+    subject(:test_key) { Key.new }
+
+    it "deploy the contract and the address is returned" do
+      address = geth_dev_http.deploy_and_wait(contract)
+      expect(address).to start_with "0x"
+      expect(address.length).to eq 42
+      address = geth_dev_ipc.deploy_and_wait(contract)
+      expect(address).to start_with "0x"
+      expect(address.length).to eq 42
+    end
+
+    it "deploy the contract with key" do
+      geth_dev_http.transfer_and_wait(test_key.address, 1337 * Unit::ETHER)
+      address = geth_dev_http.deploy_and_wait(contract, sender_key: test_key)
+      expect(address).to start_with "0x"
+    end
+
+    it "deploy the contract using legacy transactions" do
+      address = geth_dev_http.deploy_and_wait(contract, legacy: true)
+      expect(address).to start_with "0x"
+    end
+  end
+
+  describe ".call" do
+    subject(:test_key) { Key.new }
+    subject(:contract) { Eth::Contract.create(file: "spec/fixtures/contracts/dummy.sol") }
+    subject(:test_contract) { Eth::Contract.create(file: "spec/fixtures/contracts/simple_registry.sol") }
+
+    it "call function name" do
+      geth_dev_http.deploy_and_wait(contract)
+      result = geth_dev_http.call(contract, "get")
+      expect(result).to eq(0)
+    end
+
+    it "called function name not defined" do
+      expect { geth_dev_http.call(contract, "ge") }.to raise_error ArgumentError
+    end
+
+    it "call the function with key" do
+      geth_dev_http.deploy_and_wait(contract)
+      result = geth_dev_http.call(contract, "get", sender_key: test_key)
+      expect(result).to eq(0)
+    end
+
+    it "call the function using legacy transactions" do
+      geth_dev_http.deploy_and_wait(contract)
+      result = geth_dev_http.call(contract, "get", legacy: true)
+      expect(result).to eq(0)
+    end
+
+    it "processing when two numbers are returned" do
+      address = geth_dev_http.deploy_and_wait(test_contract)
+      response = geth_dev_http.call(test_contract, "get")
+      expect(response).to eq([0, 0])
+      geth_dev_http.transact_and_wait(test_contract, "set", 12, 24, address: address)
+      response = geth_dev_http.call(test_contract, "get")
+      expect(response).to eq([12, 24])
+    end
+  end
+
+  describe ".transact .transact_and_wait" do
+    subject(:test_key) { Key.new }
+    subject(:contract) { Eth::Contract.create(file: "spec/fixtures/contracts/dummy.sol") }
+
+    it "the value can be set with the set function" do
+      address = geth_dev_http.deploy_and_wait(contract)
+      response = geth_dev_http.call(contract, "get")
+      expect(response).to eq(0)
+      geth_dev_http.transact_and_wait(contract, "set", 42, address: address)
+      response = geth_dev_http.call(contract, "get")
+      expect(response).to eq(42)
+    end
+
+    it "transact the function with key" do
+      geth_dev_http.transfer_and_wait(test_key.address, 1337 * Unit::ETHER)
+      address = geth_dev_http.deploy_and_wait(contract, sender_key: test_key)
+      response = geth_dev_http.transact_and_wait(contract, "set", 42, sender_key: test_key, address: address)
+      expect(response).to start_with "0x"
+    end
+
+    it "transact the function using legacy transactions" do
+      address = geth_dev_http.deploy_and_wait(contract)
+      response = geth_dev_http.transact_and_wait(contract, "set", 42, legacy: true, address: address)
+      expect(response).to start_with "0x"
+    end
+  end
 end

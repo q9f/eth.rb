@@ -3,6 +3,7 @@ The Ruby-Eth Contributors are:
 * Afri Schoedon @q9f
 * John Omar @chainoperator
 * Joshua Peek @josh
+* Yuta Kurotaki @kurotaky
 
 See also:
 * https://github.com/q9f/eth.rb/graphs/contributors

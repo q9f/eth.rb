@@ -12,31 +12,25 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+# -*- encoding : ascii-8bit -*-
+
 # Provides the {Eth} module.
 module Eth
-end
+  # Provide classes for contract function input.
+  class Contract::FunctionInput
+    attr_accessor :type, :name
 
-# Loads the {Eth} module classes.
-require "eth/abi"
-require "eth/api"
-require "eth/address"
-require "eth/chain"
-require "eth/constant"
-require "eth/contract"
-require "eth/contract/event"
-require "eth/contract/function"
-require "eth/contract/function_input"
-require "eth/contract/function_output"
-require "eth/contract/initializer"
-require "eth/client"
-require "eth/client/http"
-require "eth/client/ipc"
-require "eth/eip712"
-require "eth/key"
-require "eth/rlp"
-require "eth/signature"
-require "eth/solidity"
-require "eth/tx"
-require "eth/unit"
-require "eth/util"
-require "eth/version"
+    # Constructor of the {Eth::Contract::FunctionInput} class.
+    #
+    # @param data [Hash] contract abi data.
+    def initialize(data)
+      @type = Eth::Abi::Type.parse(data["type"])
+      @name = data["name"]
+    end
+
+    # Returns types like uint256
+    def type
+      @type.base_type + @type.sub_type
+    end
+  end
+end

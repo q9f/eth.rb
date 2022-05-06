@@ -149,6 +149,242 @@ module Eth
       end
     end
 
+    # Deploy contract and waits for it to be mined.
+    # Uses `eth_coinbase` or external signer
+    # if no sender key is provided.
+    #
+    # @overload deploy(contract)
+    #   @param contract [Eth::Contract] contracts to deploy.
+    # @overload deploy(contract, sender_key)
+    #   @param contract [Eth::Contract] contracts to deploy.
+    #   @param sender_key [Eth::Key] the sender private key.
+    # @overload deploy(contract, sender_key, legacy)
+    #   @param contract [Eth::Contract] contracts to deploy.
+    #   @param sender_key [Eth::Key] the sender private key.
+    #   @param legacy [Boolean] enables legacy transactions (pre-EIP-1559).
+    # @return [String] the contract address.
+    def deploy_and_wait(contract, sender_key: nil, legacy: false)
+      hash = wait_for_tx(deploy(contract, sender_key: sender_key, legacy: legacy))
+      contract.address = eth_get_transaction_receipt(hash)["result"]["contractAddress"]
+    end
+
+    # Deploy contract. Uses `eth_coinbase` or external signer
+    # if no sender key is provided.
+    #
+    # @overload deploy(contract)
+    #   @param contract [Eth::Contract] contracts to deploy.
+    # @overload deploy(contract, sender_key)
+    #   @param contract [Eth::Contract] contracts to deploy.
+    #   @param sender_key [Eth::Key] the sender private key.
+    # @overload deploy(contract, sender_key, legacy)
+    #   @param contract [Eth::Contract] contracts to deploy.
+    #   @param sender_key [Eth::Key] the sender private key.
+    #   @param legacy [Boolean] enables legacy transactions (pre-EIP-1559).
+    # @return [String] the transaction hash.
+    def deploy(contract, sender_key: nil, legacy: false)
+      gas_limit = Tx.estimate_intrinsic_gas(contract.bin) + Tx::CREATE_GAS
+      params = {
+        value: 0,
+        gas_limit: gas_limit,
+        chain_id: chain_id,
+        data: contract.bin,
+      }
+      if legacy
+        params.merge!({
+          gas_price: max_fee_per_gas,
+        })
+      else
+        params.merge!({
+          priority_fee: max_priority_fee_per_gas,
+          max_gas_fee: max_fee_per_gas,
+        })
+      end
+      unless sender_key.nil?
+        # use the provided key as sender and signer
+        params.merge!({
+          from: sender_key.address,
+          nonce: get_nonce(sender_key.address),
+        })
+        tx = Eth::Tx.new(params)
+        tx.sign sender_key
+        return eth_send_raw_transaction(tx.hex)["result"]
+      else
+        # use the default account as sender and external signer
+        params.merge!({
+          from: default_account,
+          nonce: get_nonce(default_account),
+        })
+        return eth_send_transaction(params)["result"]
+      end
+    end
+
+    # Encoding for function calls.
+    def call_payload(fun, args)
+      types = fun.inputs.map { |i| i.type }
+      encoded_str = Util.bin_to_hex(Eth::Abi.encode(types, args))
+      "0x" + fun.signature + (encoded_str.empty? ? "0" * 64 : encoded_str)
+    end
+
+    # Non-transactional function call called from call().
+    #
+    # @overload call_raw(contract, func)
+    #   @param contract [Eth::Contract] subject contract to call.
+    #   @param func [Eth::Contract::Function] method name to be called.
+    # @overload call_raw(contract, func, value)
+    #   @param contract [Eth::Contract] subject contract to call.
+    #   @param func [Eth::Contract::Function] method name to be called.
+    #   @param value [Integer|String] function arguments.
+    # @overload call_raw(contract, func, value, sender_key, legacy)
+    #   @param contract [Eth::Contract] subject contract to call.
+    #   @param func [Eth::Contract::Function] method name to be called.
+    #   @param value [Integer|String] function arguments.
+    #   @param sender_key [Eth::Key] the sender private key.
+    #   @param legacy [Boolean] enables legacy transactions (pre-EIP-1559).
+    # @return [Object] returns the result of the call.
+    def call_raw(contract, func, *args, **kwargs)
+      gas_limit = Tx.estimate_intrinsic_gas(contract.bin) + Tx::CREATE_GAS
+      params = {
+        gas_limit: gas_limit,
+        chain_id: chain_id,
+        data: call_payload(func, args),
+      }
+      if kwargs[:address] || contract.address
+        params.merge!({ to: kwargs[:address] || contract.address })
+      end
+      if kwargs[:legacy]
+        params.merge!({
+          gas_price: max_fee_per_gas,
+        })
+      else
+        params.merge!({
+          priority_fee: max_priority_fee_per_gas,
+          max_gas_fee: max_fee_per_gas,
+        })
+      end
+      unless kwargs[:sender_key].nil?
+        # use the provided key as sender and signer
+        params.merge!({
+          from: kwargs[:sender_key].address,
+          nonce: get_nonce(kwargs[:sender_key].address),
+        })
+        tx = Eth::Tx.new(params)
+        tx.sign kwargs[:sender_key]
+      else
+        # use the default account as sender and external signer
+        params.merge!({
+          from: default_account,
+          nonce: get_nonce(default_account),
+        })
+      end
+      raw_result = eth_call(params)["result"]
+      types = func.outputs.map { |i| i.type }
+      Eth::Abi.decode(types, raw_result)
+    end
+
+    # Non-transactional function calls.
+    #
+    # @overload call(contract, function_name)
+    #   @param contract [Eth::Contract] subject contract to call.
+    #   @param function_name [String] method name to be called.
+    # @overload call(contract, function_name, value)
+    #   @param contract [Eth::Contract] subject contract to call.
+    #   @param function_name [String] method name to be called.
+    #   @param value [Integer|String] function arguments.
+    # @overload call(contract, function_name, value, sender_key, legacy)
+    #   @param contract [Eth::Contract] subject contract to call.
+    #   @param function_name [String] method name to be called.
+    #   @param value [Integer|String] function arguments.
+    #   @param sender_key [Eth::Key] the sender private key.
+    #   @param legacy [Boolean] enables legacy transactions (pre-EIP-1559).
+    # @return [Object] returns the result of the call.
+    def call(contract, function_name, *args, **kwargs)
+      func = contract.functions.select { |func| func.name == function_name }[0]
+      raise ArgumentError, "function_name does not exist!" if func.nil?
+      output = call_raw(contract, func, *args, **kwargs)
+      if output.length == 1
+        return output[0]
+      else
+        return output
+      end
+    end
+
+    # Function call with transaction.
+    #
+    # @overload transact(contract, function_name)
+    #   @param contract [Eth::Contract] subject contract to call.
+    #   @param function_name [String] method name to be called.
+    # @overload transact(contract, function_name, value)
+    #   @param contract [Eth::Contract] subject contract to call.
+    #   @param function_name [String] method name to be called.
+    #   @param value [Integer|String] function arguments.
+    # @overload transact(contract, function_name, value, sender_key, legacy, address)
+    #   @param contract [Eth::Contract] subject contract to call.
+    #   @param function_name [String] method name to be called.
+    #   @param value [Integer|String] function arguments.
+    #   @param sender_key [Eth::Key] the sender private key.
+    #   @param legacy [Boolean] enables legacy transactions (pre-EIP-1559).
+    #   @param address [String] contract address.
+    # @return [Object] returns the result of the call.
+    def transact(contract, function_name, *args, **kwargs)
+      gas_limit = Tx.estimate_intrinsic_gas(contract.bin) + Tx::CREATE_GAS
+      fun = contract.functions.select { |func| func.name == function_name }[0]
+      params = {
+        value: 0,
+        gas_limit: gas_limit,
+        chain_id: chain_id,
+        to: kwargs[:address] || contract.address,
+        data: call_payload(fun, args),
+      }
+      if kwargs[:legacy]
+        params.merge!({
+          gas_price: max_fee_per_gas,
+        })
+      else
+        params.merge!({
+          priority_fee: max_priority_fee_per_gas,
+          max_gas_fee: max_fee_per_gas,
+        })
+      end
+      unless kwargs[:sender_key].nil?
+        # use the provided key as sender and signer
+        params.merge!({
+          from: kwargs[:sender_key].address,
+          nonce: get_nonce(kwargs[:sender_key].address),
+        })
+        tx = Eth::Tx.new(params)
+        tx.sign kwargs[:sender_key]
+        return eth_send_raw_transaction(tx.hex)["result"]
+      else
+        # use the default account as sender and external signer
+        params.merge!({
+          from: default_account,
+          nonce: get_nonce(default_account),
+        })
+        return eth_send_transaction(params)["result"]
+      end
+    end
+
+    # Function call with transaction and waits for it to be mined.
+    #
+    # @overload transact_and_wait(contract, function_name)
+    #   @param contract [Eth::Contract] subject contract to call.
+    #   @param function_name [String] method name to be called.
+    # @overload transact_and_wait(contract, function_name, value)
+    #   @param contract [Eth::Contract] subject contract to call.
+    #   @param function_name [String] method name to be called.
+    #   @param value [Integer|String] function arguments.
+    # @overload transact_and_wait(contract, function_name, value, sender_key, legacy, address)
+    #   @param contract [Eth::Contract] subject contract to call.
+    #   @param function_name [String] method name to be called.
+    #   @param value [Integer|String] function arguments.
+    #   @param sender_key [Eth::Key] the sender private key.
+    #   @param legacy [Boolean] enables legacy transactions (pre-EIP-1559).
+    #   @param address [String] contract address.
+    # @return [Object] returns the result of the call.
+    def transact_and_wait(contract, function_name, *args, **kwargs)
+      wait_for_tx(transact(contract, function_name, *args, **kwargs))
+    end
+
     # Gives control over resetting the RPC request ID back to zero.
     # Usually not needed.
     #

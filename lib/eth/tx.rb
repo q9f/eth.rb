@@ -69,6 +69,9 @@ module Eth
     # The zero byte is 0x00.
     ZERO_BYTE = "\x00".freeze
 
+    # Smart contract transaction gas cost
+    CREATE_GAS = 32_000.freeze
+
     # Creates a new transaction of any type for given parameters and chain ID.
     # Required parameters are (optional in brackets):
     # - EIP-1559: chain_id, nonce, priority_fee, max_gas_fee, gas_limit(, from, to,
