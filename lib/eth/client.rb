@@ -385,6 +385,16 @@ module Eth
       wait_for_tx(transact(contract, function_name, *args, **kwargs))
     end
 
+    # Provides an interface to call `isValidSignature` as per EIP-1271 on a given
+    # smart contract to verify the given hash and signature matching the magic
+    # value.
+    #
+    # @param contract [Eth::Contract] a deployed contract implementing EIP-1271.
+    # @param hash [String] the message hash to be checked against the signature.
+    # @param signature [String] the signature to be recovered by the contract.
+    # @param magic [String] the expected magic value (defaults to `1626ba7e`).
+    # @return [Boolean] true if magic matches and signature is valid.
+    # @raise [ArgumentError] in case the contract cannot be called yet.
     def is_valid_signature(contract, hash, signature, magic = "1626ba7e")
       raise ArgumentError, "Contract not deployed yet." if contract.address.nil?
       hash = Util.hex_to_bin hash if Util.is_hex? hash
