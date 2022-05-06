@@ -1,20 +1,47 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## [0.5.3]
+### Added
+- Smart contract support ([#68](https://github.com/q9f/eth.rb/pull/68))
+
+### Changed
+- Eth/abi: decode event log ([#69](https://github.com/q9f/eth.rb/pull/69))
+- Gem: bump version ([#70](https://github.com/q9f/eth.rb/pull/70))
+- Eth/abi/event: batch log decoder ([#71](https://github.com/q9f/eth.rb/pull/71))
+
+## [0.5.2]
+### Added
+- Eth/solidity: add solidity compiler bindings ([#66](https://github.com/q9f/eth.rb/pull/66))
+
+### Changed
+- Eth: remove duplicated code ([#62](https://github.com/q9f/eth.rb/pull/62))
+- Ci: allow coverage to drop to 99% without failing ([#63](https://github.com/q9f/eth.rb/pull/63))
+- Docs: update readme ([#64](https://github.com/q9f/eth.rb/pull/64))
+- Docs: add wiki to readme ([#65](https://github.com/q9f/eth.rb/pull/65))
+
 ## [0.5.1]
+### Added
+- Add eth::rlp module ([#52](https://github.com/q9f/eth.rb/pull/52))
+- Eth/client: implement http/ipc ([#37](https://github.com/q9f/eth.rb/pull/37))
+
 ### Changed
 - Docs: update changelog ([#61](https://github.com/q9f/eth.rb/pull/61))
 - Eth/chain: add sepolia chain id; docs ([#60](https://github.com/q9f/eth.rb/pull/60))
 - Eth/rlp: cleanup ([#59](https://github.com/q9f/eth.rb/pull/59))
-- Add eth::rlp module ([#52](https://github.com/q9f/eth.rb/pull/52))
 - Eth/tx: properly serialize signatures ([#58](https://github.com/q9f/eth.rb/pull/58))
 - Eth/client: fix legacy transfer ([#57](https://github.com/q9f/eth.rb/pull/57))
 - Gem: relax openssl requirement ([#56](https://github.com/q9f/eth.rb/pull/56))
-- Eth/client: implement http/ipc ([#37](https://github.com/q9f/eth.rb/pull/37))
 - Docs: update changelog ([#53](https://github.com/q9f/eth.rb/pull/53))
 - Spec: add upstream test fixtures for keystore ([#50](https://github.com/q9f/eth.rb/pull/50))
 
 ## [0.5.0]
+### Added
+- Eth/tx: create legacy, type-1, and type-2 transactions [#33](https://github.com/q9f/eth.rb/pull/33)
+- Signature: implement eip 712 typed structured data signing [#27](https://github.com/q9f/eth.rb/pull/27)
+- Lib: import ABI to eth/abi [#29](https://github.com/q9f/eth.rb/pull/29)
+- Eth/chains: implement eip 155 for replay protection [#20](https://github.com/q9f/eth.rb/pull/20)
+
 ### Changed
 - Docs: update readme with features [#49](https://github.com/q9f/eth.rb/pull/49)
 - Eth/tx: add method to estimate intrinsic gas costs [#48](https://github.com/q9f/eth.rb/pull/48)
@@ -26,16 +53,12 @@ All notable changes to this project will be documented in this file.
 - Lib: improve error handling [#39](https://github.com/q9f/eth.rb/pull/39)
 - Docs: update readme for tx and keys [#40](https://github.com/q9f/eth.rb/pull/40)
 - Implement encrypt/decrypt [#22](https://github.com/q9f/eth.rb/pull/22)
-- Eth/tx: create legacy, type-1, and type-2 transactions [#33](https://github.com/q9f/eth.rb/pull/33)
 - Gem: clean up some docs and scripts [#32](https://github.com/q9f/eth.rb/pull/32)
-- Signature: implement eip 712 typed structured data signing [#27](https://github.com/q9f/eth.rb/pull/27)
-- Lib: import ABI to eth/abi [#29](https://github.com/q9f/eth.rb/pull/29)
 - Rename util and chain to singular [#26](https://github.com/q9f/eth.rb/pull/26)
 - Docs: add some examples to readme [#25](https://github.com/q9f/eth.rb/pull/25)
 - Key/signature: personal sign and verify [#24](https://github.com/q9f/eth.rb/pull/24)
 - Ci: only run coverage on CI [#23](https://github.com/q9f/eth.rb/pull/23)
 - Lib/signature: implement personal_recover (eip 191 [#21](https://github.com/q9f/eth.rb/pull/21)
-- Eth/chains: implement eip 155 for replay protection [#20](https://github.com/q9f/eth.rb/pull/20)
 - Eth/util: public_key_to_address should return an eth::address [#19](https://github.com/q9f/eth.rb/pull/19)
 - Ci: add docs workflow [#18](https://github.com/q9f/eth.rb/pull/18)
 - Address class implementation and tests [#13](https://github.com/q9f/eth.rb/pull/13)
