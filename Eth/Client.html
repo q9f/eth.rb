@@ -346,6 +346,126 @@
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#call-instance_method" title="#call (instance method)">#<strong>call</strong>(contract, function_name, *args, **kwargs)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Non-transactional function calls.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#call_payload-instance_method" title="#call_payload (instance method)">#<strong>call_payload</strong>(fun, args)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Encoding for function calls.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#call_raw-instance_method" title="#call_raw (instance method)">#<strong>call_raw</strong>(contract, func, *args, **kwargs)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Non-transactional function call called from call().</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#deploy-instance_method" title="#deploy (instance method)">#<strong>deploy</strong>(contract, sender_key: nil, legacy: false)  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Deploy contract.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#deploy_and_wait-instance_method" title="#deploy_and_wait (instance method)">#<strong>deploy_and_wait</strong>(contract, sender_key: nil, legacy: false)  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Deploy contract and waits for it to be mined.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#get_balance-instance_method" title="#get_balance (instance method)">#<strong>get_balance</strong>(address)  &#x21d2; Integer </a>
     
 
@@ -460,6 +580,54 @@
   
     <span class="summary_desc"><div class='inline'>
 <p>Gives control over resetting the RPC request ID back to zero.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#transact-instance_method" title="#transact (instance method)">#<strong>transact</strong>(contract, function_name, *args, **kwargs)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Function call with transaction.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#transact_and_wait-instance_method" title="#transact_and_wait (instance method)">#<strong>transact_and_wait</strong>(contract, function_name, *args, **kwargs)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Function call with transaction and waits for it to be mined.</p>
 </div></span>
   
 </li>
@@ -1018,7 +1186,1239 @@
 
     
       <div class="method_details first">
-  <h3 class="signature first" id="get_balance-instance_method">
+  <h3 class="signature first" id="call-instance_method">
+  
+    
+      <span class="overload">#<strong>call</strong>(contract, function_name)  &#x21d2; <tt>Object</tt> </span>
+    
+      <span class="overload">#<strong>call</strong>(contract, function_name, value)  &#x21d2; <tt>Object</tt> </span>
+    
+      <span class="overload">#<strong>call</strong>(contract, function_name, value, sender_key, legacy)  &#x21d2; <tt>Object</tt> </span>
+    
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Non-transactional function calls.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <p class="tag_title">Overloads:</p>
+  <ul class="overload">
+    
+      
+      <li class="overload_item">
+        <span class="signature">#<strong>call</strong>(contract, function_name)  &#x21d2; <tt>Object</tt> </span>
+        <div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>contract</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Contract.html" title="Eth::Contract (class)">Eth::Contract</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>subject contract to call.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>function_name</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>method name to be called.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div>
+      </li>
+    
+      
+      <li class="overload_item">
+        <span class="signature">#<strong>call</strong>(contract, function_name, value)  &#x21d2; <tt>Object</tt> </span>
+        <div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>contract</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Contract.html" title="Eth::Contract (class)">Eth::Contract</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>subject contract to call.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>function_name</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>method name to be called.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>value</span>
+      
+      
+        <span class='type'>(<tt>Integer|String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>function arguments.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div>
+      </li>
+    
+      
+      <li class="overload_item">
+        <span class="signature">#<strong>call</strong>(contract, function_name, value, sender_key, legacy)  &#x21d2; <tt>Object</tt> </span>
+        <div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>contract</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Contract.html" title="Eth::Contract (class)">Eth::Contract</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>subject contract to call.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>function_name</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>method name to be called.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>value</span>
+      
+      
+        <span class='type'>(<tt>Integer|String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>function arguments.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>sender_key</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Key.html" title="Eth::Key (class)">Eth::Key</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the sender private key.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>legacy</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>enables legacy transactions (pre-EIP-1559).</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div>
+      </li>
+    
+  </ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Object</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>returns the result of the call.</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>ArgumentError</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+300
+301
+302
+303
+304
+305
+306
+307
+308
+309</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 300</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_call'>call</span><span class='lparen'>(</span><span class='id identifier rubyid_contract'>contract</span><span class='comma'>,</span> <span class='id identifier rubyid_function_name'>function_name</span><span class='comma'>,</span> <span class='op'>*</span><span class='id identifier rubyid_args'>args</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_kwargs'>kwargs</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_func'>func</span> <span class='op'>=</span> <span class='id identifier rubyid_contract'>contract</span><span class='period'>.</span><span class='id identifier rubyid_functions'>functions</span><span class='period'>.</span><span class='id identifier rubyid_select'>select</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_func'>func</span><span class='op'>|</span> <span class='id identifier rubyid_func'>func</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span> <span class='op'>==</span> <span class='id identifier rubyid_function_name'>function_name</span> <span class='rbrace'>}</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'>ArgumentError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>function_name does not exist!</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_func'>func</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+  <span class='id identifier rubyid_output'>output</span> <span class='op'>=</span> <span class='id identifier rubyid_call_raw'>call_raw</span><span class='lparen'>(</span><span class='id identifier rubyid_contract'>contract</span><span class='comma'>,</span> <span class='id identifier rubyid_func'>func</span><span class='comma'>,</span> <span class='op'>*</span><span class='id identifier rubyid_args'>args</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_kwargs'>kwargs</span><span class='rparen'>)</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_output'>output</span><span class='period'>.</span><span class='id identifier rubyid_length'>length</span> <span class='op'>==</span> <span class='int'>1</span>
+    <span class='kw'>return</span> <span class='id identifier rubyid_output'>output</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span>
+  <span class='kw'>else</span>
+    <span class='kw'>return</span> <span class='id identifier rubyid_output'>output</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="call_payload-instance_method">
+  
+    #<strong>call_payload</strong>(fun, args)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Encoding for function calls.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+222
+223
+224
+225
+226</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 222</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_call_payload'>call_payload</span><span class='lparen'>(</span><span class='id identifier rubyid_fun'>fun</span><span class='comma'>,</span> <span class='id identifier rubyid_args'>args</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_types'>types</span> <span class='op'>=</span> <span class='id identifier rubyid_fun'>fun</span><span class='period'>.</span><span class='id identifier rubyid_inputs'>inputs</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_i'>i</span><span class='op'>|</span> <span class='id identifier rubyid_i'>i</span><span class='period'>.</span><span class='id identifier rubyid_type'>type</span> <span class='rbrace'>}</span>
+  <span class='id identifier rubyid_encoded_str'>encoded_str</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_bin_to_hex'><span class='object_link'><a href="Util.html#bin_to_hex-instance_method" title="Eth::Util#bin_to_hex (method)">bin_to_hex</a></span></span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../Eth.html" title="Eth (module)">Eth</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Abi.html" title="Eth::Abi (module)">Abi</a></span></span><span class='period'>.</span><span class='id identifier rubyid_encode'><span class='object_link'><a href="Abi.html#encode-instance_method" title="Eth::Abi#encode (method)">encode</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_types'>types</span><span class='comma'>,</span> <span class='id identifier rubyid_args'>args</span><span class='rparen'>)</span><span class='rparen'>)</span>
+  <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>0x</span><span class='tstring_end'>&quot;</span></span> <span class='op'>+</span> <span class='id identifier rubyid_fun'>fun</span><span class='period'>.</span><span class='id identifier rubyid_signature'>signature</span> <span class='op'>+</span> <span class='lparen'>(</span><span class='id identifier rubyid_encoded_str'>encoded_str</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span> <span class='op'>?</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>0</span><span class='tstring_end'>&quot;</span></span> <span class='op'>*</span> <span class='int'>64</span> <span class='op'>:</span> <span class='id identifier rubyid_encoded_str'>encoded_str</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="call_raw-instance_method">
+  
+    
+      <span class="overload">#<strong>call_raw</strong>(contract, func)  &#x21d2; <tt>Object</tt> </span>
+    
+      <span class="overload">#<strong>call_raw</strong>(contract, func, value)  &#x21d2; <tt>Object</tt> </span>
+    
+      <span class="overload">#<strong>call_raw</strong>(contract, func, value, sender_key, legacy)  &#x21d2; <tt>Object</tt> </span>
+    
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Non-transactional function call called from call().</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <p class="tag_title">Overloads:</p>
+  <ul class="overload">
+    
+      
+      <li class="overload_item">
+        <span class="signature">#<strong>call_raw</strong>(contract, func)  &#x21d2; <tt>Object</tt> </span>
+        <div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>contract</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Contract.html" title="Eth::Contract (class)">Eth::Contract</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>subject contract to call.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>func</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Contract/Function.html" title="Eth::Contract::Function (class)">Eth::Contract::Function</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>method name to be called.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div>
+      </li>
+    
+      
+      <li class="overload_item">
+        <span class="signature">#<strong>call_raw</strong>(contract, func, value)  &#x21d2; <tt>Object</tt> </span>
+        <div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>contract</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Contract.html" title="Eth::Contract (class)">Eth::Contract</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>subject contract to call.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>func</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Contract/Function.html" title="Eth::Contract::Function (class)">Eth::Contract::Function</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>method name to be called.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>value</span>
+      
+      
+        <span class='type'>(<tt>Integer|String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>function arguments.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div>
+      </li>
+    
+      
+      <li class="overload_item">
+        <span class="signature">#<strong>call_raw</strong>(contract, func, value, sender_key, legacy)  &#x21d2; <tt>Object</tt> </span>
+        <div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>contract</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Contract.html" title="Eth::Contract (class)">Eth::Contract</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>subject contract to call.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>func</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Contract/Function.html" title="Eth::Contract::Function (class)">Eth::Contract::Function</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>method name to be called.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>value</span>
+      
+      
+        <span class='type'>(<tt>Integer|String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>function arguments.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>sender_key</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Key.html" title="Eth::Key (class)">Eth::Key</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the sender private key.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>legacy</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>enables legacy transactions (pre-EIP-1559).</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div>
+      </li>
+    
+  </ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Object</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>returns the result of the call.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266
+267
+268
+269
+270
+271
+272
+273
+274
+275
+276
+277
+278
+279
+280
+281
+282</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 244</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_call_raw'>call_raw</span><span class='lparen'>(</span><span class='id identifier rubyid_contract'>contract</span><span class='comma'>,</span> <span class='id identifier rubyid_func'>func</span><span class='comma'>,</span> <span class='op'>*</span><span class='id identifier rubyid_args'>args</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_kwargs'>kwargs</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_gas_limit'>gas_limit</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Tx.html" title="Eth::Tx (module)">Tx</a></span></span><span class='period'>.</span><span class='id identifier rubyid_estimate_intrinsic_gas'><span class='object_link'><a href="Tx.html#estimate_intrinsic_gas-instance_method" title="Eth::Tx#estimate_intrinsic_gas (method)">estimate_intrinsic_gas</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_contract'>contract</span><span class='period'>.</span><span class='id identifier rubyid_bin'>bin</span><span class='rparen'>)</span> <span class='op'>+</span> <span class='const'><span class='object_link'><a href="Tx.html" title="Eth::Tx (module)">Tx</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Tx.html#CREATE_GAS-constant" title="Eth::Tx::CREATE_GAS (constant)">CREATE_GAS</a></span></span>
+  <span class='id identifier rubyid_params'>params</span> <span class='op'>=</span> <span class='lbrace'>{</span>
+    <span class='label'>gas_limit:</span> <span class='id identifier rubyid_gas_limit'>gas_limit</span><span class='comma'>,</span>
+    <span class='label'>chain_id:</span> <span class='id identifier rubyid_chain_id'>chain_id</span><span class='comma'>,</span>
+    <span class='label'>data:</span> <span class='id identifier rubyid_call_payload'>call_payload</span><span class='lparen'>(</span><span class='id identifier rubyid_func'>func</span><span class='comma'>,</span> <span class='id identifier rubyid_args'>args</span><span class='rparen'>)</span><span class='comma'>,</span>
+  <span class='rbrace'>}</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_kwargs'>kwargs</span><span class='lbracket'>[</span><span class='symbol'>:address</span><span class='rbracket'>]</span> <span class='op'>||</span> <span class='id identifier rubyid_contract'>contract</span><span class='period'>.</span><span class='id identifier rubyid_address'>address</span>
+    <span class='id identifier rubyid_params'>params</span><span class='period'>.</span><span class='id identifier rubyid_merge!'>merge!</span><span class='lparen'>(</span><span class='lbrace'>{</span> <span class='label'>to:</span> <span class='id identifier rubyid_kwargs'>kwargs</span><span class='lbracket'>[</span><span class='symbol'>:address</span><span class='rbracket'>]</span> <span class='op'>||</span> <span class='id identifier rubyid_contract'>contract</span><span class='period'>.</span><span class='id identifier rubyid_address'>address</span> <span class='rbrace'>}</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_kwargs'>kwargs</span><span class='lbracket'>[</span><span class='symbol'>:legacy</span><span class='rbracket'>]</span>
+    <span class='id identifier rubyid_params'>params</span><span class='period'>.</span><span class='id identifier rubyid_merge!'>merge!</span><span class='lparen'>(</span><span class='lbrace'>{</span>
+      <span class='label'>gas_price:</span> <span class='id identifier rubyid_max_fee_per_gas'>max_fee_per_gas</span><span class='comma'>,</span>
+    <span class='rbrace'>}</span><span class='rparen'>)</span>
+  <span class='kw'>else</span>
+    <span class='id identifier rubyid_params'>params</span><span class='period'>.</span><span class='id identifier rubyid_merge!'>merge!</span><span class='lparen'>(</span><span class='lbrace'>{</span>
+      <span class='label'>priority_fee:</span> <span class='id identifier rubyid_max_priority_fee_per_gas'>max_priority_fee_per_gas</span><span class='comma'>,</span>
+      <span class='label'>max_gas_fee:</span> <span class='id identifier rubyid_max_fee_per_gas'>max_fee_per_gas</span><span class='comma'>,</span>
+    <span class='rbrace'>}</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+  <span class='kw'>unless</span> <span class='id identifier rubyid_kwargs'>kwargs</span><span class='lbracket'>[</span><span class='symbol'>:sender_key</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+    <span class='comment'># use the provided key as sender and signer
+</span>    <span class='id identifier rubyid_params'>params</span><span class='period'>.</span><span class='id identifier rubyid_merge!'>merge!</span><span class='lparen'>(</span><span class='lbrace'>{</span>
+      <span class='label'>from:</span> <span class='id identifier rubyid_kwargs'>kwargs</span><span class='lbracket'>[</span><span class='symbol'>:sender_key</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_address'>address</span><span class='comma'>,</span>
+      <span class='label'>nonce:</span> <span class='id identifier rubyid_get_nonce'>get_nonce</span><span class='lparen'>(</span><span class='id identifier rubyid_kwargs'>kwargs</span><span class='lbracket'>[</span><span class='symbol'>:sender_key</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_address'>address</span><span class='rparen'>)</span><span class='comma'>,</span>
+    <span class='rbrace'>}</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_tx'>tx</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Eth.html" title="Eth (module)">Eth</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Tx.html" title="Eth::Tx (module)">Tx</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="Tx.html#new-instance_method" title="Eth::Tx#new (method)">new</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_tx'>tx</span><span class='period'>.</span><span class='id identifier rubyid_sign'>sign</span> <span class='id identifier rubyid_kwargs'>kwargs</span><span class='lbracket'>[</span><span class='symbol'>:sender_key</span><span class='rbracket'>]</span>
+  <span class='kw'>else</span>
+    <span class='comment'># use the default account as sender and external signer
+</span>    <span class='id identifier rubyid_params'>params</span><span class='period'>.</span><span class='id identifier rubyid_merge!'>merge!</span><span class='lparen'>(</span><span class='lbrace'>{</span>
+      <span class='label'>from:</span> <span class='id identifier rubyid_default_account'>default_account</span><span class='comma'>,</span>
+      <span class='label'>nonce:</span> <span class='id identifier rubyid_get_nonce'>get_nonce</span><span class='lparen'>(</span><span class='id identifier rubyid_default_account'>default_account</span><span class='rparen'>)</span><span class='comma'>,</span>
+    <span class='rbrace'>}</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+  <span class='id identifier rubyid_raw_result'>raw_result</span> <span class='op'>=</span> <span class='id identifier rubyid_eth_call'>eth_call</span><span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='rparen'>)</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>result</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_types'>types</span> <span class='op'>=</span> <span class='id identifier rubyid_func'>func</span><span class='period'>.</span><span class='id identifier rubyid_outputs'>outputs</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_i'>i</span><span class='op'>|</span> <span class='id identifier rubyid_i'>i</span><span class='period'>.</span><span class='id identifier rubyid_type'>type</span> <span class='rbrace'>}</span>
+  <span class='const'><span class='object_link'><a href="../Eth.html" title="Eth (module)">Eth</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Abi.html" title="Eth::Abi (module)">Abi</a></span></span><span class='period'>.</span><span class='id identifier rubyid_decode'><span class='object_link'><a href="Abi.html#decode-instance_method" title="Eth::Abi#decode (method)">decode</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_types'>types</span><span class='comma'>,</span> <span class='id identifier rubyid_raw_result'>raw_result</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="deploy-instance_method">
+  
+    
+      <span class="overload">#<strong>deploy</strong>(contract)  &#x21d2; <tt>String</tt> </span>
+    
+      <span class="overload">#<strong>deploy</strong>(contract, sender_key)  &#x21d2; <tt>String</tt> </span>
+    
+      <span class="overload">#<strong>deploy</strong>(contract, sender_key, legacy)  &#x21d2; <tt>String</tt> </span>
+    
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Deploy contract. Uses <code>eth_coinbase</code> or external signer if no sender key is provided.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <p class="tag_title">Overloads:</p>
+  <ul class="overload">
+    
+      
+      <li class="overload_item">
+        <span class="signature">#<strong>deploy</strong>(contract)  &#x21d2; <tt>String</tt> </span>
+        <div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>contract</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Contract.html" title="Eth::Contract (class)">Eth::Contract</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>contracts to deploy.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div>
+      </li>
+    
+      
+      <li class="overload_item">
+        <span class="signature">#<strong>deploy</strong>(contract, sender_key)  &#x21d2; <tt>String</tt> </span>
+        <div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>contract</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Contract.html" title="Eth::Contract (class)">Eth::Contract</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>contracts to deploy.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>sender_key</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Key.html" title="Eth::Key (class)">Eth::Key</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the sender private key.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div>
+      </li>
+    
+      
+      <li class="overload_item">
+        <span class="signature">#<strong>deploy</strong>(contract, sender_key, legacy)  &#x21d2; <tt>String</tt> </span>
+        <div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>contract</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Contract.html" title="Eth::Contract (class)">Eth::Contract</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>contracts to deploy.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>sender_key</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Key.html" title="Eth::Key (class)">Eth::Key</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the sender private key.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>legacy</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>enables legacy transactions (pre-EIP-1559).</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div>
+      </li>
+    
+  </ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the transaction hash.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 184</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_deploy'>deploy</span><span class='lparen'>(</span><span class='id identifier rubyid_contract'>contract</span><span class='comma'>,</span> <span class='label'>sender_key:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>legacy:</span> <span class='kw'>false</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_gas_limit'>gas_limit</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Tx.html" title="Eth::Tx (module)">Tx</a></span></span><span class='period'>.</span><span class='id identifier rubyid_estimate_intrinsic_gas'><span class='object_link'><a href="Tx.html#estimate_intrinsic_gas-instance_method" title="Eth::Tx#estimate_intrinsic_gas (method)">estimate_intrinsic_gas</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_contract'>contract</span><span class='period'>.</span><span class='id identifier rubyid_bin'>bin</span><span class='rparen'>)</span> <span class='op'>+</span> <span class='const'><span class='object_link'><a href="Tx.html" title="Eth::Tx (module)">Tx</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Tx.html#CREATE_GAS-constant" title="Eth::Tx::CREATE_GAS (constant)">CREATE_GAS</a></span></span>
+  <span class='id identifier rubyid_params'>params</span> <span class='op'>=</span> <span class='lbrace'>{</span>
+    <span class='label'>value:</span> <span class='int'>0</span><span class='comma'>,</span>
+    <span class='label'>gas_limit:</span> <span class='id identifier rubyid_gas_limit'>gas_limit</span><span class='comma'>,</span>
+    <span class='label'>chain_id:</span> <span class='id identifier rubyid_chain_id'>chain_id</span><span class='comma'>,</span>
+    <span class='label'>data:</span> <span class='id identifier rubyid_contract'>contract</span><span class='period'>.</span><span class='id identifier rubyid_bin'>bin</span><span class='comma'>,</span>
+  <span class='rbrace'>}</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_legacy'>legacy</span>
+    <span class='id identifier rubyid_params'>params</span><span class='period'>.</span><span class='id identifier rubyid_merge!'>merge!</span><span class='lparen'>(</span><span class='lbrace'>{</span>
+      <span class='label'>gas_price:</span> <span class='id identifier rubyid_max_fee_per_gas'>max_fee_per_gas</span><span class='comma'>,</span>
+    <span class='rbrace'>}</span><span class='rparen'>)</span>
+  <span class='kw'>else</span>
+    <span class='id identifier rubyid_params'>params</span><span class='period'>.</span><span class='id identifier rubyid_merge!'>merge!</span><span class='lparen'>(</span><span class='lbrace'>{</span>
+      <span class='label'>priority_fee:</span> <span class='id identifier rubyid_max_priority_fee_per_gas'>max_priority_fee_per_gas</span><span class='comma'>,</span>
+      <span class='label'>max_gas_fee:</span> <span class='id identifier rubyid_max_fee_per_gas'>max_fee_per_gas</span><span class='comma'>,</span>
+    <span class='rbrace'>}</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+  <span class='kw'>unless</span> <span class='id identifier rubyid_sender_key'>sender_key</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+    <span class='comment'># use the provided key as sender and signer
+</span>    <span class='id identifier rubyid_params'>params</span><span class='period'>.</span><span class='id identifier rubyid_merge!'>merge!</span><span class='lparen'>(</span><span class='lbrace'>{</span>
+      <span class='label'>from:</span> <span class='id identifier rubyid_sender_key'>sender_key</span><span class='period'>.</span><span class='id identifier rubyid_address'>address</span><span class='comma'>,</span>
+      <span class='label'>nonce:</span> <span class='id identifier rubyid_get_nonce'>get_nonce</span><span class='lparen'>(</span><span class='id identifier rubyid_sender_key'>sender_key</span><span class='period'>.</span><span class='id identifier rubyid_address'>address</span><span class='rparen'>)</span><span class='comma'>,</span>
+    <span class='rbrace'>}</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_tx'>tx</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Eth.html" title="Eth (module)">Eth</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Tx.html" title="Eth::Tx (module)">Tx</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="Tx.html#new-instance_method" title="Eth::Tx#new (method)">new</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_tx'>tx</span><span class='period'>.</span><span class='id identifier rubyid_sign'>sign</span> <span class='id identifier rubyid_sender_key'>sender_key</span>
+    <span class='kw'>return</span> <span class='id identifier rubyid_eth_send_raw_transaction'>eth_send_raw_transaction</span><span class='lparen'>(</span><span class='id identifier rubyid_tx'>tx</span><span class='period'>.</span><span class='id identifier rubyid_hex'>hex</span><span class='rparen'>)</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>result</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span>
+  <span class='kw'>else</span>
+    <span class='comment'># use the default account as sender and external signer
+</span>    <span class='id identifier rubyid_params'>params</span><span class='period'>.</span><span class='id identifier rubyid_merge!'>merge!</span><span class='lparen'>(</span><span class='lbrace'>{</span>
+      <span class='label'>from:</span> <span class='id identifier rubyid_default_account'>default_account</span><span class='comma'>,</span>
+      <span class='label'>nonce:</span> <span class='id identifier rubyid_get_nonce'>get_nonce</span><span class='lparen'>(</span><span class='id identifier rubyid_default_account'>default_account</span><span class='rparen'>)</span><span class='comma'>,</span>
+    <span class='rbrace'>}</span><span class='rparen'>)</span>
+    <span class='kw'>return</span> <span class='id identifier rubyid_eth_send_transaction'>eth_send_transaction</span><span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='rparen'>)</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>result</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="deploy_and_wait-instance_method">
+  
+    
+      <span class="overload">#<strong>deploy</strong>(contract)  &#x21d2; <tt>String</tt> </span>
+    
+      <span class="overload">#<strong>deploy</strong>(contract, sender_key)  &#x21d2; <tt>String</tt> </span>
+    
+      <span class="overload">#<strong>deploy</strong>(contract, sender_key, legacy)  &#x21d2; <tt>String</tt> </span>
+    
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Deploy contract and waits for it to be mined. Uses <code>eth_coinbase</code> or external signer if no sender key is provided.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <p class="tag_title">Overloads:</p>
+  <ul class="overload">
+    
+      
+      <li class="overload_item">
+        <span class="signature">#<strong>deploy</strong>(contract)  &#x21d2; <tt>String</tt> </span>
+        <div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>contract</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Contract.html" title="Eth::Contract (class)">Eth::Contract</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>contracts to deploy.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div>
+      </li>
+    
+      
+      <li class="overload_item">
+        <span class="signature">#<strong>deploy</strong>(contract, sender_key)  &#x21d2; <tt>String</tt> </span>
+        <div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>contract</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Contract.html" title="Eth::Contract (class)">Eth::Contract</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>contracts to deploy.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>sender_key</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Key.html" title="Eth::Key (class)">Eth::Key</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the sender private key.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div>
+      </li>
+    
+      
+      <li class="overload_item">
+        <span class="signature">#<strong>deploy</strong>(contract, sender_key, legacy)  &#x21d2; <tt>String</tt> </span>
+        <div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>contract</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Contract.html" title="Eth::Contract (class)">Eth::Contract</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>contracts to deploy.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>sender_key</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Key.html" title="Eth::Key (class)">Eth::Key</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the sender private key.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>legacy</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>enables legacy transactions (pre-EIP-1559).</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div>
+      </li>
+    
+  </ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the contract address.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+166
+167
+168
+169</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 166</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_deploy_and_wait'>deploy_and_wait</span><span class='lparen'>(</span><span class='id identifier rubyid_contract'>contract</span><span class='comma'>,</span> <span class='label'>sender_key:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>legacy:</span> <span class='kw'>false</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_hash'>hash</span> <span class='op'>=</span> <span class='id identifier rubyid_wait_for_tx'>wait_for_tx</span><span class='lparen'>(</span><span class='id identifier rubyid_deploy'>deploy</span><span class='lparen'>(</span><span class='id identifier rubyid_contract'>contract</span><span class='comma'>,</span> <span class='label'>sender_key:</span> <span class='id identifier rubyid_sender_key'>sender_key</span><span class='comma'>,</span> <span class='label'>legacy:</span> <span class='id identifier rubyid_legacy'>legacy</span><span class='rparen'>)</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_contract'>contract</span><span class='period'>.</span><span class='id identifier rubyid_address'>address</span> <span class='op'>=</span> <span class='id identifier rubyid_eth_get_transaction_receipt'>eth_get_transaction_receipt</span><span class='lparen'>(</span><span class='id identifier rubyid_hash'>hash</span><span class='rparen'>)</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>result</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>contractAddress</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="get_balance-instance_method">
   
     #<strong>get_balance</strong>(address)  &#x21d2; <tt>Integer</tt> 
   
@@ -1239,13 +2639,13 @@
       <pre class="lines">
 
 
-164
-165
-166
-167</pre>
+400
+401
+402
+403</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 164</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 400</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_is_mined_tx?'>is_mined_tx?</span><span class='lparen'>(</span><span class='id identifier rubyid_hash'>hash</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_mined_tx'>mined_tx</span> <span class='op'>=</span> <span class='id identifier rubyid_eth_get_transaction_by_hash'>eth_get_transaction_by_hash</span> <span class='id identifier rubyid_hash'>hash</span>
@@ -1300,15 +2700,691 @@
       <pre class="lines">
 
 
-156
-157
-158</pre>
+392
+393
+394</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 156</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 392</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_reset_id'>reset_id</span>
   <span class='ivar'>@id</span> <span class='op'>=</span> <span class='int'>0</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="transact-instance_method">
+  
+    
+      <span class="overload">#<strong>transact</strong>(contract, function_name)  &#x21d2; <tt>Object</tt> </span>
+    
+      <span class="overload">#<strong>transact</strong>(contract, function_name, value)  &#x21d2; <tt>Object</tt> </span>
+    
+      <span class="overload">#<strong>transact</strong>(contract, function_name, value, sender_key, legacy, address)  &#x21d2; <tt>Object</tt> </span>
+    
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Function call with transaction.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <p class="tag_title">Overloads:</p>
+  <ul class="overload">
+    
+      
+      <li class="overload_item">
+        <span class="signature">#<strong>transact</strong>(contract, function_name)  &#x21d2; <tt>Object</tt> </span>
+        <div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>contract</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Contract.html" title="Eth::Contract (class)">Eth::Contract</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>subject contract to call.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>function_name</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>method name to be called.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div>
+      </li>
+    
+      
+      <li class="overload_item">
+        <span class="signature">#<strong>transact</strong>(contract, function_name, value)  &#x21d2; <tt>Object</tt> </span>
+        <div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>contract</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Contract.html" title="Eth::Contract (class)">Eth::Contract</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>subject contract to call.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>function_name</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>method name to be called.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>value</span>
+      
+      
+        <span class='type'>(<tt>Integer|String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>function arguments.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div>
+      </li>
+    
+      
+      <li class="overload_item">
+        <span class="signature">#<strong>transact</strong>(contract, function_name, value, sender_key, legacy, address)  &#x21d2; <tt>Object</tt> </span>
+        <div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>contract</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Contract.html" title="Eth::Contract (class)">Eth::Contract</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>subject contract to call.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>function_name</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>method name to be called.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>value</span>
+      
+      
+        <span class='type'>(<tt>Integer|String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>function arguments.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>sender_key</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Key.html" title="Eth::Key (class)">Eth::Key</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the sender private key.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>legacy</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>enables legacy transactions (pre-EIP-1559).</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>address</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>contract address.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div>
+      </li>
+    
+  </ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Object</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>returns the result of the call.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+328
+329
+330
+331
+332
+333
+334
+335
+336
+337
+338
+339
+340
+341
+342
+343
+344
+345
+346
+347
+348
+349
+350
+351
+352
+353
+354
+355
+356
+357
+358
+359
+360
+361
+362
+363
+364
+365</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 328</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_transact'>transact</span><span class='lparen'>(</span><span class='id identifier rubyid_contract'>contract</span><span class='comma'>,</span> <span class='id identifier rubyid_function_name'>function_name</span><span class='comma'>,</span> <span class='op'>*</span><span class='id identifier rubyid_args'>args</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_kwargs'>kwargs</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_gas_limit'>gas_limit</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Tx.html" title="Eth::Tx (module)">Tx</a></span></span><span class='period'>.</span><span class='id identifier rubyid_estimate_intrinsic_gas'><span class='object_link'><a href="Tx.html#estimate_intrinsic_gas-instance_method" title="Eth::Tx#estimate_intrinsic_gas (method)">estimate_intrinsic_gas</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_contract'>contract</span><span class='period'>.</span><span class='id identifier rubyid_bin'>bin</span><span class='rparen'>)</span> <span class='op'>+</span> <span class='const'><span class='object_link'><a href="Tx.html" title="Eth::Tx (module)">Tx</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Tx.html#CREATE_GAS-constant" title="Eth::Tx::CREATE_GAS (constant)">CREATE_GAS</a></span></span>
+  <span class='id identifier rubyid_fun'>fun</span> <span class='op'>=</span> <span class='id identifier rubyid_contract'>contract</span><span class='period'>.</span><span class='id identifier rubyid_functions'>functions</span><span class='period'>.</span><span class='id identifier rubyid_select'>select</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_func'>func</span><span class='op'>|</span> <span class='id identifier rubyid_func'>func</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span> <span class='op'>==</span> <span class='id identifier rubyid_function_name'>function_name</span> <span class='rbrace'>}</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_params'>params</span> <span class='op'>=</span> <span class='lbrace'>{</span>
+    <span class='label'>value:</span> <span class='int'>0</span><span class='comma'>,</span>
+    <span class='label'>gas_limit:</span> <span class='id identifier rubyid_gas_limit'>gas_limit</span><span class='comma'>,</span>
+    <span class='label'>chain_id:</span> <span class='id identifier rubyid_chain_id'>chain_id</span><span class='comma'>,</span>
+    <span class='label'>to:</span> <span class='id identifier rubyid_kwargs'>kwargs</span><span class='lbracket'>[</span><span class='symbol'>:address</span><span class='rbracket'>]</span> <span class='op'>||</span> <span class='id identifier rubyid_contract'>contract</span><span class='period'>.</span><span class='id identifier rubyid_address'>address</span><span class='comma'>,</span>
+    <span class='label'>data:</span> <span class='id identifier rubyid_call_payload'>call_payload</span><span class='lparen'>(</span><span class='id identifier rubyid_fun'>fun</span><span class='comma'>,</span> <span class='id identifier rubyid_args'>args</span><span class='rparen'>)</span><span class='comma'>,</span>
+  <span class='rbrace'>}</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_kwargs'>kwargs</span><span class='lbracket'>[</span><span class='symbol'>:legacy</span><span class='rbracket'>]</span>
+    <span class='id identifier rubyid_params'>params</span><span class='period'>.</span><span class='id identifier rubyid_merge!'>merge!</span><span class='lparen'>(</span><span class='lbrace'>{</span>
+      <span class='label'>gas_price:</span> <span class='id identifier rubyid_max_fee_per_gas'>max_fee_per_gas</span><span class='comma'>,</span>
+    <span class='rbrace'>}</span><span class='rparen'>)</span>
+  <span class='kw'>else</span>
+    <span class='id identifier rubyid_params'>params</span><span class='period'>.</span><span class='id identifier rubyid_merge!'>merge!</span><span class='lparen'>(</span><span class='lbrace'>{</span>
+      <span class='label'>priority_fee:</span> <span class='id identifier rubyid_max_priority_fee_per_gas'>max_priority_fee_per_gas</span><span class='comma'>,</span>
+      <span class='label'>max_gas_fee:</span> <span class='id identifier rubyid_max_fee_per_gas'>max_fee_per_gas</span><span class='comma'>,</span>
+    <span class='rbrace'>}</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+  <span class='kw'>unless</span> <span class='id identifier rubyid_kwargs'>kwargs</span><span class='lbracket'>[</span><span class='symbol'>:sender_key</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+    <span class='comment'># use the provided key as sender and signer
+</span>    <span class='id identifier rubyid_params'>params</span><span class='period'>.</span><span class='id identifier rubyid_merge!'>merge!</span><span class='lparen'>(</span><span class='lbrace'>{</span>
+      <span class='label'>from:</span> <span class='id identifier rubyid_kwargs'>kwargs</span><span class='lbracket'>[</span><span class='symbol'>:sender_key</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_address'>address</span><span class='comma'>,</span>
+      <span class='label'>nonce:</span> <span class='id identifier rubyid_get_nonce'>get_nonce</span><span class='lparen'>(</span><span class='id identifier rubyid_kwargs'>kwargs</span><span class='lbracket'>[</span><span class='symbol'>:sender_key</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_address'>address</span><span class='rparen'>)</span><span class='comma'>,</span>
+    <span class='rbrace'>}</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_tx'>tx</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Eth.html" title="Eth (module)">Eth</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Tx.html" title="Eth::Tx (module)">Tx</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="Tx.html#new-instance_method" title="Eth::Tx#new (method)">new</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_tx'>tx</span><span class='period'>.</span><span class='id identifier rubyid_sign'>sign</span> <span class='id identifier rubyid_kwargs'>kwargs</span><span class='lbracket'>[</span><span class='symbol'>:sender_key</span><span class='rbracket'>]</span>
+    <span class='kw'>return</span> <span class='id identifier rubyid_eth_send_raw_transaction'>eth_send_raw_transaction</span><span class='lparen'>(</span><span class='id identifier rubyid_tx'>tx</span><span class='period'>.</span><span class='id identifier rubyid_hex'>hex</span><span class='rparen'>)</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>result</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span>
+  <span class='kw'>else</span>
+    <span class='comment'># use the default account as sender and external signer
+</span>    <span class='id identifier rubyid_params'>params</span><span class='period'>.</span><span class='id identifier rubyid_merge!'>merge!</span><span class='lparen'>(</span><span class='lbrace'>{</span>
+      <span class='label'>from:</span> <span class='id identifier rubyid_default_account'>default_account</span><span class='comma'>,</span>
+      <span class='label'>nonce:</span> <span class='id identifier rubyid_get_nonce'>get_nonce</span><span class='lparen'>(</span><span class='id identifier rubyid_default_account'>default_account</span><span class='rparen'>)</span><span class='comma'>,</span>
+    <span class='rbrace'>}</span><span class='rparen'>)</span>
+    <span class='kw'>return</span> <span class='id identifier rubyid_eth_send_transaction'>eth_send_transaction</span><span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='rparen'>)</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>result</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="transact_and_wait-instance_method">
+  
+    
+      <span class="overload">#<strong>transact_and_wait</strong>(contract, function_name)  &#x21d2; <tt>Object</tt> </span>
+    
+      <span class="overload">#<strong>transact_and_wait</strong>(contract, function_name, value)  &#x21d2; <tt>Object</tt> </span>
+    
+      <span class="overload">#<strong>transact_and_wait</strong>(contract, function_name, value, sender_key, legacy, address)  &#x21d2; <tt>Object</tt> </span>
+    
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Function call with transaction and waits for it to be mined.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <p class="tag_title">Overloads:</p>
+  <ul class="overload">
+    
+      
+      <li class="overload_item">
+        <span class="signature">#<strong>transact_and_wait</strong>(contract, function_name)  &#x21d2; <tt>Object</tt> </span>
+        <div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>contract</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Contract.html" title="Eth::Contract (class)">Eth::Contract</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>subject contract to call.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>function_name</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>method name to be called.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div>
+      </li>
+    
+      
+      <li class="overload_item">
+        <span class="signature">#<strong>transact_and_wait</strong>(contract, function_name, value)  &#x21d2; <tt>Object</tt> </span>
+        <div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>contract</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Contract.html" title="Eth::Contract (class)">Eth::Contract</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>subject contract to call.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>function_name</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>method name to be called.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>value</span>
+      
+      
+        <span class='type'>(<tt>Integer|String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>function arguments.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div>
+      </li>
+    
+      
+      <li class="overload_item">
+        <span class="signature">#<strong>transact_and_wait</strong>(contract, function_name, value, sender_key, legacy, address)  &#x21d2; <tt>Object</tt> </span>
+        <div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>contract</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Contract.html" title="Eth::Contract (class)">Eth::Contract</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>subject contract to call.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>function_name</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>method name to be called.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>value</span>
+      
+      
+        <span class='type'>(<tt>Integer|String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>function arguments.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>sender_key</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Key.html" title="Eth::Key (class)">Eth::Key</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the sender private key.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>legacy</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>enables legacy transactions (pre-EIP-1559).</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>address</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>contract address.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div>
+      </li>
+    
+  </ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Object</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>returns the result of the call.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+384
+385
+386</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 384</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_transact_and_wait'>transact_and_wait</span><span class='lparen'>(</span><span class='id identifier rubyid_contract'>contract</span><span class='comma'>,</span> <span class='id identifier rubyid_function_name'>function_name</span><span class='comma'>,</span> <span class='op'>*</span><span class='id identifier rubyid_args'>args</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_kwargs'>kwargs</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_wait_for_tx'>wait_for_tx</span><span class='lparen'>(</span><span class='id identifier rubyid_transact'>transact</span><span class='lparen'>(</span><span class='id identifier rubyid_contract'>contract</span><span class='comma'>,</span> <span class='id identifier rubyid_function_name'>function_name</span><span class='comma'>,</span> <span class='op'>*</span><span class='id identifier rubyid_args'>args</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_kwargs'>kwargs</span><span class='rparen'>)</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1727,19 +3803,19 @@
       <pre class="lines">
 
 
-174
-175
-176
-177
-178
-179
-180
-181
-182
-183</pre>
+410
+411
+412
+413
+414
+415
+416
+417
+418
+419</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 174</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 410</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_wait_for_tx'>wait_for_tx</span><span class='lparen'>(</span><span class='id identifier rubyid_hash'>hash</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_start_time'>start_time</span> <span class='op'>=</span> <span class='const'>Time</span><span class='period'>.</span><span class='id identifier rubyid_now'>now</span>
@@ -1761,7 +3837,7 @@
 </div>
 
       <div id="footer">
-  Generated on Sun Apr 17 12:15:33 2022 by
+  Generated on Fri May  6 13:13:51 2022 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.27 (ruby-2.7.6).
 </div>
