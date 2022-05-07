@@ -20,6 +20,9 @@ describe Eth::Constant do
       expect(Constant::PRIMITIVE_PREFIX_OFFSET).to eq 128
       expect(Constant::LIST_PREFIX_OFFSET).to eq 192
       expect(Constant::INFINITY).to eq 1.0 / 0.0
+      expect('0xd00b00').to match Constant::HEX_REGEX
+      expect('d00b00').to match Constant::HEX_REGEX
+      expect('34103140').to match Constant::DECIMAL_REGEX
     end
   end
 end
