@@ -1,78 +1,112 @@
+# Copyright (c) 2016-2022 The Ruby-Eth Contributors
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# -*- encoding : ascii-8bit -*-
+
+# Provides the {Eth} module.
 module Eth
+
+  # Provides the {Refinements} module.
   module Refinements
+
+    # Provides the {Conversions} module.
+    #
+    # This is essentially a lexically-scoped monkeypatch to add conversion methods
+    # to {String} and {Integer} objects without dirtying up the entire codebase.
+    #
+    # If you want to add `"0xdeadbeef".to_bytes` to your class, you just add
+    # `using Refinements::Conversions`. 
     module Conversions
       refine String do
-        # @return [Boolean] true if the string represents a hexa-decimal number
+
+        # @return [Boolean] true if the string is either 0x-prefixed or non-prefixed hex
         def hex?
           match?(Constant::HEX_REGEX)
         end
 
-        # @return [Boolean] true if a bytestring, e.g. `self == self.b`
+        # @return [Boolean] true if a bytestring: meaning that its encoding is 
+        #   {Encoding::BINARY} but contains non-ascii chars
+        # @example
+        #   SecureRandom.random_bytes.b.ascii_only?
+        #     # => false
+        # @example
+        #   Digest::Keccak(256).digest('eh').b.ascii_only?
+        #     # => false
         def bytes?
-          self == self.b
+          !b.ascii_only?
         end
 
-        # Unpacks a binary string or decimal string to a hexa-decimal string. Also
-        #   Returns unprefixed `self` if string is already hexa-decimal.
+        # When self is <i>any</i> hex-formatted string, this method standardizes
+        #   by removing the 0x prefix and zpadding once if the string
+        #   contains an odd number of digits.
+        #   
+        # Else, when self is a bytestring, this method calls the corresponding
+        #   standardized {to_bytes} method and then unpacks as hex, and calls
+        #   itself to ensure it's in the standardized format mentioned above.
         #
-        # @return [String] a hexa-decimal string.
-        # @raise [TypeError] if self is not a String representation of a number
+        # @return [String] a non-0x-prefixed even digit hexa-decimal string.
+        # @raise [TypeError] when self is not a hex or bytestring
         def to_hex
-          return @hex if defined?(@hex)
-
           if hex?
-            @hex = delete_prefix('0x')
-            @hex = zpad(size + 1) if size.odd?
+            _hex = delete_prefix('0x')
 
-            @hex
+            return _hex if _hex.size.even?
+            
+            _hex.rjust(_hex.size + 1, '0')
           elsif bytes?
-            @hex = unpack1("H*")
+            to_bytes.unpack1("H*").to_hex
           else
-            raise TypeError.new("String must be hex or bytes.")
+            raise TypeError.new("String must be hex or bytestring.")
           end
         end
 
-        # Packs a hexa-decimal or decimal string into a binary string. Also 
-        #   works with `0x`-prefixed strings. Returns `self` if String 
-        #   already binary.
+        # Similar to {to_hex} but inverted
+        # @see {to_hex}
         #
-        # @return [String] a packed binary string.
-        # @raise [TypeError] if self is not a String representation of a number
+        # When self is <i>any</i> hex-formatted string, an array of hex bytes
+        #   is mapped to uint8 and packed to a bytestring, then calls itself.
+        #   
+        # Else, when self is a bytestring, this method calls {b} to ensure
+        #   proper encoding.
+        #
+        # @return [String] bytestring with {Encoding::BINARY}
+        # @raise [TypeError] when self is not a hex or bytestring
         def to_bytes
-          return @bytes if defined?(@bytes)
-
-          if bytes?
-            @bytes = b
-          elsif hex?
-            @bytes = to_hex.scan(/../).map(&:hex).pack('c*')
+          if hex?
+            to_hex.scan(/../).map(&:hex).pack('C*').to_bytes
+          elsif bytes?
+            b
           else
-            raise TypeError.new("String must be hex, decimal, or binary.")
+            raise TypeError.new("String must be hex or bytestring.")
           end
         end
 
-        # Coerces a hexa-decimal or binary string into an Integer. Also 
-        #   works with `0x`-prefixed strings. Returns `self` if String 
-        #   already binary.
+        # Makes it a little simpler to coerce a hexa-decimal or bytestring
+        #   into an Integer.
         #
-        # @param base [Integer] 
+        # @param base [Integer] the base of the String that is being coerced
         # @return [Integer] integer representation in the given base
-        def to_i(base = 10)
-          return @integer if defined?(@integer)
+        def to_i(base = nil)
+          return super if base
 
           if hex?
-            to_hex.scan(/../)
+            to_hex.to_i(16)
           elsif bytes?
-            Integer(unpack1('H*'), 16)
+            to_bytes.to_i(2)
           else
             super
           end
-        end
-
-        # Converts to hex via `to_hex` and prefixes with 0x.
-        #
-        # @return [String] 0x-prefixed hexa-decimal String
-        def to_prefixed_hex
-          "0x#{hex}"
         end
 
         # Left-pads self with zeroes until it reaches the given length.
@@ -82,12 +116,12 @@ module Eth
         # @param len [Integer] the desired total length of the string
         # @return [String] 
         def zpad(len = 32)
-          if bytes?
+          if hex?
+            rjust(len, '0')
+          elsif bytes?
             rjust(len, Constant::BYTE_ZERO)
-          elsif hex?
-            hex.rjust(len, '0')
           else
-            raise TypeError.new("String must be hex, decimal, or binary.")
+            raise TypeError.new("String must be hex or bytestring.")
           end
         end
         alias to_zpadded_bytes zpad
@@ -98,20 +132,12 @@ module Eth
         # @return [String] Returns unprefixed hexa-decimal string
         # @see {to_s(16)}
         def to_hex
-          to_s(16).rjust('0', 32)
-        end
-
-        # Converts to hex via `to_hex` and prefixes with 0x.
-        #
-        # @return [String] Returns 0x-prefixed hexa-decimal string.
-        # @see {to_s(16)}
-        def to_prefixed_hex
-          "0x#{hex}"
+          to_s(16).to_hex
         end
 
         # @return [String] a packed binary string.
         def to_bytes
-          [to_hex].pack('H*')
+          [to_hex].pack('H*').to_bytes
         end
 
         # Left-pads self with zeroes until it reaches the given length.

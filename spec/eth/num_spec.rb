@@ -1,5 +1,6 @@
 # -*- encoding : ascii-8bit -*-
 
+require 'debug'
 require "spec_helper"
 
 describe Eth::Num do
@@ -64,7 +65,7 @@ describe Eth::Num do
     end
 
     it "does not create invalid hex types" do
-      expect { described_class.new('sadkfljas') }.to raise_error(ArgumentError)
+      expect { described_class.new('sadkfljas') }.to raise_error(TypeError)
     end
   end
 end

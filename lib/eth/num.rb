@@ -33,68 +33,43 @@ module Eth
   class Num
     using Refinements::Conversions
 
-    # raw input
-    attr_reader :input
-
     # value in decimal
     attr_reader :integer
+    alias to_i integer
 
     # value as bytestring
     attr_reader :bytes
+    alias to_bytes bytes
 
     # value in hexa-decimal
     attr_reader :hex
+    alias to_hex hex
 
-    # Instantiates a Num with an Integer or a String representation of
-    # bytes, hex, or decimal.
-    #
-    # @param [nil, Integer, String] 
+    # Instantiates a Num with {@hex} set to {SecureRandom.hex(16)}
+    #   then uses conversion methods to set the bytestring and
+    #   {Integer}.
     def initialize(input = nil)
-      @input = input
-      coerce!
-    end
-
-    # class << self
-    #   alias [] new
-    # end
-
-    # Eagerly sets all value types. Uses the conversion methods
-    # in {Eth::Refinements::Conversions}
-    def coerce!
-      case input
-      when Integer
-        @integer = input
-        @hex = integer.to_hex
-        @bytes = integer.to_bytes
-      when String
-        if input.hex?
-          @hex = input.to_hex
-          @bytes = hex.to_bytes
-          @integer = bytes.to_i
-        elsif input.bytes?
-          @bytes = input.to_bytes
-          @hex = bytes.to_hex
-          @integer = bytes.to_i
-        end
-      when nil
-        generate_key
+      if input
+        @hex = input.to_hex
       else
-        raise ArgumentError, "Invalid input. Must be hex, decimal, or bytestring."
+        @hex = SecureRandom.hex(16).to_hex
       end
+
+      @bytes = hex.to_bytes
+      @integer = hex.hex
     end
 
     # Memoizes and returns 0x-prefixed hex
     #
     # @see {Eth::Refinements::Conversions::String#to_prefixed_hex}
     def to_prefixed_hex
-      @prefixed_hex ||= hex.to_prefixed_hex
+      @prefixed_hex ||= "0x#{hex}"
     end
 
     # Memoizes and returns zpadded hex
     #
     # @see {Eth::Refinements::Conversions::String#zpad}
-    def to_zpadded_hex(length = 32)
-      binding.break
+    def to_zpadded_hex(length = 64)
       @zpadded_hex ||= hex.zpad(length)
     end
 
@@ -103,15 +78,6 @@ module Eth
     # @see {Eth::Refinements::Conversions::String#zpad}
     def to_zpadded_bytes(length = 32)
       @zpadded_bytes ||= bytes.zpad(length)
-    end
-
-    private
-
-    # Generates a random 16 char hexa-decimal String
-    def generate_key
-      @hex = SecureRandom.hex(16)
-      @bytes = hex.to_bytes
-      @integer = hex.hex
     end
   end
 end
