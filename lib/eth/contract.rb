@@ -37,27 +37,58 @@ module Eth
       @constructor_inputs, @functions, @events = parse_abi(abi)
     end
 
-    # Creates a contract wrapper.
+    # Creates a contract wrapper from a Solidity file.
     #
     # @param file [String] solidity file path.
-    # @param bin [String] contract bin string.
-    # @param abi [String] contract abi string.
-    # @param address [String] contract address.
-    # @param name [String] name of contract.
     # @param contract_index [Number] specify contract.
     # @return [Eth::Contract::Object] Returns the class of the smart contract.
-    # @raise [JSON::ParserError] if the json format is wrong.
-    # @raise [ArgumentError] if argument is incorrect.
-    def self.create(file: nil, bin: nil, abi: nil, address: nil, name: nil, contract_index: nil)
+    # @raise [ArgumentError] if the file path is empty or no contracts were compiled.
+    def self.from_file(file: nil, contract_index: 0)
       if File.exist?(file.to_s)
         contracts = Eth::Contract::Initializer.new(file).build_all
-        raise "No contracts compiled" if contracts.empty?
-        if contract_index
-          contract = contracts[contract_index].class_object.new
-        else
-          contract = contracts.first.class_object.new
+        raise ArgumentError, "No contracts compiled." if contracts.empty?
+        contract = contracts[contract_index].class_object.new
+      else
+        raise ArgumentError, "Cannot find the contract at #{file.to_s}!"
+      end
+      return contract
+    end
+
+    # Creates a contract wrapper from ABI and address.
+    #
+    # @param bin [String] contract bin string.
+    # @param address [String] contract address.
+    # @param name [String] name of contract.
+    # @return [Eth::Contract::Object] Returns the class of the smart contract.
+    # @raise [JSON::ParserError] if the json format is wrong.
+    # @raise [ArgumentError] if ABI, address, or name is missing.
+    def self.from_abi(abi: nil, address: nil, name: nil)
+      unless [address, abi, name].include? nil
+        begin
+          abi = abi.is_a?(Array) ? abi : JSON.parse(abi)
+        rescue JSON::ParserError => e
+          raise e
         end
-      elsif ![name, bin, abi].include? nil
+        contract = Eth::Contract.new(name, nil, abi)
+        contract.build
+        contract = contract.class_object.new
+      else
+        raise ArgumentError, "Address, ABI, and contract name are required!"
+      end
+      contract.address = address
+      contract
+    end
+
+    # Creates a contract wrapper from binary and ABI.
+    #
+    # @param bin [String] contract bin string.
+    # @param abi [String] contract abi string.
+    # @param name [String] name of contract.
+    # @return [Eth::Contract::Object] Returns the class of the smart contract.
+    # @raise [JSON::ParserError] if the json format is wrong.
+    # @raise [ArgumentError] if ABI, binary, or name is missing.
+    def self.from_bin(bin: nil, abi: nil, name: nil)
+      unless [name, bin, abi].include? nil
         begin
           abi = abi.is_a?(Array) ? abi : JSON.parse(abi)
         rescue JSON::ParserError => e
@@ -67,21 +98,28 @@ module Eth
         contract.build
         contract = contract.class_object.new
       else
-        raise ArgumentError, "The argument is incorrect."
+        raise ArgumentError, "ABI, binary, and contract name are required!"
       end
-      contract.address = address
       contract
     end
 
-    # Set the address of the smart contract
+    # Sets the address of the smart contract.
+    #
+    # @param bin [String] contract bin string.
     def address=(addr)
-      @address = addr.nil? ? nil : Eth::Address.new(addr).address
+      if addr.is_a? Eth::Address
+        @address = addr.to_s
+      elsif addr.nil?
+        @address = nil
+      else
+        @address = Eth::Address.new(addr).address
+      end
       @events.each do |event|
         event.set_address(@address)
       end
     end
 
-    # Create classes for smart contracts
+    # Create meta classes for smart contracts.
     def build
       class_name = @name
       parent = self

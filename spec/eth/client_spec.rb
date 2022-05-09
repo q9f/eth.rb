@@ -68,7 +68,7 @@ describe Client do
   end
 
   describe ".deploy .deploy_and_wait" do
-    subject(:contract) { Eth::Contract.create(file: "spec/fixtures/contracts/dummy.sol") }
+    subject(:contract) { Eth::Contract.from_file(file: "spec/fixtures/contracts/dummy.sol") }
     subject(:test_key) { Key.new }
 
     it "deploy the contract and the address is returned" do
@@ -94,8 +94,8 @@ describe Client do
 
   describe ".call" do
     subject(:test_key) { Key.new }
-    subject(:contract) { Eth::Contract.create(file: "spec/fixtures/contracts/dummy.sol") }
-    subject(:test_contract) { Eth::Contract.create(file: "spec/fixtures/contracts/simple_registry.sol") }
+    subject(:contract) { Eth::Contract.from_file(file: "spec/fixtures/contracts/dummy.sol") }
+    subject(:test_contract) { Eth::Contract.from_file(file: "spec/fixtures/contracts/simple_registry.sol") }
 
     it "call function name" do
       geth_dev_http.deploy_and_wait(contract)
@@ -131,7 +131,7 @@ describe Client do
 
   describe ".transact .transact_and_wait" do
     subject(:test_key) { Key.new }
-    subject(:contract) { Eth::Contract.create(file: "spec/fixtures/contracts/dummy.sol") }
+    subject(:contract) { Eth::Contract.from_file(file: "spec/fixtures/contracts/dummy.sol") }
 
     it "the value can be set with the set function" do
       address = geth_dev_http.deploy_and_wait(contract)
