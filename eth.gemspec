@@ -48,7 +48,4 @@ Gem::Specification.new do |spec|
 
   # scrypt for encrypted key derivation
   spec.add_dependency "scrypt", "~> 3.0"
-
-  # debugger for breakpoints in add_development_dependency
-  spec.add_development_dependency "debug"
 end
