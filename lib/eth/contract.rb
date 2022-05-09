@@ -57,7 +57,7 @@ module Eth
         else
           contract = contracts.first.class_object.new
         end
-      elsif ![name, bin, abi].include? nil
+      elsif (name && abi) || (name && bin && abi)
         begin
           abi = abi.is_a?(Array) ? abi : JSON.parse(abi)
         rescue JSON::ParserError => e
@@ -91,9 +91,8 @@ module Eth
         def_delegators :parent, :name, :abi, :bin
         def_delegators :parent, :gas_limit, :gas_price, :gas_limit=, :gas_price=, :nonce, :nonce=
         def_delegators :parent, :max_fee_per_gas, :max_fee_per_gas=, :max_priority_fee_per_gas, :max_priority_fee_per_gas=
-        def_delegators :parent, :events
+        def_delegators :parent, :constructor_inputs, :functions, :events
         def_delegators :parent, :address, :address=
-        def_delegator :parent, :functions
         define_method :parent do
           parent
         end

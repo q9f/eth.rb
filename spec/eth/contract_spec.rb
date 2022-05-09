@@ -33,13 +33,27 @@ describe Contract do
       expect(contract).to be_instance_of(Eth::Contract::Dummy)
     end
 
-    it "create contract from abi" do
+    it "create contract from name, abi and bin" do
       contract = Contract.create(name: name, abi: abi, bin: bin)
       expect(contract).to be_instance_of(Eth::Contract::Dummy)
+      expect(contract.name).to eq(name)
+      expect(contract.abi).to eq(abi)
+      expect(contract.bin).to eq(bin)
+    end
+
+    it "create contract from name, abi and address" do
+      contract = Contract.create(name: name, abi: abi, address: "0x5aAeb6053F3E94C9b9A09f33669435E7Ef1BeAed")
+      expect(contract).to be_instance_of(Eth::Contract::Dummy)
+      expect(contract.name).to eq(name)
+      expect(contract.abi).to eq(abi)
+      expect(contract.address).to eq("0x5aAeb6053F3E94C9b9A09f33669435E7Ef1BeAed")
     end
 
     it "arguments are missing" do
-      expect { Contract.create(name: name, abi: abi) }.to raise_error ArgumentError
+      expect { Contract.create() }.to raise_error ArgumentError
+      expect { Contract.create(abi: abi) }.to raise_error ArgumentError
+      expect { Contract.create(bin: bin) }.to raise_error ArgumentError
+      expect { Contract.create(name: name, bin: bin) }.to raise_error ArgumentError
     end
 
     it "invalid abi json parsing fails" do
