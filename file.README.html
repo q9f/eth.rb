@@ -64,11 +64,9 @@
 
 <p>A straightforward library to build, sign, and broadcast Ethereum transactions. It allows the separation of key and node management. Sign transactions and handle keys anywhere you can run Ruby and broadcast transactions through any local or remote node. Sign messages and recover signatures for authentication.</p>
 
-<p>What you get: - [x] Secp256k1 Key-Pairs and Encrypted Ethereum Key-Stores (JSON) - [x] EIP-55 Checksummed Ethereum Addresses - [x] EIP-155 Replay protection with Chain IDs (with presets) - [x] EIP-191 Ethereum Signed Messages (with prefix and type) - [x] EIP-712 Ethereum Signed Type Data - [x] EIP-1559 Ethereum Type-2 Transactions (with priority fee and max gas fee) - [x] EIP-2028 Call-data intrinsic gas cost estimates (plus access lists) - [x] EIP-2718 Ethereum Transaction Envelopes (and types) - [x] EIP-2930 Ethereum Type-1 Transactions (with access lists) - [x] ABI-Encoder and Decoder (including type parser) - [x] RLP-Encoder and Decoder (including sedes) - [x] RPC-Client (IPC/HTTP) for Execution-Layer APIs - [x] Solidity bindings (compile contracts from Ruby)</p>
+<p>What you get: - [x] Secp256k1 Key-Pairs and Encrypted Ethereum Key-Stores (JSON) - [x] EIP-55 Checksummed Ethereum Addresses - [x] EIP-155 Replay protection with Chain IDs (with presets) - [x] EIP-191 Ethereum Signed Messages (with prefix and type) - [x] EIP-712 Ethereum Signed Type Data - [x] EIP-1271 Smart-Contract Authentification - [x] EIP-1559 Ethereum Type-2 Transactions (with priority fee and max gas fee) - [x] EIP-2028 Call-data intrinsic gas cost estimates (plus access lists) - [x] EIP-2718 Ethereum Transaction Envelopes (and types) - [x] EIP-2930 Ethereum Type-1 Transactions (with access lists) - [x] ABI-Encoder and Decoder (including type parser) - [x] RLP-Encoder and Decoder (including sedes) - [x] RPC-Client (IPC/HTTP) for Execution-Layer APIs - [x] Solidity bindings (compile contracts from Ruby) - [x] Full smart-contract support (deploy, transact, and call)</p>
 
-<p>Soon (TM): - [ ] Smart Contract Support - [ ] EIP-1271 Smart-Contract Authentification - [ ] HD-Wallets (BIP-32) and Mnemonics (BIP-39)</p>
-
-<p>Contents: - <a href="#1-installation">1. Installation</a> - <a href="#2-usage">2. Usage</a>  - <a href="#21-ethereum-keys-and-addresses-eip-55">2.1. Ethereum Keys and Addresses (EIP-55)</a>  - <a href="#22-ethereum-signatures-eip-191-eip-712">2.2. Ethereum Signatures (EIP-191, EIP-712)</a>  - <a href="#23-ethereum-chains-eip-155">2.3. Ethereum Chains (EIP-155)</a>  - <a href="#24-ethereum-transactions-eip-1559-eip-2718-eip-2930">2.4. Ethereum Transactions (EIP-1559, EIP-2718, EIP-2930)</a>  - <a href="#25-ethereum-abi-encoder-and-decoder">2.5. Ethereum ABI Encoder and Decoder</a>  - <a href="#26-ethereum-rlp-encoder-and-decoder">2.6. Ethereum RLP Encoder and Decoder</a>  - <a href="#27-ethereum-rpc-client">2.7. Ethereum RPC-Client</a>  - <a href="#28-solidity-compiler-bindings">2.8 Solidity Compiler Bindings</a>  - <a href="#29-interact-with-smart-contract">2.9 Interact with Smart Contract</a> - <a href="#3-documentation">3. Documentation</a> - <a href="#4-testing">4. Testing</a> - <a href="#5-contributing">5. Contributing</a> - <a href="#6-license-and-credits">6. License and Credits</a></p>
+<p>Contents: - <a href="#1-installation">1. Installation</a> - <a href="#2-usage">2. Usage</a>  - <a href="#21-ethereum-keys-and-addresses-eip-55">2.1. Ethereum Keys and Addresses (EIP-55)</a>  - <a href="#22-ethereum-signatures-eip-191-eip-712">2.2. Ethereum Signatures (EIP-191, EIP-712)</a>  - <a href="#23-ethereum-chains-eip-155">2.3. Ethereum Chains (EIP-155)</a>  - <a href="#24-ethereum-transactions-eip-1559-eip-2718-eip-2930">2.4. Ethereum Transactions (EIP-1559, EIP-2718, EIP-2930)</a>  - <a href="#25-ethereum-abi-encoder-and-decoder">2.5. Ethereum ABI Encoder and Decoder</a>  - <a href="#26-ethereum-rlp-encoder-and-decoder">2.6. Ethereum RLP Encoder and Decoder</a>  - <a href="#27-ethereum-rpc-client">2.7. Ethereum RPC-Client</a>  - <a href="#28-solidity-compiler-bindings">2.8. Solidity Compiler Bindings</a>  - <a href="#29-interact-with-smart-contract">2.9. Interact with Smart Contract</a> - <a href="#3-documentation">3. Documentation</a> - <a href="#4-testing">4. Testing</a> - <a href="#5-contributing">5. Contributing</a> - <a href="#6-license-and-credits">6. License and Credits</a></p>
 
 <h2 id="label-1.+Installation">1. Installation</h2>
 
@@ -241,7 +239,7 @@
 
 <p>Check out <code>Eth::Api</code> for a list of supported RPC-APIs or consult the <a href="https://q9f.github.io/eth.rb/">Documentation</a> for more details.</p>
 
-<h3 id="label-2.8+Solidity+Compiler+Bindings">2.8 Solidity Compiler Bindings</h3>
+<h3 id="label-2.8.+Solidity+Compiler+Bindings">2.8. Solidity Compiler Bindings</h3>
 
 <p>Link a system-level Solidity compiler (<code>solc</code>) to your Ruby library and compile contracts.</p>
 
@@ -263,9 +261,9 @@
 
 <p>The <code>contract["Greeter"][&quot;bin&quot;]</code> could be directly used to deploy the contract as <code>Eth::Tx</code> payload. Check out the <a href="https://q9f.github.io/eth.rb/">Documentation</a> for more details.</p>
 
-<h3 id="label-2.9+Interact+with+Smart+Contract">2.9 Interact with Smart Contract</h3>
+<h3 id="label-2.9.+Interact+with+Smart+Contract">2.9. Interact with Smart Contract</h3>
 
-<p>Functions to interact with smart contract.</p>
+<p>Create, compile, and deploy smart contracts.</p>
 
 <pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_contract'>contract</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Eth.html" title="Eth (module)">Eth</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Eth/Contract.html" title="Eth::Contract (class)">Contract</a></span></span><span class='period'>.</span><span class='id identifier rubyid_create'><span class='object_link'><a href="Eth/Contract.html#create-class_method" title="Eth::Contract.create (method)">create</a></span></span><span class='lparen'>(</span><span class='label'>file:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>spec/fixtures/contracts/dummy.sol</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
 <span class='comment'># =&gt; #&lt;Eth::Contract::Dummy:0x00007fbeee936598&gt;
@@ -273,10 +271,20 @@
 <span class='comment'># =&gt; #&lt;Eth::Client::Ipc:0x00007fbeee946128 @gas_limit=21000, @id=0, @max_fee_per_gas=0.2e11, @max_priority_fee_per_gas=0, @path=&quot;/tmp/geth.ipc&quot;&gt;
 </span><span class='id identifier rubyid_address'>address</span> <span class='op'>=</span> <span class='id identifier rubyid_cli'>cli</span><span class='period'>.</span><span class='id identifier rubyid_deploy_and_wait'>deploy_and_wait</span><span class='lparen'>(</span><span class='id identifier rubyid_contract'>contract</span><span class='rparen'>)</span>
 <span class='comment'># =&gt; &quot;0x2f2faa160420cee087ded96bad52475147136bd8&quot;
-</span><span class='id identifier rubyid_cli'>cli</span><span class='period'>.</span><span class='id identifier rubyid_transact_and_wait'>transact_and_wait</span><span class='lparen'>(</span><span class='id identifier rubyid_contract'>contract</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>set</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='int'>1234</span><span class='rparen'>)</span>
+</span></code></pre>
+
+<p>Transact with or call the deployed contract.</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_cli'>cli</span><span class='period'>.</span><span class='id identifier rubyid_transact_and_wait'>transact_and_wait</span><span class='lparen'>(</span><span class='id identifier rubyid_contract'>contract</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>set</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='int'>1234</span><span class='rparen'>)</span>
 <span class='comment'># =&gt; &quot;0x49ca4c0a5729da19a1d2574de9a444a9cd3219bdad81745b54f9cf3bb83b6a06&quot;
 </span><span class='id identifier rubyid_cli'>cli</span><span class='period'>.</span><span class='id identifier rubyid_call'>call</span><span class='lparen'>(</span><span class='id identifier rubyid_contract'>contract</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>get</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
 <span class='comment'># =&gt; 1234
+</span></code></pre>
+
+<p>Also comes with an EIP-1271 smart-contract authentification interface.</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_cli'>cli</span><span class='period'>.</span><span class='id identifier rubyid_is_valid_signature'>is_valid_signature</span> <span class='id identifier rubyid_contract'>contract</span><span class='comma'>,</span> <span class='id identifier rubyid_hash'>hash</span><span class='comma'>,</span> <span class='id identifier rubyid_signature'>signature</span>
+<span class='comment'># =&gt; true
 </span></code></pre>
 
 <h2 id="label-3.+Documentation">3. Documentation</h2>
@@ -326,7 +334,7 @@ rspec
 </div></div>
 
       <div id="footer">
-  Generated on Fri May  6 15:08:17 2022 by
+  Generated on Tue May 10 10:50:58 2022 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.27 (ruby-2.7.6).
 </div>
