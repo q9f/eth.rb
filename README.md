@@ -280,6 +280,9 @@ ens_registry_abi = '[{"inputs":[{"internalType":"contract ENS","name":"_old","ty
 ens_registry_address = "0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e"
 ens_registry_name = "ENSRegistryWithFallback"
 ens_registry = Eth::Contract.from_abi(name: ens_registry_name, address: ens_registry_address, abi: ens_registry_abi)
+# => #<Eth::Contract::ENSRegistryWithFallback:0x000055bece570980>
+ens_registry.address
+# => "0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e"
 cli.call(ens_registry, "old")
 # => "0x112234455c3a32fd11230c42e7bccd4a84e02010"
 ```
