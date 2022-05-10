@@ -168,7 +168,7 @@ describe Client do
 
   describe ".is_valid_signature" do
     subject(:key) { Key.new priv: "8387af3ab105157d8fcdefdb41ef12aaa876c5123e2c57c9640dcdd74157b3b4" }
-    subject(:contract) { Contract.create(file: "spec/fixtures/contracts/signer.sol", contract_index: 1) }
+    subject(:contract) { Contract.from_file(file: "spec/fixtures/contracts/signer.sol", contract_index: 1) }
     let(:magic) { "1626ba7e" }
 
     it "has a valid eip1271 interface" do
