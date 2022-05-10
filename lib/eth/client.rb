@@ -261,21 +261,6 @@ module Eth
           max_gas_fee: max_fee_per_gas,
         })
       end
-      unless kwargs[:sender_key].nil?
-        # use the provided key as sender and signer
-        params.merge!({
-          from: kwargs[:sender_key].address,
-          nonce: get_nonce(kwargs[:sender_key].address),
-        })
-        tx = Eth::Tx.new(params)
-        tx.sign kwargs[:sender_key]
-      else
-        # use the default account as sender and external signer
-        params.merge!({
-          from: default_account,
-          nonce: get_nonce(default_account),
-        })
-      end
       raw_result = eth_call(params)["result"]
       types = func.outputs.map { |i| i.type }
       Eth::Abi.decode(types, raw_result)
