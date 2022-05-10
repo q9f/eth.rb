@@ -53,7 +53,7 @@ describe Contract do
 
     it "invalid abi json parsing fails" do
       abi = abi.to_json + '"'
-      expect { Contract.from_bin(name: name, abi: abi, bin: bin) }.to raise_error JSON::ParserError, "809: unexpected token at '\"'"
+      expect { Contract.from_bin(name: name, abi: abi, bin: bin) }.to raise_error JSON::ParserError
     end
 
     it "contact index can be specified" do
