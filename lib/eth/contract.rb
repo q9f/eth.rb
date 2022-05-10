@@ -56,7 +56,7 @@ module Eth
 
     # Creates a contract wrapper from ABI and address.
     #
-    # @param bin [String] contract bin string.
+    # @param abi [String] contract abi string.
     # @param address [String] contract address.
     # @param name [String] name of contract.
     # @return [Eth::Contract::Object] Returns the class of the smart contract.
