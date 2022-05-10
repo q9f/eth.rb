@@ -155,4 +155,29 @@ describe Client do
       expect(response).to start_with "0x"
     end
   end
+
+  describe ".is_valid_signature" do
+    subject(:key) { Key.new priv: "8387af3ab105157d8fcdefdb41ef12aaa876c5123e2c57c9640dcdd74157b3b4" }
+    subject(:contract) { Contract.create(file: "spec/fixtures/contracts/signer.sol", contract_index: 1) }
+    let(:magic) { "1626ba7e" }
+
+    it "has a valid eip1271 interface" do
+      expect(contract.functions[0].name).to eq "isValidSignature"
+      expect(contract.functions[0].signature).to eq magic
+    end
+
+    it "can recover a valid signature from smart contract" do
+      expect(key.address.to_s).to eq "0xd5732335EB868F17B750B29fF4097987DF8D0D35"
+      msg = "I am authentic!"
+      prefixed = Signature.prefix_message msg
+      hashed = Util.keccak256 prefixed
+      expect(Util.bin_to_hex hashed).to eq "70fbc577c8e07a6fd0217225d87f638b7ed26e2f5212931d49d324da07f31df2"
+      signature = key.sign hashed
+      expect(signature).to eq "2166d149f4cddd5cf0e8f165366322a3fce0d05e82269371477199f12160c72c0de17dea759a80e2c40334903a2ec5b7d53ba47e0eb9d8dd996a921e811a58a61c"
+      signature = Util.hex_to_bin signature
+      expect { geth_dev_ipc.is_valid_signature(contract, hashed, signature) }.to raise_error ArgumentError, "Contract not deployed yet."
+      geth_dev_ipc.deploy_and_wait(contract)
+      expect(geth_dev_ipc.is_valid_signature(contract, hashed, signature)).to be true
+    end
+  end
 end
