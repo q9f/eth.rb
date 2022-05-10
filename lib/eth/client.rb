@@ -149,9 +149,8 @@ module Eth
       end
     end
 
-    # Deploy contract and waits for it to be mined.
-    # Uses `eth_coinbase` or external signer
-    # if no sender key is provided.
+    # Deploys a contract and waits for it to be mined. Uses
+    # `eth_coinbase` or external signer if no sender key is provided.
     #
     # @overload deploy(contract)
     #   @param contract [Eth::Contract] contracts to deploy.
@@ -165,10 +164,11 @@ module Eth
     # @return [String] the contract address.
     def deploy_and_wait(contract, sender_key: nil, legacy: false)
       hash = wait_for_tx(deploy(contract, sender_key: sender_key, legacy: legacy))
-      contract.address = eth_get_transaction_receipt(hash)["result"]["contractAddress"]
+      addr = eth_get_transaction_receipt(hash)["result"]["contractAddress"]
+      contract.address = Address.new(addr).to_s
     end
 
-    # Deploy contract. Uses `eth_coinbase` or external signer
+    # Deploys a contract. Uses `eth_coinbase` or external signer
     # if no sender key is provided.
     #
     # @overload deploy(contract)
@@ -181,7 +181,9 @@ module Eth
     #   @param sender_key [Eth::Key] the sender private key.
     #   @param legacy [Boolean] enables legacy transactions (pre-EIP-1559).
     # @return [String] the transaction hash.
+    # @raise [ArgumentError] in case the contract does not have any source.
     def deploy(contract, sender_key: nil, legacy: false)
+      raise ArgumentError, "Cannot deploy contract without source or binary!" if contract.bin.nil?
       gas_limit = Tx.estimate_intrinsic_gas(contract.bin) + Tx::CREATE_GAS
       params = {
         value: 0,
@@ -218,70 +220,8 @@ module Eth
       end
     end
 
-    # Encoding for function calls.
-    def call_payload(fun, args)
-      types = fun.inputs.map { |i| i.type }
-      encoded_str = Util.bin_to_hex(Eth::Abi.encode(types, args))
-      "0x" + fun.signature + (encoded_str.empty? ? "0" * 64 : encoded_str)
-    end
-
-    # Non-transactional function call called from call().
-    #
-    # @overload call_raw(contract, func)
-    #   @param contract [Eth::Contract] subject contract to call.
-    #   @param func [Eth::Contract::Function] method name to be called.
-    # @overload call_raw(contract, func, value)
-    #   @param contract [Eth::Contract] subject contract to call.
-    #   @param func [Eth::Contract::Function] method name to be called.
-    #   @param value [Integer|String] function arguments.
-    # @overload call_raw(contract, func, value, sender_key, legacy)
-    #   @param contract [Eth::Contract] subject contract to call.
-    #   @param func [Eth::Contract::Function] method name to be called.
-    #   @param value [Integer|String] function arguments.
-    #   @param sender_key [Eth::Key] the sender private key.
-    #   @param legacy [Boolean] enables legacy transactions (pre-EIP-1559).
-    # @return [Object] returns the result of the call.
-    def call_raw(contract, func, *args, **kwargs)
-      gas_limit = Tx.estimate_intrinsic_gas(contract.bin) + Tx::CREATE_GAS
-      params = {
-        gas_limit: gas_limit,
-        chain_id: chain_id,
-        data: call_payload(func, args),
-      }
-      if kwargs[:address] || contract.address
-        params.merge!({ to: kwargs[:address] || contract.address })
-      end
-      if kwargs[:legacy]
-        params.merge!({
-          gas_price: max_fee_per_gas,
-        })
-      else
-        params.merge!({
-          priority_fee: max_priority_fee_per_gas,
-          max_gas_fee: max_fee_per_gas,
-        })
-      end
-      unless kwargs[:sender_key].nil?
-        # use the provided key as sender and signer
-        params.merge!({
-          from: kwargs[:sender_key].address,
-          nonce: get_nonce(kwargs[:sender_key].address),
-        })
-        tx = Eth::Tx.new(params)
-        tx.sign kwargs[:sender_key]
-      else
-        # use the default account as sender and external signer
-        params.merge!({
-          from: default_account,
-          nonce: get_nonce(default_account),
-        })
-      end
-      raw_result = eth_call(params)["result"]
-      types = func.outputs.map { |i| i.type }
-      Eth::Abi.decode(types, raw_result)
-    end
-
-    # Non-transactional function calls.
+    # Calls a contract function without executing it
+    # (non-transactional contract read).
     #
     # @overload call(contract, function_name)
     #   @param contract [Eth::Contract] subject contract to call.
@@ -308,7 +248,8 @@ module Eth
       end
     end
 
-    # Function call with transaction.
+    # Executes a contract function with a transaction (transactional
+    # contract read/write).
     #
     # @overload transact(contract, function_name)
     #   @param contract [Eth::Contract] subject contract to call.
@@ -364,7 +305,8 @@ module Eth
       end
     end
 
-    # Function call with transaction and waits for it to be mined.
+    # Executes a contract function with a transaction and waits for it
+    # to be mined (transactional contract read/write).
     #
     # @overload transact_and_wait(contract, function_name)
     #   @param contract [Eth::Contract] subject contract to call.
@@ -428,6 +370,54 @@ module Eth
     end
 
     private
+
+    # Non-transactional function call called from call().
+    def call_raw(contract, func, *args, **kwargs)
+      gas_limit = Tx.estimate_intrinsic_gas(contract.bin) + Tx::CREATE_GAS
+      params = {
+        gas_limit: gas_limit,
+        chain_id: chain_id,
+        data: call_payload(func, args),
+      }
+      if kwargs[:address] || contract.address
+        params.merge!({ to: kwargs[:address] || contract.address })
+      end
+      if kwargs[:legacy]
+        params.merge!({
+          gas_price: max_fee_per_gas,
+        })
+      else
+        params.merge!({
+          priority_fee: max_priority_fee_per_gas,
+          max_gas_fee: max_fee_per_gas,
+        })
+      end
+      unless kwargs[:sender_key].nil?
+        # use the provided key as sender and signer
+        params.merge!({
+          from: kwargs[:sender_key].address,
+          nonce: get_nonce(kwargs[:sender_key].address),
+        })
+        tx = Eth::Tx.new(params)
+        tx.sign kwargs[:sender_key]
+      else
+        # use the default account as sender and external signer
+        params.merge!({
+          from: default_account,
+          nonce: get_nonce(default_account),
+        })
+      end
+      raw_result = eth_call(params)["result"]
+      types = func.outputs.map { |i| i.type }
+      Eth::Abi.decode(types, raw_result)
+    end
+
+    # Encodes function call payloads.
+    def call_payload(fun, args)
+      types = fun.inputs.map { |i| i.type }
+      encoded_str = Util.bin_to_hex(Eth::Abi.encode(types, args))
+      "0x" + fun.signature + (encoded_str.empty? ? "0" * 64 : encoded_str)
+    end
 
     # Prepares parameters and sends the command to the client.
     def send_command(command, args)
