@@ -105,7 +105,7 @@ module Eth
 
     # Sets the address of the smart contract.
     #
-    # @param bin [String] contract bin string.
+    # @param addr [String] contract address string.
     def address=(addr)
       if addr.is_a? Eth::Address
         @address = addr.to_s
