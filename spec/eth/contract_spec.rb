@@ -31,6 +31,7 @@ describe Contract do
   describe ".from_file .from_bin .from_abi" do
     it "create contract from file" do
       contract = Contract.from_file(file: file)
+      expect(contract.address).to be nil
       expect(contract).to be_instance_of(Eth::Contract::Dummy)
     end
 
@@ -53,6 +54,7 @@ describe Contract do
 
     it "invalid abi json parsing fails" do
       abi = abi.to_json + '"'
+      expect { Contract.from_abi(name: name, abi: abi, address: addr) }.to raise_error JSON::ParserError
       expect { Contract.from_bin(name: name, abi: abi, bin: bin) }.to raise_error JSON::ParserError
     end
 
