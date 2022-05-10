@@ -109,10 +109,8 @@ module Eth
     def address=(addr)
       if addr.is_a? Eth::Address
         @address = addr.to_s
-      elsif addr.nil?
-        @address = nil
       else
-        @address = Eth::Address.new(addr).address
+        @address = Eth::Address.new(addr).to_s
       end
       @events.each do |event|
         event.set_address(@address)
