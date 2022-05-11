@@ -419,12 +419,6 @@ module Eth
         })
         tx = Eth::Tx.new(params)
         tx.sign kwargs[:sender_key]
-      else
-        # use the default account as sender and external signer
-        params.merge!({
-          from: default_account,
-          nonce: get_nonce(default_account),
-        })
       end
       raw_result = eth_call(params)["result"]
       types = func.outputs.map { |i| i.type }
