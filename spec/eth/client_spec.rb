@@ -68,8 +68,10 @@ describe Client do
   end
 
   describe ".deploy .deploy_and_wait" do
-    subject(:contract) { Eth::Contract.create(file: "spec/fixtures/contracts/dummy.sol") }
+    subject(:contract) { Eth::Contract.from_file(file: "spec/fixtures/contracts/dummy.sol") }
     subject(:test_key) { Key.new }
+    let(:ens_registry_bin) { File.read "spec/fixtures/bin/ENSRegistryWithFallback.bin", :encoding => "ascii-8bit" }
+    let(:ens_registry_abi) { File.read "spec/fixtures/abi/ENSRegistryWithFallback.json", :encoding => "ascii-8bit" }
 
     it "deploy the contract and the address is returned" do
       address = geth_dev_http.deploy_and_wait(contract)
@@ -90,12 +92,20 @@ describe Client do
       address = geth_dev_http.deploy_and_wait(contract, legacy: true)
       expect(address).to start_with "0x"
     end
+
+    it "can deploy and call an ens registry" do
+      ens_registry = Contract.from_bin(bin: ens_registry_bin.strip, abi: ens_registry_abi.strip, name: "ENSRegistryWithFallback")
+      ens_address = geth_dev_ipc.deploy_and_wait(ens_registry)
+      expect(ens_registry).to be_instance_of(Eth::Contract::ENSRegistryWithFallback)
+      expect(ens_registry.address).to eq Address.new(ens_address).to_s
+      expect(geth_dev_ipc.call(ens_registry, "old")).to eq "0x112234455c3a32fd11230c42e7bccd4a84e02010"
+    end
   end
 
   describe ".call" do
     subject(:test_key) { Key.new }
-    subject(:contract) { Eth::Contract.create(file: "spec/fixtures/contracts/dummy.sol") }
-    subject(:test_contract) { Eth::Contract.create(file: "spec/fixtures/contracts/simple_registry.sol") }
+    subject(:contract) { Eth::Contract.from_file(file: "spec/fixtures/contracts/dummy.sol") }
+    subject(:test_contract) { Eth::Contract.from_file(file: "spec/fixtures/contracts/simple_registry.sol") }
 
     it "call function name" do
       geth_dev_http.deploy_and_wait(contract)
@@ -131,7 +141,7 @@ describe Client do
 
   describe ".transact .transact_and_wait" do
     subject(:test_key) { Key.new }
-    subject(:contract) { Eth::Contract.create(file: "spec/fixtures/contracts/dummy.sol") }
+    subject(:contract) { Eth::Contract.from_file(file: "spec/fixtures/contracts/dummy.sol") }
 
     it "the value can be set with the set function" do
       address = geth_dev_http.deploy_and_wait(contract)
@@ -158,7 +168,7 @@ describe Client do
 
   describe ".is_valid_signature" do
     subject(:key) { Key.new priv: "8387af3ab105157d8fcdefdb41ef12aaa876c5123e2c57c9640dcdd74157b3b4" }
-    subject(:contract) { Contract.create(file: "spec/fixtures/contracts/signer.sol", contract_index: 1) }
+    subject(:contract) { Contract.from_file(file: "spec/fixtures/contracts/signer.sol", contract_index: 1) }
     let(:magic) { "1626ba7e" }
 
     it "has a valid eip1271 interface" do
