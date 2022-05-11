@@ -44,14 +44,11 @@ module Eth
     # @return [Eth::Contract::Object] Returns the class of the smart contract.
     # @raise [ArgumentError] if the file path is empty or no contracts were compiled.
     def self.from_file(file: nil, contract_index: 0)
-      if File.exist?(file.to_s)
-        contracts = Eth::Contract::Initializer.new(file).build_all
-        raise ArgumentError, "No contracts compiled." if contracts.empty?
-        contract = contracts[contract_index].class_object.new
-      else
-        raise ArgumentError, "Cannot find the contract at #{file.to_s}!"
-      end
-      return contract
+     raise ArgumentError, "Cannot find the contract at #{file.to_s}!" if !File.exist?(file.to_s)
+     contracts = Eth::Contract::Initializer.new(file).build_all
+     raise ArgumentError, "No contracts compiled." if contracts.empty?
+     
+     contracts[contract_index].class_object.new
     end
 
     # Creates a contract wrapper from ABI and address.
@@ -64,10 +61,7 @@ module Eth
     # @raise [ArgumentError] if ABI, address, or name is missing.
     def self.from_abi(abi: nil, address: nil, name: nil)
       unless [address, abi, name].include? nil
-        begin
-          abi = abi.is_a?(Array) ? abi : JSON.parse(abi)
-        rescue JSON::ParserError => e
-          raise e
+        abi = abi.is_a?(Array) ? abi : JSON.parse(abi)
         end
         contract = Eth::Contract.new(name, nil, abi)
         contract.build
@@ -87,8 +81,8 @@ module Eth
     # @return [Eth::Contract::Object] Returns the class of the smart contract.
     # @raise [JSON::ParserError] if the json format is wrong.
     # @raise [ArgumentError] if ABI, binary, or name is missing.
-    def self.from_bin(bin: nil, abi: nil, name: nil)
-      unless [name, bin, abi].include? nil
+    def self.from_bin(bin:, abi:, name:)
+      if [name, bin, abi].all?
         begin
           abi = abi.is_a?(Array) ? abi : JSON.parse(abi)
         rescue JSON::ParserError => e
