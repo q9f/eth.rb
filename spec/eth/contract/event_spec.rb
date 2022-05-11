@@ -2,7 +2,7 @@ require "spec_helper"
 
 describe Contract::Event do
   let(:path) { "spec/fixtures/contracts/test_contract.sol" }
-  subject(:contract) { Eth::Contract.create(file: path) }
+  subject(:contract) { Eth::Contract.from_file(file: path) }
 
   context ".initialize" do
     it "succeed" do
