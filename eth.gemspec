@@ -44,7 +44,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "rbsecp256k1", "~> 5.1"
 
   # openssl for encrypted key derivation
-  spec.add_dependency "openssl", "~> 2.2"
+  spec.add_dependency "openssl", ">= 2.2", "< 4.0"
 
   # scrypt for encrypted key derivation
   spec.add_dependency "scrypt", "~> 3.0"
