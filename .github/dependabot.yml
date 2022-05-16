@@ -1,0 +1,18 @@
+---
+updates:
+  -
+    directory: /
+    labels:
+      - dependencies
+    package-ecosystem: bundler
+    schedule:
+      interval: weekly
+    versioning-strategy: increase
+  -
+    directory: /
+    labels:
+      - operations
+    package-ecosystem: github-actions
+    schedule:
+      interval: monthly
+version: 2
