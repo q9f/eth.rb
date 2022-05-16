@@ -1,6 +1,19 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## [0.5.4]
+### Added
+- Eth/client: method for eip-1271 ([#80](https://github.com/q9f/eth.rb/pull/80))
+
+### Changed
+- Docs: update changelog ([#77](https://github.com/q9f/eth.rb/pull/77))
+- Gem: bump version to 0.5.4 ([#78](https://github.com/q9f/eth.rb/pull/78))
+- Ci: bump ruby version to 3.1 on ci ([#79](https://github.com/q9f/eth.rb/pull/79))
+- Fix typos ([#81](https://github.com/q9f/eth.rb/pull/81))
+- Eth/contract: allow creating from file, abi, bin ([#83](https://github.com/q9f/eth.rb/pull/83))
+- Eth/client: fix account requirement for client.call() ([#85](https://github.com/q9f/eth.rb/pull/85))
+- Add dependency support for openssl 2.2 and greater, including 3.x ([#88](https://github.com/q9f/eth.rb/pull/88))
+
 ## [0.5.3]
 ### Added
 - Smart contract support ([#68](https://github.com/q9f/eth.rb/pull/68))
