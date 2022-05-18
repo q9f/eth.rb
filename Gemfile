@@ -12,7 +12,6 @@ group :test, :development do
   gem "rufo", "~> 0.13"
   gem "simplecov", "~> 0.21"
   gem "yard", "~> 0.9"
-  gem 'debug'
 end
 
 gemspec
