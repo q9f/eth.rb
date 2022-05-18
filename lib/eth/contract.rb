@@ -109,6 +109,7 @@ module Eth
         def_delegators :parent, :events
         def_delegators :parent, :address, :address=
         def_delegator :parent, :functions
+        def_delegator :parent, :constructor_inputs
         define_method :parent do
           parent
         end
