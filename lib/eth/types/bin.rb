@@ -21,44 +21,18 @@ module Eth
   #
   # @see {Num}
   #
-  # @see {https://github.com/q9f/secp256k1.cr/blob/master/src/secp256k1/num.cr}
   # @example Pass in a bytestring and convert to hex.
   #   Bin[Keccak256.digest('eh')].to_hex
   #     =>  
-  # @example Pass in a serialized Keccak256 String and convert to 0x-hex Num[Util.keccak256('test')].to_prefixed_hex @example Pass in a serialized Keccak256 String and convert to 0x-hex @raise [ArgumentError] raised if input is a String but
-  #   isn't hex or bytes, or if input is an Array but not
-  #   a list of ascii-8bit numbers
   class Bin < Num
     # Instantiates a Num with {@hex} set to {SecureRandom.hex(16)}
     #   then uses conversion methods to set the bytestring and
     #   {Integer}.
     def initialize(input)
-      @input = input
-
       @bin = input.b
       @hex = Hex[bin.unpack1("H*")]
       @dec = Dec[hex.input.to_i(16)]
     end
 
-    # Memoizes and returns 0x-prefixed hex
-    #
-    # @see {Eth::Refinements::Conversions::String#to_prefixed_hex}
-    def to_prefixed_hex
-      @prefixed_hex ||= "0x#{hex}"
-    end
-
-    # Memoizes and returns zpadded hex
-    #
-    # @see {Eth::Refinements::Conversions::String#zpad}
-    def to_zpadded_hex(length = 64)
-      @zpadded_hex ||= hex.zpad(length)
-    end
-
-    # Memoizes and returns zpadded bytes
-    #
-    # @see {Eth::Refinements::Conversions::String#zpad}
-    def to_zpadded_bytes(length = 32)
-      @zpadded_bytes ||= bytes.zpad(length)
-    end
   end
 end

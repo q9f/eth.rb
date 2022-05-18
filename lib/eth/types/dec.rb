@@ -17,12 +17,12 @@
 # Provides the {Eth} module.
 module Eth
   
-  # Subclass of {Num} that represents a hex sting
+  # Subclass of {Num} that represents a base 10 integer
   #
   # @see {Num}
   #
-  # @example Pass in a bytestring and convert to hex.
-  #   Hex[Keccak256.digest('eh')].to_hex
+  # @example Pass in an integer and convert to hex
+  #   Dec[15132].to_hex
   #     =>  
   # @example Pass in a serialized Keccak256 String and convert to 0x-hex Num[Util.keccak256('test')].to_prefixed_hex @example Pass in a serialized Keccak256 String and convert to 0x-hex @raise [ArgumentError] raised if input is a String but
   #   isn't hex or bytes, or if input is an Array but not
@@ -32,16 +32,14 @@ module Eth
     #   then uses conversion methods to set the bytestring and
     #   {Integer}.
     def initialize(input)
-      @input = input
+      @dec = input.to_i
 
-      @hex = delete_prefix("0x")
-      @hex = rjust(hex.size + 1, "0") if hex.size.odd?
-
+      @hex = Hex(dec.to_s(16))
       @bin = Bin(hex.scan(/../).map(&:hex).pack("C*"))
-      @dec = Dec(hex.input.to_i(16))
     end
 
     def zpad(expected_length)
+      dec.to_s.rjust(expected_length, '0')
     end
   end
 end

@@ -18,20 +18,19 @@
 module Eth
   
   # Provides a numeric data type with painless conversions
-  #   between bytes, hex, and decimal
+  #   between bytes, hex, and decimal. {Num}'s constructor
+  #   should not be given a value directly. Instead, use
+  #   one of its subclasses.
   #
   # @see {https://github.com/q9f/secp256k1.cr/blob/master/src/secp256k1/num.cr}
-  # @example Pass in a 0x-prefixed String and convert to bytestring. 
-  #   Num['0xDEADBeeF'].to_bytes
+  #
+  # @example Num.new
   #     => 
-  # @example Pass in a serialized Keccak256 String and convert to 0x-hex
-  #   Num[Util.keccak256('test')].to_prefixed_hex
-  # @example Pass in a serialized Keccak256 String and convert to 0x-hex
+  #
   # @raise [ArgumentError] raised if input is a String but
   #   isn't hex or bytes, or if input is an Array but not
   #   a list of ascii-8bit numbers
   class Num
-    using Refinements::Conversions
 
     # value in decimal
     attr_reader :integer
