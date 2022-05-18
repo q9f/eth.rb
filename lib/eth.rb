@@ -42,3 +42,10 @@ require "eth/num"
 require "eth/unit"
 require "eth/util"
 require "eth/version"
+
+module Eth
+  def Hex(string) Hex.new(string) end
+  def Bin(string) Bin.new(string) end
+  def Dec(string) Dec.new(string) end
+  def Num(string) Num.new(string) end
+end

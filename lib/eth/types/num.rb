@@ -22,8 +22,8 @@ module Eth
   #
   # @see {https://github.com/q9f/secp256k1.cr/blob/master/src/secp256k1/num.cr}
   # @example Pass in a 0x-prefixed String and convert to bytestring. 
-  #   Num.new('0xDEADBeeF').to_bytes
   #   Num['0xDEADBeeF'].to_bytes
+  #     => 
   # @example Pass in a serialized Keccak256 String and convert to 0x-hex
   #   Num[Util.keccak256('test')].to_prefixed_hex
   # @example Pass in a serialized Keccak256 String and convert to 0x-hex
