@@ -14,69 +14,83 @@
 
 # -*- encoding : ascii-8bit -*-
 
+
 # Provides the {Eth} module.
 module Eth
-  
-  # Provides a numeric data type with painless conversions
-  #   between bytes, hex, and decimal. {Num}'s constructor
-  #   should not be given a value directly. Instead, use
-  #   one of its subclasses.
-  #
-  # @see {https://github.com/q9f/secp256k1.cr/blob/master/src/secp256k1/num.cr}
-  #
-  # @example Num.new
-  #     => 
-  #
-  # @raise [ArgumentError] raised if input is a String but
-  #   isn't hex or bytes, or if input is an Array but not
-  #   a list of ascii-8bit numbers
-  class Num
+  module Types
+    # Provides a numeric data type with painless conversions
+    #   between bytes, hex, and decimal. {Num}'s constructor
+    #   should not be given a value directly. Instead, use
+    #   one of its subclasses.
+    #
+    # @see {https://github.com/q9f/secp256k1.cr/blob/master/src/secp256k1/num.cr}
+    #
+    # @example Num.new
+    #     => 
+    #
+    # @raise [ArgumentError] raised if input is a String but
+    #   isn't hex or bytes, or if input is an Array but not
+    #   a list of ascii-8bit numbers
+    class Num
 
-    # value in decimal
-    attr_reader :integer
-    alias to_i integer
+      # value in decimal
+      attr_reader :dec
+      alias to_i dec
 
-    # value as bytestring
-    attr_reader :bytes
-    alias to_bytes bytes
+      # value as bytestring
+      attr_reader :bin
+      alias to_bytes bin
+      alias to_bin bin
 
-    # value in hexa-decimal
-    attr_reader :hex
-    alias to_hex hex
+      # value in hexa-decimal
+      attr_reader :hex
+      alias to_hex hex
 
-    # Instantiates a Num with {@hex} set to {SecureRandom.hex(16)}
-    #   then uses conversion methods to set the bytestring and
-    #   {Integer}.
-    def initialize(input = nil)
-      if input
-        @hex = input.to_hex
-      else
-        @hex = SecureRandom.hex(16).to_hex
+      # Instantiates a Num with {@hex} set to {SecureRandom.hex(16)}
+      #   then uses conversion methods to set the bytestring and
+      #   {Integer}.
+      def initialize(input = nil)
+        @input = input
+
+        @hex = Hex(SecureRandom.hex(16))
+        @bin = Bin(hex)
+        @dec = Dec(hex)
+
+        validate!
       end
 
-      @bytes = hex.to_bytes
-      @integer = hex.hex
-    end
+      def self.inherited(base)
+#        base.extend(TypeShortcuts)
+      end
 
-    # Memoizes and returns 0x-prefixed hex
-    #
-    # @see {Eth::Refinements::Conversions::String#to_prefixed_hex}
-    def to_prefixed_hex
-      @prefixed_hex ||= "0x#{hex}"
-    end
+      def [](input = nil)
+        self.class.new(input)
+      end
 
-    # Memoizes and returns zpadded hex
-    #
-    # @see {Eth::Refinements::Conversions::String#zpad}
-    def to_zpadded_hex(length = 64)
-      @zpadded_hex ||= hex.zpad(length)
-    end
+      def validate_input!
+        raise ArgumentError, "Could not convert input to bin, hex, and dec"
+      end
 
-    # Memoizes and returns zpadded bytes
-    #
-    # @see {Eth::Refinements::Conversions::String#zpad}
-    def to_zpadded_bytes(length = 32)
-      @zpadded_bytes ||= bytes.zpad(length)
+      # Memoizes and returns 0x-prefixed hex
+      #
+      # @see {Eth::Refinements::Conversions::String#to_prefixed_hex}
+      def to_prefixed_hex
+        @prefixed_hex ||= "0x#{hex}"
+      end
+
+      # Memoizes and returns zpadded hex
+      #
+      # @see {Eth::Refinements::Conversions::String#zpad}
+      def to_zpadded_hex(length = 64)
+        @zpadded_hex ||= hex.zpad(length)
+      end
+
+      # Memoizes and returns zpadded bytes
+      #
+      # @see {Eth::Refinements::Conversions::String#zpad}
+      def to_zpadded_bytes(length = 32)
+        @zpadded_bytes ||= bytes.zpad(length)
+      end
     end
   end
 end

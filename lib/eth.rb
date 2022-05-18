@@ -35,19 +35,35 @@ require "eth/client/http"
 require "eth/client/ipc"
 require "eth/eip712"
 require "eth/key"
-require "eth/refinements/conversions"
 require "eth/rlp"
 require "eth/signature"
 require "eth/solidity"
 require "eth/tx"
-require "eth/num"
+require "eth/types/num"
+require "eth/types/dec"
+require "eth/types/hex"
+require "eth/types/bin"
 require "eth/unit"
 require "eth/util"
 require "eth/version"
 
+# Provides shorthand for using these types
+#
+# @example Creating a new Hex object
+#   Hex("0x0fff").to_i
+#     => 
 module Eth
-  def Hex(string) Hex.new(string) end
-  def Bin(string) Bin.new(string) end
-  def Dec(string) Dec.new(string) end
-  def Num(string) Num.new(string) end
+  # Num = -> { Types::Num.new }
+  # Hex = -> (string) { Types::Hex.new(string) }
+  # Dec = -> (str_or_int) { Types::Dec.new(str_or_int) }
+  # Bin = -> (string) { Types::Bin.new(string) }
+
+  module_eval do
+   def Num() Types::Num.new end
+   def Hex(string) Types::Hex.new(string) end
+   def Bin(string) Types::Bin.new(string) end
+   def Dec(str_or_int) Types::Dec.new(str_or_int) end
+  end
 end
+
+

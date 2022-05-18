@@ -17,29 +17,36 @@
 # Provides the {Eth} module.
 module Eth
   
-  # Subclass of {Num} that represents a base 10 integer
-  #
-  # @see {Num}
-  #
-  # @example Pass in an integer and convert to hex
-  #   Dec[15132].to_hex
-  #     =>  
-  # @example Pass in a serialized Keccak256 String and convert to 0x-hex Num[Util.keccak256('test')].to_prefixed_hex @example Pass in a serialized Keccak256 String and convert to 0x-hex @raise [ArgumentError] raised if input is a String but
-  #   isn't hex or bytes, or if input is an Array but not
-  #   a list of ascii-8bit numbers
-  class Dec < Num
-    # Instantiates a Num with {@hex} set to {SecureRandom.hex(16)}
-    #   then uses conversion methods to set the bytestring and
-    #   {Integer}.
-    def initialize(input)
-      @dec = input.to_i
+  module Types
+    # Subclass of {Num} that represents a base 10 integer
+    #
+    # @see {Num}
+    #
+    # @example Pass in an integer and convert to hex
+    #   Dec[15132].to_hex
+    #     =>  
+    # @example Pass in a String that represents a base 10 integer
+    #   and convert to binary
+    #   
+    #   Dec['15132'].to_bin
+    #   
+    class Dec < Num
+#      extend Eth::Types
 
-      @hex = Hex(dec.to_s(16))
-      @bin = Bin(hex.scan(/../).map(&:hex).pack("C*"))
-    end
+      # Instantiates a Dec and converts to hex and binary
+      #
+      # @param input [String, Integer] Base 10 String or Integer
+      def initialize(input)
+        binding.pry
+        @dec = input.to_i
 
-    def zpad(expected_length)
-      dec.to_s.rjust(expected_length, '0')
+        @hex = Hex(dec.to_s(16))
+        @bin = Bin(hex.scan(/../).map(&:hex).pack("C*"))
+      end
+
+      def zpad(expected_length)
+        dec.to_s.rjust(expected_length, '0')
+      end
     end
   end
 end

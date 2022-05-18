@@ -17,22 +17,35 @@
 # Provides the {Eth} module.
 module Eth
   
-  # Subclass of {Num} that represents a binary string / bytestring.
-  #
-  # @see {Num}
-  #
-  # @example Pass in a bytestring and convert to hex.
-  #   Bin[Keccak256.digest('eh')].to_hex
-  #     =>  
-  class Bin < Num
-    # Instantiates a Num with {@hex} set to {SecureRandom.hex(16)}
-    #   then uses conversion methods to set the bytestring and
-    #   {Integer}.
-    def initialize(input)
-      @bin = input.b
-      @hex = Hex[bin.unpack1("H*")]
-      @dec = Dec[hex.input.to_i(16)]
-    end
+  # Provides a namespace for the numeric types.
+  module Types
 
+    # Subclass of {Num} that represents a binary string / bytestring.
+    #
+    # @see {Num}
+    #
+    # @example Pass in a bytestring and convert to hex.
+    #   Bin(Keccak256.digest('eh')).to_hex
+    #     =>  
+    class Bin < Num
+
+      # Instantiates a Bin / bytestring
+      #   then uses conversion methods to set the {Hex} and
+      #   {Dec} values.
+      #
+      # @example Bin(keccak_string).hex
+      # @example Bin(keccak_string).to_hex
+      #
+      # @example Bin(keccak_string).dec
+      # @example Bin(keccak_string).to_i
+      #
+      # @example Bin(keccak_string).bin
+      # @example Bin(keccak_string).to_bin
+      def initialize(input)
+        @bin = input.b
+        @hex = Hex(bin.unpack1("H*"))
+        @dec = Dec(hex.input.to_i(16))
+      end
+    end
   end
 end

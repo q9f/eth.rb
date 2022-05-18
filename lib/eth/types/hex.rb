@@ -16,26 +16,26 @@
 
 # Provides the {Eth} module.
 module Eth
-  
-  # Subclass of {Num} that represents a hex sting
-  #
-  # @see {Num}
-  #
-  # @example Pass in a bytestring and convert to hex.
-  #   Hex[Keccak256.digest('eh')].to_hex
-  #     =>  
-  # @example Pass in a serialized Keccak256 String and convert to 0x-hex Num[Util.keccak256('test')].to_prefixed_hex @example Pass in a serialized Keccak256 String and convert to 0x-hex @raise [ArgumentError] raised if input is a String but
-  #   isn't hex or bytes, or if input is an Array but not
-  #   a list of ascii-8bit numbers
-  class Hex < Num
-    def initialize(input)
-      @input = input
 
-      @hex = delete_prefix("0x")
-      @hex = rjust(hex.size + 1, "0") if hex.size.odd?
+  # Provides the {Eth} module.
+  module Types
+    # Subclass of {Num} that represents a hex sting
+    #
+    # @see {Num}
+    #
+    # @example Convert a bytestring to hex
+    #   Hex(Keccak256.digest('eh'))
+    #     =>  
+    class Hex < Num
 
-      @bin = Bin(hex.scan(/../).map(&:hex).pack("C*"))
-      @dec = Dec(hex.input.to_i(16))
+      def initialize(input)
+        @input = input
+
+        @hex = input.delete_prefix("0x")
+        @hex = hex.rjust(hex.size + 1, "0") if hex.size.odd?
+        @bin = Bin(hex.scan(/../).map(&:hex).pack("C*"))
+        @dec = Dec(hex.input.to_i(16))
+      end
     end
   end
 end
