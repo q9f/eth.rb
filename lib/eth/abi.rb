@@ -346,6 +346,12 @@ module Eth
     # Properly encodes byte-strings.
     def encode_bytes(arg, type)
       raise EncodingError, "Expecting String: #{arg}" unless arg.instance_of? String
+
+      if Util.is_prefixed? arg
+        arg = Util.remove_hex_prefix arg
+        arg = Util.hex_to_bin arg
+      end
+
       if type.sub_type.empty?
         size = Util.zpad_int arg.size
         padding = Constant::BYTE_ZERO * (Util.ceil32(arg.size) - arg.size)
