@@ -346,11 +346,7 @@ module Eth
     # Properly encodes byte-strings.
     def encode_bytes(arg, type)
       raise EncodingError, "Expecting String: #{arg}" unless arg.instance_of? String
-
-      if Util.is_prefixed? arg
-        arg = Util.remove_hex_prefix arg
-        arg = Util.hex_to_bin arg
-      end
+      arg = handle_hex_string arg, type
 
       if type.sub_type.empty?
         size = Util.zpad_int arg.size
@@ -408,6 +404,24 @@ module Eth
         return Util.zpad_hex arg[2..-1]
       else
         raise EncodingError, "Could not parse address: #{arg}"
+      end
+    end
+
+    # The ABI encoder needs to be able to determine between a hex `"123"`
+    # and a binary `"123"` string.
+    def handle_hex_string(arg, type)
+      if Util.is_prefixed? arg or
+         (arg.size === type.sub_type.to_i * 2 and Util.is_hex? arg)
+
+        # There is no way telling whether a string is hex or binary with certainty
+        # in Ruby. Therefore, we assume a `0x` prefix to indicate a hex string.
+        # Additionally, if the string size is exactly the double of the expected
+        # binary size, we can assume a hex value.
+        return Util.hex_to_bin arg
+      else
+
+        # Everything else will be assumed binary or raw string.
+        return arg.b
       end
     end
   end
