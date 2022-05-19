@@ -203,6 +203,10 @@ describe Abi do
       expect(Abi.encode_type t_address, "0x" + "ff" * 20).to eq Util.zpad("\xff" * 20, 32)
     end
 
+    it "can handle hex-strings for bytes types" do
+      expect(Abi.encode ["bytes4"], ["0x80ac58cd"]).to eq "\x80\xACX\xCD#{"\x00" * 28}"
+    end
+
     it "can decode types" do
 
       # https://github.com/cryptape/ruby-ethereum-abi/blob/90d4fa3fc6b568581165eaacdc506b9b9b49e520/test/abi_test.rb#L105
