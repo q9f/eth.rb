@@ -411,7 +411,7 @@ module Eth
     # and a binary `"123"` string.
     def handle_hex_string(arg, type)
       if Util.is_prefixed? arg or
-        (arg.size === type.sub_type.to_i * 2 and Util.is_hex? arg)
+         (arg.size === type.sub_type.to_i * 2 and Util.is_hex? arg)
 
         # There is no way telling whether a string is hex or binary with certainty
         # in Ruby. Therefore, we assume a `0x` prefix to indicate a hex string.
