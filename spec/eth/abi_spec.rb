@@ -205,6 +205,11 @@ describe Abi do
 
     it "can handle hex-strings for bytes types" do
       expect(Abi.encode ["bytes4"], ["0x80ac58cd"]).to eq "\x80\xACX\xCD#{"\x00" * 28}"
+      expect(Abi.encode ["bytes4"], ["80ac58cd"]).to eq "\x80\xACX\xCD#{"\x00" * 28}"
+
+      # But don't break binary strings
+      expect(Abi.encode ["bytes4"], ["\x80\xACX\xCD"]).to eq "\x80\xACX\xCD#{"\x00" * 28}"
+      expect(Util.bin_to_hex Abi.encode ["bytes10"], ["1234567890".b]).to eq "3132333435363738393000000000000000000000000000000000000000000000"
     end
 
     it "can decode types" do
