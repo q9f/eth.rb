@@ -407,7 +407,8 @@ module Eth
       end
     end
 
-    # The ABI encoder needs to be able to determine between a hex `"123"` and binary `"123"` string.
+    # The ABI encoder needs to be able to determine between a hex `"123"`
+    # and a binary `"123"` string.
     def handle_hex_string(arg, type)
       if Util.is_prefixed? arg or
         (arg.size === type.sub_type.to_i * 2 and Util.is_hex? arg)
