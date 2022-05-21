@@ -118,7 +118,7 @@ describe Client do
     end
 
     it "return nil if raw result is 0x" do
-      expect(geth_dev_http.call(erc20_contract, "balanceOf", address: address)).to be_nil
+      expect(geth_dev_http.call(erc20_contract, "balanceOf", address)).to be_nil
     end
 
     it "called function name not defined" do
