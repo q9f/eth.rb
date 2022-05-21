@@ -241,7 +241,7 @@ module Eth
       func = contract.functions.select { |func| func.name == function_name }[0]
       raise ArgumentError, "function_name does not exist!" if func.nil?
       output = call_raw(contract, func, *args, **kwargs)
-      if output.length == 1
+      if output&.length == 1
         return output[0]
       else
         return output
@@ -422,6 +422,7 @@ module Eth
       end
       raw_result = eth_call(params)["result"]
       types = func.outputs.map { |i| i.type }
+      return nil if raw_result == "0x"
       Eth::Abi.decode(types, raw_result)
     end
 
