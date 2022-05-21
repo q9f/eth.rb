@@ -106,11 +106,19 @@ describe Client do
     subject(:test_key) { Key.new }
     subject(:contract) { Eth::Contract.from_file(file: "spec/fixtures/contracts/dummy.sol") }
     subject(:test_contract) { Eth::Contract.from_file(file: "spec/fixtures/contracts/simple_registry.sol") }
+    let(:erc20_abi_file) { File.read "spec/fixtures/abi/ERC20.json" }
+    let(:address) { Eth::Address.new("0xd496b23d61f88a8c7758fca7560dcfac7b3b01f9").address }
+    subject(:erc20_abi) { JSON.parse erc20_abi_file }
+    subject(:erc20_contract) { Eth::Contract.from_abi(abi: erc20_abi, name: "ERC20", address: address) }
 
     it "call function name" do
       geth_dev_http.deploy_and_wait(contract)
       result = geth_dev_http.call(contract, "get")
       expect(result).to eq(0)
+    end
+
+    it "return nil if raw result is 0x" do
+      expect(geth_dev_http.call(erc20_contract, "balanceOf", address)).to be_nil
     end
 
     it "called function name not defined" do
