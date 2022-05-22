@@ -93,9 +93,15 @@ describe Client do
       expect(address).to start_with "0x"
     end
 
+    it "deploy the contract with constructor params" do
+      contract = Contract.from_file(file: "spec/fixtures/contracts/greeter.sol", contract_index: 0)
+      address = geth_dev_http.deploy_and_wait(contract, "Hello!")
+      expect(address).to start_with "0x"
+    end
+
     it "can deploy and call an ens registry" do
       ens_registry = Contract.from_bin(bin: ens_registry_bin.strip, abi: ens_registry_abi.strip, name: "ENSRegistryWithFallback")
-      ens_address = geth_dev_ipc.deploy_and_wait(ens_registry)
+      ens_address = geth_dev_ipc.deploy_and_wait(ens_registry, "0x112234455c3a32fd11230c42e7bccd4a84e02010")
       expect(ens_registry).to be_instance_of(Eth::Contract::ENSRegistryWithFallback)
       expect(ens_registry.address).to eq Address.new(ens_address).to_s
       expect(geth_dev_ipc.call(ens_registry, "old")).to eq "0x112234455c3a32fd11230c42e7bccd4a84e02010"
