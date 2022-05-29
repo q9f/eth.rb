@@ -22,7 +22,7 @@ describe Solidity do
     result = solc.compile contract
     expect(result.keys).to eq ["Greeter", "Mortal"]
     expect(result["Mortal"]["abi"]).to eq JSON.parse '[{"inputs":[],"stateMutability":"nonpayable","type":"constructor"},{"inputs":[],"name":"kill","outputs":[],"stateMutability":"nonpayable","type":"function"}]'
-    expect(result["Greeter"]["abi"]).to eq JSON.parse '[{"inputs":[{"internalType":"string","name":"message","type":"string"}],"stateMutability":"nonpayable","type":"constructor"},{"inputs":[],"name":"greet","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"kill","outputs":[],"stateMutability":"nonpayable","type":"function"}]'
+    expect(result["Greeter"]["abi"]).to eq JSON.parse '[{"inputs":[{"internalType":"string","name":"message","type":"string"}],"stateMutability":"nonpayable","type":"constructor"},{"inputs":[],"name":"greet","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"kill","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"string","name":"message","type":"string"}],"name":"setGreeting","outputs":[],"stateMutability":"nonpayable","type": "function"}]'
     expect(result["Mortal"]["bin"]).to start_with "6080604052348015600f57600080fd5b5060"
     expect(result["Greeter"]["bin"]).to start_with "608060405234801561001057600080fd5b5060"
   end
