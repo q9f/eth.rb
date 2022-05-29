@@ -31,7 +31,7 @@ contract Greeter is Mortal {
   }
 
   function setGreeting(string memory message) public {
-    greeting =  message;
+    greeting = message;
   }
 
   // call the greeting from the contract
