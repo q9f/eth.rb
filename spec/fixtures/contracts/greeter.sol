@@ -30,6 +30,10 @@ contract Greeter is Mortal {
     greeting = message;
   }
 
+  function setGreeting(string memory message) public {
+    greeting = message;
+  }
+
   // call the greeting from the contract
   function greet() public view returns (string memory) {
     return greeting;
