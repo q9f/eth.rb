@@ -93,9 +93,15 @@ describe Client do
       expect(address).to start_with "0x"
     end
 
+    it "deploy the contract with constructor params" do
+      contract = Contract.from_file(file: "spec/fixtures/contracts/greeter.sol", contract_index: 0)
+      address = geth_dev_http.deploy_and_wait(contract, "Hello!")
+      expect(address).to start_with "0x"
+    end
+
     it "can deploy and call an ens registry" do
       ens_registry = Contract.from_bin(bin: ens_registry_bin.strip, abi: ens_registry_abi.strip, name: "ENSRegistryWithFallback")
-      ens_address = geth_dev_ipc.deploy_and_wait(ens_registry)
+      ens_address = geth_dev_ipc.deploy_and_wait(ens_registry, "0x112234455c3a32fd11230c42e7bccd4a84e02010")
       expect(ens_registry).to be_instance_of(Eth::Contract::ENSRegistryWithFallback)
       expect(ens_registry.address).to eq Address.new(ens_address).to_s
       expect(geth_dev_ipc.call(ens_registry, "old")).to eq "0x112234455c3a32fd11230c42e7bccd4a84e02010"
@@ -145,6 +151,13 @@ describe Client do
       response = geth_dev_http.call(test_contract, "get")
       expect(response).to eq([12, 24])
     end
+
+    it "calls the function with constructor params" do
+      contract = Contract.from_file(file: "spec/fixtures/contracts/greeter.sol", contract_index: 0)
+      address = geth_dev_http.deploy_and_wait(contract, "Hello!")
+      result = geth_dev_http.call(contract, "greet", address: address)
+      expect(result).to eq("Hello!")
+    end
   end
 
   describe ".transact .transact_and_wait" do
@@ -160,6 +173,14 @@ describe Client do
       expect(response).to eq(42)
     end
 
+    it "the value can be set with the set function, overwriting constructor params" do
+      contract = Contract.from_file(file: "spec/fixtures/contracts/greeter.sol", contract_index: 0)
+      address = geth_dev_http.deploy_and_wait(contract, "Hello!")
+      geth_dev_http.transact_and_wait(contract, "setGreeting", "How are you?", address: address)
+      response = geth_dev_http.call(contract, "greet")
+      expect(response).to eq("How are you?")
+    end
+
     it "transact the function with key" do
       geth_dev_http.transfer_and_wait(test_key.address, 1337 * Unit::ETHER)
       address = geth_dev_http.deploy_and_wait(contract, sender_key: test_key)
@@ -170,6 +191,13 @@ describe Client do
     it "transact the function using legacy transactions" do
       address = geth_dev_http.deploy_and_wait(contract)
       response = geth_dev_http.transact_and_wait(contract, "set", 42, legacy: true, address: address)
+      expect(response).to start_with "0x"
+    end
+
+    it "transacts the function with constructor params" do
+      contract = Contract.from_file(file: "spec/fixtures/contracts/greeter.sol", contract_index: 0)
+      address = geth_dev_http.deploy_and_wait(contract, "Hello!")
+      response = geth_dev_http.transact_and_wait(contract, "setGreeting", "How are you?", address: address)
       expect(response).to start_with "0x"
     end
   end
