@@ -203,7 +203,7 @@ module Eth
         })
       end
       unless kwargs[:sender_key].nil?
-        # use the provided key as sender and signer
+        # Uses the provided key as sender and signer
         params.merge!({
           from: kwargs[:sender_key].address,
           nonce: get_nonce(kwargs[:sender_key].address),
@@ -212,7 +212,7 @@ module Eth
         tx.sign kwargs[:sender_key]
         return eth_send_raw_transaction(tx.hex)["result"]
       else
-        # use the default account as sender and external signer
+        # Uses the default account as sender and external signer
         params.merge!({
           from: default_account,
           nonce: get_nonce(default_account),
@@ -413,7 +413,7 @@ module Eth
         })
       end
       unless kwargs[:sender_key].nil?
-        # use the provided key as sender and signer
+        # Uses the provided key as sender and signer
         params.merge!({
           from: kwargs[:sender_key].address,
           nonce: get_nonce(kwargs[:sender_key].address),
@@ -477,3 +477,7 @@ module Eth
     end
   end
 end
+
+# Load the client/* libraries
+require "eth/client/http"
+require "eth/client/ipc"
