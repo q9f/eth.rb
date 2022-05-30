@@ -16,6 +16,7 @@
 
 # Provides the {Eth} module.
 module Eth
+
   # Provide classes for contract function input.
   class Contract::FunctionInput
     attr_accessor :type, :name
@@ -28,7 +29,7 @@ module Eth
       @name = data["name"]
     end
 
-    # Returns types like uint256
+    # Returns complete types with subtypes, e.g., `uint256`.
     def type
       @type.base_type + @type.sub_type
     end

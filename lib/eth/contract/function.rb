@@ -16,6 +16,7 @@
 
 # Provides the {Eth} module.
 module Eth
+
   # Provides the methods for smart contract function.
   class Contract::Function
     attr_accessor :name, :inputs, :outputs, :signature, :constant, :function_string
@@ -36,7 +37,7 @@ module Eth
       @signature = self.class.encoded_function_signature(@function_string)
     end
 
-    # Create function strings.
+    # Creates function strings.
     #
     # @param name [String] function name.
     # @param inputs [Array<Eth::Contract::FunctionInput>] function input class list.
@@ -45,12 +46,12 @@ module Eth
       "#{name}(#{inputs.collect { |x| x.type }.join(",")})"
     end
 
-    # encode function signature.
+    # Encodes a function signature.
     #
     # @param signature [String] function signature.
     # @return [String] encoded function signature string.
     def self.encoded_function_signature(signature)
-      Digest::Keccak.hexdigest(signature, 256)[0..7]
+      Util.bin_to_hex Util.keccak256(signature)[0..3]
     end
   end
 end

@@ -16,6 +16,7 @@
 
 # Provides the {Eth} module.
 module Eth
+
   # Provide classes for contract initializer.
   class Contract::Initializer
     attr_accessor :contracts, :file
@@ -36,7 +37,7 @@ module Eth
       end
     end
 
-    # Build and return all contracts.
+    # Builds and returns all contracts.
     def build_all
       @contracts.each do |contract|
         contract.build
