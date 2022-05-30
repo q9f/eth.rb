@@ -165,7 +165,7 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Returns the value of attribute type.</p>
+<p>Returns complete types with subtypes, e.g., <code>uint256</code>.</p>
 </div></span>
   
 </li>
@@ -204,7 +204,7 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>A new instance of FunctionOutput.</p>
+<p>Constructor of the <span class='object_link'><a href="" title="Eth::Contract::FunctionOutput (class)">FunctionOutput</a></span> class.</p>
 </div></span>
   
 </li>
@@ -228,13 +228,33 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns a new instance of FunctionOutput.</p>
+<p>Constructor of the <span class='object_link'><a href="" title="Eth::Contract::FunctionOutput (class)">Eth::Contract::FunctionOutput</a></span> class.</p>
 
 
   </div>
 </div>
 <div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
   
+    <li>
+      
+        <span class='name'>data</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>contract abi data.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
 
 </div><table class="source_code">
   <tr>
@@ -242,13 +262,13 @@
       <pre class="lines">
 
 
-23
-24
-25
-26</pre>
+27
+28
+29
+30</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/contract/function_output.rb', line 23</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/contract/function_output.rb', line 27</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_data'>data</span><span class='rparen'>)</span>
   <span class='ivar'>@type</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../../Eth.html" title="Eth (module)">Eth</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Abi.html" title="Eth::Abi (module)">Abi</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Abi/Type.html" title="Eth::Abi::Type (class)">Type</a></span></span><span class='period'>.</span><span class='id identifier rubyid_parse'><span class='object_link'><a href="../Abi/Type.html#parse-instance_method" title="Eth::Abi::Type#parse (method)">parse</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_data'>data</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>type</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='rparen'>)</span>
@@ -292,12 +312,12 @@
       <pre class="lines">
 
 
-21
 22
-23</pre>
+23
+24</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/contract/function_output.rb', line 21</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/contract/function_output.rb', line 22</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_name'>name</span>
   <span class='ivar'>@name</span>
@@ -321,7 +341,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the value of attribute type.</p>
+<p>Returns complete types with subtypes, e.g., <code>uint256</code>.</p>
 
 
   </div>
@@ -335,12 +355,12 @@
       <pre class="lines">
 
 
-21
-22
-23</pre>
+33
+34
+35</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/contract/function_output.rb', line 21</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/contract/function_output.rb', line 33</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_type'>type</span>
   <span class='ivar'>@type</span>
@@ -356,7 +376,7 @@
 </div>
 
       <div id="footer">
-  Generated on Mon May 30 10:33:35 2022 by
+  Generated on Mon May 30 13:53:23 2022 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.27 (ruby-2.7.6).
 </div>

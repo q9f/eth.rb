@@ -1689,7 +1689,7 @@
     <span class='rbrace'>}</span><span class='rparen'>)</span>
   <span class='kw'>end</span>
   <span class='kw'>unless</span> <span class='id identifier rubyid_kwargs'>kwargs</span><span class='lbracket'>[</span><span class='symbol'>:sender_key</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
-    <span class='comment'># use the provided key as sender and signer
+    <span class='comment'># Uses the provided key as sender and signer
 </span>    <span class='id identifier rubyid_params'>params</span><span class='period'>.</span><span class='id identifier rubyid_merge!'>merge!</span><span class='lparen'>(</span><span class='lbrace'>{</span>
       <span class='label'>from:</span> <span class='id identifier rubyid_kwargs'>kwargs</span><span class='lbracket'>[</span><span class='symbol'>:sender_key</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_address'>address</span><span class='comma'>,</span>
       <span class='label'>nonce:</span> <span class='id identifier rubyid_get_nonce'>get_nonce</span><span class='lparen'>(</span><span class='id identifier rubyid_kwargs'>kwargs</span><span class='lbracket'>[</span><span class='symbol'>:sender_key</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_address'>address</span><span class='rparen'>)</span><span class='comma'>,</span>
@@ -1698,7 +1698,7 @@
     <span class='id identifier rubyid_tx'>tx</span><span class='period'>.</span><span class='id identifier rubyid_sign'>sign</span> <span class='id identifier rubyid_kwargs'>kwargs</span><span class='lbracket'>[</span><span class='symbol'>:sender_key</span><span class='rbracket'>]</span>
     <span class='kw'>return</span> <span class='id identifier rubyid_eth_send_raw_transaction'>eth_send_raw_transaction</span><span class='lparen'>(</span><span class='id identifier rubyid_tx'>tx</span><span class='period'>.</span><span class='id identifier rubyid_hex'>hex</span><span class='rparen'>)</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>result</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span>
   <span class='kw'>else</span>
-    <span class='comment'># use the default account as sender and external signer
+    <span class='comment'># Uses the default account as sender and external signer
 </span>    <span class='id identifier rubyid_params'>params</span><span class='period'>.</span><span class='id identifier rubyid_merge!'>merge!</span><span class='lparen'>(</span><span class='lbrace'>{</span>
       <span class='label'>from:</span> <span class='id identifier rubyid_default_account'>default_account</span><span class='comma'>,</span>
       <span class='label'>nonce:</span> <span class='id identifier rubyid_get_nonce'>get_nonce</span><span class='lparen'>(</span><span class='id identifier rubyid_default_account'>default_account</span><span class='rparen'>)</span><span class='comma'>,</span>
@@ -3432,7 +3432,7 @@
 </div>
 
       <div id="footer">
-  Generated on Mon May 30 10:33:33 2022 by
+  Generated on Mon May 30 13:53:22 2022 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.27 (ruby-2.7.6).
 </div>

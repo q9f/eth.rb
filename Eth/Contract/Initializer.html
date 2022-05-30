@@ -202,7 +202,7 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Build and return all contracts.</p>
+<p>Builds and returns all contracts.</p>
 </div></span>
   
 </li>
@@ -286,7 +286,6 @@
       <pre class="lines">
 
 
-26
 27
 28
 29
@@ -297,10 +296,11 @@
 34
 35
 36
-37</pre>
+37
+38</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/contract/initializer.rb', line 26</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/contract/initializer.rb', line 27</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_file'>file</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_sol_output'>sol_output</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../../Eth.html" title="Eth (module)">Eth</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Solidity.html" title="Eth::Solidity (class)">Solidity</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../Solidity.html#initialize-instance_method" title="Eth::Solidity#initialize (method)">new</a></span></span><span class='period'>.</span><span class='id identifier rubyid_compile'><span class='object_link'><a href="../Solidity.html#compile-instance_method" title="Eth::Solidity#compile (method)">compile</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_file'>file</span><span class='rparen'>)</span>
@@ -352,12 +352,12 @@
       <pre class="lines">
 
 
-21
 22
-23</pre>
+23
+24</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/contract/initializer.rb', line 21</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/contract/initializer.rb', line 22</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_contracts'>contracts</span>
   <span class='ivar'>@contracts</span>
@@ -395,12 +395,12 @@
       <pre class="lines">
 
 
-21
 22
-23</pre>
+23
+24</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/contract/initializer.rb', line 21</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/contract/initializer.rb', line 22</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_file'>file</span>
   <span class='ivar'>@file</span>
@@ -429,7 +429,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Build and return all contracts.</p>
+<p>Builds and returns all contracts.</p>
 
 
   </div>
@@ -443,14 +443,14 @@
       <pre class="lines">
 
 
-40
 41
 42
 43
-44</pre>
+44
+45</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/contract/initializer.rb', line 40</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/contract/initializer.rb', line 41</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_build_all'>build_all</span>
   <span class='ivar'>@contracts</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_contract'>contract</span><span class='op'>|</span>
@@ -467,7 +467,7 @@
 </div>
 
       <div id="footer">
-  Generated on Mon May 30 10:33:35 2022 by
+  Generated on Mon May 30 13:53:23 2022 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.27 (ruby-2.7.6).
 </div>
