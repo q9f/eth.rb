@@ -85,6 +85,8 @@ module Eth
 
     # Chain ID for the geth private network preset.
     PRIVATE_GETH = 1337.freeze
+    MATIC = 137.freeze
+    MUMBAI = 80001.freeze
 
     # Indicates wether the given `v` indicates a legacy chain value
     # without EIP-155 replay protection.
