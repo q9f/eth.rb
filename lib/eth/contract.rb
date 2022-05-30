@@ -134,3 +134,10 @@ module Eth
     end
   end
 end
+
+# Load the contract/* libraries
+require "eth/contract/event"
+require "eth/contract/function"
+require "eth/contract/function_input"
+require "eth/contract/function_output"
+require "eth/contract/initializer"

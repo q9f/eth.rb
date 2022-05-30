@@ -16,6 +16,7 @@
 
 # Provides the {Eth} module.
 module Eth
+
   # Provide classes for contract event.
   class Contract::Event
     attr_accessor :name, :signature, :input_types, :inputs, :event_string, :address
