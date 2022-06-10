@@ -306,6 +306,7 @@ module Eth
 
     # Properly encodes unsigned integers.
     def encode_uint(arg, type)
+      arg = arg.to_i if arg.is_a? String
       raise ValueOutOfBounds, "Number out of range: #{arg}" if arg > Constant::UINT_MAX or arg < Constant::UINT_MIN
       real_size = type.sub_type.to_i
       i = arg.to_i
@@ -315,6 +316,7 @@ module Eth
 
     # Properly encodes signed integers.
     def encode_int(arg, type)
+      arg = arg.to_i if arg.is_a? String
       raise ValueOutOfBounds, "Number out of range: #{arg}" if arg > Constant::INT_MAX or arg < Constant::INT_MIN
       real_size = type.sub_type.to_i
       i = arg.to_i
