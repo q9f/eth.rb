@@ -181,11 +181,11 @@ module Eth
     def deploy(contract, *args, **kwargs)
       raise ArgumentError, "Cannot deploy contract without source or binary!" if contract.bin.nil?
       raise ArgumentError, "Missing contract constructor params!" if contract.constructor_inputs.length != args.length
-      gas_limit = Tx.estimate_intrinsic_gas(contract.bin) + Tx::CREATE_GAS
       data = contract.bin
       unless args.empty?
         data += encode_constructor_params(contract, args)
       end
+      gas_limit = Tx.estimate_intrinsic_gas(data) + Tx::CREATE_GAS
       params = {
         value: 0,
         gas_limit: gas_limit,
