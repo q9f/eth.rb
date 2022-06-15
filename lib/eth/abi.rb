@@ -306,6 +306,7 @@ module Eth
 
     # Properly encodes unsigned integers.
     def encode_uint(arg, type)
+      raise ArgumentError, "Don't know how to handle this input." unless arg.is_a? Numeric
       raise ValueOutOfBounds, "Number out of range: #{arg}" if arg > Constant::UINT_MAX or arg < Constant::UINT_MIN
       real_size = type.sub_type.to_i
       i = arg.to_i
@@ -315,6 +316,7 @@ module Eth
 
     # Properly encodes signed integers.
     def encode_int(arg, type)
+      raise ArgumentError, "Don't know how to handle this input." unless arg.is_a? Numeric
       raise ValueOutOfBounds, "Number out of range: #{arg}" if arg > Constant::INT_MAX or arg < Constant::INT_MIN
       real_size = type.sub_type.to_i
       i = arg.to_i
@@ -330,6 +332,7 @@ module Eth
 
     # Properly encodes unsigned fixed-point numbers.
     def encode_ufixed(arg, type)
+      raise ArgumentError, "Don't know how to handle this input." unless arg.is_a? Numeric
       high, low = type.sub_type.split("x").map(&:to_i)
       raise ValueOutOfBounds, arg unless arg >= 0 and arg < 2 ** high
       return Util.zpad_int((arg * 2 ** low).to_i)
@@ -337,6 +340,7 @@ module Eth
 
     # Properly encodes signed fixed-point numbers.
     def encode_fixed(arg, type)
+      raise ArgumentError, "Don't know how to handle this input." unless arg.is_a? Numeric
       high, low = type.sub_type.split("x").map(&:to_i)
       raise ValueOutOfBounds, arg unless arg >= -2 ** (high - 1) and arg < 2 ** (high - 1)
       i = (arg * 2 ** low).to_i
