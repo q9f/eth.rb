@@ -8,6 +8,11 @@ describe Signature do
       proof = "This is proof that I, user A, have access to this address."
       expect(Signature.prefix_message proof).to eq "\x19Ethereum Signed Message:\n58This is proof that I, user A, have access to this address."
     end
+
+    it "can properly prefix messages with multibyte characters" do
+      hello = "Hello World!🌏"
+      expect(Signature.prefix_message hello).to eq "\x19Ethereum Signed Message:\n16Hello World!🌏"
+    end
   end
 
   describe ".dissect" do

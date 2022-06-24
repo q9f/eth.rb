@@ -38,7 +38,7 @@ module Eth
     # @param message [String] the message string to be prefixed.
     # @return [String] an EIP-191 prefixed string.
     def prefix_message(message)
-      "#{EIP191_PREFIX_BYTE}Ethereum Signed Message:\n#{message.size}#{message}"
+      "#{EIP191_PREFIX_BYTE}Ethereum Signed Message:\n#{message.bytesize}#{message}"
     end
 
     # Dissects a signature blob of 65+ bytes into its `r`, `s`, and `v`
