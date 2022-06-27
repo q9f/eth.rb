@@ -61,13 +61,6 @@ describe Abi do
       end
     end
 
-    it "can encode numbers from string inputs" do
-      expect(Abi.encode(["uint256"], ["10000000000000000000000"])).to eq Abi.encode(["uint256"], [10000000000000000000000])
-      expect(Abi.decode(["uint256"], "00000000000000000000000000000000000000000000021e19e0c9bab2400000")).to eq [10000000000000000000000]
-      expect(Abi.encode(["int256"], ["20000000000000000000000"])).to eq Abi.encode(["int256"], [20000000000000000000000])
-      expect(Abi.decode(["int256"], "00000000000000000000000000000000000000000000043c33c1937564800000")).to eq [20000000000000000000000]
-    end
-
     it "can do encode and decode complex types" do
       types = [
         "bool",
