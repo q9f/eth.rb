@@ -159,6 +159,7 @@ module Eth
     #   *args Optional variable constructor parameter list
     #   **sender_key [Eth::Key] the sender private key.
     #   **legacy [Boolean] enables legacy transactions (pre-EIP-1559).
+    #   **gas_limit [Integer] optional gas limit override for deploying the contract.
     # @return [String] the contract address.
     def deploy_and_wait(contract, *args, **kwargs)
       hash = wait_for_tx(deploy(contract, *args, **kwargs))
@@ -176,6 +177,7 @@ module Eth
     #   *args Optional variable constructor parameter list
     #   **sender_key [Eth::Key] the sender private key.
     #   **legacy [Boolean] enables legacy transactions (pre-EIP-1559).
+    #   **gas_limit [Integer] optional gas limit override for deploying the contract.
     # @return [String] the transaction hash.
     # @raise [ArgumentError] in case the contract does not have any source.
     def deploy(contract, *args, **kwargs)
@@ -185,7 +187,11 @@ module Eth
       unless args.empty?
         data += encode_constructor_params(contract, args)
       end
-      gas_limit = Tx.estimate_intrinsic_gas(data) + Tx::CREATE_GAS
+      gas_limit = if kwargs[:gas_limit]
+        kwargs[:gas_limit]
+      else
+        Tx.estimate_intrinsic_gas(data) + Tx::CREATE_GAS
+      end
       params = {
         value: 0,
         gas_limit: gas_limit,
