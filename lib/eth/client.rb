@@ -188,10 +188,10 @@ module Eth
         data += encode_constructor_params(contract, args)
       end
       gas_limit = if kwargs[:gas_limit]
-        kwargs[:gas_limit]
-      else
-        Tx.estimate_intrinsic_gas(data) + Tx::CREATE_GAS
-      end
+          kwargs[:gas_limit]
+        else
+          Tx.estimate_intrinsic_gas(data) + Tx::CREATE_GAS
+        end
       params = {
         value: 0,
         gas_limit: gas_limit,
