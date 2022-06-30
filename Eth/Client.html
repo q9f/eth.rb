@@ -1169,7 +1169,7 @@
     
       <span class="overload">#<strong>call</strong>(contract, function_name, value)  &#x21d2; <tt>Object</tt> </span>
     
-      <span class="overload">#<strong>call</strong>(contract, function_name, value, sender_key, legacy)  &#x21d2; <tt>Object</tt> </span>
+      <span class="overload">#<strong>call</strong>(contract, function_name, value, sender_key, legacy, gas_limit)  &#x21d2; <tt>Object</tt> </span>
     
   
 
@@ -1309,7 +1309,7 @@
     
       
       <li class="overload_item">
-        <span class="signature">#<strong>call</strong>(contract, function_name, value, sender_key, legacy)  &#x21d2; <tt>Object</tt> </span>
+        <span class="signature">#<strong>call</strong>(contract, function_name, value, sender_key, legacy, gas_limit)  &#x21d2; <tt>Object</tt> </span>
         <div class="docstring">
   <div class="discussion">
     
@@ -1400,6 +1400,22 @@
       
     </li>
   
+    <li>
+      
+        <span class='name'>gas_limit</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>optional gas limit override for deploying the contract.</p>
+</div>
+      
+    </li>
+  
 </ul>
 
 
@@ -1446,19 +1462,19 @@
       <pre class="lines">
 
 
-241
-242
-243
-244
-245
-246
-247
 248
 249
-250</pre>
+250
+251
+252
+253
+254
+255
+256
+257</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 241</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 248</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_call'>call</span><span class='lparen'>(</span><span class='id identifier rubyid_contract'>contract</span><span class='comma'>,</span> <span class='id identifier rubyid_function_name'>function_name</span><span class='comma'>,</span> <span class='op'>*</span><span class='id identifier rubyid_args'>args</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_kwargs'>kwargs</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_func'>func</span> <span class='op'>=</span> <span class='id identifier rubyid_contract'>contract</span><span class='period'>.</span><span class='id identifier rubyid_functions'>functions</span><span class='period'>.</span><span class='id identifier rubyid_select'>select</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_func'>func</span><span class='op'>|</span> <span class='id identifier rubyid_func'>func</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span> <span class='op'>==</span> <span class='id identifier rubyid_function_name'>function_name</span> <span class='rbrace'>}</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span>
@@ -1542,7 +1558,7 @@
         <div class="docstring">
   <div class="discussion">
     
-<p>*args Optional variable constructor parameter list <strong>sender_key [Eth::Key] the sender private key. </strong>legacy [Boolean] enables legacy transactions (pre-EIP-1559).</p>
+<p><em>args Optional variable constructor parameter list <strong>sender_key [Eth::Key] the sender private key. </strong>legacy [Boolean] enables legacy transactions (pre-EIP-1559). </em>*gas_limit [Integer] optional gas limit override for deploying the contract.</p>
 
 
   </div>
@@ -1618,8 +1634,6 @@
       <pre class="lines">
 
 
-181
-182
 183
 184
 185
@@ -1659,10 +1673,16 @@
 219
 220
 221
-222</pre>
+222
+223
+224
+225
+226
+227
+228</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 181</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 183</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_deploy'>deploy</span><span class='lparen'>(</span><span class='id identifier rubyid_contract'>contract</span><span class='comma'>,</span> <span class='op'>*</span><span class='id identifier rubyid_args'>args</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_kwargs'>kwargs</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_raise'>raise</span> <span class='const'>ArgumentError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Cannot deploy contract without source or binary!</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_contract'>contract</span><span class='period'>.</span><span class='id identifier rubyid_bin'>bin</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
@@ -1671,7 +1691,11 @@
   <span class='kw'>unless</span> <span class='id identifier rubyid_args'>args</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
     <span class='id identifier rubyid_data'>data</span> <span class='op'>+=</span> <span class='id identifier rubyid_encode_constructor_params'>encode_constructor_params</span><span class='lparen'>(</span><span class='id identifier rubyid_contract'>contract</span><span class='comma'>,</span> <span class='id identifier rubyid_args'>args</span><span class='rparen'>)</span>
   <span class='kw'>end</span>
-  <span class='id identifier rubyid_gas_limit'>gas_limit</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Tx.html" title="Eth::Tx (module)">Tx</a></span></span><span class='period'>.</span><span class='id identifier rubyid_estimate_intrinsic_gas'><span class='object_link'><a href="Tx.html#estimate_intrinsic_gas-instance_method" title="Eth::Tx#estimate_intrinsic_gas (method)">estimate_intrinsic_gas</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_data'>data</span><span class='rparen'>)</span> <span class='op'>+</span> <span class='const'><span class='object_link'><a href="Tx.html" title="Eth::Tx (module)">Tx</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Tx.html#CREATE_GAS-constant" title="Eth::Tx::CREATE_GAS (constant)">CREATE_GAS</a></span></span>
+  <span class='id identifier rubyid_gas_limit'>gas_limit</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='id identifier rubyid_kwargs'>kwargs</span><span class='lbracket'>[</span><span class='symbol'>:gas_limit</span><span class='rbracket'>]</span>
+      <span class='id identifier rubyid_kwargs'>kwargs</span><span class='lbracket'>[</span><span class='symbol'>:gas_limit</span><span class='rbracket'>]</span>
+    <span class='kw'>else</span>
+      <span class='const'><span class='object_link'><a href="Tx.html" title="Eth::Tx (module)">Tx</a></span></span><span class='period'>.</span><span class='id identifier rubyid_estimate_intrinsic_gas'><span class='object_link'><a href="Tx.html#estimate_intrinsic_gas-instance_method" title="Eth::Tx#estimate_intrinsic_gas (method)">estimate_intrinsic_gas</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_data'>data</span><span class='rparen'>)</span> <span class='op'>+</span> <span class='const'><span class='object_link'><a href="Tx.html" title="Eth::Tx (module)">Tx</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Tx.html#CREATE_GAS-constant" title="Eth::Tx::CREATE_GAS (constant)">CREATE_GAS</a></span></span>
+    <span class='kw'>end</span>
   <span class='id identifier rubyid_params'>params</span> <span class='op'>=</span> <span class='lbrace'>{</span>
     <span class='label'>value:</span> <span class='int'>0</span><span class='comma'>,</span>
     <span class='label'>gas_limit:</span> <span class='id identifier rubyid_gas_limit'>gas_limit</span><span class='comma'>,</span>
@@ -1778,7 +1802,7 @@
         <div class="docstring">
   <div class="discussion">
     
-<p>*args Optional variable constructor parameter list <strong>sender_key [Eth::Key] the sender private key. </strong>legacy [Boolean] enables legacy transactions (pre-EIP-1559).</p>
+<p><em>args Optional variable constructor parameter list <strong>sender_key [Eth::Key] the sender private key. </strong>legacy [Boolean] enables legacy transactions (pre-EIP-1559). </em>*gas_limit [Integer] optional gas limit override for deploying the contract.</p>
 
 
   </div>
@@ -1836,14 +1860,14 @@
       <pre class="lines">
 
 
-163
 164
 165
 166
-167</pre>
+167
+168</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 163</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 164</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_deploy_and_wait'>deploy_and_wait</span><span class='lparen'>(</span><span class='id identifier rubyid_contract'>contract</span><span class='comma'>,</span> <span class='op'>*</span><span class='id identifier rubyid_args'>args</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_kwargs'>kwargs</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_hash'>hash</span> <span class='op'>=</span> <span class='id identifier rubyid_wait_for_tx'>wait_for_tx</span><span class='lparen'>(</span><span class='id identifier rubyid_deploy'>deploy</span><span class='lparen'>(</span><span class='id identifier rubyid_contract'>contract</span><span class='comma'>,</span> <span class='op'>*</span><span class='id identifier rubyid_args'>args</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_kwargs'>kwargs</span><span class='rparen'>)</span><span class='rparen'>)</span>
@@ -2077,13 +2101,13 @@
       <pre class="lines">
 
 
-362
-363
-364
-365</pre>
+374
+375
+376
+377</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 362</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 374</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_is_mined_tx?'>is_mined_tx?</span><span class='lparen'>(</span><span class='id identifier rubyid_hash'>hash</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_mined_tx'>mined_tx</span> <span class='op'>=</span> <span class='id identifier rubyid_eth_get_transaction_by_hash'>eth_get_transaction_by_hash</span> <span class='id identifier rubyid_hash'>hash</span>
@@ -2226,17 +2250,17 @@
       <pre class="lines">
 
 
-341
-342
-343
-344
-345
-346
-347
-348</pre>
+353
+354
+355
+356
+357
+358
+359
+360</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 341</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 353</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_is_valid_signature'>is_valid_signature</span><span class='lparen'>(</span><span class='id identifier rubyid_contract'>contract</span><span class='comma'>,</span> <span class='id identifier rubyid_hash'>hash</span><span class='comma'>,</span> <span class='id identifier rubyid_signature'>signature</span><span class='comma'>,</span> <span class='id identifier rubyid_magic'>magic</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>1626ba7e</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
   <span class='id identifier rubyid_raise'>raise</span> <span class='const'>ArgumentError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Contract not deployed yet.</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_contract'>contract</span><span class='period'>.</span><span class='id identifier rubyid_address'>address</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
@@ -2295,12 +2319,12 @@
       <pre class="lines">
 
 
-354
-355
-356</pre>
+366
+367
+368</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 354</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 366</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_reset_id'>reset_id</span>
   <span class='ivar'>@id</span> <span class='op'>=</span> <span class='int'>0</span>
@@ -2318,7 +2342,7 @@
     
       <span class="overload">#<strong>transact</strong>(contract, function_name, value)  &#x21d2; <tt>Object</tt> </span>
     
-      <span class="overload">#<strong>transact</strong>(contract, function_name, value, sender_key, legacy, address)  &#x21d2; <tt>Object</tt> </span>
+      <span class="overload">#<strong>transact</strong>(contract, function_name, value, sender_key, legacy, address, gas_limit)  &#x21d2; <tt>Object</tt> </span>
     
   
 
@@ -2458,7 +2482,7 @@
     
       
       <li class="overload_item">
-        <span class="signature">#<strong>transact</strong>(contract, function_name, value, sender_key, legacy, address)  &#x21d2; <tt>Object</tt> </span>
+        <span class="signature">#<strong>transact</strong>(contract, function_name, value, sender_key, legacy, address, gas_limit)  &#x21d2; <tt>Object</tt> </span>
         <div class="docstring">
   <div class="discussion">
     
@@ -2565,6 +2589,22 @@
       
     </li>
   
+    <li>
+      
+        <span class='name'>gas_limit</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>optional gas limit override for deploying the contract.</p>
+</div>
+      
+    </li>
+  
 </ul>
 
 
@@ -2598,14 +2638,6 @@
       <pre class="lines">
 
 
-270
-271
-272
-273
-274
-275
-276
-277
 278
 279
 280
@@ -2635,13 +2667,29 @@
 304
 305
 306
-307</pre>
+307
+308
+309
+310
+311
+312
+313
+314
+315
+316
+317
+318
+319</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 270</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 278</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_transact'>transact</span><span class='lparen'>(</span><span class='id identifier rubyid_contract'>contract</span><span class='comma'>,</span> <span class='id identifier rubyid_function_name'>function_name</span><span class='comma'>,</span> <span class='op'>*</span><span class='id identifier rubyid_args'>args</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_kwargs'>kwargs</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_gas_limit'>gas_limit</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Tx.html" title="Eth::Tx (module)">Tx</a></span></span><span class='period'>.</span><span class='id identifier rubyid_estimate_intrinsic_gas'><span class='object_link'><a href="Tx.html#estimate_intrinsic_gas-instance_method" title="Eth::Tx#estimate_intrinsic_gas (method)">estimate_intrinsic_gas</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_contract'>contract</span><span class='period'>.</span><span class='id identifier rubyid_bin'>bin</span><span class='rparen'>)</span> <span class='op'>+</span> <span class='const'><span class='object_link'><a href="Tx.html" title="Eth::Tx (module)">Tx</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Tx.html#CREATE_GAS-constant" title="Eth::Tx::CREATE_GAS (constant)">CREATE_GAS</a></span></span>
+  <span class='id identifier rubyid_gas_limit'>gas_limit</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='id identifier rubyid_kwargs'>kwargs</span><span class='lbracket'>[</span><span class='symbol'>:gas_limit</span><span class='rbracket'>]</span>
+      <span class='id identifier rubyid_kwargs'>kwargs</span><span class='lbracket'>[</span><span class='symbol'>:gas_limit</span><span class='rbracket'>]</span>
+    <span class='kw'>else</span>
+      <span class='const'><span class='object_link'><a href="Tx.html" title="Eth::Tx (module)">Tx</a></span></span><span class='period'>.</span><span class='id identifier rubyid_estimate_intrinsic_gas'><span class='object_link'><a href="Tx.html#estimate_intrinsic_gas-instance_method" title="Eth::Tx#estimate_intrinsic_gas (method)">estimate_intrinsic_gas</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_contract'>contract</span><span class='period'>.</span><span class='id identifier rubyid_bin'>bin</span><span class='rparen'>)</span> <span class='op'>+</span> <span class='const'><span class='object_link'><a href="Tx.html" title="Eth::Tx (module)">Tx</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Tx.html#CREATE_GAS-constant" title="Eth::Tx::CREATE_GAS (constant)">CREATE_GAS</a></span></span>
+    <span class='kw'>end</span>
   <span class='id identifier rubyid_fun'>fun</span> <span class='op'>=</span> <span class='id identifier rubyid_contract'>contract</span><span class='period'>.</span><span class='id identifier rubyid_functions'>functions</span><span class='period'>.</span><span class='id identifier rubyid_select'>select</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_func'>func</span><span class='op'>|</span> <span class='id identifier rubyid_func'>func</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span> <span class='op'>==</span> <span class='id identifier rubyid_function_name'>function_name</span> <span class='rbrace'>}</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span>
   <span class='id identifier rubyid_params'>params</span> <span class='op'>=</span> <span class='lbrace'>{</span>
     <span class='label'>value:</span> <span class='int'>0</span><span class='comma'>,</span>
@@ -2971,12 +3019,12 @@
       <pre class="lines">
 
 
-327
-328
-329</pre>
+339
+340
+341</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 327</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 339</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_transact_and_wait'>transact_and_wait</span><span class='lparen'>(</span><span class='id identifier rubyid_contract'>contract</span><span class='comma'>,</span> <span class='id identifier rubyid_function_name'>function_name</span><span class='comma'>,</span> <span class='op'>*</span><span class='id identifier rubyid_args'>args</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_kwargs'>kwargs</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_wait_for_tx'>wait_for_tx</span><span class='lparen'>(</span><span class='id identifier rubyid_transact'>transact</span><span class='lparen'>(</span><span class='id identifier rubyid_contract'>contract</span><span class='comma'>,</span> <span class='id identifier rubyid_function_name'>function_name</span><span class='comma'>,</span> <span class='op'>*</span><span class='id identifier rubyid_args'>args</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_kwargs'>kwargs</span><span class='rparen'>)</span><span class='rparen'>)</span>
@@ -3398,19 +3446,19 @@
       <pre class="lines">
 
 
-372
-373
-374
-375
-376
-377
-378
-379
-380
-381</pre>
+384
+385
+386
+387
+388
+389
+390
+391
+392
+393</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 372</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 384</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_wait_for_tx'>wait_for_tx</span><span class='lparen'>(</span><span class='id identifier rubyid_hash'>hash</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_start_time'>start_time</span> <span class='op'>=</span> <span class='const'>Time</span><span class='period'>.</span><span class='id identifier rubyid_now'>now</span>
@@ -3432,7 +3480,7 @@
 </div>
 
       <div id="footer">
-  Generated on Mon Jun 27 07:52:27 2022 by
+  Generated on Thu Jun 30 09:28:12 2022 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.28 (ruby-2.7.6).
 </div>
