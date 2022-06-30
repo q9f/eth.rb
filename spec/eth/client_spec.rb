@@ -93,6 +93,11 @@ describe Client do
       expect(address).to start_with "0x"
     end
 
+    it "deploys the contract with a gas limit override" do
+      address = geth_dev_http.deploy_and_wait(contract, gas_limit: 1_000_000)
+      expect(address).to start_with "0x"
+    end
+
     it "deploy the contract with constructor params" do
       contract = Contract.from_file(file: "spec/fixtures/contracts/greeter.sol", contract_index: 0)
       address = geth_dev_http.deploy_and_wait(contract, "Hello!")
@@ -123,6 +128,12 @@ describe Client do
       expect(result).to eq(0)
     end
 
+    it "calls a function with gas_limit override" do
+      geth_dev_http.deploy_and_wait(contract)
+      result = geth_dev_http.call(contract, "get", gas_limit: 60_000)
+      expect(result).to eq(0)
+    end
+
     it "return nil if raw result is 0x" do
       expect(geth_dev_http.call(erc20_contract, "balanceOf", address)).to be_nil
     end
@@ -148,6 +159,14 @@ describe Client do
       response = geth_dev_http.call(test_contract, "get")
       expect(response).to eq([0, 0])
       geth_dev_http.transact_and_wait(test_contract, "set", 12, 24, address: address)
+      response = geth_dev_http.call(test_contract, "get")
+      expect(response).to eq([12, 24])
+    end
+
+    it "transacts with gas limit override" do
+      address = geth_dev_http.deploy_and_wait(test_contract)
+      txn_hash = geth_dev_http.transact_and_wait(test_contract, "set", 12, 24, address: address, gas_limit: 100_000_000)
+      response = geth_dev_http.eth_get_transaction_by_hash(txn_hash)
       response = geth_dev_http.call(test_contract, "get")
       expect(response).to eq([12, 24])
     end
