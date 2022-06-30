@@ -237,12 +237,13 @@ module Eth
     #   @param contract [Eth::Contract] subject contract to call.
     #   @param function_name [String] method name to be called.
     #   @param value [Integer|String] function arguments.
-    # @overload call(contract, function_name, value, sender_key, legacy)
+    # @overload call(contract, function_name, value, sender_key, legacy, gas_limit)
     #   @param contract [Eth::Contract] subject contract to call.
     #   @param function_name [String] method name to be called.
     #   @param value [Integer|String] function arguments.
     #   @param sender_key [Eth::Key] the sender private key.
     #   @param legacy [Boolean] enables legacy transactions (pre-EIP-1559).
+    #   @param gas_limit [Integer] optional gas limit override for deploying the contract.
     # @return [Object] returns the result of the call.
     def call(contract, function_name, *args, **kwargs)
       func = contract.functions.select { |func| func.name == function_name }[0]
@@ -265,16 +266,21 @@ module Eth
     #   @param contract [Eth::Contract] subject contract to call.
     #   @param function_name [String] method name to be called.
     #   @param value [Integer|String] function arguments.
-    # @overload transact(contract, function_name, value, sender_key, legacy, address)
+    # @overload transact(contract, function_name, value, sender_key, legacy, address, gas_limit)
     #   @param contract [Eth::Contract] subject contract to call.
     #   @param function_name [String] method name to be called.
     #   @param value [Integer|String] function arguments.
     #   @param sender_key [Eth::Key] the sender private key.
     #   @param legacy [Boolean] enables legacy transactions (pre-EIP-1559).
     #   @param address [String] contract address.
+    #   @param gas_limit [Integer] optional gas limit override for deploying the contract.
     # @return [Object] returns the result of the call.
     def transact(contract, function_name, *args, **kwargs)
-      gas_limit = Tx.estimate_intrinsic_gas(contract.bin) + Tx::CREATE_GAS
+      gas_limit = if kwargs[:gas_limit]
+          kwargs[:gas_limit]
+        else
+          Tx.estimate_intrinsic_gas(contract.bin) + Tx::CREATE_GAS
+        end
       fun = contract.functions.select { |func| func.name == function_name }[0]
       params = {
         value: 0,
@@ -399,7 +405,11 @@ module Eth
 
     # Non-transactional function call called from call().
     def call_raw(contract, func, *args, **kwargs)
-      gas_limit = Tx.estimate_intrinsic_gas(contract.bin) + Tx::CREATE_GAS
+      gas_limit = if kwargs[:gas_limit]
+          kwargs[:gas_limit]
+        else
+          Tx.estimate_intrinsic_gas(contract.bin) + Tx::CREATE_GAS
+        end
       params = {
         gas_limit: gas_limit,
         chain_id: chain_id,
