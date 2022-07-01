@@ -19,12 +19,13 @@ module Eth
 
   # Provide classes for contract function input.
   class Contract::FunctionInput
-    attr_accessor :type, :name
+    attr_accessor :type, :raw_type, :name
 
     # Constructor of the {Eth::Contract::FunctionInput} class.
     #
     # @param data [Hash] contract abi data.
     def initialize(data)
+      @raw_type = data["type"]
       @type = Eth::Abi::Type.parse(data["type"])
       @name = data["name"]
     end

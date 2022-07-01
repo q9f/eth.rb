@@ -74,7 +74,7 @@ module Eth
     # @return [String] the encoded type.
     # @raise [EncodingError] if value does not match type.
     def encode_type(type, arg)
-      if %w(string bytes).include? type.base_type and type.sub_type.empty?
+      if %w(string bytes).include? type.base_type and type.sub_type.empty? and type.dimensions.empty?
         raise EncodingError, "Argument must be a String" unless arg.instance_of? String
 
         # encodes strings and bytes
@@ -89,10 +89,24 @@ module Eth
         head += encode_type Type.size_type, arg.size
         nested_sub = type.nested_sub
         nested_sub_size = type.nested_sub.size
-        arg.size.times do |i|
 
-          # ref https://github.com/ethereum/tests/issues/691
-          raise NotImplementedError, "Encoding dynamic arrays with nested dynamic sub-types is not implemented for ABI." if nested_sub.is_dynamic?
+        # calculate offsets
+        if %w(string bytes).include?(type.base_type) && type.sub_type.empty?
+          offset = 0
+          arg.size.times do |i|
+            if i == 0
+              offset = arg.size * 32
+            else
+              number_of_words = ((arg[i - 1].size + 32 - 1) / 32).floor
+              total_bytes_length = number_of_words * 32
+              offset += total_bytes_length + 32
+            end
+
+            head += encode_type Type.size_type, offset
+          end
+        end
+
+        arg.size.times do |i|
           head += encode_type nested_sub, arg[i]
         end
         return "#{head}#{tail}"
