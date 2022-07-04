@@ -67,5 +67,11 @@ module Eth
 
     # Infinity as constant for convenience.
     INFINITY = (1.0 / 0.0).freeze
+
+    # Pattern for an 0x-prefixed or non-prefixed hex string
+    HEX_REGEX = /\A(0x)?\h+\z/.freeze
+
+    # Pattern for decimal string
+    DECIMAL_REGEX = /\A\d+\z/.freeze
   end
 end
