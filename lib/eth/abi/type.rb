@@ -138,6 +138,8 @@ module Eth
 
           # bytes can be no longer than 32 bytes
           raise ParseError, "Maximum 32 bytes for fixed-length string or bytes" unless sub_type.empty? || sub_type.to_i <= 32
+        when "tuple"
+
         when "uint", "int"
 
           # integers must have a numerical suffix
