@@ -445,7 +445,7 @@ module Eth
 
     # Encodes function call payloads.
     def call_payload(fun, args)
-      types = fun.inputs.map { |i| i.type }
+      types = fun.inputs.map { |i| i.parsed_type }
       encoded_str = Util.bin_to_hex(Eth::Abi.encode(types, args))
       "0x" + fun.signature + (encoded_str.empty? ? "0" * 64 : encoded_str)
     end

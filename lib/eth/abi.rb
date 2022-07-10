@@ -45,7 +45,13 @@ module Eth
     def encode(types, args)
 
       # parse all types
-      parsed_types = types.map { |t| Type.parse(t) }
+      parsed_types = types.map do |t|
+        if t.is_a?(Type)
+          t
+        else
+          Type.parse(t)
+        end
+      end
 
       # prepare the "head"
       head_size = (0...args.size)
@@ -81,12 +87,15 @@ module Eth
         size = encode_type Type.size_type, arg.size
         padding = Constant::BYTE_ZERO * (Util.ceil32(arg.size) - arg.size)
         return "#{size}#{arg}#{padding}"
-      elsif type.is_dynamic?
-        raise EncodingError, "Argument must be an Array" unless arg.instance_of? Array
-
+      elsif type.base_type == "tuple" && type.dimensions.size == 1 && type.dimensions[0] != 0
+        result = ""
+        result += encode_struct_offsets(type.nested_sub, arg)
+        result += arg.map { |x| encode_type(type.nested_sub, x) }.join
+        result
+      elsif type.is_dynamic? && arg.is_a?(Array)
         # encodes dynamic-sized arrays
         head, tail = "", ""
-        head += encode_type Type.size_type, arg.size
+        head += encode_type(Type.size_type, arg.size)
         nested_sub = type.nested_sub
         nested_sub_size = type.nested_sub.size
 
@@ -102,8 +111,10 @@ module Eth
               offset += total_bytes_length + 32
             end
 
-            head += encode_type Type.size_type, offset
+            head += encode_type(Type.size_type, offset)
           end
+        elsif nested_sub.base_type == "tuple" && nested_sub.is_dynamic?
+          head += encode_struct_offsets(nested_sub, arg)
         end
 
         arg.size.times do |i|
@@ -121,6 +132,22 @@ module Eth
           return arg.map { |x| encode_type(type.nested_sub, x) }.join
         end
       end
+    end
+
+    def encode_struct_offsets(type, arg)
+      result = ""
+      offset = arg.size
+      tails_encoding = arg.map { |a| encode_type(type, a) }
+      arg.size.times do |i|
+        if i == 0
+          offset *= 32
+        else
+          offset += tails_encoding[i - 1].size
+        end
+        offset_string = encode_type(Type.size_type, offset)
+        result += offset_string
+      end
+      result
     end
 
     # Encodes primitive types.
@@ -145,6 +172,8 @@ module Eth
         return encode_fixed arg, type
       when "string", "bytes"
         return encode_bytes arg, type
+      when "tuple"
+        return encode_tuple arg, type
       when "hash"
         return encode_hash arg, type
       when "address"
@@ -379,6 +408,39 @@ module Eth
         # fixed length string/bytes
         return "#{arg}#{padding}"
       end
+    end
+
+    # Properly encodes tuples.
+    def encode_tuple(arg, type)
+      raise EncodingError, "Expecting Hash: #{arg}" unless arg.instance_of? Hash
+      raise EncodingError, "Expecting #{type.components.size} elements: #{arg}" unless arg.size == type.components.size
+
+      static_size = 0
+      type.components.size.times do |i|
+        if type.components[i].is_dynamic?
+          static_size += 32
+        else
+          static_size += Util.ceil32(type.components[i].size || 0)
+        end
+      end
+
+      dynamic_offset = static_size
+      offsets_and_static_values = []
+      dynamic_values = []
+
+      type.components.size.times do |i|
+        component_type = type.components[i]
+        if component_type.is_dynamic?
+          offsets_and_static_values << encode_type(Type.size_type, dynamic_offset)
+          dynamic_value = encode_type(component_type, arg.is_a?(Array) ? arg[i] : arg[component_type.name])
+          dynamic_values << dynamic_value
+          dynamic_offset += dynamic_value.size
+        else
+          offsets_and_static_values << encode_type(component_type, arg.is_a?(Array) ? arg[i] : arg[component_type.name])
+        end
+      end
+
+      offsets_and_static_values.join + dynamic_values.join
     end
 
     # Properly encodes hash-strings.

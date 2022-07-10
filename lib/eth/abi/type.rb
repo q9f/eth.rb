@@ -35,18 +35,27 @@ module Eth
       # The dimension attribute, e.g., `[10]` for an array of size 10.
       attr :dimensions
 
+      # The components of a tuple type.
+      attr :components
+
+      # The name of tuple component.
+      attr :name
+
       # Create a new Type object for base types, sub types, and dimensions.
       # Should not be used; use {Type.parse} instead.
       #
       # @param base_type [String] the base-type attribute.
       # @param sub_type [String] the sub-type attribute.
       # @param dimensions [Array] the dimension attribute.
+      # @param components [Array] the components attribute.
       # @return [Eth::Abi::Type] an ABI type object.
-      def initialize(base_type, sub_type, dimensions)
+      def initialize(base_type, sub_type, dimensions, components = nil, component_name = nil)
         sub_type = sub_type.to_s
         @base_type = base_type
         @sub_type = sub_type
         @dimensions = dimensions
+        @components = components
+        @name = component_name
       end
 
       # Converts the self.parse method into a constructor.
@@ -58,7 +67,7 @@ module Eth
       # @param type [String] a common Solidity type.
       # @return [Eth::Abi::Type] a parsed Type object.
       # @raise [ParseError] if it fails to parse the type.
-      def parse(type)
+      def parse(type, components = nil, component_name = nil)
         _, base_type, sub_type, dimension = /([a-z]*)([0-9]*x?[0-9]*)((\[[0-9]*\])*)/.match(type).to_a
 
         # type dimension can only be numeric
@@ -73,6 +82,8 @@ module Eth
         @base_type = base_type
         @sub_type = sub_type
         @dimensions = dims.map { |x| x[1...-1].to_i }
+        @components = components.map { |component| Eth::Abi::Type.parse(component["type"], component.dig("components"), component.dig("name")) } unless components.nil?
+        @name = component_name
       end
 
       # Creates a new uint256 type used for size.
@@ -98,15 +109,13 @@ module Eth
       def size
         s = nil
         if dimensions.empty?
-          unless ["string", "bytes"].include?(base_type) and sub_type.empty?
+          if !(["string", "bytes", "tuple"].include?(base_type) and sub_type.empty?)
             s = 32
+          elsif base_type == "tuple" && components.all? { |component| !component.is_dynamic? }
+            s = components.reduce(0) { |sum, component| sum + component.size }
           end
-        else
-          unless dimensions.last == 0
-            unless nested_sub.is_dynamic?
-              s = dimensions.last * nested_sub.size
-            end
-          end
+        elsif dimensions.last != 0 && !nested_sub.is_dynamic?
+          s = dimensions.last * nested_sub.size
         end
         @size ||= s
       end
@@ -122,7 +131,21 @@ module Eth
       #
       # @return [Eth::Abi::Type] nested sub-type.
       def nested_sub
-        @nested_sub ||= self.class.new(base_type, sub_type, dimensions[0...-1])
+        @nested_sub ||= self.class.new(base_type, sub_type, dimensions[0...-1], components, name)
+      end
+
+      def to_s
+        if base_type == "tuple"
+          "(" + components.map(&:to_s).join(",") + ")" + (dimensions.size > 0 ? dimensions.map { |x| "[#{x == 0 ? "" : x}]" }.join : "")
+        elsif dimensions.empty?
+          if %w[string bytes].include?(base_type) and sub_type.empty?
+            base_type
+          else
+            "#{base_type}#{sub_type}"
+          end
+        else
+          "#{base_type}#{sub_type}#{dimensions.map { |x| "[#{x == 0 ? "" : x}]" }.join}"
+        end
       end
 
       private
@@ -138,6 +161,7 @@ module Eth
 
           # bytes can be no longer than 32 bytes
           raise ParseError, "Maximum 32 bytes for fixed-length string or bytes" unless sub_type.empty? || sub_type.to_i <= 32
+        when "tuple"
         when "uint", "int"
 
           # integers must have a numerical suffix

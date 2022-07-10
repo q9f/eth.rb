@@ -65,5 +65,43 @@ describe Contract do
       mortal = Contract.from_file(file: file, contract_index: 1)
       expect(mortal).to be_instance_of(Eth::Contract::Mortal)
     end
+
+    it "supports contract with tuples" do
+      file = "spec/fixtures/abi/Tuple.json"
+      abi = JSON.parse(File.read(file))
+      tuples = Contract.from_abi(name: "Tuple", address: "0x0000000000000000000000000000000000000000", abi: abi)
+      expect(tuples.functions[0].inputs[0].type).to eq("tuple")
+      expect(tuples.functions[0].inputs[0].parsed_type.components.size).to eq(7)
+      expect(tuples.functions[0].inputs[0].parsed_type.components[0].base_type).to eq("string")
+      expect(tuples.functions[0].inputs[0].parsed_type.components[0].dimensions).to eq([])
+
+      expect(tuples.functions[0].inputs[0].parsed_type.components[1].base_type).to eq("string")
+      expect(tuples.functions[0].inputs[0].parsed_type.components[1].dimensions).to eq([])
+
+      expect(tuples.functions[0].inputs[0].parsed_type.components[2].base_type).to eq("tuple")
+      expect(tuples.functions[0].inputs[0].parsed_type.components[2].dimensions).to eq([0])
+      expect(tuples.functions[0].inputs[0].parsed_type.components[2].components.size).to eq(3)
+      expect(tuples.functions[0].inputs[0].parsed_type.components[2].components[0].base_type).to eq("uint")
+      expect(tuples.functions[0].inputs[0].parsed_type.components[2].components[1].base_type).to eq("string")
+      expect(tuples.functions[0].inputs[0].parsed_type.components[2].components[2].base_type).to eq("tuple")
+      expect(tuples.functions[0].inputs[0].parsed_type.components[2].components[2].components.size).to eq(2)
+      expect(tuples.functions[0].inputs[0].parsed_type.components[2].components[2].components[0].base_type).to eq("string")
+      expect(tuples.functions[0].inputs[0].parsed_type.components[2].components[2].components[1].base_type).to eq("bytes")
+
+      expect(tuples.functions[0].inputs[0].parsed_type.components[3].base_type).to eq("uint")
+      expect(tuples.functions[0].inputs[0].parsed_type.components[3].sub_type).to eq("256")
+
+      expect(tuples.functions[0].inputs[0].parsed_type.components[4].base_type).to eq("string")
+      expect(tuples.functions[0].inputs[0].parsed_type.components[4].dimensions).to eq([0])
+
+      expect(tuples.functions[0].inputs[0].parsed_type.components[5].base_type).to eq("bytes")
+      expect(tuples.functions[0].inputs[0].parsed_type.components[5].dimensions).to eq([10])
+
+      expect(tuples.functions[0].inputs[0].parsed_type.components[6].base_type).to eq("tuple")
+      expect(tuples.functions[0].inputs[0].parsed_type.components[6].dimensions).to eq([])
+      expect(tuples.functions[0].inputs[0].parsed_type.components[6].components.size).to eq(2)
+      expect(tuples.functions[0].inputs[0].parsed_type.components[6].components[0].base_type).to eq("string")
+      expect(tuples.functions[0].inputs[0].parsed_type.components[6].components[1].base_type).to eq("bytes")
+    end
   end
 end
