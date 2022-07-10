@@ -103,11 +103,5 @@ describe Contract do
       expect(tuples.functions[0].inputs[0].parsed_type.components[6].components[0].base_type).to eq("string")
       expect(tuples.functions[0].inputs[0].parsed_type.components[6].components[1].base_type).to eq("bytes")
     end
-
-    it "supports contract with tuples" do
-      file = "spec/fixtures/abi/Tuple2.json"
-      abi = JSON.parse(File.read(file))
-      tuples = Contract.from_abi(name: "Tuple", address: "0x0000000000000000000000000000000000000000", abi: abi)
-    end
   end
 end
