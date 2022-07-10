@@ -1,0 +1,123 @@
+[
+  {
+    "inputs": [
+      {
+        "components": [
+          {
+            "components": [
+              {
+                "components": [
+                  {
+                    "internalType": "string",
+                    "name": "id",
+                    "type": "string"
+                  },
+                  {
+                    "internalType": "string",
+                    "name": "name",
+                    "type": "string"
+                  }
+                ],
+                "internalType": "struct Tuple2.Foo",
+                "name": "foo",
+                "type": "tuple"
+              }
+            ],
+            "internalType": "struct Tuple2.Nuu",
+            "name": "nuu",
+            "type": "tuple"
+          }
+        ],
+        "internalType": "struct Tuple2.Nar[3]",
+        "name": "var1",
+        "type": "tuple[3]"
+      },
+      {
+        "components": [
+          {
+            "internalType": "uint256",
+            "name": "id",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "data",
+            "type": "uint256"
+          }
+        ],
+        "internalType": "struct Tuple2.Bar[]",
+        "name": "var2",
+        "type": "tuple[]"
+      },
+      {
+        "components": [
+          {
+            "internalType": "string",
+            "name": "id",
+            "type": "string"
+          },
+          {
+            "internalType": "string",
+            "name": "name",
+            "type": "string"
+          }
+        ],
+        "internalType": "struct Tuple2.Foo[]",
+        "name": "var3",
+        "type": "tuple[]"
+      },
+      {
+        "components": [
+          {
+            "components": [
+              {
+                "components": [
+                  {
+                    "internalType": "string",
+                    "name": "id",
+                    "type": "string"
+                  },
+                  {
+                    "internalType": "string",
+                    "name": "name",
+                    "type": "string"
+                  }
+                ],
+                "internalType": "struct Tuple2.Foo",
+                "name": "foo",
+                "type": "tuple"
+              }
+            ],
+            "internalType": "struct Tuple2.Nuu",
+            "name": "nuu",
+            "type": "tuple"
+          }
+        ],
+        "internalType": "struct Tuple2.Nar[]",
+        "name": "var4",
+        "type": "tuple[]"
+      },
+      {
+        "components": [
+          {
+            "internalType": "string",
+            "name": "id",
+            "type": "string"
+          },
+          {
+            "internalType": "string",
+            "name": "name",
+            "type": "string"
+          }
+        ],
+        "internalType": "struct Tuple2.Foo[3]",
+        "name": "var5",
+        "type": "tuple[3]"
+      }
+    ],
+    "name": "idNarBarFooNarFooArrays",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  }
+]

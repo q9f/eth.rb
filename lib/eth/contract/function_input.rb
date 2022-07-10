@@ -26,13 +26,17 @@ module Eth
     # @param data [Hash] contract abi data.
     def initialize(data)
       @raw_type = data["type"]
-      @type = Eth::Abi::Type.parse(data["type"])
+      @type = Eth::Abi::Type.parse(data["type"], data.dig("components"))
       @name = data["name"]
     end
 
     # Returns complete types with subtypes, e.g., `uint256`.
     def type
       @type.base_type + @type.sub_type
+    end
+
+    def parsed_type
+      @type
     end
   end
 end

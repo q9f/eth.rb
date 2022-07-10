@@ -43,7 +43,7 @@ module Eth
     # @param inputs [Array<Eth::Contract::FunctionInput>] function input class list.
     # @return [String] function string.
     def self.calc_signature(name, inputs)
-      "#{name}(#{inputs.collect { |x| x.raw_type }.join(",")})"
+      "#{name}(#{inputs.collect { |x| x.parsed_type.to_s }.join(",")})"
     end
 
     # Encodes a function signature.
