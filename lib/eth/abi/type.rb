@@ -55,7 +55,7 @@ module Eth
         @sub_type = sub_type
         @dimensions = dimensions
         @components = components
-        @component_name = component_name
+        @name = component_name
       end
 
       # Converts the self.parse method into a constructor.
