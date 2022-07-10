@@ -504,11 +504,5 @@ module Eth
         return arg.b
       end
     end
-
-    def is_dynamic(type)
-      type.base_type == "string" or
-        type.base_type == "bytes" or
-        type.base_type == "tuple"
-    end
   end
 end
