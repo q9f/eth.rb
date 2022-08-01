@@ -40,23 +40,20 @@ require "eth/unit"
 require "eth/util"
 require "eth/version"
 
-# Provides shorthand for using these types
-#
-# @example Creating a new Hex object
-#   Hex("0x0fff").to_i
-#     => 
 module Eth
-  # Num = -> { Types::Num.new }
-  # Hex = -> (string) { Types::Hex.new(string) }
-  # Dec = -> (str_or_int) { Types::Dec.new(str_or_int) }
-  # Bin = -> (string) { Types::Bin.new(string) }
 
-  module_eval do
-   def Num() Types::Num.new end
-   def Hex(string) Types::Hex.new(string) end
-   def Bin(string) Types::Bin.new(string) end
-   def Dec(str_or_int) Types::Dec.new(str_or_int) end
-  end
+  module_function
+  # @see {Eth::Types::Num}
+  def Num() Eth::Types::Num.new end
+
+  # @see {Eth::Types::Hex}
+  def Hex(str_or_int) Eth::Types::Hex.new(str_or_int) end
+
+  # @see {Eth::Types::Bin}
+  def Bin(string) Eth::Types::Bin.new(string) end
+
+  # @see {Eth::Types::Dec}
+  def Dec(str_or_int) Eth::Types::Dec.new(str_or_int) end
 end
 
 

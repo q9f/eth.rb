@@ -26,25 +26,41 @@ module Eth
     #
     # @example Pass in a bytestring and convert to hex.
     #   Bin(Keccak256.digest('eh')).to_hex
-    #     =>  
+    #     => "de1b7b28eff2472387272a3db303cca4f84296a0c1440927d67abd6770a2097e" 
     class Bin < Num
 
       # Instantiates a Bin / bytestring
-      #   then uses conversion methods to set the {Hex} and
-      #   {Dec} values.
       #
-      # @example Bin(keccak_string).hex
-      # @example Bin(keccak_string).to_hex
-      #
-      # @example Bin(keccak_string).dec
-      # @example Bin(keccak_string).to_i
-      #
-      # @example Bin(keccak_string).bin
-      # @example Bin(keccak_string).to_bin
-      def initialize(input)
-        @bin = input.b
-        @hex = Hex(bin.unpack1("H*"))
-        @dec = Dec(hex.input.to_i(16))
+      # @example Instantiate a Bin object
+      #   Bin('0xdeadbeef')
+      #     => #<Eth::Types::Bin:0x00007f8dcb102330
+      #       @input="0xdeadbeef",
+      #       @hex="deadbeef",
+      #       @bin="\xDE\xAD\xBE\xEF",
+      #       @dec=3735928559>
+      def initialize(bin)
+        super(bin) do
+          to_bin
+          to_hex
+          to_dec
+        end
+      end
+
+      def to_bin
+        @bin ||= input.b
+      end
+
+      def to_hex
+        @hex ||= _bin_to_hex
+        format_hex!
+      end
+
+      def to_dec
+        @dec ||= hex.to_i(16)
+      end
+
+      def valid?
+        bytes?
       end
     end
   end

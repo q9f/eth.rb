@@ -23,29 +23,48 @@ module Eth
     # @see {Num}
     #
     # @example Pass in an integer and convert to hex
-    #   Dec[15132].to_hex
-    #     =>  
+    #   Dec(15132).to_hex
+    #     => "3b1c"
     # @example Pass in a String that represents a base 10 integer
     #   and convert to binary
     #   
     #   Dec['15132'].to_bin
+    #     => ";\x1C"
     #   
     class Dec < Num
-#      extend Eth::Types
-
       # Instantiates a Dec and converts to hex and binary
       #
       # @param input [String, Integer] Base 10 String or Integer
-      def initialize(input)
-        binding.pry
-        @dec = input.to_i
-
-        @hex = Hex(dec.to_s(16))
-        @bin = Bin(hex.scan(/../).map(&:hex).pack("C*"))
+      # @example Instantiate a Dec object
+      #   Dec.new(3735928559)
+      #     => #<Eth::Types::Dec:0x00007f8dcb102330
+      #       @input="0xdeadbeef",
+      #       @hex="deadbeef",
+      #       @bin="\xDE\xAD\xBE\xEF",
+      #       @dec=3735928559>
+      def initialize(dec)
+        super(dec) do
+          to_dec
+          to_hex
+          to_bin
+        end
       end
 
-      def zpad(expected_length)
-        dec.to_s.rjust(expected_length, '0')
+      def to_dec
+        @dec ||= input.to_i
+      end
+
+      def to_hex
+        @hex ||= dec.to_s(16)
+        format_hex!
+      end
+
+      def to_bin
+        @bin ||= _hex_to_bin
+      end
+
+      def valid?
+        input.is_a?(Fixnum) || input.to_i.to_s == input
       end
     end
   end

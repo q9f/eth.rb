@@ -19,22 +19,41 @@ module Eth
 
   # Provides the {Eth} module.
   module Types
-    # Subclass of {Num} that represents a hex sting
+    # Subclass of {Num} that represents a hex string
     #
     # @see {Num}
     #
-    # @example Convert a bytestring to hex
-    #   Hex(Keccak256.digest('eh'))
-    #     =>  
+    # @example Instantiate a Hex object
+    #   Hex('0xdeadbeef')
+    #     => #<Eth::Types::Hex:0x00007f8dcb102330
+    #       @input="0xdeadbeef",
+    #       @hex="deadbeef",
+    #       @bin="\xDE\xAD\xBE\xEF",
+    #       @dec=3735928559>
     class Hex < Num
+      def initialize(hex)
+        super(hex) do
+          to_hex
+          to_bin
+          to_dec
+        end
+      end
 
-      def initialize(input)
-        @input = input
+      def valid?
+        hex?
+      end
 
-        @hex = input.delete_prefix("0x")
-        @hex = hex.rjust(hex.size + 1, "0") if hex.size.odd?
-        @bin = Bin(hex.scan(/../).map(&:hex).pack("C*"))
-        @dec = Dec(hex.input.to_i(16))
+      def to_hex
+        @hex ||= input.to_s
+        format_hex!
+      end
+
+      def to_bin
+        @bin ||= _hex_to_bin
+      end
+
+      def to_dec
+        @dec ||= hex.to_i(16)
       end
     end
   end

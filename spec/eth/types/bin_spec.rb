@@ -3,15 +3,10 @@
 require "spec_helper"
 
 RSpec.describe Eth::Types::Bin do
-  include TypeHelpers
-
-  context "when input is nil" do
-    subject { described_class.new }
-    it { is_expected.to raise_error }
-  end
+  include TypeHelper
 
   context "when input is a byte string" do
-    subject { described_class.new(bin) }
+    subject { described_class.new(bytes) }
 
     it "can create numeric types" do
       expects_correct_values_for(subject)
@@ -20,6 +15,9 @@ RSpec.describe Eth::Types::Bin do
 
   context "when input is not a byte string" do
     subject { described_class.new('adfafasdfasdfasdf') }
-    it { is_expected.to raise_error }
+
+    it "is expected to raise an error" do
+      expect { subject }.to raise_error(ArgumentError)
+    end
   end
 end
