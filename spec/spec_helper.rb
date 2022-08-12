@@ -36,7 +36,6 @@ RSpec.configure do |config|
 end
 
 require 'eth'
-require 'eth/types'
 include Eth
 
 require_relative File.join(File.dirname(__FILE__), "support", "type_helpers")
