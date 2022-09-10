@@ -10,6 +10,7 @@ describe Chain do
       expect(Chain::CLASSIC).to eq 61
       expect(Chain::POA_NET).to eq 99
       expect(Chain::XDAI).to eq 100
+      expect(Chain::MATIC).to eq 137
       expect(Chain::ARBITRUM).to eq 42161
 
       # Chain IDs for selected testnets
@@ -24,6 +25,7 @@ describe Chain do
       expect(Chain::KOVAN_OPTIMISM).to eq 69
       expect(Chain::XDAI_ARBITRUM).to eq 200
       expect(Chain::GOERLI_OPTIMISM).to eq 420
+      expect(Chain::MUMBAI).to eq 80001
       expect(Chain::RINKEBY_ARBITRUM).to eq 421611
       expect(Chain::SEPOLIA).to eq 11155111
 
