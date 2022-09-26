@@ -156,7 +156,7 @@ module Eth
         unless chain_id.nil?
 
           # recover sender address
-          public_key = Signature.recover(unsigned_hash, "#{r.rjust(64, '0')}#{s.rjust(64, '0')}#{v}", chain_id)
+          public_key = Signature.recover(unsigned_hash, "#{r.rjust(64, "0")}#{s.rjust(64, "0")}#{v}", chain_id)
           address = Util.public_key_to_address(public_key).to_s
           @sender = Tx.sanitize_address address
         else

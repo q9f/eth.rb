@@ -104,7 +104,6 @@ describe Tx do
 
   describe ".decode transaction with small s" do
     it "transaction with s with length 62" do
-
       raw = "0xf86b820e8485012a05f200831e848094ffe811714ab35360b67ee195ace7c10d93f89d8c80844e71d92d8194a07b8f34a8fb85d850b3be4fc0330382e125e4216df5598c6d2c3bc47954684cf99f35ef53ee007c2f705eca91448b5c86e81d10f659ad868409bac8197bba9814"
       tx = Tx.decode raw
       expect(tx.sender).to eq Util.remove_hex_prefix Address.new("f39Fd6e51aad88F6F4ce6aB8827279cffFb92266").to_s
@@ -115,5 +114,4 @@ describe Tx do
       expect(tx.chain_id).to eq 56
     end
   end
-
 end

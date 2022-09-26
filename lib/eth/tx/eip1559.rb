@@ -188,7 +188,7 @@ module Eth
 
         # recover sender address
         v = Chain.to_v recovery_id, chain_id
-        public_key = Signature.recover(unsigned_hash, "#{r}#{s}#{v.to_s(16)}", chain_id)
+        public_key = Signature.recover(unsigned_hash, "#{r.rjust(64, "0")}#{s.rjust(64, "0")}#{v.to_s(16)}", chain_id)
         address = Util.public_key_to_address(public_key).to_s
         @sender = Tx.sanitize_address address
       end
