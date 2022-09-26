@@ -47,6 +47,12 @@ module Eth
     # Chain ID for Arbitrum mainnet.
     ARBITRUM = 42161.freeze
 
+    # Chain ID for the Moonbeam network.
+    MOONBEAM = 1284.freeze
+
+    # Chain ID for the Moonriver network.
+    MOONRIVER = 1285.freeze
+
     # Chain ID for Morden (Ethereum) testnet.
     MORDEN = 2.freeze
 
@@ -91,6 +97,9 @@ module Eth
 
     # Chain ID for the geth private network preset.
     PRIVATE_GETH = 1337.freeze
+
+    # Chain ID for the Moonbase Alpha Testnet network.
+    MOONBASE = 1287.freeze
 
     # Indicates wether the given `v` indicates a legacy chain value
     # used by ledger wallets without EIP-155 replay protection.
