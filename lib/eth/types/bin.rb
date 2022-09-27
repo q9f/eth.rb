@@ -16,7 +16,7 @@
 
 # Provides the {Eth} module.
 module Eth
-  
+
   # Provides a namespace for the numeric types.
   module Types
 
@@ -26,7 +26,7 @@ module Eth
     #
     # @example Pass in a bytestring and convert to hex.
     #   Bin(Keccak256.digest('eh')).to_hex
-    #     => "de1b7b28eff2472387272a3db303cca4f84296a0c1440927d67abd6770a2097e" 
+    #     => "de1b7b28eff2472387272a3db303cca4f84296a0c1440927d67abd6770a2097e"
     class Bin < Num
 
       # Instantiates a Bin / bytestring

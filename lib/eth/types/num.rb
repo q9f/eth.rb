@@ -14,7 +14,6 @@
 
 # -*- encoding : ascii-8bit -*-
 
-
 # Provides the {Eth} module.
 module Eth
   module Types
@@ -85,18 +84,19 @@ module Eth
       #   Defaults to 32.
       #
       # @param len [Integer] the desired total length of the string
-      # @return [String] 
+      # @return [String]
       def zpad(expected_length)
-        dec.to_s.rjust(expected_length, '0')
+        dec.to_s.rjust(expected_length, "0")
       end
 
       private
+
       # @return [Boolean] true if the string is either 0x-prefixed or non-prefixed hex
       def hex?
         input.match?(Constant::HEX_REGEX)
       end
 
-      # @return [Boolean] true if a bytestring: meaning that its encoding is 
+      # @return [Boolean] true if a bytestring: meaning that its encoding is
       #   {Encoding::BINARY} but contains non-ascii chars
       # @example
       #   SecureRandom.random_bytes.b.ascii_only?
@@ -135,7 +135,7 @@ module Eth
       end
 
       def _hex_to_bin
-        hex.scan(/../).map(&:hex).pack('C*').b
+        hex.scan(/../).map(&:hex).pack("C*").b
       end
     end
   end

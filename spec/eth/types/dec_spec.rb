@@ -22,7 +22,7 @@ RSpec.describe Eth::Types::Dec do
   end
 
   context "when input is not a dec string or Integer" do
-    subject { described_class.new('something') }
+    subject { described_class.new("something") }
 
     it "is expected to raise an error" do
       expect { subject }.to raise_error(ArgumentError)

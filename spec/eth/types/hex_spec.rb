@@ -37,7 +37,7 @@ RSpec.describe Eth::Types::Hex do
 
   context "when input is not nil, but also not a hex string" do
     it "should raise an exception" do
-      expect { described_class.new('something') }.to raise_error(ArgumentError)
+      expect { described_class.new("something") }.to raise_error(ArgumentError)
     end
   end
 end

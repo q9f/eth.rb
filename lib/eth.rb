@@ -41,7 +41,6 @@ require "eth/util"
 require "eth/version"
 
 module Eth
-
   module_function
   # @see {Eth::Types::Num}
   def Num() Eth::Types::Num.new end
@@ -55,5 +54,3 @@ module Eth
   # @see {Eth::Types::Dec}
   def Dec(str_or_int) Eth::Types::Dec.new(str_or_int) end
 end
-
-

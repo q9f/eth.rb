@@ -14,7 +14,7 @@ RSpec.describe Eth::Types::Bin do
   end
 
   context "when input is not a byte string" do
-    subject { described_class.new('adfafasdfasdfasdf') }
+    subject { described_class.new("adfafasdfasdfasdf") }
 
     it "is expected to raise an error" do
       expect { subject }.to raise_error(ArgumentError)

@@ -16,7 +16,6 @@
 
 # Provides the {Eth} module.
 module Eth
-  
   module Types
     # Subclass of {Num} that represents a base 10 integer
     #
@@ -27,10 +26,10 @@ module Eth
     #     => "3b1c"
     # @example Pass in a String that represents a base 10 integer
     #   and convert to binary
-    #   
+    #
     #   Dec['15132'].to_bin
     #     => ";\x1C"
-    #   
+    #
     class Dec < Num
       # Instantiates a Dec and converts to hex and binary
       #

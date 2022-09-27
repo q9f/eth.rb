@@ -7,7 +7,7 @@ module TypeHelper
   let(:hex) { "f284757fec556200a4f1" }
   let(:bytes) { "\xF2\x84u\x7F\xECUb\x00\xA4\xF1" }
   let(:prefixed_hex) { "0x#{hex}" }
-  let(:zpad) { '00000001145256125817859742934257' }
+  let(:zpad) { "00000001145256125817859742934257" }
 
   def expects_correct_values_for(subject)
     expect(subject.dec).to eq(integer)

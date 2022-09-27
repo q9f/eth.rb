@@ -19,9 +19,9 @@ RSpec.describe Eth::Types::Num do
       expect(subject.to_zpadded_bytes.size).to eq 32
     end
   end
-  
+
   context "when input is not nil" do
-    subject { described_class.new('derp') }
+    subject { described_class.new("derp") }
 
     it "is expected to raise an error" do
       expect { subject }.to raise_error(NotImplementedError)
