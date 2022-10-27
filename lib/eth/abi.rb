@@ -45,13 +45,7 @@ module Eth
     def encode(types, args)
 
       # parse all types
-      parsed_types = types.map do |t|
-        if t.is_a?(Type)
-          t
-        else
-          Type.parse(t)
-        end
-      end
+      parsed_types = types.map { |t| Type === t ? t : Type.parse(t) }
 
       # prepare the "head"
       head_size = (0...args.size)
