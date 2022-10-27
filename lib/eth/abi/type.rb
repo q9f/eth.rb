@@ -138,7 +138,7 @@ module Eth
         if base_type == "tuple"
           "(" + components.map(&:to_s).join(",") + ")" + (dimensions.size > 0 ? dimensions.map { |x| "[#{x == 0 ? "" : x}]" }.join : "")
         elsif dimensions.empty?
-          if %w[string bytes].include?(base_type) and sub_type.empty?
+          if %w[string bytes].include?(base_type) && sub_type.empty?
             base_type
           else
             "#{base_type}#{sub_type}"
