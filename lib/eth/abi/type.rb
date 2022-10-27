@@ -68,6 +68,7 @@ module Eth
       # @return [Eth::Abi::Type] a parsed Type object.
       # @raise [ParseError] if it fails to parse the type.
       def parse(type, components = nil, component_name = nil)
+        return type if type.is_a?(Type)
         _, base_type, sub_type, dimension = /([a-z]*)([0-9]*x?[0-9]*)((\[[0-9]*\])*)/.match(type).to_a
 
         # type dimension can only be numeric
