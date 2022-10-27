@@ -416,7 +416,7 @@ module Eth
       raise EncodingError, "Expecting #{type.components.size} elements: #{arg}" unless arg.size == type.components.size
 
       static_size = 0
-      type.components.size.times do |i|
+      type.components.each do |component|
         if type.components[i].is_dynamic?
           static_size += 32
         else
