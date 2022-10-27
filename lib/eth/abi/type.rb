@@ -112,7 +112,7 @@ module Eth
           if !(["string", "bytes", "tuple"].include?(base_type) and sub_type.empty?)
             s = 32
           elsif base_type == "tuple" && components.all? { |component| !component.is_dynamic? }
-            s = components.reduce(0) { |sum, component| sum + component.size }
+            s = components.sum(&:size)
           end
         elsif dimensions.last != 0 && !nested_sub.is_dynamic?
           s = dimensions.last * nested_sub.size
