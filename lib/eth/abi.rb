@@ -428,7 +428,7 @@ module Eth
       offsets_and_static_values = []
       dynamic_values = []
 
-      type.components.size.times do |i|
+      type.components.each_with_index do |component, i|
         component_type = type.components[i]
         if component_type.is_dynamic?
           offsets_and_static_values << encode_type(Type.size_type, dynamic_offset)
