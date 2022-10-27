@@ -26,7 +26,7 @@ module Eth
     # @param data [Hash] contract abi data.
     def initialize(data)
       @raw_type = data["type"]
-      @type = Eth::Abi::Type.parse(data["type"], data.dig("components"))
+      @type = Eth::Abi::Type.parse(data["type"], data["components"])
       @name = data["name"]
     end
 
