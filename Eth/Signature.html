@@ -689,14 +689,14 @@
       <pre class="lines">
 
 
-89
-90
-91
 92
-93</pre>
+93
+94
+95
+96</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/signature.rb', line 89</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/signature.rb', line 92</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_personal_recover'>personal_recover</span><span class='lparen'>(</span><span class='id identifier rubyid_message'>message</span><span class='comma'>,</span> <span class='id identifier rubyid_signature'>signature</span><span class='comma'>,</span> <span class='id identifier rubyid_chain_id'>chain_id</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Chain.html" title="Eth::Chain (module)">Chain</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Chain.html#ETHEREUM-constant" title="Eth::Chain::ETHEREUM (constant)">ETHEREUM</a></span></span><span class='rparen'>)</span>
   <span class='id identifier rubyid_prefixed_message'>prefixed_message</span> <span class='op'>=</span> <span class='id identifier rubyid_prefix_message'>prefix_message</span> <span class='id identifier rubyid_message'>message</span>
@@ -913,7 +913,10 @@
 76
 77
 78
-79</pre>
+79
+80
+81
+82</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/eth/signature.rb', line 69</span>
@@ -922,7 +925,10 @@
   <span class='id identifier rubyid_context'>context</span> <span class='op'>=</span> <span class='const'>Secp256k1</span><span class='op'>::</span><span class='const'>Context</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span>
   <span class='id identifier rubyid_r'>r</span><span class='comma'>,</span> <span class='id identifier rubyid_s'>s</span><span class='comma'>,</span> <span class='id identifier rubyid_v'>v</span> <span class='op'>=</span> <span class='id identifier rubyid_dissect'>dissect</span> <span class='id identifier rubyid_signature'>signature</span>
   <span class='id identifier rubyid_v'>v</span> <span class='op'>=</span> <span class='id identifier rubyid_v'>v</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span><span class='lparen'>(</span><span class='int'>16</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="Signature/SignatureError.html" title="Eth::Signature::SignatureError (class)">SignatureError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Invalid signature v byte </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_v'>v</span><span class='embexpr_end'>}</span><span class='tstring_content'> for chain ID </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_chain_id'>chain_id</span><span class='embexpr_end'>}</span><span class='tstring_content'>!</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_v'>v</span> <span class='op'>&lt;</span> <span class='id identifier rubyid_chain_id'>chain_id</span>
+  <span class='kw'>if</span> <span class='op'>!</span><span class='const'><span class='object_link'><a href="Chain.html" title="Eth::Chain (module)">Chain</a></span></span><span class='period'>.</span><span class='id identifier rubyid_is_ledger?'><span class='object_link'><a href="Chain.html#is_ledger%3F-instance_method" title="Eth::Chain#is_ledger? (method)">is_ledger?</a></span></span> <span class='id identifier rubyid_v'>v</span> <span class='kw'>and</span> <span class='op'>!</span><span class='const'><span class='object_link'><a href="Chain.html" title="Eth::Chain (module)">Chain</a></span></span><span class='period'>.</span><span class='id identifier rubyid_is_legacy?'><span class='object_link'><a href="Chain.html#is_legacy%3F-instance_method" title="Eth::Chain#is_legacy? (method)">is_legacy?</a></span></span> <span class='id identifier rubyid_v'>v</span>
+    <span class='id identifier rubyid_min_v'>min_v</span> <span class='op'>=</span> <span class='int'>2</span> <span class='op'>*</span> <span class='id identifier rubyid_chain_id'>chain_id</span> <span class='op'>+</span> <span class='int'>35</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="Signature/SignatureError.html" title="Eth::Signature::SignatureError (class)">SignatureError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Invalid signature v byte </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_v'>v</span><span class='embexpr_end'>}</span><span class='tstring_content'> for chain ID </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_chain_id'>chain_id</span><span class='embexpr_end'>}</span><span class='tstring_content'>!</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_v'>v</span> <span class='op'>&lt;</span> <span class='id identifier rubyid_min_v'>min_v</span>
+  <span class='kw'>end</span>
   <span class='id identifier rubyid_recovery_id'>recovery_id</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Chain.html" title="Eth::Chain (module)">Chain</a></span></span><span class='period'>.</span><span class='id identifier rubyid_to_recovery_id'><span class='object_link'><a href="Chain.html#to_recovery_id-instance_method" title="Eth::Chain#to_recovery_id (method)">to_recovery_id</a></span></span> <span class='id identifier rubyid_v'>v</span><span class='comma'>,</span> <span class='id identifier rubyid_chain_id'>chain_id</span>
   <span class='id identifier rubyid_signature_rs'>signature_rs</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_hex_to_bin'><span class='object_link'><a href="Util.html#hex_to_bin-instance_method" title="Eth::Util#hex_to_bin (method)">hex_to_bin</a></span></span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_r'>r</span><span class='embexpr_end'>}</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_s'>s</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
   <span class='id identifier rubyid_recoverable_signature'>recoverable_signature</span> <span class='op'>=</span> <span class='id identifier rubyid_context'>context</span><span class='period'>.</span><span class='id identifier rubyid_recoverable_signature_from_compact'>recoverable_signature_from_compact</span> <span class='id identifier rubyid_signature_rs'>signature_rs</span><span class='comma'>,</span> <span class='id identifier rubyid_recovery_id'>recovery_id</span>
@@ -1032,13 +1038,13 @@
       <pre class="lines">
 
 
-103
-104
-105
-106</pre>
+106
+107
+108
+109</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/signature.rb', line 103</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/signature.rb', line 106</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_recover_typed_data'>recover_typed_data</span><span class='lparen'>(</span><span class='id identifier rubyid_typed_data'>typed_data</span><span class='comma'>,</span> <span class='id identifier rubyid_signature'>signature</span><span class='comma'>,</span> <span class='id identifier rubyid_chain_id'>chain_id</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Chain.html" title="Eth::Chain (module)">Chain</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Chain.html#ETHEREUM-constant" title="Eth::Chain::ETHEREUM (constant)">ETHEREUM</a></span></span><span class='rparen'>)</span>
   <span class='id identifier rubyid_hash_to_sign'>hash_to_sign</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Eip712.html" title="Eth::Eip712 (module)">Eip712</a></span></span><span class='period'>.</span><span class='id identifier rubyid_hash'><span class='object_link'><a href="Eip712.html#hash-instance_method" title="Eth::Eip712#hash (method)">hash</a></span></span> <span class='id identifier rubyid_typed_data'>typed_data</span>
@@ -1181,9 +1187,6 @@
       <pre class="lines">
 
 
-116
-117
-118
 119
 120
 121
@@ -1226,10 +1229,13 @@
 158
 159
 160
-161</pre>
+161
+162
+163
+164</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/signature.rb', line 116</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/signature.rb', line 119</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_verify'>verify</span><span class='lparen'>(</span><span class='id identifier rubyid_blob'>blob</span><span class='comma'>,</span> <span class='id identifier rubyid_signature'>signature</span><span class='comma'>,</span> <span class='id identifier rubyid_public_key'>public_key</span><span class='comma'>,</span> <span class='id identifier rubyid_chain_id'>chain_id</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Chain.html" title="Eth::Chain (module)">Chain</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Chain.html#ETHEREUM-constant" title="Eth::Chain::ETHEREUM (constant)">ETHEREUM</a></span></span><span class='rparen'>)</span>
   <span class='id identifier rubyid_recovered_key'>recovered_key</span> <span class='op'>=</span> <span class='kw'>nil</span>
@@ -1499,14 +1505,14 @@
       <pre class="lines">
 
 
-89
-90
-91
 92
-93</pre>
+93
+94
+95
+96</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/signature.rb', line 89</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/signature.rb', line 92</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_personal_recover'>personal_recover</span><span class='lparen'>(</span><span class='id identifier rubyid_message'>message</span><span class='comma'>,</span> <span class='id identifier rubyid_signature'>signature</span><span class='comma'>,</span> <span class='id identifier rubyid_chain_id'>chain_id</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Chain.html" title="Eth::Chain (module)">Chain</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Chain.html#ETHEREUM-constant" title="Eth::Chain::ETHEREUM (constant)">ETHEREUM</a></span></span><span class='rparen'>)</span>
   <span class='id identifier rubyid_prefixed_message'>prefixed_message</span> <span class='op'>=</span> <span class='id identifier rubyid_prefix_message'>prefix_message</span> <span class='id identifier rubyid_message'>message</span>
@@ -1723,7 +1729,10 @@
 76
 77
 78
-79</pre>
+79
+80
+81
+82</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/eth/signature.rb', line 69</span>
@@ -1732,7 +1741,10 @@
   <span class='id identifier rubyid_context'>context</span> <span class='op'>=</span> <span class='const'>Secp256k1</span><span class='op'>::</span><span class='const'>Context</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span>
   <span class='id identifier rubyid_r'>r</span><span class='comma'>,</span> <span class='id identifier rubyid_s'>s</span><span class='comma'>,</span> <span class='id identifier rubyid_v'>v</span> <span class='op'>=</span> <span class='id identifier rubyid_dissect'>dissect</span> <span class='id identifier rubyid_signature'>signature</span>
   <span class='id identifier rubyid_v'>v</span> <span class='op'>=</span> <span class='id identifier rubyid_v'>v</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span><span class='lparen'>(</span><span class='int'>16</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="Signature/SignatureError.html" title="Eth::Signature::SignatureError (class)">SignatureError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Invalid signature v byte </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_v'>v</span><span class='embexpr_end'>}</span><span class='tstring_content'> for chain ID </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_chain_id'>chain_id</span><span class='embexpr_end'>}</span><span class='tstring_content'>!</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_v'>v</span> <span class='op'>&lt;</span> <span class='id identifier rubyid_chain_id'>chain_id</span>
+  <span class='kw'>if</span> <span class='op'>!</span><span class='const'><span class='object_link'><a href="Chain.html" title="Eth::Chain (module)">Chain</a></span></span><span class='period'>.</span><span class='id identifier rubyid_is_ledger?'><span class='object_link'><a href="Chain.html#is_ledger%3F-instance_method" title="Eth::Chain#is_ledger? (method)">is_ledger?</a></span></span> <span class='id identifier rubyid_v'>v</span> <span class='kw'>and</span> <span class='op'>!</span><span class='const'><span class='object_link'><a href="Chain.html" title="Eth::Chain (module)">Chain</a></span></span><span class='period'>.</span><span class='id identifier rubyid_is_legacy?'><span class='object_link'><a href="Chain.html#is_legacy%3F-instance_method" title="Eth::Chain#is_legacy? (method)">is_legacy?</a></span></span> <span class='id identifier rubyid_v'>v</span>
+    <span class='id identifier rubyid_min_v'>min_v</span> <span class='op'>=</span> <span class='int'>2</span> <span class='op'>*</span> <span class='id identifier rubyid_chain_id'>chain_id</span> <span class='op'>+</span> <span class='int'>35</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="Signature/SignatureError.html" title="Eth::Signature::SignatureError (class)">SignatureError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Invalid signature v byte </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_v'>v</span><span class='embexpr_end'>}</span><span class='tstring_content'> for chain ID </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_chain_id'>chain_id</span><span class='embexpr_end'>}</span><span class='tstring_content'>!</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_v'>v</span> <span class='op'>&lt;</span> <span class='id identifier rubyid_min_v'>min_v</span>
+  <span class='kw'>end</span>
   <span class='id identifier rubyid_recovery_id'>recovery_id</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Chain.html" title="Eth::Chain (module)">Chain</a></span></span><span class='period'>.</span><span class='id identifier rubyid_to_recovery_id'><span class='object_link'><a href="Chain.html#to_recovery_id-instance_method" title="Eth::Chain#to_recovery_id (method)">to_recovery_id</a></span></span> <span class='id identifier rubyid_v'>v</span><span class='comma'>,</span> <span class='id identifier rubyid_chain_id'>chain_id</span>
   <span class='id identifier rubyid_signature_rs'>signature_rs</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_hex_to_bin'><span class='object_link'><a href="Util.html#hex_to_bin-instance_method" title="Eth::Util#hex_to_bin (method)">hex_to_bin</a></span></span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_r'>r</span><span class='embexpr_end'>}</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_s'>s</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
   <span class='id identifier rubyid_recoverable_signature'>recoverable_signature</span> <span class='op'>=</span> <span class='id identifier rubyid_context'>context</span><span class='period'>.</span><span class='id identifier rubyid_recoverable_signature_from_compact'>recoverable_signature_from_compact</span> <span class='id identifier rubyid_signature_rs'>signature_rs</span><span class='comma'>,</span> <span class='id identifier rubyid_recovery_id'>recovery_id</span>
@@ -1842,13 +1854,13 @@
       <pre class="lines">
 
 
-103
-104
-105
-106</pre>
+106
+107
+108
+109</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/signature.rb', line 103</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/signature.rb', line 106</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_recover_typed_data'>recover_typed_data</span><span class='lparen'>(</span><span class='id identifier rubyid_typed_data'>typed_data</span><span class='comma'>,</span> <span class='id identifier rubyid_signature'>signature</span><span class='comma'>,</span> <span class='id identifier rubyid_chain_id'>chain_id</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Chain.html" title="Eth::Chain (module)">Chain</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Chain.html#ETHEREUM-constant" title="Eth::Chain::ETHEREUM (constant)">ETHEREUM</a></span></span><span class='rparen'>)</span>
   <span class='id identifier rubyid_hash_to_sign'>hash_to_sign</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Eip712.html" title="Eth::Eip712 (module)">Eip712</a></span></span><span class='period'>.</span><span class='id identifier rubyid_hash'><span class='object_link'><a href="Eip712.html#hash-instance_method" title="Eth::Eip712#hash (method)">hash</a></span></span> <span class='id identifier rubyid_typed_data'>typed_data</span>
@@ -1991,9 +2003,6 @@
       <pre class="lines">
 
 
-116
-117
-118
 119
 120
 121
@@ -2036,10 +2045,13 @@
 158
 159
 160
-161</pre>
+161
+162
+163
+164</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/signature.rb', line 116</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/signature.rb', line 119</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_verify'>verify</span><span class='lparen'>(</span><span class='id identifier rubyid_blob'>blob</span><span class='comma'>,</span> <span class='id identifier rubyid_signature'>signature</span><span class='comma'>,</span> <span class='id identifier rubyid_public_key'>public_key</span><span class='comma'>,</span> <span class='id identifier rubyid_chain_id'>chain_id</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Chain.html" title="Eth::Chain (module)">Chain</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Chain.html#ETHEREUM-constant" title="Eth::Chain::ETHEREUM (constant)">ETHEREUM</a></span></span><span class='rparen'>)</span>
   <span class='id identifier rubyid_recovered_key'>recovered_key</span> <span class='op'>=</span> <span class='kw'>nil</span>
@@ -2097,7 +2109,7 @@
 </div>
 
       <div id="footer">
-  Generated on Mon Oct 31 12:46:19 2022 by
+  Generated on Mon Oct 31 12:47:06 2022 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.28 (ruby-2.7.6).
 </div>
