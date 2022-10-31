@@ -103,7 +103,7 @@ describe Tx::Eip1559 do
           max_gas_fee: Unit::GWEI,
           gas_limit: Tx::BLOCK_GAS_LIMIT + 1,
         })
-      }.to raise_error Tx::ParameterError, "Invalid gas limit 25000001!"
+      }.to raise_error Tx::ParameterError, "Invalid gas limit 30000001!"
       expect {
         Tx.new({
           nonce: -1,

@@ -56,7 +56,7 @@ module Eth
     # use {Client.create} intead.
     def initialize(_)
       @id = 0
-      @max_priority_fee_per_gas = 0
+      @max_priority_fee_per_gas = Tx::DEFAULT_PRIORITY_FEE
       @max_fee_per_gas = Tx::DEFAULT_GAS_PRICE
       @gas_limit = Tx::DEFAULT_GAS_LIMIT
     end

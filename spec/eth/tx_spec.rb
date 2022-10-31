@@ -4,8 +4,9 @@ describe Tx do
   context "#GAS" do
     it "defines gas limits" do
       expect(Tx::DEFAULT_GAS_LIMIT).to eq 21_000
-      expect(Tx::DEFAULT_GAS_PRICE).to eq 20_000_000_000
-      expect(Tx::BLOCK_GAS_LIMIT).to eq 25_000_000
+      expect(Tx::DEFAULT_PRIORITY_FEE).to eq 1_010_000_000
+      expect(Tx::DEFAULT_GAS_PRICE).to eq 42_690_000_000
+      expect(Tx::BLOCK_GAS_LIMIT).to eq 30_000_000
     end
 
     it "defines gas costs" do

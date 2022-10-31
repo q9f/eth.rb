@@ -42,7 +42,7 @@ describe Client do
       expect(geth_dev_ipc.id).to eq 0
       expect(geth_dev_ipc.chain_id).to eq Chain::PRIVATE_GETH
       expect(geth_dev_ipc.default_account).to be_instance_of Address
-      expect(geth_dev_ipc.max_priority_fee_per_gas).to eq 0
+      expect(geth_dev_ipc.max_priority_fee_per_gas).to eq Tx::DEFAULT_PRIORITY_FEE
       expect(geth_dev_ipc.max_fee_per_gas).to eq Tx::DEFAULT_GAS_PRICE
       expect(geth_dev_ipc.gas_limit).to eq Tx::DEFAULT_GAS_LIMIT
     end
