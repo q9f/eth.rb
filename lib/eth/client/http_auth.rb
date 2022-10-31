@@ -17,8 +17,8 @@ require "net/http"
 # Provides the {Eth} module.
 module Eth
 
-  # Provides an HTTP/S-RPC Basic client.
-  class Client::HttpBasic < Client
+  # Provides an HTTP/S-RPC client with basic authentication.
+  class Client::HttpAuth < Client
 
     # The host of the HTTP endpoint.
     attr_reader :host
