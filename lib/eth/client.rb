@@ -28,17 +28,22 @@ module Eth
     # The connected network's client coinbase.
     attr_accessor :default_account
 
-    # The default transaction max priority fee per gas in Wei.
+    # The default transaction max priority fee per gas in Wei, defaults to {Tx::DEFAULT_PRIORITY_FEE}.
     attr_accessor :max_priority_fee_per_gas
 
-    # The default transaction max fee per gas in Wei.
+    # The default transaction max fee per gas in Wei, defaults to {Tx::DEFAULT_GAS_PRICE}.
     attr_accessor :max_fee_per_gas
 
-    # The default gas limit for the transaction.
+    # The default gas limit for the transaction, defaults to {Tx::DEFAULT_GAS_LIMIT}.
     attr_accessor :gas_limit
 
     # Creates a new RPC-Client, either by providing an HTTP/S host or
-    # an IPC path.
+    # an IPC path. Supports basic authentication with username and password.
+    #
+    # **Note**, this sets the folling gas defaults: {Tx::DEFAULT_PRIORITY_FEE},
+    # {Tx::DEFAULT_GAS_PRICE}, and {Tx::DEFAULT_GAS_LIMIT}. Use
+    # {#max_priority_fee_per_gas}, {#max_fee_per_gas}, and {#gas_limit} to set
+    # custom values prior to submitting transactions.
     #
     # @param host [String] either an HTTP/S host or an IPC path.
     # @return [Eth::Client::Ipc] an IPC client.
@@ -62,6 +67,9 @@ module Eth
     end
 
     # Gets the default account (coinbase) of the connected client.
+    #
+    # **Note**, that many remote providers (e.g., Infura) do not provide
+    # any accounts.
     #
     # @return [Eth::Address] the coinbase account address.
     def default_account
@@ -92,14 +100,12 @@ module Eth
     end
 
     # Simply transfer Ether to an account and waits for it to be mined.
-    # Uses `eth_coinbase` and external signer if no  sender key is
+    # Uses `eth_coinbase` and external signer if no sender key is
     # provided.
     #
-    # @param destination [Eth::Address] the destination address.
-    # @param amount [Integer] the transfer amount in Wei.
-    # @param sender_key [Eth::Key] the sender private key.
-    # @param legacy [Boolean] enables legacy transactions (pre-EIP-1559).
-    # @return [String] the transaction hash.
+    # See {#transfer} for params and overloads.
+    #
+    # @return [String] the transaction hash once it is mined.
     def transfer_and_wait(destination, amount, sender_key = nil, legacy = false)
       wait_for_tx(transfer(destination, amount, sender_key, legacy))
     end
@@ -108,11 +114,14 @@ module Eth
     # access lists attached. Uses `eth_coinbase` and external signer
     # if no sender key is provided.
     #
+    # **Note**, that many remote providers (e.g., Infura) do not provide
+    # any accounts. Provide a `sender_key` if you experience issues.
+    #
     # @param destination [Eth::Address] the destination address.
     # @param amount [Integer] the transfer amount in Wei.
     # @param sender_key [Eth::Key] the sender private key.
     # @param legacy [Boolean] enables legacy transactions (pre-EIP-1559).
-    # @return [String] the transaction hash.
+    # @return [String] the local transaction hash.
     def transfer(destination, amount, sender_key = nil, legacy = false)
       params = {
         value: amount,
@@ -154,15 +163,9 @@ module Eth
     # Deploys a contract and waits for it to be mined. Uses
     # `eth_coinbase` or external signer if no sender key is provided.
     #
-    # @overload deploy(contract)
-    #   @param contract [Eth::Contract] contracts to deploy.
-    # @overload deploy(contract, *args, **kwargs)
-    #   @param contract [Eth::Contract] contracts to deploy.
-    #   *args Optional variable constructor parameter list
-    #   **sender_key [Eth::Key] the sender private key.
-    #   **legacy [Boolean] enables legacy transactions (pre-EIP-1559).
-    #   **gas_limit [Integer] optional gas limit override for deploying the contract.
-    # @return [String] the contract address.
+    # See {#deploy} for params and overloads.
+    #
+    # @return [String] the contract address once it's mined.
     def deploy_and_wait(contract, *args, **kwargs)
       hash = wait_for_tx(deploy(contract, *args, **kwargs))
       addr = eth_get_transaction_receipt(hash)["result"]["contractAddress"]
@@ -172,14 +175,20 @@ module Eth
     # Deploys a contract. Uses `eth_coinbase` or external signer
     # if no sender key is provided.
     #
+    # **Note**, that many remote providers (e.g., Infura) do not provide
+    # any accounts. Provide a `sender_key` if you experience issues.
+    #
     # @overload deploy(contract)
     #   @param contract [Eth::Contract] contracts to deploy.
+    # @overload deploy(contract, *args)
+    #   @param contract [Eth::Contract] the contracts to deploy.
+    #   @param *args (optional) variable constructor parameter list.
     # @overload deploy(contract, *args, **kwargs)
-    #   @param contract [Eth::Contract] contracts to deploy.
-    #   *args Optional variable constructor parameter list
-    #   **sender_key [Eth::Key] the sender private key.
-    #   **legacy [Boolean] enables legacy transactions (pre-EIP-1559).
-    #   **gas_limit [Integer] optional gas limit override for deploying the contract.
+    #   @param contract [Eth::Contract] the contracts to deploy.
+    #   @param *args (optional) variable constructor parameter list.
+    #   @param **sender_key [Eth::Key] the sender private key.
+    #   @param **legacy [Boolean] enables legacy transactions (pre-EIP-1559).
+    #   @param **gas_limit [Integer] optional gas limit override for deploying the contract.
     # @return [String] the transaction hash.
     # @raise [ArgumentError] in case the contract does not have any source.
     def deploy(contract, *args, **kwargs)
@@ -232,24 +241,24 @@ module Eth
     # Calls a contract function without executing it
     # (non-transactional contract read).
     #
-    # @overload call(contract, function_name)
-    #   @param contract [Eth::Contract] subject contract to call.
-    #   @param function_name [String] method name to be called.
-    # @overload call(contract, function_name, value)
-    #   @param contract [Eth::Contract] subject contract to call.
-    #   @param function_name [String] method name to be called.
-    #   @param value [Integer|String] function arguments.
-    # @overload call(contract, function_name, value, sender_key, legacy, gas_limit)
-    #   @param contract [Eth::Contract] subject contract to call.
-    #   @param function_name [String] method name to be called.
-    #   @param value [Integer|String] function arguments.
-    #   @param sender_key [Eth::Key] the sender private key.
-    #   @param legacy [Boolean] enables legacy transactions (pre-EIP-1559).
-    #   @param gas_limit [Integer] optional gas limit override for deploying the contract.
+    # @overload call(contract, function)
+    #   @param contract [Eth::Contract] the subject contract to call.
+    #   @param function [String] method name to be called.
+    # @overload call(contract, function, *args)
+    #   @param contract [Eth::Contract] the subject contract to call.
+    #   @param function [String] method name to be called.
+    #   @param *args optional function arguments.
+    # @overload call(contract, function, *args, **kwargs)
+    #   @param contract [Eth::Contract] the subject contract to call.
+    #   @param function [String] method name to be called.
+    #   @param *args optional function arguments.
+    #   @param **sender_key [Eth::Key] the sender private key.
+    #   @param **legacy [Boolean] enables legacy transactions (pre-EIP-1559).
+    #   @param **gas_limit [Integer] optional gas limit override for deploying the contract.
     # @return [Object] returns the result of the call.
-    def call(contract, function_name, *args, **kwargs)
-      func = contract.functions.select { |func| func.name == function_name }[0]
-      raise ArgumentError, "function_name does not exist!" if func.nil?
+    def call(contract, function, *args, **kwargs)
+      func = contract.functions.select { |func| func.name == function }[0]
+      raise ArgumentError, "this function does not exist!" if func.nil?
       output = call_raw(contract, func, *args, **kwargs)
       if output&.length == 1
         return output[0]
@@ -261,29 +270,32 @@ module Eth
     # Executes a contract function with a transaction (transactional
     # contract read/write).
     #
-    # @overload transact(contract, function_name)
-    #   @param contract [Eth::Contract] subject contract to call.
-    #   @param function_name [String] method name to be called.
-    # @overload transact(contract, function_name, value)
-    #   @param contract [Eth::Contract] subject contract to call.
-    #   @param function_name [String] method name to be called.
-    #   @param value [Integer|String] function arguments.
-    # @overload transact(contract, function_name, value, sender_key, legacy, address, gas_limit)
-    #   @param contract [Eth::Contract] subject contract to call.
-    #   @param function_name [String] method name to be called.
-    #   @param value [Integer|String] function arguments.
-    #   @param sender_key [Eth::Key] the sender private key.
-    #   @param legacy [Boolean] enables legacy transactions (pre-EIP-1559).
-    #   @param address [String] contract address.
-    #   @param gas_limit [Integer] optional gas limit override for deploying the contract.
-    # @return [Object] returns the result of the call.
-    def transact(contract, function_name, *args, **kwargs)
+    # **Note**, that many remote providers (e.g., Infura) do not provide
+    # any accounts. Provide a `sender_key` if you experience issues.
+    #
+    # @overload transact(contract, function)
+    #   @param contract [Eth::Contract] the subject contract to write to.
+    #   @param function [String] method name to be executed.
+    # @overload transact(contract, function, *args)
+    #   @param contract [Eth::Contract] the subject contract to write to.
+    #   @param function [String] method name to be executed.
+    #   @param *args optional function arguments.
+    # @overload transact(contract, function, *args, **kwargs)
+    #   @param contract [Eth::Contract] the subject contract to write to.
+    #   @param function_name [String] method name to be executed.
+    #   @param *args optional function arguments.
+    #   @param **sender_key [Eth::Key] the sender private key.
+    #   @param **legacy [Boolean] enables legacy transactions (pre-EIP-1559).
+    #   @param **address [Eth::Address] contract address.
+    #   @param **gas_limit [Integer] optional gas limit override for deploying the contract.
+    # @return [Object] returns the result of the transaction.
+    def transact(contract, function, *args, **kwargs)
       gas_limit = if kwargs[:gas_limit]
           kwargs[:gas_limit]
         else
           Tx.estimate_intrinsic_gas(contract.bin) + Tx::CREATE_GAS
         end
-      fun = contract.functions.select { |func| func.name == function_name }[0]
+      fun = contract.functions.select { |func| func.name == function }[0]
       params = {
         value: 0,
         gas_limit: gas_limit,
@@ -323,23 +335,11 @@ module Eth
     # Executes a contract function with a transaction and waits for it
     # to be mined (transactional contract read/write).
     #
-    # @overload transact_and_wait(contract, function_name)
-    #   @param contract [Eth::Contract] subject contract to call.
-    #   @param function_name [String] method name to be called.
-    # @overload transact_and_wait(contract, function_name, value)
-    #   @param contract [Eth::Contract] subject contract to call.
-    #   @param function_name [String] method name to be called.
-    #   @param value [Integer|String] function arguments.
-    # @overload transact_and_wait(contract, function_name, value, sender_key, legacy, address)
-    #   @param contract [Eth::Contract] subject contract to call.
-    #   @param function_name [String] method name to be called.
-    #   @param value [Integer|String] function arguments.
-    #   @param sender_key [Eth::Key] the sender private key.
-    #   @param legacy [Boolean] enables legacy transactions (pre-EIP-1559).
-    #   @param address [String] contract address.
-    # @return [Object] returns the result of the call.
-    def transact_and_wait(contract, function_name, *args, **kwargs)
-      wait_for_tx(transact(contract, function_name, *args, **kwargs))
+    # See {#transact} for params and overloads.
+    #
+    # @return [Object] returns the result of the transaction.
+    def transact_and_wait(contract, function, *args, **kwargs)
+      wait_for_tx(transact(contract, function, *args, **kwargs))
     end
 
     # Provides an interface to call `isValidSignature` as per EIP-1271 on a given
@@ -395,7 +395,7 @@ module Eth
     end
 
     # Metafunction to provide all known RPC commands defined in
-    # Eth::Api as snake_case methods to the Eth::Client classes.
+    # {Eth::Api} as snake_case methods to the {Eth::Client} classes.
     Api::COMMANDS.each do |cmd|
       method_name = cmd.gsub(/([a-z\d])([A-Z])/, '\1_\2').downcase
       define_method method_name do |*args|
@@ -449,7 +449,7 @@ module Eth
     def call_payload(fun, args)
       types = fun.inputs.map { |i| i.type }
       encoded_str = Util.bin_to_hex(Eth::Abi.encode(types, args))
-      "0x" + fun.signature + (encoded_str.empty? ? "0" * 64 : encoded_str)
+      Util.prefix_hex(fun.signature + (encoded_str.empty? ? "0" * 64 : encoded_str))
     end
 
     # Encodes constructor params
