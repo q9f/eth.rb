@@ -34,6 +34,17 @@ describe Chain do
     end
   end
 
+  describe ".is_ledger" do
+    it "can detect ledger values for v" do
+      expect(Chain.is_ledger? 0).to be_truthy
+      expect(Chain.is_ledger? 1).to be_truthy
+      expect(Chain.is_ledger? 27).not_to be_truthy
+      expect(Chain.is_ledger? 28).not_to be_truthy
+      expect(Chain.is_ledger? 37).not_to be_truthy
+      expect(Chain.is_ledger? 38).not_to be_truthy
+    end
+  end
+
   describe ".is_legacy" do
     it "can detect legacy values for v" do
       expect(Chain.is_legacy? 0).not_to be_truthy
