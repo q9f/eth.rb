@@ -46,6 +46,7 @@ module Eth
     # @raise [ArgumentError] in case it cannot determine the client type.
     def self.create(host)
       return Client::Ipc.new host if host.end_with? ".ipc"
+      return Client::HttpBasic.new host if Regexp.new(":.*@.*:", Regexp::IGNORECASE).match host
       return Client::Http.new host if host.start_with? "http"
       raise ArgumentError, "Unable to detect client type!"
     end
@@ -496,4 +497,5 @@ end
 
 # Load the client/* libraries
 require "eth/client/http"
+require "eth/client/http_basic"
 require "eth/client/ipc"

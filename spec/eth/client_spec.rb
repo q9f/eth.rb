@@ -6,23 +6,36 @@ require "spec_helper"
 describe Client do
   let(:geth_dev_ipc_path) { "/tmp/geth.ipc" }
   let(:geth_dev_http_path) { "http://127.0.0.1:8545" }
+  let(:geth_dev_http_basic_auth_path) { "http://username:password@127.0.0.1:8545" }
   subject(:geth_dev_ipc) { Client.create geth_dev_ipc_path }
   subject(:geth_dev_http) { Client.create geth_dev_http_path }
+  subject(:geth_dev_http_basic) { Client.create geth_dev_http_basic_auth_path }
 
   describe ".create .initialize" do
-    it "creates an http client" do
+    it "creates an ipc client" do
       expect(geth_dev_ipc).to be
       expect(geth_dev_ipc).to be_instance_of Client::Ipc
       expect(geth_dev_ipc.path).to eq geth_dev_ipc_path
     end
 
-    it "creates an ipc client" do
+    it "creates an http client" do
       expect(geth_dev_http).to be
       expect(geth_dev_http).to be_instance_of Client::Http
       expect(geth_dev_http.host).to eq "127.0.0.1"
       expect(geth_dev_http.port).to eq 8545
       expect(geth_dev_http.uri.to_s).to eq geth_dev_http_path
       expect(geth_dev_http.ssl).to be_falsy
+    end
+
+    it "creates a http basic auth client" do
+      expect(geth_dev_http_basic).to be
+      expect(geth_dev_http_basic).to be_instance_of Client::HttpBasic
+      expect(geth_dev_http_basic.host).to eq "127.0.0.1"
+      expect(geth_dev_http_basic.port).to eq 8545
+      expect(geth_dev_http_basic.uri.to_s).to eq geth_dev_http_basic_auth_path
+      expect(geth_dev_http_basic.user).to eq "username"
+      expect(geth_dev_http_basic.instance_variable_get(:@password)).to eq "password"
+      expect(geth_dev_http_basic.ssl).to be_falsy
     end
 
     it "functions as geth development client" do
@@ -34,12 +47,20 @@ describe Client do
       expect(geth_dev_ipc.gas_limit).to eq Tx::DEFAULT_GAS_LIMIT
     end
 
-    it "can query basic methods" do
+    it "http can query basic methods" do
 
       # the default account is prefunded; this test fails if you manually drain the account to zero
       expect(geth_dev_http.get_balance geth_dev_http.default_account).to be > 0
       expect(geth_dev_http.get_nonce geth_dev_http.default_account).to be >= 0
       expect(geth_dev_http.reset_id).to eq 0
+    end
+
+    it "http basic can query basic methods" do
+
+      # the default account is prefunded; this test fails if you manually drain the account to zero
+      expect(geth_dev_http_basic.get_balance geth_dev_http.default_account).to be > 0
+      expect(geth_dev_http_basic.get_nonce geth_dev_http.default_account).to be >= 0
+      expect(geth_dev_http_basic.reset_id).to eq 0
     end
 
     it "does not create dysfunctional clients" do
