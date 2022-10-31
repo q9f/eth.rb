@@ -1,6 +1,25 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## [0.5.7]
+### Added
+* Eth/client: add http basic support auth ([#151](https://github.com/q9f/eth.rb/pull/151))
+* Chore: add polygon chain test case ([#146](https://github.com/q9f/eth.rb/pull/146))
+
+### Changed
+* Docs: add readme header for yard ([#159](https://github.com/q9f/eth.rb/pull/159))
+* Eth/client: fix api documentation ([#158](https://github.com/q9f/eth.rb/pull/158))
+* Eth/client: update default fees ([#157](https://github.com/q9f/eth.rb/pull/157))
+* Docs: move readme usage to wiki ([#156](https://github.com/q9f/eth.rb/pull/156))
+* Eth/signature: fix allowing ledger v values of 0 ([#155](https://github.com/q9f/eth.rb/pull/155))
+* Eth/client: rename http basic to http auth ([#154](https://github.com/q9f/eth.rb/pull/154))
+* Fix Eth:Tx.decode for transaction with s length < 64 chars ([#148](https://github.com/q9f/eth.rb/pull/148))
+* Build(deps): bump JamesIves/github-pages-deploy-action from 4.3.4 to 4.4.0 ([#140](https://github.com/q9f/eth.rb/pull/140))
+* Fixed to return uint256[] correctly when passed as type ([#147](https://github.com/q9f/eth.rb/pull/147))
+* Build(deps): bump JamesIves/github-pages-deploy-action from 4.3.3 to 4.3.4 ([#133](https://github.com/q9f/eth.rb/pull/133))
+* Docs: update CHANGELOG ([#132](https://github.com/q9f/eth.rb/pull/132))
+* Gem: bump version to 0.5.7 ([#131](https://github.com/q9f/eth.rb/pull/131))
+
 ## [0.5.6]
 ### Added
 - Eth/client: Add gas limit override option for contract deployments ([#128](https://github.com/q9f/eth.rb/pull/128))
