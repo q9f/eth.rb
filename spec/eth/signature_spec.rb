@@ -110,6 +110,10 @@ describe Signature do
 
     it "can recover a public key from a signature generated with ledger" do
       message = "test"
+      signature = "0x5c433983b23738940ce256c59d5bc6a3d5fd12c5bc9bdbf0ffdffb7be1a09d1815ca1db167c61a10945837f3fb4821086d6656b4fa6ede9c4d1aeaf07e2b0adf00"
+      public_hex = "044f8f3af2e1f0106544ae3d2d08d78ca8b68d258fcd8065dc193aefb7ccf1210d65044101488e8d68dbdfadb5adc2044b21fd60e1513bca65bcfc4e36927766d9"
+      expect(Signature.personal_recover message, signature).to eq public_hex
+
       signature = "0x5c433983b23738940ce256c59d5bc6a3d5fd12c5bc9bdbf0ffdffb7be1a09d1815ca1db167c61a10945837f3fb4821086d6656b4fa6ede9c4d1aeaf07e2b0adf01"
       public_hex = "04e51ff5abc511f2fda0f893c10054123e92527b5e69e24cca538e74edbd604508259e1b265b54628bc8024fb791e459f67adb770b20962eb38fabe8b86f2aebaa"
       expect(Signature.personal_recover message, signature).to eq public_hex
@@ -130,9 +134,9 @@ describe Signature do
 
     it "raises argument errors if signature is invalid" do
       message = "This is proof that I, user A, have access to this address."
-      signature_invalid_v = "0x4e1ce8ea60bc6dfd4068a35462612495850cb645a1c9f475eb969bff21d0b0fb414112aaf13f01dd18a3527cb648cdd51b618ae49d4999112c33f86b7b26e97300"
+      signature_invalid_v = "0x4e1ce8ea60bc6dfd4068a35462612495850cb645a1c9f475eb969bff21d0b0fb414112aaf13f01dd18a3527cb648cdd51b618ae49d4999112c33f86b7b26e97302"
       signature_invalid_size = "0x4e1ce8ea60bc6dfd4068a35462612495850cb645a1c9f475eb969bff21d0b0fb414112aaf13f01dd18a3527cb648cdd51b618ae49d4999112c33f86b7b26e973"
-      expect { Signature.personal_recover(message, signature_invalid_v) }.to raise_error Signature::SignatureError, "Invalid signature v byte 0 for chain ID 1!"
+      expect { Signature.personal_recover(message, signature_invalid_v) }.to raise_error Signature::SignatureError, "Invalid signature v byte 2 for chain ID 1!"
       expect { Signature.personal_recover(message, signature_invalid_size) }.to raise_error Signature::SignatureError, "Unknown signature length 128!"
     end
   end
@@ -167,7 +171,7 @@ describe Signature do
     it "raises argument errors if signature is invalid" do
       signature_invalid_v = "f6cda8eaf5137e8cc15d48d03a002b0512446e2a7acbc576c01cfbe40ad9345663ccda8884520d98dece9a8bfe38102851bdae7f69b3d8612b9808e63378016024"
       signature_invalid_size = "f6cda8eaf5137e8cc15d48d03a002b0512446e2a7acbc576c01cfbe40ad9345663ccda8884520d98dece9a8bfe38102851bdae7f69b3d8612b9808e6337801602"
-      expect { Signature.recover_typed_data(test_data, signature_invalid_v) }.to raise_error Chain::ReplayProtectionError, "Invalid v 36 value for chain ID 1. Invalid chain ID?"
+      expect { Signature.recover_typed_data(test_data, signature_invalid_v) }.to raise_error Signature::SignatureError, "Invalid signature v byte 36 for chain ID 1!"
       expect { Signature.recover_typed_data(test_data, signature_invalid_size) }.to raise_error Signature::SignatureError, "Unknown signature length 129!"
     end
   end

@@ -93,6 +93,15 @@ module Eth
     PRIVATE_GETH = 1337.freeze
 
     # Indicates wether the given `v` indicates a legacy chain value
+    # used by ledger wallets without EIP-155 replay protection.
+    #
+    # @param v [Integer] the signature's `v` value.
+    # @return [Boolean] true if ledger'#'s legacy value.
+    def is_ledger?(v)
+      [0, 1].include? v
+    end
+
+    # Indicates wether the given `v` indicates a legacy chain value
     # without EIP-155 replay protection.
     #
     # @param v [Integer] the signature's `v` value.

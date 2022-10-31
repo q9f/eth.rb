@@ -70,7 +70,10 @@ module Eth
       context = Secp256k1::Context.new
       r, s, v = dissect signature
       v = v.to_i(16)
-      raise SignatureError, "Invalid signature v byte #{v} for chain ID #{chain_id}!" if v < chain_id
+      if !Chain.is_ledger? v and !Chain.is_legacy? v
+        min_v = 2 * chain_id + 35
+        raise SignatureError, "Invalid signature v byte #{v} for chain ID #{chain_id}!" if v < min_v
+      end
       recovery_id = Chain.to_recovery_id v, chain_id
       signature_rs = Util.hex_to_bin "#{r}#{s}"
       recoverable_signature = context.recoverable_signature_from_compact signature_rs, recovery_id
