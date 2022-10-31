@@ -39,8 +39,11 @@ module Eth
     # The minimum transaction gas limit required for a value transfer.
     DEFAULT_GAS_LIMIT = 21_000.freeze
 
-    # The "default" transaction gas price of 20 GWei. Do not use.
-    DEFAULT_GAS_PRICE = (20 * Unit::GWEI).freeze
+    # The "default" transaction priority fee of 1.01 GWei. Do not use.
+    DEFAULT_PRIORITY_FEE = (1.01 * Unit::GWEI).freeze
+
+    # The "default" transaction gas price of 42.69 GWei. Do not use.
+    DEFAULT_GAS_PRICE = (42.69 * Unit::GWEI).freeze
 
     # The calldata gas cost of a non-zero byte as per EIP-2028.
     COST_NON_ZERO_BYTE = 16.freeze
@@ -55,7 +58,7 @@ module Eth
     COST_ADDRESS = 2_400.freeze
 
     # The maximum transaction gas limit is bound by the block gas limit.
-    BLOCK_GAS_LIMIT = 25_000_000.freeze
+    BLOCK_GAS_LIMIT = 30_000_000.freeze
 
     # The legacy transaction type is 0.
     TYPE_LEGACY = 0x00.freeze

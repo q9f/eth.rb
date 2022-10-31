@@ -96,7 +96,7 @@ module Eth
     # used by ledger wallets without EIP-155 replay protection.
     #
     # @param v [Integer] the signature's `v` value.
-    # @return [Boolean] true if ledger'#'s legacy value.
+    # @return [Boolean] true if ledger's legacy value.
     def is_ledger?(v)
       [0, 1].include? v
     end
