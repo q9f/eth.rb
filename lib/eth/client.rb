@@ -40,6 +40,11 @@ module Eth
     # Creates a new RPC-Client, either by providing an HTTP/S host or
     # an IPC path. Supports basic authentication with username and password.
     #
+    # **Note**, this sets the folling gas defaults: {Tx::DEFAULT_PRIORITY_FEE},
+    # {Tx::DEFAULT_GAS_PRICE}, and {Tx::DEFAULT_GAS_LIMIT}. Use
+    # {#max_priority_fee_per_gas}, {#max_fee_per_gas}, and {#gas_limit} to set
+    # custom values prior to submitting transactions.
+    #
     # @param host [String] either an HTTP/S host or an IPC path.
     # @return [Eth::Client::Ipc] an IPC client.
     # @return [Eth::Client::HttpAuth] an HTTP client with basic authentication.
@@ -62,6 +67,9 @@ module Eth
     end
 
     # Gets the default account (coinbase) of the connected client.
+    #
+    # **Note**, that many remote providers (e.g., Infura) do not provide
+    # any accounts.
     #
     # @return [Eth::Address] the coinbase account address.
     def default_account
@@ -95,7 +103,7 @@ module Eth
     # Uses `eth_coinbase` and external signer if no sender key is
     # provided.
     #
-    # See {transfer} for params and overloads.
+    # See {#transfer} for params and overloads.
     #
     # @return [String] the transaction hash once it is mined.
     def transfer_and_wait(destination, amount, sender_key = nil, legacy = false)
@@ -105,6 +113,9 @@ module Eth
     # Simply transfer Ether to an account without any call data or
     # access lists attached. Uses `eth_coinbase` and external signer
     # if no sender key is provided.
+    #
+    # **Note**, that many remote providers (e.g., Infura) do not provide
+    # any accounts. Provide a `sender_key` if you experience issues.
     #
     # @param destination [Eth::Address] the destination address.
     # @param amount [Integer] the transfer amount in Wei.
@@ -152,7 +163,7 @@ module Eth
     # Deploys a contract and waits for it to be mined. Uses
     # `eth_coinbase` or external signer if no sender key is provided.
     #
-    # See {deploy} for params and overloads.
+    # See {#deploy} for params and overloads.
     #
     # @return [String] the contract address once it's mined.
     def deploy_and_wait(contract, *args, **kwargs)
@@ -163,6 +174,9 @@ module Eth
 
     # Deploys a contract. Uses `eth_coinbase` or external signer
     # if no sender key is provided.
+    #
+    # **Note**, that many remote providers (e.g., Infura) do not provide
+    # any accounts. Provide a `sender_key` if you experience issues.
     #
     # @overload deploy(contract)
     #   @param contract [Eth::Contract] contracts to deploy.
@@ -256,6 +270,9 @@ module Eth
     # Executes a contract function with a transaction (transactional
     # contract read/write).
     #
+    # **Note**, that many remote providers (e.g., Infura) do not provide
+    # any accounts. Provide a `sender_key` if you experience issues.
+    #
     # @overload transact(contract, function)
     #   @param contract [Eth::Contract] the subject contract to write to.
     #   @param function [String] method name to be executed.
@@ -318,7 +335,7 @@ module Eth
     # Executes a contract function with a transaction and waits for it
     # to be mined (transactional contract read/write).
     #
-    # See {transact} for params and overloads.
+    # See {#transact} for params and overloads.
     #
     # @return [Object] returns the result of the transaction.
     def transact_and_wait(contract, function, *args, **kwargs)
@@ -378,7 +395,7 @@ module Eth
     end
 
     # Metafunction to provide all known RPC commands defined in
-    # Eth::Api as snake_case methods to the Eth::Client classes.
+    # {Eth::Api} as snake_case methods to the {Eth::Client} classes.
     Api::COMMANDS.each do |cmd|
       method_name = cmd.gsub(/([a-z\d])([A-Z])/, '\1_\2').downcase
       define_method method_name do |*args|
