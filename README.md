@@ -1,3 +1,9 @@
+<!--
+# @markup markdown
+# @title Ethereum for Ruby
+# @author Afri Schoedon
+-->
+
 # Ethereum for Ruby
 
 [![GitHub Workflow Status](https://img.shields.io/github/workflow/status/q9f/eth.rb/Spec)](https://github.com/q9f/eth.rb/actions)
