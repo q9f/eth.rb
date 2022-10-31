@@ -4,7 +4,7 @@
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>
-  Class: Eth::Client::Http
+  Class: Eth::Client::HttpBasic
   
     &mdash; Documentation by YARD 0.9.28
   
@@ -15,7 +15,7 @@
   <link rel="stylesheet" href="../../css/common.css" type="text/css" />
 
 <script type="text/javascript">
-  pathId = "Eth::Client::Http";
+  pathId = "Eth::Client::HttpBasic";
   relpath = '../../';
 </script>
 
@@ -39,7 +39,7 @@
     <a href="../../_index.html">Index (H)</a> &raquo;
     <span class='title'><span class='object_link'><a href="../../Eth.html" title="Eth (module)">Eth</a></span></span> &raquo; <span class='title'><span class='object_link'><a href="../Client.html" title="Eth::Client (class)">Client</a></span></span>
      &raquo; 
-    <span class="title">Http</span>
+    <span class="title">HttpBasic</span>
   
 </div>
 
@@ -59,7 +59,7 @@
         <div class="clear"></div>
       </div>
 
-      <div id="content"><h1>Class: Eth::Client::Http
+      <div id="content"><h1>Class: Eth::Client::HttpBasic
   
   
   
@@ -76,7 +76,7 @@
           
             <li class="next"><span class='object_link'><a href="../Client.html" title="Eth::Client (class)">Eth::Client</a></span></li>
           
-            <li class="next">Eth::Client::Http</li>
+            <li class="next">Eth::Client::HttpBasic</li>
           
         </ul>
         <a href="#" class="inheritanceTree">show all</a>
@@ -96,7 +96,7 @@
   
   <dl>
     <dt>Defined in:</dt>
-    <dd>lib/eth/client/http.rb</dd>
+    <dd>lib/eth/client/http_basic.rb</dd>
   </dl>
   
 </div>
@@ -104,7 +104,7 @@
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
     
-<p>Provides an HTTP/S-RPC client.</p>
+<p>Provides an HTTP/S-RPC Basic client.</p>
 
 
   </div>
@@ -235,6 +235,35 @@
 </li>
 
     
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#user-instance_method" title="#user (instance method)">#<strong>user</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Attribute for user.</p>
+</div></span>
+  
+</li>
+
+    
   </ul>
 
 
@@ -251,7 +280,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#initialize-instance_method" title="#initialize (instance method)">#<strong>initialize</strong>(host)  &#x21d2; Http </a>
+      <a href="#initialize-instance_method" title="#initialize (instance method)">#<strong>initialize</strong>(host)  &#x21d2; HttpBasic </a>
     
 
     
@@ -309,7 +338,7 @@
     <div class="method_details first">
   <h3 class="signature first" id="initialize-instance_method">
   
-    #<strong>initialize</strong>(host)  &#x21d2; <tt><span class='object_link'><a href="" title="Eth::Client::Http (class)">Http</a></span></tt> 
+    #<strong>initialize</strong>(host)  &#x21d2; <tt><span class='object_link'><a href="" title="Eth::Client::HttpBasic (class)">HttpBasic</a></span></tt> 
   
 
   
@@ -365,18 +394,20 @@
       <pre class="lines">
 
 
-39
-40
-41
 42
 43
 44
 45
 46
-47</pre>
+47
+48
+49
+50
+51
+52</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/client/http.rb', line 39</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/client/http_basic.rb', line 42</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_host'>host</span><span class='rparen'>)</span>
   <span class='kw'>super</span>
@@ -385,7 +416,9 @@
   <span class='ivar'>@host</span> <span class='op'>=</span> <span class='id identifier rubyid_uri'>uri</span><span class='period'>.</span><span class='id identifier rubyid_host'>host</span>
   <span class='ivar'>@port</span> <span class='op'>=</span> <span class='id identifier rubyid_uri'>uri</span><span class='period'>.</span><span class='id identifier rubyid_port'>port</span>
   <span class='ivar'>@ssl</span> <span class='op'>=</span> <span class='id identifier rubyid_uri'>uri</span><span class='period'>.</span><span class='id identifier rubyid_scheme'>scheme</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>https</span><span class='tstring_end'>&quot;</span></span>
-  <span class='ivar'>@uri</span> <span class='op'>=</span> <span class='const'>URI</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_uri'>uri</span><span class='period'>.</span><span class='id identifier rubyid_scheme'>scheme</span><span class='embexpr_end'>}</span><span class='tstring_content'>://</span><span class='embexpr_beg'>#{</span><span class='ivar'>@host</span><span class='embexpr_end'>}</span><span class='tstring_content'>:</span><span class='embexpr_beg'>#{</span><span class='ivar'>@port</span><span class='embexpr_end'>}</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_uri'>uri</span><span class='period'>.</span><span class='id identifier rubyid_path'>path</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+  <span class='ivar'>@user</span> <span class='op'>=</span> <span class='id identifier rubyid_uri'>uri</span><span class='period'>.</span><span class='id identifier rubyid_user'>user</span>
+  <span class='ivar'>@password</span> <span class='op'>=</span> <span class='id identifier rubyid_uri'>uri</span><span class='period'>.</span><span class='id identifier rubyid_password'>password</span>
+  <span class='ivar'>@uri</span> <span class='op'>=</span> <span class='const'>URI</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_uri'>uri</span><span class='period'>.</span><span class='id identifier rubyid_scheme'>scheme</span><span class='embexpr_end'>}</span><span class='tstring_content'>://</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_uri'>uri</span><span class='period'>.</span><span class='id identifier rubyid_user'>user</span><span class='embexpr_end'>}</span><span class='tstring_content'>:</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_uri'>uri</span><span class='period'>.</span><span class='id identifier rubyid_password'>password</span><span class='embexpr_end'>}</span><span class='tstring_content'>@</span><span class='embexpr_beg'>#{</span><span class='ivar'>@host</span><span class='embexpr_end'>}</span><span class='tstring_content'>:</span><span class='embexpr_beg'>#{</span><span class='ivar'>@port</span><span class='embexpr_end'>}</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_uri'>uri</span><span class='period'>.</span><span class='id identifier rubyid_path'>path</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -430,7 +463,7 @@
 26</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/client/http.rb', line 24</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/client/http_basic.rb', line 24</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_host'>host</span>
   <span class='ivar'>@host</span>
@@ -473,7 +506,7 @@
 29</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/client/http.rb', line 27</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/client/http_basic.rb', line 27</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_port'>port</span>
   <span class='ivar'>@port</span>
@@ -516,7 +549,7 @@
 35</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/client/http.rb', line 33</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/client/http_basic.rb', line 33</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_ssl'>ssl</span>
   <span class='ivar'>@ssl</span>
@@ -559,10 +592,53 @@
 32</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/client/http.rb', line 30</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/client/http_basic.rb', line 30</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_uri'>uri</span>
   <span class='ivar'>@uri</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="user-instance_method">
+  
+    #<strong>user</strong>  &#x21d2; <tt>Object</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Attribute for user.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+36
+37
+38</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/eth/client/http_basic.rb', line 36</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_user'>user</span>
+  <span class='ivar'>@user</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -640,18 +716,18 @@
       <pre class="lines">
 
 
-53
-54
-55
-56
-57
 58
 59
 60
-61</pre>
+61
+62
+63
+64
+65
+66</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/client/http.rb', line 53</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/client/http_basic.rb', line 58</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_send'>send</span><span class='lparen'>(</span><span class='id identifier rubyid_payload'>payload</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_http'>http</span> <span class='op'>=</span> <span class='const'>Net</span><span class='op'>::</span><span class='const'>HTTP</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='ivar'>@host</span><span class='comma'>,</span> <span class='ivar'>@port</span><span class='rparen'>)</span>
@@ -672,7 +748,7 @@
 </div>
 
       <div id="footer">
-  Generated on Mon Oct 31 10:36:13 2022 by
+  Generated on Mon Oct 31 10:36:14 2022 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.28 (ruby-2.7.6).
 </div>
