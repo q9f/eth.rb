@@ -7,7 +7,7 @@ describe Tx::Legacy do
     Tx.new({
       nonce: 0,
       gasPrice: Unit::WEI,
-      gasLimit: Tx::DEFAULT_GAS_LIMIT,
+      gas: Tx::DEFAULT_GAS_LIMIT,
     })
   }
   subject(:cow) { Key.new(priv: Util.keccak256("cow")) }
@@ -18,7 +18,7 @@ describe Tx::Legacy do
       {
         nonce: 1,
         gasPrice: 40 * Unit::GWEI,
-        gasLimit: 21576,
+        gas: 21576,
         to: "0xcaa29806044a08e533963b2e573c1230a2cd9a2d",
         value: BigDecimal("0.123456789012345678") * Unit::ETHER,
         data: "Lorem Ipsum Ruby Ethereum Test 1-2-3",
@@ -33,7 +33,7 @@ describe Tx::Legacy do
       {
         nonce: 3,
         gasPrice: 42 * Unit::GWEI,
-        gasLimit: 23_000,
+        gas: 23_000,
         to: "0xCaA29806044A08E533963b2e573C1230A2cd9a2d",
         value: 0.0069 * Unit::ETHER,
         data: "Foo Bar Ruby Ethereum",
@@ -99,12 +99,12 @@ describe Tx::Legacy do
       expect(Tx.new({
         nonce: 0,
         gasPrice: Unit::GWEI,
-        gasLimit: Tx::DEFAULT_GAS_LIMIT,
+        gas: Tx::DEFAULT_GAS_LIMIT,
       })).to be
       expect(Tx.new({
         nonce: 0,
         gasPrice: Unit::GWEI,
-        gasLimit: Tx::DEFAULT_GAS_LIMIT,
+        gas: Tx::DEFAULT_GAS_LIMIT,
       })).to be_instance_of Tx::Legacy
     end
 
@@ -113,35 +113,35 @@ describe Tx::Legacy do
         Tx.new({
           nonce: 0,
           gasPrice: -9 * Unit::GWEI,
-          gasLimit: Tx::DEFAULT_GAS_LIMIT,
+          gas: Tx::DEFAULT_GAS_LIMIT,
         })
       }.to raise_error Tx::ParameterError, "Invalid gas price -0.9e10!"
       expect {
         Tx.new({
           nonce: 0,
           gasPrice: Unit::GWEI,
-          gasLimit: Tx::DEFAULT_GAS_LIMIT - 1,
+          gas: Tx::DEFAULT_GAS_LIMIT - 1,
         })
       }.to raise_error Tx::ParameterError, "Invalid gas limit 20999!"
       expect {
         Tx.new({
           nonce: 0,
           gasPrice: Unit::GWEI,
-          gasLimit: Tx::BLOCK_GAS_LIMIT + 1,
+          gas: Tx::BLOCK_GAS_LIMIT + 1,
         })
       }.to raise_error Tx::ParameterError, "Invalid gas limit 30000001!"
       expect {
         Tx.new({
           nonce: -1,
           gasPrice: Unit::GWEI,
-          gasLimit: Tx::BLOCK_GAS_LIMIT,
+          gas: Tx::BLOCK_GAS_LIMIT,
         })
       }.to raise_error Tx::ParameterError, "Invalid signer nonce -1!"
       expect {
         Tx.new({
           nonce: 0,
           gasPrice: Unit::GWEI,
-          gasLimit: Tx::BLOCK_GAS_LIMIT,
+          gas: Tx::BLOCK_GAS_LIMIT,
           to: "foo",
         })
       }.to raise_error Address::CheckSumError, "Unknown address type foo!"
@@ -149,7 +149,7 @@ describe Tx::Legacy do
         Tx.new({
           nonce: 0,
           gasPrice: Unit::GWEI,
-          gasLimit: Tx::BLOCK_GAS_LIMIT,
+          gas: Tx::BLOCK_GAS_LIMIT,
           to: "0xef26b1f67797e7a5a3c192c93d821fadef3ba173",
           value: -1,
         })
@@ -176,7 +176,7 @@ describe Tx::Legacy do
       tx_from_cow = Tx.new({
         nonce: 0,
         gasPrice: Unit::WEI,
-        gasLimit: Tx::DEFAULT_GAS_LIMIT,
+        gas: Tx::DEFAULT_GAS_LIMIT,
         from: "0xCD2a3d9F938E13CD947Ec05AbC7FE734Df8DD826",
       })
       expect {
@@ -265,7 +265,7 @@ describe Tx::Legacy do
       sample = Tx.new({
         nonce: 0,
         gasPrice: 0x0BA43B7400,
-        gasLimit: 0x05208,
+        gas: 0x05208,
         to: "0x7917bc33eea648809c285607579c9919fb864f8f",
         value: 0x03BAF82D03A000,
       })
@@ -308,7 +308,7 @@ describe Tx::Legacy do
       some = Tx.new({
         nonce: 0,
         gasPrice: 1,
-        gasLimit: 22_956,
+        gas: 22_956,
         data: abi,
       })
 
@@ -332,7 +332,7 @@ describe Tx::Legacy do
       some = Tx.new({
         nonce: 0,
         gasPrice: 1,
-        gasLimit: 22_956,
+        gas: 22_956,
         data: hex,
       })
 
@@ -357,7 +357,7 @@ describe Tx::Legacy do
       some = Tx.new({
         nonce: 0,
         gasPrice: 1,
-        gasLimit: 21_208,
+        gas: 21_208,
         data: lorem,
       })
       some.sign cow

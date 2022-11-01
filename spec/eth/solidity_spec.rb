@@ -38,7 +38,7 @@ describe Solidity do
       from: geth.default_account,
       maxPriorityFeePerGas: 0,
       maxFeePerGas: Unit::GWEI,
-      gasLimit: Tx.estimate_intrinsic_gas(payload),
+      gas: Tx.estimate_intrinsic_gas(payload),
       data: payload,
     }
     deploy = geth.eth_send_transaction(params)

@@ -126,7 +126,7 @@ module Eth
       params = {
         value: amount,
         to: destination,
-        gasLimit: gas_limit,
+        gas: gas_limit,
         chainId: chain_id,
       }
       if legacy
@@ -198,14 +198,14 @@ module Eth
       unless args.empty?
         data += encode_constructor_params(contract, args)
       end
-      gas_limit = if kwargs[:gasLimit]
-          kwargs[:gasLimit]
+      gas_limit = if kwargs[:gas]
+          kwargs[:gas]
         else
           Tx.estimate_intrinsic_gas(data) + Tx::CREATE_GAS
         end
       params = {
         value: 0,
-        gasLimit: gas_limit,
+        gas: gas_limit,
         chainId: chain_id,
         data: data,
       }
@@ -290,15 +290,15 @@ module Eth
     #   @param **gas_limit [Integer] optional gas limit override for deploying the contract.
     # @return [Object] returns the result of the transaction.
     def transact(contract, function, *args, **kwargs)
-      gas_limit = if kwargs[:gasLimit]
-          kwargs[:gasLimit]
+      gas_limit = if kwargs[:gas]
+          kwargs[:gas]
         else
           Tx.estimate_intrinsic_gas(contract.bin) + Tx::CREATE_GAS
         end
       fun = contract.functions.select { |func| func.name == function }[0]
       params = {
         value: 0,
-        gasLimit: gas_limit,
+        gas: gas_limit,
         chainId: chain_id,
         to: kwargs[:address] || contract.address,
         data: call_payload(fun, args),
@@ -407,13 +407,13 @@ module Eth
 
     # Non-transactional function call called from call().
     def call_raw(contract, func, *args, **kwargs)
-      gas_limit = if kwargs[:gasLimit]
-          kwargs[:gasLimit]
+      gas_limit = if kwargs[:gas]
+          kwargs[:gas]
         else
           Tx.estimate_intrinsic_gas(contract.bin) + Tx::CREATE_GAS
         end
       params = {
-        gasLimit: gas_limit,
+        gas: gas_limit,
         chainId: chain_id,
         data: call_payload(func, args),
       }

@@ -203,8 +203,8 @@ module Eth
       if fields[:nonce].nil? or fields[:nonce] < 0
         raise ParameterError, "Invalid signer nonce #{fields[:nonce]}!"
       end
-      if fields[:gasLimit].nil? or fields[:gasLimit] < DEFAULT_GAS_LIMIT or fields[:gasLimit] > BLOCK_GAS_LIMIT
-        raise ParameterError, "Invalid gas limit #{fields[:gasLimit]}!"
+      if fields[:gas].nil? or fields[:gas] < DEFAULT_GAS_LIMIT or fields[:gas] > BLOCK_GAS_LIMIT
+        raise ParameterError, "Invalid gas limit #{fields[:gas]}!"
       end
       unless fields[:value] >= 0
         raise ParameterError, "Invalid transaction value #{fields[:value]}!"
