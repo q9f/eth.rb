@@ -25,8 +25,8 @@ describe Tx::Eip2930 do
     Tx.new({
       chain_id: Chain::GOERLI,
       nonce: 4,
-      gas_price: 42 * Unit::GWEI,
-      gas_limit: 230_000,
+      gasPrice: 42 * Unit::GWEI,
+      gasLimit: 230_000,
       to: "0xCaA29806044A08E533963b2e573C1230A2cd9a2d",
       value: 0.0137 * Unit::ETHER,
       data: "Foo Bar Ruby Ethereum",
@@ -40,8 +40,8 @@ describe Tx::Eip2930 do
   subject(:tx) {
     Tx.new({
       nonce: 0,
-      gas_price: Unit::WEI,
-      gas_limit: 29_600,
+      gasPrice: Unit::WEI,
+      gasLimit: 29_600,
       access_list: list,
     })
   }
@@ -77,52 +77,52 @@ describe Tx::Eip2930 do
       expect {
         Tx.new({
           nonce: 0,
-          gas_price: -9 * Unit::GWEI,
-          gas_limit: Tx::DEFAULT_GAS_LIMIT,
+          gasPrice: -9 * Unit::GWEI,
+          gasLimit: Tx::DEFAULT_GAS_LIMIT,
         })
       }.to raise_error Tx::ParameterError, "Invalid gas price -0.9e10!"
       expect {
         Tx.new({
           nonce: 0,
-          gas_price: Unit::GWEI,
-          gas_limit: Tx::DEFAULT_GAS_LIMIT - 1,
+          gasPrice: Unit::GWEI,
+          gasLimit: Tx::DEFAULT_GAS_LIMIT - 1,
         })
       }.to raise_error Tx::ParameterError, "Invalid gas limit 20999!"
       expect {
         Tx.new({
           nonce: 0,
-          gas_price: Unit::GWEI,
-          gas_limit: Tx::DEFAULT_GAS_LIMIT,
+          gasPrice: Unit::GWEI,
+          gasLimit: Tx::DEFAULT_GAS_LIMIT,
           access_list: list,
         })
       }.to raise_error Tx::ParameterError, "Transaction gas limit is too low, try 29600!"
       expect {
         Tx.new({
           nonce: 0,
-          gas_price: Unit::GWEI,
-          gas_limit: Tx::BLOCK_GAS_LIMIT + 1,
+          gasPrice: Unit::GWEI,
+          gasLimit: Tx::BLOCK_GAS_LIMIT + 1,
         })
       }.to raise_error Tx::ParameterError, "Invalid gas limit 30000001!"
       expect {
         Tx.new({
           nonce: -1,
-          gas_price: Unit::GWEI,
-          gas_limit: Tx::BLOCK_GAS_LIMIT,
+          gasPrice: Unit::GWEI,
+          gasLimit: Tx::BLOCK_GAS_LIMIT,
         })
       }.to raise_error Tx::ParameterError, "Invalid signer nonce -1!"
       expect {
         Tx.new({
           nonce: 0,
-          gas_price: Unit::GWEI,
-          gas_limit: Tx::BLOCK_GAS_LIMIT,
+          gasPrice: Unit::GWEI,
+          gasLimit: Tx::BLOCK_GAS_LIMIT,
           to: "foo",
         })
       }.to raise_error Address::CheckSumError, "Unknown address type foo!"
       expect {
         Tx.new({
           nonce: 0,
-          gas_price: Unit::GWEI,
-          gas_limit: Tx::BLOCK_GAS_LIMIT,
+          gasPrice: Unit::GWEI,
+          gasLimit: Tx::BLOCK_GAS_LIMIT,
           to: "0xef26b1f67797e7a5a3c192c93d821fadef3ba173",
           value: -1,
         })
@@ -130,8 +130,8 @@ describe Tx::Eip2930 do
       expect {
         Tx.new({
           nonce: 0,
-          gas_price: Unit::GWEI,
-          gas_limit: Tx::BLOCK_GAS_LIMIT,
+          gasPrice: Unit::GWEI,
+          gasLimit: Tx::BLOCK_GAS_LIMIT,
           to: "0xef26b1f67797e7a5a3c192c93d821fadef3ba173",
           value: 1,
           access_list: "bar",
@@ -158,8 +158,8 @@ describe Tx::Eip2930 do
     it "checks for valid sender" do
       tx_from_cow = Tx.new({
         nonce: 0,
-        gas_price: Unit::WEI,
-        gas_limit: 29_600,
+        gasPrice: Unit::WEI,
+        gasLimit: 29_600,
         from: "0xCD2a3d9F938E13CD947Ec05AbC7FE734Df8DD826",
         access_list: list,
       })
@@ -247,8 +247,8 @@ describe Tx::Eip2930 do
     it "correctly hashes an unsigned example" do
       sample = Tx.new({
         nonce: 0,
-        gas_price: 0x0BA43B7400,
-        gas_limit: 0x073a0,
+        gasPrice: 0x0BA43B7400,
+        gasLimit: 0x073a0,
         to: "0x7917bc33eea648809c285607579c9919fb864f8f",
         value: 0x03BAF82D03A000,
         access_list: list,
@@ -295,8 +295,8 @@ describe Tx::Eip2930 do
       abi = Abi.encode types, args
       some = Tx.new({
         nonce: 0,
-        gas_price: 1,
-        gas_limit: 31_556,
+        gasPrice: 1,
+        gasLimit: 31_556,
         data: abi,
         access_list: list,
       })
@@ -321,8 +321,8 @@ describe Tx::Eip2930 do
       hex = Util.bin_to_hex abi
       some = Tx.new({
         nonce: 0,
-        gas_price: 1,
-        gas_limit: 31_556,
+        gasPrice: 1,
+        gasLimit: 31_556,
         data: hex,
         access_list: list,
       })
@@ -348,8 +348,8 @@ describe Tx::Eip2930 do
       # usually libraries prevent that, but in any case this allows to send ascii messages
       some = Tx.new({
         nonce: 0,
-        gas_price: 1,
-        gas_limit: 29_808,
+        gasPrice: 1,
+        gasLimit: 29_808,
         data: lorem,
         access_list: list,
       })

@@ -76,6 +76,8 @@ describe Client do
     it "funds a random account and returns the money" do
       geth_dev_http.transfer_and_wait(test_key.address, 1337 * Unit::ETHER)
       expect(geth_dev_http.get_balance test_key.address).to eq 1337 * Unit::ETHER
+      # require 'byebug'
+      # byebug
       geth_dev_ipc.transfer_and_wait(geth_dev_ipc.default_account, 42 * Unit::ETHER, test_key)
       expect(geth_dev_ipc.get_nonce test_key.address).to eq 1
     end
@@ -115,7 +117,7 @@ describe Client do
     end
 
     it "deploys the contract with a gas limit override" do
-      address = geth_dev_http.deploy_and_wait(contract, gas_limit: 1_000_000)
+      address = geth_dev_http.deploy_and_wait(contract, gasLimit: 1_000_000)
       expect(address).to start_with "0x"
     end
 
@@ -126,6 +128,8 @@ describe Client do
     end
 
     it "can deploy and call an ens registry" do
+      # require 'byebug'
+      # byebug
       ens_registry = Contract.from_bin(bin: ens_registry_bin.strip, abi: ens_registry_abi.strip, name: "ENSRegistryWithFallback")
       ens_address = geth_dev_ipc.deploy_and_wait(ens_registry, "0x112234455c3a32fd11230c42e7bccd4a84e02010")
       expect(ens_registry).to be_instance_of(Eth::Contract::ENSRegistryWithFallback)
@@ -151,7 +155,7 @@ describe Client do
 
     it "calls a function with gas_limit override" do
       geth_dev_http.deploy_and_wait(contract)
-      result = geth_dev_http.call(contract, "get", gas_limit: 60_000)
+      result = geth_dev_http.call(contract, "get", gasLimit: 60_000)
       expect(result).to eq(0)
     end
 
@@ -186,7 +190,7 @@ describe Client do
 
     it "transacts with gas limit override" do
       address = geth_dev_http.deploy_and_wait(test_contract)
-      txn_hash = geth_dev_http.transact_and_wait(test_contract, "set", 12, 24, address: address, gas_limit: 100_000_000)
+      txn_hash = geth_dev_http.transact_and_wait(test_contract, "set", 12, 24, address: address, gasLimit: 100_000_000)
       response = geth_dev_http.eth_get_transaction_by_hash(txn_hash)
       response = geth_dev_http.call(test_contract, "get")
       expect(response).to eq([12, 24])

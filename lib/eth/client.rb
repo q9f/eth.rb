@@ -126,17 +126,17 @@ module Eth
       params = {
         value: amount,
         to: destination,
-        gas_limit: gas_limit,
-        chain_id: chain_id,
+        gasLimit: gas_limit,
+        chainId: chain_id,
       }
       if legacy
         params.merge!({
-          gas_price: max_fee_per_gas,
+          gasPrice: max_fee_per_gas,
         })
       else
         params.merge!({
-          priority_fee: max_priority_fee_per_gas,
-          max_gas_fee: max_fee_per_gas,
+          maxPriorityFeePerGas: max_priority_fee_per_gas,
+          maxFeePerGas: max_fee_per_gas,
         })
       end
       unless sender_key.nil?
@@ -198,25 +198,25 @@ module Eth
       unless args.empty?
         data += encode_constructor_params(contract, args)
       end
-      gas_limit = if kwargs[:gas_limit]
-          kwargs[:gas_limit]
+      gas_limit = if kwargs[:gasLimit]
+          kwargs[:gasLimit]
         else
           Tx.estimate_intrinsic_gas(data) + Tx::CREATE_GAS
         end
       params = {
         value: 0,
-        gas_limit: gas_limit,
-        chain_id: chain_id,
+        gasLimit: gas_limit,
+        chainId: chain_id,
         data: data,
       }
       if kwargs[:legacy]
         params.merge!({
-          gas_price: max_fee_per_gas,
+          gasPrice: max_fee_per_gas,
         })
       else
         params.merge!({
-          priority_fee: max_priority_fee_per_gas,
-          max_gas_fee: max_fee_per_gas,
+          maxPriorityFeePerGas: max_priority_fee_per_gas,
+          maxFeePerGas: max_fee_per_gas,
         })
       end
       unless kwargs[:sender_key].nil?
@@ -290,27 +290,27 @@ module Eth
     #   @param **gas_limit [Integer] optional gas limit override for deploying the contract.
     # @return [Object] returns the result of the transaction.
     def transact(contract, function, *args, **kwargs)
-      gas_limit = if kwargs[:gas_limit]
-          kwargs[:gas_limit]
+      gas_limit = if kwargs[:gasLimit]
+          kwargs[:gasLimit]
         else
           Tx.estimate_intrinsic_gas(contract.bin) + Tx::CREATE_GAS
         end
       fun = contract.functions.select { |func| func.name == function }[0]
       params = {
         value: 0,
-        gas_limit: gas_limit,
-        chain_id: chain_id,
+        gasLimit: gas_limit,
+        chainId: chain_id,
         to: kwargs[:address] || contract.address,
         data: call_payload(fun, args),
       }
       if kwargs[:legacy]
         params.merge!({
-          gas_price: max_fee_per_gas,
+          gasPrice: max_fee_per_gas,
         })
       else
         params.merge!({
-          priority_fee: max_priority_fee_per_gas,
-          max_gas_fee: max_fee_per_gas,
+          maxPriorityFeePerGas: max_priority_fee_per_gas,
+          maxFeePerGas: max_fee_per_gas,
         })
       end
       unless kwargs[:sender_key].nil?
@@ -407,14 +407,16 @@ module Eth
 
     # Non-transactional function call called from call().
     def call_raw(contract, func, *args, **kwargs)
-      gas_limit = if kwargs[:gas_limit]
-          kwargs[:gas_limit]
+      require 'byebug'
+      # byebug
+      gas_limit = if kwargs[:gasLimit]
+          kwargs[:gasLimit]
         else
           Tx.estimate_intrinsic_gas(contract.bin) + Tx::CREATE_GAS
         end
       params = {
-        gas_limit: gas_limit,
-        chain_id: chain_id,
+        gasLimit: gas_limit,
+        chainId: chain_id,
         data: call_payload(func, args),
       }
       if kwargs[:address] || contract.address
@@ -422,12 +424,12 @@ module Eth
       end
       if kwargs[:legacy]
         params.merge!({
-          gas_price: max_fee_per_gas,
+          gasPrice: max_fee_per_gas,
         })
       else
         params.merge!({
-          priority_fee: max_priority_fee_per_gas,
-          max_gas_fee: max_fee_per_gas,
+          maxPriorityFeePerGas: max_priority_fee_per_gas,
+          maxFeePerGas: max_fee_per_gas,
         })
       end
       unless kwargs[:sender_key].nil?
@@ -460,6 +462,8 @@ module Eth
 
     # Prepares parameters and sends the command to the client.
     def send_command(command, args)
+      require 'byebug'
+      #byebug
       args << "latest" if ["eth_getBalance", "eth_call"].include? command
       payload = {
         jsonrpc: "2.0",

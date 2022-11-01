@@ -36,9 +36,9 @@ describe Solidity do
     expect(payload).to start_with "60806040523480156200001157600080fd5b5060"
     params = {
       from: geth.default_account,
-      priority_fee: 0,
-      max_gas_fee: Unit::GWEI,
-      gas_limit: Tx.estimate_intrinsic_gas(payload),
+      maxPriorityFeePerGas: 0,
+      maxFeePerGas: Unit::GWEI,
+      gasLimit: Tx.estimate_intrinsic_gas(payload),
       data: payload,
     }
     deploy = geth.eth_send_transaction(params)

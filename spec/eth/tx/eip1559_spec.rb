@@ -24,11 +24,11 @@ describe Tx::Eip1559 do
   # ref https://goerli.etherscan.io/tx/0x737b57a273ea1e63e6b8f770313fc2fbc4a668706d2921292dd28307b9f9644f
   subject(:type02) {
     Tx.new({
-      chain_id: Chain::GOERLI,
+      chainId: Chain::GOERLI,
       nonce: 5,
-      priority_fee: 3 * Unit::GWEI,
-      max_gas_fee: 69 * Unit::GWEI,
-      gas_limit: 230_420,
+      maxPriorityFeePerGas: 3 * Unit::GWEI,
+      maxFeePerGas: 69 * Unit::GWEI,
+      gasLimit: 230_420,
       to: "0xCaA29806044A08E533963b2e573C1230A2cd9a2d",
       value: 0.069423 * Unit::ETHER,
       data: "Foo Bar Ruby Ethereum",
@@ -48,9 +48,9 @@ describe Tx::Eip1559 do
   subject(:tx) {
     Tx.new({
       nonce: 0,
-      priority_fee: 0,
-      max_gas_fee: Unit::WEI,
-      gas_limit: Tx::DEFAULT_GAS_LIMIT,
+      maxPriorityFeePerGas: 0,
+      maxFeePerGas: Unit::WEI,
+      gasLimit: Tx::DEFAULT_GAS_LIMIT,
     })
   }
 
@@ -66,67 +66,67 @@ describe Tx::Eip1559 do
       expect {
         Tx.new({
           nonce: 0,
-          priority_fee: -9,
-          max_gas_fee: Unit::GWEI,
-          gas_limit: Tx::DEFAULT_GAS_LIMIT,
+          maxPriorityFeePerGas: -9,
+          maxFeePerGas: Unit::GWEI,
+          gasLimit: Tx::DEFAULT_GAS_LIMIT,
         })
       }.to raise_error Tx::ParameterError, "Invalid gas priority fee -9!"
       expect {
         Tx.new({
           nonce: 0,
-          priority_fee: 0,
-          max_gas_fee: -9 * Unit::GWEI,
-          gas_limit: Tx::DEFAULT_GAS_LIMIT,
+          maxPriorityFeePerGas: 0,
+          maxFeePerGas: -9 * Unit::GWEI,
+          gasLimit: Tx::DEFAULT_GAS_LIMIT,
         })
       }.to raise_error Tx::ParameterError, "Invalid max gas fee -0.9e10!"
       expect {
         Tx.new({
           nonce: 0,
-          priority_fee: 0,
-          max_gas_fee: Unit::GWEI,
-          gas_limit: Tx::DEFAULT_GAS_LIMIT - 1,
+          maxPriorityFeePerGas: 0,
+          maxFeePerGas: Unit::GWEI,
+          gasLimit: Tx::DEFAULT_GAS_LIMIT - 1,
         })
       }.to raise_error Tx::ParameterError, "Invalid gas limit 20999!"
       expect {
         Tx.new({
           nonce: 0,
-          priority_fee: 0,
-          max_gas_fee: Unit::GWEI,
-          gas_limit: Tx::DEFAULT_GAS_LIMIT,
+          maxPriorityFeePerGas: 0,
+          maxFeePerGas: Unit::GWEI,
+          gasLimit: Tx::DEFAULT_GAS_LIMIT,
           access_list: list,
         })
       }.to raise_error Tx::ParameterError, "Transaction gas limit is too low, try 29600!"
       expect {
         Tx.new({
           nonce: 0,
-          priority_fee: 0,
-          max_gas_fee: Unit::GWEI,
-          gas_limit: Tx::BLOCK_GAS_LIMIT + 1,
+          maxPriorityFeePerGas: 0,
+          maxFeePerGas: Unit::GWEI,
+          gasLimit: Tx::BLOCK_GAS_LIMIT + 1,
         })
       }.to raise_error Tx::ParameterError, "Invalid gas limit 30000001!"
       expect {
         Tx.new({
           nonce: -1,
-          priority_fee: 0,
-          max_gas_fee: Unit::GWEI,
-          gas_limit: Tx::BLOCK_GAS_LIMIT,
+          maxPriorityFeePerGas: 0,
+          maxFeePerGas: Unit::GWEI,
+          gasLimit: Tx::BLOCK_GAS_LIMIT,
         })
       }.to raise_error Tx::ParameterError, "Invalid signer nonce -1!"
       expect {
         Tx.new({
           nonce: 0,
-          priority_fee: 0,
-          max_gas_fee: Unit::GWEI,
-          gas_limit: Tx::BLOCK_GAS_LIMIT,
+          maxPriorityFeePerGas: 0,
+          maxFeePerGas: Unit::GWEI,
+          gasLimit: Tx::BLOCK_GAS_LIMIT,
           to: "foo",
         })
       }.to raise_error Address::CheckSumError, "Unknown address type foo!"
       expect {
         Tx.new({
           nonce: 0,
-          priority_fee: 0,
-          max_gas_fee: Unit::GWEI,
-          gas_limit: Tx::BLOCK_GAS_LIMIT,
+          maxPriorityFeePerGas: 0,
+          maxFeePerGas: Unit::GWEI,
+          gasLimit: Tx::BLOCK_GAS_LIMIT,
           to: "0xef26b1f67797e7a5a3c192c93d821fadef3ba173",
           value: -1,
         })
@@ -134,9 +134,9 @@ describe Tx::Eip1559 do
       expect {
         Tx.new({
           nonce: 0,
-          priority_fee: 0,
-          max_gas_fee: Unit::GWEI,
-          gas_limit: Tx::BLOCK_GAS_LIMIT,
+          maxPriorityFeePerGas: 0,
+          maxFeePerGas: Unit::GWEI,
+          gasLimit: Tx::BLOCK_GAS_LIMIT,
           to: "0xef26b1f67797e7a5a3c192c93d821fadef3ba173",
           value: 1,
           access_list: "bar",
@@ -162,9 +162,9 @@ describe Tx::Eip1559 do
       it "checks for valid sender" do
         tx_from_cow = Tx.new({
           nonce: 0,
-          priority_fee: Unit::WEI,
-          max_gas_fee: Unit::WEI,
-          gas_limit: Tx::DEFAULT_GAS_LIMIT,
+          maxPriorityFeePerGas: Unit::WEI,
+          maxFeePerGas: Unit::WEI,
+          gasLimit: Tx::DEFAULT_GAS_LIMIT,
           from: "0xCD2a3d9F938E13CD947Ec05AbC7FE734Df8DD826",
         })
         expect {
