@@ -407,8 +407,6 @@ module Eth
 
     # Non-transactional function call called from call().
     def call_raw(contract, func, *args, **kwargs)
-      require 'byebug'
-      # byebug
       gas_limit = if kwargs[:gasLimit]
           kwargs[:gasLimit]
         else
@@ -462,8 +460,6 @@ module Eth
 
     # Prepares parameters and sends the command to the client.
     def send_command(command, args)
-      require 'byebug'
-      #byebug
       args << "latest" if ["eth_getBalance", "eth_call"].include? command
       payload = {
         jsonrpc: "2.0",

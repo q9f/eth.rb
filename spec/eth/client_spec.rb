@@ -76,8 +76,6 @@ describe Client do
     it "funds a random account and returns the money" do
       geth_dev_http.transfer_and_wait(test_key.address, 1337 * Unit::ETHER)
       expect(geth_dev_http.get_balance test_key.address).to eq 1337 * Unit::ETHER
-      # require 'byebug'
-      # byebug
       geth_dev_ipc.transfer_and_wait(geth_dev_ipc.default_account, 42 * Unit::ETHER, test_key)
       expect(geth_dev_ipc.get_nonce test_key.address).to eq 1
     end
@@ -128,8 +126,6 @@ describe Client do
     end
 
     it "can deploy and call an ens registry" do
-      # require 'byebug'
-      # byebug
       ens_registry = Contract.from_bin(bin: ens_registry_bin.strip, abi: ens_registry_abi.strip, name: "ENSRegistryWithFallback")
       ens_address = geth_dev_ipc.deploy_and_wait(ens_registry, "0x112234455c3a32fd11230c42e7bccd4a84e02010")
       expect(ens_registry).to be_instance_of(Eth::Contract::ENSRegistryWithFallback)

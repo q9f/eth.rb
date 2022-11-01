@@ -200,8 +200,6 @@ module Eth
     # @raise [ParameterError] if amount is invalid.
     # @raise [ParameterError] if access list is invalid.
     def validate_params(fields)
-      require 'byebug'
-      # byebug
       if fields[:nonce].nil? or fields[:nonce] < 0
         raise ParameterError, "Invalid signer nonce #{fields[:nonce]}!"
       end
@@ -240,8 +238,6 @@ module Eth
     # @return [Hash] the validated transaction fields.
     # @raise [ParameterError] if gas price is invalid.
     def validate_legacy_params(fields)
-      require 'byebug'
-      # byebug
       if fields[:gasPrice].nil? or fields[:gasPrice] < 0
         raise ParameterError, "Invalid gas price #{fields[:gasPrice]}!"
       end
