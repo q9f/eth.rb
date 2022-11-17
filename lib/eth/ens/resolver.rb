@@ -28,8 +28,8 @@ module Eth
 
       # Create an instance of the ENS Resolver
       #
-      # @param ens_name [String] The ENS name, eg: fancy.eth
-      # @param ens_name [String] The ENS name, eg: fancy.eth
+      # @param client [Eth::Client] The client instance
+      # @param address [String] The address of the ENS contract
       def initialize(client, address = DEFAULT_ADDRESS)
         @client = client
         @contract = Eth::Contract.from_abi(
