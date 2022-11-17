@@ -24,7 +24,7 @@ module Eth
     class Resolver
 
       # The default address for ENS, which applies to most chains
-      DEFAULT_ADDRESS = '0x00000000000c2e074ec69a0dfb2997ba6c7d2e1e'.freeze
+      DEFAULT_ADDRESS = "0x00000000000c2e074ec69a0dfb2997ba6c7d2e1e".freeze
 
       # Create an instance of the ENS Resolver
       #
@@ -33,9 +33,9 @@ module Eth
       def initialize(client, address = DEFAULT_ADDRESS)
         @client = client
         @contract = Eth::Contract.from_abi(
-          name: 'ENS',
+          name: "ENS",
           address: address,
-          abi: JSON.parse(File.read(File.join(File.dirname(__FILE__), '../../../abis/ens.json')))
+          abi: JSON.parse(File.read(File.join(File.dirname(__FILE__), "../../../abis/ens.json"))),
         )
       end
 
@@ -44,7 +44,7 @@ module Eth
       # @param ens_name [String] The ENS name, eg: fancy.eth
       # @return [String] The owner address of the name, as a hex string
       def resolve(ens_name)
-        @client.call(@contract, 'owner', namehash(ens_name))
+        @client.call(@contract, "owner", namehash(ens_name))
       end
 
       # Generate node for the given domain name
@@ -53,11 +53,11 @@ module Eth
       # @param ens_name [String] The ENS name, eg: fancy.eth
       # @return [String] The node as a hex string
       def namehash(ens_name)
-        node = ('0' * 64)
+        node = ("0" * 64)
         name = normalize(ens_name)
-        name.split('.').reverse.each do |label|
+        name.split(".").reverse.each do |label|
           hash = Digest::Keccak.new(256).hexdigest(label)
-          node = Digest::Keccak.new(256).hexdigest([node + hash].pack('H*'))
+          node = Digest::Keccak.new(256).hexdigest([node + hash].pack("H*"))
         end
         "0x#{node}"
       end
@@ -73,6 +73,5 @@ module Eth
         input.downcase
       end
     end
-
   end
 end
