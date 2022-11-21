@@ -32,7 +32,7 @@ Gem::Specification.new do |spec|
   spec.test_files = spec.files.grep %r{^(test|spec|features)/}
 
   spec.platform = Gem::Platform::RUBY
-  spec.required_ruby_version = ">= 2.6", "< 4.0"
+  spec.required_ruby_version = ">= 2.7", "< 4.0"
 
   # keccak for hashing everything in ethereum
   spec.add_dependency "keccak", "~> 1.3"

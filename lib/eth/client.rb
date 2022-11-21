@@ -406,39 +406,14 @@ module Eth
     private
 
     # Non-transactional function call called from call().
+    # @see https://ethereum.org/en/developers/docs/apis/json-rpc/#eth_call
     def call_raw(contract, func, *args, **kwargs)
-      gas_limit = if kwargs[:gas]
-          kwargs[:gas]
-        else
-          Tx.estimate_intrinsic_gas(contract.bin) + Tx::CREATE_GAS
-        end
       params = {
-        gas: gas_limit,
-        chainId: chain_id,
         data: call_payload(func, args),
-      }
-      if kwargs[:address] || contract.address
-        params.merge!({ to: kwargs[:address] || contract.address })
-      end
-      if kwargs[:legacy]
-        params.merge!({
-          gasPrice: max_fee_per_gas,
-        })
-      else
-        params.merge!({
-          maxPriorityFeePerGas: max_priority_fee_per_gas,
-          maxFeePerGas: max_fee_per_gas,
-        })
-      end
-      unless kwargs[:sender_key].nil?
-        # Uses the provided key as sender and signer
-        params.merge!({
-          from: kwargs[:sender_key].address,
-          nonce: get_nonce(kwargs[:sender_key].address),
-        })
-        tx = Eth::Tx.new(params)
-        tx.sign kwargs[:sender_key]
-      end
+        to: kwargs[:address] || contract.address,
+        from: kwargs[:from],
+      }.compact
+
       raw_result = eth_call(params)["result"]
       types = func.outputs.map { |i| i.type }
       return nil if raw_result == "0x"
