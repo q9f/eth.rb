@@ -106,7 +106,7 @@ module Eth
     # See {#transfer} for params and overloads.
     #
     # @return [String] the transaction hash once it is mined.
-    def transfer_and_wait(destination, amount, sender_key = nil, legacy = false)
+    def transfer_and_wait(destination, amount, sender_key = nil, legacy = false, **kwargs)
       wait_for_tx(transfer(destination, amount, sender_key, legacy))
     end
 
@@ -121,8 +121,9 @@ module Eth
     # @param amount [Integer] the transfer amount in Wei.
     # @param sender_key [Eth::Key] the sender private key.
     # @param legacy [Boolean] enables legacy transactions (pre-EIP-1559).
+    # @param **nonce [Integer] optional specific nonce for transaction.
     # @return [String] the local transaction hash.
-    def transfer(destination, amount, sender_key = nil, legacy = false)
+    def transfer(destination, amount, sender_key = nil, legacy = false, **kwargs)
       params = {
         value: amount,
         to: destination,
@@ -144,7 +145,7 @@ module Eth
         # use the provided key as sender and signer
         params.merge!({
           from: sender_key.address,
-          nonce: get_nonce(sender_key.address),
+          nonce: kwargs[:nonce] || get_nonce(sender_key.address),
         })
         tx = Eth::Tx.new(params)
         tx.sign sender_key
@@ -154,7 +155,7 @@ module Eth
         # use the default account as sender and external signer
         params.merge!({
           from: default_account,
-          nonce: get_nonce(default_account),
+          nonce: kwargs[:nonce] || get_nonce(default_account),
         })
         return eth_send_transaction(params)["result"]
       end
@@ -189,6 +190,7 @@ module Eth
     #   @param **sender_key [Eth::Key] the sender private key.
     #   @param **legacy [Boolean] enables legacy transactions (pre-EIP-1559).
     #   @param **gas_limit [Integer] optional gas limit override for deploying the contract.
+    #   @param **nonce [Integer] optional specific nonce for transaction.
     # @return [String] the transaction hash.
     # @raise [ArgumentError] in case the contract does not have any source.
     def deploy(contract, *args, **kwargs)
@@ -223,7 +225,7 @@ module Eth
         # Uses the provided key as sender and signer
         params.merge!({
           from: kwargs[:sender_key].address,
-          nonce: get_nonce(kwargs[:sender_key].address),
+          nonce: kwargs[:nonce] || get_nonce(kwargs[:sender_key].address),
         })
         tx = Eth::Tx.new(params)
         tx.sign kwargs[:sender_key]
@@ -232,7 +234,7 @@ module Eth
         # Uses the default account as sender and external signer
         params.merge!({
           from: default_account,
-          nonce: get_nonce(default_account),
+          nonce: kwargs[:nonce] || get_nonce(default_account),
         })
         return eth_send_transaction(params)["result"]
       end
@@ -288,6 +290,7 @@ module Eth
     #   @param **legacy [Boolean] enables legacy transactions (pre-EIP-1559).
     #   @param **address [Eth::Address] contract address.
     #   @param **gas_limit [Integer] optional gas limit override for deploying the contract.
+    #   @param **nonce [Integer] optional specific nonce for transaction.
     # @return [Object] returns the result of the transaction.
     def transact(contract, function, *args, **kwargs)
       gas_limit = if kwargs[:gas_limit]
@@ -317,7 +320,7 @@ module Eth
         # use the provided key as sender and signer
         params.merge!({
           from: kwargs[:sender_key].address,
-          nonce: get_nonce(kwargs[:sender_key].address),
+          nonce: kwargs[:nonce] || get_nonce(kwargs[:sender_key].address),
         })
         tx = Eth::Tx.new(params)
         tx.sign kwargs[:sender_key]
@@ -326,7 +329,7 @@ module Eth
         # use the default account as sender and external signer
         params.merge!({
           from: default_account,
-          nonce: get_nonce(default_account),
+          nonce: kwargs[:nonce] || get_nonce(default_account),
         })
         return eth_send_transaction(params)["result"]
       end

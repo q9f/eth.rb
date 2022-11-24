@@ -86,6 +86,26 @@ describe Client do
       geth_dev_ipc.transfer_and_wait(geth_dev_ipc.default_account, 23 * Unit::ETHER, another_key, true)
       expect(geth_dev_ipc.get_nonce another_key.address).to eq 1
     end
+
+    context "when nonce manually set" do
+      it "raises exception when nonce incorrect" do
+        expect{
+          geth_dev_http.transfer(another_key.address, 69 * Unit::ETHER, nil, true, nonce: 0)
+        }.to raise_error(IOError, "nonce too low")
+      end
+
+      it "funds account twice" do
+        inblock_account_nonce = geth_dev_http.get_nonce(geth_dev_http.default_account)
+
+        geth_dev_http.transfer(another_key.address, 69 * Unit::ETHER, nil, true, nonce: inblock_account_nonce)
+        inblock_account_nonce += 1
+
+        geth_dev_http.transfer_and_wait(another_key.address, 69 * Unit::ETHER, nil, true, nonce: inblock_account_nonce)
+        inblock_account_nonce += 1
+
+        expect(inblock_account_nonce).to eq(geth_dev_http.get_nonce(geth_dev_http.default_account))
+      end
+    end
   end
 
   describe ".deploy .deploy_and_wait" do
@@ -131,6 +151,26 @@ describe Client do
       expect(ens_registry).to be_instance_of(Eth::Contract::ENSRegistryWithFallback)
       expect(ens_registry.address).to eq Address.new(ens_address).to_s
       expect(geth_dev_ipc.call(ens_registry, "old")).to eq "0x112234455c3a32fd11230c42e7bccd4a84e02010"
+    end
+
+    context "when nonce manually set" do
+      it "raises exception when nonce incorrect" do
+        expect{
+          geth_dev_http.deploy_and_wait(contract, nonce: 0)
+        }.to raise_error(IOError, "nonce too low")
+      end
+
+      it "deploys the contract twice" do
+        inblock_account_nonce = geth_dev_http.get_nonce(geth_dev_http.default_account)
+
+        geth_dev_http.deploy(contract, nonce: inblock_account_nonce)
+        inblock_account_nonce += 1
+
+        geth_dev_http.deploy_and_wait(contract, nonce: inblock_account_nonce)
+        inblock_account_nonce += 1
+
+        expect(inblock_account_nonce).to eq(geth_dev_http.get_nonce(geth_dev_http.default_account))
+      end
     end
   end
 
@@ -239,6 +279,29 @@ describe Client do
       address = geth_dev_http.deploy_and_wait(contract, "Hello!")
       response = geth_dev_http.transact_and_wait(contract, "setGreeting", "How are you?", address: address)
       expect(response).to start_with "0x"
+    end
+
+    context "when nonce manually set" do
+      let(:contract_address) { geth_dev_http.deploy_and_wait(contract) }
+
+      it "raises exception when nonce incorrect" do
+        expect{
+          geth_dev_http.transact(contract, "set", 42, address: contract_address, nonce: 0)
+        }.to raise_error(IOError, "nonce too low")
+      end
+
+      it "transacts function twice" do
+        contract_address
+        inblock_account_nonce = geth_dev_http.get_nonce(geth_dev_http.default_account)
+
+        geth_dev_http.transact(contract, "set", 42, address: contract_address, nonce: inblock_account_nonce)
+        inblock_account_nonce += 1
+
+        geth_dev_http.transact(contract, "set", 43, address: contract_address, nonce: inblock_account_nonce)
+        inblock_account_nonce += 1
+
+        expect(inblock_account_nonce).to eq(geth_dev_http.get_nonce(geth_dev_http.default_account))
+      end
     end
   end
 
