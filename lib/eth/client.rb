@@ -106,8 +106,8 @@ module Eth
     # See {#transfer} for params and overloads.
     #
     # @return [String] the transaction hash once it is mined.
-    def transfer_and_wait(destination, amount, sender_key = nil, legacy = false, **kwargs)
-      wait_for_tx(transfer(destination, amount, sender_key, legacy))
+    def transfer_and_wait(destination, amount, **kwargs)
+      wait_for_tx(transfer(destination, amount, **kwargs))
     end
 
     # Simply transfer Ether to an account without any call data or
@@ -119,18 +119,18 @@ module Eth
     #
     # @param destination [Eth::Address] the destination address.
     # @param amount [Integer] the transfer amount in Wei.
-    # @param sender_key [Eth::Key] the sender private key.
-    # @param legacy [Boolean] enables legacy transactions (pre-EIP-1559).
+    # @param **sender_key [Eth::Key] the sender private key.
+    # @param **legacy [Boolean] enables legacy transactions (pre-EIP-1559).
     # @param **nonce [Integer] optional specific nonce for transaction.
     # @return [String] the local transaction hash.
-    def transfer(destination, amount, sender_key = nil, legacy = false, **kwargs)
+    def transfer(destination, amount, **kwargs)
       params = {
         value: amount,
         to: destination,
         gas_limit: gas_limit,
         chain_id: chain_id,
       }
-      if legacy
+      if kwargs[:legacy]
         params.merge!({
           gas_price: max_fee_per_gas,
         })
@@ -140,15 +140,15 @@ module Eth
           max_gas_fee: max_fee_per_gas,
         })
       end
-      unless sender_key.nil?
+      unless kwargs[:sender_key].nil?
 
         # use the provided key as sender and signer
         params.merge!({
-          from: sender_key.address,
-          nonce: kwargs[:nonce] || get_nonce(sender_key.address),
+          from: kwargs[:sender_key].address,
+          nonce: kwargs[:nonce] || get_nonce(kwargs[:sender_key].address),
         })
         tx = Eth::Tx.new(params)
-        tx.sign sender_key
+        tx.sign kwargs[:sender_key]
         return eth_send_raw_transaction(tx.hex)["result"]
       else
 

@@ -76,31 +76,31 @@ describe Client do
     it "funds a random account and returns the money" do
       geth_dev_http.transfer_and_wait(test_key.address, 1337 * Unit::ETHER)
       expect(geth_dev_http.get_balance test_key.address).to eq 1337 * Unit::ETHER
-      geth_dev_ipc.transfer_and_wait(geth_dev_ipc.default_account, 42 * Unit::ETHER, test_key)
+      geth_dev_ipc.transfer_and_wait(geth_dev_ipc.default_account, 42 * Unit::ETHER, sender_key: test_key)
       expect(geth_dev_ipc.get_nonce test_key.address).to eq 1
     end
 
     it "funds a random account using legacy transactions" do
-      geth_dev_http.transfer_and_wait(another_key.address, 69 * Unit::ETHER, nil, true)
+      geth_dev_http.transfer_and_wait(another_key.address, 69 * Unit::ETHER, legacy: true)
       expect(geth_dev_http.get_balance another_key.address).to eq 69 * Unit::ETHER
-      geth_dev_ipc.transfer_and_wait(geth_dev_ipc.default_account, 23 * Unit::ETHER, another_key, true)
+      geth_dev_ipc.transfer_and_wait(geth_dev_ipc.default_account, 23 * Unit::ETHER, sender_key: another_key, legacy: true)
       expect(geth_dev_ipc.get_nonce another_key.address).to eq 1
     end
 
     context "when nonce manually set" do
       it "raises exception when nonce incorrect" do
-        expect{
-          geth_dev_http.transfer(another_key.address, 69 * Unit::ETHER, nil, true, nonce: 0)
+        expect {
+          geth_dev_http.transfer(another_key.address, 69 * Unit::ETHER, legacy: true, nonce: 0)
         }.to raise_error(IOError, "nonce too low")
       end
 
       it "funds account twice" do
         inblock_account_nonce = geth_dev_http.get_nonce(geth_dev_http.default_account)
 
-        geth_dev_http.transfer(another_key.address, 69 * Unit::ETHER, nil, true, nonce: inblock_account_nonce)
+        geth_dev_http.transfer(another_key.address, 69 * Unit::ETHER, legacy: true, nonce: inblock_account_nonce)
         inblock_account_nonce += 1
 
-        geth_dev_http.transfer_and_wait(another_key.address, 69 * Unit::ETHER, nil, true, nonce: inblock_account_nonce)
+        geth_dev_http.transfer_and_wait(another_key.address, 69 * Unit::ETHER, legacy: true, nonce: inblock_account_nonce)
         inblock_account_nonce += 1
 
         expect(inblock_account_nonce).to eq(geth_dev_http.get_nonce(geth_dev_http.default_account))
@@ -155,7 +155,7 @@ describe Client do
 
     context "when nonce manually set" do
       it "raises exception when nonce incorrect" do
-        expect{
+        expect {
           geth_dev_http.deploy_and_wait(contract, nonce: 0)
         }.to raise_error(IOError, "nonce too low")
       end
@@ -285,7 +285,7 @@ describe Client do
       let(:contract_address) { geth_dev_http.deploy_and_wait(contract) }
 
       it "raises exception when nonce incorrect" do
-        expect{
+        expect {
           geth_dev_http.transact(contract, "set", 42, address: contract_address, nonce: 0)
         }.to raise_error(IOError, "nonce too low")
       end
