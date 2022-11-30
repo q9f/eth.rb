@@ -117,11 +117,15 @@ module Eth
     # **Note**, that many remote providers (e.g., Infura) do not provide
     # any accounts. Provide a `sender_key` if you experience issues.
     #
-    # @param destination [Eth::Address] the destination address.
-    # @param amount [Integer] the transfer amount in Wei.
-    # @param **sender_key [Eth::Key] the sender private key.
-    # @param **legacy [Boolean] enables legacy transactions (pre-EIP-1559).
-    # @param **nonce [Integer] optional specific nonce for transaction.
+    # @overload transfer(destination, amount)
+    #   @param destination [Eth::Address] the destination address.
+    #   @param amount [Integer] the transfer amount in Wei.
+    # @overload transfer(destination, amount, **kwargs)
+    #   @param destination [Eth::Address] the destination address.
+    #   @param amount [Integer] the transfer amount in Wei.
+    #   @param **sender_key [Eth::Key] the sender private key.
+    #   @param **legacy [Boolean] enables legacy transactions (pre-EIP-1559).
+    #   @param **nonce [Integer] optional specific nonce for transaction.
     # @return [String] the local transaction hash.
     def transfer(destination, amount, **kwargs)
       params = {
