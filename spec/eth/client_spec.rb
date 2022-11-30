@@ -281,6 +281,15 @@ describe Client do
       expect(response).to start_with "0x"
     end
 
+    it "transacts the function with specific tx value argument" do
+      geth_dev_http.transfer_and_wait(test_key.address, 0.01 * Unit::ETHER)
+      address = geth_dev_http.deploy_and_wait(contract, sender_key: test_key)
+      tx_value = 1
+      tx_hash = geth_dev_http.transact_and_wait(contract, "set", 42, sender_key: test_key, address: address, tx_value: tx_value)
+      tx_value_from_server = geth_dev_http.eth_get_transaction_by_hash(tx_hash)["result"]["value"].to_i(16)
+      expect(tx_value_from_server).to eq(tx_value)
+    end
+
     context "when nonce manually set" do
       let(:contract_address) { geth_dev_http.deploy_and_wait(contract) }
 

@@ -291,6 +291,7 @@ module Eth
     #   @param **address [Eth::Address] contract address.
     #   @param **gas_limit [Integer] optional gas limit override for deploying the contract.
     #   @param **nonce [Integer] optional specific nonce for transaction.
+    #   @param **tx_value [Integer] optional transaction value field filling.
     # @return [Object] returns the result of the transaction.
     def transact(contract, function, *args, **kwargs)
       gas_limit = if kwargs[:gas_limit]
@@ -300,7 +301,7 @@ module Eth
         end
       fun = contract.functions.select { |func| func.name == function }[0]
       params = {
-        value: 0,
+        value: kwargs[:tx_value] || 0,
         gas_limit: gas_limit,
         chain_id: chain_id,
         to: kwargs[:address] || contract.address,
