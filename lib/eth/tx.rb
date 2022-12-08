@@ -94,7 +94,7 @@ module Eth
       end
 
       # if we deal with access list parameter, attempt EIP-2930
-      unless params[:access_list].nil?
+      unless params[:accessList].nil?
         params[:chainId] = chain_id if params[:chainId].nil?
         return Tx::Eip2930.new params
       end
@@ -209,8 +209,8 @@ module Eth
       unless fields[:value] >= 0
         raise ParameterError, "Invalid transaction value #{fields[:value]}!"
       end
-      unless fields[:access_list].nil? or fields[:access_list].is_a? Array
-        raise ParameterError, "Invalid access list #{fields[:access_list]}!"
+      unless fields[:accessList].nil? or fields[:accessList].is_a? Array
+        raise ParameterError, "Invalid access list #{fields[:accessList]}!"
       end
       return fields
     end

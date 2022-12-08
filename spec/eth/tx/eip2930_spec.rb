@@ -30,7 +30,7 @@ describe Tx::Eip2930 do
       to: "0xCaA29806044A08E533963b2e573C1230A2cd9a2d",
       value: 0.0137 * Unit::ETHER,
       data: "Foo Bar Ruby Ethereum",
-      access_list: list,
+      accessList: list,
     })
   }
 
@@ -42,7 +42,7 @@ describe Tx::Eip2930 do
       nonce: 0,
       gasPrice: Unit::WEI,
       gasLimit: 29_600,
-      access_list: list,
+      accessList: list,
     })
   }
 
@@ -93,7 +93,7 @@ describe Tx::Eip2930 do
           nonce: 0,
           gasPrice: Unit::GWEI,
           gasLimit: Tx::DEFAULT_GAS_LIMIT,
-          access_list: list,
+          accessList: list,
         })
       }.to raise_error Tx::ParameterError, "Transaction gas limit is too low, try 29600!"
       expect {
@@ -134,7 +134,7 @@ describe Tx::Eip2930 do
           gasLimit: Tx::BLOCK_GAS_LIMIT,
           to: "0xef26b1f67797e7a5a3c192c93d821fadef3ba173",
           value: 1,
-          access_list: "bar",
+          accessList: "bar",
         })
       }.to raise_error Tx::ParameterError, "Invalid access list bar!"
     end
@@ -161,7 +161,7 @@ describe Tx::Eip2930 do
         gasPrice: Unit::WEI,
         gasLimit: 29_600,
         from: "0xCD2a3d9F938E13CD947Ec05AbC7FE734Df8DD826",
-        access_list: list,
+        accessList: list,
       })
       expect {
         tx_from_cow.sign testnet
@@ -251,7 +251,7 @@ describe Tx::Eip2930 do
         gasLimit: 0x073a0,
         to: "0x7917bc33eea648809c285607579c9919fb864f8f",
         value: 0x03BAF82D03A000,
-        access_list: list,
+        accessList: list,
       })
       lsong = Key.new(priv: "00d862c318d05de0a1c25242c21989e15e35e70c55996fbc4238cd2f2f6a8f62")
       expected_address = Address.new "8d900bfa2353548a4631be870f99939575551b60"
@@ -298,7 +298,7 @@ describe Tx::Eip2930 do
         gasPrice: 1,
         gasLimit: 31_556,
         data: abi,
-        access_list: list,
+        accessList: list,
       })
 
       # expect to properly accept binary data
@@ -324,7 +324,7 @@ describe Tx::Eip2930 do
         gasPrice: 1,
         gasLimit: 31_556,
         data: hex,
-        access_list: list,
+        accessList: list,
       })
 
       # expect to properly accept hexadecimal data without changing the transaction hash
@@ -351,7 +351,7 @@ describe Tx::Eip2930 do
         gasPrice: 1,
         gasLimit: 29_808,
         data: lorem,
-        access_list: list,
+        accessList: list,
       })
       some.sign cow
       expect(some.hex).to eq "01f8cd01800182747080808d4c6f72656d2c20497073756d21f872f85994de0b295669a9fd93d5f28d9ec85e40f4cb697baef842a00000000000000000000000000000000000000000000000000000000000000003a00000000000000000000000000000000000000000000000000000000000000007d694bb9bc244d798123fde783fcc1c72d3bb8c189413c080a0aa8fb1b77d26ee25034e7012fd5098c2ffb46ec26f852f492adf38d0ce4480a3a019b93db449c5320f237d6ffa2612055afb8b4286c5f7fe9123c78a287b61af91"

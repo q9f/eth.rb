@@ -32,7 +32,7 @@ describe Tx::Eip1559 do
       to: "0xCaA29806044A08E533963b2e573C1230A2cd9a2d",
       value: 0.069423 * Unit::ETHER,
       data: "Foo Bar Ruby Ethereum",
-      access_list: list,
+      accessList: list,
     })
   }
 
@@ -93,7 +93,7 @@ describe Tx::Eip1559 do
           maxPriorityFeePerGas: 0,
           maxFeePerGas: Unit::GWEI,
           gasLimit: Tx::DEFAULT_GAS_LIMIT,
-          access_list: list,
+          accessList: list,
         })
       }.to raise_error Tx::ParameterError, "Transaction gas limit is too low, try 29600!"
       expect {
@@ -139,7 +139,7 @@ describe Tx::Eip1559 do
           gasLimit: Tx::BLOCK_GAS_LIMIT,
           to: "0xef26b1f67797e7a5a3c192c93d821fadef3ba173",
           value: 1,
-          access_list: "bar",
+          accessList: "bar",
         })
       }.to raise_error Tx::ParameterError, "Invalid access list bar!"
     end

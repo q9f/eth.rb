@@ -96,10 +96,10 @@ module Eth
         # ensure sane values for all mandatory fields
         fields = Tx.validate_params fields
         fields = Tx.validate_eip1559_params fields
-        fields[:access_list] = Tx.sanitize_list fields[:access_list]
+        fields[:accessList] = Tx.sanitize_list fields[:accessList]
 
         # ensure gas limit is not too low
-        minimum_cost = Tx.estimate_intrinsic_gas fields[:data], fields[:access_list]
+        minimum_cost = Tx.estimate_intrinsic_gas fields[:data], fields[:accessList]
         raise ParameterError, "Transaction gas limit is too low, try #{minimum_cost}!" if fields[:gasLimit].to_i < minimum_cost
 
         # populate class attributes
@@ -111,7 +111,7 @@ module Eth
         @destination = fields[:to].to_s
         @amount = fields[:value].to_i
         @payload = fields[:data]
-        @access_list = fields[:access_list]
+        @access_list = fields[:accessList]
 
         # the signature v is set to the chain id for unsigned transactions
         @signature_y_parity = fields[:recovery_id]
