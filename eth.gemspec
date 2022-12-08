@@ -28,7 +28,7 @@ Gem::Specification.new do |spec|
   spec.files = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
   spec.bindir = "exe"
   spec.executables = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
-  spec.require_paths = ["lib"]
+  spec.require_paths = ["lib", "abis"]
   spec.test_files = spec.files.grep %r{^(test|spec|features)/}
 
   spec.platform = Gem::Platform::RUBY
