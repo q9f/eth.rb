@@ -28,7 +28,7 @@ describe Tx::Eip1559 do
       nonce: 5,
       maxPriorityFeePerGas: 3 * Unit::GWEI,
       maxFeePerGas: 69 * Unit::GWEI,
-      gas: 230_420,
+      gasLimit: 230_420,
       to: "0xCaA29806044A08E533963b2e573C1230A2cd9a2d",
       value: 0.069423 * Unit::ETHER,
       data: "Foo Bar Ruby Ethereum",
@@ -50,7 +50,7 @@ describe Tx::Eip1559 do
       nonce: 0,
       maxPriorityFeePerGas: 0,
       maxFeePerGas: Unit::WEI,
-      gas: Tx::DEFAULT_GAS_LIMIT,
+      gasLimit: Tx::DEFAULT_GAS_LIMIT,
     })
   }
 
@@ -68,7 +68,7 @@ describe Tx::Eip1559 do
           nonce: 0,
           maxPriorityFeePerGas: -9,
           maxFeePerGas: Unit::GWEI,
-          gas: Tx::DEFAULT_GAS_LIMIT,
+          gasLimit: Tx::DEFAULT_GAS_LIMIT,
         })
       }.to raise_error Tx::ParameterError, "Invalid gas priority fee -9!"
       expect {
@@ -76,7 +76,7 @@ describe Tx::Eip1559 do
           nonce: 0,
           maxPriorityFeePerGas: 0,
           maxFeePerGas: -9 * Unit::GWEI,
-          gas: Tx::DEFAULT_GAS_LIMIT,
+          gasLimit: Tx::DEFAULT_GAS_LIMIT,
         })
       }.to raise_error Tx::ParameterError, "Invalid max gas fee -0.9e10!"
       expect {
@@ -84,7 +84,7 @@ describe Tx::Eip1559 do
           nonce: 0,
           maxPriorityFeePerGas: 0,
           maxFeePerGas: Unit::GWEI,
-          gas: Tx::DEFAULT_GAS_LIMIT - 1,
+          gasLimit: Tx::DEFAULT_GAS_LIMIT - 1,
         })
       }.to raise_error Tx::ParameterError, "Invalid gas limit 20999!"
       expect {
@@ -92,7 +92,7 @@ describe Tx::Eip1559 do
           nonce: 0,
           maxPriorityFeePerGas: 0,
           maxFeePerGas: Unit::GWEI,
-          gas: Tx::DEFAULT_GAS_LIMIT,
+          gasLimit: Tx::DEFAULT_GAS_LIMIT,
           access_list: list,
         })
       }.to raise_error Tx::ParameterError, "Transaction gas limit is too low, try 29600!"
@@ -101,7 +101,7 @@ describe Tx::Eip1559 do
           nonce: 0,
           maxPriorityFeePerGas: 0,
           maxFeePerGas: Unit::GWEI,
-          gas: Tx::BLOCK_GAS_LIMIT + 1,
+          gasLimit: Tx::BLOCK_GAS_LIMIT + 1,
         })
       }.to raise_error Tx::ParameterError, "Invalid gas limit 30000001!"
       expect {
@@ -109,7 +109,7 @@ describe Tx::Eip1559 do
           nonce: -1,
           maxPriorityFeePerGas: 0,
           maxFeePerGas: Unit::GWEI,
-          gas: Tx::BLOCK_GAS_LIMIT,
+          gasLimit: Tx::BLOCK_GAS_LIMIT,
         })
       }.to raise_error Tx::ParameterError, "Invalid signer nonce -1!"
       expect {
@@ -117,7 +117,7 @@ describe Tx::Eip1559 do
           nonce: 0,
           maxPriorityFeePerGas: 0,
           maxFeePerGas: Unit::GWEI,
-          gas: Tx::BLOCK_GAS_LIMIT,
+          gasLimit: Tx::BLOCK_GAS_LIMIT,
           to: "foo",
         })
       }.to raise_error Address::CheckSumError, "Unknown address type foo!"
@@ -126,7 +126,7 @@ describe Tx::Eip1559 do
           nonce: 0,
           maxPriorityFeePerGas: 0,
           maxFeePerGas: Unit::GWEI,
-          gas: Tx::BLOCK_GAS_LIMIT,
+          gasLimit: Tx::BLOCK_GAS_LIMIT,
           to: "0xef26b1f67797e7a5a3c192c93d821fadef3ba173",
           value: -1,
         })
@@ -136,7 +136,7 @@ describe Tx::Eip1559 do
           nonce: 0,
           maxPriorityFeePerGas: 0,
           maxFeePerGas: Unit::GWEI,
-          gas: Tx::BLOCK_GAS_LIMIT,
+          gasLimit: Tx::BLOCK_GAS_LIMIT,
           to: "0xef26b1f67797e7a5a3c192c93d821fadef3ba173",
           value: 1,
           access_list: "bar",
@@ -164,7 +164,7 @@ describe Tx::Eip1559 do
           nonce: 0,
           maxPriorityFeePerGas: Unit::WEI,
           maxFeePerGas: Unit::WEI,
-          gas: Tx::DEFAULT_GAS_LIMIT,
+          gasLimit: Tx::DEFAULT_GAS_LIMIT,
           from: "0xCD2a3d9F938E13CD947Ec05AbC7FE734Df8DD826",
         })
         expect {

@@ -115,7 +115,7 @@ describe Client do
     end
 
     it "deploys the contract with a gas limit override" do
-      address = geth_dev_http.deploy_and_wait(contract, gas: 1_000_000)
+      address = geth_dev_http.deploy_and_wait(contract, gasLimit: 1_000_000)
       expect(address).to start_with "0x"
     end
 
@@ -126,6 +126,7 @@ describe Client do
     end
 
     it "can deploy and call an ens registry" do
+      require 'byebug'
       ens_registry = Contract.from_bin(bin: ens_registry_bin.strip, abi: ens_registry_abi.strip, name: "ENSRegistryWithFallback")
       ens_address = geth_dev_ipc.deploy_and_wait(ens_registry, "0x112234455c3a32fd11230c42e7bccd4a84e02010")
       expect(ens_registry).to be_instance_of(Eth::Contract::ENSRegistryWithFallback)
@@ -151,7 +152,7 @@ describe Client do
 
     it "calls a function with gas_limit override" do
       geth_dev_http.deploy_and_wait(contract)
-      result = geth_dev_http.call(contract, "get", gas: 60_000)
+      result = geth_dev_http.call(contract, "get", gasLimit: 60_000)
       expect(result).to eq(0)
     end
 
@@ -186,7 +187,7 @@ describe Client do
 
     it "transacts with gas limit override" do
       address = geth_dev_http.deploy_and_wait(test_contract)
-      txn_hash = geth_dev_http.transact_and_wait(test_contract, "set", 12, 24, address: address, gas: 100_000_000)
+      txn_hash = geth_dev_http.transact_and_wait(test_contract, "set", 12, 24, address: address, gasLimit: 100_000_000)
       response = geth_dev_http.eth_get_transaction_by_hash(txn_hash)
       response = geth_dev_http.call(test_contract, "get")
       expect(response).to eq([12, 24])
