@@ -369,7 +369,7 @@ module Eth
       @id = 0
     end
 
-    # Checkes wether a transaction is mined or not.
+    # Checks whether a transaction is mined or not.
     #
     # @param hash [String] the transaction hash.
     # @return [Boolean] true if included in a block.
@@ -378,7 +378,7 @@ module Eth
       !mined_tx.nil? && !mined_tx["result"].nil? && !mined_tx["result"]["blockNumber"].nil?
     end
 
-    # Checkes wether a transaction succeeded or not.
+    # Checks whether a transaction succeeded or not.
     #
     # @param hash [String] the transaction hash.
     # @return [Boolean] true if status is success.
