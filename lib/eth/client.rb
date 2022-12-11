@@ -384,7 +384,7 @@ module Eth
     # @return [Boolean] true if status is success.
     def tx_succeeded?(hash)
       tx_receipt = eth_get_transaction_receipt(hash)
-      !tx_receipt.nil? && !tx_receipt["result"].nil? && tx_receipt["result"]["status"] == "0x1"
+      !tx_receipt.nil? && tx_receipt.dig(:result, :status) == "0x1"
     end
 
     # Waits for an transaction to be mined by the connected chain.
