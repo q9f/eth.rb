@@ -43,7 +43,7 @@ module Eth
     def compile(contract)
       raise Errno::ENOENT, "Contract file not found: #{contract}" unless File.exist? contract
       path = File.realpath contract
-      command = "#{@compiler} --optimize --combined-json bin,abi #{contract}"
+      command = "#{@compiler} --optimize --combined-json bin,abi #{path}"
       output, error, status = Open3.capture3 command
       raise SystemCallError, "Unable to run solc compiler!" if status.exitstatus === 127
       raise CompilerError, error unless status.success?
