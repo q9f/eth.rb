@@ -42,9 +42,10 @@ module Eth
     # @return [Array] JSON containing the compiled contract and ABI for all contracts.
     def compile(contract)
       raise Errno::ENOENT, "Contract file not found: #{contract}" unless File.exist? contract
+      flag_opt = "--optimize"
+      flag_json = "--combined-json=bin,abi"
       path = File.realpath contract
-      command = "#{@compiler} --optimize --combined-json bin,abi #{path}"
-      output, error, status = Open3.capture3 command
+      output, error, status = Open3.capture3 @compiler, flag_opt, flag_json, path
       raise SystemCallError, "Unable to run solc compiler!" if status.exitstatus === 127
       raise CompilerError, error unless status.success?
       json = JSON.parse output
