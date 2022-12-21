@@ -82,7 +82,7 @@ module Eth
         @base_type = base_type
         @sub_type = sub_type
         @dimensions = dims.map { |x| x[1...-1].to_i }
-        @components = components.map { |component| Eth::Abi::Type.parse(component["type"], component.dig("components"), component.dig("name")) } if components.any?
+        @components = components.map { |component| Eth::Abi::Type.parse(component["type"], component.dig("components"), component.dig("name")) } unless components.nil?
         @name = component_name
       end
 
@@ -111,11 +111,11 @@ module Eth
         if dimensions.empty?
           if !(["string", "bytes", "tuple"].include?(base_type) and sub_type.empty?)
             s = 32
-          elsif base_type == "tuple" && components.none?(&:is_dynamic?)
+          elsif base_type == "tuple" && components.none?(&:dynamic?)
             s = components.sum(&:size)
           end
         elsif dimensions.last != 0 && !nested_sub.dynamic?
-              s = dimensions.last * nested_sub.size
+          s = dimensions.last * nested_sub.size
         end
         @size ||= s
       end
@@ -162,7 +162,8 @@ module Eth
           # bytes can be no longer than 32 bytes
           raise ParseError, "Maximum 32 bytes for fixed-length string or bytes" unless sub_type.empty? || sub_type.to_i <= 32
         when "tuple"
-	  raise NotImplementedError
+
+          # proceed
         when "uint", "int"
 
           # integers must have a numerical suffix

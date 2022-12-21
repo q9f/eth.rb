@@ -54,24 +54,24 @@ describe Abi::Type do
     end
   end
 
-  describe ".is_dynamic?" do
+  describe ".dynamic?" do
     it "can tell if a type is dynamic" do
-      expect(Abi::Type.parse("string").is_dynamic?).to eq(true)
-      expect(Abi::Type.parse("bytes").is_dynamic?).to eq(true)
-      expect(Abi::Type.parse("uint256[]").is_dynamic?).to eq(true)
-      expect(Abi::Type.parse("uint256[4][]").is_dynamic?).to eq(true)
+      expect(Abi::Type.parse("string").dynamic?).to eq(true)
+      expect(Abi::Type.parse("bytes").dynamic?).to eq(true)
+      expect(Abi::Type.parse("uint256[]").dynamic?).to eq(true)
+      expect(Abi::Type.parse("uint256[4][]").dynamic?).to eq(true)
 
-      expect(Abi::Type.parse("bytes32").is_dynamic?).to eq(false)
-      expect(Abi::Type.parse("uint256").is_dynamic?).to eq(false)
-      expect(Abi::Type.parse("fixed128x128").is_dynamic?).to eq(false)
-      expect(Abi::Type.parse("bool").is_dynamic?).to eq(false)
+      expect(Abi::Type.parse("bytes32").dynamic?).to eq(false)
+      expect(Abi::Type.parse("uint256").dynamic?).to eq(false)
+      expect(Abi::Type.parse("fixed128x128").dynamic?).to eq(false)
+      expect(Abi::Type.parse("bool").dynamic?).to eq(false)
 
-      expect(Abi::Type.parse("uint256[2]").is_dynamic?).to eq(false)
-      expect(Abi::Type.parse("address[2][2]").is_dynamic?).to eq(false)
-      expect(Abi::Type.parse("ufixed192x64[2][2][2][2][2]").is_dynamic?).to eq(false)
+      expect(Abi::Type.parse("uint256[2]").dynamic?).to eq(false)
+      expect(Abi::Type.parse("address[2][2]").dynamic?).to eq(false)
+      expect(Abi::Type.parse("ufixed192x64[2][2][2][2][2]").dynamic?).to eq(false)
 
-      expect(Abi::Type.parse("tuple[]", [{ "type" => "bytes8" }]).is_dynamic?).to eq(true)
-      expect(Abi::Type.parse("tuple[2]", [{ "type" => "bytes8" }]).is_dynamic?).to eq(false)
+      expect(Abi::Type.parse("tuple[]", [{ "type" => "bytes8" }]).dynamic?).to eq(true)
+      expect(Abi::Type.parse("tuple[2]", [{ "type" => "bytes8" }]).dynamic?).to eq(false)
     end
   end
 

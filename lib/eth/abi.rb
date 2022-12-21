@@ -108,7 +108,7 @@ module Eth
 
             head += encode_type(Type.size_type, offset)
           end
-        elsif nested_sub.base_type == "tuple" && nested_sub.is_dynamic?
+        elsif nested_sub.base_type == "tuple" && nested_sub.dynamic?
           head += encode_struct_offsets(nested_sub, arg)
         end
 
@@ -144,6 +144,7 @@ module Eth
       end
       result
     end
+
     # Encodes primitive types.
     #
     # @param type [Eth::Abi::Type] type to be encoded.
@@ -410,8 +411,8 @@ module Eth
       raise EncodingError, "Expecting #{type.components.size} elements: #{arg}" unless arg.size == type.components.size
 
       static_size = 0
-      type.components.each do |component|
-        if type.components[i].is_dynamic?
+      type.components.each_with_index do |component, i|
+        if type.components[i].dynamic?
           static_size += 32
         else
           static_size += Util.ceil32(type.components[i].size || 0)
@@ -424,9 +425,10 @@ module Eth
 
       type.components.each_with_index do |component, i|
         component_type = type.components[i]
-        if component_type.is_dynamic?
+        if component_type.dynamic?
           offsets_and_static_values << encode_type(Type.size_type, dynamic_offset)
-          dynamic_value << encode_type(component_type, arg.is_a?(Array) ? arg[i] : arg[component_type.name])
+          dynamic_value = encode_type(component_type, arg.is_a?(Array) ? arg[i] : arg[component_type.name])
+          dynamic_values << dynamic_value
           dynamic_offset += dynamic_value.size
         else
           offsets_and_static_values << encode_type(component_type, arg.is_a?(Array) ? arg[i] : arg[component_type.name])
