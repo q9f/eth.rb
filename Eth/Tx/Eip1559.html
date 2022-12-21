@@ -1989,7 +1989,7 @@
       <pre class="code"><span class="info file"># File 'lib/eth/tx/eip1559.rb', line 260</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_encoded'>encoded</span>
-  <span class='kw'>unless</span> <span class='const'><span class='object_link'><a href="../Tx.html" title="Eth::Tx (module)">Tx</a></span></span><span class='period'>.</span><span class='id identifier rubyid_is_signed?'><span class='object_link'><a href="../Tx.html#is_signed%3F-instance_method" title="Eth::Tx#is_signed? (method)">is_signed?</a></span></span> <span class='kw'>self</span>
+  <span class='kw'>unless</span> <span class='const'><span class='object_link'><a href="../Tx.html" title="Eth::Tx (module)">Tx</a></span></span><span class='period'>.</span><span class='id identifier rubyid_signed?'><span class='object_link'><a href="../Tx.html#signed%3F-instance_method" title="Eth::Tx#signed? (method)">signed?</a></span></span> <span class='kw'>self</span>
     <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../Signature.html" title="Eth::Signature (module)">Signature</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Signature/SignatureError.html" title="Eth::Signature::SignatureError (class)">SignatureError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Transaction is not signed!</span><span class='tstring_end'>&quot;</span></span>
   <span class='kw'>end</span>
   <span class='id identifier rubyid_tx_data'>tx_data</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
@@ -2256,7 +2256,7 @@
       <pre class="code"><span class="info file"># File 'lib/eth/tx/eip1559.rb', line 233</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_sign'>sign</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='rparen'>)</span>
-  <span class='kw'>if</span> <span class='const'><span class='object_link'><a href="../Tx.html" title="Eth::Tx (module)">Tx</a></span></span><span class='period'>.</span><span class='id identifier rubyid_is_signed?'><span class='object_link'><a href="../Tx.html#is_signed%3F-instance_method" title="Eth::Tx#is_signed? (method)">is_signed?</a></span></span> <span class='kw'>self</span>
+  <span class='kw'>if</span> <span class='const'><span class='object_link'><a href="../Tx.html" title="Eth::Tx (module)">Tx</a></span></span><span class='period'>.</span><span class='id identifier rubyid_signed?'><span class='object_link'><a href="../Tx.html#signed%3F-instance_method" title="Eth::Tx#signed? (method)">signed?</a></span></span> <span class='kw'>self</span>
     <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../Signature.html" title="Eth::Signature (module)">Signature</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Signature/SignatureError.html" title="Eth::Signature::SignatureError (class)">SignatureError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Transaction is already signed!</span><span class='tstring_end'>&quot;</span></span>
   <span class='kw'>end</span>
 
@@ -2573,7 +2573,7 @@
 </div>
 
       <div id="footer">
-  Generated on Wed Dec 21 15:07:19 2022 by
+  Generated on Wed Dec 21 15:29:18 2022 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.28 (ruby-3.0.5).
 </div>

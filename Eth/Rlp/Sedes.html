@@ -196,7 +196,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#is_sedes%3F-class_method" title="is_sedes? (class method)">.<strong>is_sedes?</strong>(obj)  &#x21d2; Boolean </a>
+      <a href="#sedes%3F-class_method" title="sedes? (class method)">.<strong>sedes?</strong>(obj)  &#x21d2; Boolean </a>
     
 
     
@@ -422,10 +422,10 @@
       <pre class="code"><span class="info file"># File 'lib/eth/rlp/sedes.rb', line 41</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_infer'>infer</span><span class='lparen'>(</span><span class='id identifier rubyid_obj'>obj</span><span class='rparen'>)</span>
-  <span class='kw'>return</span> <span class='id identifier rubyid_obj'>obj</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span> <span class='kw'>if</span> <span class='id identifier rubyid_is_sedes?'>is_sedes?</span> <span class='id identifier rubyid_obj'>obj</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span>
+  <span class='kw'>return</span> <span class='id identifier rubyid_obj'>obj</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span> <span class='kw'>if</span> <span class='id identifier rubyid_sedes?'>sedes?</span> <span class='id identifier rubyid_obj'>obj</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span>
   <span class='kw'>return</span> <span class='id identifier rubyid_big_endian_int'>big_endian_int</span> <span class='kw'>if</span> <span class='id identifier rubyid_obj'>obj</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>Integer</span><span class='rparen'>)</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_obj'>obj</span> <span class='op'>&gt;=</span> <span class='int'>0</span>
   <span class='kw'>return</span> <span class='id identifier rubyid_binary'>binary</span> <span class='kw'>if</span> <span class='const'><span class='object_link'><a href="Sedes/Binary.html" title="Eth::Rlp::Sedes::Binary (class)">Binary</a></span></span><span class='period'>.</span><span class='id identifier rubyid_valid_type?'><span class='object_link'><a href="Sedes/Binary.html#valid_type%3F-class_method" title="Eth::Rlp::Sedes::Binary.valid_type? (method)">valid_type?</a></span></span> <span class='id identifier rubyid_obj'>obj</span>
-  <span class='kw'>return</span> <span class='const'><span class='object_link'><a href="Sedes/List.html" title="Eth::Rlp::Sedes::List (class)">List</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="Sedes/List.html#initialize-instance_method" title="Eth::Rlp::Sedes::List#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='label'>elements:</span> <span class='id identifier rubyid_obj'>obj</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_item'>item</span><span class='op'>|</span> <span class='id identifier rubyid_infer'>infer</span> <span class='id identifier rubyid_item'>item</span> <span class='rbrace'>}</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='const'><span class='object_link'><a href="../Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_is_list?'><span class='object_link'><a href="../Util.html#is_list%3F-instance_method" title="Eth::Util#is_list? (method)">is_list?</a></span></span> <span class='id identifier rubyid_obj'>obj</span>
+  <span class='kw'>return</span> <span class='const'><span class='object_link'><a href="Sedes/List.html" title="Eth::Rlp::Sedes::List (class)">List</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="Sedes/List.html#initialize-instance_method" title="Eth::Rlp::Sedes::List#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='label'>elements:</span> <span class='id identifier rubyid_obj'>obj</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_item'>item</span><span class='op'>|</span> <span class='id identifier rubyid_infer'>infer</span> <span class='id identifier rubyid_item'>item</span> <span class='rbrace'>}</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='const'><span class='object_link'><a href="../Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_list?'><span class='object_link'><a href="../Util.html#list%3F-instance_method" title="Eth::Util#list? (method)">list?</a></span></span> <span class='id identifier rubyid_obj'>obj</span>
   <span class='id identifier rubyid_raise'>raise</span> <span class='const'>TypeError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Did not find sedes handling type </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_obj'>obj</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
 <span class='kw'>end</span></pre>
     </td>
@@ -434,9 +434,9 @@
 </div>
     
       <div class="method_details ">
-  <h3 class="signature " id="is_sedes?-class_method">
+  <h3 class="signature " id="sedes?-class_method">
   
-    .<strong>is_sedes?</strong>(obj)  &#x21d2; <tt>Boolean</tt> 
+    .<strong>sedes?</strong>(obj)  &#x21d2; <tt>Boolean</tt> 
   
 
   
@@ -504,7 +504,7 @@
     <td>
       <pre class="code"><span class="info file"># File 'lib/eth/rlp/sedes.rb', line 53</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_is_sedes?'>is_sedes?</span><span class='lparen'>(</span><span class='id identifier rubyid_obj'>obj</span><span class='rparen'>)</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_sedes?'>sedes?</span><span class='lparen'>(</span><span class='id identifier rubyid_obj'>obj</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_obj'>obj</span><span class='period'>.</span><span class='id identifier rubyid_respond_to?'>respond_to?</span><span class='lparen'>(</span><span class='symbol'>:serialize</span><span class='rparen'>)</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_obj'>obj</span><span class='period'>.</span><span class='id identifier rubyid_respond_to?'>respond_to?</span><span class='lparen'>(</span><span class='symbol'>:deserialize</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -517,7 +517,7 @@
 </div>
 
       <div id="footer">
-  Generated on Wed Dec 21 15:07:17 2022 by
+  Generated on Wed Dec 21 15:29:16 2022 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.28 (ruby-3.0.5).
 </div>
