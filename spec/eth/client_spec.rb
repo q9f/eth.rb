@@ -301,6 +301,16 @@ describe Client do
       expect(geth_dev_http.tx_succeeded? hash).to be_truthy
     end
 
+    it "raises if a transaction fails" do
+      addr = geth_dev_http.deploy_and_wait(contract)
+      hash = geth_dev_http.transact_and_wait(contract, "set", 42, address: addr)
+      expect(geth_dev_http.tx_mined? hash).to be_truthy
+      expect(geth_dev_http.tx_succeeded? hash).to be_truthy
+      expect {
+        hash = geth_dev_http.transact_and_wait(contract, "set", 138, address: addr)
+      }.to raise_error(Client::ContractExecutionError, "execution reverted")
+    end
+
     context "when nonce manually set" do
       let(:contract_address) { geth_dev_http.deploy_and_wait(contract) }
 

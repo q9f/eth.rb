@@ -37,6 +37,9 @@ module Eth
     # The default gas limit for the transaction, defaults to {Tx::DEFAULT_GAS_LIMIT}.
     attr_accessor :gas_limit
 
+    # A custom error type if a contract interaction fails.
+    class ContractExecutionError < StandardError; end
+
     # Creates a new RPC-Client, either by providing an HTTP/S host or
     # an IPC path. Supports basic authentication with username and password.
     #
@@ -345,9 +348,15 @@ module Eth
     #
     # See {#transact} for params and overloads.
     #
+    # @raise [Client::ContractExecutionError] if the execution fails.
     # @return [Object] returns the result of the transaction.
     def transact_and_wait(contract, function, *args, **kwargs)
-      wait_for_tx(transact(contract, function, *args, **kwargs))
+      begin
+        hash = wait_for_tx(transact(contract, function, *args, **kwargs))
+        return hash if tx_succeeded? hash
+      rescue IOError => e
+        raise ContractExecutionError, e
+      end
     end
 
     # Provides an interface to call `isValidSignature` as per EIP-1271 on a given
