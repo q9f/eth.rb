@@ -317,7 +317,7 @@ module Eth
     # Allows to check wether a transaction is signed already.
     #
     # @return [Bool] true if transaction is already signed.
-    def is_signed?(tx)
+    def signed?(tx)
       !tx.signature_r.nil? and tx.signature_r != 0 and
       !tx.signature_s.nil? and tx.signature_s != 0
     end
