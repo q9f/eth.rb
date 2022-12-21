@@ -377,13 +377,22 @@ module Eth
       @id = 0
     end
 
-    # Checkes wether a transaction is mined or not.
+    # Checks whether a transaction is mined or not.
     #
     # @param hash [String] the transaction hash.
     # @return [Boolean] true if included in a block.
-    def mined?(hash)
+    def tx_mined?(hash)
       mined_tx = eth_get_transaction_by_hash hash
       !mined_tx.nil? && !mined_tx["result"].nil? && !mined_tx["result"]["blockNumber"].nil?
+    end
+
+    # Checks whether a transaction succeeded or not.
+    #
+    # @param hash [String] the transaction hash.
+    # @return [Boolean] true if status is success.
+    def tx_succeeded?(hash)
+      tx_receipt = eth_get_transaction_receipt(hash)
+      !tx_receipt.nil? && tx_receipt.dig(:result, :status) == "0x1"
     end
 
     # Waits for an transaction to be mined by the connected chain.
@@ -397,7 +406,7 @@ module Eth
       retry_rate = 0.1
       loop do
         raise Timeout::Error if ((Time.now - start_time) > timeout)
-        return hash if mined? hash
+        return hash if tx_mined? hash
         sleep retry_rate
       end
     end
