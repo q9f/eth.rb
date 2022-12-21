@@ -16,5 +16,5 @@
 module Eth
 
   # Defines the version of the {Eth} module.
-  VERSION = "0.5.8".freeze
+  VERSION = "0.5.9".freeze
 end
