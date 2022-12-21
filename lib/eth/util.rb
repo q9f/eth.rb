@@ -174,7 +174,7 @@ module Eth
     #
     # @param item [Object] the item to check.
     # @return [Boolean] true if it's a string primitive.
-    def is_primitive?(item)
+    def primitive?(item)
       item.instance_of?(String)
     end
 
@@ -182,8 +182,8 @@ module Eth
     #
     # @param item [Object] the item to check.
     # @return [Boolean] true if it's a list.
-    def is_list?(item)
-      !is_primitive?(item) && item.respond_to?(:each)
+    def list?(item)
+      !primitive?(item) && item.respond_to?(:each)
     end
 
     # Ceil and integer to the next multiple of 32 bytes.
