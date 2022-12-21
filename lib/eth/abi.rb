@@ -163,7 +163,7 @@ module Eth
     def decode(types, data)
 
       # accept hex abi but decode it first
-      data = Util.hex_to_bin data if Util.is_hex? data
+      data = Util.hex_to_bin data if Util.hex? data
 
       # parse all types
       parsed_types = types.map { |t| Type.parse(t) }
@@ -428,8 +428,8 @@ module Eth
     # The ABI encoder needs to be able to determine between a hex `"123"`
     # and a binary `"123"` string.
     def handle_hex_string(arg, type)
-      if Util.is_prefixed? arg or
-         (arg.size === type.sub_type.to_i * 2 and Util.is_hex? arg)
+      if Util.prefixed? arg or
+         (arg.size === type.sub_type.to_i * 2 and Util.hex? arg)
 
         # There is no way telling whether a string is hex or binary with certainty
         # in Ruby. Therefore, we assume a `0x` prefix to indicate a hex string.
