@@ -151,7 +151,7 @@ module Eth
     # @param str [String] binary string to be converted.
     # @return [Object] the string bytes.
     def str_to_bytes(str)
-      is_bytes?(str) ? str : str.b
+      bytes?(str) ? str : str.b
     end
 
     # Converts bytes to a binary string.
@@ -166,7 +166,7 @@ module Eth
     #
     # @param str [String] a string to check.
     # @return [Boolean] true if it's an ASCII-8bit encoded byte-string.
-    def is_bytes?(str)
+    def bytes?(str)
       str && str.instance_of?(String) && str.encoding.name == Constant::BINARY_ENCODING
     end
 
