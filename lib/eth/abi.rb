@@ -55,7 +55,7 @@ module Eth
 
       # encode types and arguments
       args.each_with_index do |arg, i|
-        if parsed_types[i].is_dynamic?
+        if parsed_types[i].dynamic?
           head += encode_type Type.size_type, head_size + tail.size
           tail += encode_type parsed_types[i], arg
         else
@@ -81,7 +81,7 @@ module Eth
         size = encode_type Type.size_type, arg.size
         padding = Constant::BYTE_ZERO * (Util.ceil32(arg.size) - arg.size)
         return "#{size}#{arg}#{padding}"
-      elsif type.is_dynamic?
+      elsif type.dynamic?
         raise EncodingError, "Argument must be an Array" unless arg.instance_of? Array
 
         # encodes dynamic-sized arrays
@@ -173,7 +173,7 @@ module Eth
       start_positions = [nil] * types.size + [data.size]
       pos = 0
       parsed_types.each_with_index do |t, i|
-        if t.is_dynamic?
+        if t.dynamic?
 
           # record start position for dynamic type
           start_positions[i] = Util.deserialize_big_endian_to_int(data[pos, 32])
@@ -201,7 +201,7 @@ module Eth
 
       # add dynamic types
       parsed_types.each_with_index do |t, i|
-        if t.is_dynamic?
+        if t.dynamic?
           offset, next_offset = start_positions[i, 2]
           outputs[i] = data[offset...next_offset]
         end
@@ -225,12 +225,12 @@ module Eth
 
         # decoded strings and bytes
         return data[0, l]
-      elsif type.is_dynamic?
+      elsif type.dynamic?
         l = Util.deserialize_big_endian_to_int arg[0, 32]
         nested_sub = type.nested_sub
 
         # ref https://github.com/ethereum/tests/issues/691
-        raise NotImplementedError, "Decoding dynamic arrays with nested dynamic sub-types is not implemented for ABI." if nested_sub.is_dynamic?
+        raise NotImplementedError, "Decoding dynamic arrays with nested dynamic sub-types is not implemented for ABI." if nested_sub.dynamic?
 
         # decoded dynamic-sized arrays
         return (0...l).map { |i| decode_type(nested_sub, arg[32 + nested_sub.size * i, nested_sub.size]) }
