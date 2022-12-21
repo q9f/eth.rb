@@ -10,7 +10,9 @@ describe Chain do
       expect(Chain::CLASSIC).to eq 61
       expect(Chain::POA_NET).to eq 99
       expect(Chain::XDAI).to eq 100
+      expect(Chain::GNOSIS).to eq 100
       expect(Chain::MATIC).to eq 137
+      expect(Chain::POLYGON).to eq 137
       expect(Chain::ARBITRUM).to eq 42161
 
       # Chain IDs for selected testnets
@@ -27,32 +29,34 @@ describe Chain do
       expect(Chain::GOERLI_OPTIMISM).to eq 420
       expect(Chain::MUMBAI).to eq 80001
       expect(Chain::RINKEBY_ARBITRUM).to eq 421611
+      expect(Chain::GOERLI_ARBITRUM).to eq 421613
       expect(Chain::SEPOLIA).to eq 11155111
+      expect(Chain::HOLESOVICE).to eq 11166111
 
       # Chain IDs for selected private networks
       expect(Chain::PRIVATE_GETH).to eq 1337
     end
   end
 
-  describe ".is_ledger" do
+  describe ".ledger" do
     it "can detect ledger values for v" do
-      expect(Chain.is_ledger? 0).to be_truthy
-      expect(Chain.is_ledger? 1).to be_truthy
-      expect(Chain.is_ledger? 27).not_to be_truthy
-      expect(Chain.is_ledger? 28).not_to be_truthy
-      expect(Chain.is_ledger? 37).not_to be_truthy
-      expect(Chain.is_ledger? 38).not_to be_truthy
+      expect(Chain.ledger? 0).to be_truthy
+      expect(Chain.ledger? 1).to be_truthy
+      expect(Chain.ledger? 27).not_to be_truthy
+      expect(Chain.ledger? 28).not_to be_truthy
+      expect(Chain.ledger? 37).not_to be_truthy
+      expect(Chain.ledger? 38).not_to be_truthy
     end
   end
 
-  describe ".is_legacy" do
+  describe ".legacy" do
     it "can detect legacy values for v" do
-      expect(Chain.is_legacy? 0).not_to be_truthy
-      expect(Chain.is_legacy? 1).not_to be_truthy
-      expect(Chain.is_legacy? 27).to be_truthy
-      expect(Chain.is_legacy? 28).to be_truthy
-      expect(Chain.is_legacy? 37).not_to be_truthy
-      expect(Chain.is_legacy? 38).not_to be_truthy
+      expect(Chain.legacy? 0).not_to be_truthy
+      expect(Chain.legacy? 1).not_to be_truthy
+      expect(Chain.legacy? 27).to be_truthy
+      expect(Chain.legacy? 28).to be_truthy
+      expect(Chain.legacy? 37).not_to be_truthy
+      expect(Chain.legacy? 38).not_to be_truthy
     end
   end
 

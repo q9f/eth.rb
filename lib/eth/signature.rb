@@ -70,7 +70,7 @@ module Eth
       context = Secp256k1::Context.new
       r, s, v = dissect signature
       v = v.to_i(16)
-      if !Chain.is_ledger? v and !Chain.is_legacy? v
+      if !Chain.ledger? v and !Chain.legacy? v
         min_v = 2 * chain_id + 35
         raise SignatureError, "Invalid signature v byte #{v} for chain ID #{chain_id}!" if v < min_v
       end
