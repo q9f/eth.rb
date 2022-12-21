@@ -207,7 +207,7 @@
           <div class="docstring">
   <div class="discussion">
     
-<p>Chain ID for Gnosis mainnet.</p>
+<p>Chain ID for xDAI mainnet (now Gnosis Chain).</p>
 
 
   </div>
@@ -219,11 +219,27 @@
         </dt>
         <dd><pre class="code"><span class='int'>100</span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
       
+        <dt id="GNOSIS-constant" class="">GNOSIS =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>Chain ID for Gnosis mainnet (formerly xDAI).</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='const'><span class='object_link'><a href="#XDAI-constant" title="Eth::Chain::XDAI (constant)">XDAI</a></span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
         <dt id="MATIC-constant" class="">MATIC =
           <div class="docstring">
   <div class="discussion">
     
-<p>Chain ID for the Polygon Matic mainnet.</p>
+<p>Chain ID for the Matic mainnet (now Polygon).</p>
 
 
   </div>
@@ -234,6 +250,22 @@
 </div>
         </dt>
         <dd><pre class="code"><span class='int'>137</span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="POLYGON-constant" class="">POLYGON =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>Chain ID for the Polygon mainnet (formerly Matic).</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='const'><span class='object_link'><a href="#MATIC-constant" title="Eth::Chain::MATIC (constant)">MATIC</a></span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
       
         <dt id="ARBITRUM-constant" class="">ARBITRUM =
           <div class="docstring">
@@ -459,6 +491,22 @@
         </dt>
         <dd><pre class="code"><span class='int'>421611</span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
       
+        <dt id="GOERLI_ARBITRUM-constant" class="">GOERLI_ARBITRUM =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>Chain ID for Arbitrum Goerli testnet.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='int'>421613</span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
         <dt id="SEPOLIA-constant" class="">SEPOLIA =
           <div class="docstring">
   <div class="discussion">
@@ -474,6 +522,22 @@
 </div>
         </dt>
         <dd><pre class="code"><span class='int'>11155111</span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="HOLESOVICE-constant" class="">HOLESOVICE =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>Chain ID for Holesovice testnet.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='int'>11166111</span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
       
         <dt id="PRIVATE_GETH-constant" class="">PRIVATE_GETH =
           <div class="docstring">
@@ -511,7 +575,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#is_ledger%3F-class_method" title="#is_ledger? (class method)">.<strong>is_ledger?</strong>(v)  &#x21d2; Boolean </a>
+      <a href="#ledger%3F-class_method" title="#ledger? (class method)">.<strong>ledger?</strong>(v)  &#x21d2; Boolean </a>
     
 
     
@@ -535,7 +599,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#is_legacy%3F-class_method" title="#is_legacy? (class method)">.<strong>is_legacy?</strong>(v)  &#x21d2; Boolean </a>
+      <a href="#legacy%3F-class_method" title="#legacy? (class method)">.<strong>legacy?</strong>(v)  &#x21d2; Boolean </a>
     
 
     
@@ -640,7 +704,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#is_ledger%3F-instance_method" title="#is_ledger? (instance method)">#<strong>is_ledger?</strong>(v)  &#x21d2; Boolean </a>
+      <a href="#ledger%3F-instance_method" title="#ledger? (instance method)">#<strong>ledger?</strong>(v)  &#x21d2; Boolean </a>
     
 
     
@@ -664,7 +728,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#is_legacy%3F-instance_method" title="#is_legacy? (instance method)">#<strong>is_legacy?</strong>(v)  &#x21d2; Boolean </a>
+      <a href="#legacy%3F-instance_method" title="#legacy? (instance method)">#<strong>legacy?</strong>(v)  &#x21d2; Boolean </a>
     
 
     
@@ -767,9 +831,9 @@
 
     
       <div class="method_details first">
-  <h3 class="signature first" id="is_ledger?-class_method">
+  <h3 class="signature first" id="ledger?-class_method">
   
-    .<strong>is_ledger?</strong>(v)  &#x21d2; <tt>Boolean</tt> 
+    .<strong>ledger?</strong>(v)  &#x21d2; <tt>Boolean</tt> 
   
 
   
@@ -830,14 +894,14 @@
       <pre class="lines">
 
 
-100
-101
-102</pre>
+112
+113
+114</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/chain.rb', line 100</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/chain.rb', line 112</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_is_ledger?'>is_ledger?</span><span class='lparen'>(</span><span class='id identifier rubyid_v'>v</span><span class='rparen'>)</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_ledger?'>ledger?</span><span class='lparen'>(</span><span class='id identifier rubyid_v'>v</span><span class='rparen'>)</span>
   <span class='lbracket'>[</span><span class='int'>0</span><span class='comma'>,</span> <span class='int'>1</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='id identifier rubyid_v'>v</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -846,9 +910,9 @@
 </div>
     
       <div class="method_details ">
-  <h3 class="signature " id="is_legacy?-class_method">
+  <h3 class="signature " id="legacy?-class_method">
   
-    .<strong>is_legacy?</strong>(v)  &#x21d2; <tt>Boolean</tt> 
+    .<strong>legacy?</strong>(v)  &#x21d2; <tt>Boolean</tt> 
   
 
   
@@ -909,14 +973,14 @@
       <pre class="lines">
 
 
-109
-110
-111</pre>
+121
+122
+123</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/chain.rb', line 109</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/chain.rb', line 121</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_is_legacy?'>is_legacy?</span><span class='lparen'>(</span><span class='id identifier rubyid_v'>v</span><span class='rparen'>)</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_legacy?'>legacy?</span><span class='lparen'>(</span><span class='id identifier rubyid_v'>v</span><span class='rparen'>)</span>
   <span class='lbracket'>[</span><span class='int'>27</span><span class='comma'>,</span> <span class='int'>28</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='id identifier rubyid_v'>v</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -988,15 +1052,15 @@
       <pre class="lines">
 
 
-159
-160
-161
-162
-163
-164</pre>
+171
+172
+173
+174
+175
+176</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/chain.rb', line 159</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/chain.rb', line 171</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_to_chain_id'>to_chain_id</span><span class='lparen'>(</span><span class='id identifier rubyid_v'>v</span><span class='rparen'>)</span>
   <span class='kw'>return</span> <span class='kw'>nil</span> <span class='kw'>if</span> <span class='id identifier rubyid_v'>v</span> <span class='op'>&lt;</span> <span class='int'>36</span>
@@ -1109,37 +1173,37 @@
       <pre class="lines">
 
 
-120
-121
-122
-123
-124
-125
-126
-127
-128
-129
-130
-131
 132
 133
 134
 135
 136
 137
-138</pre>
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/chain.rb', line 120</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/chain.rb', line 132</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_to_recovery_id'>to_recovery_id</span><span class='lparen'>(</span><span class='id identifier rubyid_v'>v</span><span class='comma'>,</span> <span class='id identifier rubyid_chain_id'>chain_id</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="#ETHEREUM-constant" title="Eth::Chain::ETHEREUM (constant)">ETHEREUM</a></span></span><span class='rparen'>)</span>
   <span class='id identifier rubyid_e'>e</span> <span class='op'>=</span> <span class='int'>0</span> <span class='op'>+</span> <span class='int'>2</span> <span class='op'>*</span> <span class='id identifier rubyid_chain_id'>chain_id</span> <span class='op'>+</span> <span class='int'>35</span>
   <span class='id identifier rubyid_i'>i</span> <span class='op'>=</span> <span class='int'>1</span> <span class='op'>+</span> <span class='int'>2</span> <span class='op'>*</span> <span class='id identifier rubyid_chain_id'>chain_id</span> <span class='op'>+</span> <span class='int'>35</span>
-  <span class='kw'>if</span> <span class='lbracket'>[</span><span class='int'>0</span><span class='comma'>,</span> <span class='int'>1</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='id identifier rubyid_v'>v</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_ledger?'>ledger?</span> <span class='id identifier rubyid_v'>v</span>
 
     <span class='comment'># some wallets are using a `v` of 0 or 1 (ledger)
 </span>    <span class='kw'>return</span> <span class='id identifier rubyid_v'>v</span>
-  <span class='kw'>elsif</span> <span class='id identifier rubyid_is_legacy?'>is_legacy?</span> <span class='id identifier rubyid_v'>v</span>
+  <span class='kw'>elsif</span> <span class='id identifier rubyid_legacy?'>legacy?</span> <span class='id identifier rubyid_v'>v</span>
 
     <span class='comment'># this is the pre-EIP-155 legacy case
 </span>    <span class='kw'>return</span> <span class='id identifier rubyid_v'>v</span> <span class='op'>-</span> <span class='int'>27</span>
@@ -1238,17 +1302,17 @@
       <pre class="lines">
 
 
-145
-146
-147
-148
-149
-150
-151
-152</pre>
+157
+158
+159
+160
+161
+162
+163
+164</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/chain.rb', line 145</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/chain.rb', line 157</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_to_v'>to_v</span><span class='lparen'>(</span><span class='id identifier rubyid_recovery_id'>recovery_id</span><span class='comma'>,</span> <span class='id identifier rubyid_chain_id'>chain_id</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rparen'>)</span>
   <span class='kw'>if</span> <span class='id identifier rubyid_chain_id'>chain_id</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='kw'>or</span> <span class='id identifier rubyid_chain_id'>chain_id</span> <span class='op'>&lt;</span> <span class='int'>1</span>
@@ -1270,9 +1334,9 @@
 
     
       <div class="method_details first">
-  <h3 class="signature first" id="is_ledger?-instance_method">
+  <h3 class="signature first" id="ledger?-instance_method">
   
-    #<strong>is_ledger?</strong>(v)  &#x21d2; <tt>Boolean</tt> 
+    #<strong>ledger?</strong>(v)  &#x21d2; <tt>Boolean</tt> 
   
 
   
@@ -1333,14 +1397,14 @@
       <pre class="lines">
 
 
-100
-101
-102</pre>
+112
+113
+114</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/chain.rb', line 100</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/chain.rb', line 112</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_is_ledger?'>is_ledger?</span><span class='lparen'>(</span><span class='id identifier rubyid_v'>v</span><span class='rparen'>)</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_ledger?'>ledger?</span><span class='lparen'>(</span><span class='id identifier rubyid_v'>v</span><span class='rparen'>)</span>
   <span class='lbracket'>[</span><span class='int'>0</span><span class='comma'>,</span> <span class='int'>1</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='id identifier rubyid_v'>v</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -1349,9 +1413,9 @@
 </div>
     
       <div class="method_details ">
-  <h3 class="signature " id="is_legacy?-instance_method">
+  <h3 class="signature " id="legacy?-instance_method">
   
-    #<strong>is_legacy?</strong>(v)  &#x21d2; <tt>Boolean</tt> 
+    #<strong>legacy?</strong>(v)  &#x21d2; <tt>Boolean</tt> 
   
 
   
@@ -1412,14 +1476,14 @@
       <pre class="lines">
 
 
-109
-110
-111</pre>
+121
+122
+123</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/chain.rb', line 109</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/chain.rb', line 121</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_is_legacy?'>is_legacy?</span><span class='lparen'>(</span><span class='id identifier rubyid_v'>v</span><span class='rparen'>)</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_legacy?'>legacy?</span><span class='lparen'>(</span><span class='id identifier rubyid_v'>v</span><span class='rparen'>)</span>
   <span class='lbracket'>[</span><span class='int'>27</span><span class='comma'>,</span> <span class='int'>28</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='id identifier rubyid_v'>v</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -1491,15 +1555,15 @@
       <pre class="lines">
 
 
-159
-160
-161
-162
-163
-164</pre>
+171
+172
+173
+174
+175
+176</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/chain.rb', line 159</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/chain.rb', line 171</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_to_chain_id'>to_chain_id</span><span class='lparen'>(</span><span class='id identifier rubyid_v'>v</span><span class='rparen'>)</span>
   <span class='kw'>return</span> <span class='kw'>nil</span> <span class='kw'>if</span> <span class='id identifier rubyid_v'>v</span> <span class='op'>&lt;</span> <span class='int'>36</span>
@@ -1612,37 +1676,37 @@
       <pre class="lines">
 
 
-120
-121
-122
-123
-124
-125
-126
-127
-128
-129
-130
-131
 132
 133
 134
 135
 136
 137
-138</pre>
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/chain.rb', line 120</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/chain.rb', line 132</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_to_recovery_id'>to_recovery_id</span><span class='lparen'>(</span><span class='id identifier rubyid_v'>v</span><span class='comma'>,</span> <span class='id identifier rubyid_chain_id'>chain_id</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="#ETHEREUM-constant" title="Eth::Chain::ETHEREUM (constant)">ETHEREUM</a></span></span><span class='rparen'>)</span>
   <span class='id identifier rubyid_e'>e</span> <span class='op'>=</span> <span class='int'>0</span> <span class='op'>+</span> <span class='int'>2</span> <span class='op'>*</span> <span class='id identifier rubyid_chain_id'>chain_id</span> <span class='op'>+</span> <span class='int'>35</span>
   <span class='id identifier rubyid_i'>i</span> <span class='op'>=</span> <span class='int'>1</span> <span class='op'>+</span> <span class='int'>2</span> <span class='op'>*</span> <span class='id identifier rubyid_chain_id'>chain_id</span> <span class='op'>+</span> <span class='int'>35</span>
-  <span class='kw'>if</span> <span class='lbracket'>[</span><span class='int'>0</span><span class='comma'>,</span> <span class='int'>1</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='id identifier rubyid_v'>v</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_ledger?'>ledger?</span> <span class='id identifier rubyid_v'>v</span>
 
     <span class='comment'># some wallets are using a `v` of 0 or 1 (ledger)
 </span>    <span class='kw'>return</span> <span class='id identifier rubyid_v'>v</span>
-  <span class='kw'>elsif</span> <span class='id identifier rubyid_is_legacy?'>is_legacy?</span> <span class='id identifier rubyid_v'>v</span>
+  <span class='kw'>elsif</span> <span class='id identifier rubyid_legacy?'>legacy?</span> <span class='id identifier rubyid_v'>v</span>
 
     <span class='comment'># this is the pre-EIP-155 legacy case
 </span>    <span class='kw'>return</span> <span class='id identifier rubyid_v'>v</span> <span class='op'>-</span> <span class='int'>27</span>
@@ -1741,17 +1805,17 @@
       <pre class="lines">
 
 
-145
-146
-147
-148
-149
-150
-151
-152</pre>
+157
+158
+159
+160
+161
+162
+163
+164</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/chain.rb', line 145</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/chain.rb', line 157</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_to_v'>to_v</span><span class='lparen'>(</span><span class='id identifier rubyid_recovery_id'>recovery_id</span><span class='comma'>,</span> <span class='id identifier rubyid_chain_id'>chain_id</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rparen'>)</span>
   <span class='kw'>if</span> <span class='id identifier rubyid_chain_id'>chain_id</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='kw'>or</span> <span class='id identifier rubyid_chain_id'>chain_id</span> <span class='op'>&lt;</span> <span class='int'>1</span>
@@ -1771,7 +1835,7 @@
 </div>
 
       <div id="footer">
-  Generated on Wed Dec 21 15:01:50 2022 by
+  Generated on Wed Dec 21 15:07:17 2022 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.28 (ruby-3.0.5).
 </div>
