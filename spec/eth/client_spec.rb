@@ -290,6 +290,17 @@ describe Client do
       expect(tx_value_from_server).to eq(tx_value)
     end
 
+    it "can determine if a transaction is mined or succeeded" do
+      hash = geth_dev_http.deploy(contract)
+      hash = geth_dev_http.wait_for_tx(hash)
+      expect(geth_dev_http.tx_mined? hash).to be_truthy
+      addr = geth_dev_http.eth_get_transaction_receipt(hash)["result"]["contractAddress"]
+      hash = geth_dev_http.transact(contract, "set", 42, address: addr)
+      hash = geth_dev_http.wait_for_tx(hash)
+      expect(geth_dev_http.tx_mined? hash).to be_truthy
+      expect(geth_dev_http.tx_succeeded? hash).to be_truthy
+    end
+
     context "when nonce manually set" do
       let(:contract_address) { geth_dev_http.deploy_and_wait(contract) }
 
