@@ -480,6 +480,7 @@ module Eth
 
     # Recursively marshals all request parameters.
     def marshal(params)
+      params = params.dup
       if params.is_a? Array
         return params.map! { |param| marshal(param) }
       elsif params.is_a? Hash
