@@ -6,7 +6,7 @@
 
 # Ethereum for Ruby
 
-[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/q9f/eth.rb/Spec)](https://github.com/q9f/eth.rb/actions)
+[![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/q9f/eth.rb/spec.yml?branch=main)](https://github.com/q9f/eth.rb/actions)
 [![GitHub release (latest by date)](https://img.shields.io/github/v/release/q9f/eth.rb)](https://github.com/q9f/eth.rb/releases)
 [![Gem](https://img.shields.io/gem/v/eth)](https://rubygems.org/gems/eth)
 [![Gem](https://img.shields.io/gem/dt/eth)](https://rubygems.org/gems/eth)
