@@ -311,6 +311,15 @@ describe Client do
 
         expect(inblock_account_nonce).to eq(geth_dev_http.get_nonce(geth_dev_http.default_account))
       end
+
+      it "does not mutate marshalled objects" do
+        params = {
+          from: geth_dev_http.default_account,
+          value: 101,
+        }
+        geth_dev_http.eth_estimate_gas(params)
+        expect(params.dig(:value)).to eq 101
+      end
     end
   end
 
