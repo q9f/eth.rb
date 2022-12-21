@@ -469,11 +469,21 @@ module Eth
       @id += 1
     end
 
+    # expects Hash object
+    def camelize!(params)
+      params.transform_keys! do |k|
+        k = k.to_s.split(/_/).map(&:capitalize).join
+        k[0] = k[0].downcase
+        k.to_sym
+      end
+    end
+
     # Recursively marshals all request parameters.
     def marshal(params)
       if params.is_a? Array
         return params.map! { |param| marshal(param) }
       elsif params.is_a? Hash
+        params = camelize!(params)
         return params.transform_values! { |param| marshal(param) }
       elsif params.is_a? Numeric
         return Util.prefix_hex "#{params.to_i.to_s(16)}"
