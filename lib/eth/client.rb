@@ -362,9 +362,9 @@ module Eth
     # @raise [ArgumentError] in case the contract cannot be called yet.
     def is_valid_signature(contract, hash, signature, magic = "1626ba7e")
       raise ArgumentError, "Contract not deployed yet." if contract.address.nil?
-      hash = Util.hex_to_bin hash if Util.is_hex? hash
-      signature = Util.hex_to_bin signature if Util.is_hex? signature
-      magic = Util.hex_to_bin magic if Util.is_hex? magic
+      hash = Util.hex_to_bin hash if Util.hex? hash
+      signature = Util.hex_to_bin signature if Util.hex? signature
+      magic = Util.hex_to_bin magic if Util.hex? magic
       result = call(contract, "isValidSignature", hash, signature)
       return result === magic
     end
@@ -381,7 +381,7 @@ module Eth
     #
     # @param hash [String] the transaction hash.
     # @return [Boolean] true if included in a block.
-    def is_mined_tx?(hash)
+    def mined?(hash)
       mined_tx = eth_get_transaction_by_hash hash
       !mined_tx.nil? && !mined_tx["result"].nil? && !mined_tx["result"]["blockNumber"].nil?
     end
@@ -397,7 +397,7 @@ module Eth
       retry_rate = 0.1
       loop do
         raise Timeout::Error if ((Time.now - start_time) > timeout)
-        return hash if is_mined_tx? hash
+        return hash if mined? hash
         sleep retry_rate
       end
     end
@@ -470,7 +470,7 @@ module Eth
         return Util.prefix_hex "#{params.to_i.to_s(16)}"
       elsif params.is_a? Address
         return params.to_s
-      elsif Util.is_hex? params
+      elsif Util.hex? params
         return Util.prefix_hex params
       else
         return params

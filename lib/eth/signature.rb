@@ -48,7 +48,7 @@ module Eth
     # @return [String, String, String] the `r`, `s`, and `v` values.
     # @raise [SignatureError] if signature is of unknown size.
     def dissect(signature)
-      signature = Util.bin_to_hex signature unless Util.is_hex? signature
+      signature = Util.bin_to_hex signature unless Util.hex? signature
       signature = Util.remove_hex_prefix signature
       if signature.size < 130
         raise SignatureError, "Unknown signature length #{signature.size}!"
@@ -126,7 +126,7 @@ module Eth
 
         # recover message from personal_sign
         recovered_key = personal_recover blob, signature, chain_id
-      elsif blob.instance_of? String and (Util.is_hex? blob or blob.encoding == Encoding::ASCII_8BIT)
+      elsif blob.instance_of? String and (Util.hex? blob or blob.encoding == Encoding::ASCII_8BIT)
 
         # if nothing else, recover from arbitrary signature
         recovered_key = recover blob, signature, chain_id

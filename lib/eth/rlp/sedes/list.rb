@@ -34,9 +34,9 @@ module Eth
           super()
           @strict = strict
           elements.each do |e|
-            if Sedes.is_sedes?(e)
+            if Sedes.sedes?(e)
               push e
-            elsif Util.is_list?(e)
+            elsif Util.list?(e)
               push List.new(elements: e)
             else
               raise TypeError, "Instances of List must only contain sedes objects or nested sequences thereof."
@@ -51,7 +51,7 @@ module Eth
         # @raise [SerializationError] if provided array is not a sequence.
         # @raise [SerializationError] if provided array is of wrong length.
         def serialize(obj)
-          raise SerializationError, "Can only serialize sequences" unless Util.is_list?(obj)
+          raise SerializationError, "Can only serialize sequences" unless Util.list?(obj)
           raise SerializationError, "List has wrong length" if (@strict && self.size != obj.size) || self.size < obj.size
           result = []
           obj.zip(self).each_with_index do |(element, sedes), i|
@@ -67,7 +67,7 @@ module Eth
         # @raise [DeserializationError] if provided serial is not a sequence.
         # @raise [DeserializationError] if provided serial is of wrong length.
         def deserialize(serial)
-          raise DeserializationError, "Can only deserialize sequences" unless Util.is_list?(serial)
+          raise DeserializationError, "Can only deserialize sequences" unless Util.list?(serial)
           raise DeserializationError, "List has wrong length" if @strict && serial.size != self.size
           result = []
           len = [serial.size, self.size].min

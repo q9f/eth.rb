@@ -149,7 +149,7 @@ module Eth
     # @return [Array] the data in the data structure we want to hash.
     # @raise [TypedDataError] if the data fails validation.
     def enforce_typed_data(data)
-      data = JSON.parse data if Util.is_hex? data
+      data = JSON.parse data if Util.hex? data
       raise TypedDataError, "Data is missing, try again with data." if data.nil? or data.empty?
       raise TypedDataError, "Data types are missing." if data[:types].nil? or data[:types].empty?
       raise TypedDataError, "Data primaryType is missing." if data[:primaryType].nil? or data[:primaryType].empty?

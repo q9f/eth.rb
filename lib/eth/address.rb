@@ -29,7 +29,7 @@ module Eth
     #
     # @param address [String] hex string representing an ethereum address.
     def initialize(address)
-      unless Util.is_hex? address
+      unless Util.hex? address
         raise CheckSumError, "Unknown address type #{address}!"
       end
       @address = Util.prefix_hex address

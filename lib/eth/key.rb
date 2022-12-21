@@ -51,7 +51,7 @@ module Eth
       unless priv.nil?
 
         # Converts hex private keys to binary strings.
-        priv = Util.hex_to_bin priv if Util.is_hex? priv
+        priv = Util.hex_to_bin priv if Util.hex? priv
 
         # Creates a keypair from existing private key data.
         key = ctx.key_pair_from_private_key priv
@@ -74,10 +74,10 @@ module Eth
       compact, recovery_id = context.sign_recoverable(@private_key, blob).compact
       signature = compact.bytes
       v = Chain.to_v recovery_id, chain_id
-      is_leading_zero = true
+      leading_zero = true
       [v].pack("N").unpack("C*").each do |byte|
-        is_leading_zero = false if byte > 0 and is_leading_zero
-        signature.append byte unless is_leading_zero and byte === 0
+        leading_zero = false if byte > 0 and leading_zero
+        signature.append byte unless leading_zero and byte === 0
       end
       Util.bin_to_hex signature.pack "c*"
     end

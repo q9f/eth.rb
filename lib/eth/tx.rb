@@ -164,7 +164,7 @@ module Eth
     def estimate_intrinsic_gas(data = "", list = [])
       gas = DEFAULT_GAS_LIMIT
       unless data.nil? or data.empty?
-        data = Util.hex_to_bin data if Util.is_hex? data
+        data = Util.hex_to_bin data if Util.hex? data
 
         # count zero bytes
         zero = data.count ZERO_BYTE
@@ -288,7 +288,7 @@ module Eth
       data = "" if data.nil?
 
       # ensure payload to be binary if it's hex, otherwise we'll treat it raw
-      data = Util.hex_to_bin data if Util.is_hex? data
+      data = Util.hex_to_bin data if Util.hex? data
       return data
     end
 
@@ -305,7 +305,7 @@ module Eth
 
           # recursively check the entire array
           list[index] = sanitize_list value
-        elsif Util.is_hex? value
+        elsif Util.hex? value
 
           # only modify if we find a hex value
           list[index] = Util.hex_to_bin value
@@ -317,7 +317,7 @@ module Eth
     # Allows to check wether a transaction is signed already.
     #
     # @return [Bool] true if transaction is already signed.
-    def is_signed?(tx)
+    def signed?(tx)
       !tx.signature_r.nil? and tx.signature_r != 0 and
       !tx.signature_s.nil? and tx.signature_s != 0
     end
