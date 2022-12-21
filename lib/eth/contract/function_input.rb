@@ -35,6 +35,7 @@ module Eth
       @type.base_type + @type.sub_type + @type.dimensions.map { |dimension| "[#{dimension > 0 ? dimension : ""}]" }.join("")
     end
 
+    # Returns parsed types.
     def parsed_type
       @type
     end

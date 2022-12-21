@@ -129,22 +129,6 @@ module Eth
       end
     end
 
-    def encode_struct_offsets(type, arg)
-      result = ""
-      offset = arg.size
-      tails_encoding = arg.map { |a| encode_type(type, a) }
-      arg.size.times do |i|
-        if i == 0
-          offset *= 32
-        else
-          offset += tails_encoding[i - 1].size
-        end
-        offset_string = encode_type(Type.size_type, offset)
-        result += offset_string
-      end
-      result
-    end
-
     # Encodes primitive types.
     #
     # @param type [Eth::Abi::Type] type to be encoded.
@@ -436,6 +420,23 @@ module Eth
       end
 
       offsets_and_static_values.join + dynamic_values.join
+    end
+
+    # Properly encode struct offsets.
+    def encode_struct_offsets(type, arg)
+      result = ""
+      offset = arg.size
+      tails_encoding = arg.map { |a| encode_type(type, a) }
+      arg.size.times do |i|
+        if i == 0
+          offset *= 32
+        else
+          offset += tails_encoding[i - 1].size
+        end
+        offset_string = encode_type(Type.size_type, offset)
+        result += offset_string
+      end
+      result
     end
 
     # Properly encodes hash-strings.

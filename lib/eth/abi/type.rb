@@ -34,6 +34,7 @@ module Eth
 
       # The dimension attribute, e.g., `[10]` for an array of size 10.
       attr :dimensions
+
       # The components of a tuple type.
       attr :components
 
@@ -47,6 +48,7 @@ module Eth
       # @param sub_type [String] the sub-type attribute.
       # @param dimensions [Array] the dimension attribute.
       # @param components [Array] the components attribute.
+      # @param component_name [String] the tuple component's name.
       # @return [Eth::Abi::Type] an ABI type object.
       def initialize(base_type, sub_type, dimensions, components = nil, component_name = nil)
         sub_type = sub_type.to_s
@@ -64,6 +66,8 @@ module Eth
       # Creates a new Type upon success (using konstructor).
       #
       # @param type [String] a common Solidity type.
+      # @param components [Array] the components attribute.
+      # @param component_name [String] the tuple component's name.
       # @return [Eth::Abi::Type] a parsed Type object.
       # @raise [ParseError] if it fails to parse the type.
       def parse(type, components = nil, component_name = nil)
@@ -134,6 +138,9 @@ module Eth
         @nested_sub ||= self.class.new(base_type, sub_type, dimensions[0...-1], components, name)
       end
 
+      # Allows exporting the type as string.
+      #
+      # @return [String] the type string.
       def to_s
         if base_type == "tuple"
           "(" + components.map(&:to_s).join(",") + ")" + (dimensions.size > 0 ? dimensions.map { |x| "[#{x == 0 ? "" : x}]" }.join : "")
@@ -163,7 +170,8 @@ module Eth
           raise ParseError, "Maximum 32 bytes for fixed-length string or bytes" unless sub_type.empty? || sub_type.to_i <= 32
         when "tuple"
 
-          # proceed
+          # tuples can not have any suffix
+          raise ParseError, "Tuple type must have no suffix or numerical suffix" unless sub_type.empty?
         when "uint", "int"
 
           # integers must have a numerical suffix
