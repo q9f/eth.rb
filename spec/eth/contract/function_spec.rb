@@ -31,4 +31,26 @@ describe Contract::Function do
     signature = Contract::Function.calc_signature(functions[0].name, functions[0].inputs)
     expect(Contract::Function.encoded_function_signature(signature)).to eq("dd62ed3e")
   end
+
+  context "with tuple params" do
+    let(:erc20_abi_file) { File.read "spec/fixtures/abi/Tuple.json" }
+    let(:abi) { JSON.parse erc20_abi_file }
+    subject(:functions) { abi.select { |x| x["type"] == "function" }.map { |fun| Eth::Contract::Function.new(fun) } }
+
+    it "calculates signature with tuple params" do
+      signature = Contract::Function.calc_signature(functions[0].name, functions[0].inputs)
+      expect(Contract::Function.encoded_function_signature(signature)).to eq("b68f14a0")
+    end
+  end
+
+  context "with complex tuple params" do
+    let(:erc20_abi_file) { File.read "spec/fixtures/abi/Tuple2.json" }
+    let(:abi) { JSON.parse erc20_abi_file }
+    subject(:functions) { abi.select { |x| x["type"] == "function" }.map { |fun| Eth::Contract::Function.new(fun) } }
+
+    it "calculates signature with tuple params" do
+      signature = Contract::Function.calc_signature(functions[0].name, functions[0].inputs)
+      expect(Contract::Function.encoded_function_signature(signature)).to eq("1b9faea1")
+    end
+  end
 end
