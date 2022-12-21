@@ -11,6 +11,9 @@ describe Abi::Type do
       expect(Abi::Type.new "bytes", "32", []).to eq Abi::Type.parse("bytes32")
       expect(Abi::Type.new "uint", 256, [10]).to eq Abi::Type.parse("uint256[10]")
       expect(Abi::Type.new "fixed", "128x128", [1, 2, 3, 0]).to eq Abi::Type.parse("fixed128x128[1][2][3][]")
+      expect(Abi::Type.new "tuple", nil, []).to eq Abi::Type.parse("tuple")
+      expect(Abi::Type.new "tuple", nil, [0]).to eq Abi::Type.parse("tuple[]")
+      expect(Abi::Type.new "tuple", nil, [10]).to eq Abi::Type.parse("tuple[10]")
     end
   end
 
@@ -51,6 +54,27 @@ describe Abi::Type do
     end
   end
 
+  describe ".dynamic?" do
+    it "can tell if a type is dynamic" do
+      expect(Abi::Type.parse("string").dynamic?).to eq(true)
+      expect(Abi::Type.parse("bytes").dynamic?).to eq(true)
+      expect(Abi::Type.parse("uint256[]").dynamic?).to eq(true)
+      expect(Abi::Type.parse("uint256[4][]").dynamic?).to eq(true)
+
+      expect(Abi::Type.parse("bytes32").dynamic?).to eq(false)
+      expect(Abi::Type.parse("uint256").dynamic?).to eq(false)
+      expect(Abi::Type.parse("fixed128x128").dynamic?).to eq(false)
+      expect(Abi::Type.parse("bool").dynamic?).to eq(false)
+
+      expect(Abi::Type.parse("uint256[2]").dynamic?).to eq(false)
+      expect(Abi::Type.parse("address[2][2]").dynamic?).to eq(false)
+      expect(Abi::Type.parse("ufixed192x64[2][2][2][2][2]").dynamic?).to eq(false)
+
+      expect(Abi::Type.parse("tuple[]", [{ "type" => "bytes8" }]).dynamic?).to eq(true)
+      expect(Abi::Type.parse("tuple[2]", [{ "type" => "bytes8" }]).dynamic?).to eq(false)
+    end
+  end
+
   describe ".size .nested_sub" do
     it "can compute the type size" do
 
@@ -68,6 +92,9 @@ describe Abi::Type do
       expect(Abi::Type.parse("uint256[2]").size).to eq 64
       expect(Abi::Type.parse("address[2][2]").size).to eq 128
       expect(Abi::Type.parse("ufixed192x64[2][2][2][2][2]").size).to eq 1024
+
+      expect(Abi::Type.parse("tuple[]", [{ "type" => "uint256" }]).size).to eq(nil)
+      expect(Abi::Type.parse("tuple[10]", [{ "type" => "uint256" }]).size).to eq(320)
     end
 
     it "can nest sub types" do
@@ -76,6 +103,86 @@ describe Abi::Type do
       expect(Abi::Type.parse("uint256").nested_sub.dimensions).to eq []
       expect(Abi::Type.parse("uint256[2][]").nested_sub.dimensions).to eq [2]
       expect(Abi::Type.parse("uint256[2][2]").nested_sub.dimensions).to eq [2]
+    end
+  end
+
+  describe ".to_s" do
+    it "serializes type into raw type string" do
+      expect(Abi::Type.parse("string").to_s).to eq("string")
+      expect(Abi::Type.parse("bytes").to_s).to eq("bytes")
+      expect(Abi::Type.parse("bytes32").to_s).to eq("bytes32")
+      expect(Abi::Type.parse("string[]").to_s).to eq("string[]")
+      expect(Abi::Type.parse("string[10]").to_s).to eq("string[10]")
+      expect(Abi::Type.parse("uint256").to_s).to eq("uint256")
+      expect(Abi::Type.parse("uint256[2]").to_s).to eq("uint256[2]")
+      expect(Abi::Type.parse("uint256[2][]").to_s).to eq("uint256[2][]")
+      expect(Abi::Type.parse("uint256[2][2]").to_s).to eq("uint256[2][2]")
+      expect(Abi::Type.parse("tuple[]", [
+        {
+          "type" => "string",
+        },
+        {
+          "type" => "bytes",
+        },
+      ]).to_s).to eq("(string,bytes)[]")
+      expect(Abi::Type.parse("tuple[10]", [
+        {
+          "type" => "string",
+        },
+        {
+          "type" => "bytes",
+        },
+      ]).to_s).to eq("(string,bytes)[10]")
+      expect(Abi::Type.parse("tuple", [
+        {
+          "type" => "string",
+        },
+        {
+          "type" => "string",
+        },
+        {
+          "components" => [
+            {
+              "type" => "uint256",
+            },
+            {
+              "type" => "string",
+            },
+            {
+              "components" => [
+                {
+                  "type" => "string",
+                },
+                {
+                  "type" => "bytes",
+                },
+              ],
+              "type" => "tuple",
+            },
+          ],
+          "type" => "tuple[]",
+        },
+        {
+          "type" => "uint256",
+        },
+        {
+          "type" => "string[]",
+        },
+        {
+          "type" => "bytes[10]",
+        },
+        {
+          "components" => [
+            {
+              "type" => "string",
+            },
+            {
+              "type" => "bytes",
+            },
+          ],
+          "type" => "tuple",
+        },
+      ]).to_s).to eq("(string,string,(uint256,string,(string,bytes))[],uint256,string[],bytes[10],(string,bytes))")
     end
   end
 end
