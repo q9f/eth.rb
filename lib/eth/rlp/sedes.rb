@@ -1,4 +1,4 @@
-# Copyright (c) 2016-2022 The Ruby-Eth Contributors
+# Copyright (c) 2016-2023 The Ruby-Eth Contributors
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -39,10 +39,10 @@ module Eth
         # @param obj [Object] the Ruby object for which to find a sedes object.
         # @raise [TypeError] if no appropriate sedes could be found.
         def infer(obj)
-          return obj.class if is_sedes? obj.class
+          return obj.class if sedes? obj.class
           return big_endian_int if obj.is_a?(Integer) && obj >= 0
           return binary if Binary.valid_type? obj
-          return List.new(elements: obj.map { |item| infer item }) if Util.is_list? obj
+          return List.new(elements: obj.map { |item| infer item }) if Util.list? obj
           raise TypeError, "Did not find sedes handling type #{obj.class.name}"
         end
 
@@ -50,7 +50,7 @@ module Eth
         #
         # @param obj [Object] the object to check.
         # @return [Boolean] true if it's serializable and deserializable.
-        def is_sedes?(obj)
+        def sedes?(obj)
           obj.respond_to?(:serialize) && obj.respond_to?(:deserialize)
         end
 

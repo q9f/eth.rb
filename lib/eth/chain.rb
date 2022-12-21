@@ -1,4 +1,4 @@
-# Copyright (c) 2016-2022 The Ruby-Eth Contributors
+# Copyright (c) 2016-2023 The Ruby-Eth Contributors
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -38,11 +38,17 @@ module Eth
     # Chain ID for POA Network mainnet.
     POA_NET = 99.freeze
 
-    # Chain ID for Gnosis mainnet.
+    # Chain ID for xDAI mainnet (now Gnosis Chain).
     XDAI = 100.freeze
 
-    # Chain ID for the Polygon Matic mainnet.
+    # Chain ID for Gnosis mainnet (formerly xDAI).
+    GNOSIS = XDAI.freeze
+
+    # Chain ID for the Matic mainnet (now Polygon).
     MATIC = 137.freeze
+
+    # Chain ID for the Polygon mainnet (formerly Matic).
+    POLYGON = MATIC.freeze
 
     # Chain ID for Arbitrum mainnet.
     ARBITRUM = 42161.freeze
@@ -86,8 +92,14 @@ module Eth
     # Chain ID for Arbitrum Rinkeby testnet.
     RINKEBY_ARBITRUM = 421611.freeze
 
+    # Chain ID for Arbitrum Goerli testnet.
+    GOERLI_ARBITRUM = 421613.freeze
+
     # Chain ID for Sepolia testnet.
     SEPOLIA = 11155111.freeze
+
+    # Chain ID for Holesovice testnet.
+    HOLESOVICE = 11166111.freeze
 
     # Chain ID for the geth private network preset.
     PRIVATE_GETH = 1337.freeze
@@ -97,7 +109,7 @@ module Eth
     #
     # @param v [Integer] the signature's `v` value.
     # @return [Boolean] true if ledger's legacy value.
-    def is_ledger?(v)
+    def ledger?(v)
       [0, 1].include? v
     end
 
@@ -106,7 +118,7 @@ module Eth
     #
     # @param v [Integer] the signature's `v` value.
     # @return [Boolean] true if legacy value.
-    def is_legacy?(v)
+    def legacy?(v)
       [27, 28].include? v
     end
 
@@ -120,11 +132,11 @@ module Eth
     def to_recovery_id(v, chain_id = ETHEREUM)
       e = 0 + 2 * chain_id + 35
       i = 1 + 2 * chain_id + 35
-      if [0, 1].include? v
+      if ledger? v
 
         # some wallets are using a `v` of 0 or 1 (ledger)
         return v
-      elsif is_legacy? v
+      elsif legacy? v
 
         # this is the pre-EIP-155 legacy case
         return v - 27

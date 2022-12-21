@@ -1,4 +1,4 @@
-# Copyright (c) 2016-2022 The Ruby-Eth Contributors
+# Copyright (c) 2016-2023 The Ruby-Eth Contributors
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -225,7 +225,7 @@ module Eth
       # @raise [Signature::SignatureError] if transaction is already signed.
       # @raise [Signature::SignatureError] if sender address does not match signing key.
       def sign(key)
-        if Tx.is_signed? self
+        if Tx.signed? self
           raise Signature::SignatureError, "Transaction is already signed!"
         end
 
@@ -252,7 +252,7 @@ module Eth
       # @return [String] a raw, RLP-encoded EIP-2930 type transaction object.
       # @raise [Signature::SignatureError] if the transaction is not yet signed.
       def encoded
-        unless Tx.is_signed? self
+        unless Tx.signed? self
           raise Signature::SignatureError, "Transaction is not signed!"
         end
         tx_data = []

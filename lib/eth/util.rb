@@ -1,4 +1,4 @@
-# Copyright (c) 2016-2022 The Ruby-Eth Contributors
+# Copyright (c) 2016-2023 The Ruby-Eth Contributors
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -27,7 +27,7 @@ module Eth
     # @param str [String] the public key to be converted.
     # @return [Eth::Address] an Ethereum address.
     def public_key_to_address(str)
-      str = hex_to_bin str if is_hex? str
+      str = hex_to_bin str if hex? str
       bytes = keccak256(str[1..-1])[-20..-1]
       Address.new bin_to_prefixed_hex bytes
     end
@@ -59,7 +59,7 @@ module Eth
     def hex_to_bin(hex)
       raise TypeError, "Value must be an instance of String" unless hex.instance_of? String
       hex = remove_hex_prefix hex
-      raise TypeError, "Non-hexadecimal digit found" unless is_hex? hex
+      raise TypeError, "Non-hexadecimal digit found" unless hex? hex
       [hex].pack("H*")
     end
 
@@ -68,7 +68,7 @@ module Eth
     # @param hex [String] a hex-string to be prefixed.
     # @return [String] a prefixed hex-string.
     def prefix_hex(hex)
-      return hex if is_prefixed? hex
+      return hex if prefixed? hex
       return "0x#{hex}"
     end
 
@@ -77,7 +77,7 @@ module Eth
     # @param hex [String] a prefixed hex-string.
     # @return [String] an unprefixed hex-string.
     def remove_hex_prefix(hex)
-      return hex[2..-1] if is_prefixed? hex
+      return hex[2..-1] if prefixed? hex
       return hex
     end
 
@@ -93,7 +93,7 @@ module Eth
     #
     # @param str [String] a string to be checked.
     # @return [String] a match if true; `nil` if not.
-    def is_hex?(str)
+    def hex?(str)
       return false unless str.is_a? String
       str = remove_hex_prefix str
       str.match /\A[0-9a-fA-F]*\z/
@@ -103,7 +103,7 @@ module Eth
     #
     # @param hex [String] a string to be checked.
     # @return [String] a match if true; `nil` if not.
-    def is_prefixed?(hex)
+    def prefixed?(hex)
       hex.match /\A0x/
     end
 
@@ -113,7 +113,7 @@ module Eth
     # @return [String] serialized big endian integer string.
     # @raise [ArgumentError] if unsigned integer is out of bounds.
     def serialize_int_to_big_endian(num)
-      num = num.to_i(16) if is_hex? num
+      num = num.to_i(16) if hex? num
       unless num.is_a? Integer and num >= 0 and num <= Constant::UINT_MAX
         raise ArgumentError, "Integer invalid or out of range: #{num}"
       end
@@ -125,7 +125,7 @@ module Eth
     # @param num [Integer] integer to be converted.
     # @return [String] packed, big-endian integer string.
     def int_to_big_endian(num)
-      hex = num.to_s(16) unless is_hex? num
+      hex = num.to_s(16) unless hex? num
       hex = "0#{hex}" if hex.size.odd?
       hex_to_bin hex
     end
@@ -151,7 +151,7 @@ module Eth
     # @param str [String] binary string to be converted.
     # @return [Object] the string bytes.
     def str_to_bytes(str)
-      is_bytes?(str) ? str : str.b
+      bytes?(str) ? str : str.b
     end
 
     # Converts bytes to a binary string.
@@ -166,7 +166,7 @@ module Eth
     #
     # @param str [String] a string to check.
     # @return [Boolean] true if it's an ASCII-8bit encoded byte-string.
-    def is_bytes?(str)
+    def bytes?(str)
       str && str.instance_of?(String) && str.encoding.name == Constant::BINARY_ENCODING
     end
 
@@ -174,7 +174,7 @@ module Eth
     #
     # @param item [Object] the item to check.
     # @return [Boolean] true if it's a string primitive.
-    def is_primitive?(item)
+    def primitive?(item)
       item.instance_of?(String)
     end
 
@@ -182,8 +182,8 @@ module Eth
     #
     # @param item [Object] the item to check.
     # @return [Boolean] true if it's a list.
-    def is_list?(item)
-      !is_primitive?(item) && item.respond_to?(:each)
+    def list?(item)
+      !primitive?(item) && item.respond_to?(:each)
     end
 
     # Ceil and integer to the next multiple of 32 bytes.

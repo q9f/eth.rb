@@ -7,13 +7,13 @@ describe Util do
     it "can create ethereum address from random keys" do
       alice = Util.public_key_to_address Key.new.public_bytes
       expect(alice).to be
-      expect(Util.is_prefixed? alice.to_s).to be_truthy
+      expect(Util.prefixed? alice.to_s).to be_truthy
       expect(alice.checksummed.size).to eq 42
 
       # same as alice but trying to insert hex
       bob = Util.public_key_to_address Key.new.public_hex
       expect(bob).to be
-      expect(Util.is_prefixed? bob.to_s).to be_truthy
+      expect(Util.prefixed? bob.to_s).to be_truthy
       expect(bob.checksummed.size).to eq 42
     end
 
@@ -96,20 +96,20 @@ describe Util do
     end
   end
 
-  describe ".is_hex .is_prefixed" do
+  describe ".hex .prefixed" do
     it "can determine prefixed and unprefixed hexa-decimal strings" do
 
       # Ensure we can detect hexa-decimal strings.
-      expect(Util.is_hex? "f77a7b601a1902ce8fb866fb304527f6").to be_truthy
-      expect(Util.is_hex? "B7ktIsrmF4DCxsOVhRmmBMh8ArXRs2I6").to be_falsy
+      expect(Util.hex? "f77a7b601a1902ce8fb866fb304527f6").to be_truthy
+      expect(Util.hex? "B7ktIsrmF4DCxsOVhRmmBMh8ArXRs2I6").to be_falsy
 
       # Ensure we can detect hexa-decimal prefixes.
-      expect(Util.is_prefixed? "0x94ead6c8ca752be9383610ee078961").to be_truthy
-      expect(Util.is_prefixed? "563df9c4690a3be20b5abc9c6705c4c7").to be_falsy
+      expect(Util.prefixed? "0x94ead6c8ca752be9383610ee078961").to be_truthy
+      expect(Util.prefixed? "563df9c4690a3be20b5abc9c6705c4c7").to be_falsy
 
       # Ensure we can add and remove prefixes.
-      expect(Util.is_prefixed? Util.remove_hex_prefix "0xa6cae631a6b7121648cc940613208e").to be_falsy
-      expect(Util.is_prefixed? Util.prefix_hex "fe204081a3959ad1b68a4a671ba5d141").to be_truthy
+      expect(Util.prefixed? Util.remove_hex_prefix "0xa6cae631a6b7121648cc940613208e").to be_falsy
+      expect(Util.prefixed? Util.prefix_hex "fe204081a3959ad1b68a4a671ba5d141").to be_truthy
     end
   end
 
@@ -212,11 +212,11 @@ describe Util do
     end
   end
 
-  describe ".is_bytes? .is_primitive? .is_list?" do
+  describe ".bytes? .primitive? .list?" do
     it "can detect RLP types" do
-      expect(Util.is_bytes? Util.str_to_bytes "").to be_truthy
-      expect(Util.is_primitive? "").to be_truthy
-      expect(Util.is_list? []).to be_truthy
+      expect(Util.bytes? Util.str_to_bytes "").to be_truthy
+      expect(Util.primitive? "").to be_truthy
+      expect(Util.list? []).to be_truthy
     end
   end
 end

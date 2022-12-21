@@ -1,4 +1,4 @@
-# Copyright (c) 2016-2022 The Ruby-Eth Contributors
+# Copyright (c) 2016-2023 The Ruby-Eth Contributors
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -31,7 +31,7 @@ module Eth
       # @raise [Eth::Rlp::DecodingError] if the input string does not end after
       #     the root item.
       def perform(rlp)
-        rlp = Util.hex_to_bin rlp if Util.is_hex? rlp
+        rlp = Util.hex_to_bin rlp if Util.hex? rlp
         rlp = Util.str_to_bytes rlp
         begin
           item, next_start = consume_item rlp, 0

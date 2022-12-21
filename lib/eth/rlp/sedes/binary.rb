@@ -1,4 +1,4 @@
-# Copyright (c) 2016-2022 The Ruby-Eth Contributors
+# Copyright (c) 2016-2023 The Ruby-Eth Contributors
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -78,7 +78,7 @@ module Eth
         # @raise [DeserializationError] if provided serial is of wrong type.
         # @raise [DeserializationError] if provided serial is of wrong length.
         def deserialize(serial)
-          raise DeserializationError, "Objects of type #{serial.class} cannot be deserialized" unless Util.is_primitive? serial
+          raise DeserializationError, "Objects of type #{serial.class} cannot be deserialized" unless Util.primitive? serial
           raise DeserializationError, "#{serial.class} has invalid length" unless valid_length? serial.size
           serial
         end

@@ -1,4 +1,4 @@
-# Copyright (c) 2016-2022 The Ruby-Eth Contributors
+# Copyright (c) 2016-2023 The Ruby-Eth Contributors
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -41,8 +41,8 @@ module Eth
       # Encodes the raw item.
       def encode_raw(item)
         return item if item.instance_of? Rlp::Data
-        return encode_primitive item if Util.is_primitive? item
-        return encode_list item if Util.is_list? item
+        return encode_primitive item if Util.primitive? item
+        return encode_list item if Util.list? item
         raise EncodingError "Cannot encode object of type #{item.class.name}"
       end
 

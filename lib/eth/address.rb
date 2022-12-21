@@ -1,4 +1,4 @@
-# Copyright (c) 2016-2022 The Ruby-Eth Contributors
+# Copyright (c) 2016-2023 The Ruby-Eth Contributors
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -29,7 +29,7 @@ module Eth
     #
     # @param address [String] hex string representing an ethereum address.
     def initialize(address)
-      unless Util.is_hex? address
+      unless Util.hex? address
         raise CheckSumError, "Unknown address type #{address}!"
       end
       @address = Util.prefix_hex address

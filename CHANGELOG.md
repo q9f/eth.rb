@@ -1,6 +1,20 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## [0.5.8]
+### Added
+* Client: ability to manual set nonce of tx for transfer, deploy, transact methods was added. [#169](https://github.com/q9f/eth.rb/pull/169)
+* Client: ability for call contract methods with specific transaction value was added [#168](https://github.com/q9f/eth.rb/pull/168)
+* Client: add ENS resolve support [#150](https://github.com/q9f/eth.rb/pull/150)
+
+### Changed
+* Client: satisfy yard docs for transfer kwargs [#170](https://github.com/q9f/eth.rb/pull/170)
+* Client: remove invalid parameters from call_raw method [#166](https://github.com/q9f/eth.rb/pull/166)
+* Gem: bump required ruby version to 3 [#165](https://github.com/q9f/eth.rb/pull/165)
+* Build(deps): bump JamesIves/github-pages-deploy-action from 4.4.0 to 4.4.1 [#162](https://github.com/q9f/eth.rb/pull/162)
+* Gem: bump version to 0.5.8 [#161](https://github.com/q9f/eth.rb/pull/161)
+* Docs: update changelog [#160](https://github.com/q9f/eth.rb/pull/160)
+
 ## [0.5.7]
 ### Added
 * Eth/client: add http basic support auth ([#151](https://github.com/q9f/eth.rb/pull/151))

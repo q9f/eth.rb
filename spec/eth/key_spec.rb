@@ -184,8 +184,8 @@ describe Key do
       # ensure private keys are sane
       expect(charlie.private_key).to be
       expect(charlie.private_key).to be_an_instance_of Secp256k1::PrivateKey
-      expect(Util.is_hex? charlie.private_hex).to be_truthy
-      expect(Util.is_hex? charlie.private_bytes).to be_falsy
+      expect(Util.hex? charlie.private_hex).to be_truthy
+      expect(Util.hex? charlie.private_bytes).to be_falsy
 
       # check private keys are 32 bit
       expect(charlie.private_hex.size).to eq 64
@@ -201,10 +201,10 @@ describe Key do
       # ensure public keys are sane
       expect(dave.public_key).to be
       expect(dave.public_key).to be_an_instance_of Secp256k1::PublicKey
-      expect(Util.is_hex? dave.public_hex).to be_truthy
-      expect(Util.is_hex? dave.public_hex_compressed).to be_truthy
-      expect(Util.is_hex? dave.public_bytes).to be_falsy
-      expect(Util.is_hex? dave.public_bytes_compressed).to be_falsy
+      expect(Util.hex? dave.public_hex).to be_truthy
+      expect(Util.hex? dave.public_hex_compressed).to be_truthy
+      expect(Util.hex? dave.public_bytes).to be_falsy
+      expect(Util.hex? dave.public_bytes_compressed).to be_falsy
 
       # check public key sizes and first indicator bytes
       expect(dave.public_hex.size).to eq 130

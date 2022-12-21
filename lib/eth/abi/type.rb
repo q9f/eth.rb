@@ -1,4 +1,4 @@
-# Copyright (c) 2016-2022 The Ruby-Eth Contributors
+# Copyright (c) 2016-2023 The Ruby-Eth Contributors
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -103,7 +103,7 @@ module Eth
           end
         else
           unless dimensions.last == 0
-            unless nested_sub.is_dynamic?
+            unless nested_sub.dynamic?
               s = dimensions.last * nested_sub.size
             end
           end
@@ -114,7 +114,7 @@ module Eth
       # Helpes to determine whether array is of dynamic size.
       #
       # @return [Boolean] true if array is of dynamic size.
-      def is_dynamic?
+      def dynamic?
         size.nil?
       end
 

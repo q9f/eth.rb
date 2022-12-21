@@ -1,4 +1,4 @@
-# Copyright (c) 2016-2022 The Ruby-Eth Contributors
+# Copyright (c) 2016-2023 The Ruby-Eth Contributors
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -48,7 +48,7 @@ module Eth
     # @return [String, String, String] the `r`, `s`, and `v` values.
     # @raise [SignatureError] if signature is of unknown size.
     def dissect(signature)
-      signature = Util.bin_to_hex signature unless Util.is_hex? signature
+      signature = Util.bin_to_hex signature unless Util.hex? signature
       signature = Util.remove_hex_prefix signature
       if signature.size < 130
         raise SignatureError, "Unknown signature length #{signature.size}!"
@@ -70,7 +70,7 @@ module Eth
       context = Secp256k1::Context.new
       r, s, v = dissect signature
       v = v.to_i(16)
-      if !Chain.is_ledger? v and !Chain.is_legacy? v
+      if !Chain.ledger? v and !Chain.legacy? v
         min_v = 2 * chain_id + 35
         raise SignatureError, "Invalid signature v byte #{v} for chain ID #{chain_id}!" if v < min_v
       end
@@ -126,7 +126,7 @@ module Eth
 
         # recover message from personal_sign
         recovered_key = personal_recover blob, signature, chain_id
-      elsif blob.instance_of? String and (Util.is_hex? blob or blob.encoding == Encoding::ASCII_8BIT)
+      elsif blob.instance_of? String and (Util.hex? blob or blob.encoding == Encoding::ASCII_8BIT)
 
         # if nothing else, recover from arbitrary signature
         recovered_key = recover blob, signature, chain_id
