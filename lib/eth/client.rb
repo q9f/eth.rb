@@ -381,7 +381,7 @@ module Eth
     #
     # @param hash [String] the transaction hash.
     # @return [Boolean] true if included in a block.
-    def mined?(hash)
+    def tx_mined?(hash)
       mined_tx = eth_get_transaction_by_hash hash
       !mined_tx.nil? && !mined_tx["result"].nil? && !mined_tx["result"]["blockNumber"].nil?
     end
@@ -406,7 +406,7 @@ module Eth
       retry_rate = 0.1
       loop do
         raise Timeout::Error if ((Time.now - start_time) > timeout)
-        return hash if mined? hash
+        return hash if tx_mined? hash
         sleep retry_rate
       end
     end
