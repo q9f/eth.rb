@@ -1,6 +1,24 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## [0.5.9]
+### Added
+* Eth/abi: dynamic struct encoding (#135) [#185](https://github.com/q9f/eth.rb/pull/185)
+* Eth/client: support camel case (convert before sending the tx) [#172](https://github.com/q9f/eth.rb/pull/172)
+* Eth/client: add `tx_succeeded?` [#173](https://github.com/q9f/eth.rb/pull/173)
+
+### Changed
+* Eth/client: raise an error if a contract interaction reverts [#186](https://github.com/q9f/eth.rb/pull/186)
+* Eth/client: dup params to prevent marshalling on client obj [#184](https://github.com/q9f/eth.rb/pull/184)
+* Eth/client: add test for tx_succeeded? [#183](https://github.com/q9f/eth.rb/pull/183)
+* Eth: rename functions prefixed with is_ [#182](https://github.com/q9f/eth.rb/pull/182)
+* Eth/chain: update available chains [#181](https://github.com/q9f/eth.rb/pull/181)
+* Docs: update changelog for 0.5.8 [#180](https://github.com/q9f/eth.rb/pull/180)
+* Eth: happy new 2023 [#179](https://github.com/q9f/eth.rb/pull/179)
+* Docs: fix readme workflow badge [#178](https://github.com/q9f/eth.rb/pull/178)
+* Solidity: sanitize the contract path before compiling [#176](https://github.com/q9f/eth.rb/pull/176)
+* Ci: add libyaml on ubuntu [#175](https://github.com/q9f/eth.rb/pull/175)
+
 ## [0.5.8]
 ### Added
 * Client: ability to manual set nonce of tx for transfer, deploy, transact methods was added. [#169](https://github.com/q9f/eth.rb/pull/169)
