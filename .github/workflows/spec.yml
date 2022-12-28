@@ -50,3 +50,4 @@ jobs:
         bundle exec rspec
       env:
         COVERAGE: true
+        INFURA_TOKEN: ${{ secrets.INFURA_TOKEN }}
