@@ -42,13 +42,17 @@ describe Ens::Resolver do
       expect(resolver.resolver("ncWc6Edqldzy6Mlo.eth").address).to eq "0x4976fb03C32e5B8cfe2b6cCB31c09Ba78EBaBa41"
     end
 
-    it "resolves ens names for various coin types" do
+    it "resolves ens names for Ethereum" do
       expect(resolver.resolve("ncWc6Edqldzy6Mlo.eth")).to eq "0xde270e46d63b1816d1b798cff473c4ba238aca73"
-      # expect(resolver.resolve("ncWc6Edqldzy6Mlo.eth", Ens::CoinType::ETHEREUM)).to eq "0xde270e46d63b1816d1b798cff473c4ba238aca73"
-      # expect(resolver.resolve("ncWc6Edqldzy6Mlo.eth", Ens::CoinType::ETHEREUM_CLASSIC)).to eq "0x37287f68aC899b769FAa57033c78B78c76C68dc0"
-      # expect(resolver.resolve("ncWc6Edqldzy6Mlo.eth", Ens::CoinType::BITCOIN)).to eq "12bqzK1i8CqcNtBUkh4MQM9sPfjiG9UYRc"
-      # expect(resolver.resolve("ncWc6Edqldzy6Mlo.eth", Ens::CoinType::LITECOIN)).to eq "LVzCBuNmAnR7E5jPkoGo9bfm6BFtjDK1fd"
-      # expect(resolver.resolve("ncWc6Edqldzy6Mlo.eth", Ens::CoinType::DOGECOIN)).to eq "DFVdh6xgP461P1G2CxVZ5D4XQogKbikcXF"
+    end
+
+    it "resolves ens names for other coin types" do
+      pending("respect other coin types")
+      expect(resolver.resolve("ncWc6Edqldzy6Mlo.eth", Ens::CoinType::ETHEREUM)).to eq "0xde270e46d63b1816d1b798cff473c4ba238aca73"
+      expect(resolver.resolve("ncWc6Edqldzy6Mlo.eth", Ens::CoinType::ETHEREUM_CLASSIC)).to eq "0x37287f68aC899b769FAa57033c78B78c76C68dc0"
+      expect(resolver.resolve("ncWc6Edqldzy6Mlo.eth", Ens::CoinType::BITCOIN)).to eq "12bqzK1i8CqcNtBUkh4MQM9sPfjiG9UYRc"
+      expect(resolver.resolve("ncWc6Edqldzy6Mlo.eth", Ens::CoinType::LITECOIN)).to eq "LVzCBuNmAnR7E5jPkoGo9bfm6BFtjDK1fd"
+      expect(resolver.resolve("ncWc6Edqldzy6Mlo.eth", Ens::CoinType::DOGECOIN)).to eq "DFVdh6xgP461P1G2CxVZ5D4XQogKbikcXF"
     end
   end
 end

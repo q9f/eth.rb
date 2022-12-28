@@ -73,7 +73,8 @@ module Eth
         if coin_type === Ens::CoinType::ETHEREUM
           return @client.call(resolver(ens_name), "addr", namehash(ens_name))
         else
-          raise NotImplementedError, "TODO"
+          # TODO: respect coin type
+          raise NotImplementedError, "TODO: respect coin type"
         end
       end
 
