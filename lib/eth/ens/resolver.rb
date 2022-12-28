@@ -16,6 +16,7 @@
 
 # Provides the {Eth} module.
 module Eth
+
   # Provides ENS specific functionality
   # ref: https://ens.domains
   module Ens
@@ -23,43 +24,72 @@ module Eth
     # Utility class for resolving ENS names to Ethereum addresses
     class Resolver
 
-      # The default address for ENS, which applies to most chains
-      DEFAULT_ADDRESS = "0x00000000000c2e074ec69a0dfb2997ba6c7d2e1e".freeze
+      # The client instance used to resolve the ENS.
+      attr_accessor :client
 
-      # Create an instance of the ENS Resolver
+      # The address of the ENS registry on the given chain.
+      attr_accessor :registry
+
+      # Create an instance of the ENS Resolver.
       #
-      # @param client [Eth::Client] The client instance
-      # @param address [String] The address of the ENS contract
+      # @param client [Eth::Client] The client instance used to resolve the ENS.
+      # @param address [String] The address of the ENS registry on the given chain.
       def initialize(client, address = DEFAULT_ADDRESS)
         @client = client
-        @contract = Eth::Contract.from_abi(
-          name: "ENS",
+        @registry = Eth::Contract.from_abi(
+          name: "ENSRegistryWithFallback",
           address: address,
-          abi: JSON.parse(File.read(File.join(File.dirname(__FILE__), "../../../abis/ens.json"))),
+          abi: JSON.parse(File.read(File.join(File.dirname(__FILE__), "../../../abi/ens_registry.json"))),
         )
       end
 
-      # Resolve an ENS name to an address
+      # Resolve an ENS name owner.
       #
-      # @param ens_name [String] The ENS name, eg: fancy.eth
-      # @return [String] The owner address of the name, as a hex string
-      def resolve(ens_name)
-        @client.call(@contract, "owner", namehash(ens_name))
+      # @param ens_name [String] The ENS name, e.g., `fancy.eth`.
+      # @return [String] The owner address of the name as a hex string.
+      def owner(ens_name)
+        @client.call(@registry, "owner", namehash(ens_name))
+      end
+
+      # Retrieve the public resolver for the given ENS name.
+      #
+      # @param ens_name [String] The ENS name, e.g., `fancy.eth`.
+      # @return [Eth::Contract] The public resolver contract that can be used
+      #   to resolve ENS names.
+      def resolver(ens_name)
+        address = @client.call(@registry, "resolver", namehash(ens_name))
+        Eth::Contract.from_abi(
+          name: "ENSPublicResolver",
+          address: address,
+          abi: JSON.parse(File.read(File.join(File.dirname(__FILE__), "../../../abi/ens_resolver.json"))),
+        )
+      end
+
+      # Resolve an ENS name to an address.
+      #
+      # @param ens_name [String] The ENS name, e.g., `fancy.eth`.
+      # @return [String] The owner address of the name as a hex string.
+      def resolve(ens_name, coin_type = Ens::CoinType::ETHEREUM)
+        if coin_type === Ens::CoinType::ETHEREUM
+          return @client.call(resolver(ens_name), "addr", namehash(ens_name))
+        else
+          raise NotImplementedError, "TODO"
+        end
       end
 
       # Generate node for the given domain name
       # See: https://docs.ens.domains/contract-api-reference/name-processing
       #
-      # @param ens_name [String] The ENS name, eg: fancy.eth
-      # @return [String] The node as a hex string
+      # @param ens_name [String] The ENS name, e.g., `fancy.eth`.
+      # @return [String] The node as a hex string.
       def namehash(ens_name)
-        node = ("0" * 64)
+        node = Util.hex_to_bin("0" * 64)
         name = normalize(ens_name)
         name.split(".").reverse.each do |label|
-          hash = Digest::Keccak.new(256).hexdigest(label)
-          node = Digest::Keccak.new(256).hexdigest([node + hash].pack("H*"))
+          hash = Util.keccak256(label)
+          node = Util.keccak256(node + hash)
         end
-        "0x#{node}"
+        Util.bin_to_prefixed_hex node
       end
 
       # Normalize a string as specified by http://unicode.org/reports/tr46/
