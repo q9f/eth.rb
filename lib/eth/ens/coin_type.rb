@@ -12,8 +12,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# -*- encoding : ascii-8bit -*-
-
 # Provides the {Eth} module.
 module Eth
   # Provides ENS specific functionality
