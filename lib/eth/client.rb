@@ -266,9 +266,15 @@ module Eth
     #   @param **gas_limit [Integer] optional gas limit override for deploying the contract.
     # @return [Object] returns the result of the call.
     def call(contract, function, *args, **kwargs)
-      func = contract.functions.select { |func| func.name == function }[0]
-      raise ArgumentError, "this function does not exist!" if func.nil?
-      output = call_raw(contract, func, *args, **kwargs)
+      func = contract.functions.select { |func| func.name == function }
+      raise ArgumentError, "this function does not exist!" if func.nil? || func.size === 0
+      selected_func = func.first
+      func.each do |f|
+        if f.inputs.size === args.size
+          selected_func = f
+        end
+      end
+      output = call_raw(contract, selected_func, *args, **kwargs)
       if output&.length == 1
         return output[0]
       else

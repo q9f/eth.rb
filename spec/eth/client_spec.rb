@@ -1,15 +1,19 @@
 require "spec_helper"
 
-# run `geth --dev --http --ipcpath /tmp/geth.ipc`
-# to provide both http and ipc to pass these tests.
-
 describe Client do
+
+  # run `geth --dev --http --ipcpath /tmp/geth.ipc`
+  # to provide both http and ipc to pass these tests.
   let(:geth_dev_ipc_path) { "/tmp/geth.ipc" }
   let(:geth_dev_http_path) { "http://127.0.0.1:8545" }
   let(:geth_dev_http_basic_auth_path) { "http://username:password@127.0.0.1:8545" }
   subject(:geth_dev_ipc) { Client.create geth_dev_ipc_path }
   subject(:geth_dev_http) { Client.create geth_dev_http_path }
   subject(:geth_dev_http_auth) { Client.create geth_dev_http_basic_auth_path }
+
+  # it expects an $INFURA_TOKEN in environment
+  let(:infura_api) { "https://mainnet.infura.io/v3/#{ENV["INFURA_TOKEN"]}" }
+  subject(:infura_mainnet) { Client.create infura_api }
 
   describe ".create .initialize" do
     it "creates an ipc client" do
@@ -25,6 +29,13 @@ describe Client do
       expect(geth_dev_http.port).to eq 8545
       expect(geth_dev_http.uri.to_s).to eq geth_dev_http_path
       expect(geth_dev_http.ssl).to be_falsy
+    end
+
+    it "connects to an infura api" do
+      expect(infura_mainnet).to be
+      expect(infura_mainnet).to be_instance_of Client::Http
+      expect(infura_mainnet.ssl).to be_truthy
+      expect(infura_mainnet.chain_id).to eq Chain::ETHEREUM
     end
 
     it "creates a http basic auth client" do
@@ -200,7 +211,9 @@ describe Client do
     end
 
     it "called function name not defined" do
-      expect { geth_dev_http.call(contract, "ge") }.to raise_error ArgumentError
+      expect {
+        geth_dev_http.call(contract, "ge")
+      }.to raise_error ArgumentError, "this function does not exist!"
     end
 
     it "call the function with key" do
