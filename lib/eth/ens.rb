@@ -26,21 +26,3 @@ module Eth
     DEFAULT_ADDRESS = Address.new("0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e").freeze
   end
 end
-
-# Loads the {Eth} module classes.
-require "eth/api"
-require "eth/address"
-require "eth/chain"
-require "eth/constant"
-require "eth/contract"
-require "eth/client"
-require "eth/eip712"
-require "eth/key"
-require "eth/rlp"
-require "eth/signature"
-require "eth/solidity"
-require "eth/tx"
-require "eth/unit"
-require "eth/util"
-require "eth/ens"
-require "eth/version"
