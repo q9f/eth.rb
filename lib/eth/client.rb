@@ -102,6 +102,17 @@ module Eth
       eth_get_transaction_count(address, "pending")["result"].to_i 16
     end
 
+    # Resolves an ENS name to an Ethereum address on the connected chain.
+    #
+    # @param ens_name [String] The ENS name, e.g., `fancy.eth`.
+    # @param registry [String] the address for the ENS registry.
+    # @param coin_type [Integer] the coin type as per EIP-2304.
+    # @return [Eth::Address] the Ethereum address resolved from the ENS record.
+    def resolve_ens(ens_name, registry = Ens::DEFAULT_ADDRESS, coin_type = Ens::CoinType::ETHEREUM)
+      ens = Ens::Resolver.new(self, registry)
+      ens.resolve(ens_name, coin_type)
+    end
+
     # Simply transfer Ether to an account and waits for it to be mined.
     # Uses `eth_coinbase` and external signer if no sender key is
     # provided.
