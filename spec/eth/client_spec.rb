@@ -39,7 +39,7 @@ describe Client do
     end
 
     it "does not query remote accounts" do
-      expect {infura_mainnet.default_account}.to raise_error ArgumentError, "The default account is not available on remote connections!"
+      expect { infura_mainnet.default_account }.to raise_error ArgumentError, "The default account is not available on remote connections!"
       expect(geth_dev_http.default_account).to be
     end
 
