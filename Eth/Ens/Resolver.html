@@ -111,35 +111,67 @@
   
 
 </div>
-  
-    <h2>
-      Constant Summary
-      <small><a href="#" class="constants_summary_toggle">collapse</a></small>
-    </h2>
 
-    <dl class="constants">
-      
-        <dt id="DEFAULT_ADDRESS-constant" class="">DEFAULT_ADDRESS =
-          <div class="docstring">
-  <div class="discussion">
+
+
+  <h2>Instance Attribute Summary <small><a href="#" class="summary_toggle">collapse</a></small></h2>
+  <ul class="summary">
     
-<p>The default address for ENS, which applies to most chains</p>
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#client-instance_method" title="#client (instance method)">#<strong>client</strong>  &#x21d2; Object </a>
+    
 
-
-  </div>
-</div>
-<div class="tags">
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
   
 
-</div>
-        </dt>
-        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>0x00000000000c2e074ec69a0dfb2997ba6c7d2e1e</span><span class='tstring_end'>&quot;</span></span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
-      
-    </dl>
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The client instance used to resolve the ENS.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#registry-instance_method" title="#registry (instance method)">#<strong>registry</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
   
 
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The address of the ENS registry on the given chain.</p>
+</div></span>
+  
+</li>
 
-
+    
+  </ul>
 
 
 
@@ -205,7 +237,29 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#normalize-instance_method" title="#normalize (instance method)">#<strong>normalize</strong>(input)  &#x21d2; String </a>
+      <a href="#normalize-instance_method" title="#normalize (instance method)">#<strong>normalize</strong>(ens_name)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#owner-instance_method" title="#owner (instance method)">#<strong>owner</strong>(ens_name)  &#x21d2; String </a>
     
 
     
@@ -220,7 +274,7 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Normalize a string as specified by <a href="http://unicode.org/reports/tr46">unicode.org/reports/tr46</a>/.</p>
+<p>Resolve an ENS name owner.</p>
 </div></span>
   
 </li>
@@ -229,7 +283,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#resolve-instance_method" title="#resolve (instance method)">#<strong>resolve</strong>(ens_name)  &#x21d2; String </a>
+      <a href="#resolve-instance_method" title="#resolve (instance method)">#<strong>resolve</strong>(ens_name, coin_type = Ens::CoinType::ETHEREUM)  &#x21d2; String </a>
     
 
     
@@ -245,6 +299,54 @@
   
     <span class="summary_desc"><div class='inline'>
 <p>Resolve an ENS name to an address.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#resolver-instance_method" title="#resolver (instance method)">#<strong>resolver</strong>(ens_name)  &#x21d2; Eth::Contract </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Retrieve the public resolver for the given ENS name.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#text-instance_method" title="#text (instance method)">#<strong>text</strong>(ens_name, key = &quot;description&quot;)  &#x21d2; String </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Resolve a text record for a given ENS name.</p>
 </div></span>
   
 </li>
@@ -268,7 +370,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Create an instance of the ENS Resolver</p>
+<p>Create an instance of the ENS Resolver.</p>
 
 
   </div>
@@ -288,7 +390,7 @@
       
         &mdash;
         <div class='inline'>
-<p>The client instance</p>
+<p>The client instance used to resolve the ENS.</p>
 </div>
       
     </li>
@@ -306,7 +408,7 @@
       
         &mdash;
         <div class='inline'>
-<p>The address of the ENS contract</p>
+<p>The address of the ENS registry on the given chain.</p>
 </div>
       
     </li>
@@ -320,24 +422,24 @@
       <pre class="lines">
 
 
-33
-34
-35
-36
 37
 38
 39
-40</pre>
+40
+41
+42
+43
+44</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/ens/resolver.rb', line 33</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/ens/resolver.rb', line 37</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_client'>client</span><span class='comma'>,</span> <span class='id identifier rubyid_address'>address</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="#DEFAULT_ADDRESS-constant" title="Eth::Ens::Resolver::DEFAULT_ADDRESS (constant)">DEFAULT_ADDRESS</a></span></span><span class='rparen'>)</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_client'>client</span><span class='comma'>,</span> <span class='id identifier rubyid_address'>address</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Ens.html#DEFAULT_ADDRESS-constant" title="Eth::Ens::DEFAULT_ADDRESS (constant)">DEFAULT_ADDRESS</a></span></span><span class='rparen'>)</span>
   <span class='ivar'>@client</span> <span class='op'>=</span> <span class='id identifier rubyid_client'>client</span>
-  <span class='ivar'>@contract</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../../Eth.html" title="Eth (module)">Eth</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Contract.html" title="Eth::Contract (class)">Contract</a></span></span><span class='period'>.</span><span class='id identifier rubyid_from_abi'><span class='object_link'><a href="../Contract.html#from_abi-class_method" title="Eth::Contract.from_abi (method)">from_abi</a></span></span><span class='lparen'>(</span>
-    <span class='label'>name:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>ENS</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+  <span class='ivar'>@registry</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../../Eth.html" title="Eth (module)">Eth</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Contract.html" title="Eth::Contract (class)">Contract</a></span></span><span class='period'>.</span><span class='id identifier rubyid_from_abi'><span class='object_link'><a href="../Contract.html#from_abi-class_method" title="Eth::Contract.from_abi (method)">from_abi</a></span></span><span class='lparen'>(</span>
+    <span class='label'>name:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>ENSRegistryWithFallback</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
     <span class='label'>address:</span> <span class='id identifier rubyid_address'>address</span><span class='comma'>,</span>
-    <span class='label'>abi:</span> <span class='const'>JSON</span><span class='period'>.</span><span class='id identifier rubyid_parse'>parse</span><span class='lparen'>(</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_read'>read</span><span class='lparen'>(</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_dirname'>dirname</span><span class='lparen'>(</span><span class='kw'>__FILE__</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>../../../abis/ens.json</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='comma'>,</span>
+    <span class='label'>abi:</span> <span class='const'>JSON</span><span class='period'>.</span><span class='id identifier rubyid_parse'>parse</span><span class='lparen'>(</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_read'>read</span><span class='lparen'>(</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_dirname'>dirname</span><span class='lparen'>(</span><span class='kw'>__FILE__</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>../../../abi/ens_registry.json</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='comma'>,</span>
   <span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -346,6 +448,97 @@
 </div>
   
 </div>
+
+  <div id="instance_attr_details" class="attr_details">
+    <h2>Instance Attribute Details</h2>
+    
+      
+      <span id="client=-instance_method"></span>
+      <div class="method_details first">
+  <h3 class="signature first" id="client-instance_method">
+  
+    #<strong>client</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>The client instance used to resolve the ENS.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+28
+29
+30</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/eth/ens/resolver.rb', line 28</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_client'>client</span>
+  <span class='ivar'>@client</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="registry=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="registry-instance_method">
+  
+    #<strong>registry</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>The address of the ENS registry on the given chain.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+31
+32
+33</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/eth/ens/resolver.rb', line 31</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_registry'>registry</span>
+  <span class='ivar'>@registry</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
 
 
   <div id="instance_method_details" class="method_details_list">
@@ -384,7 +577,7 @@
       
         &mdash;
         <div class='inline'>
-<p>The ENS name, eg: fancy.eth</p>
+<p>The ENS name, e.g., <code>fancy.eth</code>.</p>
 </div>
       
     </li>
@@ -403,7 +596,7 @@
       
         &mdash;
         <div class='inline'>
-<p>The node as a hex string</p>
+<p>The node as a hex string.</p>
 </div>
       
     </li>
@@ -416,27 +609,27 @@
       <pre class="lines">
 
 
-55
-56
-57
-58
-59
-60
-61
-62
-63</pre>
+97
+98
+99
+100
+101
+102
+103
+104
+105</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/ens/resolver.rb', line 55</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/ens/resolver.rb', line 97</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_namehash'>namehash</span><span class='lparen'>(</span><span class='id identifier rubyid_ens_name'>ens_name</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_node'>node</span> <span class='op'>=</span> <span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>0</span><span class='tstring_end'>&quot;</span></span> <span class='op'>*</span> <span class='int'>64</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_node'>node</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_hex_to_bin'><span class='object_link'><a href="../Util.html#hex_to_bin-instance_method" title="Eth::Util#hex_to_bin (method)">hex_to_bin</a></span></span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>0</span><span class='tstring_end'>&quot;</span></span> <span class='op'>*</span> <span class='int'>64</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_name'>name</span> <span class='op'>=</span> <span class='id identifier rubyid_normalize'>normalize</span><span class='lparen'>(</span><span class='id identifier rubyid_ens_name'>ens_name</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_name'>name</span><span class='period'>.</span><span class='id identifier rubyid_split'>split</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>.</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_reverse'>reverse</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_label'>label</span><span class='op'>|</span>
-    <span class='id identifier rubyid_hash'>hash</span> <span class='op'>=</span> <span class='const'>Digest</span><span class='op'>::</span><span class='const'>Keccak</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='int'>256</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_hexdigest'>hexdigest</span><span class='lparen'>(</span><span class='id identifier rubyid_label'>label</span><span class='rparen'>)</span>
-    <span class='id identifier rubyid_node'>node</span> <span class='op'>=</span> <span class='const'>Digest</span><span class='op'>::</span><span class='const'>Keccak</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='int'>256</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_hexdigest'>hexdigest</span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='id identifier rubyid_node'>node</span> <span class='op'>+</span> <span class='id identifier rubyid_hash'>hash</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_pack'>pack</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>H*</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_hash'>hash</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_keccak256'><span class='object_link'><a href="../Util.html#keccak256-instance_method" title="Eth::Util#keccak256 (method)">keccak256</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_label'>label</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_node'>node</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_keccak256'><span class='object_link'><a href="../Util.html#keccak256-instance_method" title="Eth::Util#keccak256 (method)">keccak256</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_node'>node</span> <span class='op'>+</span> <span class='id identifier rubyid_hash'>hash</span><span class='rparen'>)</span>
   <span class='kw'>end</span>
-  <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>0x</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_node'>node</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
+  <span class='const'><span class='object_link'><a href="../Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_bin_to_prefixed_hex'><span class='object_link'><a href="../Util.html#bin_to_prefixed_hex-instance_method" title="Eth::Util#bin_to_prefixed_hex (method)">bin_to_prefixed_hex</a></span></span> <span class='id identifier rubyid_node'>node</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -446,82 +639,37 @@
       <div class="method_details ">
   <h3 class="signature " id="normalize-instance_method">
   
-    #<strong>normalize</strong>(input)  &#x21d2; <tt>String</tt> 
+    #<strong>normalize</strong>(ens_name)  &#x21d2; <tt>Object</tt> 
   
 
   
 
   
-</h3><div class="docstring">
-  <div class="discussion">
-    
-<p>Normalize a string as specified by <a href="http://unicode.org/reports/tr46">unicode.org/reports/tr46</a>/</p>
-
-
-  </div>
-</div>
-<div class="tags">
-  <p class="tag_title">Parameters:</p>
-<ul class="param">
-  
-    <li>
-      
-        <span class='name'>input</span>
-      
-      
-        <span class='type'>(<tt>String</tt>)</span>
-      
-      
-      
-        &mdash;
-        <div class='inline'>
-<p>The input string</p>
-</div>
-      
-    </li>
-  
-</ul>
-
-<p class="tag_title">Returns:</p>
-<ul class="return">
-  
-    <li>
-      
-      
-        <span class='type'>(<tt>String</tt>)</span>
-      
-      
-      
-        &mdash;
-        <div class='inline'>
-<p>The normalized output string</p>
-</div>
-      
-    </li>
-  
-</ul>
-
-</div><table class="source_code">
+</h3><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-69
-70
-71
-72
-73
-74</pre>
+107
+108
+109
+110
+111
+112
+113
+114</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/ens/resolver.rb', line 69</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/ens/resolver.rb', line 107</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_normalize'>normalize</span><span class='lparen'>(</span><span class='id identifier rubyid_input'>input</span><span class='rparen'>)</span>
-  <span class='comment'># TODO: This is fairly complicated, and there doesn&#39;t seem to be a ruby
-</span>  <span class='comment'># library which can handle it perfectly.
-</span>  <span class='comment'># https://www.unicode.org/reports/tr46/tr46-27.html
-</span>  <span class='id identifier rubyid_input'>input</span><span class='period'>.</span><span class='id identifier rubyid_downcase'>downcase</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_normalize'>normalize</span><span class='lparen'>(</span><span class='id identifier rubyid_ens_name'>ens_name</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_name'>name</span> <span class='op'>=</span> <span class='id identifier rubyid_ens_name'>ens_name</span><span class='period'>.</span><span class='id identifier rubyid_dup'>dup</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_name'>name</span><span class='period'>.</span><span class='id identifier rubyid_gsub!'>gsub!</span><span class='lparen'>(</span><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>[`~!@</span><span class='tstring_content'>#$%^&amp;*()_=+\[\]{}&lt;&gt;,;:&#39;&quot;\/\\|?]</span><span class='regexp_end'>/</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+    <span class='kw'>return</span> <span class='id identifier rubyid_ens_name'>ens_name</span><span class='period'>.</span><span class='id identifier rubyid_downcase'>downcase</span>
+  <span class='kw'>else</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'>ArgumentError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Provided ENS name contains illegal characters: </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_ens_name'>ens_name</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -529,9 +677,9 @@
 </div>
     
       <div class="method_details ">
-  <h3 class="signature " id="resolve-instance_method">
+  <h3 class="signature " id="owner-instance_method">
   
-    #<strong>resolve</strong>(ens_name)  &#x21d2; <tt>String</tt> 
+    #<strong>owner</strong>(ens_name)  &#x21d2; <tt>String</tt> 
   
 
   
@@ -540,7 +688,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Resolve an ENS name to an address</p>
+<p>Resolve an ENS name owner.</p>
 
 
   </div>
@@ -560,7 +708,7 @@
       
         &mdash;
         <div class='inline'>
-<p>The ENS name, eg: fancy.eth</p>
+<p>The ENS name, e.g., <code>fancy.eth</code>.</p>
 </div>
       
     </li>
@@ -579,7 +727,7 @@
       
         &mdash;
         <div class='inline'>
-<p>The owner address of the name, as a hex string</p>
+<p>The owner address of the name as a hex string.</p>
 </div>
       
     </li>
@@ -592,15 +740,294 @@
       <pre class="lines">
 
 
-46
-47
-48</pre>
+50
+51
+52</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/ens/resolver.rb', line 46</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/ens/resolver.rb', line 50</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_resolve'>resolve</span><span class='lparen'>(</span><span class='id identifier rubyid_ens_name'>ens_name</span><span class='rparen'>)</span>
-  <span class='ivar'>@client</span><span class='period'>.</span><span class='id identifier rubyid_call'>call</span><span class='lparen'>(</span><span class='ivar'>@contract</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>owner</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='id identifier rubyid_namehash'>namehash</span><span class='lparen'>(</span><span class='id identifier rubyid_ens_name'>ens_name</span><span class='rparen'>)</span><span class='rparen'>)</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_owner'>owner</span><span class='lparen'>(</span><span class='id identifier rubyid_ens_name'>ens_name</span><span class='rparen'>)</span>
+  <span class='ivar'>@client</span><span class='period'>.</span><span class='id identifier rubyid_call'>call</span><span class='lparen'>(</span><span class='ivar'>@registry</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>owner</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='id identifier rubyid_namehash'>namehash</span><span class='lparen'>(</span><span class='id identifier rubyid_ens_name'>ens_name</span><span class='rparen'>)</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="resolve-instance_method">
+  
+    #<strong>resolve</strong>(ens_name, coin_type = Ens::CoinType::ETHEREUM)  &#x21d2; <tt>String</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Resolve an ENS name to an address.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>ens_name</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The ENS name, e.g., <code>fancy.eth</code>.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The owner address of the name as a hex string.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/eth/ens/resolver.rb', line 72</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_resolve'>resolve</span><span class='lparen'>(</span><span class='id identifier rubyid_ens_name'>ens_name</span><span class='comma'>,</span> <span class='id identifier rubyid_coin_type'>coin_type</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Ens.html" title="Eth::Ens (module)">Ens</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="CoinType.html" title="Eth::Ens::CoinType (module)">CoinType</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="CoinType.html#ETHEREUM-constant" title="Eth::Ens::CoinType::ETHEREUM (constant)">ETHEREUM</a></span></span><span class='rparen'>)</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_coin_type'>coin_type</span> <span class='op'>===</span> <span class='const'><span class='object_link'><a href="../Ens.html" title="Eth::Ens (module)">Ens</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="CoinType.html" title="Eth::Ens::CoinType (module)">CoinType</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="CoinType.html#ETHEREUM-constant" title="Eth::Ens::CoinType::ETHEREUM (constant)">ETHEREUM</a></span></span>
+    <span class='kw'>return</span> <span class='ivar'>@client</span><span class='period'>.</span><span class='id identifier rubyid_call'>call</span><span class='lparen'>(</span><span class='id identifier rubyid_resolver'>resolver</span><span class='lparen'>(</span><span class='id identifier rubyid_ens_name'>ens_name</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>addr</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='id identifier rubyid_namehash'>namehash</span><span class='lparen'>(</span><span class='id identifier rubyid_ens_name'>ens_name</span><span class='rparen'>)</span><span class='rparen'>)</span>
+  <span class='kw'>elsif</span> <span class='id identifier rubyid_coin_type'>coin_type</span> <span class='op'>===</span> <span class='const'><span class='object_link'><a href="../Ens.html" title="Eth::Ens (module)">Ens</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="CoinType.html" title="Eth::Ens::CoinType (module)">CoinType</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="CoinType.html#ETHEREUM_CLASSIC-constant" title="Eth::Ens::CoinType::ETHEREUM_CLASSIC (constant)">ETHEREUM_CLASSIC</a></span></span>
+    <span class='id identifier rubyid_data'>data</span> <span class='op'>=</span> <span class='ivar'>@client</span><span class='period'>.</span><span class='id identifier rubyid_call'>call</span><span class='lparen'>(</span><span class='id identifier rubyid_resolver'>resolver</span><span class='lparen'>(</span><span class='id identifier rubyid_ens_name'>ens_name</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>addr</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='id identifier rubyid_namehash'>namehash</span><span class='lparen'>(</span><span class='id identifier rubyid_ens_name'>ens_name</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='id identifier rubyid_coin_type'>coin_type</span><span class='rparen'>)</span>
+    <span class='kw'>return</span> <span class='const'><span class='object_link'><a href="../Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_bin_to_prefixed_hex'><span class='object_link'><a href="../Util.html#bin_to_prefixed_hex-instance_method" title="Eth::Util#bin_to_prefixed_hex (method)">bin_to_prefixed_hex</a></span></span> <span class='id identifier rubyid_data'>data</span>
+  <span class='kw'>else</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'>NotImplementedError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Coin type </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_coin_type'>coin_type</span><span class='embexpr_end'>}</span><span class='tstring_content'> not implemented!</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="resolver-instance_method">
+  
+    #<strong>resolver</strong>(ens_name)  &#x21d2; <tt><span class='object_link'><a href="../Contract.html" title="Eth::Contract (class)">Eth::Contract</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Retrieve the public resolver for the given ENS name.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>ens_name</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The ENS name, e.g., <code>fancy.eth</code>.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Contract.html" title="Eth::Contract (class)">Eth::Contract</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The public resolver contract that can be used to resolve ENS names.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+59
+60
+61
+62
+63
+64
+65
+66</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/eth/ens/resolver.rb', line 59</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_resolver'>resolver</span><span class='lparen'>(</span><span class='id identifier rubyid_ens_name'>ens_name</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_address'>address</span> <span class='op'>=</span> <span class='ivar'>@client</span><span class='period'>.</span><span class='id identifier rubyid_call'>call</span><span class='lparen'>(</span><span class='ivar'>@registry</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>resolver</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='id identifier rubyid_namehash'>namehash</span><span class='lparen'>(</span><span class='id identifier rubyid_ens_name'>ens_name</span><span class='rparen'>)</span><span class='rparen'>)</span>
+  <span class='const'><span class='object_link'><a href="../../Eth.html" title="Eth (module)">Eth</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Contract.html" title="Eth::Contract (class)">Contract</a></span></span><span class='period'>.</span><span class='id identifier rubyid_from_abi'><span class='object_link'><a href="../Contract.html#from_abi-class_method" title="Eth::Contract.from_abi (method)">from_abi</a></span></span><span class='lparen'>(</span>
+    <span class='label'>name:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>ENSPublicResolver</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+    <span class='label'>address:</span> <span class='id identifier rubyid_address'>address</span><span class='comma'>,</span>
+    <span class='label'>abi:</span> <span class='const'>JSON</span><span class='period'>.</span><span class='id identifier rubyid_parse'>parse</span><span class='lparen'>(</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_read'>read</span><span class='lparen'>(</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_dirname'>dirname</span><span class='lparen'>(</span><span class='kw'>__FILE__</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>../../../abi/ens_resolver.json</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='comma'>,</span>
+  <span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="text-instance_method">
+  
+    #<strong>text</strong>(ens_name, key = &quot;description&quot;)  &#x21d2; <tt>String</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Resolve a text record for a given ENS name.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>ens_name</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The ENS name, e.g., <code>fancy.eth</code>.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>key</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>&quot;description&quot;</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The key for the text record, e.g., <code>url</code>.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The text record.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+88
+89
+90</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/eth/ens/resolver.rb', line 88</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_text'>text</span><span class='lparen'>(</span><span class='id identifier rubyid_ens_name'>ens_name</span><span class='comma'>,</span> <span class='id identifier rubyid_key'>key</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>description</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+  <span class='ivar'>@client</span><span class='period'>.</span><span class='id identifier rubyid_call'>call</span><span class='lparen'>(</span><span class='id identifier rubyid_resolver'>resolver</span><span class='lparen'>(</span><span class='id identifier rubyid_ens_name'>ens_name</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>text</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='id identifier rubyid_namehash'>namehash</span><span class='lparen'>(</span><span class='id identifier rubyid_ens_name'>ens_name</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='id identifier rubyid_key'>key</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -612,7 +1039,7 @@
 </div>
 
       <div id="footer">
-  Generated on Thu Dec 22 12:18:22 2022 by
+  Generated on Thu Dec 29 14:00:12 2022 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.28 (ruby-3.0.5).
 </div>
