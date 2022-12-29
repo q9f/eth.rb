@@ -12,25 +12,17 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+require "eth/ens/coin_type"
+require "eth/ens/resolver"
+
 # Provides the {Eth} module.
 module Eth
-end
+  # Provides ENS specific functionality
+  # ref: https://ens.domains
+  module Ens
+    extend self
 
-# Loads the {Eth} module classes.
-require "eth/abi"
-require "eth/api"
-require "eth/address"
-require "eth/chain"
-require "eth/constant"
-require "eth/contract"
-require "eth/client"
-require "eth/eip712"
-require "eth/key"
-require "eth/rlp"
-require "eth/signature"
-require "eth/solidity"
-require "eth/tx"
-require "eth/unit"
-require "eth/util"
-require "eth/ens"
-require "eth/version"
+    # The default address for ENS, which applies to most chains
+    DEFAULT_ADDRESS = Address.new("0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e").freeze
+  end
+end

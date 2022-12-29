@@ -80,6 +80,12 @@ describe Client do
     end
   end
 
+  describe "ens" do
+    it "can resolve an ens record" do
+      expect(infura_mainnet.resolve_ens("ncwc6edqldzy6mlo.eth")).to eq "0xde270e46d63b1816d1b798cff473c4ba238aca73"
+    end
+  end
+
   describe ".transfer .transfer_and_wait" do
     subject(:test_key) { Key.new }
     subject(:another_key) { Key.new }
