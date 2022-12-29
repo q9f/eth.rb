@@ -103,5 +103,18 @@ describe Contract do
       expect(tuples.functions[0].inputs[0].parsed_type.components[6].components[0].base_type).to eq("string")
       expect(tuples.functions[0].inputs[0].parsed_type.components[6].components[1].base_type).to eq("bytes")
     end
+
+    it "supports arrays of addresses" do
+      geth = Client.create("/tmp/geth.ipc")
+      cont = Contract.from_file(file: "spec/fixtures/contracts/address_storage.sol")
+      depl = geth.deploy_and_wait(cont)
+      expect(geth.call(cont, "retrieveMyAddress")).to eq "0x0000000000000000000000000000000000000000"
+      hash = geth.transact_and_wait(cont, "storeMyAddress", "0xbdc4d90b1d46353eb65eca3d0aeb968039f8aa9d")
+      expect(geth.call(cont, "retrieveMyAddress")).to eq "0xbdc4d90b1d46353eb65eca3d0aeb968039f8aa9d"
+      hash = geth.transact_and_wait(cont, "storeMyArray", ["0x5b02dE1c1774FA4bFEaa69AE57696F11fc92fA26", "0x35504b098187011f3d89232e0ea8990aBa8cB36B", "0x852b8A5b155C3aaB8EafE1BAd2c0E2D3D643F69d"])
+      expect(geth.call(cont, "retrieveMyArray", 0)).to eq "0x5b02dE1c1774FA4bFEaa69AE57696F11fc92fA26".downcase
+      expect(geth.call(cont, "retrieveMyArray", 1)).to eq "0x35504b098187011f3d89232e0ea8990aBa8cB36B".downcase
+      expect(geth.call(cont, "retrieveMyArray", 2)).to eq "0x852b8A5b155C3aaB8EafE1BAd2c0E2D3D643F69d".downcase
+    end
   end
 end
