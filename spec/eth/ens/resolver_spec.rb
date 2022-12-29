@@ -12,14 +12,14 @@ describe Ens::Resolver do
       expect(resolver.normalize("foo.eth")).to eq("foo.eth")
     end
 
-    it "can normalize non-ascii (fold)" do
-      pending("requires folding/advanced text processing")
-      # with cyrillic 'o'
-      expect(resolver.normalize("fоо.eth")).to eq("foo.eth")
-    end
-
     it "can normalize caps" do
       expect(resolver.normalize("Foo.eth")).to eq("foo.eth")
+    end
+
+    it "can not normalize illegal symbols" do
+      expect {
+        resolver.normalize("foo_bar.eth")
+      }.to raise_error ArgumentError, "Provided ENS name contains illegal characters: foo_bar.eth"
     end
 
     it "can normalize emoji domains" do
@@ -35,7 +35,12 @@ describe Ens::Resolver do
       expect(resolver.namehash("ncWc6Edqldzy6Mlo.eth")).to eq("0xfab68bf82e5750a73a16c3c157598b4be30ed6b7e048f8e29e11572119713eaa")
     end
   end
-
+  describe "text" do
+    it "gets text records for different keys" do
+      expect(resolver.text("ncWc6Edqldzy6Mlo.eth")).to eq "ruby eth test account on mainnet"
+      expect(resolver.text("ncWc6Edqldzy6Mlo.eth", "url")).to eq "https://github.com/q9f/eth.rb"
+    end
+  end
   describe "resolve" do
     it "gets resolver and owner from chain" do
       expect(resolver.owner("ncWc6Edqldzy6Mlo.eth")).to eq "0xe611a720778a5f6723d6b4866f84828504657181"
@@ -47,12 +52,13 @@ describe Ens::Resolver do
     end
 
     it "resolves ens names for other coin types" do
-      pending("respect other coin types")
       expect(resolver.resolve("ncWc6Edqldzy6Mlo.eth", Ens::CoinType::ETHEREUM)).to eq "0xde270e46d63b1816d1b798cff473c4ba238aca73"
+      expect {
+        resolver.resolve("ncWc6Edqldzy6Mlo.eth", Ens::CoinType::BITCOIN)
+      }.to raise_error NotImplementedError, "Coin type 0 not implemented!"
+      # https://ethereum.stackexchange.com/questions/142016/does-ens-implement-eip-2304-yet
+      pending("there seems to be an issue with eip-2304")
       expect(resolver.resolve("ncWc6Edqldzy6Mlo.eth", Ens::CoinType::ETHEREUM_CLASSIC)).to eq "0x37287f68aC899b769FAa57033c78B78c76C68dc0"
-      expect(resolver.resolve("ncWc6Edqldzy6Mlo.eth", Ens::CoinType::BITCOIN)).to eq "12bqzK1i8CqcNtBUkh4MQM9sPfjiG9UYRc"
-      expect(resolver.resolve("ncWc6Edqldzy6Mlo.eth", Ens::CoinType::LITECOIN)).to eq "LVzCBuNmAnR7E5jPkoGo9bfm6BFtjDK1fd"
-      expect(resolver.resolve("ncWc6Edqldzy6Mlo.eth", Ens::CoinType::DOGECOIN)).to eq "DFVdh6xgP461P1G2CxVZ5D4XQogKbikcXF"
     end
   end
 end

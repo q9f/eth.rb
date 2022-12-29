@@ -72,10 +72,21 @@ module Eth
       def resolve(ens_name, coin_type = Ens::CoinType::ETHEREUM)
         if coin_type === Ens::CoinType::ETHEREUM
           return @client.call(resolver(ens_name), "addr", namehash(ens_name))
+        elsif coin_type === Ens::CoinType::ETHEREUM_CLASSIC
+          data = @client.call(resolver(ens_name), "addr", namehash(ens_name), coin_type)
+          return Util.bin_to_prefixed_hex data
         else
-          # TODO: respect coin type
-          raise NotImplementedError, "TODO: respect coin type"
+          raise NotImplementedError, "Coin type #{coin_type} not implemented!"
         end
+      end
+
+      # Resolve a text record for a given ENS name.
+      #
+      # @param ens_name [String] The ENS name, e.g., `fancy.eth`.
+      # @param key [String] The key for the text record, e.g., `url`.
+      # @return [String] The text record.
+      def text(ens_name, key = "description")
+        @client.call(resolver(ens_name), "text", namehash(ens_name), key)
       end
 
       # Generate node for the given domain name
@@ -93,15 +104,13 @@ module Eth
         Util.bin_to_prefixed_hex node
       end
 
-      # Normalize a string as specified by http://unicode.org/reports/tr46/
-      #
-      # @param input [String] The input string
-      # @return [String] The normalized output string
-      def normalize(input)
-        # TODO: This is fairly complicated, and there doesn't seem to be a ruby
-        # library which can handle it perfectly.
-        # https://www.unicode.org/reports/tr46/tr46-27.html
-        input.downcase
+      def normalize(ens_name)
+        name = ens_name.dup
+        if name.gsub!(/[`~!@#$%^&*()_=+\[\]{}<>,;:'"\/\\|?]/, "").nil?
+          return ens_name.downcase
+        else
+          raise ArgumentError, "Provided ENS name contains illegal characters: #{ens_name}"
+        end
       end
     end
   end
