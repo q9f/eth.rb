@@ -76,6 +76,7 @@ module Eth
     #
     # @return [Eth::Address] the coinbase account address.
     def default_account
+      raise ArgumentError, "The default account is not available on remote connections!" unless local?
       @default_account ||= Address.new eth_coinbase["result"]
     end
 
@@ -170,6 +171,9 @@ module Eth
         return eth_send_raw_transaction(tx.hex)["result"]
       else
 
+        # we do not allow accessing accounts on remote connections
+        raise ArgumentError, "The default account is not available on remote connections, please provide a :sender_key!" unless local?
+
         # use the default account as sender and external signer
         params.merge!({
           from: default_account,
@@ -249,6 +253,10 @@ module Eth
         tx.sign kwargs[:sender_key]
         return eth_send_raw_transaction(tx.hex)["result"]
       else
+
+        # Does not allow accessing accounts on remote connections
+        raise ArgumentError, "The default account is not available on remote connections, please provide a :sender_key!" unless local?
+
         # Uses the default account as sender and external signer
         params.merge!({
           from: default_account,
@@ -351,6 +359,10 @@ module Eth
         tx.sign kwargs[:sender_key]
         return eth_send_raw_transaction(tx.hex)["result"]
       else
+
+        # do not allow accessing accounts on remote connections
+        raise ArgumentError, "The default account is not available on remote connections, please provide a :sender_key!" unless local?
+
         # use the default account as sender and external signer
         params.merge!({
           from: default_account,
@@ -447,6 +459,17 @@ module Eth
     end
 
     private
+
+    # Allows to determine if we work with a local connectoin
+    def local?
+      if self.instance_of? Eth::Client::Ipc
+        return true
+      elsif self.host === "127.0.0.1" || self.host === "localhost"
+        return true
+      else
+        return false
+      end
+    end
 
     # Non-transactional function call called from call().
     # @see https://ethereum.org/en/developers/docs/apis/json-rpc/#eth_call
