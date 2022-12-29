@@ -38,6 +38,11 @@ describe Client do
       expect(infura_mainnet.chain_id).to eq Chain::ETHEREUM
     end
 
+    it "does not query remote accounts" do
+      expect {infura_mainnet.default_account}.to raise_error ArgumentError, "The default account is not available on remote connections!"
+      expect(geth_dev_http.default_account).to be
+    end
+
     it "creates a http basic auth client" do
       expect(geth_dev_http_auth).to be
       expect(geth_dev_http_auth).to be_instance_of Client::HttpAuth
