@@ -24,6 +24,7 @@ A straightforward library to build, sign, and broadcast Ethereum transactions. I
 What you get:
 - [x] Secp256k1 Key-Pairs and Encrypted Ethereum Key-Stores (JSON)
 - [x] EIP-55 Checksummed Ethereum Addresses
+- [x] EIP-137 Ethereum Domain Name Service (ENS)
 - [x] EIP-155 Replay protection with Chain IDs (with presets)
 - [x] EIP-191 Ethereum Signed Messages (with prefix and type)
 - [x] EIP-712 Ethereum Signed Type Data
@@ -77,6 +78,8 @@ The test suite expects working local HTTP and IPC endpoints with a prefunded dev
 ```shell
 geth --dev --http --ipcpath /tmp/geth.ipc &
 ```
+
+It also expects an `$INFURA_TOKEN` in environment to test some ENS queries on mainnet.
 
 To run tests, simply use `rspec`. Note, that the Ethereum test fixtures are also required.
 
