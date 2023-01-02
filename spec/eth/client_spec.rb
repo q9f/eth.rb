@@ -391,8 +391,10 @@ describe Client do
       expect(geth_dev_ipc.call(erc20, "balanceOf", key.address.to_s)).to eq 17
       expect(geth_dev_ipc.call(erc20, "balanceOf", geth_dev_ipc.default_account.to_s)).to eq Unit::ETHER - 17
       expect(geth_dev_ipc.call(erc20, "totalSupply")).to eq Unit::ETHER
-      geth_dev_ipc.transact_and_wait(erc20, "mint", key.address.to_s, Unit::ETHER, sender_key: key)
-      geth_dev_ipc.transfer_erc20_and_wait(erc20, geth_dev_ipc.default_account.to_s, 17, sender_key: key)
+      tx = geth_dev_ipc.transact(erc20, "mint", key.address.to_s, Unit::ETHER, sender_key: key)
+      geth_dev_ipc.wait_for_tx(tx)
+      tf = geth_dev_ipc.transfer_erc20(erc20, geth_dev_ipc.default_account.to_s, 17, sender_key: key)
+      geth_dev_ipc.wait_for_tx(tf)
       expect(geth_dev_ipc.call(erc20, "balanceOf", key.address.to_s)).to eq Unit::ETHER
       expect(geth_dev_ipc.call(erc20, "balanceOf", geth_dev_ipc.default_account.to_s)).to eq Unit::ETHER
       expect(geth_dev_ipc.call(erc20, "totalSupply")).to eq 2 * Unit::ETHER
