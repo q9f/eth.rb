@@ -660,6 +660,54 @@
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#transfer_erc20-instance_method" title="#transfer_erc20 (instance method)">#<strong>transfer_erc20</strong>(erc20_contract, destination, amount, **kwargs)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Transfers a token that implements the ERC20 <code>transfer()</code> interface.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#transfer_erc20_and_wait-instance_method" title="#transfer_erc20_and_wait (instance method)">#<strong>transfer_erc20_and_wait</strong>(erc20_contract, destination, amount, **kwargs)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Transfers a token that implements the ERC20 <code>transfer()</code> interface.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#tx_mined%3F-instance_method" title="#tx_mined? (instance method)">#<strong>tx_mined?</strong>(hash)  &#x21d2; Boolean </a>
     
 
@@ -1543,25 +1591,25 @@
       <pre class="lines">
 
 
-287
-288
-289
-290
-291
-292
-293
-294
-295
-296
-297
-298
-299
-300
-301
-302</pre>
+320
+321
+322
+323
+324
+325
+326
+327
+328
+329
+330
+331
+332
+333
+334
+335</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 287</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 320</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_call'>call</span><span class='lparen'>(</span><span class='id identifier rubyid_contract'>contract</span><span class='comma'>,</span> <span class='id identifier rubyid_function'>function</span><span class='comma'>,</span> <span class='op'>*</span><span class='id identifier rubyid_args'>args</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_kwargs'>kwargs</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_func'>func</span> <span class='op'>=</span> <span class='id identifier rubyid_contract'>contract</span><span class='period'>.</span><span class='id identifier rubyid_functions'>functions</span><span class='period'>.</span><span class='id identifier rubyid_select'>select</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_func'>func</span><span class='op'>|</span> <span class='id identifier rubyid_func'>func</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span> <span class='op'>==</span> <span class='id identifier rubyid_function'>function</span> <span class='rbrace'>}</span>
@@ -1604,7 +1652,7 @@
     
 <p>Deploys a contract. Uses <code>eth_coinbase</code> or external signer if no sender key is provided.</p>
 
-<p><strong>Note</strong>, that many remote providers (e.g., Infura) do not provide any accounts. Provide a <code>sender_key</code> if you experience issues.</p>
+<p><strong>Note</strong>, that many remote providers (e.g., Infura) do not provide any accounts. Provide a <code>sender_key:</code> if you experience issues.</p>
 
 
   </div>
@@ -1860,39 +1908,6 @@
       <pre class="lines">
 
 
-218
-219
-220
-221
-222
-223
-224
-225
-226
-227
-228
-229
-230
-231
-232
-233
-234
-235
-236
-237
-238
-239
-240
-241
-242
-243
-244
-245
-246
-247
-248
-249
-250
 251
 252
 253
@@ -1909,10 +1924,43 @@
 264
 265
 266
-267</pre>
+267
+268
+269
+270
+271
+272
+273
+274
+275
+276
+277
+278
+279
+280
+281
+282
+283
+284
+285
+286
+287
+288
+289
+290
+291
+292
+293
+294
+295
+296
+297
+298
+299
+300</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 218</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 251</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_deploy'>deploy</span><span class='lparen'>(</span><span class='id identifier rubyid_contract'>contract</span><span class='comma'>,</span> <span class='op'>*</span><span class='id identifier rubyid_args'>args</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_kwargs'>kwargs</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_raise'>raise</span> <span class='const'>ArgumentError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Cannot deploy contract without source or binary!</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_contract'>contract</span><span class='period'>.</span><span class='id identifier rubyid_bin'>bin</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
@@ -2015,14 +2063,14 @@
       <pre class="lines">
 
 
-192
-193
-194
-195
-196</pre>
+225
+226
+227
+228
+229</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 192</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 225</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_deploy_and_wait'>deploy_and_wait</span><span class='lparen'>(</span><span class='id identifier rubyid_contract'>contract</span><span class='comma'>,</span> <span class='op'>*</span><span class='id identifier rubyid_args'>args</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_kwargs'>kwargs</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_hash'>hash</span> <span class='op'>=</span> <span class='id identifier rubyid_wait_for_tx'>wait_for_tx</span><span class='lparen'>(</span><span class='id identifier rubyid_deploy'>deploy</span><span class='lparen'>(</span><span class='id identifier rubyid_contract'>contract</span><span class='comma'>,</span> <span class='op'>*</span><span class='id identifier rubyid_args'>args</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_kwargs'>kwargs</span><span class='rparen'>)</span><span class='rparen'>)</span>
@@ -2324,17 +2372,17 @@
       <pre class="lines">
 
 
-401
-402
-403
-404
-405
-406
-407
-408</pre>
+434
+435
+436
+437
+438
+439
+440
+441</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 401</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 434</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_is_valid_signature'>is_valid_signature</span><span class='lparen'>(</span><span class='id identifier rubyid_contract'>contract</span><span class='comma'>,</span> <span class='id identifier rubyid_hash'>hash</span><span class='comma'>,</span> <span class='id identifier rubyid_signature'>signature</span><span class='comma'>,</span> <span class='id identifier rubyid_magic'>magic</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>1626ba7e</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
   <span class='id identifier rubyid_raise'>raise</span> <span class='const'>ArgumentError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Contract not deployed yet.</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_contract'>contract</span><span class='period'>.</span><span class='id identifier rubyid_address'>address</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
@@ -2393,12 +2441,12 @@
       <pre class="lines">
 
 
-414
-415
-416</pre>
+447
+448
+449</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 414</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 447</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_reset_id'>reset_id</span>
   <span class='ivar'>@id</span> <span class='op'>=</span> <span class='int'>0</span>
@@ -2545,7 +2593,7 @@
     
 <p>Executes a contract function with a transaction (transactional contract read/write).</p>
 
-<p><strong>Note</strong>, that many remote providers (e.g., Infura) do not provide any accounts. Provide a <code>sender_key</code> if you experience issues.</p>
+<p><strong>Note</strong>, that many remote providers (e.g., Infura) do not provide any accounts. Provide a <code>sender_key:</code> if you experience issues.</p>
 
 
   </div>
@@ -2863,39 +2911,6 @@
       <pre class="lines">
 
 
-328
-329
-330
-331
-332
-333
-334
-335
-336
-337
-338
-339
-340
-341
-342
-343
-344
-345
-346
-347
-348
-349
-350
-351
-352
-353
-354
-355
-356
-357
-358
-359
-360
 361
 362
 363
@@ -2908,10 +2923,43 @@
 370
 371
 372
-373</pre>
+373
+374
+375
+376
+377
+378
+379
+380
+381
+382
+383
+384
+385
+386
+387
+388
+389
+390
+391
+392
+393
+394
+395
+396
+397
+398
+399
+400
+401
+402
+403
+404
+405
+406</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 328</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 361</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_transact'>transact</span><span class='lparen'>(</span><span class='id identifier rubyid_contract'>contract</span><span class='comma'>,</span> <span class='id identifier rubyid_function'>function</span><span class='comma'>,</span> <span class='op'>*</span><span class='id identifier rubyid_args'>args</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_kwargs'>kwargs</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_gas_limit'>gas_limit</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='id identifier rubyid_kwargs'>kwargs</span><span class='lbracket'>[</span><span class='symbol'>:gas_limit</span><span class='rbracket'>]</span>
@@ -3028,17 +3076,17 @@
       <pre class="lines">
 
 
-382
-383
-384
-385
-386
-387
-388
-389</pre>
+415
+416
+417
+418
+419
+420
+421
+422</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 382</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 415</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_transact_and_wait'>transact_and_wait</span><span class='lparen'>(</span><span class='id identifier rubyid_contract'>contract</span><span class='comma'>,</span> <span class='id identifier rubyid_function'>function</span><span class='comma'>,</span> <span class='op'>*</span><span class='id identifier rubyid_args'>args</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_kwargs'>kwargs</span><span class='rparen'>)</span>
   <span class='kw'>begin</span>
@@ -3071,7 +3119,7 @@
     
 <p>Simply transfer Ether to an account without any call data or access lists attached. Uses <code>eth_coinbase</code> and external signer if no sender key is provided.</p>
 
-<p><strong>Note</strong>, that many remote providers (e.g., Infura) do not provide any accounts. Provide a <code>sender_key</code> if you experience issues.</p>
+<p><strong>Note</strong>, that many remote providers (e.g., Infura) do not provide any accounts. Provide a <code>sender_key:</code> if you experience issues.</p>
 
 
   </div>
@@ -3409,6 +3457,353 @@
 </div>
     
       <div class="method_details ">
+  <h3 class="signature " id="transfer_erc20-instance_method">
+  
+    
+      <span class="overload">#<strong>transfer_erc20</strong>(erc20_contract, destination, amount)  &#x21d2; <tt>Object</tt> </span>
+    
+      <span class="overload">#<strong>transfer_erc20</strong>(erc20_contract, destination, amount, **kwargs)  &#x21d2; <tt>Object</tt> </span>
+    
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Transfers a token that implements the ERC20 <code>transfer()</code> interface.</p>
+
+<p><strong>Note</strong>, that many remote providers (e.g., Infura) do not provide any accounts. Provide a <code>sender_key:</code> if you experience issues.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <p class="tag_title">Overloads:</p>
+  <ul class="overload">
+    
+      
+      <li class="overload_item">
+        <span class="signature">#<strong>transfer_erc20</strong>(erc20_contract, destination, amount)  &#x21d2; <tt>Object</tt> </span>
+        <div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>erc20_contract</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Contract.html" title="Eth::Contract (class)">Eth::Contract</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the ERC20 contract to write to.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>destination</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Address.html" title="Eth::Address (class)">Eth::Address</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the destination address.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>amount</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the transfer amount (mind the <code>decimals()</code>).</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div>
+      </li>
+    
+      
+      <li class="overload_item">
+        <span class="signature">#<strong>transfer_erc20</strong>(erc20_contract, destination, amount, **kwargs)  &#x21d2; <tt>Object</tt> </span>
+        <div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>erc20_contract</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Contract.html" title="Eth::Contract (class)">Eth::Contract</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the ERC20 contract to write to.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>destination</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Address.html" title="Eth::Address (class)">Eth::Address</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the destination address.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>amount</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the transfer amount (mind the <code>decimals()</code>).</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>**sender_key</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Key.html" title="Eth::Key (class)">Eth::Key</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the sender private key.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>**legacy</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>enables legacy transactions (pre-EIP-1559).</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>**gas_limit</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>optional gas limit override for deploying the contract.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>**nonce</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>optional specific nonce for transaction.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>**tx_value</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>optional transaction value field filling.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div>
+      </li>
+    
+  </ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Object</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>returns the result of the transaction.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+214
+215
+216
+217</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 214</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_transfer_erc20'>transfer_erc20</span><span class='lparen'>(</span><span class='id identifier rubyid_erc20_contract'>erc20_contract</span><span class='comma'>,</span> <span class='id identifier rubyid_destination'>destination</span><span class='comma'>,</span> <span class='id identifier rubyid_amount'>amount</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_kwargs'>kwargs</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_destination'>destination</span> <span class='op'>=</span> <span class='id identifier rubyid_destination'>destination</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span> <span class='kw'>if</span> <span class='id identifier rubyid_destination'>destination</span><span class='period'>.</span><span class='id identifier rubyid_instance_of?'>instance_of?</span> <span class='const'><span class='object_link'><a href="../Eth.html" title="Eth (module)">Eth</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Address.html" title="Eth::Address (class)">Address</a></span></span>
+  <span class='id identifier rubyid_transact'>transact</span><span class='lparen'>(</span><span class='id identifier rubyid_erc20_contract'>erc20_contract</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>transfer</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='id identifier rubyid_destination'>destination</span><span class='comma'>,</span> <span class='id identifier rubyid_amount'>amount</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_kwargs'>kwargs</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="transfer_erc20_and_wait-instance_method">
+  
+    #<strong>transfer_erc20_and_wait</strong>(erc20_contract, destination, amount, **kwargs)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Transfers a token that implements the ERC20 <code>transfer()</code> interface.</p>
+
+<p>See <span class='object_link'><a href="#transfer_erc20-instance_method" title="Eth::Client#transfer_erc20 (method)">#transfer_erc20</a></span> for params and overloads.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Object</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>returns the result of the transaction.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+191
+192
+193</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 191</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_transfer_erc20_and_wait'>transfer_erc20_and_wait</span><span class='lparen'>(</span><span class='id identifier rubyid_erc20_contract'>erc20_contract</span><span class='comma'>,</span> <span class='id identifier rubyid_destination'>destination</span><span class='comma'>,</span> <span class='id identifier rubyid_amount'>amount</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_kwargs'>kwargs</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_transact_and_wait'>transact_and_wait</span><span class='lparen'>(</span><span class='id identifier rubyid_erc20_contract'>erc20_contract</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>transfer</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='id identifier rubyid_destination'>destination</span><span class='comma'>,</span> <span class='id identifier rubyid_amount'>amount</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_kwargs'>kwargs</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
   <h3 class="signature " id="tx_mined?-instance_method">
   
     #<strong>tx_mined?</strong>(hash)  &#x21d2; <tt>Boolean</tt> 
@@ -3472,13 +3867,13 @@
       <pre class="lines">
 
 
-422
-423
-424
-425</pre>
+455
+456
+457
+458</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 422</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 455</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_tx_mined?'>tx_mined?</span><span class='lparen'>(</span><span class='id identifier rubyid_hash'>hash</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_mined_tx'>mined_tx</span> <span class='op'>=</span> <span class='id identifier rubyid_eth_get_transaction_by_hash'>eth_get_transaction_by_hash</span> <span class='id identifier rubyid_hash'>hash</span>
@@ -3553,13 +3948,13 @@
       <pre class="lines">
 
 
-431
-432
-433
-434</pre>
+464
+465
+466
+467</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 431</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 464</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_tx_succeeded?'>tx_succeeded?</span><span class='lparen'>(</span><span class='id identifier rubyid_hash'>hash</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_tx_receipt'>tx_receipt</span> <span class='op'>=</span> <span class='id identifier rubyid_eth_get_transaction_receipt'>eth_get_transaction_receipt</span><span class='lparen'>(</span><span class='id identifier rubyid_hash'>hash</span><span class='rparen'>)</span>
@@ -3652,19 +4047,19 @@
       <pre class="lines">
 
 
-441
-442
-443
-444
-445
-446
-447
-448
-449
-450</pre>
+474
+475
+476
+477
+478
+479
+480
+481
+482
+483</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 441</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 474</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_wait_for_tx'>wait_for_tx</span><span class='lparen'>(</span><span class='id identifier rubyid_hash'>hash</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_start_time'>start_time</span> <span class='op'>=</span> <span class='const'>Time</span><span class='period'>.</span><span class='id identifier rubyid_now'>now</span>
@@ -3686,7 +4081,7 @@
 </div>
 
       <div id="footer">
-  Generated on Fri Dec 30 16:15:05 2022 by
+  Generated on Mon Jan  2 16:33:12 2023 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.28 (ruby-3.0.5).
 </div>
