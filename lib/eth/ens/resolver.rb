@@ -104,12 +104,16 @@ module Eth
         Util.bin_to_prefixed_hex node
       end
 
-      def normalize(ens_name)
-        name = ens_name.dup
+      # Normalize a string as specified by http://unicode.org/reports/tr46/
+      #
+      # @param input [String] The input string
+      # @return [String] The normalized output string
+      def normalize(input)
+        name = input.dup
         if name.gsub!(/[`~!@#$%^&*()_=+\[\]{}<>,;:'"\/\\|?]/, "").nil?
-          return ens_name.downcase
+          return input.downcase
         else
-          raise ArgumentError, "Provided ENS name contains illegal characters: #{ens_name}"
+          raise ArgumentError, "Provided ENS name contains illegal characters: #{input}"
         end
       end
     end
