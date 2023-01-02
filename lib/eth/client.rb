@@ -130,7 +130,7 @@ module Eth
     # if no sender key is provided.
     #
     # **Note**, that many remote providers (e.g., Infura) do not provide
-    # any accounts. Provide a `sender_key` if you experience issues.
+    # any accounts. Provide a `sender_key:` if you experience issues.
     #
     # @overload transfer(destination, amount)
     #   @param destination [Eth::Address] the destination address.
@@ -183,6 +183,39 @@ module Eth
       end
     end
 
+    # Transfers a token that implements the ERC20 `transfer()` interface.
+    #
+    # See {#transfer_erc20} for params and overloads.
+    #
+    # @return [Object] returns the result of the transaction.
+    def transfer_erc20_and_wait(erc20_contract, destination, amount, **kwargs)
+      transact_and_wait(erc20_contract, "transfer", destination, amount, **kwargs)
+    end
+
+    # Transfers a token that implements the ERC20 `transfer()` interface.
+    #
+    # **Note**, that many remote providers (e.g., Infura) do not provide
+    # any accounts. Provide a `sender_key:` if you experience issues.
+    #
+    # @overload transfer_erc20(erc20_contract, destination, amount)
+    #   @param erc20_contract [Eth::Contract] the ERC20 contract to write to.
+    #   @param destination [Eth::Address] the destination address.
+    #   @param amount [Integer] the transfer amount (mind the `decimals()`).
+    # @overload transfer_erc20(erc20_contract, destination, amount, **kwargs)
+    #   @param erc20_contract [Eth::Contract] the ERC20 contract to write to.
+    #   @param destination [Eth::Address] the destination address.
+    #   @param amount [Integer] the transfer amount (mind the `decimals()`).
+    #   @param **sender_key [Eth::Key] the sender private key.
+    #   @param **legacy [Boolean] enables legacy transactions (pre-EIP-1559).
+    #   @param **gas_limit [Integer] optional gas limit override for deploying the contract.
+    #   @param **nonce [Integer] optional specific nonce for transaction.
+    #   @param **tx_value [Integer] optional transaction value field filling.
+    # @return [Object] returns the result of the transaction.
+    def transfer_erc20(erc20_contract, destination, amount, **kwargs)
+      destination = destination.to_s if destination.instance_of? Eth::Address
+      transact(erc20_contract, "transfer", destination, amount, **kwargs)
+    end
+
     # Deploys a contract and waits for it to be mined. Uses
     # `eth_coinbase` or external signer if no sender key is provided.
     #
@@ -199,7 +232,7 @@ module Eth
     # if no sender key is provided.
     #
     # **Note**, that many remote providers (e.g., Infura) do not provide
-    # any accounts. Provide a `sender_key` if you experience issues.
+    # any accounts. Provide a `sender_key:` if you experience issues.
     #
     # @overload deploy(contract)
     #   @param contract [Eth::Contract] contracts to deploy.
@@ -305,7 +338,7 @@ module Eth
     # contract read/write).
     #
     # **Note**, that many remote providers (e.g., Infura) do not provide
-    # any accounts. Provide a `sender_key` if you experience issues.
+    # any accounts. Provide a `sender_key:` if you experience issues.
     #
     # @overload transact(contract, function)
     #   @param contract [Eth::Contract] the subject contract to write to.

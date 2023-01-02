@@ -23,6 +23,7 @@ A straightforward library to build, sign, and broadcast Ethereum transactions. I
 
 What you get:
 - [x] Secp256k1 Key-Pairs and Encrypted Ethereum Key-Stores (JSON)
+- [x] EIP-20 Token Transfers (ERC20)
 - [x] EIP-55 Checksummed Ethereum Addresses
 - [x] EIP-137 Ethereum Domain Name Service (ENS)
 - [x] EIP-155 Replay protection with Chain IDs (with presets)
@@ -37,7 +38,7 @@ What you get:
 - [x] RLP-Encoder and Decoder (including sedes)
 - [x] RPC-Client (IPC/HTTP) for Execution-Layer APIs
 - [x] Solidity bindings (compile contracts from Ruby)
-- [x] ~~Full~~ Some smart-contract support (deploy, transact, and call)
+- [x] Full smart-contract support (deploy, transact, and call)
 
 ## Installation
 Add this line to your application's Gemfile:
