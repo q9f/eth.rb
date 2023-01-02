@@ -188,11 +188,12 @@ module Eth
     #
     # See {#deploy} for params and overloads.
     #
-    # @return [String] the contract address once it's mined.
+    # @return [Eth::Contract] the contract with deployed address once it's mined.
     def deploy_and_wait(contract, *args, **kwargs)
       hash = wait_for_tx(deploy(contract, *args, **kwargs))
       addr = eth_get_transaction_receipt(hash)["result"]["contractAddress"]
       contract.address = Address.new(addr).to_s
+      return contract
     end
 
     # Deploys a contract. Uses `eth_coinbase` or external signer
