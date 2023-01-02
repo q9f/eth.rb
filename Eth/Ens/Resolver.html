@@ -237,7 +237,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#normalize-instance_method" title="#normalize (instance method)">#<strong>normalize</strong>(ens_name)  &#x21d2; Object </a>
+      <a href="#normalize-instance_method" title="#normalize (instance method)">#<strong>normalize</strong>(input)  &#x21d2; String </a>
     
 
     
@@ -251,7 +251,9 @@
   
 
   
-    <span class="summary_desc"><div class='inline'></div></span>
+    <span class="summary_desc"><div class='inline'>
+<p>Normalize a string as specified by <a href="http://unicode.org/reports/tr46">unicode.org/reports/tr46</a>/.</p>
+</div></span>
   
 </li>
 
@@ -639,36 +641,85 @@
       <div class="method_details ">
   <h3 class="signature " id="normalize-instance_method">
   
-    #<strong>normalize</strong>(ens_name)  &#x21d2; <tt>Object</tt> 
+    #<strong>normalize</strong>(input)  &#x21d2; <tt>String</tt> 
   
 
   
 
   
-</h3><table class="source_code">
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Normalize a string as specified by <a href="http://unicode.org/reports/tr46">unicode.org/reports/tr46</a>/</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>input</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The input string</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The normalized output string</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-107
-108
-109
-110
 111
 112
 113
-114</pre>
+114
+115
+116
+117
+118</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/ens/resolver.rb', line 107</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/ens/resolver.rb', line 111</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_normalize'>normalize</span><span class='lparen'>(</span><span class='id identifier rubyid_ens_name'>ens_name</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_name'>name</span> <span class='op'>=</span> <span class='id identifier rubyid_ens_name'>ens_name</span><span class='period'>.</span><span class='id identifier rubyid_dup'>dup</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_normalize'>normalize</span><span class='lparen'>(</span><span class='id identifier rubyid_input'>input</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_name'>name</span> <span class='op'>=</span> <span class='id identifier rubyid_input'>input</span><span class='period'>.</span><span class='id identifier rubyid_dup'>dup</span>
   <span class='kw'>if</span> <span class='id identifier rubyid_name'>name</span><span class='period'>.</span><span class='id identifier rubyid_gsub!'>gsub!</span><span class='lparen'>(</span><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>[`~!@</span><span class='tstring_content'>#$%^&amp;*()_=+\[\]{}&lt;&gt;,;:&#39;&quot;\/\\|?]</span><span class='regexp_end'>/</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
-    <span class='kw'>return</span> <span class='id identifier rubyid_ens_name'>ens_name</span><span class='period'>.</span><span class='id identifier rubyid_downcase'>downcase</span>
+    <span class='kw'>return</span> <span class='id identifier rubyid_input'>input</span><span class='period'>.</span><span class='id identifier rubyid_downcase'>downcase</span>
   <span class='kw'>else</span>
-    <span class='id identifier rubyid_raise'>raise</span> <span class='const'>ArgumentError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Provided ENS name contains illegal characters: </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_ens_name'>ens_name</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'>ArgumentError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Provided ENS name contains illegal characters: </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_input'>input</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
   <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -1039,7 +1090,7 @@
 </div>
 
       <div id="footer">
-  Generated on Mon Jan  2 16:33:14 2023 by
+  Generated on Mon Jan  2 16:46:01 2023 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.28 (ruby-3.0.5).
 </div>
