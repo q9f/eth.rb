@@ -1,6 +1,22 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## [0.5.10]
+### Added
+* Eth/client: add transfer_erc20 function [#197](https://github.com/q9f/eth.rb/pull/197)
+* Eth/client: add resolve_ens function [#192](https://github.com/q9f/eth.rb/pull/192)
+
+### Changed
+* Eth/ens: restore docs for normalize [#198](https://github.com/q9f/eth.rb/pull/198)
+* Docs: update readme [#195](https://github.com/q9f/eth.rb/pull/195)
+* Eth/contract: ensure address arrays support [#194](https://github.com/q9f/eth.rb/pull/194)
+* Eth/client: do not allow accessing local accounts on remote connections [#193](https://github.com/q9f/eth.rb/pull/193)
+* Eth/client: correctly select functions [#191](https://github.com/q9f/eth.rb/pull/191)
+* Docs: create security policy [#190](https://github.com/q9f/eth.rb/pull/190)
+* Docs: add contribution guidelines [#189](https://github.com/q9f/eth.rb/pull/189)
+* Docs: add coc [#188](https://github.com/q9f/eth.rb/pull/188)
+* Docs: update changelog for 0.5.9 [#187](https://github.com/q9f/eth.rb/pull/187)
+
 ## [0.5.9]
 ### Added
 * Eth/abi: dynamic struct encoding (#135) [#185](https://github.com/q9f/eth.rb/pull/185)
