@@ -188,7 +188,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#send-instance_method" title="#send (instance method)">#<strong>send</strong>(payload)  &#x21d2; String </a>
+      <a href="#send_request-instance_method" title="#send_request (instance method)">#<strong>send_request</strong>(payload)  &#x21d2; String </a>
     
 
     
@@ -336,9 +336,9 @@
 
     
       <div class="method_details first">
-  <h3 class="signature first" id="send-instance_method">
+  <h3 class="signature first" id="send_request-instance_method">
   
-    #<strong>send</strong>(payload)  &#x21d2; <tt>String</tt> 
+    #<strong>send_request</strong>(payload)  &#x21d2; <tt>String</tt> 
   
 
   
@@ -413,7 +413,7 @@
     <td>
       <pre class="code"><span class="info file"># File 'lib/eth/client/ipc.rb', line 39</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_send'>send</span><span class='lparen'>(</span><span class='id identifier rubyid_payload'>payload</span><span class='rparen'>)</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_send_request'>send_request</span><span class='lparen'>(</span><span class='id identifier rubyid_payload'>payload</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_socket'>socket</span> <span class='op'>=</span> <span class='const'>UNIXSocket</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='ivar'>@path</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_socket'>socket</span><span class='period'>.</span><span class='id identifier rubyid_puts'>puts</span><span class='lparen'>(</span><span class='id identifier rubyid_payload'>payload</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_read'>read</span> <span class='op'>=</span> <span class='id identifier rubyid_socket'>socket</span><span class='period'>.</span><span class='id identifier rubyid_recvmsg'>recvmsg</span><span class='lparen'>(</span><span class='kw'>nil</span><span class='rparen'>)</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span>
@@ -433,7 +433,7 @@
 </div>
 
       <div id="footer">
-  Generated on Wed Jan  4 13:38:05 2023 by
+  Generated on Thu Jan  5 10:31:19 2023 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.28 (ruby-3.0.5).
 </div>
