@@ -414,9 +414,7 @@ module Eth
     # Prepares a transaction to be send for the given params.
     def send_transaction(params, legacy, key, nonce)
       if legacy
-        params.merge!({
-          gas_price: max_fee_per_gas,
-        })
+        params.merge!({ gas_price: max_fee_per_gas })
       else
         params.merge!({
           priority_fee: max_priority_fee_per_gas,
