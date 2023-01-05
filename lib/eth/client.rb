@@ -50,12 +50,10 @@ module Eth
     #
     # @param host [String] either an HTTP/S host or an IPC path.
     # @return [Eth::Client::Ipc] an IPC client.
-    # @return [Eth::Client::HttpAuth] an HTTP client with basic authentication.
     # @return [Eth::Client::Http] an HTTP client.
     # @raise [ArgumentError] in case it cannot determine the client type.
     def self.create(host)
       return Client::Ipc.new host if host.end_with? ".ipc"
-      return Client::HttpAuth.new host if Regexp.new(":.*@.*:", Regexp::IGNORECASE).match host
       return Client::Http.new host if host.start_with? "http"
       raise ArgumentError, "Unable to detect client type!"
     end
@@ -149,25 +147,11 @@ module Eth
         gas_limit: gas_limit,
         chain_id: chain_id,
       }
-      if kwargs[:legacy]
-        params.merge!({
-          gas_price: max_fee_per_gas,
-        })
-      else
-        params.merge!({
-          priority_fee: max_priority_fee_per_gas,
-          max_gas_fee: max_fee_per_gas,
-        })
-      end
+      determine_transaction_type(params, kwargs[:legacy])
       unless kwargs[:sender_key].nil?
 
         # use the provided key as sender and signer
-        params.merge!({
-          from: kwargs[:sender_key].address,
-          nonce: kwargs[:nonce] || get_nonce(kwargs[:sender_key].address),
-        })
-        tx = Eth::Tx.new(params)
-        tx.sign kwargs[:sender_key]
+        tx = prepare_raw_transaction(params, kwargs[:sender_key], kwargs[:nonce])
         eth_send_raw_transaction(tx.hex)["result"]
       else
 
@@ -266,24 +250,11 @@ module Eth
         chain_id: chain_id,
         data: data,
       }
-      if kwargs[:legacy]
-        params.merge!({
-          gas_price: max_fee_per_gas,
-        })
-      else
-        params.merge!({
-          priority_fee: max_priority_fee_per_gas,
-          max_gas_fee: max_fee_per_gas,
-        })
-      end
+      determine_transaction_type(params, kwargs[:legacy])
       unless kwargs[:sender_key].nil?
-        # Uses the provided key as sender and signer
-        params.merge!({
-          from: kwargs[:sender_key].address,
-          nonce: kwargs[:nonce] || get_nonce(kwargs[:sender_key].address),
-        })
-        tx = Eth::Tx.new(params)
-        tx.sign kwargs[:sender_key]
+
+        # use the provided key as sender and signer
+        tx = prepare_raw_transaction(params, kwargs[:sender_key], kwargs[:nonce])
         eth_send_raw_transaction(tx.hex)["result"]
       else
 
@@ -372,24 +343,11 @@ module Eth
         to: kwargs[:address] || contract.address,
         data: call_payload(fun, args),
       }
-      if kwargs[:legacy]
-        params.merge!({
-          gas_price: max_fee_per_gas,
-        })
-      else
-        params.merge!({
-          priority_fee: max_priority_fee_per_gas,
-          max_gas_fee: max_fee_per_gas,
-        })
-      end
+      determine_transaction_type(params, kwargs[:legacy])
       unless kwargs[:sender_key].nil?
+
         # use the provided key as sender and signer
-        params.merge!({
-          from: kwargs[:sender_key].address,
-          nonce: kwargs[:nonce] || get_nonce(kwargs[:sender_key].address),
-        })
-        tx = Eth::Tx.new(params)
-        tx.sign kwargs[:sender_key]
+        tx = prepare_raw_transaction(params, kwargs[:sender_key], kwargs[:nonce])
         eth_send_raw_transaction(tx.hex)["result"]
       else
 
@@ -504,6 +462,29 @@ module Eth
       end
     end
 
+    def determine_transaction_type(params, legacy)
+      if legacy
+        params.merge!({
+          gas_price: max_fee_per_gas,
+        })
+      else
+        params.merge!({
+          priority_fee: max_priority_fee_per_gas,
+          max_gas_fee: max_fee_per_gas,
+        })
+      end
+    end
+
+    def prepare_raw_transaction(params, key, nonce)
+      params.merge!({
+        from: key.address,
+        nonce: nonce || get_nonce(key.address),
+      })
+      tx = Eth::Tx.new(params)
+      tx.sign key
+      tx
+    end
+
     # Non-transactional function call called from call().
     # @see https://ethereum.org/en/developers/docs/apis/json-rpc/#eth_call
     def call_raw(contract, func, *args, **kwargs)
@@ -583,5 +564,4 @@ end
 
 # Load the client/* libraries
 require "eth/client/http"
-require "eth/client/http_auth"
 require "eth/client/ipc"
