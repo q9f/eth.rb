@@ -24,7 +24,7 @@ module Eth
     attr_accessor :path
 
     # Constructor for the IPC Client. Should not be used; use
-    # {Client.create} intead.
+    # {Client.create} instead.
     #
     # @param path [String] an URI pointing to an IPC RPC-API.
     def initialize(path)

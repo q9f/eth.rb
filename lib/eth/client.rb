@@ -50,12 +50,10 @@ module Eth
     #
     # @param host [String] either an HTTP/S host or an IPC path.
     # @return [Eth::Client::Ipc] an IPC client.
-    # @return [Eth::Client::HttpAuth] an HTTP client with basic authentication.
     # @return [Eth::Client::Http] an HTTP client.
     # @raise [ArgumentError] in case it cannot determine the client type.
     def self.create(host)
       return Client::Ipc.new host if host.end_with? ".ipc"
-      return Client::HttpAuth.new host if Regexp.new(":.*@.*:", Regexp::IGNORECASE).match host
       return Client::Http.new host if host.start_with? "http"
       raise ArgumentError, "Unable to detect client type!"
     end
@@ -149,38 +147,7 @@ module Eth
         gas_limit: gas_limit,
         chain_id: chain_id,
       }
-      if kwargs[:legacy]
-        params.merge!({
-          gas_price: max_fee_per_gas,
-        })
-      else
-        params.merge!({
-          priority_fee: max_priority_fee_per_gas,
-          max_gas_fee: max_fee_per_gas,
-        })
-      end
-      unless kwargs[:sender_key].nil?
-
-        # use the provided key as sender and signer
-        params.merge!({
-          from: kwargs[:sender_key].address,
-          nonce: kwargs[:nonce] || get_nonce(kwargs[:sender_key].address),
-        })
-        tx = Eth::Tx.new(params)
-        tx.sign kwargs[:sender_key]
-        return eth_send_raw_transaction(tx.hex)["result"]
-      else
-
-        # we do not allow accessing accounts on remote connections
-        raise ArgumentError, "The default account is not available on remote connections, please provide a :sender_key!" unless local?
-
-        # use the default account as sender and external signer
-        params.merge!({
-          from: default_account,
-          nonce: kwargs[:nonce] || get_nonce(default_account),
-        })
-        return eth_send_transaction(params)["result"]
-      end
+      send_transaction(params, kwargs[:legacy], kwargs[:sender_key], kwargs[:nonce])
     end
 
     # Transfers a token that implements the ERC20 `transfer()` interface.
@@ -266,37 +233,7 @@ module Eth
         chain_id: chain_id,
         data: data,
       }
-      if kwargs[:legacy]
-        params.merge!({
-          gas_price: max_fee_per_gas,
-        })
-      else
-        params.merge!({
-          priority_fee: max_priority_fee_per_gas,
-          max_gas_fee: max_fee_per_gas,
-        })
-      end
-      unless kwargs[:sender_key].nil?
-        # Uses the provided key as sender and signer
-        params.merge!({
-          from: kwargs[:sender_key].address,
-          nonce: kwargs[:nonce] || get_nonce(kwargs[:sender_key].address),
-        })
-        tx = Eth::Tx.new(params)
-        tx.sign kwargs[:sender_key]
-        return eth_send_raw_transaction(tx.hex)["result"]
-      else
-
-        # Does not allow accessing accounts on remote connections
-        raise ArgumentError, "The default account is not available on remote connections, please provide a :sender_key!" unless local?
-
-        # Uses the default account as sender and external signer
-        params.merge!({
-          from: default_account,
-          nonce: kwargs[:nonce] || get_nonce(default_account),
-        })
-        return eth_send_transaction(params)["result"]
-      end
+      send_transaction(params, kwargs[:legacy], kwargs[:sender_key], kwargs[:nonce])
     end
 
     # Calls a contract function without executing it
@@ -328,9 +265,9 @@ module Eth
       end
       output = call_raw(contract, selected_func, *args, **kwargs)
       if output&.length == 1
-        return output[0]
+        output[0]
       else
-        return output
+        output
       end
     end
 
@@ -372,37 +309,7 @@ module Eth
         to: kwargs[:address] || contract.address,
         data: call_payload(fun, args),
       }
-      if kwargs[:legacy]
-        params.merge!({
-          gas_price: max_fee_per_gas,
-        })
-      else
-        params.merge!({
-          priority_fee: max_priority_fee_per_gas,
-          max_gas_fee: max_fee_per_gas,
-        })
-      end
-      unless kwargs[:sender_key].nil?
-        # use the provided key as sender and signer
-        params.merge!({
-          from: kwargs[:sender_key].address,
-          nonce: kwargs[:nonce] || get_nonce(kwargs[:sender_key].address),
-        })
-        tx = Eth::Tx.new(params)
-        tx.sign kwargs[:sender_key]
-        return eth_send_raw_transaction(tx.hex)["result"]
-      else
-
-        # do not allow accessing accounts on remote connections
-        raise ArgumentError, "The default account is not available on remote connections, please provide a :sender_key!" unless local?
-
-        # use the default account as sender and external signer
-        params.merge!({
-          from: default_account,
-          nonce: kwargs[:nonce] || get_nonce(default_account),
-        })
-        return eth_send_transaction(params)["result"]
-      end
+      send_transaction(params, kwargs[:legacy], kwargs[:sender_key], kwargs[:nonce])
     end
 
     # Executes a contract function with a transaction and waits for it
@@ -437,7 +344,7 @@ module Eth
       signature = Util.hex_to_bin signature if Util.hex? signature
       magic = Util.hex_to_bin magic if Util.hex? magic
       result = call(contract, "isValidSignature", hash, signature)
-      return result === magic
+      result === magic
     end
 
     # Gives control over resetting the RPC request ID back to zero.
@@ -496,11 +403,45 @@ module Eth
     # Allows to determine if we work with a local connectoin
     def local?
       if self.instance_of? Eth::Client::Ipc
-        return true
+        true
       elsif self.host === "127.0.0.1" || self.host === "localhost"
-        return true
+        true
       else
-        return false
+        false
+      end
+    end
+
+    # Prepares a transaction to be send for the given params.
+    def send_transaction(params, legacy, key, nonce)
+      if legacy
+        params.merge!({ gas_price: max_fee_per_gas })
+      else
+        params.merge!({
+          priority_fee: max_priority_fee_per_gas,
+          max_gas_fee: max_fee_per_gas,
+        })
+      end
+      unless key.nil?
+
+        # use the provided key as sender and signer
+        params.merge!({
+          from: key.address,
+          nonce: nonce || get_nonce(key.address),
+        })
+        tx = Eth::Tx.new(params)
+        tx.sign key
+        eth_send_raw_transaction(tx.hex)["result"]
+      else
+
+        # do not allow accessing accounts on remote connections
+        raise ArgumentError, "The default account is not available on remote connections, please provide a :sender_key!" unless local?
+
+        # use the default account as sender and external signer
+        params.merge!({
+          from: default_account,
+          nonce: nonce || get_nonce(default_account),
+        })
+        eth_send_transaction(params)["result"]
       end
     end
 
@@ -543,7 +484,7 @@ module Eth
       }
       output = JSON.parse(send_request(payload.to_json))
       raise IOError, output["error"]["message"] unless output["error"].nil?
-      return output
+      output
     end
 
     # Increments the request id.
@@ -564,18 +505,18 @@ module Eth
     def marshal(params)
       params = params.dup
       if params.is_a? Array
-        return params.map! { |param| marshal(param) }
+        params.map! { |param| marshal(param) }
       elsif params.is_a? Hash
         params = camelize!(params)
-        return params.transform_values! { |param| marshal(param) }
+        params.transform_values! { |param| marshal(param) }
       elsif params.is_a? Numeric
-        return Util.prefix_hex "#{params.to_i.to_s(16)}"
+        Util.prefix_hex "#{params.to_i.to_s(16)}"
       elsif params.is_a? Address
-        return params.to_s
+        params.to_s
       elsif Util.hex? params
-        return Util.prefix_hex params
+        Util.prefix_hex params
       else
-        return params
+        params
       end
     end
   end
@@ -583,5 +524,4 @@ end
 
 # Load the client/* libraries
 require "eth/client/http"
-require "eth/client/http_auth"
 require "eth/client/ipc"

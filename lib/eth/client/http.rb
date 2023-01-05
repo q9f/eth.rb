@@ -17,7 +17,7 @@ require "net/http"
 # Provides the {Eth} module.
 module Eth
 
-  # Provides an HTTP/S-RPC client.
+  # Provides an HTTP/S-RPC client with basic authentication.
   class Client::Http < Client
 
     # The host of the HTTP endpoint.
@@ -32,8 +32,11 @@ module Eth
     # Attribute indicator for SSL.
     attr_reader :ssl
 
+    # Attribute for user.
+    attr_reader :user
+
     # Constructor for the HTTP Client. Should not be used; use
-    # {Client.create} intead.
+    # {Client.create} instead.
     #
     # @param host [String] an URI pointing to an HTTP RPC-API.
     def initialize(host)
@@ -43,7 +46,13 @@ module Eth
       @host = uri.host
       @port = uri.port
       @ssl = uri.scheme == "https"
-      @uri = URI("#{uri.scheme}://#{@host}:#{@port}#{uri.path}")
+      if Regexp.new(":.*@.*:", Regexp::IGNORECASE).match host
+        @user = uri.user
+        @password = uri.password
+        @uri = URI("#{uri.scheme}://#{uri.user}:#{uri.password}@#{@host}:#{@port}#{uri.path}")
+      else
+        @uri = URI("#{uri.scheme}://#{@host}:#{@port}#{uri.path}")
+      end
     end
 
     # Sends an RPC request to the connected HTTP client.
@@ -60,4 +69,9 @@ module Eth
       response.body
     end
   end
+
+  private
+
+  # Attribute for password.
+  attr_reader :password
 end
