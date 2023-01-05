@@ -168,7 +168,7 @@ module Eth
         })
         tx = Eth::Tx.new(params)
         tx.sign kwargs[:sender_key]
-        return eth_send_raw_transaction(tx.hex)["result"]
+        eth_send_raw_transaction(tx.hex)["result"]
       else
 
         # we do not allow accessing accounts on remote connections
@@ -179,7 +179,7 @@ module Eth
           from: default_account,
           nonce: kwargs[:nonce] || get_nonce(default_account),
         })
-        return eth_send_transaction(params)["result"]
+        eth_send_transaction(params)["result"]
       end
     end
 
@@ -284,7 +284,7 @@ module Eth
         })
         tx = Eth::Tx.new(params)
         tx.sign kwargs[:sender_key]
-        return eth_send_raw_transaction(tx.hex)["result"]
+        eth_send_raw_transaction(tx.hex)["result"]
       else
 
         # Does not allow accessing accounts on remote connections
@@ -295,7 +295,7 @@ module Eth
           from: default_account,
           nonce: kwargs[:nonce] || get_nonce(default_account),
         })
-        return eth_send_transaction(params)["result"]
+        eth_send_transaction(params)["result"]
       end
     end
 
@@ -328,9 +328,9 @@ module Eth
       end
       output = call_raw(contract, selected_func, *args, **kwargs)
       if output&.length == 1
-        return output[0]
+        output[0]
       else
-        return output
+        output
       end
     end
 
@@ -390,7 +390,7 @@ module Eth
         })
         tx = Eth::Tx.new(params)
         tx.sign kwargs[:sender_key]
-        return eth_send_raw_transaction(tx.hex)["result"]
+        eth_send_raw_transaction(tx.hex)["result"]
       else
 
         # do not allow accessing accounts on remote connections
@@ -401,7 +401,7 @@ module Eth
           from: default_account,
           nonce: kwargs[:nonce] || get_nonce(default_account),
         })
-        return eth_send_transaction(params)["result"]
+        eth_send_transaction(params)["result"]
       end
     end
 
@@ -437,7 +437,7 @@ module Eth
       signature = Util.hex_to_bin signature if Util.hex? signature
       magic = Util.hex_to_bin magic if Util.hex? magic
       result = call(contract, "isValidSignature", hash, signature)
-      return result === magic
+      result === magic
     end
 
     # Gives control over resetting the RPC request ID back to zero.
@@ -496,11 +496,11 @@ module Eth
     # Allows to determine if we work with a local connectoin
     def local?
       if self.instance_of? Eth::Client::Ipc
-        return true
+        true
       elsif self.host === "127.0.0.1" || self.host === "localhost"
-        return true
+        true
       else
-        return false
+        false
       end
     end
 
@@ -543,7 +543,7 @@ module Eth
       }
       output = JSON.parse(send_request(payload.to_json))
       raise IOError, output["error"]["message"] unless output["error"].nil?
-      return output
+      output
     end
 
     # Increments the request id.
@@ -564,18 +564,18 @@ module Eth
     def marshal(params)
       params = params.dup
       if params.is_a? Array
-        return params.map! { |param| marshal(param) }
+        params.map! { |param| marshal(param) }
       elsif params.is_a? Hash
         params = camelize!(params)
-        return params.transform_values! { |param| marshal(param) }
+        params.transform_values! { |param| marshal(param) }
       elsif params.is_a? Numeric
-        return Util.prefix_hex "#{params.to_i.to_s(16)}"
+        Util.prefix_hex "#{params.to_i.to_s(16)}"
       elsif params.is_a? Address
-        return params.to_s
+        params.to_s
       elsif Util.hex? params
-        return Util.prefix_hex params
+        Util.prefix_hex params
       else
-        return params
+        params
       end
     end
   end
