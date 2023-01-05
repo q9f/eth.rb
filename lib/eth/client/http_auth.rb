@@ -55,7 +55,7 @@ module Eth
     #
     # @param payload [Hash] the RPC request parameters.
     # @return [String] a JSON-encoded response.
-    def send(payload)
+    def send_request(payload)
       http = Net::HTTP.new(@host, @port)
       http.use_ssl = @ssl
       header = { "Content-Type" => "application/json" }

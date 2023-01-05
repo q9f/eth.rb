@@ -541,7 +541,7 @@ module Eth
         params: marshal(args),
         id: next_id,
       }
-      output = JSON.parse(send(payload.to_json))
+      output = JSON.parse(send_request(payload.to_json))
       raise IOError, output["error"]["message"] unless output["error"].nil?
       return output
     end
