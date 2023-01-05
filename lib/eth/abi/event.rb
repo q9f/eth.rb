@@ -29,8 +29,19 @@ module Eth
       # @param interface [Hash] ABI event interface.
       # @return [String] a hex-string topic.
       def compute_topic(interface)
-        sig = Abi.signature(interface)
+        sig = signature(interface)
         Util.prefix_hex(Util.bin_to_hex(Util.keccak256(sig)))
+      end
+
+      # Build event signature string from ABI interface.
+      #
+      # @param interface [Hash] ABI event interface.
+      # @return [String] interface signature string.
+      def signature(interface)
+        name = interface.fetch("name")
+        inputs = interface.fetch("inputs", [])
+        types = inputs.map { |i| i.fetch("type") }
+        "#{name}(#{types.join(",")})"
       end
 
       # A decoded event log.
@@ -70,7 +81,7 @@ module Eth
 
         # The event signature. (e.g. Transfer(address,address,uint256))
         def signature
-          @signature ||= Abi.signature(event_interface)
+          @signature ||= Abi::Event.signature(event_interface)
         end
       end
 

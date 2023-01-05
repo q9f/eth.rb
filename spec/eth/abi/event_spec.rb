@@ -48,7 +48,7 @@ describe Abi::Event do
         "transactionIndex" => "0x8c",
       }
 
-      args, kwargs = Eth::Abi::Event.decode_log(interface["inputs"], log["data"], log["topics"])
+      args, kwargs = Abi::Event.decode_log(interface["inputs"], log["data"], log["topics"])
 
       expect(args[0]).to eq "0x71660c4005ba85c37ccec55d0c4493e66fe775d3"
       expect(args[1]).to eq "0x639671019ddd8ec28d35113d8d1c5f1bbfd7e0be"
@@ -78,7 +78,7 @@ describe Abi::Event do
         "transactionIndex" => "0x78",
       }
 
-      args, kwargs = Eth::Abi::Event.decode_log(interface["inputs"], log["data"], log["topics"])
+      args, kwargs = Abi::Event.decode_log(interface["inputs"], log["data"], log["topics"])
 
       expect(args[0]).to eq "0x7f8c1877ed0da352f78be4fe4cda58bb804a30df"
       expect(args[1]).to eq "0x68b3465833fb72a70ecdf485e0e4c7bd8665fc45"
@@ -116,7 +116,7 @@ describe Abi::Event do
         "transactionIndex" => "0x3f",
       }
 
-      args, kwargs = Eth::Abi::Event.decode_log(interface["inputs"], log["data"], log["topics"])
+      args, kwargs = Abi::Event.decode_log(interface["inputs"], log["data"], log["topics"])
 
       expect(args[0]).to eq "0xd7dd052ff73d9177f884592814f844a7788787d1"
       expect(args[1]).to eq "0xd7dd052ff73d9177f884592814f844a7788787d1"
@@ -156,7 +156,7 @@ describe Abi::Event do
       "0x000000000000000000000000639671019ddd8ec28d35113d8d1c5f1bbfd7e0be",
     ]
 
-    args, kwargs = Eth::Abi::Event.decode_log(interface["inputs"], data, topics, true)
+    args, kwargs = Abi::Event.decode_log(interface["inputs"], data, topics, true)
 
     expect(args[0]).to eq "0x71660c4005ba85c37ccec55d0c4493e66fe775d3"
     expect(args[1]).to eq "0x639671019ddd8ec28d35113d8d1c5f1bbfd7e0be"
@@ -211,7 +211,7 @@ describe Abi::Event do
         },
       ]
 
-      results = Eth::Abi::Event.decode_logs(erc20_abi, logs).to_a
+      results = Abi::Event.decode_logs(erc20_abi, logs).to_a
 
       log, decoded_log = results[0]
       expect(log).to eq logs[0]
@@ -234,6 +234,23 @@ describe Abi::Event do
       log, decoded_log = results[2]
       expect(log).to eq logs[2]
       expect(decoded_log).to eq nil
+    end
+  end
+
+  let(:erc20_abi_file) { File.read "spec/fixtures/abi/ERC20.json" }
+  subject(:erc20_abi) { JSON.parse erc20_abi_file }
+
+  describe ".signature" do
+    it "generates Transfer event signature" do
+      abi = erc20_abi.find { |i| i["type"] == "event" && i["name"] == "Transfer" }
+      signature = Abi::Event.signature(abi)
+      expect(signature).to eq "Transfer(address,address,uint256)"
+    end
+
+    it "generates transfer function signature" do
+      abi = erc20_abi.find { |i| i["type"] == "function" && i["name"] == "transfer" }
+      signature = Abi::Event.signature(abi)
+      expect(signature).to eq "transfer(address,uint256)"
     end
   end
 end
