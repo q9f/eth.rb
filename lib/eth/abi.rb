@@ -64,7 +64,7 @@ module Eth
       end
 
       # return the encoded ABI blob
-      return "#{head}#{tail}"
+      "#{head}#{tail}"
     end
 
     # Encodes a specific value, either static or dynamic.
@@ -80,7 +80,7 @@ module Eth
         # encodes strings and bytes
         size = encode_type Type.size_type, arg.size
         padding = Constant::BYTE_ZERO * (Util.ceil32(arg.size) - arg.size)
-        return "#{size}#{arg}#{padding}"
+        "#{size}#{arg}#{padding}"
       elsif type.base_type == "tuple" && type.dimensions.size == 1 && type.dimensions[0] != 0
         result = ""
         result += encode_struct_offsets(type.nested_sub, arg)
@@ -115,16 +115,16 @@ module Eth
         arg.size.times do |i|
           head += encode_type nested_sub, arg[i]
         end
-        return "#{head}#{tail}"
+        "#{head}#{tail}"
       else
         if type.dimensions.empty?
 
           # encode a primitive type
-          return encode_primitive_type type, arg
+          encode_primitive_type type, arg
         else
 
           # encode static-size arrays
-          return arg.map { |x| encode_type(type.nested_sub, x) }.join
+          arg.map { |x| encode_type(type.nested_sub, x) }.join
         end
       end
     end
@@ -140,23 +140,23 @@ module Eth
     def encode_primitive_type(type, arg)
       case type.base_type
       when "uint"
-        return encode_uint arg, type
+        encode_uint arg, type
       when "bool"
-        return encode_bool arg
+        encode_bool arg
       when "int"
-        return encode_int arg, type
+        encode_int arg, type
       when "ureal", "ufixed"
-        return encode_ufixed arg, type
+        encode_ufixed arg, type
       when "real", "fixed"
-        return encode_fixed arg, type
+        encode_fixed arg, type
       when "string", "bytes"
-        return encode_bytes arg, type
+        encode_bytes arg, type
       when "tuple"
-        return encode_tuple arg, type
+        encode_tuple arg, type
       when "hash"
-        return encode_hash arg, type
+        encode_hash arg, type
       when "address"
-        return encode_address arg
+        encode_address arg
       else
         raise EncodingError, "Unhandled type: #{type.base_type} #{type.sub_type}"
       end
@@ -216,7 +216,7 @@ module Eth
       end
 
       # return the decoded ABI types and data
-      return parsed_types.zip(outputs).map { |(type, out)| decode_type(type, out) }
+      parsed_types.zip(outputs).map { |(type, out)| decode_type(type, out) }
     end
 
     # Decodes a specific value, either static or dynamic.
@@ -232,7 +232,7 @@ module Eth
         raise DecodingError, "Wrong data size for string/bytes object" unless data.size == Util.ceil32(l)
 
         # decoded strings and bytes
-        return data[0, l]
+        data[0, l]
       elsif type.dynamic?
         l = Util.deserialize_big_endian_to_int arg[0, 32]
         nested_sub = type.nested_sub
@@ -241,17 +241,17 @@ module Eth
         raise NotImplementedError, "Decoding dynamic arrays with nested dynamic sub-types is not implemented for ABI." if nested_sub.dynamic?
 
         # decoded dynamic-sized arrays
-        return (0...l).map { |i| decode_type(nested_sub, arg[32 + nested_sub.size * i, nested_sub.size]) }
+        (0...l).map { |i| decode_type(nested_sub, arg[32 + nested_sub.size * i, nested_sub.size]) }
       elsif !type.dimensions.empty?
         l = type.dimensions.last[0]
         nested_sub = type.nested_sub
 
         # decoded static-size arrays
-        return (0...l).map { |i| decode_type(nested_sub, arg[nested_sub.size * i, nested_sub.size]) }
+        (0...l).map { |i| decode_type(nested_sub, arg[nested_sub.size * i, nested_sub.size]) }
       else
 
         # decoded primitive types
-        return decode_primitive_type type, arg
+        decode_primitive_type type, arg
       end
     end
 
@@ -266,48 +266,48 @@ module Eth
       when "address"
 
         # decoded address with 0x-prefix
-        return "0x#{Util.bin_to_hex data[12..-1]}"
+        "0x#{Util.bin_to_hex data[12..-1]}"
       when "string", "bytes"
         if type.sub_type.empty?
           size = Util.deserialize_big_endian_to_int data[0, 32]
 
           # decoded dynamic-sized array
-          return data[32..-1][0, size]
+          data[32..-1][0, size]
         else
 
           # decoded static-sized array
-          return data[0, type.sub_type.to_i]
+          data[0, type.sub_type.to_i]
         end
       when "hash"
 
         # decoded hash
-        return data[(32 - type.sub_type.to_i), type.sub_type.to_i]
+        data[(32 - type.sub_type.to_i), type.sub_type.to_i]
       when "uint"
 
         # decoded unsigned integer
-        return Util.deserialize_big_endian_to_int data
+        Util.deserialize_big_endian_to_int data
       when "int"
         u = Util.deserialize_big_endian_to_int data
         i = u >= 2 ** (type.sub_type.to_i - 1) ? (u - 2 ** type.sub_type.to_i) : u
 
         # decoded integer
-        return i
+        i
       when "ureal", "ufixed"
         high, low = type.sub_type.split("x").map(&:to_i)
 
         # decoded unsigned fixed point numeric
-        return Util.deserialize_big_endian_to_int(data) * 1.0 / 2 ** low
+        Util.deserialize_big_endian_to_int(data) * 1.0 / 2 ** low
       when "real", "fixed"
         high, low = type.sub_type.split("x").map(&:to_i)
         u = Util.deserialize_big_endian_to_int data
         i = u >= 2 ** (high + low - 1) ? (u - 2 ** (high + low)) : u
 
         # decoded fixed point numeric
-        return i * 1.0 / 2 ** low
+        i * 1.0 / 2 ** low
       when "bool"
 
         # decoded boolean
-        return data[-1] == Constant::BYTE_ONE
+        data[-1] == Constant::BYTE_ONE
       else
         raise DecodingError, "Unknown primitive type: #{type.base_type}"
       end
@@ -333,7 +333,7 @@ module Eth
       real_size = type.sub_type.to_i
       i = arg.to_i
       raise ValueOutOfBounds, arg unless i >= 0 and i < 2 ** real_size
-      return Util.zpad_int i
+      Util.zpad_int i
     end
 
     # Properly encodes signed integers.
@@ -343,13 +343,13 @@ module Eth
       real_size = type.sub_type.to_i
       i = arg.to_i
       raise ValueOutOfBounds, arg unless i >= -2 ** (real_size - 1) and i < 2 ** (real_size - 1)
-      return Util.zpad_int(i % 2 ** type.sub_type.to_i)
+      Util.zpad_int(i % 2 ** type.sub_type.to_i)
     end
 
     # Properly encodes booleans.
     def encode_bool(arg)
       raise EncodingError, "Argument is not bool: #{arg}" unless arg.instance_of? TrueClass or arg.instance_of? FalseClass
-      return Util.zpad_int(arg ? 1 : 0)
+      Util.zpad_int(arg ? 1 : 0)
     end
 
     # Properly encodes unsigned fixed-point numbers.
@@ -357,7 +357,7 @@ module Eth
       raise ArgumentError, "Don't know how to handle this input." unless arg.is_a? Numeric
       high, low = type.sub_type.split("x").map(&:to_i)
       raise ValueOutOfBounds, arg unless arg >= 0 and arg < 2 ** high
-      return Util.zpad_int((arg * 2 ** low).to_i)
+      Util.zpad_int((arg * 2 ** low).to_i)
     end
 
     # Properly encodes signed fixed-point numbers.
@@ -366,7 +366,7 @@ module Eth
       high, low = type.sub_type.split("x").map(&:to_i)
       raise ValueOutOfBounds, arg unless arg >= -2 ** (high - 1) and arg < 2 ** (high - 1)
       i = (arg * 2 ** low).to_i
-      return Util.zpad_int(i % 2 ** (high + low))
+      Util.zpad_int(i % 2 ** (high + low))
     end
 
     # Properly encodes byte-strings.
@@ -379,13 +379,13 @@ module Eth
         padding = Constant::BYTE_ZERO * (Util.ceil32(arg.size) - arg.size)
 
         # variable length string/bytes
-        return "#{size}#{arg}#{padding}"
+        "#{size}#{arg}#{padding}"
       else
         raise ValueOutOfBounds, arg unless arg.size <= type.sub_type.to_i
         padding = Constant::BYTE_ZERO * (32 - arg.size)
 
         # fixed length string/bytes
-        return "#{arg}#{padding}"
+        "#{arg}#{padding}"
       end
     end
 
@@ -446,15 +446,15 @@ module Eth
       if arg.is_a? Integer
 
         # hash from integer
-        return Util.zpad_int arg
+        Util.zpad_int arg
       elsif arg.size == size
 
         # hash from encoded hash
-        return Util.zpad arg, 32
+        Util.zpad arg, 32
       elsif arg.size == size * 2
 
         # hash from hexa-decimal hash
-        return Util.zpad_hex arg
+        Util.zpad_hex arg
       else
         raise EncodingError, "Could not parse hash: #{arg}"
       end
@@ -465,19 +465,19 @@ module Eth
       if arg.is_a? Integer
 
         # address from integer
-        return Util.zpad_int arg
+        Util.zpad_int arg
       elsif arg.size == 20
 
         # address from encoded address
-        return Util.zpad arg, 32
+        Util.zpad arg, 32
       elsif arg.size == 40
 
         # address from hexa-decimal address with 0x prefix
-        return Util.zpad_hex arg
+        Util.zpad_hex arg
       elsif arg.size == 42 and arg[0, 2] == "0x"
 
         # address from hexa-decimal address
-        return Util.zpad_hex arg[2..-1]
+        Util.zpad_hex arg[2..-1]
       else
         raise EncodingError, "Could not parse address: #{arg}"
       end
@@ -493,11 +493,11 @@ module Eth
         # in Ruby. Therefore, we assume a `0x` prefix to indicate a hex string.
         # Additionally, if the string size is exactly the double of the expected
         # binary size, we can assume a hex value.
-        return Util.hex_to_bin arg
+        Util.hex_to_bin arg
       else
 
         # Everything else will be assumed binary or raw string.
-        return arg.b
+        arg.b
       end
     end
   end
