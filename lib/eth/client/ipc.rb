@@ -36,7 +36,7 @@ module Eth
     #
     # @param payload [Hash] the RPC request parameters.
     # @return [String] a JSON-encoded response.
-    def send(payload)
+    def send_request(payload)
       socket = UNIXSocket.new(@path)
       socket.puts(payload)
       read = socket.recvmsg(nil)[0]
