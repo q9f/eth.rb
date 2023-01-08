@@ -21,6 +21,9 @@ describe Util do
       address = "0x8ABC566c5198bc6993526DB697FFe58ce4e2425A"
       public_hex = "0463a1ad6824c03f81ad6c9c224384172c67f6bfd2dbde8c4747a033629b531ae3284db3045e4e40c2b865e22a806ae7dff9264299ea8696321f689d6e134d937e"
       expect(Util.public_key_to_address(public_hex).to_s).to eq address
+
+      public_hex_compressed = "0263a1ad6824c03f81ad6c9c224384172c67f6bfd2dbde8c4747a033629b531ae3"
+      expect(Util.public_key_to_address(public_hex_compressed).to_s).to eq address
     end
   end
 
