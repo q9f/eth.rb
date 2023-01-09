@@ -28,6 +28,7 @@ module Eth
     # @return [Eth::Address] an Ethereum address.
     def public_key_to_address(str)
       str = hex_to_bin str if hex? str
+      str = Secp256k1::PublicKey.from_data(str).uncompressed
       bytes = keccak256(str[1..-1])[-20..-1]
       Address.new bin_to_prefixed_hex bytes
     end
