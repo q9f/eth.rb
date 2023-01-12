@@ -32,12 +32,25 @@ module Eth
       # @raise [DecodingError] if decoding fails for type.
       def type(type, arg)
         if %w(string bytes).include?(type.base_type) and type.sub_type.empty?
-          l = Util.deserialize_big_endian_to_int arg[0, 32]
-          data = arg[32..-1]
-          raise DecodingError, "Wrong data size for string/bytes object" unless data.size == Util.ceil32(l)
+          # Case: decoding a string/bytes
+          if type.dimensions.empty?
+            l = Util.deserialize_big_endian_to_int arg[0, 32]
+            data = arg[32..-1]
+            raise DecodingError, "Wrong data size for string/bytes object" unless data.size == Util.ceil32(l)
 
-          # decoded strings and bytes
-          data[0, l]
+            # decoded strings and bytes
+            data[0, l]
+          # Case: decoding array of string/bytes
+          else
+            l = Util.deserialize_big_endian_to_int arg[0, 32]
+
+            # Decode each element of the array
+            (1..l).map do |i|
+              pointer = Util.deserialize_big_endian_to_int arg[i * 32, 32] # Pointer to the size of the array's element
+              data_l = Util.deserialize_big_endian_to_int arg[32 + pointer, 32] # length of the element
+              type(Type.parse(type.base_type), arg[pointer + 32, Util.ceil32(data_l) + 32])
+            end
+          end
         elsif type.dynamic?
           l = Util.deserialize_big_endian_to_int arg[0, 32]
           nested_sub = type.nested_sub
