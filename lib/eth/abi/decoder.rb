@@ -61,7 +61,7 @@ module Eth
           # decoded dynamic-sized arrays
           (0...l).map { |i| type(nested_sub, arg[32 + nested_sub.size * i, nested_sub.size]) }
         elsif !type.dimensions.empty?
-          l = type.dimensions.last[0]
+          l = type.dimensions.first
           nested_sub = type.nested_sub
 
           # decoded static-size arrays

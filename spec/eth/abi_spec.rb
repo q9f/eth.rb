@@ -228,7 +228,11 @@ describe Abi do
 
       nested_types = [
         "bool[]",
+        "bool[2]",
         "address[]",
+        "address[2]",
+        "address[1][]",
+        "address[2][2]",
         "bytes32[]",
         "bytes[]",
         "bytes[2]",
@@ -241,9 +245,31 @@ describe Abi do
           false,
         ],
         [
-          "0x84ad87d794f867befc597ebae4200b607d0cd9bd",
-          "0xb8425e726762a40057a027a0cb7226b9fe6d7e9a",
-          "0xcf960c64b6bb464f30aa2e5a245176438b046e58",
+          false,
+          true,
+        ],
+        [
+          "0x100087d794f867befc597ebae4200b607d0cd9bd",
+          "0x20005e726762a40057a027a0cb7226b9fe6d7e9a",
+          "0x30000c64b6bb464f30aa2e5a245176438b046e58",
+        ],
+        [
+          "0x100087d794f867befc597ebae4200b607d0cd9bd",
+          "0x20005e726762a40057a027a0cb7226b9fe6d7e9a",
+        ],
+        [
+          [
+            "0x30000c64b6bb464f30aa2e5a245176438b046e58",
+          ],
+        ],
+        [
+          [
+            "0x400087d794f867befc597ebae4200b607d0cd9bd",
+            "0x50005e726762a40057a027a0cb7226b9fe6d7e9a",
+          ],
+          [
+            "0x600087d794f867befc597ebae4200b607d0cd9bd",
+            "0x70005e726762a40057a027a0cb7226b9fe6d7e9a",]
         ],
         [
           "\x13\xAE^]b\xD2\xDAD^\x05\b\e\xA8\xD5\x1DK\xBFO\xC7\xDA-ev!\xA1\xABxZ\xA2\x1CE\xEF",
