@@ -555,6 +555,54 @@
         </dt>
         <dd><pre class="code"><span class='int'>1337</span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
       
+        <dt id="MOONBASE-constant" class="">MOONBASE =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>Chain ID for Moonbase</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='int'>1287</span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="MOONRIVER-constant" class="">MOONRIVER =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>Chain ID for Moonriver</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='int'>1285</span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+        <dt id="MOONBEAM-constant" class="">MOONBEAM =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>Chain ID for Moonbeam</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='int'>1284</span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
     </dl>
   
 
@@ -894,12 +942,12 @@
       <pre class="lines">
 
 
-112
-113
-114</pre>
+121
+122
+123</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/chain.rb', line 112</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/chain.rb', line 121</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_ledger?'>ledger?</span><span class='lparen'>(</span><span class='id identifier rubyid_v'>v</span><span class='rparen'>)</span>
   <span class='lbracket'>[</span><span class='int'>0</span><span class='comma'>,</span> <span class='int'>1</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='id identifier rubyid_v'>v</span>
@@ -973,12 +1021,12 @@
       <pre class="lines">
 
 
-121
-122
-123</pre>
+130
+131
+132</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/chain.rb', line 121</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/chain.rb', line 130</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_legacy?'>legacy?</span><span class='lparen'>(</span><span class='id identifier rubyid_v'>v</span><span class='rparen'>)</span>
   <span class='lbracket'>[</span><span class='int'>27</span><span class='comma'>,</span> <span class='int'>28</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='id identifier rubyid_v'>v</span>
@@ -1052,15 +1100,15 @@
       <pre class="lines">
 
 
-171
-172
-173
-174
-175
-176</pre>
+180
+181
+182
+183
+184
+185</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/chain.rb', line 171</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/chain.rb', line 180</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_to_chain_id'>to_chain_id</span><span class='lparen'>(</span><span class='id identifier rubyid_v'>v</span><span class='rparen'>)</span>
   <span class='kw'>return</span> <span class='kw'>nil</span> <span class='kw'>if</span> <span class='id identifier rubyid_v'>v</span> <span class='op'>&lt;</span> <span class='int'>36</span>
@@ -1173,15 +1221,6 @@
       <pre class="lines">
 
 
-132
-133
-134
-135
-136
-137
-138
-139
-140
 141
 142
 143
@@ -1191,10 +1230,19 @@
 147
 148
 149
-150</pre>
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/chain.rb', line 132</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/chain.rb', line 141</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_to_recovery_id'>to_recovery_id</span><span class='lparen'>(</span><span class='id identifier rubyid_v'>v</span><span class='comma'>,</span> <span class='id identifier rubyid_chain_id'>chain_id</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="#ETHEREUM-constant" title="Eth::Chain::ETHEREUM (constant)">ETHEREUM</a></span></span><span class='rparen'>)</span>
   <span class='id identifier rubyid_e'>e</span> <span class='op'>=</span> <span class='int'>0</span> <span class='op'>+</span> <span class='int'>2</span> <span class='op'>*</span> <span class='id identifier rubyid_chain_id'>chain_id</span> <span class='op'>+</span> <span class='int'>35</span>
@@ -1302,17 +1350,17 @@
       <pre class="lines">
 
 
-157
-158
-159
-160
-161
-162
-163
-164</pre>
+166
+167
+168
+169
+170
+171
+172
+173</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/chain.rb', line 157</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/chain.rb', line 166</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_to_v'>to_v</span><span class='lparen'>(</span><span class='id identifier rubyid_recovery_id'>recovery_id</span><span class='comma'>,</span> <span class='id identifier rubyid_chain_id'>chain_id</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rparen'>)</span>
   <span class='kw'>if</span> <span class='id identifier rubyid_chain_id'>chain_id</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='kw'>or</span> <span class='id identifier rubyid_chain_id'>chain_id</span> <span class='op'>&lt;</span> <span class='int'>1</span>
@@ -1397,12 +1445,12 @@
       <pre class="lines">
 
 
-112
-113
-114</pre>
+121
+122
+123</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/chain.rb', line 112</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/chain.rb', line 121</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_ledger?'>ledger?</span><span class='lparen'>(</span><span class='id identifier rubyid_v'>v</span><span class='rparen'>)</span>
   <span class='lbracket'>[</span><span class='int'>0</span><span class='comma'>,</span> <span class='int'>1</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='id identifier rubyid_v'>v</span>
@@ -1476,12 +1524,12 @@
       <pre class="lines">
 
 
-121
-122
-123</pre>
+130
+131
+132</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/chain.rb', line 121</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/chain.rb', line 130</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_legacy?'>legacy?</span><span class='lparen'>(</span><span class='id identifier rubyid_v'>v</span><span class='rparen'>)</span>
   <span class='lbracket'>[</span><span class='int'>27</span><span class='comma'>,</span> <span class='int'>28</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='id identifier rubyid_v'>v</span>
@@ -1555,15 +1603,15 @@
       <pre class="lines">
 
 
-171
-172
-173
-174
-175
-176</pre>
+180
+181
+182
+183
+184
+185</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/chain.rb', line 171</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/chain.rb', line 180</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_to_chain_id'>to_chain_id</span><span class='lparen'>(</span><span class='id identifier rubyid_v'>v</span><span class='rparen'>)</span>
   <span class='kw'>return</span> <span class='kw'>nil</span> <span class='kw'>if</span> <span class='id identifier rubyid_v'>v</span> <span class='op'>&lt;</span> <span class='int'>36</span>
@@ -1676,15 +1724,6 @@
       <pre class="lines">
 
 
-132
-133
-134
-135
-136
-137
-138
-139
-140
 141
 142
 143
@@ -1694,10 +1733,19 @@
 147
 148
 149
-150</pre>
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/chain.rb', line 132</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/chain.rb', line 141</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_to_recovery_id'>to_recovery_id</span><span class='lparen'>(</span><span class='id identifier rubyid_v'>v</span><span class='comma'>,</span> <span class='id identifier rubyid_chain_id'>chain_id</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="#ETHEREUM-constant" title="Eth::Chain::ETHEREUM (constant)">ETHEREUM</a></span></span><span class='rparen'>)</span>
   <span class='id identifier rubyid_e'>e</span> <span class='op'>=</span> <span class='int'>0</span> <span class='op'>+</span> <span class='int'>2</span> <span class='op'>*</span> <span class='id identifier rubyid_chain_id'>chain_id</span> <span class='op'>+</span> <span class='int'>35</span>
@@ -1805,17 +1853,17 @@
       <pre class="lines">
 
 
-157
-158
-159
-160
-161
-162
-163
-164</pre>
+166
+167
+168
+169
+170
+171
+172
+173</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/chain.rb', line 157</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/chain.rb', line 166</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_to_v'>to_v</span><span class='lparen'>(</span><span class='id identifier rubyid_recovery_id'>recovery_id</span><span class='comma'>,</span> <span class='id identifier rubyid_chain_id'>chain_id</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rparen'>)</span>
   <span class='kw'>if</span> <span class='id identifier rubyid_chain_id'>chain_id</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='kw'>or</span> <span class='id identifier rubyid_chain_id'>chain_id</span> <span class='op'>&lt;</span> <span class='int'>1</span>
@@ -1835,7 +1883,7 @@
 </div>
 
       <div id="footer">
-  Generated on Tue Jan 17 12:57:43 2023 by
+  Generated on Tue Jan 17 13:00:27 2023 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.28 (ruby-3.0.5).
 </div>
