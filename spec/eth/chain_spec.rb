@@ -14,6 +14,7 @@ describe Chain do
       expect(Chain::MATIC).to eq 137
       expect(Chain::POLYGON).to eq 137
       expect(Chain::ARBITRUM).to eq 42161
+      expect(Chain::MOONBEAM).to eq 1284
 
       # Chain IDs for selected testnets
       expect(Chain::MORDEN).to eq 2
@@ -32,6 +33,9 @@ describe Chain do
       expect(Chain::GOERLI_ARBITRUM).to eq 421613
       expect(Chain::SEPOLIA).to eq 11155111
       expect(Chain::HOLESOVICE).to eq 11166111
+
+      expect(Chain::MOONRIVER).to eq 1285
+      expect(Chain::MOONBASE).to eq 1287
 
       # Chain IDs for selected private networks
       expect(Chain::PRIVATE_GETH).to eq 1337

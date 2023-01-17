@@ -104,6 +104,15 @@ module Eth
     # Chain ID for the geth private network preset.
     PRIVATE_GETH = 1337.freeze
 
+    # Chain ID for Moonbase
+    MOONBASE = 1287.freeze
+
+    # Chain ID for Moonriver
+    MOONRIVER = 1285.freeze
+
+    # Chain ID for Moonbeam
+    MOONBEAM = 1284.freeze
+
     # Indicates wether the given `v` indicates a legacy chain value
     # used by ledger wallets without EIP-155 replay protection.
     #
