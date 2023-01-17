@@ -14,7 +14,7 @@ describe Chain do
       expect(Chain::MATIC).to eq 137
       expect(Chain::POLYGON).to eq 137
       expect(Chain::ARBITRUM).to eq 42161
-      expect(Chain::MOONRIVER).to eq 1284
+      expect(Chain::MOONBEAM).to eq 1284
 
       # Chain IDs for selected testnets
       expect(Chain::MORDEN).to eq 2
