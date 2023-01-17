@@ -269,7 +269,8 @@ describe Abi do
           ],
           [
             "0x600087d794f867befc597ebae4200b607d0cd9bd",
-            "0x70005e726762a40057a027a0cb7226b9fe6d7e9a",]
+            "0x70005e726762a40057a027a0cb7226b9fe6d7e9a",
+          ],
         ],
         [
           "\x13\xAE^]b\xD2\xDAD^\x05\b\e\xA8\xD5\x1DK\xBFO\xC7\xDA-ev!\xA1\xABxZ\xA2\x1CE\xEF",

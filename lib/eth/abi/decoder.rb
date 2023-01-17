@@ -40,7 +40,7 @@ module Eth
 
             # decoded strings and bytes
             data[0, l]
-          # Case: decoding array of string/bytes
+            # Case: decoding array of string/bytes
           else
             l = Util.deserialize_big_endian_to_int arg[0, 32]
 
