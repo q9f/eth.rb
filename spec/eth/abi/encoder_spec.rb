@@ -96,4 +96,19 @@ describe Abi::Encoder do
     expect { Abi::Encoder.primitive_type(t_address, "0x8cb9d52661513ac5490483c79ac715f5dd572bfb0xbd76086b38f2660fcaa65781ff5998f5c18e766d") }.to raise_error Abi::EncodingError
     expect { Abi::Encoder.primitive_type(Abi::Type.new("foo", 32, []), 12354235345634646546346346345) }.to raise_error Abi::EncodingError
   end
+
+  describe "packed encoding" do
+    it "encodes packed types" do
+      expect(Util.bin_to_hex Abi.encode(["uint8[]"], [[1, 2, 3]], true)).to eq "010203"
+      expect(Util.bin_to_hex Abi.encode(["uint16[]"], [[1, 2, 3]], true)).to eq "000100020003"
+      expect(Util.bin_to_hex Abi.encode(["uint32"], [17], true)).to eq "00000011"
+      expect(Util.bin_to_hex Abi.encode(["uint64"], [17], true)).to eq "0000000000000011"
+      expect(Util.bin_to_hex Abi.encode(["bool[]"], [[true, false]], true)).to eq "0100"
+      expect(Util.bin_to_hex Abi.encode(["bool"], [true], true)).to eq "01"
+      expect(Util.bin_to_hex Abi.encode(["int32[]"], [[1, 2, 3]], true)).to eq "000000010000000200000003"
+      expect(Util.bin_to_hex Abi.encode(["int64[]"], [[1, 2, 3]], true)).to eq "000000000000000100000000000000020000000000000003"
+      expect(Util.bin_to_hex Abi.encode(["int64"], [17], true)).to eq "0000000000000011"
+      expect(Util.bin_to_hex Abi.encode(["int128"], [17], true)).to eq "00000000000000000000000000000011"
+    end
+  end
 end
