@@ -28,10 +28,12 @@ module Eth
 
     # Instantiates a Solidity `solc` system compiler binding that can be
     # used to compile Solidity contracts.
-    def initialize(manual_path = nil)
+    #
+    # @param path [String] optional override of the solidity compiler path.
+    def initialize(path = nil)
 
-      # Currently only supports `solc`.
-      solc = manual_path || get_compiler_path
+      # Currently only supports `solc`. Try to override with `path`.
+      solc = path || get_compiler_path
       raise SystemCallError, "Unable to find the solc compiler path!" if solc.nil?
       @compiler = solc
     end
