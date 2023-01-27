@@ -5,6 +5,7 @@ describe Solidity do
 
     # This fails if no `solc` is in the $PATH.
     expect(Solidity.new).to be
+    expect(Solidity.new(system("which", "solc"))).to be
   end
 
   subject(:solc) { Solidity.new }
