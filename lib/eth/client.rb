@@ -74,7 +74,7 @@ module Eth
     #
     # @return [Eth::Address] the coinbase account address.
     def default_account
-      raise ArgumentError, "The default account is not available on remote connections!" unless local?
+      raise ArgumentError, "The default account is not available on remote connections!" unless local? || @default_account
       @default_account ||= Address.new eth_coinbase["result"]
     end
 
