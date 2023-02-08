@@ -38,30 +38,41 @@ module Eth
     #
     # @param types [Array] types to be ABI-encoded.
     # @param args [Array] values to be ABI-encoded.
+    # @param packed [Boolean] use custom packed encoding.
     # @return [String] the encoded ABI data.
-    def encode(types, args)
+    def encode(types, args, packed = false)
 
       # parse all types
       parsed_types = types.map { |t| Type === t ? t : Type.parse(t) }
 
       # prepare the "head"
       head_size = (0...args.size)
-        .map { |i| parsed_types[i].size or 32 }
+        .map { |i|
+        if packed
+          parsed_types[i].sub_type.to_i / 8
+        else
+          parsed_types[i].size or 32
+        end
+      }
         .reduce(0, &:+)
       head, tail = "", ""
 
       # encode types and arguments
       args.each_with_index do |arg, i|
         if parsed_types[i].dynamic?
-          head += Abi::Encoder.type(Type.size_type, head_size + tail.size)
-          tail += Abi::Encoder.type(parsed_types[i], arg)
+          head += Abi::Encoder.type(Type.size_type, head_size + tail.size, packed)
+          tail += Abi::Encoder.type(parsed_types[i], arg, packed)
         else
-          head += Abi::Encoder.type(parsed_types[i], arg)
+          head += Abi::Encoder.type(parsed_types[i], arg, packed)
         end
       end
 
+      if tail.size == 0 && packed
+        tail = head
+      end
+
       # return the encoded ABI blob
-      "#{head}#{tail}"
+      packed ? "#{tail}" : "#{head}#{tail}"
     end
 
     # Decodes Application Binary Interface (ABI) data. It accepts multiple
@@ -69,8 +80,9 @@ module Eth
     #
     # @param types [Array] the ABI to be decoded.
     # @param data [String] ABI data to be decoded.
+    # @param packed [Boolean] use custom packed decoding.
     # @return [Array] the decoded ABI data.
-    def decode(types, data)
+    def decode(types, data, packed = false)
 
       # accept hex abi but decode it first
       data = Util.hex_to_bin data if Util.hex? data
@@ -118,7 +130,7 @@ module Eth
       end
 
       # return the decoded ABI types and data
-      parsed_types.zip(outputs).map { |(type, out)| Abi::Decoder.type(type, out) }
+      parsed_types.zip(outputs).map { |(type, out)| Abi::Decoder.type(type, out, packed) }
     end
   end
 end
