@@ -56,8 +56,7 @@ describe Ens::Resolver do
       expect {
         resolver.resolve("ncWc6Edqldzy6Mlo.eth", Ens::CoinType::BITCOIN)
       }.to raise_error NotImplementedError, "Coin type 0 not implemented!"
-      pending("https://github.com/ensdomains/ens-app/issues/1588")
-      expect(resolver.resolve("ncWc6Edqldzy6Mlo.eth", Ens::CoinType::ETHEREUM_CLASSIC)).to eq "0x37287f68aC899b769FAa57033c78B78c76C68dc0"
+      expect(resolver.resolve("ncWc6Edqldzy6Mlo.eth", Ens::CoinType::ETHEREUM_CLASSIC)).to eq "0x37287f68ac899b769faa57033c78b78c76c68dc0"
     end
   end
 end
