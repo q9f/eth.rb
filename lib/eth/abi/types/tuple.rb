@@ -26,7 +26,7 @@ module Eth
 
       def initialize(types)
         types.each do |type|
-          raise ArgumentError, "Invalid sub-type provided: #{type}" unless META_TYPES.include? type.class.name.split(":").last
+          raise ArgumentError, "Invalid sub-type provided: #{type}" unless type.kind_of? MetaType
         end
         @types = types
       end

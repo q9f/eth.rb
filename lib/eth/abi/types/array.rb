@@ -31,7 +31,7 @@ module Eth
       # @param sub_type [MetaType] a sub-type for the array type.
       # @raise [ArgumentError] if an invalid sub-type is provided.
       def initialize(sub_type)
-        raise ArgumentError, "Invalid sub-type provided: #{sub_type}" unless META_TYPES.include? sub_type.class.name.split(":").last
+        raise ArgumentError, "Invalid sub-type provided: #{sub_type}" unless sub_type.kind_of? MetaType
         @sub_type = sub_type
       end
 

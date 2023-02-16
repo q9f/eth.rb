@@ -37,10 +37,9 @@ describe Abi::TupleType do
     expect(
       Abi::TupleType.new([
         Abi::FixedBytesType.new(32),
-        Abi::AddressType.new,
         Abi::FixedArrayType.new(Abi::IntType.new(256), 7),
       ]).size
-    ).to eq 288
+    ).to eq 256
   end
 
   it "has a format" do
@@ -76,10 +75,9 @@ describe Abi::TupleType do
     expect(
       Abi::TupleType.new([
         Abi::FixedBytesType.new(32),
-        Abi::AddressType.new,
         Abi::FixedArrayType.new(Abi::IntType.new(256), 7),
       ]).format
-    ).to eq "(bytes32,address,int256[7])"
+    ).to eq "(bytes32,int256[7])"
   end
 
   it "can be compared" do
@@ -134,11 +132,9 @@ describe Abi::TupleType do
     expect(
       Abi::TupleType.new([
         Abi::FixedBytesType.new(32),
-        Abi::AddressType.new,
         Abi::FixedArrayType.new(Abi::IntType.new(256), 7),
       ]) == Abi::TupleType.new([
         Abi::FixedBytesType.new(32),
-        Abi::AddressType.new,
         Abi::FixedArrayType.new(Abi::IntType.new(256), 7),
       ])
     ).to be_truthy
@@ -148,7 +144,6 @@ describe Abi::TupleType do
         Abi::FixedBytesType.new(8),
         Abi::IntType.new(256),
       ]) == Abi::TupleType.new([
-        Abi::FixedBytesType.new(32),
         Abi::AddressType.new,
         Abi::FixedArrayType.new(Abi::IntType.new(256), 7),
       ])

@@ -35,7 +35,7 @@ module Eth
       # @param dimension [Integer] the fixed dimension of the array type.
       # @raise [ArgumentError] if an invalid sub-type is provided.
       def initialize(sub_type, dimension)
-        raise ArgumentError, "Invalid sub-type provided: #{sub_type}" unless META_TYPES.include? sub_type.class.name.split(":").last
+        raise ArgumentError, "Invalid sub-type provided: #{sub_type}" unless sub_type.kind_of? MetaType
         @sub_type = sub_type
         @dimension = dimension
       end

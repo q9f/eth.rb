@@ -20,20 +20,6 @@ module Eth
   # Provides a Ruby implementation of the Ethereum Application Binary Interface (ABI).
   module Abi
 
-    # List of available ABI types.
-    META_TYPES = [
-      "AddressType",
-      "ArrayType",
-      "BooleanType",
-      "BytesType",
-      "FixedArrayType",
-      "FixedBytesType",
-      "IntType",
-      "StringType",
-      "TupleType",
-      "UIntType",
-    ]
-
     # Provides a class to handle and parse common ABI types.
     class MetaType
 
@@ -43,7 +29,7 @@ module Eth
       #
       # @return [MetaType] a parsed type object.
       def self.parse(type)
-        # @TODO parse
+        Parser.parse(type)
       end
 
       # Allows determining if the type is of dynamic size.

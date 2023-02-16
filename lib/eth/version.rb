@@ -14,11 +14,10 @@
 
 # Provides the {Eth} module.
 module Eth
-
   MAJOR = 0.freeze
   MINOR = 5.freeze
   PATCH = 11.freeze
 
   # Defines the version of the {Eth} module.
-  VERSION = [MAJOR,MINOR,PATCH].join('.').freeze
+  VERSION = [MAJOR, MINOR, PATCH].join(".").freeze
 end
