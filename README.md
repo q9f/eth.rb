@@ -111,5 +111,8 @@ It is not only a rewrite of the `eth` gem but also a partial merge of the `ether
 This gem also includes a revised version of the ABI gem by Jan Xie and Zhang Yaning.
 * <https://github.com/cryptape/ruby-ethereum-abi> (MIT)
 
+This gem also includes a revised version of the ABI gem by Gerald Bauer.
+* https://github.com/rubycocos/blockchain/tree/master/abicoder (PD)
+
 It also contains a condensed version of the RLP gem by Jan Xie and Zhang Yaning.
 * <https://github.com/cryptape/ruby-rlp> (MIT)
