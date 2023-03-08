@@ -7,6 +7,7 @@ describe Client do
   let(:geth_ipc_path) { "/tmp/geth.ipc" }
   let(:geth_http_path) { "http://127.0.0.1:8545" }
   let(:geth_http_authed_path) { "http://username:password@127.0.0.1:8545" }
+  let(:geth_dev_ws_path) { "ws://127.0.0.1:8546" }
   subject(:geth_ipc) { Client.create geth_ipc_path }
   subject(:geth_http) { Client.create geth_http_path }
   subject(:geth_http_authed) { Client.create geth_http_authed_path }
@@ -14,6 +15,9 @@ describe Client do
   # it expects an $INFURA_TOKEN in environment
   let(:infura_api) { "https://mainnet.infura.io/v3/#{ENV["INFURA_TOKEN"]}" }
   subject(:infura_mainnet) { Client.create infura_api }
+  subject(:geth_dev_ipc) { Client.create geth_dev_ipc_path }
+  subject(:geth_dev_http) { Client.create geth_dev_http_path }
+  subject(:geth_dev_ws) { Client.create geth_dev_ws_path }
 
   describe ".create .initialize" do
     it "creates an ipc client" do
@@ -29,6 +33,15 @@ describe Client do
       expect(geth_http.port).to eq 8545
       expect(geth_http.uri.to_s).to eq geth_http_path
       expect(geth_http.ssl).to be_falsy
+    end
+
+    it "creates an ws client" do
+      expect(geth_dev_ws).to be
+      expect(geth_dev_ws).to be_instance_of Client::Ws
+      expect(geth_dev_ws.host).to eq "127.0.0.1"
+      expect(geth_dev_ws.port).to eq 8546
+      expect(geth_dev_ws.uri.to_s).to eq geth_dev_ws_path
+      expect(geth_dev_ws.ssl).to be_falsy
     end
 
     it "connects to an infura api" do

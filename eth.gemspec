@@ -48,4 +48,7 @@ Gem::Specification.new do |spec|
 
   # scrypt for encrypted key derivation
   spec.add_dependency "scrypt", "~> 3.0"
+
+  # websocket for websocket client
+  spec.add_dependency "websocket-client-simple", "~> 0.6.0"
 end
