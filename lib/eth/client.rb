@@ -174,7 +174,7 @@ module Eth
     #   @param amount [Integer] the transfer amount (mind the `decimals()`).
     #   @param **sender_key [Eth::Key] the sender private key.
     #   @param **legacy [Boolean] enables legacy transactions (pre-EIP-1559).
-    #   @param **gas_limit [Integer] optional gas limit override for deploying the contract.
+    #   @param **gas_limit [Integer] optional gas limit override for the transfer.
     #   @param **nonce [Integer] optional specific nonce for transaction.
     #   @param **tx_value [Integer] optional transaction value field filling.
     # @return [Object] returns the result of the transaction.
@@ -252,7 +252,7 @@ module Eth
     #   @param *args optional function arguments.
     #   @param **sender_key [Eth::Key] the sender private key.
     #   @param **legacy [Boolean] enables legacy transactions (pre-EIP-1559).
-    #   @param **gas_limit [Integer] optional gas limit override for deploying the contract.
+    #   @param **gas_limit [Integer] optional gas limit override for calling the contract.
     # @return [Object] returns the result of the call.
     def call(contract, function, *args, **kwargs)
       func = contract.functions.select { |func| func.name == function }
@@ -291,7 +291,7 @@ module Eth
     #   @param **sender_key [Eth::Key] the sender private key.
     #   @param **legacy [Boolean] enables legacy transactions (pre-EIP-1559).
     #   @param **address [Eth::Address] contract address.
-    #   @param **gas_limit [Integer] optional gas limit override for deploying the contract.
+    #   @param **gas_limit [Integer] optional gas limit override for transacting with the contract.
     #   @param **nonce [Integer] optional specific nonce for transaction.
     #   @param **tx_value [Integer] optional transaction value field filling.
     # @return [Object] returns the result of the transaction.

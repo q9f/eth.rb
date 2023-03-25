@@ -29,7 +29,7 @@ module Eth
 
     # Constructor of the {Eth::Contract} class.
     #
-    # Do not use this directly. Use
+    # **Note**, do not use this directly. Use
     # {from_abi}, {from_bin}, or {from_file}!
     #
     # @param name [String] contract name.
