@@ -14,6 +14,8 @@
 
 # -*- encoding : ascii-8bit -*-
 
+require "forwardable"
+
 # Provides the {Eth} module.
 module Eth
 

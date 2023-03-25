@@ -34,6 +34,9 @@ Gem::Specification.new do |spec|
   spec.platform = Gem::Platform::RUBY
   spec.required_ruby_version = ">= 2.7", "< 4.0"
 
+  # forwardable for contracts meta programming
+  spec.add_dependency "forwardable", "~> 1.3"
+
   # keccak for hashing everything in ethereum
   spec.add_dependency "keccak", "~> 1.3"
 
