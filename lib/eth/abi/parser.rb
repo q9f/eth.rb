@@ -64,33 +64,36 @@ module Eth
             raise ParseError, "Unknown base type: #{base_type}"
           end
         # @TODO
-        # parse_array_type(sub_type, dimension)
+        parse_array_type(sub_type, dimension)
       end
 
       # Parses types for their base-type, sub-type, and dimension (if any).
       def parse_base_type(str)
         _, base_type, sub_type, dimension = BASE_TYPES.match(str).to_a
-        subtype = sub_type == "" ? nil : sub_type.to_i
+        sub_type = sub_type == "" ? nil : sub_type.to_i
         dimension = parse_dimension(dimension)
         [base_type, sub_type, dimension]
       end
 
       # Parses the dimensions of array types.
-      def parse_dimension(dimension)
-        dims = dimension.scan(/\[[0-9]*\]/)
-        dims.map { |d|
+      def parse_dimension(str)
+        dims = str.scan(/\[[0-9]*\]/)
+        dims = dims.map do |d|
           size = d[1...-1]
           size == "" ? -1 : size.to_i
-        }
+        end
         return dims
       end
 
       # Parses the type of an array.
       def parse_array_type(sub_type, dimension)
-        if dimension == -1
-          return ArrayType.new(sub_type)
-        end
-        return FixedArrayType.new(sub_type, dimension)
+        return sub_type if dimension.first.nil?
+        sub_type = if dimension.first == -1
+            ArrayType.new(sub_type)
+          else
+            FixedArrayType.new(sub_type, dimension)
+          end
+        return sub_type
       end
 
       # Parses the types of a tuple.
@@ -128,7 +131,7 @@ module Eth
         when "string"
 
           # string can not have any suffix
-          raise ParseError, "String type must have no suffix or numerical suffix" unless sub_type.empty?
+          raise ParseError, "String type must have no suffix or numerical suffix" if sub_type
         when "bytes"
 
           # bytes can be no longer than 32 bytes
@@ -140,7 +143,7 @@ module Eth
         when "uint", "int"
 
           # integers must have a numerical suffix
-          raise ParseError, "Integer type must have numerical suffix" unless sub_type =~ /\A[0-9]+\z/
+          raise ParseError, "Integer type must have numerical suffix" unless sub_type
 
           # integer size must be valid
           size = sub_type.to_i

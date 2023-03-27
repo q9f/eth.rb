@@ -14,6 +14,7 @@
 
 # Provides the {Eth} module.
 module Eth
+
   # Defines the major version of the {Eth} module.
   MAJOR = 0.freeze
 
