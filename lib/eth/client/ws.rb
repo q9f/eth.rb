@@ -23,27 +23,14 @@ module Eth
     # The host of the HTTP endpoint.
     attr_reader :host
 
-    # The port of the HTTP endpoint.
-    attr_reader :port
-
-    # The full URI of the HTTP endpoint, including path.
-    attr_reader :uri
-
-    # Attribute indicator for SSL.
-    attr_reader :ssl
-
     # Constructor for the WebSocket Client. Should not be used; use
     # {Client.create} intead.
     #
     # @param host [String] an URI pointing to an HTTP RPC-API.
     def initialize(host)
       super
-      uri = URI.parse(host)
-      raise ArgumentError, "Unable to parse the HTTP-URI!" unless ["ws", "wss"].include? uri.scheme
-      @host = uri.host
-      @port = uri.port
-      @ssl = uri.scheme == "wss"
-      @uri = URI("#{uri.scheme}://#{@host}:#{@port}#{uri.path}")
+      @host = host
+      setup_websocket
     end
 
     # Sends an RPC request to the connected WebSocket client.
@@ -51,26 +38,26 @@ module Eth
     # @param payload [Hash] the RPC request parameters.
     # @return [String] a JSON-encoded response.
     def send(payload)
-      ws = WebSocket::Handshake::Client.new(url: @uri)
-      ws.on :message do |msg|
+      @ws.send(payload.to_json)
+    end
+
+    private
+
+    def setup_websocket
+      @ws = WebSocket::Client::Simple.connect @host
+
+      @ws.on :message do |msg|
         puts ">> #{msg.data}"
       end
-
-      ws.on :open do
-        puts "-- websocket open (#{ws.url})"
+      @ws.on :open do
+        puts "-- websocket open (#{@host})"
       end
-
-      ws.on :close do |e|
+      @ws.on :close do |e|
         puts "-- websocket close (#{e.inspect})"
         exit 1
       end
-
-      ws.on :error do |e|
+      @ws.on :error do |e|
         puts "-- error (#{e.inspect})"
-      end
-
-      loop do
-        ws.send STDIN.gets.strip
       end
     end
   end
