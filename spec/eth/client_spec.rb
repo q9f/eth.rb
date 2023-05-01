@@ -38,7 +38,7 @@ describe Client do
     it "creates an ws client" do
       expect(geth_dev_ws).to be
       expect(geth_dev_ws).to be_instance_of Client::Ws
-      expect(geth_dev_ws.host).to eq "127.0.0.1"
+      expect(geth_dev_ws.host).to eq geth_dev_ws_path
     end
 
     it "connects to an infura api" do
@@ -433,6 +433,25 @@ describe Client do
       expect { geth_ipc.is_valid_signature(contract, hashed, signature) }.to raise_error ArgumentError, "Contract not deployed yet."
       geth_ipc.deploy_and_wait(contract)
       expect(geth_ipc.is_valid_signature(contract, hashed, signature)).to be true
+    end
+  end
+
+  describe ".send" do
+    it 'sends an RPC request and receives a response' do
+      payload = '{"jsonrpc":"2.0","method":"eth_blockNumber","params":[],"id":1}'
+      geth_dev_ws.send(payload)
+      response = nil
+
+      geth_dev_ws.instance_variable_get(:@ws).on :message do |msg|
+        response = JSON.parse(msg.data)
+        expect(response).not_to be_nil
+        expect(response['id']).to eq(payload[:id])
+        expect(response['jsonrpc']).to eq(payload[:jsonrpc])
+        expect(response['result']).not_to be_nil
+        block_number = response['result'].to_i(16)
+        binding.pry
+        expect(block_number).to be > 0
+      end
     end
   end
 end
