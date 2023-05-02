@@ -449,7 +449,6 @@ describe Client do
         expect(response['jsonrpc']).to eq(payload[:jsonrpc])
         expect(response['result']).not_to be_nil
         block_number = response['result'].to_i(16)
-        binding.pry
         expect(block_number).to be > 0
       end
     end
