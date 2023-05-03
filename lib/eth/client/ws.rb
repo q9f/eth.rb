@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-require 'websocket-client-simple'
+require "websocket-client-simple"
 
 # Provides the {Eth} module.
 module Eth
