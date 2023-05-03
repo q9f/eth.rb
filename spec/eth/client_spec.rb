@@ -17,7 +17,10 @@ describe Client do
   subject(:infura_mainnet) { Client.create infura_api }
   subject(:geth_dev_ipc) { Client.create geth_dev_ipc_path }
   subject(:geth_dev_http) { Client.create geth_dev_http_path }
-  subject(:geth_dev_ws) { Client.create geth_dev_ws_path }
+  subject(:geth_dev_ws) {
+    $stdout = StringIO.new
+    Client.create geth_dev_ws_path
+  }
 
   describe ".create .initialize" do
     it "creates an ipc client" do
