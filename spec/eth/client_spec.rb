@@ -440,7 +440,7 @@ describe Client do
   end
 
   describe ".send" do
-    it 'sends an RPC request and receives a response' do
+    it "sends an RPC request and receives a response" do
       payload = '{"jsonrpc":"2.0","method":"eth_blockNumber","params":[],"id":1}'
       geth_dev_ws.send(payload)
       response = nil
@@ -448,10 +448,10 @@ describe Client do
       geth_dev_ws.instance_variable_get(:@ws).on :message do |msg|
         response = JSON.parse(msg.data)
         expect(response).not_to be_nil
-        expect(response['id']).to eq(payload[:id])
-        expect(response['jsonrpc']).to eq(payload[:jsonrpc])
-        expect(response['result']).not_to be_nil
-        block_number = response['result'].to_i(16)
+        expect(response["id"]).to eq(payload[:id])
+        expect(response["jsonrpc"]).to eq(payload[:jsonrpc])
+        expect(response["result"]).not_to be_nil
+        block_number = response["result"].to_i(16)
         expect(block_number).to be > 0
       end
     end
