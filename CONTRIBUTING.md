@@ -42,7 +42,7 @@ Run `git submodule update --init --recursive` to fetch it.
 
 If your tests are failing make sure you pulled the ethereum/tests 
 submodule and run a local geth node in background with
-`geth --dev --http --ipcpath /tmp/geth.ipc` as we are running some tests
+`geth --dev --http --ws --ipcpath /tmp/geth.ipc` as we are running some tests
 against a local live node.
 
 Other static test data is available in `fixtures/`

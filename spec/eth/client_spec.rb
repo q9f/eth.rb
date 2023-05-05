@@ -2,7 +2,7 @@ require "spec_helper"
 
 describe Client do
 
-  # run `geth --dev --http --ipcpath /tmp/geth.ipc`
+  # run `geth --dev --http --ws --ipcpath /tmp/geth.ipc`
   # to provide both http and ipc to pass these tests.
   let(:geth_ipc_path) { "/tmp/geth.ipc" }
   let(:geth_http_path) { "http://127.0.0.1:8545" }
