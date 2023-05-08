@@ -46,7 +46,7 @@ module Eth
       @host = uri.host
       @port = uri.port
       @ssl = uri.scheme == "https"
-      if Regexp.new(":.*@.*:", Regexp::IGNORECASE).match host
+      if !(uri.user.nil? && uri.password.nil?)
         @user = uri.user
         @password = uri.password
         @uri = URI("#{uri.scheme}://#{uri.user}:#{uri.password}@#{@host}:#{@port}#{uri.path}")
