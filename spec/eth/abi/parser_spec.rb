@@ -35,7 +35,7 @@ describe Abi::Parser do
       type = Abi::Parser.parse("uint256[][3]")
       expect(type.format).to eq "uint256[][3]"
       base_type = Abi::Parser.parse_base_type("uint256[][3]")
-      expect(base_type).to eq ["uint", 256, [-1,3]]
+      expect(base_type).to eq ["uint", 256, [-1, 3]]
     end
   end
 end
