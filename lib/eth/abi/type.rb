@@ -23,9 +23,6 @@ module Eth
     # Provides a class to handle and parse common ABI types.
     class Type
 
-      # Provides a specific parser error if type cannot be determined.
-      class ParseError < StandardError; end
-
       # The base attribute, e.g., `string` or `bytes`.
       attr :base_type
 

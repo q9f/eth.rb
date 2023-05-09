@@ -46,14 +46,18 @@ module Eth
       # @return [Integer] size of the fixed array if sub-types are not dynamic.
       def size
         return nil if @sub_type.dynamic?
-        return @dimension * @sub_type.size
+        size = 0
+        @dimension.each { |dim|
+          size += dim * @sub_type.size
+        }
+        return size
       end
 
       # Gets the string representation of a fixed array type.
       #
       # @return [String] containing the subtype, size, and dimension.
       def format
-        "#{@sub_type.format}[#{@dimension}]".freeze
+        "#{@sub_type.format}#{@dimension}".freeze
       end
 
       # Allows to compare two array types.

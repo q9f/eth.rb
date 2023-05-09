@@ -31,7 +31,7 @@ module Eth
       # @param length [Integer] the byte-size of the fixed type (1, 2, .. 32).
       # @raise [ArgumentError] if an invalid type byte-size is provided.
       def initialize(length = 32)
-        raise ArgumentError, "Invalid fixed type size provided: bytes#{length}" unless [1, 2, 4, 8, 16, 32].include? length
+        raise ArgumentError, "Invalid fixed type size provided: bytes#{length}" unless length <= 32 && length > 0
         @length = length
       end
 

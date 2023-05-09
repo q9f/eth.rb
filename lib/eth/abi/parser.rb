@@ -26,9 +26,6 @@ module Eth
     module Parser
       extend self
 
-      # Provides a specific parser error if type cannot be determined.
-      class ParseError < StandardError; end
-
       # Attempts to parse a given type.
       #
       # @param type [String] a type to parse.
@@ -63,14 +60,19 @@ module Eth
           else
             raise ParseError, "Unknown base type: #{base_type}"
           end
-        # @TODO
         parse_array_type(sub_type, dimension)
       end
 
       # Parses types for their base-type, sub-type, and dimension (if any).
       def parse_base_type(str)
         _, base_type, sub_type, dimension = BASE_TYPES.match(str).to_a
-        sub_type = sub_type == "" ? nil : sub_type.to_i
+        if sub_type == ""
+          sub_type = nil
+        elsif sub_type.include? "x"
+          sub_type = sub_type
+        else
+          sub_type = sub_type.to_i
+        end
         dimension = parse_dimension(dimension)
         [base_type, sub_type, dimension]
       end
@@ -107,9 +109,6 @@ module Eth
           when "("
             depth += 1
             current += c
-          when ")"
-            depth -= 1
-            current += c
           when ","
             if depth == 0
               collected << current
@@ -117,6 +116,9 @@ module Eth
             else
               current += c
             end
+          when ")"
+            depth -= 1
+            current += c
           else
             current += c
           end
@@ -135,11 +137,11 @@ module Eth
         when "bytes"
 
           # bytes can be no longer than 32 bytes
-          raise ParseError, "Maximum 32 bytes for fixed-length string or bytes" unless sub_type.empty? || sub_type.to_i <= 32
+          raise ParseError, "Maximum 32 bytes for fixed-length string or bytes" unless sub_type.nil? || sub_type.to_i <= 32
         when "tuple"
 
           # tuples can not have any suffix
-          raise ParseError, "Tuple type must have no suffix or numerical suffix" unless sub_type.empty?
+          raise ParseError, "Tuple type must have no suffix or numerical suffix" unless sub_type.nil?
         when "uint", "int"
 
           # integers must have a numerical suffix
@@ -164,11 +166,11 @@ module Eth
         when "address"
 
           # addresses cannot have any suffix
-          raise ParseError, "Address cannot have suffix" unless sub_type.empty?
+          raise ParseError, "Address cannot have suffix" unless sub_type.nil?
         when "bool"
 
           # booleans cannot have any suffix
-          raise ParseError, "Bool cannot have suffix" unless sub_type.empty?
+          raise ParseError, "Bool cannot have suffix" unless sub_type.nil?
         else
 
           # we cannot parse arbitrary types such as 'decimal' or 'hex'

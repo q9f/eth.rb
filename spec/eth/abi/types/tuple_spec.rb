@@ -18,14 +18,14 @@ describe Abi::TupleType do
     expect(
       Abi::TupleType.new([
         Abi::ArrayType.new(Abi::IntType.new(256)),
-        Abi::FixedArrayType.new(Abi::IntType.new(256), 2),
+        Abi::FixedArrayType.new(Abi::IntType.new(256), [2]),
       ]).size
     ).not_to be
 
     expect(
       Abi::TupleType.new([
-        Abi::FixedArrayType.new(Abi::IntType.new(256), 2),
-        Abi::FixedArrayType.new(Abi::UIntType.new(256), 2),
+        Abi::FixedArrayType.new(Abi::IntType.new(256), [2]),
+        Abi::FixedArrayType.new(Abi::UIntType.new(256), [2]),
       ]).size
     ).to eq 128
     expect(
@@ -37,7 +37,7 @@ describe Abi::TupleType do
     expect(
       Abi::TupleType.new([
         Abi::FixedBytesType.new(32),
-        Abi::FixedArrayType.new(Abi::IntType.new(256), 7),
+        Abi::FixedArrayType.new(Abi::IntType.new(256), [7]),
       ]).size
     ).to eq 256
   end
@@ -57,13 +57,13 @@ describe Abi::TupleType do
     expect(
       Abi::TupleType.new([
         Abi::ArrayType.new(Abi::IntType.new(256)),
-        Abi::FixedArrayType.new(Abi::IntType.new(256), 2),
+        Abi::FixedArrayType.new(Abi::IntType.new(256), [2]),
       ]).format
     ).to eq "(int256[],int256[2])"
     expect(
       Abi::TupleType.new([
-        Abi::FixedArrayType.new(Abi::IntType.new(256), 2),
-        Abi::FixedArrayType.new(Abi::UIntType.new(256), 4),
+        Abi::FixedArrayType.new(Abi::IntType.new(256), [2]),
+        Abi::FixedArrayType.new(Abi::UIntType.new(256), [4]),
       ]).format
     ).to eq "(int256[2],uint256[4])"
     expect(
@@ -75,7 +75,7 @@ describe Abi::TupleType do
     expect(
       Abi::TupleType.new([
         Abi::FixedBytesType.new(32),
-        Abi::FixedArrayType.new(Abi::IntType.new(256), 7),
+        Abi::FixedArrayType.new(Abi::IntType.new(256), [7]),
       ]).format
     ).to eq "(bytes32,int256[7])"
   end
@@ -104,19 +104,19 @@ describe Abi::TupleType do
     expect(
       Abi::TupleType.new([
         Abi::ArrayType.new(Abi::IntType.new(256)),
-        Abi::FixedArrayType.new(Abi::IntType.new(256), 2),
+        Abi::FixedArrayType.new(Abi::IntType.new(256), [2]),
       ]) == Abi::TupleType.new([
         Abi::ArrayType.new(Abi::IntType.new(256)),
-        Abi::FixedArrayType.new(Abi::IntType.new(256), 2),
+        Abi::FixedArrayType.new(Abi::IntType.new(256), [2]),
       ])
     ).to be_truthy
     expect(
       Abi::TupleType.new([
-        Abi::FixedArrayType.new(Abi::IntType.new(256), 2),
-        Abi::FixedArrayType.new(Abi::UIntType.new(256), 4),
+        Abi::FixedArrayType.new(Abi::IntType.new(256), [2]),
+        Abi::FixedArrayType.new(Abi::UIntType.new(256), [4]),
       ]) == Abi::TupleType.new([
-        Abi::FixedArrayType.new(Abi::IntType.new(256), 2),
-        Abi::FixedArrayType.new(Abi::UIntType.new(256), 4),
+        Abi::FixedArrayType.new(Abi::IntType.new(256), [2]),
+        Abi::FixedArrayType.new(Abi::UIntType.new(256), [4]),
       ])
     ).to be_truthy
     expect(
@@ -132,10 +132,10 @@ describe Abi::TupleType do
     expect(
       Abi::TupleType.new([
         Abi::FixedBytesType.new(32),
-        Abi::FixedArrayType.new(Abi::IntType.new(256), 7),
+        Abi::FixedArrayType.new(Abi::IntType.new(256), [7]),
       ]) == Abi::TupleType.new([
         Abi::FixedBytesType.new(32),
-        Abi::FixedArrayType.new(Abi::IntType.new(256), 7),
+        Abi::FixedArrayType.new(Abi::IntType.new(256), [7]),
       ])
     ).to be_truthy
 
@@ -145,7 +145,7 @@ describe Abi::TupleType do
         Abi::IntType.new(256),
       ]) == Abi::TupleType.new([
         Abi::AddressType.new,
-        Abi::FixedArrayType.new(Abi::IntType.new(256), 7),
+        Abi::FixedArrayType.new(Abi::IntType.new(256), [7]),
       ])
     ).to be_falsy
   end

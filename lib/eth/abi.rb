@@ -33,6 +33,9 @@ module Eth
     # Provides a special out-of-bounds error for values.
     class ValueOutOfBounds < StandardError; end
 
+    # Provides a specific parser error if type cannot be determined.
+    class ParseError < StandardError; end
+
     # Encodes Application Binary Interface (ABI) data. It accepts multiple
     # arguments and encodes using the head/tail mechanism.
     #
