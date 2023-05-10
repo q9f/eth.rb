@@ -190,33 +190,6 @@
       <li class="public ">
   <span class="summary_signature">
     
-      <a href="#gas_limit-instance_method" title="#gas_limit (instance method)">#<strong>gas_limit</strong>  &#x21d2; Object </a>
-    
-
-    
-  </span>
-  
-  
-  
-    
-    
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-<p>The default gas limit for the transaction, defaults to <span class='object_link'><a href="Tx.html#DEFAULT_GAS_LIMIT-constant" title="Eth::Tx::DEFAULT_GAS_LIMIT (constant)">Tx::DEFAULT_GAS_LIMIT</a></span>.</p>
-</div></span>
-  
-</li>
-
-    
-      <li class="public ">
-  <span class="summary_signature">
-    
       <a href="#id-instance_method" title="#id (instance method)">#<strong>id</strong>  &#x21d2; Object </a>
     
 
@@ -809,21 +782,19 @@
       <pre class="lines">
 
 
-63
-64
-65
-66
-67
-68</pre>
+59
+60
+61
+62
+63</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 63</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 59</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid__'>_</span><span class='rparen'>)</span>
   <span class='ivar'>@id</span> <span class='op'>=</span> <span class='int'>0</span>
   <span class='ivar'>@max_priority_fee_per_gas</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Tx.html" title="Eth::Tx (module)">Tx</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Tx.html#DEFAULT_PRIORITY_FEE-constant" title="Eth::Tx::DEFAULT_PRIORITY_FEE (constant)">DEFAULT_PRIORITY_FEE</a></span></span>
   <span class='ivar'>@max_fee_per_gas</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Tx.html" title="Eth::Tx (module)">Tx</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Tx.html#DEFAULT_GAS_PRICE-constant" title="Eth::Tx::DEFAULT_GAS_PRICE (constant)">DEFAULT_GAS_PRICE</a></span></span>
-  <span class='ivar'>@gas_limit</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Tx.html" title="Eth::Tx (module)">Tx</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Tx.html#DEFAULT_GAS_LIMIT-constant" title="Eth::Tx::DEFAULT_GAS_LIMIT (constant)">DEFAULT_GAS_LIMIT</a></span></span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -966,49 +937,6 @@
 
 <span class='kw'>def</span> <span class='id identifier rubyid_default_account'>default_account</span>
   <span class='ivar'>@default_account</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      
-      <span id="gas_limit=-instance_method"></span>
-      <div class="method_details ">
-  <h3 class="signature " id="gas_limit-instance_method">
-  
-    #<strong>gas_limit</strong>  &#x21d2; <tt>Object</tt> 
-  
-
-  
-
-  
-</h3><div class="docstring">
-  <div class="discussion">
-    
-<p>The default gas limit for the transaction, defaults to <span class='object_link'><a href="Tx.html#DEFAULT_GAS_LIMIT-constant" title="Eth::Tx::DEFAULT_GAS_LIMIT (constant)">Tx::DEFAULT_GAS_LIMIT</a></span>.</p>
-
-
-  </div>
-</div>
-<div class="tags">
-  
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-38
-39
-40</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 38</span>
-
-<span class='kw'>def</span> <span class='id identifier rubyid_gas_limit'>gas_limit</span>
-  <span class='ivar'>@gas_limit</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1165,7 +1093,7 @@
     
 <p>Creates a new RPC-Client, either by providing an HTTP/S host or an IPC path. Supports basic authentication with username and password.</p>
 
-<p><strong>Note</strong>, this sets the folling gas defaults: <span class='object_link'><a href="Tx.html#DEFAULT_PRIORITY_FEE-constant" title="Eth::Tx::DEFAULT_PRIORITY_FEE (constant)">Tx::DEFAULT_PRIORITY_FEE</a></span>, <span class='object_link'><a href="Tx.html#DEFAULT_GAS_PRICE-constant" title="Eth::Tx::DEFAULT_GAS_PRICE (constant)">Tx::DEFAULT_GAS_PRICE</a></span>, and <span class='object_link'><a href="Tx.html#DEFAULT_GAS_LIMIT-constant" title="Eth::Tx::DEFAULT_GAS_LIMIT (constant)">Tx::DEFAULT_GAS_LIMIT</a></span>. Use <span class='object_link'><a href="#max_priority_fee_per_gas-instance_method" title="Eth::Client#max_priority_fee_per_gas (method)">#max_priority_fee_per_gas</a></span>, <span class='object_link'><a href="#max_fee_per_gas-instance_method" title="Eth::Client#max_fee_per_gas (method)">#max_fee_per_gas</a></span>, and <span class='object_link'><a href="#gas_limit-instance_method" title="Eth::Client#gas_limit (method)">#gas_limit</a></span> to set custom values prior to submitting transactions.</p>
+<p><strong>Note</strong>, this sets the folling gas defaults: <span class='object_link'><a href="Tx.html#DEFAULT_PRIORITY_FEE-constant" title="Eth::Tx::DEFAULT_PRIORITY_FEE (constant)">Tx::DEFAULT_PRIORITY_FEE</a></span> and <span class='object_link'><a href="Tx.html#DEFAULT_GAS_PRICE-constant" title="Eth::Tx::DEFAULT_GAS_PRICE (constant)">Use {#max_priority_fee_per_gas</a></span> and <span class='object_link'><a href="#max_fee_per_gas-instance_method" title="Eth::Client#max_fee_per_gas (method)">#max_fee_per_gas</a></span> to set custom values prior to submitting transactions.</p>
 
 
   </div>
@@ -1249,14 +1177,14 @@
       <pre class="lines">
 
 
-55
-56
-57
-58
-59</pre>
+51
+52
+53
+54
+55</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 55</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 51</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_create'>create</span><span class='lparen'>(</span><span class='id identifier rubyid_host'>host</span><span class='rparen'>)</span>
   <span class='kw'>return</span> <span class='const'><span class='object_link'><a href="" title="Eth::Client (class)">Client</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Client/Ipc.html" title="Eth::Client::Ipc (class)">Ipc</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="Client/Ipc.html#initialize-instance_method" title="Eth::Client::Ipc#initialize (method)">new</a></span></span> <span class='id identifier rubyid_host'>host</span> <span class='kw'>if</span> <span class='id identifier rubyid_host'>host</span><span class='period'>.</span><span class='id identifier rubyid_end_with?'>end_with?</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>.ipc</span><span class='tstring_end'>&quot;</span></span>
@@ -1513,22 +1441,6 @@
       
     </li>
   
-    <li>
-      
-        <span class='name'>**gas_limit</span>
-      
-      
-        <span class='type'>(<tt>Integer</tt>)</span>
-      
-      
-      
-        &mdash;
-        <div class='inline'>
-<p>optional gas limit override for calling the contract.</p>
-</div>
-      
-    </li>
-  
 </ul>
 
 
@@ -1575,6 +1487,12 @@
       <pre class="lines">
 
 
+251
+252
+253
+254
+255
+256
 257
 258
 259
@@ -1584,16 +1502,10 @@
 263
 264
 265
-266
-267
-268
-269
-270
-271
-272</pre>
+266</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 257</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 251</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_call'>call</span><span class='lparen'>(</span><span class='id identifier rubyid_contract'>contract</span><span class='comma'>,</span> <span class='id identifier rubyid_function'>function</span><span class='comma'>,</span> <span class='op'>*</span><span class='id identifier rubyid_args'>args</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_kwargs'>kwargs</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_func'>func</span> <span class='op'>=</span> <span class='id identifier rubyid_contract'>contract</span><span class='period'>.</span><span class='id identifier rubyid_functions'>functions</span><span class='period'>.</span><span class='id identifier rubyid_select'>select</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_func'>func</span><span class='op'>|</span> <span class='id identifier rubyid_func'>func</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span> <span class='op'>==</span> <span class='id identifier rubyid_function'>function</span> <span class='rbrace'>}</span>
@@ -1892,6 +1804,11 @@
       <pre class="lines">
 
 
+213
+214
+215
+216
+217
 218
 219
 220
@@ -1906,15 +1823,10 @@
 229
 230
 231
-232
-233
-234
-235
-236
-237</pre>
+232</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 218</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 213</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_deploy'>deploy</span><span class='lparen'>(</span><span class='id identifier rubyid_contract'>contract</span><span class='comma'>,</span> <span class='op'>*</span><span class='id identifier rubyid_args'>args</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_kwargs'>kwargs</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_raise'>raise</span> <span class='const'>ArgumentError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Cannot deploy contract without source or binary!</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_contract'>contract</span><span class='period'>.</span><span class='id identifier rubyid_bin'>bin</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
@@ -1987,14 +1899,14 @@
       <pre class="lines">
 
 
-192
-193
-194
-195
-196</pre>
+187
+188
+189
+190
+191</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 192</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 187</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_deploy_and_wait'>deploy_and_wait</span><span class='lparen'>(</span><span class='id identifier rubyid_contract'>contract</span><span class='comma'>,</span> <span class='op'>*</span><span class='id identifier rubyid_args'>args</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_kwargs'>kwargs</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_hash'>hash</span> <span class='op'>=</span> <span class='id identifier rubyid_wait_for_tx'>wait_for_tx</span><span class='lparen'>(</span><span class='id identifier rubyid_deploy'>deploy</span><span class='lparen'>(</span><span class='id identifier rubyid_contract'>contract</span><span class='comma'>,</span> <span class='op'>*</span><span class='id identifier rubyid_args'>args</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_kwargs'>kwargs</span><span class='rparen'>)</span><span class='rparen'>)</span>
@@ -2070,12 +1982,12 @@
       <pre class="lines">
 
 
-92
-93
-94</pre>
+87
+88
+89</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 92</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 87</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_get_balance'>get_balance</span><span class='lparen'>(</span><span class='id identifier rubyid_address'>address</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_eth_get_balance'>eth_get_balance</span><span class='lparen'>(</span><span class='id identifier rubyid_address'>address</span><span class='rparen'>)</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>result</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span> <span class='int'>16</span>
@@ -2149,12 +2061,12 @@
       <pre class="lines">
 
 
-100
-101
-102</pre>
+95
+96
+97</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 100</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 95</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_get_nonce'>get_nonce</span><span class='lparen'>(</span><span class='id identifier rubyid_address'>address</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_eth_get_transaction_count'>eth_get_transaction_count</span><span class='lparen'>(</span><span class='id identifier rubyid_address'>address</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>pending</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>result</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span> <span class='int'>16</span>
@@ -2296,17 +2208,17 @@
       <pre class="lines">
 
 
+335
+336
+337
+338
+339
+340
 341
-342
-343
-344
-345
-346
-347
-348</pre>
+342</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 341</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 335</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_is_valid_signature'>is_valid_signature</span><span class='lparen'>(</span><span class='id identifier rubyid_contract'>contract</span><span class='comma'>,</span> <span class='id identifier rubyid_hash'>hash</span><span class='comma'>,</span> <span class='id identifier rubyid_signature'>signature</span><span class='comma'>,</span> <span class='id identifier rubyid_magic'>magic</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>1626ba7e</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
   <span class='id identifier rubyid_raise'>raise</span> <span class='const'>ArgumentError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Contract not deployed yet.</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_contract'>contract</span><span class='period'>.</span><span class='id identifier rubyid_address'>address</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
@@ -2365,12 +2277,12 @@
       <pre class="lines">
 
 
-354
-355
-356</pre>
+348
+349
+350</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 354</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 348</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_reset_id'>reset_id</span>
   <span class='ivar'>@id</span> <span class='op'>=</span> <span class='int'>0</span>
@@ -2480,13 +2392,13 @@
       <pre class="lines">
 
 
-110
-111
-112
-113</pre>
+105
+106
+107
+108</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 110</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 105</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_resolve_ens'>resolve_ens</span><span class='lparen'>(</span><span class='id identifier rubyid_ens_name'>ens_name</span><span class='comma'>,</span> <span class='id identifier rubyid_registry'>registry</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Ens.html" title="Eth::Ens (module)">Ens</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Ens.html#DEFAULT_ADDRESS-constant" title="Eth::Ens::DEFAULT_ADDRESS (constant)">DEFAULT_ADDRESS</a></span></span><span class='comma'>,</span> <span class='id identifier rubyid_coin_type'>coin_type</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Ens.html" title="Eth::Ens (module)">Ens</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Ens/CoinType.html" title="Eth::Ens::CoinType (module)">CoinType</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Ens/CoinType.html#ETHEREUM-constant" title="Eth::Ens::CoinType::ETHEREUM (constant)">ETHEREUM</a></span></span><span class='rparen'>)</span>
   <span class='id identifier rubyid_ens'>ens</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Ens.html" title="Eth::Ens (module)">Ens</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Ens/Resolver.html" title="Eth::Ens::Resolver (class)">Resolver</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="Ens/Resolver.html#initialize-instance_method" title="Eth::Ens::Resolver#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='kw'>self</span><span class='comma'>,</span> <span class='id identifier rubyid_registry'>registry</span><span class='rparen'>)</span>
@@ -2835,6 +2747,12 @@
       <pre class="lines">
 
 
+292
+293
+294
+295
+296
+297
 298
 299
 300
@@ -2844,16 +2762,10 @@
 304
 305
 306
-307
-308
-309
-310
-311
-312
-313</pre>
+307</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 298</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 292</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_transact'>transact</span><span class='lparen'>(</span><span class='id identifier rubyid_contract'>contract</span><span class='comma'>,</span> <span class='id identifier rubyid_function'>function</span><span class='comma'>,</span> <span class='op'>*</span><span class='id identifier rubyid_args'>args</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_kwargs'>kwargs</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_gas_limit'>gas_limit</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='id identifier rubyid_kwargs'>kwargs</span><span class='lbracket'>[</span><span class='symbol'>:gas_limit</span><span class='rbracket'>]</span>
@@ -2940,17 +2852,17 @@
       <pre class="lines">
 
 
+316
+317
+318
+319
+320
+321
 322
-323
-324
-325
-326
-327
-328
-329</pre>
+323</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 322</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 316</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_transact_and_wait'>transact_and_wait</span><span class='lparen'>(</span><span class='id identifier rubyid_contract'>contract</span><span class='comma'>,</span> <span class='id identifier rubyid_function'>function</span><span class='comma'>,</span> <span class='op'>*</span><span class='id identifier rubyid_args'>args</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_kwargs'>kwargs</span><span class='rparen'>)</span>
   <span class='kw'>begin</span>
@@ -3170,24 +3082,24 @@
       <pre class="lines">
 
 
+138
+139
+140
+141
+142
 143
 144
 145
-146
-147
-148
-149
-150
-151</pre>
+146</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 143</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 138</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_transfer'>transfer</span><span class='lparen'>(</span><span class='id identifier rubyid_destination'>destination</span><span class='comma'>,</span> <span class='id identifier rubyid_amount'>amount</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_kwargs'>kwargs</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_params'>params</span> <span class='op'>=</span> <span class='lbrace'>{</span>
     <span class='label'>value:</span> <span class='id identifier rubyid_amount'>amount</span><span class='comma'>,</span>
     <span class='label'>to:</span> <span class='id identifier rubyid_destination'>destination</span><span class='comma'>,</span>
-    <span class='label'>gas_limit:</span> <span class='id identifier rubyid_gas_limit'>gas_limit</span><span class='comma'>,</span>
+    <span class='label'>gas_limit:</span> <span class='const'><span class='object_link'><a href="Tx.html" title="Eth::Tx (module)">Tx</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Tx.html#DEFAULT_GAS_LIMIT-constant" title="Eth::Tx::DEFAULT_GAS_LIMIT (constant)">DEFAULT_GAS_LIMIT</a></span></span><span class='comma'>,</span>
     <span class='label'>chain_id:</span> <span class='id identifier rubyid_chain_id'>chain_id</span><span class='comma'>,</span>
   <span class='rbrace'>}</span>
   <span class='id identifier rubyid_send_transaction'>send_transaction</span><span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='comma'>,</span> <span class='id identifier rubyid_kwargs'>kwargs</span><span class='lbracket'>[</span><span class='symbol'>:legacy</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id identifier rubyid_kwargs'>kwargs</span><span class='lbracket'>[</span><span class='symbol'>:sender_key</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id identifier rubyid_kwargs'>kwargs</span><span class='lbracket'>[</span><span class='symbol'>:nonce</span><span class='rbracket'>]</span><span class='rparen'>)</span>
@@ -3243,12 +3155,12 @@
       <pre class="lines">
 
 
-122
-123
-124</pre>
+117
+118
+119</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 122</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 117</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_transfer_and_wait'>transfer_and_wait</span><span class='lparen'>(</span><span class='id identifier rubyid_destination'>destination</span><span class='comma'>,</span> <span class='id identifier rubyid_amount'>amount</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_kwargs'>kwargs</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_wait_for_tx'>wait_for_tx</span><span class='lparen'>(</span><span class='id identifier rubyid_transfer'>transfer</span><span class='lparen'>(</span><span class='id identifier rubyid_destination'>destination</span><span class='comma'>,</span> <span class='id identifier rubyid_amount'>amount</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_kwargs'>kwargs</span><span class='rparen'>)</span><span class='rparen'>)</span>
@@ -3527,13 +3439,13 @@
       <pre class="lines">
 
 
-181
-182
-183
-184</pre>
+176
+177
+178
+179</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 181</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 176</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_transfer_erc20'>transfer_erc20</span><span class='lparen'>(</span><span class='id identifier rubyid_erc20_contract'>erc20_contract</span><span class='comma'>,</span> <span class='id identifier rubyid_destination'>destination</span><span class='comma'>,</span> <span class='id identifier rubyid_amount'>amount</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_kwargs'>kwargs</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_destination'>destination</span> <span class='op'>=</span> <span class='id identifier rubyid_destination'>destination</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span> <span class='kw'>if</span> <span class='id identifier rubyid_destination'>destination</span><span class='period'>.</span><span class='id identifier rubyid_instance_of?'>instance_of?</span> <span class='const'><span class='object_link'><a href="../Eth.html" title="Eth (module)">Eth</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Address.html" title="Eth::Address (class)">Address</a></span></span>
@@ -3590,12 +3502,12 @@
       <pre class="lines">
 
 
-158
-159
-160</pre>
+153
+154
+155</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 158</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 153</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_transfer_erc20_and_wait'>transfer_erc20_and_wait</span><span class='lparen'>(</span><span class='id identifier rubyid_erc20_contract'>erc20_contract</span><span class='comma'>,</span> <span class='id identifier rubyid_destination'>destination</span><span class='comma'>,</span> <span class='id identifier rubyid_amount'>amount</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_kwargs'>kwargs</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_transact_and_wait'>transact_and_wait</span><span class='lparen'>(</span><span class='id identifier rubyid_erc20_contract'>erc20_contract</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>transfer</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='id identifier rubyid_destination'>destination</span><span class='comma'>,</span> <span class='id identifier rubyid_amount'>amount</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_kwargs'>kwargs</span><span class='rparen'>)</span>
@@ -3669,13 +3581,13 @@
       <pre class="lines">
 
 
-362
-363
-364
-365</pre>
+356
+357
+358
+359</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 362</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 356</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_tx_mined?'>tx_mined?</span><span class='lparen'>(</span><span class='id identifier rubyid_hash'>hash</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_mined_tx'>mined_tx</span> <span class='op'>=</span> <span class='id identifier rubyid_eth_get_transaction_by_hash'>eth_get_transaction_by_hash</span> <span class='id identifier rubyid_hash'>hash</span>
@@ -3750,13 +3662,13 @@
       <pre class="lines">
 
 
-371
-372
-373
-374</pre>
+365
+366
+367
+368</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 371</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 365</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_tx_succeeded?'>tx_succeeded?</span><span class='lparen'>(</span><span class='id identifier rubyid_hash'>hash</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_tx_receipt'>tx_receipt</span> <span class='op'>=</span> <span class='id identifier rubyid_eth_get_transaction_receipt'>eth_get_transaction_receipt</span><span class='lparen'>(</span><span class='id identifier rubyid_hash'>hash</span><span class='rparen'>)</span>
@@ -3849,19 +3761,19 @@
       <pre class="lines">
 
 
+375
+376
+377
+378
+379
+380
 381
 382
 383
-384
-385
-386
-387
-388
-389
-390</pre>
+384</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 381</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 375</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_wait_for_tx'>wait_for_tx</span><span class='lparen'>(</span><span class='id identifier rubyid_hash'>hash</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_start_time'>start_time</span> <span class='op'>=</span> <span class='const'>Time</span><span class='period'>.</span><span class='id identifier rubyid_now'>now</span>
@@ -3883,7 +3795,7 @@
 </div>
 
       <div id="footer">
-  Generated on Mon May  8 14:02:02 2023 by
+  Generated on Wed May 10 11:29:34 2023 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.34 (ruby-3.0.6).
 </div>
