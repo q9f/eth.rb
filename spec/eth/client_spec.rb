@@ -436,7 +436,7 @@ describe Client do
     end
   end
 
-  describe '.send' do
+  describe ".send" do
     let(:captured_stdout) { StringIO.new }
 
     # Replace $stdout to capture standard output
@@ -449,20 +449,20 @@ describe Client do
       $stdout = @orig_stdout
     end
 
-    it 'should set up the WebSocket connection' do
-      expect(geth_dev_ws.instance_variable_get('@ws')).to be_instance_of(WebSocket::Client::Simple::Client)
+    it "should set up the WebSocket connection" do
+      expect(geth_dev_ws.instance_variable_get("@ws")).to be_instance_of(WebSocket::Client::Simple::Client)
     end
 
-    it 'should send a message to the WebSocket server and receive a response' do
+    it "should send a message to the WebSocket server and receive a response" do
       payload = {
         id: 1,
-        jsonrpc: '2.0',
-        method: 'eth_subscribe',
+        jsonrpc: "2.0",
+        method: "eth_subscribe",
         params: ["newHeads"],
       }
       received_data = nil
 
-      geth_dev_ws.instance_variable_get('@ws').on :message do |msg|
+      geth_dev_ws.instance_variable_get("@ws").on :message do |msg|
         received_data = JSON.parse(msg.data)
       end
 
@@ -470,16 +470,16 @@ describe Client do
       geth_dev_ws.send(payload)
       sleep 0.001
 
-      expect(received_data['id']).to eq(payload[:id])
-      expect(received_data['jsonrpc']).to eq(payload[:jsonrpc])
-      expect(received_data['result']).to start_with('0x')
+      expect(received_data["id"]).to eq(payload[:id])
+      expect(received_data["jsonrpc"]).to eq(payload[:jsonrpc])
+      expect(received_data["result"]).to start_with("0x")
 
       contract = Eth::Contract.from_file(file: "spec/fixtures/contracts/dummy.sol")
       geth_http.deploy_and_wait(contract)
 
-      expect(received_data['method']).to eq("eth_subscription")
-      expect(received_data['params']["subscription"]).to start_with('0x')
-      expect(received_data['params']["result"]["parentHash"]).to start_with('0x')
+      expect(received_data["method"]).to eq("eth_subscription")
+      expect(received_data["params"]["subscription"]).to start_with("0x")
+      expect(received_data["params"]["result"]["parentHash"]).to start_with("0x")
     end
   end
 end
