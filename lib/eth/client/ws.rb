@@ -36,7 +36,7 @@ module Eth
     # Sends an RPC request to the connected WebSocket client.
     #
     # @param payload [Hash] the RPC request parameters.
-    # @return [String] a JSON-encoded response.
+    # @return [Integer] Number of bytes sent by this method.
     def send(payload)
       @ws.send(payload.to_json)
     end
@@ -49,9 +49,11 @@ module Eth
       @ws.on :message do |msg|
         puts ">> #{msg.data}"
       end
+
       @ws.on :open do
         puts "-- websocket open (#{@host})"
       end
+
       @ws.on :close do |e|
         puts "-- websocket close (#{e.inspect})"
         exit 1
