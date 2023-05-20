@@ -51,7 +51,7 @@ module Eth
     #
     # @param payload [Hash] the RPC request parameters.
     # @return [Integer] Number of bytes sent by this method.
-    def send(payload)
+    def send_request(payload)
       @ws.send(payload.to_json)
     end
 

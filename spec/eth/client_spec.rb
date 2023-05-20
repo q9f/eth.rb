@@ -470,7 +470,7 @@ describe Client do
       end
 
       sleep 0.001
-      geth_dev_ws.send(payload)
+      geth_dev_ws.send_request(payload)
       sleep 0.001
 
       expect(received_data["id"]).to eq(payload[:id])
