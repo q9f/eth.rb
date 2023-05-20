@@ -38,7 +38,10 @@ describe Client do
     it "creates an ws client" do
       expect(geth_dev_ws).to be
       expect(geth_dev_ws).to be_instance_of Client::Ws
-      expect(geth_dev_ws.host).to eq geth_dev_ws_path
+      expect(geth_dev_ws.host).to eq "127.0.0.1"
+      expect(geth_dev_ws.port).to eq 8546
+      expect(geth_dev_ws.uri.to_s).to eq geth_dev_ws_path
+      expect(geth_dev_ws.ssl).to be_falsy
     end
 
     it "connects to an infura api" do

@@ -23,6 +23,15 @@ module Eth
     # The host of the WebSocket endpoint.
     attr_reader :host
 
+    # The port of the HTTP endpoint.
+    attr_reader :port
+
+    # The full URI of the HTTP endpoint, including path.
+    attr_reader :uri
+
+    # Attribute indicator for SSL.
+    attr_reader :ssl
+
     # Constructor for the WebSocket Client. Should not be used; use
     # {Client.create} intead.
     #
@@ -49,7 +58,7 @@ module Eth
     private
 
     def setup_websocket
-      @ws = WebSocket::Client::Simple.connect @host
+      @ws = WebSocket::Client::Simple.connect @uri.to_s
 
       @ws.on :message do |msg|
         puts ">> #{msg.data}"
