@@ -29,7 +29,12 @@ module Eth
     # @param host [String] an URI pointing to an HTTP RPC-API.
     def initialize(host)
       super
-      @host = host
+      uri = URI.parse(host)
+      raise ArgumentError, "Unable to parse the WebSocket-URI!" unless ["ws", "wss"].include? uri.scheme
+      @host = uri.host
+      @port = uri.port
+      @ssl = uri.scheme == "wss"
+      @uri = URI("#{uri.scheme}://#{@host}:#{@port}#{uri.path}")
       setup_websocket
     end
 
