@@ -20,7 +20,7 @@ module Eth
   # Provides an WebSocket client.
   class Client::Ws < Client
 
-    # The host of the HTTP endpoint.
+    # The host of the WebSocket endpoint.
     attr_reader :host
 
     # Constructor for the WebSocket Client. Should not be used; use
