@@ -13,6 +13,7 @@
 # limitations under the License.
 
 require "websocket-client-simple"
+require "logger"
 
 # Provides the {Eth} module.
 module Eth
@@ -58,22 +59,25 @@ module Eth
     private
 
     def setup_websocket
+      logger = Logger.new(STDOUT)
+      logger.level = Logger::Severity::WARN
+
       @ws = WebSocket::Client::Simple.connect @uri.to_s
 
       @ws.on :message do |msg|
-        puts ">> #{msg.data}"
+        msg.data
       end
 
       @ws.on :open do
-        puts "-- websocket open (#{@host})"
+        logger.info "websocket open (#{@host})"
       end
 
       @ws.on :close do |e|
-        puts "-- websocket close (#{e.inspect})"
-        exit 1
+        logger.info "websocket close (#{e.inspect})"
       end
+
       @ws.on :error do |e|
-        puts "-- error (#{e.inspect})"
+        logger.error "websocket error (#{e.inspect})"
       end
     end
   end
