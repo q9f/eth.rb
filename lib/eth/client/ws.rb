@@ -56,6 +56,10 @@ module Eth
       @ws.send(payload.to_json)
     end
 
+    def open?
+      @ws.open?
+    end
+
     private
 
     def setup_websocket

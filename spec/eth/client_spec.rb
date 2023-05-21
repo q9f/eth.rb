@@ -440,18 +440,6 @@ describe Client do
   end
 
   describe ".send" do
-    let(:captured_stdout) { StringIO.new }
-
-    # Replace $stdout to capture standard output
-    before(:each) do
-      @orig_stdout = $stdout
-      $stdout = captured_stdout
-    end
-
-    after(:each) do
-      $stdout = @orig_stdout
-    end
-
     it "should set up the WebSocket connection" do
       expect(geth_dev_ws.instance_variable_get("@ws")).to be_instance_of(WebSocket::Client::Simple::Client)
     end
@@ -469,9 +457,19 @@ describe Client do
         received_data = JSON.parse(msg.data)
       end
 
-      sleep 0.001
+      # Wait for the connection to be established
+      start_time = Time.now
+      loop do
+        break if geth_dev_ws.instance_variable_get("@ws").open? || (Time.now - start_time > 3)
+      end
+
       geth_dev_ws.send_request(payload)
-      sleep 0.001
+
+      # Wait for the response to be received
+      start_time = Time.now
+      loop do
+        break if received_data || (Time.now - start_time > 3)
+      end
 
       expect(received_data["id"]).to eq(payload[:id])
       expect(received_data["jsonrpc"]).to eq(payload[:jsonrpc])
