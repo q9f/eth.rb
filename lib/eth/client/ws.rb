@@ -56,6 +56,9 @@ module Eth
       @ws.send(payload.to_json)
     end
 
+    # Checks if the WebSocket connection is open.
+    #
+    # @return [Boolean] true if the connection is open, false otherwise.
     def open?
       @ws.open?
     end
