@@ -53,10 +53,10 @@ module Eth
     # @return [Eth::Client::Http] an HTTP client.
     # @return [Eth::Client::Ws] an WebSocket client.
     # @raise [ArgumentError] in case it cannot determine the client type.
-    def self.create(host)
+    def self.create(host, options = {})
       return Client::Ipc.new host if host.end_with? ".ipc"
       return Client::Http.new host if host.start_with? "http"
-      return Client::Ws.new host if host.start_with? "ws"
+      return Client::Ws.new(host, options) if host.start_with? "ws"
       raise ArgumentError, "Unable to detect client type!"
     end
 

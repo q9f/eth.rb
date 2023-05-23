@@ -37,15 +37,15 @@ module Eth
     # {Client.create} intead.
     #
     # @param host [String] an URI pointing to an HTTP RPC-API.
-    def initialize(host)
-      super
+    def initialize(host, options = {})
+      super(host)
       uri = URI.parse(host)
       raise ArgumentError, "Unable to parse the WebSocket-URI!" unless ["ws", "wss"].include? uri.scheme
       @host = uri.host
       @port = uri.port
       @ssl = uri.scheme == "wss"
       @uri = URI("#{uri.scheme}://#{@host}:#{@port}#{uri.path}")
-      setup_websocket
+      setup_websocket(options[:logger])
     end
 
     # Sends an RPC request to the connected WebSocket client.
@@ -65,10 +65,7 @@ module Eth
 
     private
 
-    def setup_websocket
-      logger = Logger.new(STDOUT)
-      logger.level = Logger::Severity::WARN
-
+    def setup_websocket(logger)
       @ws = WebSocket::Client::Simple.connect @uri.to_s
 
       @ws.on :message do |msg|

@@ -15,9 +15,10 @@ describe Client do
   # it expects an $INFURA_TOKEN in environment
   let(:infura_api) { "https://mainnet.infura.io/v3/#{ENV["INFURA_TOKEN"]}" }
   subject(:infura_mainnet) { Client.create infura_api }
+  let(:logger) { Logger.new(STDOUT, level: Logger::WARN) }
   subject(:geth_dev_ipc) { Client.create geth_dev_ipc_path }
   subject(:geth_dev_http) { Client.create geth_dev_http_path }
-  subject(:geth_dev_ws) { Client.create geth_dev_ws_path }
+  subject(:geth_dev_ws) { Client.create(geth_dev_ws_path, { logger: logger }) }
 
   describe ".create .initialize" do
     it "creates an ipc client" do
