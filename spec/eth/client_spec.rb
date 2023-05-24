@@ -15,7 +15,7 @@ describe Client do
   # it expects an $INFURA_TOKEN in environment
   let(:infura_api) { "https://mainnet.infura.io/v3/#{ENV["INFURA_TOKEN"]}" }
   subject(:infura_mainnet) { Client.create infura_api }
-  let(:logger) { Logger.new(STDOUT, level: Logger::WARN) }
+  let(:logger) { Logger.new(STDOUT, level: Logger::FATAL) }
   subject(:geth_dev_ipc) { Client.create geth_dev_ipc_path }
   subject(:geth_dev_http) { Client.create geth_dev_http_path }
   subject(:geth_dev_ws) { Client.create(geth_dev_ws_path, { logger: logger }) }
@@ -482,6 +482,33 @@ describe Client do
       expect(received_data["method"]).to eq("eth_subscription")
       expect(received_data["params"]["subscription"]).to start_with("0x")
       expect(received_data["params"]["result"]["parentHash"]).to start_with("0x")
+    end
+  end
+
+  describe ".open?" do
+    it "checks if the WebSocket connection is open" do
+      expect(geth_dev_ws.open?).to be false
+
+      start_time = Time.now
+      loop do
+        break if geth_dev_ws.instance_variable_get("@ws").open? || (Time.now - start_time > 3)
+      end
+
+      expect(geth_dev_ws.open?).to be true
+    end
+  end
+
+  describe ".close?" do
+    it "checks if the WebSocket connection is close" do
+      start_time = Time.now
+      loop do
+        break if geth_dev_ws.instance_variable_get("@ws").open? || (Time.now - start_time > 3)
+      end
+
+      ws = geth_dev_ws.instance_variable_get("@ws")
+      expect(ws.closed?).to be false
+      ws.close
+      expect(ws.closed?).to be true
     end
   end
 end
