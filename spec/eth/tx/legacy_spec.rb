@@ -12,22 +12,22 @@ describe Tx::Legacy do
   }
   subject(:cow) { Key.new(priv: Util.keccak256("cow")) }
 
-  # ref https://goerli.etherscan.io/tx/0x1975df4e715ce4af46c604e3fafb763a51cc133a42e43566779b4d5608bb4af1
+  # ref https://sepolia.etherscan.io/tx/0x7613b4de482fcff616e11907d16ddba1aa950a020ec58e99ab28ba0c5926ec53
   subject(:legacy) {
     Tx.new(
       {
         nonce: 1,
         gas_price: 40 * Unit::GWEI,
-        gas_limit: 21576,
+        gas_limit: 21580,
         to: "0xcaa29806044a08e533963b2e573c1230a2cd9a2d",
         value: BigDecimal("0.123456789012345678") * Unit::ETHER,
         data: "Lorem Ipsum Ruby Ethereum Test 1-2-3",
       },
-      Chain::GOERLI
+      Chain::SEPOLIA
     )
   }
 
-  # ref https://goerli.etherscan.io/tx/0x047e319fc8e587a77f6e9a13c30d90b5a741d93e8b35a54b12c91d6149eda359
+  # ref https://sepolia.etherscan.io/tx/0x01fa6584df6326dc503ca809c9c4643cd753ba8ae63473a9994770f403cda447
   subject(:ruby) {
     Tx.new(
       {
@@ -38,12 +38,12 @@ describe Tx::Legacy do
         value: 0.0069 * Unit::ETHER,
         data: "Foo Bar Ruby Ethereum",
       },
-      Chain::GOERLI
+      Chain::SEPOLIA
     )
   }
 
-  # ref https://goerli.etherscan.io/address/0x4762119a7249823d18aec7eab73258b2d5061dd8
-  subject(:testnet) { Key.new(priv: "0xc6c633f85d3f9a4705623b1d9bd1122a1a9196cd53dd352505e895fcbb8452ef") }
+  # ref https://sepolia.etherscan.io/address/0xc3c8fd0f04b629c5e2297b79c54dd57b85a721e3
+  subject(:testnet) { Key.new(priv: "0xa0d1f18547caa1fb5c121c862d8ac66d9d6afe0afa79b291ca197e64fdccfd23") }
 
   describe ".decode" do
     it "decodes the first mainnet transaction" do
@@ -76,11 +76,11 @@ describe Tx::Legacy do
       expect(tx.hash).to eq expected_hash
     end
 
-    it "decodes a known goerli transaction signed by ruby eth gem" do
+    it "decodes a known sepolia transaction signed by ruby eth gem" do
 
-      # ref https://goerli.etherscan.io/getRawTx?tx=0x047e319fc8e587a77f6e9a13c30d90b5a741d93e8b35a54b12c91d6149eda359
-      expected_hex = "0xf880038509c76524008259d894caa29806044a08e533963b2e573c1230a2cd9a2d8718838370f3400095466f6f20426172205275627920457468657265756d2ea0a0133bf9a770032e18a2ce0eda0d8562abbd88920d696d02373e901967f9956da075e6ce3e86db8391524a7dff0331e90c2bf18cedfbd4164f177a86c53e5be4fa"
-      expected_hash = "0x047e319fc8e587a77f6e9a13c30d90b5a741d93e8b35a54b12c91d6149eda359"
+      # ref https://sepolia.etherscan.io/getRawTx?tx=0x01fa6584df6326dc503ca809c9c4643cd753ba8ae63473a9994770f403cda447
+      expected_hex = "0xf884038509c76524008259d894caa29806044a08e533963b2e573c1230a2cd9a2d8718838370f3400095466f6f20426172205275627920457468657265756d8401546d72a0980cf5d1c20ed6a44a57b4ec70301da608247013be59be740e471579a16b9963a053a2e3b95f666c38ec26c0be6105affd23c037c67277ed920aae79f93c020fa6"
+      expected_hash = "0x01fa6584df6326dc503ca809c9c4643cd753ba8ae63473a9994770f403cda447"
       decoded = Tx.decode(expected_hex)
       expect(decoded.hex).to eq Util.remove_hex_prefix expected_hex
       expect(decoded.hash).to eq Util.remove_hex_prefix expected_hash
@@ -167,7 +167,7 @@ describe Tx::Legacy do
 
     it "it does not sign a transaction twice" do
       expect { legacy.hash }.to raise_error StandardError, "Transaction is not signed!"
-      expect(testnet.address.to_s).to eq "0x4762119a7249823D18aec7EAB73258B2D5061Dd8"
+      expect(testnet.address.to_s).to eq "0xC3c8Fd0f04B629c5E2297b79c54DD57b85A721e3"
       legacy.sign(testnet)
       expect { legacy.sign(testnet) }.to raise_error StandardError, "Transaction is already signed!"
     end
@@ -198,7 +198,7 @@ describe Tx::Legacy do
     it "encodes a known goerli transaction" do
       expect { legacy.encoded }.to raise_error StandardError, "Transaction is not signed!"
       legacy.sign(testnet)
-      expect(legacy.encoded).to eq "\xF8\x90\x01\x85\tP/\x90\x00\x82TH\x94\xCA\xA2\x98\x06\x04J\b\xE53\x96;.W<\x120\xA2\xCD\x9A-\x88\x01\xB6\x9BK\xA60\xF3N\xA4Lorem Ipsum Ruby Ethereum Test 1-2-3.\xA0\xFBM0\x8F=?\x97p\xF2e.\xF4\x0E\xA86\x9A\xB3r\xE5\x9B\xAD\x81O\xB2'\xFA\xE1\xFD\xFD\xFAM:\xA0f\xC8\xA2\xA2\xA2\xAB\xCD9\e\xAC\x869\x99Z\x10\xF1Tj\x87>\xF5\xB4R\xBF\xE5\xFC6y\x01\xD9\xF4\xAB"
+      expect(legacy.encoded).to eq "\xF8\x94\x01\x85\tP/\x90\x00\x82TL\x94\xCA\xA2\x98\x06\x04J\b\xE53\x96;.W<\x120\xA2\xCD\x9A-\x88\x01\xB6\x9BK\xA60\xF3N\xA4Lorem Ipsum Ruby Ethereum Test 1-2-3\x84\x01Tmr\xA0\x9Eh\x00\x9D\xBA<\x05MyVM\x82W\x86\xE9Z\xE7t\xF2\xE5\xB2\xF4\xD7_\xA5X\x88=\v#_\x82\xA02\xDCc\t\xDD\xD9)\xF5\xB1\xFC\xE3\xC9\xEC\x04\x13\aR\xF4\n}\xA2\xF2\x82\xE7x\b\xD6\x97\x93\xF6F\xEF"
     end
   end
 
@@ -212,7 +212,7 @@ describe Tx::Legacy do
     it "hexes a known goerli transaction" do
       expect { legacy.hex }.to raise_error StandardError, "Transaction is not signed!"
       legacy.sign(testnet)
-      expect(legacy.hex).to eq "f890018509502f900082544894caa29806044a08e533963b2e573c1230a2cd9a2d8801b69b4ba630f34ea44c6f72656d20497073756d205275627920457468657265756d205465737420312d322d332ea0fb4d308f3d3f9770f2652ef40ea8369ab372e59bad814fb227fae1fdfdfa4d3aa066c8a2a2a2abcd391bac8639995a10f1546a873ef5b452bfe5fc367901d9f4ab"
+      expect(legacy.hex).to eq "f894018509502f900082544c94caa29806044a08e533963b2e573c1230a2cd9a2d8801b69b4ba630f34ea44c6f72656d20497073756d205275627920457468657265756d205465737420312d322d338401546d72a09e68009dba3c054d79564d825786e95ae774f2e5b2f4d75fa558883d0b235f82a032dc6309ddd929f5b1fce3c9ec04130752f40a7da2f282e77808d69793f646ef"
     end
   end
 
@@ -226,7 +226,7 @@ describe Tx::Legacy do
     it "hashes a known goerli transaction" do
       expect { legacy.hash }.to raise_error StandardError, "Transaction is not signed!"
       legacy.sign(testnet)
-      expect(legacy.hash).to eq "1975df4e715ce4af46c604e3fafb763a51cc133a42e43566779b4d5608bb4af1"
+      expect(legacy.hash).to eq "7613b4de482fcff616e11907d16ddba1aa950a020ec58e99ab28ba0c5926ec53"
     end
   end
 
@@ -300,15 +300,15 @@ describe Tx::Legacy do
         -4153010759215853346544872368790226810347211436084119296615430562753409734914,
       ]
     }
-    subject(:expected_hex) { "f9010c80018259ac8080b8c000000000000000000000000000000000000000000000000000000000000000800000000000000000000000003ea1e26a2119b038eaf9b27e65cdb401502ae7a43d8bfb1368aee2693eb325af9f81244b19304b087b4941a1e892da50bd48dfe1f6d17aad7aff1c87e8481f30395a1595a07b483032affed044e698bf7c43a6fe000000000000000000000000000000000000000000000000000000000000000d4c6f72656d2c20497073756d210000000000000000000000000000000000000026a0b06ef4fc47e80f9fc70143b558dfa31d6dae04661f37715b982718f8185aefa3a032a8b187b43ae4af3755e7158f7cbb9585485e05ffdd38fe3343767a61730026" }
-    subject(:expected_hash) { "3ac265b9741844e04f9ac8436469393a44d89d6fe20343fc9ea60f0f377db9ec" }
+    subject(:expected_hex) { "f9010c80018259b88080b8c000000000000000000000000000000000000000000000000000000000000000800000000000000000000000003ea1e26a2119b038eaf9b27e65cdb401502ae7a43d8bfb1368aee2693eb325af9f81244b19304b087b4941a1e892da50bd48dfe1f6d17aad7aff1c87e8481f30395a1595a07b483032affed044e698bf7c43a6fe000000000000000000000000000000000000000000000000000000000000000d4c6f72656d2c20497073756d210000000000000000000000000000000000000026a081bf91ec0984c884c7d8afe094743d30c73e08c6d6c2da497dbb75193dd0cd07a059189d3f14ea3e0eccc6240e019f09d6b277e1525a0aa7e5bdca9e444f6f4630" }
+    subject(:expected_hash) { "045ef9de4ed1aee2274be36a92db5293063bee674ec46ad94ad4d057250db536" }
 
     it "can create transactions with binary data" do
       abi = Abi.encode types, args
       some = Tx.new({
         nonce: 0,
         gas_price: 1,
-        gas_limit: 22_956,
+        gas_limit: 22_968,
         data: abi,
       })
 
@@ -332,7 +332,7 @@ describe Tx::Legacy do
       some = Tx.new({
         nonce: 0,
         gas_price: 1,
-        gas_limit: 22_956,
+        gas_limit: 22_968,
         data: hex,
       })
 
@@ -357,12 +357,12 @@ describe Tx::Legacy do
       some = Tx.new({
         nonce: 0,
         gas_price: 1,
-        gas_limit: 21_208,
+        gas_limit: 21_210,
         data: lorem,
       })
       some.sign cow
-      expect(some.hex).to eq "f85880018252d880808d4c6f72656d2c20497073756d2125a08540db1627dd415d4b53f2d0b7835510ab9cfc77ad40a785e7e0dc6ec63cef79a02822730ee77dfddee349d720e3cfa955b38f7ffb9e482e4c15931bb9cca0c33c"
-      expect(some.hash).to eq "37aa7c93ffcbc92bcd016796ae231ea2ddce5c0daa5f5646784d3cbb9b6cff3b"
+      expect(some.hex).to eq "f85880018252da80808d4c6f72656d2c20497073756d2125a0121ceae143464734a25416294fd324e8a5a8578bbad84b7044a2f84b2ae0c0e8a00f72e5a58b1c40a9484026137e69a00746d613bd9445d767a7d7a305a2947e2d"
+      expect(some.hash).to eq "43bbce3dc6bc845bfbf052df40bfbf20086eb6f983c5aacf9a964a0cc6b1c22a"
 
       # expect to match both decoded transaction and decoded abi
       other = Tx.decode some.hex
