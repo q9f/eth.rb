@@ -2771,7 +2771,7 @@
   <span class='id identifier rubyid_gas_limit'>gas_limit</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='id identifier rubyid_kwargs'>kwargs</span><span class='lbracket'>[</span><span class='symbol'>:gas_limit</span><span class='rbracket'>]</span>
       <span class='id identifier rubyid_kwargs'>kwargs</span><span class='lbracket'>[</span><span class='symbol'>:gas_limit</span><span class='rbracket'>]</span>
     <span class='kw'>else</span>
-      <span class='const'><span class='object_link'><a href="Tx.html" title="Eth::Tx (module)">Tx</a></span></span><span class='period'>.</span><span class='id identifier rubyid_estimate_intrinsic_gas'><span class='object_link'><a href="Tx.html#estimate_intrinsic_gas-instance_method" title="Eth::Tx#estimate_intrinsic_gas (method)">estimate_intrinsic_gas</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_contract'>contract</span><span class='period'>.</span><span class='id identifier rubyid_bin'>bin</span><span class='rparen'>)</span> <span class='op'>+</span> <span class='const'><span class='object_link'><a href="Tx.html" title="Eth::Tx (module)">Tx</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Tx.html#CREATE_GAS-constant" title="Eth::Tx::CREATE_GAS (constant)">CREATE_GAS</a></span></span>
+      <span class='const'><span class='object_link'><a href="Tx.html" title="Eth::Tx (module)">Tx</a></span></span><span class='period'>.</span><span class='id identifier rubyid_estimate_intrinsic_gas'><span class='object_link'><a href="Tx.html#estimate_intrinsic_gas-instance_method" title="Eth::Tx#estimate_intrinsic_gas (method)">estimate_intrinsic_gas</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_contract'>contract</span><span class='period'>.</span><span class='id identifier rubyid_bin'>bin</span><span class='rparen'>)</span>
     <span class='kw'>end</span>
   <span class='id identifier rubyid_fun'>fun</span> <span class='op'>=</span> <span class='id identifier rubyid_contract'>contract</span><span class='period'>.</span><span class='id identifier rubyid_functions'>functions</span><span class='period'>.</span><span class='id identifier rubyid_select'>select</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_func'>func</span><span class='op'>|</span> <span class='id identifier rubyid_func'>func</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span> <span class='op'>==</span> <span class='id identifier rubyid_function'>function</span> <span class='rbrace'>}</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span>
   <span class='id identifier rubyid_params'>params</span> <span class='op'>=</span> <span class='lbrace'>{</span>
@@ -3795,7 +3795,7 @@
 </div>
 
       <div id="footer">
-  Generated on Wed May 10 11:29:34 2023 by
+  Generated on Fri May 26 13:06:31 2023 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.34 (ruby-3.0.6).
 </div>
