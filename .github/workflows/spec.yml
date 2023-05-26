@@ -37,10 +37,15 @@ jobs:
         sudo apt-get update
         sudo apt-get install ethereum solc libyaml-dev
       if: startsWith(matrix.os, 'Ubuntu')
+    - name: Patch Geth # https://github.com/ethereum/go-ethereum/pull/27360
+      run: |
+        git clone https://github.com/q9f/go-ethereum.git -b q9f/params/shanghai
+        pushd go-ethereum/
+        make geth
+        popd
     - name: Run Geth
       run: |
-        geth --dev --http --ws --ipcpath /tmp/geth.ipc &
-        disown &
+        ./go-ethereum/build/bin/geth --dev --http --ws --ipcpath /tmp/geth.ipc &
     - name: Gem Dependencies
       run: |
         git submodule update --init

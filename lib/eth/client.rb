@@ -295,7 +295,7 @@ module Eth
       gas_limit = if kwargs[:gas_limit]
           kwargs[:gas_limit]
         else
-          Tx.estimate_intrinsic_gas(contract.bin) + Tx::CREATE_GAS
+          Tx.estimate_intrinsic_gas(contract.bin)
         end
       fun = contract.functions.select { |func| func.name == function }[0]
       params = {
