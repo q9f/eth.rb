@@ -34,19 +34,15 @@ module Eth
     # The default transaction max fee per gas in Wei, defaults to {Tx::DEFAULT_GAS_PRICE}.
     attr_accessor :max_fee_per_gas
 
-    # The default gas limit for the transaction, defaults to {Tx::DEFAULT_GAS_LIMIT}.
-    attr_accessor :gas_limit
-
     # A custom error type if a contract interaction fails.
     class ContractExecutionError < StandardError; end
 
     # Creates a new RPC-Client, either by providing an HTTP/S host or
     # an IPC path. Supports basic authentication with username and password.
     #
-    # **Note**, this sets the folling gas defaults: {Tx::DEFAULT_PRIORITY_FEE},
-    # {Tx::DEFAULT_GAS_PRICE}, and {Tx::DEFAULT_GAS_LIMIT}. Use
-    # {#max_priority_fee_per_gas}, {#max_fee_per_gas}, and {#gas_limit} to set
-    # custom values prior to submitting transactions.
+    # **Note**, this sets the folling gas defaults: {Tx::DEFAULT_PRIORITY_FEE}
+    # and {Tx::DEFAULT_GAS_PRICE. Use {#max_priority_fee_per_gas} and
+    # {#max_fee_per_gas} to set custom values prior to submitting transactions.
     #
     # @param host [String] either an HTTP/S host or an IPC path.
     # @return [Eth::Client::Ipc] an IPC client.
@@ -66,7 +62,6 @@ module Eth
       @id = 0
       @max_priority_fee_per_gas = Tx::DEFAULT_PRIORITY_FEE
       @max_fee_per_gas = Tx::DEFAULT_GAS_PRICE
-      @gas_limit = Tx::DEFAULT_GAS_LIMIT
     end
 
     # Gets the default account (coinbase) of the connected client.
@@ -146,7 +141,7 @@ module Eth
       params = {
         value: amount,
         to: destination,
-        gas_limit: gas_limit,
+        gas_limit: Tx::DEFAULT_GAS_LIMIT,
         chain_id: chain_id,
       }
       send_transaction(params, kwargs[:legacy], kwargs[:sender_key], kwargs[:nonce])
@@ -254,7 +249,6 @@ module Eth
     #   @param *args optional function arguments.
     #   @param **sender_key [Eth::Key] the sender private key.
     #   @param **legacy [Boolean] enables legacy transactions (pre-EIP-1559).
-    #   @param **gas_limit [Integer] optional gas limit override for calling the contract.
     # @return [Object] returns the result of the call.
     def call(contract, function, *args, **kwargs)
       func = contract.functions.select { |func| func.name == function }
