@@ -26,34 +26,15 @@ jobs:
       with:
         ruby-version: ${{ matrix.ruby }}
         bundler-cache: false
-    # - name: MacOs Dependencies
-    #   run: |
-    #     brew tap ethereum/ethereum
-    #     brew install --verbose pkg-config automake autogen ethereum solidity
-    #   if: startsWith(matrix.os, 'macOS')
-    - name: Patch Geth
+    - name: Patch Geth # https://github.com/ethereum/go-ethereum/pull/27360
       run: |
         git clone https://github.com/q9f/go-ethereum.git -b q9f/params/shanghai
         pushd go-ethereum/
         make geth
-        pwd
-        exit 1
-    # - name: Ubuntu Dependencies
-    #   run: |
-    #     sudo add-apt-repository -y ppa:ethereum/ethereum
-    #     sudo apt-get update
-    #     sudo apt-get install ethereum solc libyaml-dev
-    #   if: startsWith(matrix.os, 'Ubuntu')
-    - name: Ubuntu Dependencies
-      run: |
-        sudo add-apt-repository -y ppa:ethereum/ethereum
-        sudo apt-get update
-        sudo apt-get install ethereum solc libyaml-dev
-      if: startsWith(matrix.os, 'Ubuntu')
+        popd
     - name: Run Geth
       run: |
-        geth --dev --http --ipcpath /tmp/geth.ipc &
-        disown &
+        ./go-ethereum/build/bin/geth --dev --http --ipcpath /tmp/geth.ipc &
     - name: Gem Dependencies
       run: |
         git submodule update --init
