@@ -257,7 +257,11 @@ module Eth
 
       # Properly encodes addresses.
       def address(arg)
-        if arg.is_a? Integer
+        if arg.is_a? Address
+
+          # from checksummed address with 0x prefix
+          Util.zpad_hex arg.to_s[2..-1]
+        elsif arg.is_a? Integer
 
           # address from integer
           Util.zpad_int arg
@@ -267,11 +271,11 @@ module Eth
           Util.zpad arg, 32
         elsif arg.size == 40
 
-          # address from hexadecimal address with 0x prefix
+          # address from hexadecimal address
           Util.zpad_hex arg
         elsif arg.size == 42 and arg[0, 2] == "0x"
 
-          # address from hexadecimal address
+          # address from hexadecimal address with 0x prefix
           Util.zpad_hex arg[2..-1]
         else
           raise EncodingError, "Could not parse address: #{arg}"
