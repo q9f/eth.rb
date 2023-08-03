@@ -123,8 +123,8 @@ describe Tx do
     end
   end
 
-  describe '.decode an unsigned transaction' do
-    context 'EIP-1559' do
+  describe ".decode an unsigned transaction" do
+    context "EIP-1559" do
       it "keeps the 'from' field blank" do
         raw = "0x02f0050584b2d05e00851010b872008303841494caedbd63fb25c3126bfe96c1af208e4688e9817e87f6a3d9c63df00080c0"
         tx = Tx.decode raw
@@ -137,7 +137,7 @@ describe Tx do
       end
     end
 
-    context 'EIP-2930' do
+    context "EIP-2930" do
       it "keeps the 'from' field blank" do
         raw = "01eb050585037e11d6008303841494caedbd63fb25c3126bfe96c1af208e4688e9817e87f6a3d9c63df00080c0"
         tx = Tx.decode raw
