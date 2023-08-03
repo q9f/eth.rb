@@ -1744,7 +1744,12 @@
 186
 187
 188
-189</pre>
+189
+190
+191
+192
+193
+194</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/eth/tx/eip2930.rb', line 136</span>
@@ -1797,11 +1802,16 @@
   <span class='comment'># last but not least, set the type.
 </span>  <span class='ivar'>@type</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Tx.html#TYPE_2930-constant" title="Eth::Tx::TYPE_2930 (constant)">TYPE_2930</a></span></span>
 
-  <span class='comment'># recover sender address
-</span>  <span class='id identifier rubyid_v'>v</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Chain.html" title="Eth::Chain (module)">Chain</a></span></span><span class='period'>.</span><span class='id identifier rubyid_to_v'><span class='object_link'><a href="../Chain.html#to_v-instance_method" title="Eth::Chain#to_v (method)">to_v</a></span></span> <span class='id identifier rubyid_recovery_id'>recovery_id</span><span class='comma'>,</span> <span class='id identifier rubyid_chain_id'>chain_id</span>
-  <span class='id identifier rubyid_public_key'>public_key</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Signature.html" title="Eth::Signature (module)">Signature</a></span></span><span class='period'>.</span><span class='id identifier rubyid_recover'><span class='object_link'><a href="../Signature.html#recover-instance_method" title="Eth::Signature#recover (method)">recover</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_unsigned_hash'>unsigned_hash</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_r'>r</span><span class='period'>.</span><span class='id identifier rubyid_rjust'>rjust</span><span class='lparen'>(</span><span class='int'>64</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>0</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='embexpr_end'>}</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_s'>s</span><span class='period'>.</span><span class='id identifier rubyid_rjust'>rjust</span><span class='lparen'>(</span><span class='int'>64</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>0</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='embexpr_end'>}</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_v'>v</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='lparen'>(</span><span class='int'>16</span><span class='rparen'>)</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='id identifier rubyid_chain_id'>chain_id</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_address'>address</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_public_key_to_address'><span class='object_link'><a href="../Util.html#public_key_to_address-instance_method" title="Eth::Util#public_key_to_address (method)">public_key_to_address</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_public_key'>public_key</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>
-  <span class='ivar'>@sender</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Tx.html" title="Eth::Tx (module)">Tx</a></span></span><span class='period'>.</span><span class='id identifier rubyid_sanitize_address'><span class='object_link'><a href="../Tx.html#sanitize_address-instance_method" title="Eth::Tx#sanitize_address (method)">sanitize_address</a></span></span> <span class='id identifier rubyid_address'>address</span>
+  <span class='kw'>unless</span> <span class='id identifier rubyid_recovery_id'>recovery_id</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+    <span class='comment'># recover sender address
+</span>    <span class='id identifier rubyid_v'>v</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Chain.html" title="Eth::Chain (module)">Chain</a></span></span><span class='period'>.</span><span class='id identifier rubyid_to_v'><span class='object_link'><a href="../Chain.html#to_v-instance_method" title="Eth::Chain#to_v (method)">to_v</a></span></span> <span class='id identifier rubyid_recovery_id'>recovery_id</span><span class='comma'>,</span> <span class='id identifier rubyid_chain_id'>chain_id</span>
+    <span class='id identifier rubyid_public_key'>public_key</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Signature.html" title="Eth::Signature (module)">Signature</a></span></span><span class='period'>.</span><span class='id identifier rubyid_recover'><span class='object_link'><a href="../Signature.html#recover-instance_method" title="Eth::Signature#recover (method)">recover</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_unsigned_hash'>unsigned_hash</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_r'>r</span><span class='period'>.</span><span class='id identifier rubyid_rjust'>rjust</span><span class='lparen'>(</span><span class='int'>64</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>0</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='embexpr_end'>}</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_s'>s</span><span class='period'>.</span><span class='id identifier rubyid_rjust'>rjust</span><span class='lparen'>(</span><span class='int'>64</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>0</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='embexpr_end'>}</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_v'>v</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='lparen'>(</span><span class='int'>16</span><span class='rparen'>)</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='id identifier rubyid_chain_id'>chain_id</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_address'>address</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_public_key_to_address'><span class='object_link'><a href="../Util.html#public_key_to_address-instance_method" title="Eth::Util#public_key_to_address (method)">public_key_to_address</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_public_key'>public_key</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>
+    <span class='ivar'>@sender</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Tx.html" title="Eth::Tx (module)">Tx</a></span></span><span class='period'>.</span><span class='id identifier rubyid_sanitize_address'><span class='object_link'><a href="../Tx.html#sanitize_address-instance_method" title="Eth::Tx#sanitize_address (method)">sanitize_address</a></span></span> <span class='id identifier rubyid_address'>address</span>
+  <span class='kw'>else</span>
+    <span class='comment'># keep the &#39;from&#39; field blank
+</span>    <span class='ivar'>@sender</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Tx.html" title="Eth::Tx (module)">Tx</a></span></span><span class='period'>.</span><span class='id identifier rubyid_sanitize_address'><span class='object_link'><a href="../Tx.html#sanitize_address-instance_method" title="Eth::Tx#sanitize_address (method)">sanitize_address</a></span></span> <span class='kw'>nil</span>
+  <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1870,11 +1880,6 @@
       <pre class="lines">
 
 
-254
-255
-256
-257
-258
 259
 260
 261
@@ -1891,10 +1896,15 @@
 272
 273
 274
-275</pre>
+275
+276
+277
+278
+279
+280</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip2930.rb', line 254</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip2930.rb', line 259</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_encoded'>encoded</span>
   <span class='kw'>unless</span> <span class='const'><span class='object_link'><a href="../Tx.html" title="Eth::Tx (module)">Tx</a></span></span><span class='period'>.</span><span class='id identifier rubyid_signed?'><span class='object_link'><a href="../Tx.html#signed%3F-instance_method" title="Eth::Tx#signed? (method)">signed?</a></span></span> <span class='kw'>self</span>
@@ -1967,12 +1977,12 @@
       <pre class="lines">
 
 
-287
-288
-289</pre>
+292
+293
+294</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip2930.rb', line 287</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip2930.rb', line 292</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_hash'>hash</span>
   <span class='const'><span class='object_link'><a href="../Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_bin_to_hex'><span class='object_link'><a href="../Util.html#bin_to_hex-instance_method" title="Eth::Util#bin_to_hex (method)">bin_to_hex</a></span></span> <span class='const'><span class='object_link'><a href="../Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_keccak256'><span class='object_link'><a href="../Util.html#keccak256-instance_method" title="Eth::Util#keccak256 (method)">keccak256</a></span></span> <span class='id identifier rubyid_encoded'>encoded</span>
@@ -2026,12 +2036,12 @@
       <pre class="lines">
 
 
-280
-281
-282</pre>
+285
+286
+287</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip2930.rb', line 280</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip2930.rb', line 285</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_hex'>hex</span>
   <span class='const'><span class='object_link'><a href="../Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_bin_to_hex'><span class='object_link'><a href="../Util.html#bin_to_hex-instance_method" title="Eth::Util#bin_to_hex (method)">bin_to_hex</a></span></span> <span class='id identifier rubyid_encoded'>encoded</span>
@@ -2137,11 +2147,6 @@
       <pre class="lines">
 
 
-227
-228
-229
-230
-231
 232
 233
 234
@@ -2157,10 +2162,15 @@
 244
 245
 246
-247</pre>
+247
+248
+249
+250
+251
+252</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip2930.rb', line 227</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip2930.rb', line 232</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_sign'>sign</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='rparen'>)</span>
   <span class='kw'>if</span> <span class='const'><span class='object_link'><a href="../Tx.html" title="Eth::Tx (module)">Tx</a></span></span><span class='period'>.</span><span class='id identifier rubyid_signed?'><span class='object_link'><a href="../Tx.html#signed%3F-instance_method" title="Eth::Tx#signed? (method)">signed?</a></span></span> <span class='kw'>self</span>
@@ -2270,11 +2280,6 @@
       <pre class="lines">
 
 
-196
-197
-198
-199
-200
 201
 202
 203
@@ -2293,10 +2298,15 @@
 216
 217
 218
-219</pre>
+219
+220
+221
+222
+223
+224</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip2930.rb', line 196</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip2930.rb', line 201</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_unsigned_copy'>unsigned_copy</span><span class='lparen'>(</span><span class='id identifier rubyid_tx'>tx</span><span class='rparen'>)</span>
 
@@ -2371,11 +2381,6 @@
       <pre class="lines">
 
 
-295
-296
-297
-298
-299
 300
 301
 302
@@ -2386,10 +2391,15 @@
 307
 308
 309
-310</pre>
+310
+311
+312
+313
+314
+315</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip2930.rb', line 295</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip2930.rb', line 300</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_unsigned_encoded'>unsigned_encoded</span>
   <span class='id identifier rubyid_tx_data'>tx_data</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
@@ -2456,12 +2466,12 @@
       <pre class="lines">
 
 
-315
-316
-317</pre>
+320
+321
+322</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip2930.rb', line 315</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip2930.rb', line 320</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_unsigned_hash'>unsigned_hash</span>
   <span class='const'><span class='object_link'><a href="../Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_keccak256'><span class='object_link'><a href="../Util.html#keccak256-instance_method" title="Eth::Util#keccak256 (method)">keccak256</a></span></span> <span class='id identifier rubyid_unsigned_encoded'>unsigned_encoded</span>
@@ -2476,7 +2486,7 @@
 </div>
 
       <div id="footer">
-  Generated on Thu Aug  3 15:00:03 2023 by
+  Generated on Thu Aug  3 15:00:22 2023 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.34 (ruby-3.0.6).
 </div>
