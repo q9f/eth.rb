@@ -181,11 +181,16 @@ module Eth
         # last but not least, set the type.
         @type = TYPE_2930
 
-        # recover sender address
-        v = Chain.to_v recovery_id, chain_id
-        public_key = Signature.recover(unsigned_hash, "#{r.rjust(64, "0")}#{s.rjust(64, "0")}#{v.to_s(16)}", chain_id)
-        address = Util.public_key_to_address(public_key).to_s
-        @sender = Tx.sanitize_address address
+        unless recovery_id.nil?
+          # recover sender address
+          v = Chain.to_v recovery_id, chain_id
+          public_key = Signature.recover(unsigned_hash, "#{r.rjust(64, "0")}#{s.rjust(64, "0")}#{v.to_s(16)}", chain_id)
+          address = Util.public_key_to_address(public_key).to_s
+          @sender = Tx.sanitize_address address
+        else
+          # keep the 'from' field blank
+          @sender = Tx.sanitize_address nil
+        end
       end
 
       # Creates an unsigned copy of a transaction payload.
