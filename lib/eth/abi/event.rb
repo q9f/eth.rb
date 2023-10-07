@@ -40,8 +40,18 @@ module Eth
       def signature(interface)
         name = interface.fetch("name")
         inputs = interface.fetch("inputs", [])
-        types = inputs.map { |i| i.fetch("type") }
+        types = inputs.map { |i| type(i) }
         "#{name}(#{types.join(",")})"
+      end
+
+      def type(input)
+        if input["type"] == "tuple"
+          "(#{input["components"].map {|c| type(c) }.join(",")})"
+        elsif input["type"] == "enum"
+          "uint8"
+        else
+          input["type"]
+        end
       end
 
       # A decoded event log.
