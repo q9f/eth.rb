@@ -126,7 +126,7 @@ describe Client do
       it "raises exception when nonce incorrect" do
         expect {
           geth_http.transfer(another_key.address, 69 * Unit::ETHER, legacy: true, nonce: 0)
-        }.to raise_error(IOError, "nonce too low")
+        }.to raise_error(IOError, /nonce too low: next nonce [0-9]+, tx nonce [0-9]+/)
       end
 
       it "funds account twice" do
@@ -192,7 +192,7 @@ describe Client do
       it "raises exception when nonce incorrect" do
         expect {
           geth_http.deploy_and_wait(contract, nonce: 0)
-        }.to raise_error(IOError, "nonce too low")
+        }.to raise_error(IOError, /nonce too low: next nonce [0-9]+, tx nonce [0-9]+/)
       end
 
       it "deploys the contract twice" do
@@ -354,7 +354,7 @@ describe Client do
       it "raises exception when nonce incorrect" do
         expect {
           geth_http.transact(contract, "set", 42, address: contract_address, nonce: 0)
-        }.to raise_error(IOError, "nonce too low")
+        }.to raise_error(IOError, /nonce too low: next nonce [0-9]+, tx nonce [0-9]+/)
       end
 
       it "transacts function twice" do

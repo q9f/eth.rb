@@ -21,7 +21,7 @@ jobs:
         os: [ubuntu-22.04, macos-12]
         ruby: ['3.0', '3.1', '3.2']
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - uses: ruby/setup-ruby@v1
       with:
         ruby-version: ${{ matrix.ruby }}
@@ -37,15 +37,10 @@ jobs:
         sudo apt-get update
         sudo apt-get install ethereum solc libyaml-dev
       if: startsWith(matrix.os, 'Ubuntu')
-    - name: Patch Geth # https://github.com/ethereum/go-ethereum/pull/27360
-      run: |
-        git clone https://github.com/q9f/go-ethereum.git -b q9f/params/shanghai
-        pushd go-ethereum/
-        make geth
-        popd
     - name: Run Geth
       run: |
-        ./go-ethereum/build/bin/geth --dev --http --ws --ipcpath /tmp/geth.ipc &
+        geth --dev --http --ipcpath /tmp/geth.ipc &
+        disown &
     - name: Gem Dependencies
       run: |
         git submodule update --init

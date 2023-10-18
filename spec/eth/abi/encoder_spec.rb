@@ -50,6 +50,7 @@ describe Abi::Encoder do
     expect(Abi::Encoder.type t_address, "\xff" * 20).to eq Util.zpad("\xff" * 20, 32)
     expect(Abi::Encoder.type t_address, "ff" * 20).to eq Util.zpad("\xff" * 20, 32)
     expect(Abi::Encoder.type t_address, "0x" + "ff" * 20).to eq Util.zpad("\xff" * 20, 32)
+    expect(Abi::Encoder.type t_address, Address.new("0x" + "ff" * 20)).to eq Util.zpad("\xff" * 20, 32)
   end
 
   it "can encode primitive types" do
