@@ -113,7 +113,6 @@ module Eth
       types[primary_type.to_sym].each do |field|
         value = data[field[:name].to_sym]
         type = field[:type]
-        raise NotImplementedError, "Arrays currently unimplemented for EIP-712." if type.end_with? "]"
         if type == "string" or type == "bytes"
           encoded_types.push "bytes32"
           encoded_values.push Util.keccak256 value
@@ -121,6 +120,8 @@ module Eth
           encoded_types.push "bytes32"
           value = encode_data type, value, types
           encoded_values.push Util.keccak256 value
+        elsif type.end_with? "]"
+          raise NotImplementedError, "Arrays currently unimplemented for EIP-712."
         else
           encoded_types.push type
           encoded_values.push value
