@@ -605,7 +605,11 @@
 129
 130
 131
-132</pre>
+132
+133
+134
+135
+136</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/eth/eip712.rb', line 106</span>
@@ -621,8 +625,12 @@
     <span class='id identifier rubyid_value'>value</span> <span class='op'>=</span> <span class='id identifier rubyid_data'>data</span><span class='lbracket'>[</span><span class='id identifier rubyid_field'>field</span><span class='lbracket'>[</span><span class='symbol'>:name</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span><span class='rbracket'>]</span>
     <span class='id identifier rubyid_type'>type</span> <span class='op'>=</span> <span class='id identifier rubyid_field'>field</span><span class='lbracket'>[</span><span class='symbol'>:type</span><span class='rbracket'>]</span>
     <span class='id identifier rubyid_raise'>raise</span> <span class='const'>NotImplementedError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Arrays currently unimplemented for EIP-712.</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_type'>type</span><span class='period'>.</span><span class='id identifier rubyid_end_with?'>end_with?</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>]</span><span class='tstring_end'>&quot;</span></span>
-    <span class='kw'>if</span> <span class='id identifier rubyid_type'>type</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>string</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>or</span> <span class='id identifier rubyid_type'>type</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>bytes</span><span class='tstring_end'>&quot;</span></span>
+    <span class='kw'>if</span> <span class='id identifier rubyid_type'>type</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>string</span><span class='tstring_end'>&quot;</span></span>
       <span class='id identifier rubyid_encoded_types'>encoded_types</span><span class='period'>.</span><span class='id identifier rubyid_push'>push</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>bytes32</span><span class='tstring_end'>&quot;</span></span>
+      <span class='id identifier rubyid_encoded_values'>encoded_values</span><span class='period'>.</span><span class='id identifier rubyid_push'>push</span> <span class='const'><span class='object_link'><a href="Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_keccak256'><span class='object_link'><a href="Util.html#keccak256-instance_method" title="Eth::Util#keccak256 (method)">keccak256</a></span></span> <span class='id identifier rubyid_value'>value</span>
+    <span class='kw'>elsif</span> <span class='id identifier rubyid_type'>type</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>bytes</span><span class='tstring_end'>&quot;</span></span>
+      <span class='id identifier rubyid_encoded_types'>encoded_types</span><span class='period'>.</span><span class='id identifier rubyid_push'>push</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>bytes32</span><span class='tstring_end'>&quot;</span></span>
+      <span class='id identifier rubyid_value'>value</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_hex_to_bin'><span class='object_link'><a href="Util.html#hex_to_bin-instance_method" title="Eth::Util#hex_to_bin (method)">hex_to_bin</a></span></span> <span class='id identifier rubyid_value'>value</span>
       <span class='id identifier rubyid_encoded_values'>encoded_values</span><span class='period'>.</span><span class='id identifier rubyid_push'>push</span> <span class='const'><span class='object_link'><a href="Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_keccak256'><span class='object_link'><a href="Util.html#keccak256-instance_method" title="Eth::Util#keccak256 (method)">keccak256</a></span></span> <span class='id identifier rubyid_value'>value</span>
     <span class='kw'>elsif</span> <span class='op'>!</span><span class='id identifier rubyid_types'>types</span><span class='lbracket'>[</span><span class='id identifier rubyid_type'>type</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
       <span class='id identifier rubyid_encoded_types'>encoded_types</span><span class='period'>.</span><span class='id identifier rubyid_push'>push</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>bytes32</span><span class='tstring_end'>&quot;</span></span>
@@ -883,19 +891,19 @@
       <pre class="lines">
 
 
-151
-152
-153
-154
 155
 156
 157
 158
 159
-160</pre>
+160
+161
+162
+163
+164</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/eip712.rb', line 151</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/eip712.rb', line 155</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_enforce_typed_data'>enforce_typed_data</span><span class='lparen'>(</span><span class='id identifier rubyid_data'>data</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_data'>data</span> <span class='op'>=</span> <span class='const'>JSON</span><span class='period'>.</span><span class='id identifier rubyid_parse'>parse</span> <span class='id identifier rubyid_data'>data</span> <span class='kw'>if</span> <span class='const'><span class='object_link'><a href="Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_hex?'><span class='object_link'><a href="Util.html#hex%3F-instance_method" title="Eth::Util#hex? (method)">hex?</a></span></span> <span class='id identifier rubyid_data'>data</span>
@@ -976,10 +984,6 @@
       <pre class="lines">
 
 
-167
-168
-169
-170
 171
 172
 173
@@ -991,10 +995,14 @@
 179
 180
 181
-182</pre>
+182
+183
+184
+185
+186</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/eip712.rb', line 167</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/eip712.rb', line 171</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_hash'>hash</span><span class='lparen'>(</span><span class='id identifier rubyid_data'>data</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_data'>data</span> <span class='op'>=</span> <span class='id identifier rubyid_enforce_typed_data'>enforce_typed_data</span> <span class='id identifier rubyid_data'>data</span>
@@ -1113,13 +1121,13 @@
       <pre class="lines">
 
 
-140
-141
-142
-143</pre>
+144
+145
+146
+147</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/eip712.rb', line 140</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/eip712.rb', line 144</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_hash_data'>hash_data</span><span class='lparen'>(</span><span class='id identifier rubyid_primary_type'>primary_type</span><span class='comma'>,</span> <span class='id identifier rubyid_data'>data</span><span class='comma'>,</span> <span class='id identifier rubyid_types'>types</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_encoded_data'>encoded_data</span> <span class='op'>=</span> <span class='id identifier rubyid_encode_data'>encode_data</span> <span class='id identifier rubyid_primary_type'>primary_type</span><span class='comma'>,</span> <span class='id identifier rubyid_data'>data</span><span class='comma'>,</span> <span class='id identifier rubyid_types'>types</span>
@@ -1504,7 +1512,11 @@
 129
 130
 131
-132</pre>
+132
+133
+134
+135
+136</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/eth/eip712.rb', line 106</span>
@@ -1520,8 +1532,12 @@
     <span class='id identifier rubyid_value'>value</span> <span class='op'>=</span> <span class='id identifier rubyid_data'>data</span><span class='lbracket'>[</span><span class='id identifier rubyid_field'>field</span><span class='lbracket'>[</span><span class='symbol'>:name</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span><span class='rbracket'>]</span>
     <span class='id identifier rubyid_type'>type</span> <span class='op'>=</span> <span class='id identifier rubyid_field'>field</span><span class='lbracket'>[</span><span class='symbol'>:type</span><span class='rbracket'>]</span>
     <span class='id identifier rubyid_raise'>raise</span> <span class='const'>NotImplementedError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Arrays currently unimplemented for EIP-712.</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_type'>type</span><span class='period'>.</span><span class='id identifier rubyid_end_with?'>end_with?</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>]</span><span class='tstring_end'>&quot;</span></span>
-    <span class='kw'>if</span> <span class='id identifier rubyid_type'>type</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>string</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>or</span> <span class='id identifier rubyid_type'>type</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>bytes</span><span class='tstring_end'>&quot;</span></span>
+    <span class='kw'>if</span> <span class='id identifier rubyid_type'>type</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>string</span><span class='tstring_end'>&quot;</span></span>
       <span class='id identifier rubyid_encoded_types'>encoded_types</span><span class='period'>.</span><span class='id identifier rubyid_push'>push</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>bytes32</span><span class='tstring_end'>&quot;</span></span>
+      <span class='id identifier rubyid_encoded_values'>encoded_values</span><span class='period'>.</span><span class='id identifier rubyid_push'>push</span> <span class='const'><span class='object_link'><a href="Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_keccak256'><span class='object_link'><a href="Util.html#keccak256-instance_method" title="Eth::Util#keccak256 (method)">keccak256</a></span></span> <span class='id identifier rubyid_value'>value</span>
+    <span class='kw'>elsif</span> <span class='id identifier rubyid_type'>type</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>bytes</span><span class='tstring_end'>&quot;</span></span>
+      <span class='id identifier rubyid_encoded_types'>encoded_types</span><span class='period'>.</span><span class='id identifier rubyid_push'>push</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>bytes32</span><span class='tstring_end'>&quot;</span></span>
+      <span class='id identifier rubyid_value'>value</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_hex_to_bin'><span class='object_link'><a href="Util.html#hex_to_bin-instance_method" title="Eth::Util#hex_to_bin (method)">hex_to_bin</a></span></span> <span class='id identifier rubyid_value'>value</span>
       <span class='id identifier rubyid_encoded_values'>encoded_values</span><span class='period'>.</span><span class='id identifier rubyid_push'>push</span> <span class='const'><span class='object_link'><a href="Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_keccak256'><span class='object_link'><a href="Util.html#keccak256-instance_method" title="Eth::Util#keccak256 (method)">keccak256</a></span></span> <span class='id identifier rubyid_value'>value</span>
     <span class='kw'>elsif</span> <span class='op'>!</span><span class='id identifier rubyid_types'>types</span><span class='lbracket'>[</span><span class='id identifier rubyid_type'>type</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
       <span class='id identifier rubyid_encoded_types'>encoded_types</span><span class='period'>.</span><span class='id identifier rubyid_push'>push</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>bytes32</span><span class='tstring_end'>&quot;</span></span>
@@ -1782,19 +1798,19 @@
       <pre class="lines">
 
 
-151
-152
-153
-154
 155
 156
 157
 158
 159
-160</pre>
+160
+161
+162
+163
+164</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/eip712.rb', line 151</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/eip712.rb', line 155</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_enforce_typed_data'>enforce_typed_data</span><span class='lparen'>(</span><span class='id identifier rubyid_data'>data</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_data'>data</span> <span class='op'>=</span> <span class='const'>JSON</span><span class='period'>.</span><span class='id identifier rubyid_parse'>parse</span> <span class='id identifier rubyid_data'>data</span> <span class='kw'>if</span> <span class='const'><span class='object_link'><a href="Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_hex?'><span class='object_link'><a href="Util.html#hex%3F-instance_method" title="Eth::Util#hex? (method)">hex?</a></span></span> <span class='id identifier rubyid_data'>data</span>
@@ -1875,10 +1891,6 @@
       <pre class="lines">
 
 
-167
-168
-169
-170
 171
 172
 173
@@ -1890,10 +1902,14 @@
 179
 180
 181
-182</pre>
+182
+183
+184
+185
+186</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/eip712.rb', line 167</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/eip712.rb', line 171</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_hash'>hash</span><span class='lparen'>(</span><span class='id identifier rubyid_data'>data</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_data'>data</span> <span class='op'>=</span> <span class='id identifier rubyid_enforce_typed_data'>enforce_typed_data</span> <span class='id identifier rubyid_data'>data</span>
@@ -2012,13 +2028,13 @@
       <pre class="lines">
 
 
-140
-141
-142
-143</pre>
+144
+145
+146
+147</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/eip712.rb', line 140</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/eip712.rb', line 144</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_hash_data'>hash_data</span><span class='lparen'>(</span><span class='id identifier rubyid_primary_type'>primary_type</span><span class='comma'>,</span> <span class='id identifier rubyid_data'>data</span><span class='comma'>,</span> <span class='id identifier rubyid_types'>types</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_encoded_data'>encoded_data</span> <span class='op'>=</span> <span class='id identifier rubyid_encode_data'>encode_data</span> <span class='id identifier rubyid_primary_type'>primary_type</span><span class='comma'>,</span> <span class='id identifier rubyid_data'>data</span><span class='comma'>,</span> <span class='id identifier rubyid_types'>types</span>
@@ -2280,7 +2296,7 @@
 </div>
 
       <div id="footer">
-  Generated on Wed Oct 18 12:46:12 2023 by
+  Generated on Mon Nov  6 13:56:08 2023 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.34 (ruby-3.0.6).
 </div>
