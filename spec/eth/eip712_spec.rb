@@ -127,4 +127,60 @@ describe Eip712 do
       expect(Eip712.hash typed_data).to eq Util.hex_to_bin "0xbe609aee343fb3c4b28e1df9e632fca64fcfaede20f02e86244efddf30957bd2"
     end
   end
+
+  context "end to end" do
+    it "can hash the correct data type" do
+      key = Key.new(priv: "0x8e589ba6280400cfa426229684f7c2ac9ebf132f7ad658a82ed57553a0a9dee8")
+      byte_data = {
+        types: {
+          EIP712Domain: [
+            { name: "name", type: "string" },
+            { name: "version", type: "string" },
+            { name: "chainId", type: "uint256" },
+            { name: "verifyingContract", type: "address" },
+          ],
+          Data: [
+            { name: "data", type: "bytes" },
+          ],
+        },
+        primaryType: "Data",
+        domain: {
+          name: "Complex Data",
+          version: "1",
+          chainId: 421613,
+          verifyingContract: "0xCcCCccccCCCCcCCCCCCcCcCccCcCCCcCcccccccC",
+        },
+        message: {
+          data: "0xa2d6eae3",
+        },
+      }
+      byte_signature = "ddefbbe703f59949a87ece451321924bb9297100dda63e1f39559b72db3ec9e83dae2056c25b52ddb8bd53ab536e84d2e4f70d98219ed14e46b021a59aefb4eb1c"
+      string_data = {
+        types: {
+          EIP712Domain: [
+            { name: "name", type: "string" },
+            { name: "version", type: "string" },
+            { name: "chainId", type: "uint256" },
+            { name: "verifyingContract", type: "address" },
+          ],
+          Data: [
+            { name: "data", type: "string" },
+          ],
+        },
+        primaryType: "Data",
+        domain: {
+          name: "Complex Data",
+          version: "1",
+          chainId: 421613,
+          verifyingContract: "0xCcCCccccCCCCcCCCCCCcCcCccCcCCCcCcccccccC",
+        },
+        message: {
+          data: "0xa2d6eae3",
+        },
+      }
+      string_signature = "8255c17ce6be5fb6ee3430784a52a5163c63fc87e2dcae32251d9c49ba849fad7067454b0d7e694698c02e552fd7af283dcaadc754d58ecba978856de8742e361b"
+      expect(key.sign_typed_data byte_data).to eq byte_signature
+      expect(key.sign_typed_data string_data).to eq string_signature
+    end
+  end
 end
