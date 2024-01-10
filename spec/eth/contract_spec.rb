@@ -58,7 +58,7 @@ describe Contract do
       expect { Contract.from_bin(name: name, abi: abi, bin: bin) }.to raise_error JSON::ParserError
     end
 
-    it "contact index can be specified" do
+    it "contract index can be specified" do
       file = "spec/fixtures/contracts/greeter.sol"
       greeter = Contract.from_file(file: file, contract_index: 0)
       expect(greeter).to be_instance_of(Eth::Contract::Greeter)
