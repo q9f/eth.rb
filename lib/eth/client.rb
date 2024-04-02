@@ -469,7 +469,7 @@ module Eth
 
     # Prepares parameters and sends the command to the client.
     def send_command(command, args)
-      args << "latest" if ["eth_getBalance", "eth_call"].include? command
+      args << "latest" if ["eth_getBalance", "eth_call"].include?(command) && args.count == 1
       payload = {
         jsonrpc: "2.0",
         method: command,
