@@ -34,6 +34,9 @@ module Eth
     # The default transaction max fee per gas in Wei, defaults to {Tx::DEFAULT_GAS_PRICE}.
     attr_accessor :max_fee_per_gas
 
+    # The block number used for archive calls.
+    attr_accessor :block_number
+
     # A custom error type if a contract interaction fails.
     class ContractExecutionError < StandardError; end
 
@@ -469,7 +472,8 @@ module Eth
 
     # Prepares parameters and sends the command to the client.
     def send_command(command, args)
-      args << "latest" if ["eth_getBalance", "eth_call"].include? command
+      @block_number ||= "latest"
+      args << block_number if ["eth_getBalance", "eth_call"].include? command
       payload = {
         jsonrpc: "2.0",
         method: command,
