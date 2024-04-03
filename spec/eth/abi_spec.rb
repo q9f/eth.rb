@@ -387,5 +387,12 @@ describe Abi do
       pending("https://github.com/q9f/eth.rb/issues/102")
       assert(data, types, args)
     end
+
+    it "test negative number" do
+      types = ["int24"]
+      args = [-887220]
+      data = Util.hex_to_bin "fffffffffffffffffffffffffffffffffffffffffffffffffffffffffff2764c"
+      assert(data, types, args)
+    end
   end
 end

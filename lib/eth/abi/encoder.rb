@@ -138,7 +138,7 @@ module Eth
         real_size = type.sub_type.to_i
         i = arg.to_i
         raise ValueOutOfBounds, arg unless i >= -2 ** (real_size - 1) and i < 2 ** (real_size - 1)
-        Util.zpad_int(i % 2 ** type.sub_type.to_i)
+        Util.zpad_int(i < 0 ? (i + 2 ** 256) : i % 2 ** type.sub_type.to_i)
       end
 
       # Properly encodes booleans.

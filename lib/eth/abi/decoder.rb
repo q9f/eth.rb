@@ -106,7 +106,7 @@ module Eth
           Util.deserialize_big_endian_to_int data
         when "int"
           u = Util.deserialize_big_endian_to_int data
-          i = u >= 2 ** (type.sub_type.to_i - 1) ? (u - 2 ** type.sub_type.to_i) : u
+          i = u >= 2 ** (type.sub_type.to_i - 1) ? (u - 2 ** 256) : u
 
           # decoded integer
           i
