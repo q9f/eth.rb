@@ -42,11 +42,12 @@ module Eth
     end
 
     private
+
     def type_name(x)
       type = x["type"]
       case type
       when "tuple"
-        "(#{x['components'].collect { |c| type_name(c) }.join(',')})"
+        "(#{x["components"].collect { |c| type_name(c) }.join(",")})"
       else
         type
       end

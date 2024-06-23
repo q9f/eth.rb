@@ -51,7 +51,7 @@ module Eth
               type(Type.parse(type.base_type), arg[pointer + 32, Util.ceil32(data_l) + 32])
             end
           end
-        elsif type.base_type == 'tuple'
+        elsif type.base_type == "tuple"
           offset = 0
           data = {}
           type.components.each do |c|
