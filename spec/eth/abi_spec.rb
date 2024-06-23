@@ -315,8 +315,8 @@ describe Abi do
     # https://github.com/rubycocos/blockchain/blob/ccef43a600e0832fb5e662bb0840656c974c0dc5/abicoder/test/test_spec.rb
     def assert(data, types, args)
       expect(data).to eq Abi.encode(types, args)
-      # expect(args).to eq Abi.decode(types, data)
-      # expect(args).to eq Abi.decode(types, Abi.encode(types, args))
+      expect(args).to eq Abi.decode(types, data)
+      expect(args).to eq Abi.decode(types, Abi.encode(types, args))
     end
 
     it "test_baz" do
