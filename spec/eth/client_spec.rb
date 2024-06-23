@@ -220,6 +220,35 @@ describe Client do
       expect(geth_http.call(erc20_contract, "balanceOf", address)).to be_nil
     end
 
+    it "allows to call client with custom block numberreturn nil if raw result is 0x" do
+      block_number = 123
+
+      geth_http.block_number = block_number
+
+      expected_payload = {
+        jsonrpc: "2.0",
+        method: "eth_call",
+        params: [{
+          data: "0x70a08231000000000000000000000000d496b23d61f88a8c7758fca7560dcfac7b3b01f9",
+          to: "0xD496b23D61F88A8C7758fca7560dCFac7b3b01F9"
+        }, "0x#{block_number.to_s(16)}"],
+        id: 1
+      }.to_json
+
+      mock_response = {
+        jsonrpc: "2.0",
+        id: 1,
+        result: "0x0000000000000000000000000000000000000000000000000000000000000000"
+      }
+
+      expect_any_instance_of(Eth::Client::Http)
+        .to receive(:send_request)
+              .with(expected_payload)
+              .and_return(mock_response.to_json)
+
+      geth_http.call(erc20_contract, "balanceOf", address)
+    end
+
     it "called function name not defined" do
       expect {
         geth_http.call(contract, "ge")
