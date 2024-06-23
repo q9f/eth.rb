@@ -181,7 +181,7 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Gets the default account (coinbase) of the connected client.</p>
+<p>Gets the default account (first account) of the connected client.</p>
 </div></span>
   
 </li>
@@ -881,7 +881,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Gets the default account (coinbase) of the connected client.</p>
+<p>Gets the default account (first account) of the connected client.</p>
 
 <p><strong>Note</strong>, that many remote providers (e.g., Infura) do not provide any accounts.</p>
 
@@ -902,7 +902,7 @@
       
         &mdash;
         <div class='inline'>
-<p>the coinbase account address.</p>
+<p>the default account address.</p>
 </div>
       
     </li>
@@ -1546,7 +1546,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Deploys a contract. Uses <code>eth_coinbase</code> or external signer if no sender key is provided.</p>
+<p>Deploys a contract. Uses <code>eth_accounts</code> or external signer if no sender key is provided.</p>
 
 <p><strong>Note</strong>, that many remote providers (e.g., Infura) do not provide any accounts. Provide a <code>sender_key:</code> if you experience issues.</p>
 
@@ -1865,7 +1865,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Deploys a contract and waits for it to be mined. Uses <code>eth_coinbase</code> or external signer if no sender key is provided.</p>
+<p>Deploys a contract and waits for it to be mined. Uses <code>eth_accounts</code> or external signer if no sender key is provided.</p>
 
 <p>See <span class='object_link'><a href="#deploy-instance_method" title="Eth::Client#deploy (method)">#deploy</a></span> for params and overloads.</p>
 
@@ -2893,7 +2893,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Simply transfer Ether to an account without any call data or access lists attached. Uses <code>eth_coinbase</code> and external signer if no sender key is provided.</p>
+<p>Simply transfer Ether to an account without any call data or access lists attached. Uses <code>eth_accounts</code> and external signer if no sender key is provided.</p>
 
 <p><strong>Note</strong>, that many remote providers (e.g., Infura) do not provide any accounts. Provide a <code>sender_key:</code> if you experience issues.</p>
 
@@ -3121,7 +3121,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Simply transfer Ether to an account and waits for it to be mined. Uses <code>eth_coinbase</code> and external signer if no sender key is provided.</p>
+<p>Simply transfer Ether to an account and waits for it to be mined. Uses <code>eth_accounts</code> and external signer if no sender key is provided.</p>
 
 <p>See <span class='object_link'><a href="#transfer-instance_method" title="Eth::Client#transfer (method)">#transfer</a></span> for params and overloads.</p>
 
@@ -3795,7 +3795,7 @@
 </div>
 
       <div id="footer">
-  Generated on Sun Jun 23 17:45:25 2024 by
+  Generated on Sun Jun 23 18:27:30 2024 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.36 (ruby-3.0.7).
 </div>
