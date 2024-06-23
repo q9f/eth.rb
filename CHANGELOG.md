@@ -3,7 +3,27 @@ All notable changes to this project will be documented in this file.
 
 ## [0.5.12]
 ### Added
+* Allow to call JSON RPC with custom block number [#268](https://github.com/q9f/eth.rb/pull/268)
+* Support tuple params in EventLog [#276](https://github.com/q9f/eth.rb/pull/276)
+
 ### Changed
+* Eth: update version [#280](https://github.com/q9f/eth.rb/pull/280)
+* Eth/abi: fix negative integer coding [#279](https://github.com/q9f/eth.rb/pull/279)
+* Support negative number from JSON RPC [#267](https://github.com/q9f/eth.rb/pull/267)
+* Abi/event: confirm decoding tuples works [#278](https://github.com/q9f/eth.rb/pull/278)
+* Allow to call JSON RPC with custom block number [#268](https://github.com/q9f/eth.rb/pull/268)
+* Gem: run rufo [#277](https://github.com/q9f/eth.rb/pull/277)
+* Fix event signature [#250](https://github.com/q9f/eth.rb/pull/250)
+* Support tuple params in EventLog [#276](https://github.com/q9f/eth.rb/pull/276)
+* Ci: update ruby version [#271](https://github.com/q9f/eth.rb/pull/271)
+* Eth/api: remove coinbase as default account [#269](https://github.com/q9f/eth.rb/pull/269)
+* Build(deps): bump JamesIves/github-pages-deploy-action from 4.5.0 to 4.6.1 [#275](https://github.com/q9f/eth.rb/pull/275)
+* Build(deps): bump github/codeql-action from 2 to 3 [#257](https://github.com/q9f/eth.rb/pull/257)
+* Build(deps): bump JamesIves/github-pages-deploy-action from 4.4.3 to 4.5.0 [#256](https://github.com/q9f/eth.rb/pull/256)
+* Fix typo in contract_spec.rb [#253](https://github.com/q9f/eth.rb/pull/253)
+* Eth/eip721: fix data type bug for bytes, fix #251 [#252](https://github.com/q9f/eth.rb/pull/252)
+* Ci: unpatch geth [#248](https://github.com/q9f/eth.rb/pull/248)
+* Build(deps): bump actions/checkout from 3 to 4 [#246](https://github.com/q9f/eth.rb/pull/246)
 
 ## [0.5.11]
 ### Added

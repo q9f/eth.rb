@@ -2,7 +2,7 @@
 
 ## Supported Versions
 
-Ruby Ethereum 0.5.0 is a complete rewrite of the old `eth` 0.4.x gem.
+Ruby Ethereum 0.5.x is a complete rewrite of the old `eth` 0.4.x gem.
 It also contains modules from `abi`, `rlp` and the `ethereum` gem.
 
 None of these gems are maintained anymore except for `eth` 0.5.0 and

@@ -32,7 +32,7 @@ Gem::Specification.new do |spec|
   spec.test_files = spec.files.grep %r{^(test|spec|features)/}
 
   spec.platform = Gem::Platform::RUBY
-  spec.required_ruby_version = ">= 2.7", "< 4.0"
+  spec.required_ruby_version = ">= 3.0", "< 4.0"
 
   # forwardable for contracts meta programming
   spec.add_dependency "forwardable", "~> 1.3"
