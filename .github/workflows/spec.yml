@@ -49,5 +49,9 @@ jobs:
       run: |
         bundle exec rspec
       env:
-        COVERAGE: true
         INFURA_TOKEN: ${{ secrets.INFURA_TOKEN }}
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v4
+      with:
+        fail_ci_if_error: false
+        token: ${{ secrets.CODECOV_TOKEN }}

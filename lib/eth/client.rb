@@ -25,7 +25,7 @@ module Eth
     # The connected network's chain ID.
     attr_reader :chain_id
 
-    # The connected network's client coinbase.
+    # The connected network's client default account.
     attr_accessor :default_account
 
     # The default transaction max priority fee per gas in Wei, defaults to {Tx::DEFAULT_PRIORITY_FEE}.
@@ -62,15 +62,15 @@ module Eth
       @max_fee_per_gas = Tx::DEFAULT_GAS_PRICE
     end
 
-    # Gets the default account (coinbase) of the connected client.
+    # Gets the default account (first account) of the connected client.
     #
     # **Note**, that many remote providers (e.g., Infura) do not provide
     # any accounts.
     #
-    # @return [Eth::Address] the coinbase account address.
+    # @return [Eth::Address] the default account address.
     def default_account
       raise ArgumentError, "The default account is not available on remote connections!" unless local? || @default_account
-      @default_account ||= Address.new eth_coinbase["result"]
+      @default_account ||= Address.new eth_accounts["result"].first
     end
 
     # Gets the chain ID of the connected network.
@@ -108,7 +108,7 @@ module Eth
     end
 
     # Simply transfer Ether to an account and waits for it to be mined.
-    # Uses `eth_coinbase` and external signer if no sender key is
+    # Uses `eth_accounts` and external signer if no sender key is
     # provided.
     #
     # See {#transfer} for params and overloads.
@@ -119,7 +119,7 @@ module Eth
     end
 
     # Simply transfer Ether to an account without any call data or
-    # access lists attached. Uses `eth_coinbase` and external signer
+    # access lists attached. Uses `eth_accounts` and external signer
     # if no sender key is provided.
     #
     # **Note**, that many remote providers (e.g., Infura) do not provide
@@ -179,7 +179,7 @@ module Eth
     end
 
     # Deploys a contract and waits for it to be mined. Uses
-    # `eth_coinbase` or external signer if no sender key is provided.
+    # `eth_accounts` or external signer if no sender key is provided.
     #
     # See {#deploy} for params and overloads.
     #
@@ -190,7 +190,7 @@ module Eth
       contract.address = Address.new(addr).to_s
     end
 
-    # Deploys a contract. Uses `eth_coinbase` or external signer
+    # Deploys a contract. Uses `eth_accounts` or external signer
     # if no sender key is provided.
     #
     # **Note**, that many remote providers (e.g., Infura) do not provide
