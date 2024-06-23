@@ -30,7 +30,7 @@ module Eth
         type_name x
       end
       @inputs = data["inputs"].collect { |x| x["name"] }
-      @event_string = "#{@name}(#{@input_types.join(",")})"
+      @event_string = Abi::Event.signature(data)
       @signature = Digest::Keccak.hexdigest(@event_string, 256)
     end
 
