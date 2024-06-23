@@ -46,7 +46,7 @@ module Eth
 
       def type(input)
         if input["type"] == "tuple"
-          "(#{input["components"].map {|c| type(c) }.join(",")})"
+          "(#{input["components"].map { |c| type(c) }.join(",")})"
         elsif input["type"] == "enum"
           "uint8"
         else
@@ -127,17 +127,17 @@ module Eth
         topic_inputs, data_inputs = inputs.partition { |i| i["indexed"] }
 
         topic_types = topic_inputs.map do |i|
-          if i['type'] == 'tuple'
-            Type.parse(i['type'], i['components'], i['name'])
+          if i["type"] == "tuple"
+            Type.parse(i["type"], i["components"], i["name"])
           else
-            i['type']
+            i["type"]
           end
         end
         data_types = data_inputs.map do |i|
-          if i['type'] == 'tuple'
-            Type.parse(i['type'], i['components'], i['name'])
+          if i["type"] == "tuple"
+            Type.parse(i["type"], i["components"], i["name"])
           else
-            i['type']
+            i["type"]
           end
         end
         # If event is anonymous, all topics are arguments. Otherwise, the first

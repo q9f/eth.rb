@@ -247,7 +247,6 @@ describe Abi::Event do
       expect(signature).to eq "Transfer(address,address,uint256)"
     end
 
-
     it "generates transfer function signature" do
       abi = erc20_abi.find { |i| i["type"] == "function" && i["name"] == "transfer" }
       signature = Abi::Event.signature(abi)
