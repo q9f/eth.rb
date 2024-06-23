@@ -311,7 +311,7 @@ describe Abi do
     end
   end
 
-  describe "abicoder tests" do
+  context "abicoder tests" do
     # https://github.com/rubycocos/blockchain/blob/ccef43a600e0832fb5e662bb0840656c974c0dc5/abicoder/test/test_spec.rb
     def assert(data, types, args)
       expect(data).to eq Abi.encode(types, args)
