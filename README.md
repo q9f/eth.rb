@@ -77,7 +77,7 @@ The goal is to have 100% API documentation available.
 The test suite expects working local HTTP and IPC endpoints with a prefunded developer account, e.g.:
 
 ```shell
-geth --dev --http --ipcpath /tmp/geth.ipc &
+geth --dev --http --ws --ipcpath /tmp/geth.ipc &
 ```
 
 It also expects an `$INFURA_TOKEN` in environment to test some ENS queries on mainnet.

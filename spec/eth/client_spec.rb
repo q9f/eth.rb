@@ -2,11 +2,12 @@ require "spec_helper"
 
 describe Client do
 
-  # run `geth --dev --http --ipcpath /tmp/geth.ipc`
+  # run `geth --dev --http --ws --ipcpath /tmp/geth.ipc`
   # to provide both http and ipc to pass these tests.
   let(:geth_ipc_path) { "/tmp/geth.ipc" }
   let(:geth_http_path) { "http://127.0.0.1:8545" }
   let(:geth_http_authed_path) { "http://username:password@127.0.0.1:8545" }
+  let(:geth_dev_ws_path) { "ws://127.0.0.1:8546" }
   subject(:geth_ipc) { Client.create geth_ipc_path }
   subject(:geth_http) { Client.create geth_http_path }
   subject(:geth_http_authed) { Client.create geth_http_authed_path }
@@ -14,6 +15,10 @@ describe Client do
   # it expects an $INFURA_TOKEN in environment
   let(:infura_api) { "https://mainnet.infura.io/v3/#{ENV["INFURA_TOKEN"]}" }
   subject(:infura_mainnet) { Client.create infura_api }
+  let(:logger) { Logger.new(STDOUT, level: Logger::FATAL) }
+  subject(:geth_dev_ipc) { Client.create geth_dev_ipc_path }
+  subject(:geth_dev_http) { Client.create geth_dev_http_path }
+  subject(:geth_dev_ws) { Client.create(geth_dev_ws_path, { logger: logger }) }
 
   describe ".create .initialize" do
     it "creates an ipc client" do
@@ -29,6 +34,15 @@ describe Client do
       expect(geth_http.port).to eq 8545
       expect(geth_http.uri.to_s).to eq geth_http_path
       expect(geth_http.ssl).to be_falsy
+    end
+
+    it "creates an ws client" do
+      expect(geth_dev_ws).to be
+      expect(geth_dev_ws).to be_instance_of Client::Ws
+      expect(geth_dev_ws.host).to eq "127.0.0.1"
+      expect(geth_dev_ws.port).to eq 8546
+      expect(geth_dev_ws.uri.to_s).to eq geth_dev_ws_path
+      expect(geth_dev_ws.ssl).to be_falsy
     end
 
     it "connects to an infura api" do
@@ -450,6 +464,78 @@ describe Client do
       expect { geth_ipc.is_valid_signature(contract, hashed, signature) }.to raise_error ArgumentError, "Contract not deployed yet."
       geth_ipc.deploy_and_wait(contract)
       expect(geth_ipc.is_valid_signature(contract, hashed, signature)).to be true
+    end
+  end
+
+  describe ".send" do
+    it "should set up the WebSocket connection" do
+      expect(geth_dev_ws.instance_variable_get("@ws")).to be_instance_of(WebSocket::Client::Simple::Client)
+    end
+
+    it "should send a message to the WebSocket server and receive a response" do
+      payload = {
+        id: 1,
+        jsonrpc: "2.0",
+        method: "eth_subscribe",
+        params: ["newHeads"],
+      }
+      received_data = nil
+
+      geth_dev_ws.instance_variable_get("@ws").on :message do |msg|
+        received_data = JSON.parse(msg.data)
+      end
+
+      # Wait for the connection to be established
+      start_time = Time.now
+      loop do
+        break if geth_dev_ws.instance_variable_get("@ws").open? || (Time.now - start_time > 3)
+      end
+
+      geth_dev_ws.send_request(payload)
+
+      # Wait for the response to be received
+      start_time = Time.now
+      loop do
+        break if received_data || (Time.now - start_time > 3)
+      end
+
+      expect(received_data["id"]).to eq(payload[:id])
+      expect(received_data["jsonrpc"]).to eq(payload[:jsonrpc])
+      expect(received_data["result"]).to start_with("0x")
+
+      contract = Eth::Contract.from_file(file: "spec/fixtures/contracts/dummy.sol")
+      geth_http.deploy_and_wait(contract)
+
+      expect(received_data["method"]).to eq("eth_subscription")
+      expect(received_data["params"]["subscription"]).to start_with("0x")
+      expect(received_data["params"]["result"]["parentHash"]).to start_with("0x")
+    end
+  end
+
+  describe ".open?" do
+    it "checks if the WebSocket connection is open" do
+      expect(geth_dev_ws.open?).to be false
+
+      start_time = Time.now
+      loop do
+        break if geth_dev_ws.instance_variable_get("@ws").open? || (Time.now - start_time > 3)
+      end
+
+      expect(geth_dev_ws.open?).to be true
+    end
+  end
+
+  describe ".close?" do
+    it "checks if the WebSocket connection is close" do
+      start_time = Time.now
+      loop do
+        break if geth_dev_ws.instance_variable_get("@ws").open? || (Time.now - start_time > 3)
+      end
+
+      ws = geth_dev_ws.instance_variable_get("@ws")
+      expect(ws.closed?).to be false
+      ws.close
+      expect(ws.closed?).to be true
     end
   end
 end
