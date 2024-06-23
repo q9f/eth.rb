@@ -115,7 +115,6 @@ module Eth
       "eth_blockNumber",
       "eth_call",
       "eth_chainId",
-      "eth_coinbase",
       "eth_compileLLL",
       "eth_compileSerpent",
       "eth_compileSolidity",
