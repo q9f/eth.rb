@@ -19,73 +19,73 @@ describe Contract::Event do
         "anonymous" => false,
         "inputs" => [
           {
-                  "components" => [
-                    {
-                          "internalType" => "uint256",
-                          "name" => "topicId",
-                          "type" => "uint256",
-                        },
-                    {
-                          "internalType" => "uint256",
-                          "name" => "proposalId",
-                          "type" => "uint256",
-                        },
-                    {
-                          "internalType" => "string",
-                          "name" => "name",
-                          "type" => "string",
-                        },
-                    {
-                          "internalType" => "string",
-                          "name" => "symbol",
-                          "type" => "string",
-                        },
-                    {
-                          "internalType" => "uint256",
-                          "name" => "duration",
-                          "type" => "uint256",
-                        },
-                    {
-                          "internalType" => "uint256",
-                          "name" => "totalSupply",
-                          "type" => "uint256",
-                        },
-                    {
-                          "internalType" => "uint256",
-                          "name" => "miniStakeValue",
-                          "type" => "uint256",
-                        },
-                    {
-                          "internalType" => "uint256",
-                          "name" => "maxStakeValue",
-                          "type" => "uint256",
-                        },
-                    {
-                          "internalType" => "uint256",
-                          "name" => "maxParticipants",
-                          "type" => "uint256",
-                        },
-                    {
-                          "internalType" => "uint256",
-                          "name" => "whitelistIndex",
-                          "type" => "uint256",
-                        },
-                    {
-                          "internalType" => "address",
-                          "name" => "proposer",
-                          "type" => "address",
-                        },
-                    {
-                          "internalType" => "bool",
-                          "name" => "useWhitelist",
-                          "type" => "bool",
-                        },
-                  ],
-                  "indexed" => false,
-                  "internalType" => "struct VoteContract.ProposalCreatedParams",
-                  "name" => "params",
-                  "type" => "tuple",
-                },
+            "components" => [
+              {
+                "internalType" => "uint256",
+                "name" => "topicId",
+                "type" => "uint256",
+              },
+              {
+                "internalType" => "uint256",
+                "name" => "proposalId",
+                "type" => "uint256",
+              },
+              {
+                "internalType" => "string",
+                "name" => "name",
+                "type" => "string",
+              },
+              {
+                "internalType" => "string",
+                "name" => "symbol",
+                "type" => "string",
+              },
+              {
+                "internalType" => "uint256",
+                "name" => "duration",
+                "type" => "uint256",
+              },
+              {
+                "internalType" => "uint256",
+                "name" => "totalSupply",
+                "type" => "uint256",
+              },
+              {
+                "internalType" => "uint256",
+                "name" => "miniStakeValue",
+                "type" => "uint256",
+              },
+              {
+                "internalType" => "uint256",
+                "name" => "maxStakeValue",
+                "type" => "uint256",
+              },
+              {
+                "internalType" => "uint256",
+                "name" => "maxParticipants",
+                "type" => "uint256",
+              },
+              {
+                "internalType" => "uint256",
+                "name" => "whitelistIndex",
+                "type" => "uint256",
+              },
+              {
+                "internalType" => "address",
+                "name" => "proposer",
+                "type" => "address",
+              },
+              {
+                "internalType" => "bool",
+                "name" => "useWhitelist",
+                "type" => "bool",
+              },
+            ],
+            "indexed" => false,
+            "internalType" => "struct VoteContract.ProposalCreatedParams",
+            "name" => "params",
+            "type" => "tuple",
+          },
         ],
         "name" => "ProposalCreated",
         "type" => "event",
