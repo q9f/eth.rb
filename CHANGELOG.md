@@ -1,6 +1,42 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## [0.5.12]
+### Added
+### Changed
+
+## [0.5.11]
+### Added
+* Eth/abi: allow encoding address types by @q9f in [#242](https://github.com/q9f/eth.rb/pull/242)
+* Eth/solidity: enable --via-ir by @q9f in [#232](https://github.com/q9f/eth.rb/pull/232)
+* Checking userinfo with the uri method by @kurotaky in [#233](https://github.com/q9f/eth.rb/pull/233)
+* Eth/abi: add abicoder gem tests collection by @q9f in [#218](https://github.com/q9f/eth.rb/pull/218)
+* Manual default_account by @randoum in [#215](https://github.com/q9f/eth.rb/pull/215)
+* Add moonbeam networks by @a-moreira in [#209](https://github.com/q9f/eth.rb/pull/209)
+
+### Changed
+* Spec: run rufo by @q9f in [#245](https://github.com/q9f/eth.rb/pull/245)
+* Fix the decoding of unsigned transactions by @pienkowb in [#243](https://github.com/q9f/eth.rb/pull/243)
+* Build(deps): bump JamesIves/github-pages-deploy-action from 4.4.2 to 4.4.3 by @dependabot in [#244](https://github.com/q9f/eth.rb/pull/244)
+* Build(deps): bump JamesIves/github-pages-deploy-action from 4.4.1 to 4.4.2 by @dependabot in [#240](https://github.com/q9f/eth.rb/pull/240)
+* Eth/tx: update tx initcode cost for shanghai by @q9f in [#237](https://github.com/q9f/eth.rb/pull/237)
+* Eth/client: remove default gas limit attribute by @q9f in [#235](https://github.com/q9f/eth.rb/pull/235)
+* Docs: minor fixups by @q9f in [#229](https://github.com/q9f/eth.rb/pull/229)
+* Eth/contract: ensure contract name is title case by @q9f in [#228](https://github.com/q9f/eth.rb/pull/228)
+* Deps: require forwardable for contracts by @q9f in [#227](https://github.com/q9f/eth.rb/pull/227)
+* Ens/resolver: remove pending for etc coin type by @q9f in [#219](https://github.com/q9f/eth.rb/pull/219)
+* Deps: update secp256k1 to 6 by @q9f in [#214](https://github.com/q9f/eth.rb/pull/214)
+* Eth/solidity: add docs for solc path override by @q9f in [#213](https://github.com/q9f/eth.rb/pull/213)
+* Manually overwrite solc path by @randoum in [#212](https://github.com/q9f/eth.rb/pull/212)
+* Abi.decoder handles arrays of string and bytes by @randoum in [#207](https://github.com/q9f/eth.rb/pull/207)
+* Eth/util: fix compressed public key to address by @an-lee in [#206](https://github.com/q9f/eth.rb/pull/206)
+* Eth/api: update execution apis to latest spec by @q9f in [#204](https://github.com/q9f/eth.rb/pull/204)
+* Eth/abi: split abi class into encoder and decoder by @q9f in [#203](https://github.com/q9f/eth.rb/pull/203)
+* Eth/client: deduplicate code by @q9f in [#202](https://github.com/q9f/eth.rb/pull/202)
+* Eth/client: rewrite send to send_request by @q9f in [#201](https://github.com/q9f/eth.rb/pull/201)
+* Docs: update changelog for 0.5.10 by @q9f in [#200](https://github.com/q9f/eth.rb/pull/200)
+* Tested with Ruby 3.2 by @kurotaky in [#199](https://github.com/q9f/eth.rb/pull/199)
+
 ## [0.5.10]
 ### Added
 * Eth/client: add transfer_erc20 function [#197](https://github.com/q9f/eth.rb/pull/197)
