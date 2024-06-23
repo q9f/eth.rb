@@ -34,7 +34,9 @@ describe Solidity do
     result = solc.compile contract
     expect(result["DepositContract"]).to be
     payload = result["DepositContract"]["bin"]
-    expect(payload).to start_with "608060405234"
+    expect(payload).to start_with "60"
+    expect(payload).to end_with "33"
+    expect(payload.length).to eq 6180
     params = {
       from: geth.default_account,
       priority_fee: 0,
