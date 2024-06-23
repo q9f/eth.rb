@@ -26,7 +26,9 @@ module Eth
     # @param data [Hash] contract event data.
     def initialize(data)
       @name = data["name"]
-      @input_types = data["inputs"].collect { |x| x["type"] }
+      @input_types = data["inputs"].collect do |x|
+        type_name x
+      end
       @inputs = data["inputs"].collect { |x| x["name"] }
       @event_string = Abi::Event.signature(data)
       @signature = Digest::Keccak.hexdigest(@event_string, 256)
@@ -37,6 +39,17 @@ module Eth
     # @param address [String] contract address.
     def set_address(address)
       @address = address.nil? ? nil : Eth::Address.new(address).address
+    end
+
+    private
+    def type_name(x)
+      type = x["type"]
+      case type
+      when "tuple"
+        "(#{x['components'].collect { |c| type_name(c) }.join(',')})"
+      else
+        type
+      end
     end
   end
 end
