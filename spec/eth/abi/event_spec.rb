@@ -136,35 +136,73 @@ describe Abi::Event do
                                  ]
       expect(kwargs[:values]).to eq [1, 1]
     end
-  end
 
-  it "can decode anonymous Transfer event" do
-    interface = {
-      "type" => "event",
-      "name" => "Transfer",
-      "anonymous" => true,
-      "inputs" => [
-        { "indexed" => true, "internalType" => "address", "name" => "from", "type" => "address" },
-        { "indexed" => true, "internalType" => "address", "name" => "to", "type" => "address" },
-        { "indexed" => false, "internalType" => "uint256", "name" => "value", "type" => "uint256" },
-      ],
-    }
+    it "can decode anonymous Transfer event" do
+      interface = {
+        "type" => "event",
+        "name" => "Transfer",
+        "anonymous" => true,
+        "inputs" => [
+          { "indexed" => true, "internalType" => "address", "name" => "from", "type" => "address" },
+          { "indexed" => true, "internalType" => "address", "name" => "to", "type" => "address" },
+          { "indexed" => false, "internalType" => "uint256", "name" => "value", "type" => "uint256" },
+        ],
+      }
 
-    data = "0x00000000000000000000000000000000000000000000000000000002540be400"
-    topics = [
-      "0x00000000000000000000000071660c4005ba85c37ccec55d0c4493e66fe775d3",
-      "0x000000000000000000000000639671019ddd8ec28d35113d8d1c5f1bbfd7e0be",
-    ]
+      data = "0x00000000000000000000000000000000000000000000000000000002540be400"
+      topics = [
+        "0x00000000000000000000000071660c4005ba85c37ccec55d0c4493e66fe775d3",
+        "0x000000000000000000000000639671019ddd8ec28d35113d8d1c5f1bbfd7e0be",
+      ]
 
-    args, kwargs = Abi::Event.decode_log(interface["inputs"], data, topics, true)
+      args, kwargs = Abi::Event.decode_log(interface["inputs"], data, topics, true)
 
-    expect(args[0]).to eq "0x71660c4005ba85c37ccec55d0c4493e66fe775d3"
-    expect(args[1]).to eq "0x639671019ddd8ec28d35113d8d1c5f1bbfd7e0be"
-    expect(args[2]).to eq 10000000000
+      expect(args[0]).to eq "0x71660c4005ba85c37ccec55d0c4493e66fe775d3"
+      expect(args[1]).to eq "0x639671019ddd8ec28d35113d8d1c5f1bbfd7e0be"
+      expect(args[2]).to eq 10000000000
 
-    expect(kwargs[:from]).to eq "0x71660c4005ba85c37ccec55d0c4493e66fe775d3"
-    expect(kwargs[:to]).to eq "0x639671019ddd8ec28d35113d8d1c5f1bbfd7e0be"
-    expect(kwargs[:value]).to eq 10000000000
+      expect(kwargs[:from]).to eq "0x71660c4005ba85c37ccec55d0c4493e66fe775d3"
+      expect(kwargs[:to]).to eq "0x639671019ddd8ec28d35113d8d1c5f1bbfd7e0be"
+      expect(kwargs[:value]).to eq 10000000000
+    end
+
+    it "can decode wuminzhe's log" do
+      # https://github.com/q9f/eth.rb/issues/247
+      abi = JSON.parse '[{"anonymous":false,"inputs":[{"indexed":true,"internalType":"bytes32","name":"msgHash","type":"bytes32"},{"indexed":false,"internalType":"bytes32","name":"root","type":"bytes32"},{"components":[{"internalType":"address","name":"channel","type":"address"},{"internalType":"uint256","name":"index","type":"uint256"},{"internalType":"uint256","name":"fromChainId","type":"uint256"},{"internalType":"address","name":"from","type":"address"},{"internalType":"uint256","name":"toChainId","type":"uint256"},{"internalType":"address","name":"to","type":"address"},{"internalType":"bytes","name":"encoded","type":"bytes"}],"indexed":false,"internalType":"structMessage","name":"message","type":"tuple"}],"name":"MessageAccepted","type":"event"}]'
+      log = {
+        "address" => "0x0000000000bd9dcfda5c60697039e2b3b28b079b",
+        "blockHash" => "0xf9c70715305172f0d7ae0e335c38df5582c6138d96b742183c02a69ff3c11304",
+        "blockNumber" => "0xddcb4d",
+        "data" => "0xfc2a07bae9b75d5a817aa5ff752d263d213286dda48387a2e818814f4557d61200000000000000000000000000000000000000000000000000000000000000400000000000000000000000000000000000bd9dcfda5c60697039e2b3b28b079b00000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000066eed0000000000000000000000000f14341a7f464320319025540e8fe48ad0fe5aec000000000000000000000000000000000000000000000000000000000000002b0000000000000000000000000000000000bd9dcfda5c60697039e2b3b28b079b00000000000000000000000000000000000000000000000000000000000000e00000000000000000000000000000000000000000000000000000000000000000",
+        "logIndex" => "0xcd",
+        "removed" => false,
+        "topics" => [
+          "0xa047cf3271a6e55d76e7706ca90d011a4f2f641f7c46dfd31f6abe4cd94db53f",
+          "0xf654c17ea89108d7183eaf31c762fe0c125d476aa8130938d8a1895307b7db5a",
+        ],
+        "transactionHash" => "0x215e05a6260a5fbca5ebf866bf8612868c50691e0ff24be54f96f8192ca9b968",
+        "transactionIndex" => "0x8c",
+      }
+      int = abi.find { |i| i["type"] == "event" && i["name"] == "MessageAccepted" }
+      args, kwargs = Abi::Event.decode_log(int["inputs"], log["data"], log["topics"])
+
+      expect(args[0]).to eq "\xF6T\xC1~\xA8\x91\b\xD7\x18>\xAF1\xC7b\xFE\f\x12]Gj\xA8\x13\t8\xD8\xA1\x89S\a\xB7\xDBZ"
+      expect(args[1]).to eq "\xFC*\a\xBA\xE9\xB7]Z\x81z\xA5\xFFu-&=!2\x86\xDD\xA4\x83\x87\xA2\xE8\x18\x81OEW\xD6\x12"
+      expect(args[2]["channel"]).to eq "0x0000000000bd9dcfda5c60697039e2b3b28b079b"
+      expect(args[2]["index"]).to eq 1
+      expect(args[2]["fromChainId"]).to eq 421613
+      expect(args[2]["from"]).to eq "0x0f14341a7f464320319025540e8fe48ad0fe5aec"
+      expect(args[2]["toChainId"]).to eq 43
+      expect(args[2]["to"]).to eq "0x0000000000bd9dcfda5c60697039e2b3b28b079b"
+      expect(kwargs[:msgHash]).to eq "\xF6T\xC1~\xA8\x91\b\xD7\x18>\xAF1\xC7b\xFE\f\x12]Gj\xA8\x13\t8\xD8\xA1\x89S\a\xB7\xDBZ"
+      expect(kwargs[:root]).to eq "\xFC*\a\xBA\xE9\xB7]Z\x81z\xA5\xFFu-&=!2\x86\xDD\xA4\x83\x87\xA2\xE8\x18\x81OEW\xD6\x12"
+      expect(kwargs[:message]["channel"]).to eq "0x0000000000bd9dcfda5c60697039e2b3b28b079b"
+      expect(kwargs[:message]["index"]).to eq 1
+      expect(kwargs[:message]["fromChainId"]).to eq 421613
+      expect(kwargs[:message]["from"]).to eq "0x0f14341a7f464320319025540e8fe48ad0fe5aec"
+      expect(kwargs[:message]["toChainId"]).to eq 43
+      expect(kwargs[:message]["to"]).to eq "0x0000000000bd9dcfda5c60697039e2b3b28b079b"
+    end
   end
 
   describe ".decode_logs" do
