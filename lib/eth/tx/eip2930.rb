@@ -175,7 +175,7 @@ module Eth
           # allows us to force-setting a signature if the transaction is signed already
           _set_signature(recovery_id, r, s)
         else
-          raise_error DecoderError, "Cannot decode EIP-2930 payload!"
+          raise DecoderError, "Cannot decode EIP-2930 payload!"
         end
 
         # last but not least, set the type.
