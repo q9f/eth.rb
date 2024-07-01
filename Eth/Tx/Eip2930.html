@@ -1796,7 +1796,7 @@
     <span class='comment'># allows us to force-setting a signature if the transaction is signed already
 </span>    <span class='id identifier rubyid__set_signature'>_set_signature</span><span class='lparen'>(</span><span class='id identifier rubyid_recovery_id'>recovery_id</span><span class='comma'>,</span> <span class='id identifier rubyid_r'>r</span><span class='comma'>,</span> <span class='id identifier rubyid_s'>s</span><span class='rparen'>)</span>
   <span class='kw'>else</span>
-    <span class='id identifier rubyid_raise_error'>raise_error</span> <span class='const'><span class='object_link'><a href="DecoderError.html" title="Eth::Tx::DecoderError (class)">DecoderError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Cannot decode EIP-2930 payload!</span><span class='tstring_end'>&quot;</span></span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="DecoderError.html" title="Eth::Tx::DecoderError (class)">DecoderError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Cannot decode EIP-2930 payload!</span><span class='tstring_end'>&quot;</span></span>
   <span class='kw'>end</span>
 
   <span class='comment'># last but not least, set the type.
@@ -2486,7 +2486,7 @@
 </div>
 
       <div id="footer">
-  Generated on Sun Jun 23 22:43:36 2024 by
+  Generated on Mon Jul  1 06:25:31 2024 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.36 (ruby-3.3.3).
 </div>
