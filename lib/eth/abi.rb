@@ -38,7 +38,7 @@ module Eth
     #
     # @param types [Array] types to be ABI-encoded.
     # @param args [Array] values to be ABI-encoded.
-    # @param packed [Boolean] use custom packed encoding.
+    # @param packed [Boolean] use custom packed encoding (default: false).
     # @return [String] the encoded ABI data.
     def encode(types, args, packed = false)
 
@@ -59,7 +59,9 @@ module Eth
 
       # encode types and arguments
       args.each_with_index do |arg, i|
-        if parsed_types[i].dynamic?
+        if packed
+          head += Abi::Encoder.type(parsed_types[i], arg, packed)
+        elsif parsed_types[i].dynamic?
           head += Abi::Encoder.type(Type.size_type, head_size + tail.size, packed)
           tail += Abi::Encoder.type(parsed_types[i], arg, packed)
         else
@@ -75,6 +77,16 @@ module Eth
       packed ? "#{tail}" : "#{head}#{tail}"
     end
 
+    # Encodes a custom, packed Application Binary Interface (packed ABI) data.
+    # It accepts multiple arguments and encodes according to the Solidity specification.
+    #
+    # @param types [Array] types to be ABI-encoded.
+    # @param args [Array] values to be ABI-encoded.
+    # @return [String] the packed encoded ABI data.
+    def encode_packed(types, args)
+      encode(types, args, true)
+    end
+
     # Decodes Application Binary Interface (ABI) data. It accepts multiple
     # arguments and decodes using the head/tail mechanism.
     #
@@ -82,7 +94,7 @@ module Eth
     # @param data [String] ABI data to be decoded.
     # @param packed [Boolean] use custom packed decoding.
     # @return [Array] the decoded ABI data.
-    def decode(types, data, packed = false)
+    def decode(types, data)
 
       # accept hex abi but decode it first
       data = Util.hex_to_bin data if Util.hex? data
@@ -131,6 +143,15 @@ module Eth
 
       # return the decoded ABI types and data
       parsed_types.zip(outputs).map { |(type, out)| Abi::Decoder.type(type, out, packed) }
+    end
+
+    # Since the encoding is ambiguous, there is no decoding function.
+    #
+    # @param types [Array] the ABI to be decoded.
+    # @param data [String] ABI data to be decoded.
+    # @raise [DecodingError] if you try to decode packed ABI data.
+    def decode_packed(types, data)
+      raise DecodingError, "Since the encoding is ambiguous, there is no decoding function."
     end
   end
 end

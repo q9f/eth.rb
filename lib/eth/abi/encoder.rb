@@ -148,7 +148,7 @@ module Eth
         raise ValueOutOfBounds, arg unless i >= -2 ** (real_size - 1) and i < 2 ** (real_size - 1)
         if packed
           len = real_size / 8
-          return Util.zpad_int(i % 2 ** 256, len)
+          return Util.zpad_int(i % 2 ** real_size, len)
         else
           return Util.zpad_int(i % 2 ** 256)
         end

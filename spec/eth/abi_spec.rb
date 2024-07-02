@@ -311,6 +311,24 @@ describe Abi do
     end
   end
 
+  describe ".encode_packed .decode_packed" do
+    it "encodes the solidity docs example" do
+      # ref https://docs.soliditylang.org/en/v0.8.26/abi-spec.html#non-standard-packed-mode
+
+      expect(Util.bin_to_hex Abi.encode_packed(["int16"], [-1])).to eq "ffff"
+      expect(Util.bin_to_hex Abi.encode_packed(["bytes1"], ["42".b])).to eq "42"
+      expect(Util.bin_to_hex Abi.encode_packed(["uint16"], [0x03])).to eq "0003"
+      expect(Util.bin_to_hex Abi.encode_packed(["string"], ["Hello, world!"])).to eq "48656c6c6f2c20776f726c6421"
+      expect(Util.bin_to_hex Abi.encode_packed(["int16", "bytes1", "uint16", "string"], [-1, "42", 0x03, "Hello, world!"])).to eq "ffff42000348656c6c6f2c20776f726c6421"
+    end
+
+    it "won't decode packed abi" do
+      expect {
+        Abi.decode_packed(["int16", "bytes1", "uint16", "string"], "ffff42000348656c6c6f2c20776f726c6421")
+      }.to raise_error Abi::DecodingError, "Since the encoding is ambiguous, there is no decoding function."
+    end
+  end
+
   describe "abicoder tests" do
     # https://github.com/rubycocos/blockchain/blob/ccef43a600e0832fb5e662bb0840656c974c0dc5/abicoder/test/test_spec.rb
     def assert(data, types, args)
