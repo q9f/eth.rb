@@ -331,6 +331,7 @@
       <pre class="lines">
 
 
+100
 101
 102
 103
@@ -380,11 +381,10 @@
 147
 148
 149
-150
-151</pre>
+150</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/abi/decoder.rb', line 101</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/abi/decoder.rb', line 100</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_primitive_type'>primitive_type</span><span class='lparen'>(</span><span class='id identifier rubyid_type'>type</span><span class='comma'>,</span> <span class='id identifier rubyid_data'>data</span><span class='rparen'>)</span>
   <span class='kw'>case</span> <span class='id identifier rubyid_type'>type</span><span class='period'>.</span><span class='id identifier rubyid_base_type'>base_type</span>
@@ -599,8 +599,7 @@
 89
 90
 91
-92
-93</pre>
+92</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/eth/abi/decoder.rb', line 33</span>
@@ -629,20 +628,19 @@
   <span class='kw'>elsif</span> <span class='id identifier rubyid_type'>type</span><span class='period'>.</span><span class='id identifier rubyid_base_type'>base_type</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>tuple</span><span class='tstring_end'>&quot;</span></span>
     <span class='id identifier rubyid_offset'>offset</span> <span class='op'>=</span> <span class='int'>0</span>
     <span class='id identifier rubyid_data'>data</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="DecodingError.html" title="Eth::Abi::DecodingError (class)">DecodingError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Cannot decode tuples without known components</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_type'>type</span><span class='period'>.</span><span class='id identifier rubyid_components'>components</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
     <span class='id identifier rubyid_type'>type</span><span class='period'>.</span><span class='id identifier rubyid_components'>components</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_c'>c</span><span class='op'>|</span>
       <span class='kw'>if</span> <span class='id identifier rubyid_c'>c</span><span class='period'>.</span><span class='id identifier rubyid_dynamic?'>dynamic?</span>
         <span class='id identifier rubyid_pointer'>pointer</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_deserialize_big_endian_to_int'><span class='object_link'><a href="../Util.html#deserialize_big_endian_to_int-instance_method" title="Eth::Util#deserialize_big_endian_to_int (method)">deserialize_big_endian_to_int</a></span></span> <span class='id identifier rubyid_arg'>arg</span><span class='lbracket'>[</span><span class='id identifier rubyid_offset'>offset</span><span class='comma'>,</span> <span class='int'>32</span><span class='rbracket'>]</span> <span class='comment'># Pointer to the size of the array&#39;s element
 </span>        <span class='id identifier rubyid_data_len'>data_len</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_deserialize_big_endian_to_int'><span class='object_link'><a href="../Util.html#deserialize_big_endian_to_int-instance_method" title="Eth::Util#deserialize_big_endian_to_int (method)">deserialize_big_endian_to_int</a></span></span> <span class='id identifier rubyid_arg'>arg</span><span class='lbracket'>[</span><span class='id identifier rubyid_pointer'>pointer</span><span class='comma'>,</span> <span class='int'>32</span><span class='rbracket'>]</span> <span class='comment'># length of the element
 </span>
         <span class='id identifier rubyid_data'>data</span><span class='lbracket'>[</span><span class='id identifier rubyid_c'>c</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_type'>type</span><span class='lparen'>(</span><span class='id identifier rubyid_c'>c</span><span class='comma'>,</span> <span class='id identifier rubyid_arg'>arg</span><span class='lbracket'>[</span><span class='id identifier rubyid_pointer'>pointer</span><span class='comma'>,</span> <span class='const'><span class='object_link'><a href="../Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_ceil32'><span class='object_link'><a href="../Util.html#ceil32-instance_method" title="Eth::Util#ceil32 (method)">ceil32</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_data_len'>data_len</span><span class='rparen'>)</span> <span class='op'>+</span> <span class='int'>32</span><span class='rbracket'>]</span><span class='rparen'>)</span>
-        <span class='comment'># puts data
-</span>        <span class='id identifier rubyid_offset'>offset</span> <span class='op'>+=</span> <span class='int'>32</span>
+        <span class='id identifier rubyid_offset'>offset</span> <span class='op'>+=</span> <span class='int'>32</span>
       <span class='kw'>else</span>
         <span class='id identifier rubyid_size'>size</span> <span class='op'>=</span> <span class='id identifier rubyid_c'>c</span><span class='period'>.</span><span class='id identifier rubyid_size'>size</span>
         <span class='id identifier rubyid_data'>data</span><span class='lbracket'>[</span><span class='id identifier rubyid_c'>c</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_type'>type</span><span class='lparen'>(</span><span class='id identifier rubyid_c'>c</span><span class='comma'>,</span> <span class='id identifier rubyid_arg'>arg</span><span class='lbracket'>[</span><span class='id identifier rubyid_offset'>offset</span><span class='comma'>,</span> <span class='id identifier rubyid_size'>size</span><span class='rbracket'>]</span><span class='rparen'>)</span>
         <span class='id identifier rubyid_offset'>offset</span> <span class='op'>+=</span> <span class='id identifier rubyid_size'>size</span>
-        <span class='comment'># puts data
-</span>      <span class='kw'>end</span>
+      <span class='kw'>end</span>
     <span class='kw'>end</span>
     <span class='id identifier rubyid_data'>data</span>
   <span class='kw'>elsif</span> <span class='id identifier rubyid_type'>type</span><span class='period'>.</span><span class='id identifier rubyid_dynamic?'>dynamic?</span>
@@ -775,6 +773,7 @@
       <pre class="lines">
 
 
+100
 101
 102
 103
@@ -824,11 +823,10 @@
 147
 148
 149
-150
-151</pre>
+150</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/abi/decoder.rb', line 101</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/abi/decoder.rb', line 100</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_primitive_type'>primitive_type</span><span class='lparen'>(</span><span class='id identifier rubyid_type'>type</span><span class='comma'>,</span> <span class='id identifier rubyid_data'>data</span><span class='rparen'>)</span>
   <span class='kw'>case</span> <span class='id identifier rubyid_type'>type</span><span class='period'>.</span><span class='id identifier rubyid_base_type'>base_type</span>
@@ -1043,8 +1041,7 @@
 89
 90
 91
-92
-93</pre>
+92</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/eth/abi/decoder.rb', line 33</span>
@@ -1073,20 +1070,19 @@
   <span class='kw'>elsif</span> <span class='id identifier rubyid_type'>type</span><span class='period'>.</span><span class='id identifier rubyid_base_type'>base_type</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>tuple</span><span class='tstring_end'>&quot;</span></span>
     <span class='id identifier rubyid_offset'>offset</span> <span class='op'>=</span> <span class='int'>0</span>
     <span class='id identifier rubyid_data'>data</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="DecodingError.html" title="Eth::Abi::DecodingError (class)">DecodingError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Cannot decode tuples without known components</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_type'>type</span><span class='period'>.</span><span class='id identifier rubyid_components'>components</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
     <span class='id identifier rubyid_type'>type</span><span class='period'>.</span><span class='id identifier rubyid_components'>components</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_c'>c</span><span class='op'>|</span>
       <span class='kw'>if</span> <span class='id identifier rubyid_c'>c</span><span class='period'>.</span><span class='id identifier rubyid_dynamic?'>dynamic?</span>
         <span class='id identifier rubyid_pointer'>pointer</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_deserialize_big_endian_to_int'><span class='object_link'><a href="../Util.html#deserialize_big_endian_to_int-instance_method" title="Eth::Util#deserialize_big_endian_to_int (method)">deserialize_big_endian_to_int</a></span></span> <span class='id identifier rubyid_arg'>arg</span><span class='lbracket'>[</span><span class='id identifier rubyid_offset'>offset</span><span class='comma'>,</span> <span class='int'>32</span><span class='rbracket'>]</span> <span class='comment'># Pointer to the size of the array&#39;s element
 </span>        <span class='id identifier rubyid_data_len'>data_len</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_deserialize_big_endian_to_int'><span class='object_link'><a href="../Util.html#deserialize_big_endian_to_int-instance_method" title="Eth::Util#deserialize_big_endian_to_int (method)">deserialize_big_endian_to_int</a></span></span> <span class='id identifier rubyid_arg'>arg</span><span class='lbracket'>[</span><span class='id identifier rubyid_pointer'>pointer</span><span class='comma'>,</span> <span class='int'>32</span><span class='rbracket'>]</span> <span class='comment'># length of the element
 </span>
         <span class='id identifier rubyid_data'>data</span><span class='lbracket'>[</span><span class='id identifier rubyid_c'>c</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_type'>type</span><span class='lparen'>(</span><span class='id identifier rubyid_c'>c</span><span class='comma'>,</span> <span class='id identifier rubyid_arg'>arg</span><span class='lbracket'>[</span><span class='id identifier rubyid_pointer'>pointer</span><span class='comma'>,</span> <span class='const'><span class='object_link'><a href="../Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_ceil32'><span class='object_link'><a href="../Util.html#ceil32-instance_method" title="Eth::Util#ceil32 (method)">ceil32</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_data_len'>data_len</span><span class='rparen'>)</span> <span class='op'>+</span> <span class='int'>32</span><span class='rbracket'>]</span><span class='rparen'>)</span>
-        <span class='comment'># puts data
-</span>        <span class='id identifier rubyid_offset'>offset</span> <span class='op'>+=</span> <span class='int'>32</span>
+        <span class='id identifier rubyid_offset'>offset</span> <span class='op'>+=</span> <span class='int'>32</span>
       <span class='kw'>else</span>
         <span class='id identifier rubyid_size'>size</span> <span class='op'>=</span> <span class='id identifier rubyid_c'>c</span><span class='period'>.</span><span class='id identifier rubyid_size'>size</span>
         <span class='id identifier rubyid_data'>data</span><span class='lbracket'>[</span><span class='id identifier rubyid_c'>c</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_type'>type</span><span class='lparen'>(</span><span class='id identifier rubyid_c'>c</span><span class='comma'>,</span> <span class='id identifier rubyid_arg'>arg</span><span class='lbracket'>[</span><span class='id identifier rubyid_offset'>offset</span><span class='comma'>,</span> <span class='id identifier rubyid_size'>size</span><span class='rbracket'>]</span><span class='rparen'>)</span>
         <span class='id identifier rubyid_offset'>offset</span> <span class='op'>+=</span> <span class='id identifier rubyid_size'>size</span>
-        <span class='comment'># puts data
-</span>      <span class='kw'>end</span>
+      <span class='kw'>end</span>
     <span class='kw'>end</span>
     <span class='id identifier rubyid_data'>data</span>
   <span class='kw'>elsif</span> <span class='id identifier rubyid_type'>type</span><span class='period'>.</span><span class='id identifier rubyid_dynamic?'>dynamic?</span>
@@ -1120,7 +1116,7 @@
 </div>
 
       <div id="footer">
-  Generated on Tue Jul  2 14:48:31 2024 by
+  Generated on Tue Jul  2 15:19:04 2024 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.36 (ruby-3.3.3).
 </div>
