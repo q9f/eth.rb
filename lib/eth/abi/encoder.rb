@@ -38,6 +38,7 @@ module Eth
           # encodes strings and bytes
           size = type(Type.size_type, arg.size, packed)
           padding = Constant::BYTE_ZERO * (Util.ceil32(arg.size) - arg.size)
+          return arg if packed
           "#{size}#{arg}#{padding}"
         elsif type.base_type == "tuple" && type.dimensions.size == 1 && type.dimensions[0] != 0
           result = ""
@@ -181,17 +182,18 @@ module Eth
         raise EncodingError, "Expecting String: #{arg}" unless arg.instance_of? String
         arg = handle_hex_string arg, type
 
+        # no padding or size handling for packed encoding
+        return arg if packed
+
         if type.sub_type.empty?
           size = Util.zpad_int arg.size
           padding = Constant::BYTE_ZERO * (Util.ceil32(arg.size) - arg.size)
-          pp size, arg, padding if packed
 
           # variable length string/bytes
           "#{size}#{arg}#{padding}"
         else
           raise ValueOutOfBounds, arg unless arg.size <= type.sub_type.to_i
           padding = Constant::BYTE_ZERO * (32 - arg.size)
-          pp arg, padding if packed
 
           # fixed length string/bytes
           "#{arg}#{padding}"

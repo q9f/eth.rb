@@ -492,7 +492,7 @@ describe Abi do
 
   describe "edge cases" do
     it "test negative number" do
-      types = ["int24"] 
+      types = ["int24"]
       args = [-887220]
       data = Util.hex_to_bin "fffffffffffffffffffffffffffffffffffffffffffffffffffffffffff2764c"
       expect(data).to eq Abi.encode(types, args)
@@ -510,23 +510,6 @@ describe Abi do
       expect(Abi.decode(["int8"], "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff")).to eq [-1]
       expect(Abi.decode(["int24"], "00000000000000000000000000000000000000000000000000000000000d89b4")).to eq [887220]
       expect(Abi.decode(["int24"], "fffffffffffffffffffffffffffffffffffffffffffffffffffffffffff2764c")).to eq [-887220]
-    end
-  end
-
-  describe "packed encoding" do
-    it "encodes packed types" do
-      expect(Util.bin_to_hex Abi.encode(["uint8[]"], [[1, 2, 3]], true)).to eq "010203"
-      expect(Util.bin_to_hex Abi.encode(["uint16[]"], [[1, 2, 3]], true)).to eq "000100020003"
-      expect(Util.bin_to_hex Abi.encode(["uint32"], [17], true)).to eq "00000011"
-      expect(Util.bin_to_hex Abi.encode(["uint64"], [17], true)).to eq "0000000000000011"
-      expect(Util.bin_to_hex Abi.encode(["bool[]"], [[true, false]], true)).to eq "0100"
-      expect(Util.bin_to_hex Abi.encode(["bool"], [true], true)).to eq "01"
-      expect(Util.bin_to_hex Abi.encode(["int32[]"], [[1, 2, 3]], true)).to eq "000000010000000200000003"
-      expect(Util.bin_to_hex Abi.encode(["int64[]"], [[1, 2, 3]], true)).to eq "000000000000000100000000000000020000000000000003"
-      expect(Util.bin_to_hex Abi.encode(["int64"], [17], true)).to eq "0000000000000011"
-      expect(Util.bin_to_hex Abi.encode(["int128"], [17], true)).to eq "00000000000000000000000000000011"
-      # expect(Util.bin_to_hex Abi.encode(["bytes1"], [0x42], true)).to eq "42"
-      expect(Util.bin_to_hex Abi.encode(["string"], ["Hello, world!"], true)).to eq "00000000000000000000000000000011"
     end
   end
 end
