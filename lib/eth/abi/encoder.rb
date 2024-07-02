@@ -113,8 +113,8 @@ module Eth
           bytes arg, type, packed
         when "tuple" # TODO: Q9F
           tuple arg, type
-        when "hash" # TODO: Q9F
-          hash arg, type
+        when "hash"
+          hash arg, type, packed
         when "address"
           address arg, packed
         else
@@ -251,20 +251,23 @@ module Eth
       end
 
       # Properly encodes hash-strings.
-      def hash(arg, type)
+      def hash(arg, type, packed)
         size = type.sub_type.to_i
         raise EncodingError, "Argument too long: #{arg}" unless size > 0 and size <= 32
         if arg.is_a? Integer
 
           # hash from integer
+          return Util.int_to_big_endian arg if packed
           Util.zpad_int arg
         elsif arg.size == size
 
           # hash from encoded hash
+          return arg if packed
           Util.zpad arg, 32
         elsif arg.size == size * 2
 
           # hash from hexadecimal hash
+          return Util.hex_to_bin arg if packed
           Util.zpad_hex arg
         else
           raise EncodingError, "Could not parse hash: #{arg}"

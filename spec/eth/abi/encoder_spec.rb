@@ -118,6 +118,8 @@ describe Abi::Encoder do
       expect(Abi.encode_packed(["address"], ["ff" * 20])).to eq "\xff" * 20
       expect(Abi.encode_packed(["address"], ["0x" + "ff" * 20])).to eq "\xff" * 20
       expect(Abi.encode_packed(["address"], [Address.new("0x" + "ff" * 20)])).to eq "ff" * 20
+      expect(Util.bin_to_hex Abi.encode_packed(["hash32"], ["8<\xAE\xB6pn\x00\xE2\fr\x05XH\x88\xBAW\xBFV\xEA\xFFMDe\xA8<\x9C{\e!GH\xA6"])).to eq "383caeb6706e00e20c7205584888ba57bf56eaff4d4465a83c9c7b1b214748a6"
+      expect(Util.bin_to_hex Abi.encode_packed(["hash20"], ["H\x88\xBAW\xBFV\xEA\xFFMDe\xA8<\x9C{\e!GH\xA6"])).to eq "4888ba57bf56eaff4d4465a83c9c7b1b214748a6"
     end
 
     context "wuminzhe's tests" do
