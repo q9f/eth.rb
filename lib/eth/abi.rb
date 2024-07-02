@@ -92,7 +92,6 @@ module Eth
     #
     # @param types [Array] the ABI to be decoded.
     # @param data [String] ABI data to be decoded.
-    # @param packed [Boolean] use custom packed decoding.
     # @return [Array] the decoded ABI data.
     def decode(types, data)
 
@@ -142,7 +141,7 @@ module Eth
       end
 
       # return the decoded ABI types and data
-      parsed_types.zip(outputs).map { |(type, out)| Abi::Decoder.type(type, out, packed) }
+      parsed_types.zip(outputs).map { |(type, out)| Abi::Decoder.type(type, out) }
     end
 
     # Since the encoding is ambiguous, there is no decoding function.

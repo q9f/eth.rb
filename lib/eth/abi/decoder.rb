@@ -28,10 +28,9 @@ module Eth
       #
       # @param type [Eth::Abi::Type] type to be decoded.
       # @param arg [String] encoded type data string.
-      # @param packed [Boolean] use custom packed decoding.
       # @return [String] the decoded data for the type.
       # @raise [DecodingError] if decoding fails for type.
-      def type(type, arg, packed = false)
+      def type(type, arg)
         if %w(string bytes).include?(type.base_type) and type.sub_type.empty?
           # Case: decoding a string/bytes
           if type.dimensions.empty?
@@ -96,10 +95,9 @@ module Eth
       #
       # @param type [Eth::Abi::Type] type to be decoded.
       # @param data [String] encoded primitive type data string.
-      # @param packed [Boolean] use custom packed decoding.
       # @return [String] the decoded data for the type.
       # @raise [DecodingError] if decoding fails for type.
-      def primitive_type(type, data, packed = false)
+      def primitive_type(type, data)
         case type.base_type
         when "address"
 
