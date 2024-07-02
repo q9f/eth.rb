@@ -32,8 +32,6 @@ module Eth
       # @return [String] the encoded type.
       # @raise [EncodingError] if value does not match type.
       def type(type, arg, packed = false)
-
-
         if %w(string bytes).include? type.base_type and type.sub_type.empty? and type.dimensions.empty?
           raise EncodingError, "Argument must be a String" unless arg.instance_of? String
 
@@ -75,7 +73,6 @@ module Eth
           arg.size.times do |i|
             head += type(nested_sub, arg[i], packed)
           end
-
           "#{head}#{tail}"
         else
           if type.dimensions.empty?
@@ -150,9 +147,9 @@ module Eth
         raise ValueOutOfBounds, arg unless i >= -2 ** (real_size - 1) and i < 2 ** (real_size - 1)
         if packed
           len = real_size / 8
-          return Util.zpad_int(i % 2 ** type.sub_type.to_i, len)
+          return Util.zpad_int(i % 2 ** 256, len)
         else
-          return Util.zpad_int(i % 2 ** type.sub_type.to_i)
+          return Util.zpad_int(i % 2 ** 256)
         end
       end
 
@@ -187,7 +184,6 @@ module Eth
         if type.sub_type.empty?
           size = Util.zpad_int arg.size
           padding = Constant::BYTE_ZERO * (Util.ceil32(arg.size) - arg.size)
-
           pp size, arg, padding if packed
 
           # variable length string/bytes
@@ -195,7 +191,6 @@ module Eth
         else
           raise ValueOutOfBounds, arg unless arg.size <= type.sub_type.to_i
           padding = Constant::BYTE_ZERO * (32 - arg.size)
-
           pp arg, padding if packed
 
           # fixed length string/bytes
@@ -278,8 +273,8 @@ module Eth
       def address(arg)
         if arg.is_a? Address
 
-          # address from eth::address
-          Util.zpad_hex arg.to_s
+          # from checksummed address with 0x prefix
+          Util.zpad_hex arg.to_s[2..-1]
         elsif arg.is_a? Integer
 
           # address from integer
@@ -290,11 +285,11 @@ module Eth
           Util.zpad arg, 32
         elsif arg.size == 40
 
-          # address from hexadecimal address with 0x prefix
+          # address from hexadecimal address
           Util.zpad_hex arg
         elsif arg.size == 42 and arg[0, 2] == "0x"
 
-          # address from hexadecimal address
+          # address from hexadecimal address with 0x prefix
           Util.zpad_hex arg[2..-1]
         else
           raise EncodingError, "Could not parse address: #{arg}"

@@ -10,17 +10,17 @@ jobs:
   docs:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - uses: ruby/setup-ruby@v1
       with:
-        ruby-version: '3.0'
+        ruby-version: '3.3'
         bundler-cache: true
     - name: Run Yard Doc
       run: |
         gem install yard
         yard doc
     - name: Deploy GH Pages
-      uses: JamesIves/github-pages-deploy-action@v4.4.1
+      uses: JamesIves/github-pages-deploy-action@v4.6.1
       with:
           branch: gh-pages
           folder: doc/

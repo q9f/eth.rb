@@ -51,6 +51,9 @@ module Eth
     # The calldata gas cost of a zero byte.
     COST_ZERO_BYTE = 4.freeze
 
+    # The initcode gas cost for each word (32 bytes).
+    COST_INITCODE_WORD = 2.freeze
+
     # The access list gas cost of a storage key as per EIP-2930.
     COST_STORAGE_KEY = 1_900.freeze
 
@@ -156,7 +159,7 @@ module Eth
     end
 
     # Estimates intrinsic gas for provided call data (EIP-2028) and
-    # access lists (EIP-2930).
+    # access lists (EIP-2930). Respects initcode word cost (EIP-3860).
     #
     # @param data [String] the call data.
     # @param list [Array] the access list.
@@ -173,6 +176,10 @@ module Eth
         # count non-zero bytes
         none = data.size - zero
         gas += none * COST_NON_ZERO_BYTE
+
+        # count "words" as per EIP-3860
+        word_count = (data.length.to_f / 32.0).ceil
+        gas += word_count * COST_INITCODE_WORD
       end
       unless list.nil? or list.empty?
         list.each do |entry|
@@ -187,7 +194,7 @@ module Eth
           end
         end
       end
-      return gas
+      return gas.to_i
     end
 
     # Validates the common transaction fields such as nonce, gas limit,

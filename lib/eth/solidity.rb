@@ -28,10 +28,12 @@ module Eth
 
     # Instantiates a Solidity `solc` system compiler binding that can be
     # used to compile Solidity contracts.
-    def initialize
+    #
+    # @param path [String] optional override of the solidity compiler path.
+    def initialize(path = nil)
 
-      # Currently only supports `solc`.
-      solc = get_compiler_path
+      # Currently only supports `solc`. Try to override with `path`.
+      solc = path || get_compiler_path
       raise SystemCallError, "Unable to find the solc compiler path!" if solc.nil?
       @compiler = solc
     end
@@ -43,9 +45,10 @@ module Eth
     def compile(contract)
       raise Errno::ENOENT, "Contract file not found: #{contract}" unless File.exist? contract
       flag_opt = "--optimize"
+      flag_ir = "--via-ir"
       flag_json = "--combined-json=bin,abi"
       path = File.realpath contract
-      output, error, status = Open3.capture3 @compiler, flag_opt, flag_json, path
+      output, error, status = Open3.capture3 @compiler, flag_opt, flag_ir, flag_json, path
       raise SystemCallError, "Unable to run solc compiler!" if status.exitstatus === 127
       raise CompilerError, error unless status.success?
       json = JSON.parse output

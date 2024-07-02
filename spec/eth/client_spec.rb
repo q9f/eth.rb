@@ -14,6 +14,8 @@ describe Client do
   # it expects an $INFURA_TOKEN in environment
   let(:infura_api) { "https://mainnet.infura.io/v3/#{ENV["INFURA_TOKEN"]}" }
   subject(:infura_mainnet) { Client.create infura_api }
+  let(:infura_api_base) { "https://base-mainnet.infura.io/v3/#{ENV["INFURA_TOKEN"]}" }
+  subject(:infura_base) { Client.create infura_api_base }
 
   describe ".create .initialize" do
     it "creates an ipc client" do
@@ -60,7 +62,6 @@ describe Client do
       expect(geth_ipc.default_account).to be_instance_of Address
       expect(geth_ipc.max_priority_fee_per_gas).to eq Tx::DEFAULT_PRIORITY_FEE
       expect(geth_ipc.max_fee_per_gas).to eq Tx::DEFAULT_GAS_PRICE
-      expect(geth_ipc.gas_limit).to eq Tx::DEFAULT_GAS_LIMIT
     end
 
     it "http can query basic methods" do
@@ -113,7 +114,7 @@ describe Client do
       it "raises exception when nonce incorrect" do
         expect {
           geth_http.transfer(another_key.address, 69 * Unit::ETHER, legacy: true, nonce: 0)
-        }.to raise_error(IOError, "nonce too low")
+        }.to raise_error(IOError, /nonce too low: next nonce [0-9]+, tx nonce [0-9]+/)
       end
 
       it "funds account twice" do
@@ -179,7 +180,7 @@ describe Client do
       it "raises exception when nonce incorrect" do
         expect {
           geth_http.deploy_and_wait(contract, nonce: 0)
-        }.to raise_error(IOError, "nonce too low")
+        }.to raise_error(IOError, /nonce too low: next nonce [0-9]+, tx nonce [0-9]+/)
       end
 
       it "deploys the contract twice" do
@@ -221,6 +222,34 @@ describe Client do
       expect(geth_http.call(erc20_contract, "balanceOf", address)).to be_nil
     end
 
+    it "allows to call client with custom block numberreturn nil if raw result is 0x" do
+      block_number = 123
+
+      geth_http.block_number = block_number
+
+      expected_payload = {
+        jsonrpc: "2.0",
+        method: "eth_call",
+        params: [{
+          data: "0x70a08231000000000000000000000000d496b23d61f88a8c7758fca7560dcfac7b3b01f9",
+          to: "0xD496b23D61F88A8C7758fca7560dCFac7b3b01F9",
+        }, "0x#{block_number.to_s(16)}"],
+        id: 1,
+      }.to_json
+
+      mock_response = {
+        jsonrpc: "2.0",
+        id: 1,
+        result: "0x0000000000000000000000000000000000000000000000000000000000000000",
+      }
+
+      expect_any_instance_of(Eth::Client::Http).to receive(:send_request)
+                                                     .with(expected_payload)
+                                                     .and_return(mock_response.to_json)
+
+      geth_http.call(erc20_contract, "balanceOf", address)
+    end
+
     it "called function name not defined" do
       expect {
         geth_http.call(contract, "ge")
@@ -250,7 +279,8 @@ describe Client do
 
     it "transacts with gas limit override" do
       address = geth_http.deploy_and_wait(test_contract)
-      txn_hash = geth_http.transact_and_wait(test_contract, "set", 12, 24, address: address, gas_limit: 100_000_000)
+      txn_hash, txn_status = geth_http.transact_and_wait(test_contract, "set", 12, 24, address: address, gas_limit: 100_000_000)
+      expect(txn_status).to be_truthy
       response = geth_http.eth_get_transaction_by_hash(txn_hash)
       response = geth_http.call(test_contract, "get")
       expect(response).to eq([12, 24])
@@ -261,6 +291,15 @@ describe Client do
       address = geth_http.deploy_and_wait(contract, "Hello!")
       result = geth_http.call(contract, "greet", address: address)
       expect(result).to eq("Hello!")
+    end
+
+    it "calls a lendingpool contract on base returning tuple abi" do
+      pending("https://github.com/q9f/eth.rb/issues/273")
+      adr = Address.new "0xbb505c54d71e9e599cb8435b4f0ceec05fc71cbd"
+      nam = "LendingPool"
+      abi = '[{"inputs":[{"internalType":"address","name":"_addressRegistry","type":"address"},{"internalType":"address","name":"_WETH9","type":"address"}],"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"uint256","name":"reserveId","type":"uint256"},{"indexed":true,"internalType":"address","name":"contractAddress","type":"address"},{"indexed":true,"internalType":"address","name":"onBehalfOf","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"}],"name":"Borrow","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"uint256","name":"reserveId","type":"uint256"},{"indexed":false,"internalType":"address","name":"user","type":"address"},{"indexed":true,"internalType":"address","name":"onBehalfOf","type":"address"},{"indexed":false,"internalType":"uint256","name":"reserveAmount","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"eTokenAmount","type":"uint256"},{"indexed":true,"internalType":"uint16","name":"referral","type":"uint16"}],"name":"Deposited","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"uint256","name":"vaultId","type":"uint256"},{"indexed":true,"internalType":"address","name":"vaultAddress","type":"address"}],"name":"DisableVaultToBorrow","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"uint256","name":"vaultId","type":"uint256"},{"indexed":true,"internalType":"address","name":"vaultAddress","type":"address"}],"name":"EnableVaultToBorrow","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"reserve","type":"address"},{"indexed":true,"internalType":"address","name":"eTokenAddress","type":"address"},{"indexed":false,"internalType":"address","name":"stakingAddress","type":"address"},{"indexed":false,"internalType":"uint256","name":"id","type":"uint256"}],"name":"InitReserve","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"previousOwner","type":"address"},{"indexed":true,"internalType":"address","name":"newOwner","type":"address"}],"name":"OwnershipTransferred","type":"event"},{"anonymous":false,"inputs":[],"name":"Paused","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"uint256","name":"reserveId","type":"uint256"},{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":true,"internalType":"address","name":"to","type":"address"},{"indexed":false,"internalType":"uint256","name":"eTokenAmount","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"underlyingTokenAmount","type":"uint256"}],"name":"Redeemed","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"uint256","name":"reserveId","type":"uint256"},{"indexed":true,"internalType":"address","name":"onBehalfOf","type":"address"},{"indexed":true,"internalType":"address","name":"contractAddress","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"}],"name":"Repay","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"uint256","name":"reserveId","type":"uint256"}],"name":"ReserveActivated","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"uint256","name":"reserveId","type":"uint256"}],"name":"ReserveBorrowDisabled","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"uint256","name":"reserveId","type":"uint256"}],"name":"ReserveBorrowEnabled","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"uint256","name":"reserveId","type":"uint256"}],"name":"ReserveDeActivated","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"uint256","name":"reserveId","type":"uint256"}],"name":"ReserveFrozen","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"uint256","name":"reserveId","type":"uint256"}],"name":"ReserveUnFreeze","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"uint256","name":"vaultId","type":"uint256"},{"indexed":true,"internalType":"address","name":"vaultAddress","type":"address"},{"indexed":true,"internalType":"uint256","name":"reserveId","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"credit","type":"uint256"}],"name":"SetCreditsOfVault","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"uint256","name":"reserveId","type":"uint256"},{"indexed":false,"internalType":"uint16","name":"utilizationA","type":"uint16"},{"indexed":false,"internalType":"uint16","name":"borrowingRateA","type":"uint16"},{"indexed":false,"internalType":"uint16","name":"utilizationB","type":"uint16"},{"indexed":false,"internalType":"uint16","name":"borrowingRateB","type":"uint16"},{"indexed":false,"internalType":"uint16","name":"maxBorrowingRate","type":"uint16"}],"name":"SetInterestRateConfig","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"uint256","name":"reserveId","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"cap","type":"uint256"}],"name":"SetReserveCapacity","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"uint256","name":"reserveId","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"feeRate","type":"uint256"}],"name":"SetReserveFeeRate","type":"event"},{"anonymous":false,"inputs":[],"name":"UnPaused","type":"event"},{"inputs":[],"name":"WETH9","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"reserveId","type":"uint256"}],"name":"activateReserve","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"addressRegistry","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"onBehalfOf","type":"address"},{"internalType":"uint256","name":"debtId","type":"uint256"},{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"borrow","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"reserveId","type":"uint256"}],"name":"borrowingRateOfReserve","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"borrowingWhiteList","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"","type":"uint256"},{"internalType":"address","name":"","type":"address"}],"name":"credits","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"reserveId","type":"uint256"}],"name":"deActivateReserve","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"debtPositions","outputs":[{"internalType":"uint256","name":"reserveId","type":"uint256"},{"internalType":"address","name":"owner","type":"address"},{"internalType":"uint256","name":"borrowed","type":"uint256"},{"internalType":"uint256","name":"borrowedIndex","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"reserveId","type":"uint256"},{"internalType":"uint256","name":"amount","type":"uint256"},{"internalType":"address","name":"onBehalfOf","type":"address"},{"internalType":"uint16","name":"referralCode","type":"uint16"}],"name":"deposit","outputs":[{"internalType":"uint256","name":"eTokenAmount","type":"uint256"}],"stateMutability":"payable","type":"function"},{"inputs":[{"internalType":"uint256","name":"reserveId","type":"uint256"},{"internalType":"uint256","name":"amount","type":"uint256"},{"internalType":"address","name":"onBehalfOf","type":"address"},{"internalType":"uint16","name":"referralCode","type":"uint16"}],"name":"depositAndStake","outputs":[{"internalType":"uint256","name":"eTokenAmount","type":"uint256"}],"stateMutability":"payable","type":"function"},{"inputs":[{"internalType":"uint256","name":"reserveId","type":"uint256"}],"name":"disableBorrowing","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"vaultId","type":"uint256"}],"name":"disableVaultToBorrow","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"emergencyPauseAll","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"reserveId","type":"uint256"}],"name":"enableBorrowing","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"vaultId","type":"uint256"}],"name":"enableVaultToBorrow","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"reserveId","type":"uint256"}],"name":"exchangeRateOfReserve","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"reserveId","type":"uint256"}],"name":"freezeReserve","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"debtId","type":"uint256"}],"name":"getCurrentDebt","outputs":[{"internalType":"uint256","name":"currentDebt","type":"uint256"},{"internalType":"uint256","name":"latestBorrowingIndex","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"reserveId","type":"uint256"}],"name":"getETokenAddress","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256[]","name":"reserveIdArr","type":"uint256[]"},{"internalType":"address","name":"user","type":"address"}],"name":"getPositionStatus","outputs":[{"components":[{"internalType":"uint256","name":"reserveId","type":"uint256"},{"internalType":"address","name":"user","type":"address"},{"internalType":"uint256","name":"eTokenStaked","type":"uint256"},{"internalType":"uint256","name":"eTokenUnStaked","type":"uint256"},{"internalType":"uint256","name":"liquidity","type":"uint256"}],"internalType":"struct ILendingPool.PositionStatus[]","name":"statusArr","type":"tuple[]"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"debtId","type":"uint256"}],"name":"getReserveIdOfDebt","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256[]","name":"reserveIdArr","type":"uint256[]"}],"name":"getReserveStatus","outputs":[{"components":[{"internalType":"uint256","name":"reserveId","type":"uint256"},{"internalType":"address","name":"underlyingTokenAddress","type":"address"},{"internalType":"address","name":"eTokenAddress","type":"address"},{"internalType":"address","name":"stakingAddress","type":"address"},{"internalType":"uint256","name":"totalLiquidity","type":"uint256"},{"internalType":"uint256","name":"totalBorrows","type":"uint256"},{"internalType":"uint256","name":"exchangeRate","type":"uint256"},{"internalType":"uint256","name":"borrowingRate","type":"uint256"}],"internalType":"struct ILendingPool.ReserveStatus[]","name":"statusArr","type":"tuple[]"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"reserveId","type":"uint256"}],"name":"getStakingAddress","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"reserveId","type":"uint256"}],"name":"getUnderlyingTokenAddress","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"asset","type":"address"}],"name":"initReserve","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"reserveId","type":"uint256"}],"name":"newDebtPosition","outputs":[{"internalType":"uint256","name":"debtId","type":"uint256"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"nextDebtPositionId","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"nextReserveId","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"owner","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"paused","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"reserveId","type":"uint256"},{"internalType":"uint256","name":"eTokenAmount","type":"uint256"},{"internalType":"address","name":"to","type":"address"},{"internalType":"bool","name":"receiveNativeETH","type":"bool"}],"name":"redeem","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"renounceOwnership","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"onBehalfOf","type":"address"},{"internalType":"uint256","name":"debtId","type":"uint256"},{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"repay","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"reserves","outputs":[{"internalType":"uint256","name":"borrowingIndex","type":"uint256"},{"internalType":"uint256","name":"currentBorrowingRate","type":"uint256"},{"internalType":"uint256","name":"totalBorrows","type":"uint256"},{"internalType":"address","name":"underlyingTokenAddress","type":"address"},{"internalType":"address","name":"eTokenAddress","type":"address"},{"internalType":"address","name":"stakingAddress","type":"address"},{"internalType":"uint256","name":"reserveCapacity","type":"uint256"},{"components":[{"internalType":"uint128","name":"utilizationA","type":"uint128"},{"internalType":"uint128","name":"borrowingRateA","type":"uint128"},{"internalType":"uint128","name":"utilizationB","type":"uint128"},{"internalType":"uint128","name":"borrowingRateB","type":"uint128"},{"internalType":"uint128","name":"maxBorrowingRate","type":"uint128"}],"internalType":"struct DataTypes.InterestRateConfig","name":"borrowingRateConfig","type":"tuple"},{"internalType":"uint256","name":"id","type":"uint256"},{"internalType":"uint128","name":"lastUpdateTimestamp","type":"uint128"},{"internalType":"uint16","name":"reserveFeeRate","type":"uint16"},{"components":[{"internalType":"bool","name":"isActive","type":"bool"},{"internalType":"bool","name":"frozen","type":"bool"},{"internalType":"bool","name":"borrowingEnabled","type":"bool"}],"internalType":"struct DataTypes.Flags","name":"flags","type":"tuple"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"reserveId","type":"uint256"},{"internalType":"uint16","name":"utilizationA","type":"uint16"},{"internalType":"uint16","name":"borrowingRateA","type":"uint16"},{"internalType":"uint16","name":"utilizationB","type":"uint16"},{"internalType":"uint16","name":"borrowingRateB","type":"uint16"},{"internalType":"uint16","name":"maxBorrowingRate","type":"uint16"}],"name":"setBorrowingRateConfig","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"vaultId","type":"uint256"},{"internalType":"uint256","name":"reserveId","type":"uint256"},{"internalType":"uint256","name":"credit","type":"uint256"}],"name":"setCreditsOfVault","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"reserveId","type":"uint256"},{"internalType":"uint256","name":"cap","type":"uint256"}],"name":"setReserveCapacity","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"reserveId","type":"uint256"},{"internalType":"uint16","name":"_rate","type":"uint16"}],"name":"setReserveFeeRate","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"reserveId","type":"uint256"}],"name":"totalBorrowsOfReserve","outputs":[{"internalType":"uint256","name":"totalBorrows","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"reserveId","type":"uint256"}],"name":"totalLiquidityOfReserve","outputs":[{"internalType":"uint256","name":"totalLiquidity","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"newOwner","type":"address"}],"name":"transferOwnership","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"reserveId","type":"uint256"}],"name":"unFreezeReserve","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"unPauseAll","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"reserveId","type":"uint256"},{"internalType":"uint256","name":"eTokenAmount","type":"uint256"},{"internalType":"address","name":"to","type":"address"},{"internalType":"bool","name":"receiveNativeETH","type":"bool"}],"name":"unStakeAndWithdraw","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"reserveId","type":"uint256"}],"name":"utilizationRateOfReserve","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"stateMutability":"payable","type":"receive"}]'
+      lending_pool = Contract.from_abi(name: nam, address: adr, abi: abi)
+      infura_base.call(lending_pool, "getReserveStatus", [64])
     end
   end
 
@@ -288,20 +327,23 @@ describe Client do
     it "transact the function with key" do
       geth_http.transfer_and_wait(test_key.address, 1337 * Unit::ETHER)
       address = geth_http.deploy_and_wait(contract, sender_key: test_key)
-      response = geth_http.transact_and_wait(contract, "set", 42, sender_key: test_key, address: address)
+      response, status = geth_http.transact_and_wait(contract, "set", 42, sender_key: test_key, address: address)
+      expect(status).to be_truthy
       expect(response).to start_with "0x"
     end
 
     it "transact the function using legacy transactions" do
       address = geth_http.deploy_and_wait(contract)
-      response = geth_http.transact_and_wait(contract, "set", 42, legacy: true, address: address)
+      response, status = geth_http.transact_and_wait(contract, "set", 42, legacy: true, address: address)
+      expect(status).to be_truthy
       expect(response).to start_with "0x"
     end
 
     it "transacts the function with constructor params" do
       contract = Contract.from_file(file: "spec/fixtures/contracts/greeter.sol", contract_index: 0)
       address = geth_http.deploy_and_wait(contract, "Hello!")
-      response = geth_http.transact_and_wait(contract, "setGreeting", "How are you?", address: address)
+      response, status = geth_http.transact_and_wait(contract, "setGreeting", "How are you?", address: address)
+      expect(status).to be_truthy
       expect(response).to start_with "0x"
     end
 
@@ -309,7 +351,8 @@ describe Client do
       geth_http.transfer_and_wait(test_key.address, 0.01 * Unit::ETHER)
       address = geth_http.deploy_and_wait(contract, sender_key: test_key)
       tx_value = 1
-      tx_hash = geth_http.transact_and_wait(contract, "set", 42, sender_key: test_key, address: address, tx_value: tx_value)
+      tx_hash, tx_status = geth_http.transact_and_wait(contract, "set", 42, sender_key: test_key, address: address, tx_value: tx_value)
+      expect(tx_status).to be_truthy
       tx_value_from_server = geth_http.eth_get_transaction_by_hash(tx_hash)["result"]["value"].to_i(16)
       expect(tx_value_from_server).to eq(tx_value)
     end
@@ -327,11 +370,12 @@ describe Client do
 
     it "raises if a transaction fails" do
       addr = geth_http.deploy_and_wait(contract)
-      hash = geth_http.transact_and_wait(contract, "set", 42, address: addr)
+      hash, status = geth_http.transact_and_wait(contract, "set", 42, address: addr)
+      expect(status).to be_truthy
       expect(geth_http.tx_mined? hash).to be_truthy
       expect(geth_http.tx_succeeded? hash).to be_truthy
       expect {
-        hash = geth_http.transact_and_wait(contract, "set", 138, address: addr)
+        hash, status = geth_http.transact_and_wait(contract, "set", 138, address: addr)
       }.to raise_error(Client::ContractExecutionError, "execution reverted")
     end
 
@@ -341,7 +385,7 @@ describe Client do
       it "raises exception when nonce incorrect" do
         expect {
           geth_http.transact(contract, "set", 42, address: contract_address, nonce: 0)
-        }.to raise_error(IOError, "nonce too low")
+        }.to raise_error(IOError, /nonce too low: next nonce [0-9]+, tx nonce [0-9]+/)
       end
 
       it "transacts function twice" do
