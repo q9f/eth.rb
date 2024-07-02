@@ -54,19 +54,18 @@ module Eth
         elsif type.base_type == "tuple"
           offset = 0
           data = {}
+          raise DecodingError, "Cannot decode tuples without known components" if type.components.nil?
           type.components.each do |c|
             if c.dynamic?
               pointer = Util.deserialize_big_endian_to_int arg[offset, 32] # Pointer to the size of the array's element
               data_len = Util.deserialize_big_endian_to_int arg[pointer, 32] # length of the element
 
               data[c.name] = type(c, arg[pointer, Util.ceil32(data_len) + 32])
-              # puts data
               offset += 32
             else
               size = c.size
               data[c.name] = type(c, arg[offset, size])
               offset += size
-              # puts data
             end
           end
           data
