@@ -41,6 +41,8 @@ module Eth
     # @param packed [Boolean] use custom packed encoding (default: false).
     # @return [String] the encoded ABI data.
     def encode(types, args, packed = false)
+      types = [types] unless types.instance_of? Array
+      args = [args] unless args.instance_of? Array
 
       # parse all types
       parsed_types = types.map { |t| Type === t ? t : Type.parse(t) }

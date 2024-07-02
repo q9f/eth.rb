@@ -115,8 +115,8 @@ module Eth
           tuple arg, type
         when "hash" # TODO: Q9F
           hash arg, type
-        when "address" # TODO: Q9F
-          address arg
+        when "address"
+          address arg, packed
         else
           raise EncodingError, "Unhandled type: #{type.base_type} #{type.sub_type}"
         end
@@ -272,26 +272,31 @@ module Eth
       end
 
       # Properly encodes addresses.
-      def address(arg)
+      def address(arg, packed)
         if arg.is_a? Address
 
           # from checksummed address with 0x prefix
+          return arg.to_s[2..-1].downcase if packed
           Util.zpad_hex arg.to_s[2..-1]
         elsif arg.is_a? Integer
 
           # address from integer
+          return Util.int_to_big_endian arg if packed
           Util.zpad_int arg
         elsif arg.size == 20
 
           # address from encoded address
+          return arg if packed
           Util.zpad arg, 32
         elsif arg.size == 40
 
           # address from hexadecimal address
+          return Util.hex_to_bin arg if packed
           Util.zpad_hex arg
         elsif arg.size == 42 and arg[0, 2] == "0x"
 
           # address from hexadecimal address with 0x prefix
+          return Util.hex_to_bin arg if packed
           Util.zpad_hex arg[2..-1]
         else
           raise EncodingError, "Could not parse address: #{arg}"

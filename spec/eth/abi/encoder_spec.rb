@@ -114,6 +114,10 @@ describe Abi::Encoder do
       expect(Util.bin_to_hex Abi.encode_packed(["bytes"], ["dave".b])).to eq "64617665"
       expect(Util.bin_to_hex Abi.encode_packed(["string"], ["dave"])).to eq "64617665"
       expect(Util.bin_to_hex Abi.encode_packed(["string"], ["Hello, World"])).to eq "48656c6c6f2c20576f726c64"
+      expect(Abi.encode_packed(["address"], ["\xff" * 20])).to eq "\xff" * 20
+      expect(Abi.encode_packed(["address"], ["ff" * 20])).to eq "\xff" * 20
+      expect(Abi.encode_packed(["address"], ["0x" + "ff" * 20])).to eq "\xff" * 20
+      expect(Abi.encode_packed(["address"], [Address.new("0x" + "ff" * 20)])).to eq "ff" * 20
     end
 
     context "wuminzhe's tests" do
@@ -124,7 +128,7 @@ describe Abi::Encoder do
         value = true
         data = "01"
 
-        expect(Util.bin_to_hex Abi.encode_packed([type], [value])).to eq data
+        expect(Util.bin_to_hex Abi.encode_packed(type, value)).to eq data
       end
 
       it "bytes" do
@@ -132,7 +136,7 @@ describe Abi::Encoder do
         value = "dave".b
         data = "64617665"
 
-        expect(Util.bin_to_hex Abi.encode_packed([type], [value])).to eq data
+        expect(Util.bin_to_hex Abi.encode_packed(type, value)).to eq data
       end
 
       it "types4" do
@@ -140,7 +144,7 @@ describe Abi::Encoder do
         value = "dave".b
         data = "64617665"
 
-        expect(Util.bin_to_hex Abi.encode_packed([type], [value])).to eq data
+        expect(Util.bin_to_hex Abi.encode_packed(type, value)).to eq data
       end
 
       it "string" do
@@ -148,39 +152,39 @@ describe Abi::Encoder do
         value = "dave"
         data = "64617665"
 
-        expect(Util.bin_to_hex Abi.encode_packed([type], [value])).to eq data
+        expect(Util.bin_to_hex Abi.encode_packed(type, value)).to eq data
       end
 
-      # it "address1" do
-      #   type = "address"
-      #   value = "cd2a3d9f938e13cd947ec05abc7fe734df8dd826"
-      #   data = "cd2a3d9f938e13cd947ec05abc7fe734df8dd826"
+      it "address1" do
+        type = "address"
+        value = "cd2a3d9f938e13cd947ec05abc7fe734df8dd826"
+        data = "cd2a3d9f938e13cd947ec05abc7fe734df8dd826"
 
-      #   expect(Util.bin_to_hex Abi.encode_packed([type], [value])).to eq data
-      # end
+        expect(Util.bin_to_hex Abi.encode_packed(type, value)).to eq data
+      end
 
-      # it "address2" do
-      #   type = "address"
-      #   value = "cd2a3d9f938e13cd947ec05abc7fe734df8dd826"
-      #   data = "cd2a3d9f938e13cd947ec05abc7fe734df8dd826"
+      it "address2" do
+        type = "address"
+        value = "cd2a3d9f938e13cd947ec05abc7fe734df8dd826"
+        data = "cd2a3d9f938e13cd947ec05abc7fe734df8dd826"
 
-      #   expect(Util.bin_to_hex Abi.encode_packed([type], [value])).to eq data
-      # end
+        expect(Util.bin_to_hex Abi.encode_packed(type, value)).to eq data
+      end
 
-      # it "address3" do
-      #   type = "address"
-      #   value = 0xcd2a3d9f938e13cd947ec05abc7fe734df8dd826
-      #   data = "cd2a3d9f938e13cd947ec05abc7fe734df8dd826"
+      it "address3" do
+        type = "address"
+        value = 0xcd2a3d9f938e13cd947ec05abc7fe734df8dd826
+        data = "cd2a3d9f938e13cd947ec05abc7fe734df8dd826"
 
-      #   expect(Util.bin_to_hex Abi.encode_packed([type], [value])).to eq data
-      # end
+        expect(Util.bin_to_hex Abi.encode_packed(type, value)).to eq data
+      end
 
       it "uint32" do
         type = "uint32"
         value = 17
         data = "00000011"
 
-        expect(Util.bin_to_hex Abi.encode_packed([type], [value])).to eq data
+        expect(Util.bin_to_hex Abi.encode_packed(type, value)).to eq data
       end
 
       it "int64" do
@@ -188,7 +192,7 @@ describe Abi::Encoder do
         value = 17
         data = "0000000000000011"
 
-        expect(Util.bin_to_hex Abi.encode_packed([type], [value])).to eq data
+        expect(Util.bin_to_hex Abi.encode_packed(type, value)).to eq data
       end
 
       # it "(uint64)" do
@@ -196,7 +200,7 @@ describe Abi::Encoder do
       #   value = [17]
       #   data = "0000000000000011"
 
-      #   expect(Util.bin_to_hex Abi.encode_packed([type], [value])).to eq data
+      #   expect(Util.bin_to_hex Abi.encode_packed(type, value)).to eq data
       # end
 
       # it "(int32,uint64)" do
@@ -205,7 +209,7 @@ describe Abi::Encoder do
       #   # data = "000000110000000000000011"
 
       #   expect do
-      #     encode_packed(type, value)
+      #     Abi.encode_packed(type, value)
       #   end.to raise_error("AbiCoderRb::Tuple with multi inner types is not supported in packed mode")
       # end
 
@@ -222,7 +226,7 @@ describe Abi::Encoder do
       #   value = [1, 2]
       #   data = "00000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000002"
 
-      #   expect(Util.bin_to_hex Abi.encode_packed([type], [value])).to eq data
+      #   expect(Util.bin_to_hex Abi.encode_packed(type, value)).to eq data
       # end
 
       # it "bool[]" do
@@ -230,7 +234,7 @@ describe Abi::Encoder do
       #   value = [true, false]
       #   data = "00000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000000"
 
-      #   expect(Util.bin_to_hex Abi.encode_packed([type], [value])).to eq data
+      #   expect(Util.bin_to_hex Abi.encode_packed(type, value)).to eq data
       # end
 
       # it "(uint16[])" do
@@ -238,7 +242,7 @@ describe Abi::Encoder do
       #   value = [[1, 2]]
       #   data = "00000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000002"
 
-      #   expect(Util.bin_to_hex Abi.encode_packed([type], [value])).to eq data
+      #   expect(Util.bin_to_hex Abi.encode_packed(type, value)).to eq data
       # end
 
       # it "uint16[2]" do
@@ -246,7 +250,7 @@ describe Abi::Encoder do
       #   value = [1, 2]
       #   data = "00000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000002"
 
-      #   expect(Util.bin_to_hex Abi.encode_packed([type], [value])).to eq data
+      #   expect(Util.bin_to_hex Abi.encode_packed(type, value)).to eq data
       # end
 
       # it "bytes[2]" do
@@ -254,65 +258,61 @@ describe Abi::Encoder do
       #   value = ["dave".b, "dave".b]
 
       #   expect do
-      #     encode_packed(type, value)
+      #     Abi.encode_packed(type, value)
       #   end.to raise_error("AbiCoderRb::FixedArray with dynamic inner type is not supported in packed mode")
       # end
 
-      # it "encode_packeds packed types" do
+      it "encode_packeds packed types" do
       #   expect(
-      #     encode_packed("uint8[]", [1, 2, 3])
+      #     Abi.encode_packed("uint8[]", [1, 2, 3])
       #   ).to eq(
       #     hex("000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000003")
       #   )
 
       #   expect(
-      #     encode_packed("uint16[]", [1, 2, 3])
+      #     Abi.encode_packed("uint16[]", [1, 2, 3])
       #   ).to eq(
       #     hex("000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000003")
       #   )
 
-      #   expect(
-      #     encode_packed("uint32", 17)
-      #   ).to eq(
-      #     hex("00000011")
-      #   )
+        expect(
+          Abi.encode_packed("uint32", 17)
+        ).to eq Util.hex_to_bin "00000011"
+
+        expect(
+          Abi.encode_packed("uint64", 17)
+        ).to eq Util.hex_to_bin "0000000000000011"
 
       #   expect(
-      #     encode_packed("uint64", 17)
-      #   ).to eq(
-      #     hex("0000000000000011")
-      #   )
-
-      #   expect(
-      #     encode_packed("bool[]", [true, false])
+      #     Abi.encode_packed("bool[]", [true, false])
       #   ).to eq(
       #     hex("00000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000000")
       #   )
 
-      #   expect(
-      #     encode_packed("bool")
-      #   ).to eq hex("01")
+        expect(
+          Abi.encode_packed("bool", true)
+        ).to eq Util.hex_to_bin "01"
 
       #   expect(
-      #     encode_packed("int32[]", [1, 2, 3])
+      #     Abi.encode_packed("int32[]", [1, 2, 3])
       #   ).to eq(
       #     hex("000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000003")
       #   )
 
       #   expect(
-      #     encode_packed("int64[]", [1, 2, 3])
+      #     Abi.encode_packed("int64[]", [1, 2, 3])
       #   ).to eq(
       #     hex("000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000003")
       #   )
 
-      #   expect(
-      #     encode_packed("int64", 17)
-      #   ).to eq hex("0000000000000011")
+        expect(
+          Abi.encode_packed("int64", 17)
+        ).to eq Util.hex_to_bin "0000000000000011"
 
-      #   expect(
-      #     encode_packed("int128", 17)
-      #   ).to eq hex("00000000000000000000000000000011")
-      # end
+        expect(
+          Abi.encode_packed("int128", 17)
+        ).to eq Util.hex_to_bin  "00000000000000000000000000000011"
+      end
     end
   end
 end
