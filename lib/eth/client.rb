@@ -315,11 +315,11 @@ module Eth
     # See {#transact} for params and overloads.
     #
     # @raise [Client::ContractExecutionError] if the execution fails.
-    # @return [Object] returns the result of the transaction.
+    # @return [Object, Boolean] returns the result of the transaction (hash and execution status).
     def transact_and_wait(contract, function, *args, **kwargs)
       begin
         hash = wait_for_tx(transact(contract, function, *args, **kwargs))
-        return hash if tx_succeeded? hash
+        return hash, tx_succeeded?(hash)
       rescue IOError => e
         raise ContractExecutionError, e
       end
