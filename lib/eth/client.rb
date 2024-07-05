@@ -54,6 +54,7 @@ module Eth
     def self.create(host)
       return Client::Ipc.new host if host.end_with? ".ipc"
       return Client::Http.new host if host.start_with? "http"
+      return Client::Ws.new host if host.start_with? "ws"
       raise ArgumentError, "Unable to detect client type!"
     end
 
@@ -487,6 +488,7 @@ module Eth
 
     # Increments the request id.
     def next_id
+      @id ||= 0
       @id += 1
     end
 
@@ -523,3 +525,4 @@ end
 # Load the client/* libraries
 require "eth/client/http"
 require "eth/client/ipc"
+require "eth/client/ws"
