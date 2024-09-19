@@ -38,30 +38,55 @@ module Eth
     #
     # @param types [Array] types to be ABI-encoded.
     # @param args [Array] values to be ABI-encoded.
+    # @param packed [Boolean] use custom packed encoding (default: false).
     # @return [String] the encoded ABI data.
-    def encode(types, args)
+    def encode(types, args, packed = false)
+      types = [types] unless types.instance_of? Array
+      args = [args] unless args.instance_of? Array
 
       # parse all types
       parsed_types = types.map { |t| Type === t ? t : Type.parse(t) }
 
       # prepare the "head"
       head_size = (0...args.size)
-        .map { |i| parsed_types[i].size or 32 }
+        .map { |i|
+        if packed
+          parsed_types[i].sub_type.to_i / 8
+        else
+          parsed_types[i].size or 32
+        end
+      }
         .reduce(0, &:+)
       head, tail = "", ""
 
       # encode types and arguments
       args.each_with_index do |arg, i|
-        if parsed_types[i].dynamic?
-          head += Abi::Encoder.type(Type.size_type, head_size + tail.size)
-          tail += Abi::Encoder.type(parsed_types[i], arg)
+        if packed
+          head += Abi::Encoder.type(parsed_types[i], arg, packed)
+        elsif parsed_types[i].dynamic?
+          head += Abi::Encoder.type(Type.size_type, head_size + tail.size, packed)
+          tail += Abi::Encoder.type(parsed_types[i], arg, packed)
         else
-          head += Abi::Encoder.type(parsed_types[i], arg)
+          head += Abi::Encoder.type(parsed_types[i], arg, packed)
         end
       end
 
+      if tail.size == 0 && packed
+        tail = head
+      end
+
       # return the encoded ABI blob
-      "#{head}#{tail}"
+      packed ? "#{tail}" : "#{head}#{tail}"
+    end
+
+    # Encodes a custom, packed Application Binary Interface (packed ABI) data.
+    # It accepts multiple arguments and encodes according to the Solidity specification.
+    #
+    # @param types [Array] types to be ABI-encoded.
+    # @param args [Array] values to be ABI-encoded.
+    # @return [String] the packed encoded ABI data.
+    def encode_packed(types, args)
+      encode(types, args, true)
     end
 
     # Decodes Application Binary Interface (ABI) data. It accepts multiple
@@ -119,6 +144,15 @@ module Eth
 
       # return the decoded ABI types and data
       parsed_types.zip(outputs).map { |(type, out)| Abi::Decoder.type(type, out) }
+    end
+
+    # Since the encoding is ambiguous, there is no decoding function.
+    #
+    # @param types [Array] the ABI to be decoded.
+    # @param data [String] ABI data to be decoded.
+    # @raise [DecodingError] if you try to decode packed ABI data.
+    def decode_packed(types, data)
+      raise DecodingError, "Since the encoding is ambiguous, there is no decoding function."
     end
   end
 end

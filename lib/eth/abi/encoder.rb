@@ -28,26 +28,28 @@ module Eth
       #
       # @param type [Eth::Abi::Type] type to be encoded.
       # @param arg [String|Number] value to be encoded.
+      # @param packed [Boolean] use custom packed encoding.
       # @return [String] the encoded type.
       # @raise [EncodingError] if value does not match type.
-      def type(type, arg)
+      def type(type, arg, packed = false)
         if %w(string bytes).include? type.base_type and type.sub_type.empty? and type.dimensions.empty?
           raise EncodingError, "Argument must be a String" unless arg.instance_of? String
 
           # encodes strings and bytes
-          size = type Type.size_type, arg.size
+          size = type(Type.size_type, arg.size, packed)
           padding = Constant::BYTE_ZERO * (Util.ceil32(arg.size) - arg.size)
+          return arg if packed
           "#{size}#{arg}#{padding}"
         elsif type.base_type == "tuple" && type.dimensions.size == 1 && type.dimensions[0] != 0
           result = ""
           result += struct_offsets(type.nested_sub, arg)
-          result += arg.map { |x| type(type.nested_sub, x) }.join
+          result += arg.map { |x| type(type.nested_sub, x, packed) }.join
           result
         elsif type.dynamic? && arg.is_a?(Array)
 
           # encodes dynamic-sized arrays
           head, tail = "", ""
-          head += type(Type.size_type, arg.size)
+          head += type(Type.size_type, arg.size, packed) unless packed
           nested_sub = type.nested_sub
           nested_sub_size = type.nested_sub.size
 
@@ -63,25 +65,25 @@ module Eth
                 offset += total_bytes_length + 32
               end
 
-              head += type(Type.size_type, offset)
+              head += type(Type.size_type, offset, packed)
             end
           elsif nested_sub.base_type == "tuple" && nested_sub.dynamic?
             head += struct_offsets(nested_sub, arg)
           end
 
           arg.size.times do |i|
-            head += type nested_sub, arg[i]
+            head += type(nested_sub, arg[i], packed)
           end
           "#{head}#{tail}"
         else
           if type.dimensions.empty?
 
             # encode a primitive type
-            primitive_type type, arg
+            primitive_type type, arg, packed
           else
 
             # encode static-size arrays
-            arg.map { |x| type(type.nested_sub, x) }.join
+            arg.map { |x| type(type.nested_sub, x, packed) }.join
           end
         end
       end
@@ -90,30 +92,31 @@ module Eth
       #
       # @param type [Eth::Abi::Type] type to be encoded.
       # @param arg [String|Number] value to be encoded.
+      # @param packed [Boolean] use custom packed encoding.
       # @return [String] the encoded primitive type.
       # @raise [EncodingError] if value does not match type.
       # @raise [ValueOutOfBounds] if value is out of bounds for type.
       # @raise [EncodingError] if encoding fails for type.
-      def primitive_type(type, arg)
+      def primitive_type(type, arg, packed = false)
         case type.base_type
         when "uint"
-          uint arg, type
+          uint arg, type, packed
         when "bool"
-          bool arg
+          bool arg, packed
         when "int"
-          int arg, type
-        when "ureal", "ufixed"
+          int arg, type, packed
+        when "ureal", "ufixed" # TODO: Q9F
           ufixed arg, type
-        when "real", "fixed"
+        when "real", "fixed" # TODO: Q9F
           fixed arg, type
         when "string", "bytes"
-          bytes arg, type
-        when "tuple"
+          bytes arg, type, packed
+        when "tuple" # TODO: Q9F
           tuple arg, type
         when "hash"
-          hash arg, type
+          hash arg, type, packed
         when "address"
-          address arg
+          address arg, packed
         else
           raise EncodingError, "Unhandled type: #{type.base_type} #{type.sub_type}"
         end
@@ -122,29 +125,39 @@ module Eth
       private
 
       # Properly encodes unsigned integers.
-      def uint(arg, type)
+      def uint(arg, type, packed)
         raise ArgumentError, "Don't know how to handle this input." unless arg.is_a? Numeric
         raise ValueOutOfBounds, "Number out of range: #{arg}" if arg > Constant::UINT_MAX or arg < Constant::UINT_MIN
         real_size = type.sub_type.to_i
         i = arg.to_i
         raise ValueOutOfBounds, arg unless i >= 0 and i < 2 ** real_size
-        Util.zpad_int i
+        if packed
+          len = real_size / 8
+          return Util.zpad_int(i, len)
+        else
+          return Util.zpad_int(i)
+        end
       end
 
       # Properly encodes signed integers.
-      def int(arg, type)
+      def int(arg, type, packed)
         raise ArgumentError, "Don't know how to handle this input." unless arg.is_a? Numeric
         raise ValueOutOfBounds, "Number out of range: #{arg}" if arg > Constant::INT_MAX or arg < Constant::INT_MIN
         real_size = type.sub_type.to_i
         i = arg.to_i
         raise ValueOutOfBounds, arg unless i >= -2 ** (real_size - 1) and i < 2 ** (real_size - 1)
-        Util.zpad_int(i % 2 ** 256)
+        if packed
+          len = real_size / 8
+          return Util.zpad_int(i % 2 ** real_size, len)
+        else
+          return Util.zpad_int(i % 2 ** 256)
+        end
       end
 
       # Properly encodes booleans.
-      def bool(arg)
+      def bool(arg, packed)
         raise EncodingError, "Argument is not bool: #{arg}" unless arg.instance_of? TrueClass or arg.instance_of? FalseClass
-        Util.zpad_int(arg ? 1 : 0)
+        Util.zpad_int(arg ? 1 : 0, packed ? 1 : 32)
       end
 
       # Properly encodes unsigned fixed-point numbers.
@@ -165,9 +178,12 @@ module Eth
       end
 
       # Properly encodes byte-strings.
-      def bytes(arg, type)
+      def bytes(arg, type, packed)
         raise EncodingError, "Expecting String: #{arg}" unless arg.instance_of? String
         arg = handle_hex_string arg, type
+
+        # no padding or size handling for packed encoding
+        return arg if packed
 
         if type.sub_type.empty?
           size = Util.zpad_int arg.size
@@ -235,20 +251,23 @@ module Eth
       end
 
       # Properly encodes hash-strings.
-      def hash(arg, type)
+      def hash(arg, type, packed)
         size = type.sub_type.to_i
         raise EncodingError, "Argument too long: #{arg}" unless size > 0 and size <= 32
         if arg.is_a? Integer
 
           # hash from integer
+          return Util.int_to_big_endian arg if packed
           Util.zpad_int arg
         elsif arg.size == size
 
           # hash from encoded hash
+          return arg if packed
           Util.zpad arg, 32
         elsif arg.size == size * 2
 
           # hash from hexadecimal hash
+          return Util.hex_to_bin arg if packed
           Util.zpad_hex arg
         else
           raise EncodingError, "Could not parse hash: #{arg}"
@@ -256,26 +275,31 @@ module Eth
       end
 
       # Properly encodes addresses.
-      def address(arg)
+      def address(arg, packed)
         if arg.is_a? Address
 
           # from checksummed address with 0x prefix
+          return arg.to_s[2..-1].downcase if packed
           Util.zpad_hex arg.to_s[2..-1]
         elsif arg.is_a? Integer
 
           # address from integer
+          return Util.int_to_big_endian arg if packed
           Util.zpad_int arg
         elsif arg.size == 20
 
           # address from encoded address
+          return arg if packed
           Util.zpad arg, 32
         elsif arg.size == 40
 
           # address from hexadecimal address
+          return Util.hex_to_bin arg if packed
           Util.zpad_hex arg
         elsif arg.size == 42 and arg[0, 2] == "0x"
 
           # address from hexadecimal address with 0x prefix
+          return Util.hex_to_bin arg if packed
           Util.zpad_hex arg[2..-1]
         else
           raise EncodingError, "Could not parse address: #{arg}"
