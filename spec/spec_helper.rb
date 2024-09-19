@@ -15,3 +15,8 @@ RSpec.configure do |config|
 end
 
 include Eth
+
+shared_examples "an ABI type implementing the Meta interface" do
+  it { is_expected.to respond_to(:size) }
+  it { is_expected.to respond_to(:format) }
+end
