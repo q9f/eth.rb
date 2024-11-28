@@ -51,15 +51,15 @@ module Eth
 
       # Handle both String and Rlp::Data
       bin_str = bin.is_a?(String) ? bin : bin.to_s
-      bin_str.unpack('H*')[0]
+      bin_str.unpack("H*")[0]
     end
 
     def hex_to_bin(hex)
       return hex unless hex?(hex)
-      hex = hex.gsub(/\A0x/, '')
-      [hex].pack('H*')
+      hex = hex.gsub(/\A0x/, "")
+      [hex].pack("H*")
     end
-    
+
     # Prefixes a hexa-decimal string with `0x`.
     #
     # @param hex [String] a hex-string to be prefixed.

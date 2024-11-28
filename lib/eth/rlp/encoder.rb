@@ -53,11 +53,11 @@ module Eth
         return item if item.is_a?(Rlp::Data)
 
         bytes = case item
-        when String
-          item.dup.force_encoding(Encoding::ASCII_8BIT)
-        else
-          item.to_s.force_encoding(Encoding::ASCII_8BIT)
-        end
+          when String
+            item.dup.force_encoding(Encoding::ASCII_8BIT)
+          else
+            item.to_s.force_encoding(Encoding::ASCII_8BIT)
+          end
 
         if bytes.size == 1 && bytes.getbyte(0) < Constant::PRIMITIVE_PREFIX_OFFSET
           Rlp::Data.new(bytes)

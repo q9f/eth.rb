@@ -32,18 +32,18 @@ module Eth
       #     the root item.
       def perform(rlp)
         input = case rlp
-        when Rlp::Data
-          rlp
-        when String
-          # Handle hex strings
-          if Util.hex?(rlp)
-            Util.hex_to_bin(rlp)
+          when Rlp::Data
+            rlp
+          when String
+            # Handle hex strings
+            if Util.hex?(rlp)
+              Util.hex_to_bin(rlp)
+            else
+              rlp.dup.force_encoding(Encoding::ASCII_8BIT)
+            end
           else
-            rlp.dup.force_encoding(Encoding::ASCII_8BIT)
+            raise TypeError, "RLP input must be String or Rlp::Data"
           end
-        else
-          raise TypeError, "RLP input must be String or Rlp::Data"
-        end
 
         begin
           item, next_start = consume_item(input, 0)
@@ -125,4 +125,4 @@ module Eth
       end
     end
   end
- end
+end
