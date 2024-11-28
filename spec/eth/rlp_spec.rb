@@ -77,5 +77,14 @@ describe Rlp do
         expect(encoded_again).to eq Util.hex_to_bin rlp
       end
     end
+
+    it "properly handles single-byte strings" do
+      test_cases = ["a", "b", "1", "\x01"]
+      test_cases.each do |input|
+        encoded = Eth::Rlp.encode(input)
+        decoded = Eth::Rlp.decode(encoded)
+        expect(decoded).to eq(input)
+      end
+    end
   end
 end

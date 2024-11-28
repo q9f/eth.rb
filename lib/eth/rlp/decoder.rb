@@ -31,30 +31,45 @@ module Eth
       # @raise [Eth::Rlp::DecodingError] if the input string does not end after
       #     the root item.
       def perform(rlp)
-        rlp = Util.hex_to_bin rlp if Util.hex? rlp
-        rlp = Util.str_to_bytes rlp
+        input = case rlp
+        when Rlp::Data
+          rlp
+        when String
+          # Handle hex strings
+          if Util.hex?(rlp)
+            Util.hex_to_bin(rlp)
+          else
+            rlp.dup.force_encoding(Encoding::ASCII_8BIT)
+          end
+        else
+          raise TypeError, "RLP input must be String or Rlp::Data"
+        end
+
         begin
-          item, next_start = consume_item rlp, 0
+          item, next_start = consume_item(input, 0)
         rescue Exception => e
           raise DecodingError, "Cannot decode rlp string: #{e}"
         end
-        raise DecodingError, "RLP string ends with #{rlp.size - next_start} superfluous bytes" if next_start != rlp.size
-        return item
+
+        # Check if we consumed the whole input
+        if next_start != input.bytesize
+          raise DecodingError, "RLP string ends with #{input.bytesize - next_start} superfluous bytes"
+        end
+
+        item
       end
 
       private
 
-      # Consume an RLP-encoded item from the given start.
       def consume_item(rlp, start)
-        t, l, s = consume_length_prefix rlp, start
-        consume_payload rlp, s, t, l
+        type, length, pos = consume_length_prefix(rlp, start)
+        consume_payload(rlp, pos, type, length)
       end
 
       # Consume an RLP length prefix at the given position.
       def consume_length_prefix(rlp, start)
         b0 = rlp[start].ord
         if b0 < Constant::PRIMITIVE_PREFIX_OFFSET
-
           # single byte
           [:str, 1, start]
         elsif b0 < Constant::PRIMITIVE_PREFIX_OFFSET + Constant::SHORT_LENGTH_LIMIT
@@ -71,7 +86,6 @@ module Eth
           raise DecodingError, "Long string prefix used for short string" if l < Constant::SHORT_LENGTH_LIMIT
           [:str, l, start + 1 + ll]
         elsif b0 < Constant::LIST_PREFIX_OFFSET + Constant::SHORT_LENGTH_LIMIT
-
           # short list
           [:list, b0 - Constant::LIST_PREFIX_OFFSET, start + 1]
         else
@@ -111,4 +125,4 @@ module Eth
       end
     end
   end
-end
+ end

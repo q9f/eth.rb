@@ -33,7 +33,9 @@ module Eth
       # @raise [Eth::Rlp::SerializationError] if the serialization fails.
       def perform(obj)
         item = Sedes.infer(obj).serialize(obj)
-        result = encode_raw item
+        result = encode_raw(item)
+        # Ensure result is always Rlp::Data
+        result.is_a?(Rlp::Data) ? result : Rlp::Data.new(result.force_encoding(Encoding::ASCII_8BIT))
       end
 
       private
@@ -43,22 +45,33 @@ module Eth
         return item if item.instance_of? Rlp::Data
         return encode_primitive item if Util.primitive? item
         return encode_list item if Util.list? item
-        raise EncodingError "Cannot encode object of type #{item.class.name}"
+        raise EncodingError, "Cannot encode object of type #{item.class.name}"
       end
 
-      # Encodes a single primitive.
+      # Encodes a primitive (string or number).
       def encode_primitive(item)
-        return Util.str_to_bytes item if item.size == 1 && item.ord < Constant::PRIMITIVE_PREFIX_OFFSET
-        payload = Util.str_to_bytes item
-        prefix = length_prefix payload.size, Constant::PRIMITIVE_PREFIX_OFFSET
-        "#{prefix}#{payload}"
+        return item if item.is_a?(Rlp::Data)
+
+        bytes = case item
+        when String
+          item.dup.force_encoding(Encoding::ASCII_8BIT)
+        else
+          item.to_s.force_encoding(Encoding::ASCII_8BIT)
+        end
+
+        if bytes.size == 1 && bytes.getbyte(0) < Constant::PRIMITIVE_PREFIX_OFFSET
+          Rlp::Data.new(bytes)
+        else
+          prefix = length_prefix(bytes.size, Constant::PRIMITIVE_PREFIX_OFFSET)
+          Rlp::Data.new("#{prefix}#{bytes}")
+        end
       end
 
       # Encodes a single list.
       def encode_list(list)
-        payload = list.map { |item| encode_raw item }.join
-        prefix = length_prefix payload.size, Constant::LIST_PREFIX_OFFSET
-        "#{prefix}#{payload}"
+        payload = list.map { |item| encode_raw(item) }.join
+        prefix = length_prefix(payload.size, Constant::LIST_PREFIX_OFFSET)
+        Rlp::Data.new("#{prefix}#{payload}")
       end
 
       # Determines a length prefix.
@@ -66,7 +79,7 @@ module Eth
         if length < Constant::SHORT_LENGTH_LIMIT
           (offset + length).chr
         elsif length < Constant::LONG_LENGTH_LIMIT
-          length_string = Util.int_to_big_endian length
+          length_string = Util.int_to_big_endian(length)
           length_len = (offset + Constant::SHORT_LENGTH_LIMIT - 1 + length_string.size).chr
           "#{length_len}#{length_string}"
         else

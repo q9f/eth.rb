@@ -47,23 +47,19 @@ module Eth
     # @return [String] a hexa-decimal string.
     # @raise [TypeError] if value is not a string.
     def bin_to_hex(bin)
-      raise TypeError, "Value must be an instance of String" unless bin.instance_of? String
-      bin.unpack("H*").first
+      return nil unless bin
+
+      # Handle both String and Rlp::Data
+      bin_str = bin.is_a?(String) ? bin : bin.to_s
+      bin_str.unpack('H*')[0]
     end
 
-    # Packs a hexa-decimal string into a binary string. Also works with
-    # `0x`-prefixed strings.
-    #
-    # @param hex [String] a hexa-decimal string to be packed.
-    # @return [String] a packed binary string.
-    # @raise [TypeError] if value is not a string or string is not hex.
     def hex_to_bin(hex)
-      raise TypeError, "Value must be an instance of String" unless hex.instance_of? String
-      hex = remove_hex_prefix hex
-      raise TypeError, "Non-hexadecimal digit found" unless hex? hex
-      [hex].pack("H*")
+      return hex unless hex?(hex)
+      hex = hex.gsub(/\A0x/, '')
+      [hex].pack('H*')
     end
-
+    
     # Prefixes a hexa-decimal string with `0x`.
     #
     # @param hex [String] a hex-string to be prefixed.
