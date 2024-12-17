@@ -123,8 +123,8 @@ describe Address do
     end
   end
 
-  describe ".null?" do
-    let(:null) { Address::NULL }
+  describe ".zero?" do
+    let(:zero) { Address::ZERO }
     let(:addresses) do
       [
         "0x5aaeb6053f3e94c9b9a09f33669435e7ef1beaed",
@@ -134,13 +134,13 @@ describe Address do
       ]
     end
 
-    it "returns true for the null address" do
-      expect(Address.new(null)).to be_null
+    it "returns true for the zero address" do
+      expect(Address.new(zero)).to be_zero
     end
 
     it "returns false for a valid address" do
       addresses.each do |address|
-        expect(Address.new(address)).not_to be_null
+        expect(Address.new(address)).not_to be_zero
       end
     end
   end
