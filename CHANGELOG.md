@@ -1,6 +1,24 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## [0.5.13]
+### Changed
+* Eth/api: update to latest available go-ethereum apis [#301](https://github.com/q9f/eth.rb/pull/301)
+* Eth/chain: update ids [#300](https://github.com/q9f/eth.rb/pull/300)
+* Spec: update ethereum/tests fixtures [#303](https://github.com/q9f/eth.rb/pull/303)
+* Ci: fix codecov uploader [#302](https://github.com/q9f/eth.rb/pull/302)
+* Eth/tx: only enforce block gas limit on mainnet [#299](https://github.com/q9f/eth.rb/pull/299)
+* Eth/util: fix single-byte hex-string nibbles [#298](https://github.com/q9f/eth.rb/pull/298)
+* Eth/address: rename null address to zero address [#297](https://github.com/q9f/eth.rb/pull/297)
+* Eth/address: add support to check for the ethereum "null address" [#296](https://github.com/q9f/eth.rb/pull/296)
+* Build(deps): bump codecov/codecov-action from 4 to 5 [#295](https://github.com/q9f/eth.rb/pull/295)
+* Build(deps): bump JamesIves/github-pages-deploy-action [#294](https://github.com/q9f/eth.rb/pull/294)
+* Build(deps): bump JamesIves/github-pages-deploy-action [#288](https://github.com/q9f/eth.rb/pull/288)
+* Eth/client: always return hash even if transaction didn't succeed [#284](https://github.com/q9f/eth.rb/pull/284)
+* Eth/chain: update list of chains [#283](https://github.com/q9f/eth.rb/pull/283)
+* Fix undefined method `raise_error' for an instance of Eth::Tx::Eip1559 (NoMethodError) [#282](https://github.com/q9f/eth.rb/pull/282)
+* Gem: bump version to 0.5.13 [#281](https://github.com/q9f/eth.rb/pull/281)
+
 ## [0.5.12]
 ### Added
 * Allow to call JSON RPC with custom block number [#268](https://github.com/q9f/eth.rb/pull/268)
@@ -75,7 +93,7 @@ All notable changes to this project will be documented in this file.
 
 ## [0.5.9]
 ### Added
-* Eth/abi: dynamic struct encoding (#135) [#185](https://github.com/q9f/eth.rb/pull/185)
+* Eth/abi: dynamic struct encoding [#135](https://github.com/q9f/eth.rb/pull/135) [#185](https://github.com/q9f/eth.rb/pull/185)
 * Eth/client: support camel case (convert before sending the tx) [#172](https://github.com/q9f/eth.rb/pull/172)
 * Eth/client: add `tx_succeeded?` [#173](https://github.com/q9f/eth.rb/pull/173)
 
