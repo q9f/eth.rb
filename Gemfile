@@ -3,7 +3,7 @@
 source "https://rubygems.org"
 
 group :test, :development do
-  gem "bundler", "~> 2.5"
+  gem "bundler", "~> 2.4"
   gem "pry", "~> 0.15"
   gem "rake", "~> 13.2"
   gem "rdoc", "~> 6.9"
