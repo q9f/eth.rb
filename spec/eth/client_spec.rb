@@ -6,9 +6,11 @@ describe Client do
   # to provide both http and ipc to pass these tests.
   let(:geth_ipc_path) { "/tmp/geth.ipc" }
   let(:geth_http_path) { "http://127.0.0.1:8545" }
+  let(:geth_ws_path) { "ws://127.0.0.1:8546" }
   let(:geth_http_authed_path) { "http://username:password@127.0.0.1:8545" }
   subject(:geth_ipc) { Client.create geth_ipc_path }
   subject(:geth_http) { Client.create geth_http_path }
+  subject(:geth_ws) { Client.create geth_ws_path }
   subject(:geth_http_authed) { Client.create geth_http_authed_path }
 
   # it expects an $INFURA_TOKEN in environment
@@ -22,6 +24,18 @@ describe Client do
       expect(geth_ipc).to be
       expect(geth_ipc).to be_instance_of Client::Ipc
       expect(geth_ipc.path).to eq geth_ipc_path
+    end
+
+    it "creates an ws client" do
+      expect(geth_ws).to be
+      expect(geth_ws).to be_instance_of Client::Ws
+      expect(geth_ws.host).to eq "127.0.0.1"
+      expect(geth_ws.port).to eq 8546
+      expect(geth_ws.uri.to_s).to eq geth_ws_path
+      expect(geth_ws.ssl).to be_falsy
+
+      ### to do remove
+      geth_ws.chain_id
     end
 
     it "creates an http client" do
