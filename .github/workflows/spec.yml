@@ -49,7 +49,7 @@ jobs:
       run: |
         bundle exec rspec
       env:
-        INFURA_TOKEN: ${{ secrets.INFURA_TOKEN }}
+        DRPC_TOKEN: ${{ secrets.DRPC_TOKEN }}
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v5
       with:
