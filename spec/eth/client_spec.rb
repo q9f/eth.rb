@@ -7,9 +7,11 @@ describe Client do
   let(:geth_ipc_path) { "/tmp/geth.ipc" }
   let(:geth_http_path) { "http://127.0.0.1:8545" }
   let(:geth_http_authed_path) { "http://username:password@127.0.0.1:8545" }
+  let(:geth_http_query_path) { "http://127.0.0.1:8545?foo=bar&asdf=qwer" }
   subject(:geth_ipc) { Client.create geth_ipc_path }
   subject(:geth_http) { Client.create geth_http_path }
   subject(:geth_http_authed) { Client.create geth_http_authed_path }
+  subject(:geth_http_query) { Client.create geth_http_query_path }
 
   # it expects an $DRPC_TOKEN in environment
   let(:drpc_api) { "https://lb.drpc.org/ogrpc?network=ethereum&dkey=#{ENV["DRPC_TOKEN"]}" }
@@ -31,6 +33,16 @@ describe Client do
       expect(geth_http.port).to eq 8545
       expect(geth_http.uri.to_s).to eq geth_http_path
       expect(geth_http.ssl).to be_falsy
+    end
+
+    it "creates an http client with query params" do
+      expect(geth_http_query).to be
+      expect(geth_http_query).to be_instance_of Client::Http
+      expect(geth_http_query.host).to eq "127.0.0.1"
+      expect(geth_http_query.port).to eq 8545
+      expect(geth_http_query.uri.to_s).to eq geth_http_query_path
+      expect(geth_http_query.ssl).to be_falsy
+      expect(geth_http_query.uri.query).to eq "foo=bar&asdf=qwer"
     end
 
     it "connects to an drpc api" do
