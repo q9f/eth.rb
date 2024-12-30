@@ -49,9 +49,13 @@ module Eth
       if !(uri.user.nil? && uri.password.nil?)
         @user = uri.user
         @password = uri.password
-        @uri = URI("#{uri.scheme}://#{uri.user}:#{uri.password}@#{@host}:#{@port}#{uri.path}")
+        if uri.query
+          @uri = URI("#{uri.scheme}://#{uri.user}:#{uri.password}@#{@host}:#{@port}#{uri.path}?#{uri.query}")
+        else
+          @uri = URI("#{uri.scheme}://#{uri.user}:#{uri.password}@#{@host}:#{@port}#{uri.path}")
+        end
       else
-        @uri = URI("#{uri.scheme}://#{@host}:#{@port}#{uri.path}")
+        @uri = uri
       end
     end
 

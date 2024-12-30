@@ -34,6 +34,9 @@ Gem::Specification.new do |spec|
   spec.platform = Gem::Platform::RUBY
   spec.required_ruby_version = ">= 3.0", "< 4.0"
 
+  # bigdecimal for big decimals ;)
+  spec.add_dependency "bigdecimal", "~> 3.1"
+
   # forwardable for contracts meta programming
   spec.add_dependency "forwardable", "~> 1.3"
 
