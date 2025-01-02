@@ -53,10 +53,10 @@ module Eth
             bytes(arg, $1.to_i)
           when "bytes"
             string(arg)
-          when /^tuple\((.+)\)$/
+          when /^\((.+)\)$/
             tuple($1.split(","), arg)
           when /^hash(\d+)$/
-            hash(arg, $1.to_i)
+            hash(arg, $1.to_i / 8)
           when "address"
             address(arg)
           when /^(.+)\[\]$/
@@ -74,14 +74,17 @@ module Eth
         def uint(value, byte_size)
           raise ArgumentError, "Don't know how to handle this input." unless value.is_a? Numeric
           raise ValueOutOfBounds, "Number out of range: #{value}" if value > Constant::UINT_MAX or value < Constant::UINT_MIN
-          [value].pack("Q>")[-1, byte_size].rjust(byte_size, "\x00".b).b
+          i = value.to_i
+          Util.zpad_int i, byte_size
         end
 
         # Properly encodes signed integers.
         def int(value, byte_size)
           raise ArgumentError, "Don't know how to handle this input." unless value.is_a? Numeric
           raise ValueOutOfBounds, "Number out of range: #{value}" if value > Constant::INT_MAX or value < Constant::INT_MIN
-          [value].pack("q>")[-1, byte_size].rjust(byte_size, value < 0 ? "\xFF".b : "\x00".b).b
+          real_size = byte_size * 8
+          i = value.to_i % 2 ** real_size
+          Util.zpad_int i, byte_size
         end
 
         # Properly encodes booleans.
@@ -122,14 +125,13 @@ module Eth
 
         # Properly encodes tuples.
         def tuple(types, values)
-          encode(types, values)
+          Abi.encode_packed(types, values)
         end
 
         # Properly encodes hash-strings.
         def hash(value, byte_size)
           raise EncodingError, "Argument too long: #{value}" unless byte_size > 0 and byte_size <= 32
           hash_bytes = handle_hex_string value, byte_size
-          raise ArgumentError, "Hash value must be #{byte_size} bytes" unless hash_bytes.bytesize == byte_size
           hash_bytes.b
         end
 

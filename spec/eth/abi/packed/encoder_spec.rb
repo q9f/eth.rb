@@ -47,6 +47,27 @@ describe Abi::Packed::Encoder do
     expect(Util.bin_to_hex Abi.encode_packed(types, values)).to eq "ffff42000348656c6c6f2c20776f726c6421"
   end
 
+  it "encodes complex types" do
+    types = ["uint256", "address", "bool", "int16", "bytes1", "uint16", "string", "ufixed128x18", "fixed128x18", "(uint256,address)", "hash256", "uint256[]"]
+    values = [
+      12345,
+      "0x32Be343B94f860124dC4fEe278FDCBD38C102D88",
+      true,
+      -123,
+      "\x01".b,
+      65535,
+      "Hello, world!",
+      123.456,
+      -123.456,
+      [98765, "0x32Be343B94f860124dC4fEe278FDCBD38C102D88"],
+      Digest::SHA256.hexdigest("test"),
+      [1, 2, 3, 4, 5],
+    ]
+    data = "000000000000000000000000000000000000000000000000000000000000303932be343b94f860124dc4fee278fdcbd38c102d8801ffff01000048656c6c6f2c20776f726c64210000000000000000b14bd1e6eea00000ffffffffffffffff4eb42e191160000000000000000000000000000000000000000000000000000000000000000181cd32be343b94f860124dc4fee278fdcbd38c102d889f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a0800000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000000300000000000000000000000000000000000000000000000000000000000000040000000000000000000000000000000000000000000000000000000000000005"
+    pending("https://github.com/q9f/eth.rb/issues/103")
+    expect(Util.bin_to_hex Abi.encode_packed(types, values)).to eq data
+  end
+
   context "wuminzhe's tests" do
     # ref https://github.com/wuminzhe/abi_coder_rb/blob/701af2315cfc94a94872beb6c639ece400fca589/spec/packed_encoding_spec.rb
 
@@ -113,23 +134,19 @@ describe Abi::Packed::Encoder do
       expect(Util.bin_to_hex Abi.encode_packed(types, values)).to eq data
     end
 
-    # it "(uint64)" do
-    #   types = "[(uint64)]"
-    #   values = [[17]]
-    #   data = "0000000000000011"
+    it "(uint64)" do
+      types = ["(uint64)"]
+      values = [[17]]
+      data = "0000000000000011"
+      expect(Util.bin_to_hex Abi.encode_packed(types, values)).to eq data
+    end
 
-    #   expect(Util.bin_to_hex Abi.encode_packed(types, values)).to eq data
-    # end
-
-    # it "(int32,uint64)" do
-    #   types = ["(int32,uint64)"]
-    #   values = [[17, 17]]
-    #   data = "000000110000000000000011"
-
-    #   expect do
-    #     Abi.encode_packed(type, value)
-    #   end.to raise_error("AbiCoderRb::Tuple with multi inner types is not supported in packed mode")
-    # end
+    it "(int32,uint64)" do
+      types = ["(int32,uint64)"]
+      values = [[17, 17]]
+      data = "000000110000000000000011"
+      expect(Util.bin_to_hex Abi.encode_packed(types, values)).to eq data
+    end
 
     it "int32,uint64" do
       types = %w[int32 uint64]
