@@ -23,6 +23,15 @@ module Eth
 
       # Provides a utility module to assist decoding ABIs.
       module Decoder
+
+        # Since the encoding is ambiguous, there is no decoding function.
+        #
+        # @param types [Array] the ABI to be decoded.
+        # @param data [String] ABI data to be decoded.
+        # @raise [DecodingError] if you try to decode packed ABI data.
+        # def decode_packed(types, data)
+        #   raise DecodingError, "Since the encoding is ambiguous, there is no decoding function."
+        # end
       end
     end
   end
