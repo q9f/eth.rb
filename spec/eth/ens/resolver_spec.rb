@@ -2,10 +2,10 @@ require "spec_helper"
 
 describe Ens::Resolver do
 
-  # it expects an $INFURA_TOKEN in environment
-  let(:infura_api) { "https://mainnet.infura.io/v3/#{ENV["INFURA_TOKEN"]}" }
-  subject(:infura_mainnet) { Client.create infura_api }
-  let(:resolver) { Ens::Resolver.new(infura_mainnet) }
+  # it expects an $DRPC_TOKEN in environment
+  let(:drpc_api) { "https://lb.drpc.org/ogrpc?network=ethereum&dkey=#{ENV["DRPC_TOKEN"]}" }
+  subject(:drpc_mainnet) { Client.create drpc_api }
+  let(:resolver) { Ens::Resolver.new(drpc_mainnet) }
 
   describe "normalize" do
     it "can normalize ascii" do

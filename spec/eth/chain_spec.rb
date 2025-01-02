@@ -17,11 +17,18 @@ describe Chain do
       expect(Chain::MATIC).to eq 137
       expect(Chain::POLYGON).to eq 137
       expect(Chain::FILECOIN).to eq 314
+      expect(Chain::CRONOS_ZK).to eq 388
+      expect(Chain::REDSTONE).to eq 690
+      expect(Chain::POLYGON_ZK).to eq 1101
+      expect(Chain::LISK).to eq 1135
       expect(Chain::MOONBEAM).to eq 1284
       expect(Chain::BASE).to eq 8453
+      expect(Chain::EVMOS).to eq 9001
+      expect(Chain::CELO).to eq 42220
       expect(Chain::ARBITRUM).to eq 42161
       expect(Chain::AVALANCHE).to eq 43114
       expect(Chain::LINEA).to eq 59144
+      expect(Chain::SCROLL).to eq 534352
 
       # Chain IDs for selected testnets
       expect(Chain::MORDEN).to eq 2
@@ -37,11 +44,13 @@ describe Chain do
       expect(Chain::GOERLI_OPTIMISM).to eq 420
       expect(Chain::MOONRIVER).to eq 1285
       expect(Chain::MOONBASE).to eq 1287
+      expect(Chain::GARNET).to eq 17069
       expect(Chain::MUMBAI).to eq 80001
       expect(Chain::RINKEBY_ARBITRUM).to eq 421611
       expect(Chain::GOERLI_ARBITRUM).to eq 421613
       expect(Chain::SEPOLIA).to eq 11155111
       expect(Chain::HOLESOVICE).to eq 11166111
+      expect(Chain::HOLESKY).to eq 11166111
 
       # Chain IDs for selected private networks
       expect(Chain::PRIVATE_GETH).to eq 1337

@@ -101,6 +101,7 @@ describe Tx::Eip2930 do
           nonce: 0,
           gas_price: Unit::GWEI,
           gas_limit: Tx::BLOCK_GAS_LIMIT + 1,
+          chain_id: Chain::ETHEREUM,
         })
       }.to raise_error Tx::ParameterError, "Invalid gas limit 30000001!"
       expect {

@@ -1,12 +1,11 @@
 # use the local version of the code instead of a globally installed gem
 $LOAD_PATH.unshift File.expand_path("../../lib", __FILE__)
 
-# only run coverage reports on github actions
-if ENV["COVERAGE"]
+if ENV["COVERAGE"] or ENV["CI"]
   require "simplecov"
+  require "simplecov-cobertura"
+  SimpleCov.formatter = SimpleCov::Formatter::CoberturaFormatter
   SimpleCov.start
-  require "codecov"
-  SimpleCov.formatter = SimpleCov::Formatter::Codecov
 end
 
 require "eth"
