@@ -1,4 +1,4 @@
-# Copyright (c) 2016-2023 The Ruby-Eth Contributors
+# Copyright (c) 2016-2025 The Ruby-Eth Contributors
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -19,6 +19,8 @@ module Eth
 
   # Provides a Ruby implementation of the Ethereum Application Binary Interface (ABI).
   module Abi
+
+    # Encapsulates the module for non-standard packed encoding used in Solidity.
     module Packed
 
       # Provides a utility module to assist decoding ABIs.
