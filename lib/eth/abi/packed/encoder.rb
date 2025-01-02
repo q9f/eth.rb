@@ -90,7 +90,7 @@ module Eth
         # Properly encodes booleans.
         def bool(value)
           raise EncodingError, "Argument is not bool: #{value}" unless value.instance_of? TrueClass or value.instance_of? FalseClass
-          (value ? "\x01".b : "\x00".b).b
+          (value ? "\x01" : "\x00").b
         end
 
         # Properly encodes unsigned fixed-point numbers.
@@ -177,7 +177,7 @@ module Eth
         # and a binary `"123"` string.
         def handle_hex_string(val, len)
           if Util.prefixed? val or
-             (len === val.size * 2 and Util.hex? val)
+             (len === val.size / 2 and Util.hex? val)
 
             # There is no way telling whether a string is hex or binary with certainty
             # in Ruby. Therefore, we assume a `0x` prefix to indicate a hex string.
