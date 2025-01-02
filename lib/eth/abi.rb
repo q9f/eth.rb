@@ -123,6 +123,8 @@ module Eth
   end
 end
 
+require "eth/abi/packed/decoder"
+require "eth/abi/packed/encoder"
 require "eth/abi/decoder"
 require "eth/abi/encoder"
 require "eth/abi/event"
