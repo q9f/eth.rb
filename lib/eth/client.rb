@@ -25,7 +25,7 @@ module Eth
     # The connected network's chain ID.
     attr_reader :chain_id
 
-    # The connected network's client coinbase.
+    # The connected network's client default account.
     attr_accessor :default_account
 
     # The default transaction max priority fee per gas in Wei, defaults to {Tx::DEFAULT_PRIORITY_FEE}.
@@ -34,8 +34,8 @@ module Eth
     # The default transaction max fee per gas in Wei, defaults to {Tx::DEFAULT_GAS_PRICE}.
     attr_accessor :max_fee_per_gas
 
-    # The default gas limit for the transaction, defaults to {Tx::DEFAULT_GAS_LIMIT}.
-    attr_accessor :gas_limit
+    # The block number used for archive calls.
+    attr_accessor :block_number
 
     # A custom error type if a contract interaction fails.
     class ContractExecutionError < StandardError; end
@@ -43,10 +43,9 @@ module Eth
     # Creates a new RPC-Client, either by providing an HTTP/S host or
     # an IPC path. Supports basic authentication with username and password.
     #
-    # **Note**, this sets the folling gas defaults: {Tx::DEFAULT_PRIORITY_FEE},
-    # {Tx::DEFAULT_GAS_PRICE}, and {Tx::DEFAULT_GAS_LIMIT}. Use
-    # {#max_priority_fee_per_gas}, {#max_fee_per_gas}, and {#gas_limit} to set
-    # custom values prior to submitting transactions.
+    # **Note**, this sets the folling gas defaults: {Tx::DEFAULT_PRIORITY_FEE}
+    # and {Tx::DEFAULT_GAS_PRICE. Use {#max_priority_fee_per_gas} and
+    # {#max_fee_per_gas} to set custom values prior to submitting transactions.
     #
     # @param host [String] either an HTTP/S host or an IPC path.
     # @return [Eth::Client::Ipc] an IPC client.
@@ -64,18 +63,17 @@ module Eth
       @id = 0
       @max_priority_fee_per_gas = Tx::DEFAULT_PRIORITY_FEE
       @max_fee_per_gas = Tx::DEFAULT_GAS_PRICE
-      @gas_limit = Tx::DEFAULT_GAS_LIMIT
     end
 
-    # Gets the default account (coinbase) of the connected client.
+    # Gets the default account (first account) of the connected client.
     #
     # **Note**, that many remote providers (e.g., Infura) do not provide
     # any accounts.
     #
-    # @return [Eth::Address] the coinbase account address.
+    # @return [Eth::Address] the default account address.
     def default_account
       raise ArgumentError, "The default account is not available on remote connections!" unless local? || @default_account
-      @default_account ||= Address.new eth_coinbase["result"]
+      @default_account ||= Address.new eth_accounts["result"].first
     end
 
     # Gets the chain ID of the connected network.
@@ -113,7 +111,7 @@ module Eth
     end
 
     # Simply transfer Ether to an account and waits for it to be mined.
-    # Uses `eth_coinbase` and external signer if no sender key is
+    # Uses `eth_accounts` and external signer if no sender key is
     # provided.
     #
     # See {#transfer} for params and overloads.
@@ -124,7 +122,7 @@ module Eth
     end
 
     # Simply transfer Ether to an account without any call data or
-    # access lists attached. Uses `eth_coinbase` and external signer
+    # access lists attached. Uses `eth_accounts` and external signer
     # if no sender key is provided.
     #
     # **Note**, that many remote providers (e.g., Infura) do not provide
@@ -144,7 +142,7 @@ module Eth
       params = {
         value: amount,
         to: destination,
-        gas_limit: gas_limit,
+        gas_limit: Tx::DEFAULT_GAS_LIMIT,
         chain_id: chain_id,
       }
       send_transaction(params, kwargs[:legacy], kwargs[:sender_key], kwargs[:nonce])
@@ -184,7 +182,7 @@ module Eth
     end
 
     # Deploys a contract and waits for it to be mined. Uses
-    # `eth_coinbase` or external signer if no sender key is provided.
+    # `eth_accounts` or external signer if no sender key is provided.
     #
     # See {#deploy} for params and overloads.
     #
@@ -195,7 +193,7 @@ module Eth
       contract.address = Address.new(addr).to_s
     end
 
-    # Deploys a contract. Uses `eth_coinbase` or external signer
+    # Deploys a contract. Uses `eth_accounts` or external signer
     # if no sender key is provided.
     #
     # **Note**, that many remote providers (e.g., Infura) do not provide
@@ -252,7 +250,6 @@ module Eth
     #   @param *args optional function arguments.
     #   @param **sender_key [Eth::Key] the sender private key.
     #   @param **legacy [Boolean] enables legacy transactions (pre-EIP-1559).
-    #   @param **gas_limit [Integer] optional gas limit override for calling the contract.
     # @return [Object] returns the result of the call.
     def call(contract, function, *args, **kwargs)
       func = contract.functions.select { |func| func.name == function }
@@ -299,7 +296,7 @@ module Eth
       gas_limit = if kwargs[:gas_limit]
           kwargs[:gas_limit]
         else
-          Tx.estimate_intrinsic_gas(contract.bin) + Tx::CREATE_GAS
+          Tx.estimate_intrinsic_gas(contract.bin)
         end
       fun = contract.functions.select { |func| func.name == function }[0]
       params = {
@@ -318,11 +315,11 @@ module Eth
     # See {#transact} for params and overloads.
     #
     # @raise [Client::ContractExecutionError] if the execution fails.
-    # @return [Object] returns the result of the transaction.
+    # @return [Object, Boolean] returns the result of the transaction (hash and execution status).
     def transact_and_wait(contract, function, *args, **kwargs)
       begin
         hash = wait_for_tx(transact(contract, function, *args, **kwargs))
-        return hash if tx_succeeded? hash
+        return hash, tx_succeeded?(hash)
       rescue IOError => e
         raise ContractExecutionError, e
       end
@@ -475,7 +472,8 @@ module Eth
 
     # Prepares parameters and sends the command to the client.
     def send_command(command, args)
-      args << "latest" if ["eth_getBalance", "eth_call"].include? command
+      @block_number ||= "latest"
+      args << block_number if ["eth_getBalance", "eth_call"].include? command
       payload = {
         jsonrpc: "2.0",
         method: command,

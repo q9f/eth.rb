@@ -40,8 +40,18 @@ module Eth
       def signature(interface)
         name = interface.fetch("name")
         inputs = interface.fetch("inputs", [])
-        types = inputs.map { |i| i.fetch("type") }
+        types = inputs.map { |i| type(i) }
         "#{name}(#{types.join(",")})"
+      end
+
+      def type(input)
+        if input["type"] == "tuple"
+          "(#{input["components"].map { |c| type(c) }.join(",")})"
+        elsif input["type"] == "enum"
+          "uint8"
+        else
+          input["type"]
+        end
       end
 
       # A decoded event log.
@@ -116,9 +126,20 @@ module Eth
       def decode_log(inputs, data, topics, anonymous = false)
         topic_inputs, data_inputs = inputs.partition { |i| i["indexed"] }
 
-        topic_types = topic_inputs.map { |i| i["type"] }
-        data_types = data_inputs.map { |i| i["type"] }
-
+        topic_types = topic_inputs.map do |i|
+          if i["type"] == "tuple"
+            Type.parse(i["type"], i["components"], i["name"])
+          else
+            i["type"]
+          end
+        end
+        data_types = data_inputs.map do |i|
+          if i["type"] == "tuple"
+            Type.parse(i["type"], i["components"], i["name"])
+          else
+            i["type"]
+          end
+        end
         # If event is anonymous, all topics are arguments. Otherwise, the first
         # topic will be the event signature.
         if anonymous == false

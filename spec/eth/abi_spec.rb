@@ -388,4 +388,27 @@ describe Abi do
       assert(data, types, args)
     end
   end
+
+  describe "edge cases" do
+    it "test negative number" do
+      types = ["int24"]
+      args = [-887220]
+      data = Util.hex_to_bin "fffffffffffffffffffffffffffffffffffffffffffffffffffffffffff2764c"
+      expect(data).to eq Abi.encode(types, args)
+      expect(args).to eq Abi.decode(types, data)
+      expect(args).to eq Abi.decode(types, Abi.encode(types, args))
+
+      expect(Abi.encode(["int8"], [0])).to eq Util.hex_to_bin "0000000000000000000000000000000000000000000000000000000000000000"
+      expect(Abi.encode(["int8"], [1])).to eq Util.hex_to_bin "0000000000000000000000000000000000000000000000000000000000000001"
+      expect(Abi.encode(["int8"], [-1])).to eq Util.hex_to_bin "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+      expect(Abi.encode(["int24"], [887220])).to eq Util.hex_to_bin "00000000000000000000000000000000000000000000000000000000000d89b4"
+      expect(Abi.encode(["int24"], [-887220])).to eq Util.hex_to_bin "fffffffffffffffffffffffffffffffffffffffffffffffffffffffffff2764c"
+
+      expect(Abi.decode(["int8"], "0000000000000000000000000000000000000000000000000000000000000000")).to eq [0]
+      expect(Abi.decode(["int8"], "0000000000000000000000000000000000000000000000000000000000000001")).to eq [1]
+      expect(Abi.decode(["int8"], "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff")).to eq [-1]
+      expect(Abi.decode(["int24"], "00000000000000000000000000000000000000000000000000000000000d89b4")).to eq [887220]
+      expect(Abi.decode(["int24"], "fffffffffffffffffffffffffffffffffffffffffffffffffffffffffff2764c")).to eq [-887220]
+    end
+  end
 end

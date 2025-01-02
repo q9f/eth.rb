@@ -32,6 +32,15 @@ module Eth
     # Chain ID for Optimistic Ethereum mainnet.
     OPTIMISM = 10.freeze
 
+    # Chain ID for Cronos mainnet.
+    CRONOS = 25.freeze
+
+    # Chain ID for Rootstock mainnet.
+    RSK = 30.freeze
+
+    # Chain ID for BNB Smart Chain mainnet.
+    BNB = 56.freeze
+
     # Chain ID for Ethereum Classic mainnet.
     CLASSIC = 61.freeze
 
@@ -50,8 +59,44 @@ module Eth
     # Chain ID for the Polygon mainnet (formerly Matic).
     POLYGON = MATIC.freeze
 
-    # Chain ID for Arbitrum mainnet.
+    # Chain ID for Filecoin mainnet.
+    FILECOIN = 314.freeze
+
+    # Chain ID for the Cronos zkEVM chain.
+    CRONOS_ZK = 388.freeze
+
+    # Chain ID for Redstone Optimistic Rollup.
+    REDSTONE = 690.freeze
+
+    # Chain ID for the Polygon zkEVM.
+    POLYGON_ZK = 1101.freeze
+
+    # Chain ID for the Lisk layer 2.
+    LISK = 1135.freeze
+
+    # Chain ID for Moonbeam
+    MOONBEAM = 1284.freeze
+
+    # Chain ID for Base mainnet.
+    BASE = 8453.freeze
+
+    # Chain ID for the EVMOS mainnet.
+    EVMOS = 9001.freeze
+
+    # Chain ID for the Celo layer 2.
+    CELO = 42220.freeze
+
+    # Chain ID for Arbitrum One mainnet.
     ARBITRUM = 42161.freeze
+
+    # Chain ID for Avalance C-Chain mainnet.
+    AVALANCHE = 43114.freeze
+
+    # Chain ID for Linea mainnet.
+    LINEA = 59144.freeze
+
+    # Chain ID for the Scroll layer 2.
+    SCROLL = 534352.freeze
 
     # Chain ID for Morden (Ethereum) testnet.
     MORDEN = 2.freeze
@@ -77,7 +122,7 @@ module Eth
     # Chain ID for Mordor testnet.
     MORDOR = 63.freeze
 
-    # Chain ID for Optimistik Kovan testnet.
+    # Chain ID for Optimistm Kovan testnet.
     KOVAN_OPTIMISM = 69.freeze
 
     # Chain ID for Arbitrum xDAI testnet.
@@ -85,6 +130,15 @@ module Eth
 
     # Chain ID for Optimistic Goerli testnet.
     GOERLI_OPTIMISM = 420.freeze
+
+    # Chain ID for Moonriver testnet
+    MOONRIVER = 1285.freeze
+
+    # Chain ID for Moonbase alpha
+    MOONBASE = 1287.freeze
+
+    # Chain ID for the Garnet Holesky testnet
+    GARNET = 17069.freeze
 
     # Chain ID for the Polygon Mumbai testnet.
     MUMBAI = 80001.freeze
@@ -100,18 +154,10 @@ module Eth
 
     # Chain ID for Holesovice testnet.
     HOLESOVICE = 11166111.freeze
+    HOLESKY = HOLESOVICE
 
     # Chain ID for the geth private network preset.
     PRIVATE_GETH = 1337.freeze
-
-    # Chain ID for Moonbase
-    MOONBASE = 1287.freeze
-
-    # Chain ID for Moonriver
-    MOONRIVER = 1285.freeze
-
-    # Chain ID for Moonbeam
-    MOONBEAM = 1284.freeze
 
     # Indicates wether the given `v` indicates a legacy chain value
     # used by ledger wallets without EIP-155 replay protection.
