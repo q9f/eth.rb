@@ -21,23 +21,23 @@ describe Abi::Type do
     it "raises parse error for invalid types" do
 
       # https://github.com/cryptape/ruby-ethereum-abi/blob/90d4fa3fc6b568581165eaacdc506b9b9b49e520/test/abi/type_test.rb#L15
-      expect { Abi::Type.parse "string8" }.to raise_error Abi::Type::ParseError
-      expect { Abi::Type.parse "bytes33" }.to raise_error Abi::Type::ParseError
-      expect { Abi::Type.parse "hash" }.to raise_error Abi::Type::ParseError
-      expect { Abi::Type.parse "address8" }.to raise_error Abi::Type::ParseError
-      expect { Abi::Type.parse "bool8" }.to raise_error Abi::Type::ParseError
-      expect { Abi::Type.parse "decimal" }.to raise_error Abi::Type::ParseError
+      expect { Abi::Type.parse "string8" }.to raise_error Abi::ParseError
+      expect { Abi::Type.parse "bytes33" }.to raise_error Abi::ParseError
+      expect { Abi::Type.parse "hash" }.to raise_error Abi::ParseError
+      expect { Abi::Type.parse "address8" }.to raise_error Abi::ParseError
+      expect { Abi::Type.parse "bool8" }.to raise_error Abi::ParseError
+      expect { Abi::Type.parse "decimal" }.to raise_error Abi::ParseError
 
-      expect { Abi::Type.parse "int" }.to raise_error Abi::Type::ParseError
-      expect { Abi::Type.parse "int2" }.to raise_error Abi::Type::ParseError
-      expect { Abi::Type.parse "int20" }.to raise_error Abi::Type::ParseError
-      expect { Abi::Type.parse "int512" }.to raise_error Abi::Type::ParseError
+      expect { Abi::Type.parse "int" }.to raise_error Abi::ParseError
+      expect { Abi::Type.parse "int2" }.to raise_error Abi::ParseError
+      expect { Abi::Type.parse "int20" }.to raise_error Abi::ParseError
+      expect { Abi::Type.parse "int512" }.to raise_error Abi::ParseError
 
-      expect { Abi::Type.parse "fixed" }.to raise_error Abi::Type::ParseError
-      expect { Abi::Type.parse "fixed256" }.to raise_error Abi::Type::ParseError
-      expect { Abi::Type.parse "fixed2x2" }.to raise_error Abi::Type::ParseError
-      expect { Abi::Type.parse "fixed20x20" }.to raise_error Abi::Type::ParseError
-      expect { Abi::Type.parse "fixed256x256" }.to raise_error Abi::Type::ParseError
+      expect { Abi::Type.parse "fixed" }.to raise_error Abi::ParseError
+      expect { Abi::Type.parse "fixed256" }.to raise_error Abi::ParseError
+      expect { Abi::Type.parse "fixed2x2" }.to raise_error Abi::ParseError
+      expect { Abi::Type.parse "fixed20x20" }.to raise_error Abi::ParseError
+      expect { Abi::Type.parse "fixed256x256" }.to raise_error Abi::ParseError
     end
 
     it "raises parse error for invalid types" do
