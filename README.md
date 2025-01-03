@@ -80,7 +80,7 @@ The test suite expects working local HTTP and IPC endpoints with a prefunded dev
 geth --dev --http --ipcpath /tmp/geth.ipc &
 ```
 
-It also expects an `$INFURA_TOKEN` in environment to test some ENS queries on mainnet.
+It also expects an `$DRPC_TOKEN` in environment to test some ENS queries on mainnet.
 
 To run tests, simply use `rspec`. Note, that the Ethereum test fixtures are also required.
 

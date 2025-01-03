@@ -1,4 +1,4 @@
-# Copyright (c) 2016-2023 The Ruby-Eth Contributors
+# Copyright (c) 2016-2025 The Ruby-Eth Contributors
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -62,11 +62,29 @@ module Eth
     # Chain ID for Filecoin mainnet.
     FILECOIN = 314.freeze
 
+    # Chain ID for the Cronos zkEVM chain.
+    CRONOS_ZK = 388.freeze
+
+    # Chain ID for Redstone Optimistic Rollup.
+    REDSTONE = 690.freeze
+
+    # Chain ID for the Polygon zkEVM.
+    POLYGON_ZK = 1101.freeze
+
+    # Chain ID for the Lisk layer 2.
+    LISK = 1135.freeze
+
     # Chain ID for Moonbeam
     MOONBEAM = 1284.freeze
 
     # Chain ID for Base mainnet.
     BASE = 8453.freeze
+
+    # Chain ID for the EVMOS mainnet.
+    EVMOS = 9001.freeze
+
+    # Chain ID for the Celo layer 2.
+    CELO = 42220.freeze
 
     # Chain ID for Arbitrum One mainnet.
     ARBITRUM = 42161.freeze
@@ -76,6 +94,9 @@ module Eth
 
     # Chain ID for Linea mainnet.
     LINEA = 59144.freeze
+
+    # Chain ID for the Scroll layer 2.
+    SCROLL = 534352.freeze
 
     # Chain ID for Morden (Ethereum) testnet.
     MORDEN = 2.freeze
@@ -116,6 +137,9 @@ module Eth
     # Chain ID for Moonbase alpha
     MOONBASE = 1287.freeze
 
+    # Chain ID for the Garnet Holesky testnet
+    GARNET = 17069.freeze
+
     # Chain ID for the Polygon Mumbai testnet.
     MUMBAI = 80001.freeze
 
@@ -130,6 +154,7 @@ module Eth
 
     # Chain ID for Holesovice testnet.
     HOLESOVICE = 11166111.freeze
+    HOLESKY = HOLESOVICE
 
     # Chain ID for the geth private network preset.
     PRIVATE_GETH = 1337.freeze

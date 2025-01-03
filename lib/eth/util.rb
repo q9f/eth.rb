@@ -1,4 +1,4 @@
-# Copyright (c) 2016-2023 The Ruby-Eth Contributors
+# Copyright (c) 2016-2025 The Ruby-Eth Contributors
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -11,6 +11,8 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+
+# -*- encoding : ascii-8bit -*-
 
 require "digest/keccak"
 
@@ -48,7 +50,7 @@ module Eth
     # @raise [TypeError] if value is not a string.
     def bin_to_hex(bin)
       raise TypeError, "Value must be an instance of String" unless bin.instance_of? String
-      bin.unpack("H*").first
+      hex = bin.unpack("H*").first
     end
 
     # Packs a hexa-decimal string into a binary string. Also works with
@@ -61,7 +63,8 @@ module Eth
       raise TypeError, "Value must be an instance of String" unless hex.instance_of? String
       hex = remove_hex_prefix hex
       raise TypeError, "Non-hexadecimal digit found" unless hex? hex
-      [hex].pack("H*")
+      hex = "0#{hex}" if hex.size % 2 != 0
+      bin = [hex].pack("H*")
     end
 
     # Prefixes a hexa-decimal string with `0x`.
