@@ -1,4 +1,4 @@
-# Copyright (c) 2016-2023 The Ruby-Eth Contributors
+# Copyright (c) 2016-2025 The Ruby-Eth Contributors
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -102,7 +102,7 @@ module Eth
         when "address"
 
           # decoded address with 0x-prefix
-          "0x#{Util.bin_to_hex data[12..-1]}"
+          Address.new(Util.bin_to_hex data[12..-1]).to_s.downcase
         when "string", "bytes"
           if type.sub_type.empty?
             size = Util.deserialize_big_endian_to_int data[0, 32]

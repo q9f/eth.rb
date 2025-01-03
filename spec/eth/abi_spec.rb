@@ -9,6 +9,10 @@ describe Abi do
     let(:basic_abi_tests_file) { File.read "spec/fixtures/ethereum/tests/ABITests/basic_abi_tests.json" }
     subject(:basic_abi_tests) { JSON.parse basic_abi_tests_file }
 
+    # load ethers.js abi test cases
+    let(:ethers_abi_tests_file) { File.read "spec/fixtures/abi/ethers.json" }
+    subject(:ethers_abi_tests) { JSON.parse ethers_abi_tests_file }
+
     describe "dynamic encode" do
       it "can encode array of string" do
         encoded = Util.bin_to_hex(described_class.encode(["string[]"], [["hello", "world"]]))
@@ -124,6 +128,20 @@ describe Abi do
       bytes = "\x00" * 32 * 3
       expect(Abi.encode(["address[]"], [["\x00" * 20] * 3])).to eq "#{Util.zpad_int(32)}#{Util.zpad_int(3)}#{bytes}"
       expect(Abi.encode(["uint16[2]"], [[5, 6]])).to eq "#{Util.zpad_int(5)}#{Util.zpad_int(6)}"
+    end
+
+    it "passes ethersjs test cases" do
+      pending("https://github.com/q9f/eth.rb/issues/102")
+      ethers_abi_tests.each do |test|
+        types = test["type"]
+        args = test["value"]
+        result = test["encoded"]
+        encoded = Abi.encode types, args
+        expect(Util.bin_to_hex encoded).to eq result
+        expect(encoded).to eq Util.hex_to_bin result
+        decoded = Abi.decode types, result
+        expect(decoded).to eq args
+      end
     end
 
     it "can decode abi" do
