@@ -53,7 +53,7 @@ module Eth
             bytes(arg, $1.to_i)
           when "bytes"
             string(arg)
-          when /^\((.+)\)$/
+          when /^tuple\((.+)\)$/
             tuple($1.split(","), arg)
           when /^hash(\d+)$/
             hash(arg, $1.to_i / 8)
@@ -125,7 +125,7 @@ module Eth
 
         # Properly encodes tuples.
         def tuple(types, values)
-          Abi.encode_packed(types, values)
+          Abi.solidity_packed(types, values)
         end
 
         # Properly encodes hash-strings.
