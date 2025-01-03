@@ -123,10 +123,10 @@ module Eth
         if dimensions.empty?
           if !(["string", "bytes", "tuple"].include?(base_type) and sub_type.empty?)
             s = 32
-          elsif base_type == "tuple" && components.none?(&:dynamic?)
+          elsif base_type == "tuple" and components.none?(&:dynamic?)
             s = components.sum(&:size)
           end
-        elsif dimensions.last != 0 && !nested_sub.dynamic?
+        elsif dimensions.last != 0 and !nested_sub.dynamic?
           s = dimensions.last * nested_sub.size
         end
         @size ||= s
@@ -153,7 +153,7 @@ module Eth
         if base_type == "tuple"
           "(" + components.map(&:to_s).join(",") + ")" + (dimensions.size > 0 ? dimensions.map { |x| "[#{x == 0 ? "" : x}]" }.join : "")
         elsif dimensions.empty?
-          if %w[string bytes].include?(base_type) && sub_type.empty?
+          if %w[string bytes].include?(base_type) and sub_type.empty?
             base_type
           else
             "#{base_type}#{sub_type}"
@@ -175,7 +175,7 @@ module Eth
         when "bytes"
 
           # bytes can be no longer than 32 bytes
-          raise ParseError, "Maximum 32 bytes for fixed-length string or bytes" unless sub_type.empty? || sub_type.to_i <= 32
+          raise ParseError, "Maximum 32 bytes for fixed-length string or bytes" unless sub_type.empty? or (sub_type.to_i <= 32 and sub_type.to_i > 0)
         when "tuple"
 
           # tuples can not have any suffix
@@ -187,16 +187,16 @@ module Eth
 
           # integer size must be valid
           size = sub_type.to_i
-          raise ParseError, "Integer size out of bounds" unless size >= 8 && size <= 256
+          raise ParseError, "Integer size out of bounds" unless size >= 8 and size <= 256
           raise ParseError, "Integer size must be multiple of 8" unless size % 8 == 0
         when "ureal", "real", "fixed", "ufixed"
 
           # floats must have valid dimensional suffix
-          raise ParseError, "Real type must have suffix of form <high>x<low>, e.g. 128x128" unless sub_type =~ /\A[0-9]+x[0-9]+\z/
-          high, low = sub_type.split("x").map(&:to_i)
-          total = high + low
-          raise ParseError, "Real size out of bounds (max 32 bytes)" unless total >= 8 && total <= 256
-          raise ParseError, "Real high/low sizes must be multiples of 8" unless high % 8 == 0 && low % 8 == 0
+          raise ParseError, "Real type must have suffix of form <size>x<decimals>, e.g. 128x128" unless sub_type =~ /\A[0-9]+x[0-9]+\z/
+          size, decimals = sub_type.split("x").map(&:to_i)
+          total = size + decimals
+          raise ParseError, "Real size out of bounds (max 32 bytes)" unless total >= 8 and total <= 256
+          raise ParseError, "Real size must be multiples of 8" unless size % 8 == 0
         when "hash"
 
           # hashs must have numerical suffix

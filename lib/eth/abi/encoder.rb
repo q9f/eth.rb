@@ -49,7 +49,6 @@ module Eth
           head, tail = "", ""
           head += type(Type.size_type, arg.size)
           nested_sub = type.nested_sub
-          nested_sub_size = type.nested_sub.size
 
           # calculate offsets
           if %w(string bytes).include?(type.base_type) && type.sub_type.empty?
@@ -93,15 +92,15 @@ module Eth
       # @return [String] the encoded primitive type.
       # @raise [EncodingError] if value does not match type.
       # @raise [ValueOutOfBounds] if value is out of bounds for type.
-      # @raise [EncodingError] if encoding fails for type.
+      # @raise [ArgumentError] if encoding fails for type.
       def primitive_type(type, arg)
         case type.base_type
         when "uint"
           uint arg, type
-        when "bool"
-          bool arg
         when "int"
           int arg, type
+        when "bool"
+          bool arg
         when "ureal", "ufixed"
           ufixed arg, type
         when "real", "fixed"

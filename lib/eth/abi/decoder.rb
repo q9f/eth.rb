@@ -102,7 +102,7 @@ module Eth
         when "address"
 
           # decoded address with 0x-prefix
-          "0x#{Util.bin_to_hex data[12..-1]}"
+          Address.new(Util.bin_to_hex data[12..-1]).to_s.downcase
         when "string", "bytes"
           if type.sub_type.empty?
             size = Util.deserialize_big_endian_to_int data[0, 32]

@@ -38,8 +38,12 @@ module Eth
     #
     # @param types [Array] types to be ABI-encoded.
     # @param args [Array] values to be ABI-encoded.
+    # @param packed [Bool] set true to return packed encoding (default: `false`).
     # @return [String] the encoded ABI data.
-    def encode(types, args)
+    def encode(types, args, packed = false)
+      return solidity_packed(types, args) if packed
+      types = [types] unless types.instance_of? Array
+      args = [args] unless args.instance_of? Array
 
       # parse all types
       parsed_types = types.map { |t| Type === t ? t : Type.parse(t) }
@@ -62,6 +66,26 @@ module Eth
 
       # return the encoded ABI blob
       "#{head}#{tail}"
+    end
+
+    # Encodes Application Binary Interface (ABI) data in non-standard packed mode.
+    # It accepts multiple arguments and encodes using the head/tail mechanism.
+    #
+    # @param types [Array] types to be ABI-encoded.
+    # @param args [Array] values to be ABI-encoded.
+    # @return [String] the encoded packed ABI data.
+    # @raise [ArgumentError] if types and args are of different size.
+    def solidity_packed(types, args)
+      raise ArgumentError, "Types and values must be the same length" if types.length != args.length
+
+      # We do not use the type system for packed encoding but want to call the parser once
+      # to enforce the type validation.
+      _ = types.map { |t| Type === t ? t : Type.parse(t) }
+
+      packed = types.zip(args).map do |type, arg|
+        Abi::Packed::Encoder.type(type, arg)
+      end.join
+      packed.force_encoding(Encoding::ASCII_8BIT)
     end
 
     # Decodes Application Binary Interface (ABI) data. It accepts multiple
@@ -123,6 +147,7 @@ module Eth
   end
 end
 
+require "eth/abi/packed/encoder"
 require "eth/abi/decoder"
 require "eth/abi/encoder"
 require "eth/abi/event"
