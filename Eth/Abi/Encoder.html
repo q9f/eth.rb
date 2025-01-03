@@ -340,7 +340,7 @@
     <li>
       
       
-        <span class='type'>(<tt><span class='object_link'><a href="EncodingError.html" title="Eth::Abi::EncodingError (class)">EncodingError</a></span></tt>)</span>
+        <span class='type'>(<tt>ArgumentError</tt>)</span>
       
       
       
@@ -359,6 +359,7 @@
       <pre class="lines">
 
 
+96
 97
 98
 99
@@ -381,20 +382,19 @@
 116
 117
 118
-119
-120</pre>
+119</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/abi/encoder.rb', line 97</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/abi/encoder.rb', line 96</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_primitive_type'>primitive_type</span><span class='lparen'>(</span><span class='id identifier rubyid_type'>type</span><span class='comma'>,</span> <span class='id identifier rubyid_arg'>arg</span><span class='rparen'>)</span>
   <span class='kw'>case</span> <span class='id identifier rubyid_type'>type</span><span class='period'>.</span><span class='id identifier rubyid_base_type'>base_type</span>
   <span class='kw'>when</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>uint</span><span class='tstring_end'>&quot;</span></span>
     <span class='id identifier rubyid_uint'>uint</span> <span class='id identifier rubyid_arg'>arg</span><span class='comma'>,</span> <span class='id identifier rubyid_type'>type</span>
-  <span class='kw'>when</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>bool</span><span class='tstring_end'>&quot;</span></span>
-    <span class='id identifier rubyid_bool'>bool</span> <span class='id identifier rubyid_arg'>arg</span>
   <span class='kw'>when</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>int</span><span class='tstring_end'>&quot;</span></span>
     <span class='id identifier rubyid_int'>int</span> <span class='id identifier rubyid_arg'>arg</span><span class='comma'>,</span> <span class='id identifier rubyid_type'>type</span>
+  <span class='kw'>when</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>bool</span><span class='tstring_end'>&quot;</span></span>
+    <span class='id identifier rubyid_bool'>bool</span> <span class='id identifier rubyid_arg'>arg</span>
   <span class='kw'>when</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>ureal</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>ufixed</span><span class='tstring_end'>&quot;</span></span>
     <span class='id identifier rubyid_ufixed'>ufixed</span> <span class='id identifier rubyid_arg'>arg</span><span class='comma'>,</span> <span class='id identifier rubyid_type'>type</span>
   <span class='kw'>when</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>real</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>fixed</span><span class='tstring_end'>&quot;</span></span>
@@ -567,8 +567,7 @@
 83
 84
 85
-86
-87</pre>
+86</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/eth/abi/encoder.rb', line 33</span>
@@ -592,7 +591,6 @@
 </span>    <span class='id identifier rubyid_head'>head</span><span class='comma'>,</span> <span class='id identifier rubyid_tail'>tail</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_end'>&quot;</span></span>
     <span class='id identifier rubyid_head'>head</span> <span class='op'>+=</span> <span class='id identifier rubyid_type'>type</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="Type.html" title="Eth::Abi::Type (class)">Type</a></span></span><span class='period'>.</span><span class='id identifier rubyid_size_type'><span class='object_link'><a href="Type.html#size_type-class_method" title="Eth::Abi::Type.size_type (method)">size_type</a></span></span><span class='comma'>,</span> <span class='id identifier rubyid_arg'>arg</span><span class='period'>.</span><span class='id identifier rubyid_size'>size</span><span class='rparen'>)</span>
     <span class='id identifier rubyid_nested_sub'>nested_sub</span> <span class='op'>=</span> <span class='id identifier rubyid_type'>type</span><span class='period'>.</span><span class='id identifier rubyid_nested_sub'>nested_sub</span>
-    <span class='id identifier rubyid_nested_sub_size'>nested_sub_size</span> <span class='op'>=</span> <span class='id identifier rubyid_type'>type</span><span class='period'>.</span><span class='id identifier rubyid_nested_sub'>nested_sub</span><span class='period'>.</span><span class='id identifier rubyid_size'>size</span>
 
     <span class='comment'># calculate offsets
 </span>    <span class='kw'>if</span> <span class='qwords_beg'>%w(</span><span class='tstring_content'>string</span><span class='words_sep'> </span><span class='tstring_content'>bytes</span><span class='tstring_end'>)</span></span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='id identifier rubyid_type'>type</span><span class='period'>.</span><span class='id identifier rubyid_base_type'>base_type</span><span class='rparen'>)</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_type'>type</span><span class='period'>.</span><span class='id identifier rubyid_sub_type'>sub_type</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
@@ -746,7 +744,7 @@
     <li>
       
       
-        <span class='type'>(<tt><span class='object_link'><a href="EncodingError.html" title="Eth::Abi::EncodingError (class)">EncodingError</a></span></tt>)</span>
+        <span class='type'>(<tt>ArgumentError</tt>)</span>
       
       
       
@@ -765,6 +763,7 @@
       <pre class="lines">
 
 
+96
 97
 98
 99
@@ -787,20 +786,19 @@
 116
 117
 118
-119
-120</pre>
+119</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/abi/encoder.rb', line 97</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/abi/encoder.rb', line 96</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_primitive_type'>primitive_type</span><span class='lparen'>(</span><span class='id identifier rubyid_type'>type</span><span class='comma'>,</span> <span class='id identifier rubyid_arg'>arg</span><span class='rparen'>)</span>
   <span class='kw'>case</span> <span class='id identifier rubyid_type'>type</span><span class='period'>.</span><span class='id identifier rubyid_base_type'>base_type</span>
   <span class='kw'>when</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>uint</span><span class='tstring_end'>&quot;</span></span>
     <span class='id identifier rubyid_uint'>uint</span> <span class='id identifier rubyid_arg'>arg</span><span class='comma'>,</span> <span class='id identifier rubyid_type'>type</span>
-  <span class='kw'>when</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>bool</span><span class='tstring_end'>&quot;</span></span>
-    <span class='id identifier rubyid_bool'>bool</span> <span class='id identifier rubyid_arg'>arg</span>
   <span class='kw'>when</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>int</span><span class='tstring_end'>&quot;</span></span>
     <span class='id identifier rubyid_int'>int</span> <span class='id identifier rubyid_arg'>arg</span><span class='comma'>,</span> <span class='id identifier rubyid_type'>type</span>
+  <span class='kw'>when</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>bool</span><span class='tstring_end'>&quot;</span></span>
+    <span class='id identifier rubyid_bool'>bool</span> <span class='id identifier rubyid_arg'>arg</span>
   <span class='kw'>when</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>ureal</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>ufixed</span><span class='tstring_end'>&quot;</span></span>
     <span class='id identifier rubyid_ufixed'>ufixed</span> <span class='id identifier rubyid_arg'>arg</span><span class='comma'>,</span> <span class='id identifier rubyid_type'>type</span>
   <span class='kw'>when</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>real</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>fixed</span><span class='tstring_end'>&quot;</span></span>
@@ -973,8 +971,7 @@
 83
 84
 85
-86
-87</pre>
+86</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/eth/abi/encoder.rb', line 33</span>
@@ -998,7 +995,6 @@
 </span>    <span class='id identifier rubyid_head'>head</span><span class='comma'>,</span> <span class='id identifier rubyid_tail'>tail</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_end'>&quot;</span></span>
     <span class='id identifier rubyid_head'>head</span> <span class='op'>+=</span> <span class='id identifier rubyid_type'>type</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="Type.html" title="Eth::Abi::Type (class)">Type</a></span></span><span class='period'>.</span><span class='id identifier rubyid_size_type'><span class='object_link'><a href="Type.html#size_type-class_method" title="Eth::Abi::Type.size_type (method)">size_type</a></span></span><span class='comma'>,</span> <span class='id identifier rubyid_arg'>arg</span><span class='period'>.</span><span class='id identifier rubyid_size'>size</span><span class='rparen'>)</span>
     <span class='id identifier rubyid_nested_sub'>nested_sub</span> <span class='op'>=</span> <span class='id identifier rubyid_type'>type</span><span class='period'>.</span><span class='id identifier rubyid_nested_sub'>nested_sub</span>
-    <span class='id identifier rubyid_nested_sub_size'>nested_sub_size</span> <span class='op'>=</span> <span class='id identifier rubyid_type'>type</span><span class='period'>.</span><span class='id identifier rubyid_nested_sub'>nested_sub</span><span class='period'>.</span><span class='id identifier rubyid_size'>size</span>
 
     <span class='comment'># calculate offsets
 </span>    <span class='kw'>if</span> <span class='qwords_beg'>%w(</span><span class='tstring_content'>string</span><span class='words_sep'> </span><span class='tstring_content'>bytes</span><span class='tstring_end'>)</span></span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='id identifier rubyid_type'>type</span><span class='period'>.</span><span class='id identifier rubyid_base_type'>base_type</span><span class='rparen'>)</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_type'>type</span><span class='period'>.</span><span class='id identifier rubyid_sub_type'>sub_type</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
@@ -1044,7 +1040,7 @@
 </div>
 
       <div id="footer">
-  Generated on Thu Jan  2 20:54:34 2025 by
+  Generated on Fri Jan  3 07:10:51 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.37 (ruby-3.4.1).
 </div>
