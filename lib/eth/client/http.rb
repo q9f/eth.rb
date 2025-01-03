@@ -1,4 +1,4 @@
-# Copyright (c) 2016-2023 The Ruby-Eth Contributors
+# Copyright (c) 2016-2025 The Ruby-Eth Contributors
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -46,12 +46,16 @@ module Eth
       @host = uri.host
       @port = uri.port
       @ssl = uri.scheme == "https"
-      if Regexp.new(":.*@.*:", Regexp::IGNORECASE).match host
+      if !(uri.user.nil? && uri.password.nil?)
         @user = uri.user
         @password = uri.password
-        @uri = URI("#{uri.scheme}://#{uri.user}:#{uri.password}@#{@host}:#{@port}#{uri.path}")
+        if uri.query
+          @uri = URI("#{uri.scheme}://#{uri.user}:#{uri.password}@#{@host}:#{@port}#{uri.path}?#{uri.query}")
+        else
+          @uri = URI("#{uri.scheme}://#{uri.user}:#{uri.password}@#{@host}:#{@port}#{uri.path}")
+        end
       else
-        @uri = URI("#{uri.scheme}://#{@host}:#{@port}#{uri.path}")
+        @uri = uri
       end
     end
 

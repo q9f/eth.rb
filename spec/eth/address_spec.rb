@@ -8,7 +8,6 @@ describe Address do
     subject(:bob) { Address.new "0x7291d3cd257053bac810ee2c55fd7c154bd455af" }
 
     it "generates functional addresses" do
-
       # generates a functional key for alice of type Address
       expect(alice).to be_an_instance_of Address
       expect(bob).to be_an_instance_of Address
@@ -18,7 +17,6 @@ describe Address do
     end
 
     it "prefixes an unprefixed address" do
-
       # ensure both addresses contains the 0x prefix
       # alice's address was initialized without 0x
       expect(alice.address).to start_with "0x"
@@ -121,6 +119,28 @@ describe Address do
         end
 
         expect { Address.new "foo" }.to raise_error Address::CheckSumError, "Unknown address type foo!"
+      end
+    end
+  end
+
+  describe ".zero?" do
+    let(:zero) { Address::ZERO }
+    let(:addresses) do
+      [
+        "0x5aaeb6053f3e94c9b9a09f33669435e7ef1beaed",
+        "0xfb6916095ca1df60bb79ce92ce3ea74c37c5d359",
+        "0xdbf03b407c01e7cd3cbea99509d93f8dddc8c6fb",
+        "0xd1220a0cf47c7b9be7a2e6ba89f429762e7b9adb",
+      ]
+    end
+
+    it "returns true for the zero address" do
+      expect(Address.new(zero)).to be_zero
+    end
+
+    it "returns false for a valid address" do
+      addresses.each do |address|
+        expect(Address.new(address)).not_to be_zero
       end
     end
   end

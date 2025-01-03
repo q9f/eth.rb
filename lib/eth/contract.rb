@@ -1,4 +1,4 @@
-# Copyright (c) 2016-2023 The Ruby-Eth Contributors
+# Copyright (c) 2016-2025 The Ruby-Eth Contributors
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,6 +14,8 @@
 
 # -*- encoding : ascii-8bit -*-
 
+require "forwardable"
+
 # Provides the {Eth} module.
 module Eth
 
@@ -27,11 +29,19 @@ module Eth
 
     # Constructor of the {Eth::Contract} class.
     #
+    # **Note**, do not use this directly. Use
+    # {from_abi}, {from_bin}, or {from_file}!
+    #
     # @param name [String] contract name.
     # @param bin [String] contract bin string.
     # @param abi [String] contract abi string.
     def initialize(name, bin, abi)
-      @name = name
+
+      # The contract name will be the class name and needs title casing.
+      _name = name.dup
+      _name[0] = name[0].upcase
+
+      @name = _name
       @bin = bin
       @abi = abi
       @constructor_inputs, @functions, @events = parse_abi(abi)

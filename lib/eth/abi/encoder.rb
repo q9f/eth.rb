@@ -1,4 +1,4 @@
-# Copyright (c) 2016-2023 The Ruby-Eth Contributors
+# Copyright (c) 2016-2025 The Ruby-Eth Contributors
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -49,7 +49,6 @@ module Eth
           head, tail = "", ""
           head += type(Type.size_type, arg.size)
           nested_sub = type.nested_sub
-          nested_sub_size = type.nested_sub.size
 
           # calculate offsets
           if %w(string bytes).include?(type.base_type) && type.sub_type.empty?
@@ -93,15 +92,15 @@ module Eth
       # @return [String] the encoded primitive type.
       # @raise [EncodingError] if value does not match type.
       # @raise [ValueOutOfBounds] if value is out of bounds for type.
-      # @raise [EncodingError] if encoding fails for type.
+      # @raise [ArgumentError] if encoding fails for type.
       def primitive_type(type, arg)
         case type.base_type
         when "uint"
           uint arg, type
-        when "bool"
-          bool arg
         when "int"
           int arg, type
+        when "bool"
+          bool arg
         when "ureal", "ufixed"
           ufixed arg, type
         when "real", "fixed"
@@ -138,7 +137,7 @@ module Eth
         real_size = type.sub_type.to_i
         i = arg.to_i
         raise ValueOutOfBounds, arg unless i >= -2 ** (real_size - 1) and i < 2 ** (real_size - 1)
-        Util.zpad_int(i % 2 ** type.sub_type.to_i)
+        Util.zpad_int(i % 2 ** 256)
       end
 
       # Properly encodes booleans.
@@ -257,7 +256,11 @@ module Eth
 
       # Properly encodes addresses.
       def address(arg)
-        if arg.is_a? Integer
+        if arg.is_a? Address
+
+          # from checksummed address with 0x prefix
+          Util.zpad_hex arg.to_s[2..-1]
+        elsif arg.is_a? Integer
 
           # address from integer
           Util.zpad_int arg
@@ -267,11 +270,11 @@ module Eth
           Util.zpad arg, 32
         elsif arg.size == 40
 
-          # address from hexadecimal address with 0x prefix
+          # address from hexadecimal address
           Util.zpad_hex arg
         elsif arg.size == 42 and arg[0, 2] == "0x"
 
-          # address from hexadecimal address
+          # address from hexadecimal address with 0x prefix
           Util.zpad_hex arg[2..-1]
         else
           raise EncodingError, "Could not parse address: #{arg}"

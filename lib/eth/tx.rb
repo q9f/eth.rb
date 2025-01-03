@@ -1,4 +1,4 @@
-# Copyright (c) 2016-2023 The Ruby-Eth Contributors
+# Copyright (c) 2016-2025 The Ruby-Eth Contributors
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -50,6 +50,9 @@ module Eth
 
     # The calldata gas cost of a zero byte.
     COST_ZERO_BYTE = 4.freeze
+
+    # The initcode gas cost for each word (32 bytes).
+    COST_INITCODE_WORD = 2.freeze
 
     # The access list gas cost of a storage key as per EIP-2930.
     COST_STORAGE_KEY = 1_900.freeze
@@ -156,7 +159,7 @@ module Eth
     end
 
     # Estimates intrinsic gas for provided call data (EIP-2028) and
-    # access lists (EIP-2930).
+    # access lists (EIP-2930). Respects initcode word cost (EIP-3860).
     #
     # @param data [String] the call data.
     # @param list [Array] the access list.
@@ -173,6 +176,10 @@ module Eth
         # count non-zero bytes
         none = data.size - zero
         gas += none * COST_NON_ZERO_BYTE
+
+        # count "words" as per EIP-3860
+        word_count = (data.length.to_f / 32.0).ceil
+        gas += word_count * COST_INITCODE_WORD
       end
       unless list.nil? or list.empty?
         list.each do |entry|
@@ -187,7 +194,7 @@ module Eth
           end
         end
       end
-      return gas
+      return gas.to_i
     end
 
     # Validates the common transaction fields such as nonce, gas limit,
@@ -203,7 +210,9 @@ module Eth
       if fields[:nonce].nil? or fields[:nonce] < 0
         raise ParameterError, "Invalid signer nonce #{fields[:nonce]}!"
       end
-      if fields[:gas_limit].nil? or fields[:gas_limit] < DEFAULT_GAS_LIMIT or fields[:gas_limit] > BLOCK_GAS_LIMIT
+      if fields[:gas_limit].nil? or
+         fields[:gas_limit] < DEFAULT_GAS_LIMIT or
+         (fields[:gas_limit] > BLOCK_GAS_LIMIT and fields[:chain_id] == Chain::ETHEREUM)
         raise ParameterError, "Invalid gas limit #{fields[:gas_limit]}!"
       end
       unless fields[:value] >= 0

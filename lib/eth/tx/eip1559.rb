@@ -1,4 +1,4 @@
-# Copyright (c) 2016-2023 The Ruby-Eth Contributors
+# Copyright (c) 2016-2025 The Ruby-Eth Contributors
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -180,17 +180,22 @@ module Eth
           # allows us to force-setting a signature if the transaction is signed already
           _set_signature(recovery_id, r, s)
         else
-          raise_error DecoderError, "Cannot decode EIP-1559 payload!"
+          raise DecoderError, "Cannot decode EIP-1559 payload!"
         end
 
         # last but not least, set the type.
         @type = TYPE_1559
 
-        # recover sender address
-        v = Chain.to_v recovery_id, chain_id
-        public_key = Signature.recover(unsigned_hash, "#{r.rjust(64, "0")}#{s.rjust(64, "0")}#{v.to_s(16)}", chain_id)
-        address = Util.public_key_to_address(public_key).to_s
-        @sender = Tx.sanitize_address address
+        unless recovery_id.nil?
+          # recover sender address
+          v = Chain.to_v recovery_id, chain_id
+          public_key = Signature.recover(unsigned_hash, "#{r.rjust(64, "0")}#{s.rjust(64, "0")}#{v.to_s(16)}", chain_id)
+          address = Util.public_key_to_address(public_key).to_s
+          @sender = Tx.sanitize_address address
+        else
+          # keep the 'from' field blank
+          @sender = Tx.sanitize_address nil
+        end
       end
 
       # Creates an unsigned copy of a transaction payload.

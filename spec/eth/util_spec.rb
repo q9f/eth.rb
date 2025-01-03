@@ -80,6 +80,11 @@ describe Util do
       expect { Util.hex_to_bin "\x00\x00" }.to raise_error TypeError
       expect { Util.hex_to_bin 1234 }.to raise_error TypeError
     end
+
+    it "can convert back and forth" do
+      expect(Util.bin_to_hex Util.hex_to_bin "a").to eq "0a"
+      expect(Util.hex_to_bin Util.bin_to_hex "a").to eq "a"
+    end
   end
 
   describe ".prefix_hex .remove_hex_prefix" do

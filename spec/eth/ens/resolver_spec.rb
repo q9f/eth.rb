@@ -2,10 +2,10 @@ require "spec_helper"
 
 describe Ens::Resolver do
 
-  # it expects an $INFURA_TOKEN in environment
-  let(:infura_api) { "https://mainnet.infura.io/v3/#{ENV["INFURA_TOKEN"]}" }
-  subject(:infura_mainnet) { Client.create infura_api }
-  let(:resolver) { Ens::Resolver.new(infura_mainnet) }
+  # it expects an $DRPC_TOKEN in environment
+  let(:drpc_api) { "https://lb.drpc.org/ogrpc?network=ethereum&dkey=#{ENV["DRPC_TOKEN"]}" }
+  subject(:drpc_mainnet) { Client.create drpc_api }
+  let(:resolver) { Ens::Resolver.new(drpc_mainnet) }
 
   describe "normalize" do
     it "can normalize ascii" do
@@ -56,9 +56,7 @@ describe Ens::Resolver do
       expect {
         resolver.resolve("ncWc6Edqldzy6Mlo.eth", Ens::CoinType::BITCOIN)
       }.to raise_error NotImplementedError, "Coin type 0 not implemented!"
-      # https://ethereum.stackexchange.com/questions/142016/does-ens-implement-eip-2304-yet
-      pending("there seems to be an issue with eip-2304")
-      expect(resolver.resolve("ncWc6Edqldzy6Mlo.eth", Ens::CoinType::ETHEREUM_CLASSIC)).to eq "0x37287f68aC899b769FAa57033c78B78c76C68dc0"
+      expect(resolver.resolve("ncWc6Edqldzy6Mlo.eth", Ens::CoinType::ETHEREUM_CLASSIC)).to eq "0x37287f68ac899b769faa57033c78b78c76c68dc0"
     end
   end
 end

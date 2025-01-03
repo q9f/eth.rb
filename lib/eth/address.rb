@@ -1,4 +1,4 @@
-# Copyright (c) 2016-2023 The Ruby-Eth Contributors
+# Copyright (c) 2016-2025 The Ruby-Eth Contributors
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,6 +17,7 @@ module Eth
 
   # The {Eth::Address} class to handle checksummed Ethereum addresses.
   class Address
+    ZERO = "0x0000000000000000000000000000000000000000"
 
     # Provides a special checksum error if EIP-55 is violated.
     class CheckSumError < StandardError; end
@@ -49,6 +50,13 @@ module Eth
       else
         checksum_matches?
       end
+    end
+
+    # Checks that the address is the zero address.
+    #
+    # @return [Boolean] true if the address is the zero address.
+    def zero?
+      address == ZERO
     end
 
     # Generate a checksummed address.

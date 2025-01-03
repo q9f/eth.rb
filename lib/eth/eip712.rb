@@ -1,4 +1,4 @@
-# Copyright (c) 2016-2023 The Ruby-Eth Contributors
+# Copyright (c) 2016-2025 The Ruby-Eth Contributors
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -113,8 +113,12 @@ module Eth
       types[primary_type.to_sym].each do |field|
         value = data[field[:name].to_sym]
         type = field[:type]
-        if type == "string" or type == "bytes"
+        if type == "string"
           encoded_types.push "bytes32"
+          encoded_values.push Util.keccak256 value
+        elsif type == "bytes"
+          encoded_types.push "bytes32"
+          value = Util.hex_to_bin value
           encoded_values.push Util.keccak256 value
         elsif !types[type.to_sym].nil?
           encoded_types.push "bytes32"

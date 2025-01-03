@@ -1,4 +1,4 @@
-# Copyright (c) 2016-2023 The Ruby-Eth Contributors
+# Copyright (c) 2016-2025 The Ruby-Eth Contributors
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -45,9 +45,10 @@ module Eth
     def compile(contract)
       raise Errno::ENOENT, "Contract file not found: #{contract}" unless File.exist? contract
       flag_opt = "--optimize"
+      flag_ir = "--via-ir"
       flag_json = "--combined-json=bin,abi"
       path = File.realpath contract
-      output, error, status = Open3.capture3 @compiler, flag_opt, flag_json, path
+      output, error, status = Open3.capture3 @compiler, flag_opt, flag_ir, flag_json, path
       raise SystemCallError, "Unable to run solc compiler!" if status.exitstatus === 127
       raise CompilerError, error unless status.success?
       json = JSON.parse output
