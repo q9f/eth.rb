@@ -47,7 +47,7 @@ module Eth
 
         # recursively look for further nested dependencies
         types[primary_type.to_sym].each do |t|
-          dependency = type_dependencies t[:type], types, result
+          _ = type_dependencies t[:type], types, result
         end
         return result
       end
@@ -98,12 +98,14 @@ module Eth
     end
 
     # Recursively ABI-encodes all data and types according to EIP-712.
+    # Defaults to packed solidity encoding for complex data, e.g., arrays.
     #
     # @param primary_type [String] the primary type which we want to encode.
     # @param data [Array] the data in the data structure we want to encode.
     # @param types [Array] all existing types in the data structure.
+    # @param packed [Bool] set true to return packed encoding (default: `false`).
     # @return [String] an ABI-encoded representation of the data and the types.
-    def encode_data(primary_type, data, types)
+    def encode_data(primary_type, data, types, packed = false)
 
       # first data field is the type hash
       encoded_types = ["bytes32"]
@@ -113,7 +115,7 @@ module Eth
       types[primary_type.to_sym].each do |field|
         value = data[field[:name].to_sym]
         type = field[:type]
-        raise NotImplementedError, "Arrays currently unimplemented for EIP-712." if type.end_with? "]"
+        packed = true if type.end_with? "]"
         if type == "string"
           encoded_types.push "bytes32"
           encoded_values.push Util.keccak256 value
@@ -132,7 +134,7 @@ module Eth
       end
 
       # all data is abi-encoded
-      return Abi.encode encoded_types, encoded_values
+      return Abi.encode encoded_types, encoded_values, packed
     end
 
     # Recursively ABI-encodes and hashes all data and types.

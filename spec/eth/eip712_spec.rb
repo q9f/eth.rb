@@ -169,5 +169,90 @@ describe Eip712 do
       sig_string = "8255c17ce6be5fb6ee3430784a52a5163c63fc87e2dcae32251d9c49ba849fad7067454b0d7e694698c02e552fd7af283dcaadc754d58ecba978856de8742e361b"
       expect(key.sign_typed_data data_string).to eq sig_string
     end
+
+    it "can abi-encode complex nested data" do
+      # ref https://github.com/q9f/eth.rb/issues/127#issuecomment-1447441576
+      key = Key.new(priv: "0x8e589ba6280400cfa426229684f7c2ac9ebf132f7ad658a82ed57553a0a9dee8")
+      data = {
+        :types => {
+          :OrderComponents => [
+            { :name => "offerer", :type => "address" },
+            { :name => "zone", :type => "address" },
+            { :name => "offer", :type => "OfferItem[]" },
+            { :name => "consideration", :type => "ConsiderationItem[]" },
+            { :name => "orderType", :type => "uint8" },
+            { :name => "startTime", :type => "uint256" },
+            { :name => "endTime", :type => "uint256" },
+            { :name => "zoneHash", :type => "bytes32" },
+            { :name => "salt", :type => "uint256" },
+            { :name => "conduitKey", :type => "bytes32" },
+            { :name => "counter", :type => "uint256" },
+          ],
+          :OfferItem => [
+                          { :name => "itemType", :type => "uint8" },
+                          { :name => "token", :type => "address" },
+                          { :name => "identifierOrCriteria", :type => "uint256" },
+                          { :name => "startAmount", :type => "uint256" },
+                          { :name => "endAmount", :type => "uint256" },
+                        ],
+          :ConsiderationItem => [
+                                  { :name => "itemType", :type => "uint8" },
+                                  { :name => "token", :type => "address" },
+                                  { :name => "identifierOrCriteria", :type => "uint256" },
+                                  { :name => "startAmount", :type => "uint256" },
+                                  { :name => "endAmount", :type => "uint256" },
+                                  { :name => "recipient", :type => "address" },
+                                ],
+          :EIP712Domain => [
+            { :name => "name", :type => "string" },
+            { :name => "version", :type => "string" },
+            { :name => "chainId", :type => "uint256" },
+            { :name => "verifyingContract", :type => "address" },
+          ],
+        },
+        :domain => {
+          :name => "Seaport",
+          :version => "1.1",
+          :chainId => 1,
+          :verifyingContract => "0x00000000006c3852cbef3e08e8df289169ede581",
+        },
+        :primaryType => "OrderComponents",
+        :message => {
+          :offerer => "0x0000000000000000000000000000000000000001",
+          :zone => "0x0000000000000000000000000000000000000000",
+          :zoneHash => "0x0000000000000000000000000000000000000000000000000000000000000000",
+          :offer => [
+            {
+              :itemType => 2,
+              :token => "0x0000000000000000000000000000000000000002",
+              :identifierOrCriteria => 2,
+              :startAmount => 1,
+              :endAmount => 1,
+            },
+          ],
+          :consideration => [
+            {
+              :itemType => 0,
+              :identifierOrCriteria => 0,
+              :startAmount => 9750000000000000000,
+              :endAmount => 9750000000000000000,
+              :recipient => "0x0000000000000000000000000000000000000003",
+            },
+            { :itemType => 0,
+             :identifierOrCriteria => 0,
+             :startAmount => 250000000000000000,
+             :endAmount => 250000000000000000,
+             :recipient => "0x0000000000000000000000000000000000000004" },
+          ],
+          :salt => 12686911856931635052326433555881236148,
+          :conduitKey => "0x0000007b02230091a7ed01230072f7006a004d60a8d4e71d599b8104250f0000",
+          :nonce => 0,
+        },
+      }
+
+      sig_bytes = "ddefbbe703f59949a87ece451321924bb9297100dda63e1f39559b72db3ec9e83dae2056c25b52ddb8bd53ab536e84d2e4f70d98219ed14e46b021a59aefb4eb1c"
+      pending("https://github.com/q9f/eth.rb/issues/127")
+      expect(key.sign_typed_data data).to eq sig_bytes
+    end
   end
 end
