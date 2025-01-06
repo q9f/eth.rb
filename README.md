@@ -95,7 +95,7 @@ The goal is to have 100% specification coverage for all code inside this gem.
 ## Contributing
 Pull requests are welcome! To contribute, please consider the following:
 * Code should be fully documented. Run `yard doc` and make sure it does not yield any warnings or undocumented sets.
-* Code should be fully covered by tests. Run `rspec` to make sure all tests pass. The CI has an integration that will assis you to identify uncovered lines of code and get coverage up to 100%.
+* Code should be fully covered by tests. Run `rspec` to make sure all tests pass. The CI has an integration that will assist you to identify uncovered lines of code and get coverage up to 100%.
 * Code should be formatted properly. Try to eliminate the most common issues such as trailing white-spaces or duplicate new-lines. Usage of the `rufo` gem is recommended.
 * Submit pull requests, questions, or issues to Github: <https://github.com/q9f/eth.rb>
 
