@@ -329,6 +329,30 @@ describe Abi do
     end
   end
 
+  describe ".solidity_packed" do
+    it "can encode packed abi" do
+      # https://ethereum.stackexchange.com/questions/72199/testing-sha256abi-encodepacked-argument
+      types_0 = ["bytes1", "bytes2"]
+      values_0 = ["a", "bc"]
+      packed_0 = Abi.solidity_packed(types_0, values_0)
+      expect(packed_0).to eq "abc"
+      types_1 = ["bytes2", "bytes1"]
+      values_1 = ["ab", "c"]
+      packed_1 = Abi.solidity_packed(types_1, values_1)
+      expect(packed_1).to eq "abc"
+      hash = Util.hex_to_bin "4e03657aea45a94fc7d47ba826c8d667c0d1e6e33a64a036ec44f58fa12d6c45"
+      expect(Util.keccak256 packed_1).to eq hash
+      expect(packed_1).to eq packed_0
+      expect(Util.keccak256 packed_1).to eq Util.keccak256 packed_0
+
+      types = ["string"]
+      values = ["Hello World!"]
+      packed = Abi.solidity_packed(types, values)
+      hash = Util.keccak256 packed
+      expect(hash).to eq Util.hex_to_bin "0x3ea2f1d0abf3fc66cf29eebb70cbd4e7fe762ef8a09bcc06c8edf641230afec0"
+    end
+  end
+
   describe "abicoder tests" do
     # https://github.com/rubycocos/blockchain/blob/ccef43a600e0832fb5e662bb0840656c974c0dc5/abicoder/test/test_spec.rb
     def assert(data, types, args)
