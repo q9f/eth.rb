@@ -81,6 +81,7 @@ geth --dev --http --ipcpath /tmp/geth.ipc &
 ```
 
 It also expects an `$DRPC_TOKEN` in environment to test some ENS queries on mainnet.
+`$DRPC_TOKEN` should be set to an API key from the drpc node providers (https://drpc.org/)
 
 To run tests, simply use `rspec`. Note, that the Ethereum test fixtures are also required.
 
