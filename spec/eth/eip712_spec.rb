@@ -35,7 +35,7 @@ describe Eip712 do
       :name => "Ether Mail",
       :version => "1",
       :chainId => Chain::ETHEREUM,
-      :verifyingContract => Address.new("0xCcCCccccCCCCcCCCCCCcCcCccCcCCCcCcccccccC").checksummed,
+      :verifyingContract => Address.new("0xCcCCccccCCCCcCCCCCCcCcCccCcCCCcCcccccccC"),
     }
   }
 
@@ -44,11 +44,11 @@ describe Eip712 do
     {
       :from => {
         :name => "Cow",
-        :wallet => Address.new("0xCD2a3d9F938E13CD947Ec05AbC7FE734Df8DD826").checksummed,
+        :wallet => Address.new("0xCD2a3d9F938E13CD947Ec05AbC7FE734Df8DD826"),
       },
       :to => {
         :name => "Bob",
-        :wallet => Address.new("0xbBbBBBBbbBBBbbbBbbBbbbbBBbBbbbbBbBbbBBbB").checksummed,
+        :wallet => Address.new("0xbBbBBBBbbBBBbbbBbbBbbbbBBbBbbbbBbBbbBBbB"),
       },
       :contents => "Hello, Bob!",
     }
@@ -125,6 +125,75 @@ describe Eip712 do
   describe ".hash" do
     it "can hash the eip-712 typed data" do
       expect(Eip712.hash typed_data).to eq Util.hex_to_bin "0xbe609aee343fb3c4b28e1df9e632fca64fcfaede20f02e86244efddf30957bd2"
+    end
+  end
+
+  context "eip 712 arrays" do
+    subject(:domain) {
+      [
+        { name: "name", type: "string" },
+        { name: "version", type: "string" },
+        { name: "chainId", type: "uint256" },
+        { name: "verifyingContract", type: "address" },
+        { name: "salt", type: "bytes32" },
+      ]
+    }
+
+    subject(:sell_orders) {
+      [
+        { name: "id", type: "uint256[]" },
+        { name: "tokenId", type: "uint256[]" },
+        { name: "price", type: "uint256[]" },
+        { name: "proto", type: "uint256[]" },
+        { name: "purity", type: "uint256[]" },
+        { name: "seller", type: "address" },
+      ]
+    }
+
+    subject(:card_exchange_contract) { Address.new("0xCcCCccccCCCCcCCCCCCcCcCccCcCCCcCcccccccC") }
+
+    subject(:domain_data) {
+      {
+        name: "app",
+        version: "1",
+        chainId: 3,
+        verifyingContract: card_exchange_contract,
+        salt: "0xa222082684812afae4e093416fff16bc218b569abe4db590b6a058e1f2c1cd3e",
+      }
+    }
+
+    subject(:address) { Address.new "0xCD2a3d9F938E13CD947Ec05AbC7FE734Df8DD826" }
+
+    subject(:message) {
+      {
+        id: [1],
+        tokenId: [1],
+        price: [1],
+        proto: [1],
+        purity: [1],
+        seller: address,
+      }
+    }
+
+    subject(:data) {
+      {
+        :types => {
+          :EIP712Domain => domain,
+          :SellOrders => sell_orders,
+        },
+        :primaryType => "SellOrders",
+        :domain => domain_data,
+        :message => message,
+      }
+    }
+
+    it "encodes arrays in an eip 712 domain" do
+      expect(Eip712.encode_type "EIP712Domain", data[:types]).to eq "EIP712Domain(string name,string version,uint256 chainId,address verifyingContract,bytes32 salt)"
+      expect(Eip712.encode_type "SellOrders", data[:types]).to eq "SellOrders(uint256[] id,uint256[] tokenId,uint256[] price,uint256[] proto,uint256[] purity,address seller)"
+
+      expect(Util.bin_to_hex(Eip712.encode_data("EIP712Domain", domain_data, data[:types]))).to eq "d87cd6ef79d4e2b95e15ce8abf732db51ec771f1ca2edccf22a46c729ac56472d6f028ca0e8edb4a8c9757ca4fdccab25fa1e0317da1188108f7d2dee14902fbc89efdaa54c0f20c7adf612882df0950f5a951637e0307cdcb4c672f298b8bc60000000000000000000000000000000000000000000000000000000000000003000000000000000000000000cccccccccccccccccccccccccccccccccccccccca222082684812afae4e093416fff16bc218b569abe4db590b6a058e1f2c1cd3e"
+      pending("https://github.com/q9f/eth.rb/issues/127")
+      expect(Util.bin_to_hex(Eip712.encode_data("SellOrders", message, data[:types]))).to eq "58682cd513b67511a4ef89156104cf2bc7835c7289308bb112fdafe49897324200000000000000000000000000000000000000000000000000000000000000e00000000000000000000000000000000000000000000000000000000000000120000000000000000000000000000000000000000000000000000000000000016000000000000000000000000000000000000000000000000000000000000001a000000000000000000000000000000000000000000000000000000000000001e0000000000000000000000000cd2a3d9f938e13cd947ec05abc7fe734df8dd8260000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000001"
     end
   end
 
