@@ -94,7 +94,7 @@ module Eth
         @base_type = base_type
         @sub_type = sub_type
         @dimensions = dims.map { |x| x[1...-1].to_i }
-        @components = components.map { |component| Abi::Type.parse(component["type"], component.dig("components"), component.dig("name")) } unless components.nil?
+        @components = components.map { |component| Abi::Type.parse(component["type"], component.dig("components"), component.dig("name")) } if components&.any?
         @name = component_name
       end
 
