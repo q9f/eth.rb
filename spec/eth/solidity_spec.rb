@@ -2,10 +2,9 @@ require "spec_helper"
 
 describe Solidity do
   it "finds a solc compiler" do
-
     # This fails if no `solc` is in the $PATH.
     expect(Solidity.new).to be
-    expect(Solidity.new(system("which", "solc"))).to be
+    expect(Solidity.new(system("which", "solc", :out => File::NULL))).to be
   end
 
   subject(:solc) { Solidity.new }
