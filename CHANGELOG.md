@@ -1,6 +1,80 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## [0.5.13]
+### Changed
+* Eth/api: update to latest available go-ethereum apis [#301](https://github.com/q9f/eth.rb/pull/301)
+* Eth/chain: update ids [#300](https://github.com/q9f/eth.rb/pull/300)
+* Spec: update ethereum/tests fixtures [#303](https://github.com/q9f/eth.rb/pull/303)
+* Ci: fix codecov uploader [#302](https://github.com/q9f/eth.rb/pull/302)
+* Eth/tx: only enforce block gas limit on mainnet [#299](https://github.com/q9f/eth.rb/pull/299)
+* Eth/util: fix single-byte hex-string nibbles [#298](https://github.com/q9f/eth.rb/pull/298)
+* Eth/address: rename null address to zero address [#297](https://github.com/q9f/eth.rb/pull/297)
+* Eth/address: add support to check for the ethereum "null address" [#296](https://github.com/q9f/eth.rb/pull/296)
+* Build(deps): bump codecov/codecov-action from 4 to 5 [#295](https://github.com/q9f/eth.rb/pull/295)
+* Build(deps): bump JamesIves/github-pages-deploy-action [#294](https://github.com/q9f/eth.rb/pull/294)
+* Build(deps): bump JamesIves/github-pages-deploy-action [#288](https://github.com/q9f/eth.rb/pull/288)
+* Eth/client: always return hash even if transaction didn't succeed [#284](https://github.com/q9f/eth.rb/pull/284)
+* Eth/chain: update list of chains [#283](https://github.com/q9f/eth.rb/pull/283)
+* Fix undefined method `raise_error' for an instance of Eth::Tx::Eip1559 (NoMethodError) [#282](https://github.com/q9f/eth.rb/pull/282)
+* Gem: bump version to 0.5.13 [#281](https://github.com/q9f/eth.rb/pull/281)
+
+## [0.5.12]
+### Added
+* Allow to call JSON RPC with custom block number [#268](https://github.com/q9f/eth.rb/pull/268)
+* Support tuple params in EventLog [#276](https://github.com/q9f/eth.rb/pull/276)
+
+### Changed
+* Eth: update version [#280](https://github.com/q9f/eth.rb/pull/280)
+* Eth/abi: fix negative integer coding [#279](https://github.com/q9f/eth.rb/pull/279)
+* Support negative number from JSON RPC [#267](https://github.com/q9f/eth.rb/pull/267)
+* Abi/event: confirm decoding tuples works [#278](https://github.com/q9f/eth.rb/pull/278)
+* Allow to call JSON RPC with custom block number [#268](https://github.com/q9f/eth.rb/pull/268)
+* Gem: run rufo [#277](https://github.com/q9f/eth.rb/pull/277)
+* Fix event signature [#250](https://github.com/q9f/eth.rb/pull/250)
+* Support tuple params in EventLog [#276](https://github.com/q9f/eth.rb/pull/276)
+* Ci: update ruby version [#271](https://github.com/q9f/eth.rb/pull/271)
+* Eth/api: remove coinbase as default account [#269](https://github.com/q9f/eth.rb/pull/269)
+* Build(deps): bump JamesIves/github-pages-deploy-action from 4.5.0 to 4.6.1 [#275](https://github.com/q9f/eth.rb/pull/275)
+* Build(deps): bump github/codeql-action from 2 to 3 [#257](https://github.com/q9f/eth.rb/pull/257)
+* Build(deps): bump JamesIves/github-pages-deploy-action from 4.4.3 to 4.5.0 [#256](https://github.com/q9f/eth.rb/pull/256)
+* Fix typo in contract_spec.rb [#253](https://github.com/q9f/eth.rb/pull/253)
+* Eth/eip721: fix data type bug for bytes, fix #251 [#252](https://github.com/q9f/eth.rb/pull/252)
+* Ci: unpatch geth [#248](https://github.com/q9f/eth.rb/pull/248)
+* Build(deps): bump actions/checkout from 3 to 4 [#246](https://github.com/q9f/eth.rb/pull/246)
+
+## [0.5.11]
+### Added
+* Eth/abi: allow encoding address types [#242](https://github.com/q9f/eth.rb/pull/242)
+* Eth/solidity: enable --via-ir [#232](https://github.com/q9f/eth.rb/pull/232)
+* Checking userinfo with the uri method [#233](https://github.com/q9f/eth.rb/pull/233)
+* Eth/abi: add abicoder gem tests collection [#218](https://github.com/q9f/eth.rb/pull/218)
+* Manual default_account [#215](https://github.com/q9f/eth.rb/pull/215)
+* Add moonbeam networks in [#209](https://github.com/q9f/eth.rb/pull/209)
+
+### Changed
+* Spec: run rufo [#245](https://github.com/q9f/eth.rb/pull/245)
+* Fix the decoding of unsigned transactions [#243](https://github.com/q9f/eth.rb/pull/243)
+* Build(deps): bump JamesIves/github-pages-deploy-action from 4.4.2 to 4.4.3 [#244](https://github.com/q9f/eth.rb/pull/244)
+* Build(deps): bump JamesIves/github-pages-deploy-action from 4.4.1 to 4.4.2 [#240](https://github.com/q9f/eth.rb/pull/240)
+* Eth/tx: update tx initcode cost for shanghai [#237](https://github.com/q9f/eth.rb/pull/237)
+* Eth/client: remove default gas limit attribute [#235](https://github.com/q9f/eth.rb/pull/235)
+* Docs: minor fixups [#229](https://github.com/q9f/eth.rb/pull/229)
+* Eth/contract: ensure contract name is title case [#228](https://github.com/q9f/eth.rb/pull/228)
+* Deps: require forwardable for contracts [#227](https://github.com/q9f/eth.rb/pull/227)
+* Ens/resolver: remove pending for etc coin type [#219](https://github.com/q9f/eth.rb/pull/219)
+* Deps: update secp256k1 to 6 [#214](https://github.com/q9f/eth.rb/pull/214)
+* Eth/solidity: add docs for solc path override [#213](https://github.com/q9f/eth.rb/pull/213)
+* Manually overwrite solc path [#212](https://github.com/q9f/eth.rb/pull/212)
+* Abi.decoder handles arrays of string and bytes [#207](https://github.com/q9f/eth.rb/pull/207)
+* Eth/util: fix compressed public key to address in [#206](https://github.com/q9f/eth.rb/pull/206)
+* Eth/api: update execution apis to latest spec [#204](https://github.com/q9f/eth.rb/pull/204)
+* Eth/abi: split abi class into encoder and decoder [#203](https://github.com/q9f/eth.rb/pull/203)
+* Eth/client: deduplicate code [#202](https://github.com/q9f/eth.rb/pull/202)
+* Eth/client: rewrite send to send_request [#201](https://github.com/q9f/eth.rb/pull/201)
+* Docs: update changelog for 0.5.10 [#200](https://github.com/q9f/eth.rb/pull/200)
+* Tested with Ruby 3.2 [#199](https://github.com/q9f/eth.rb/pull/199)
+
 ## [0.5.10]
 ### Added
 * Eth/client: add transfer_erc20 function [#197](https://github.com/q9f/eth.rb/pull/197)
@@ -19,7 +93,7 @@ All notable changes to this project will be documented in this file.
 
 ## [0.5.9]
 ### Added
-* Eth/abi: dynamic struct encoding (#135) [#185](https://github.com/q9f/eth.rb/pull/185)
+* Eth/abi: dynamic struct encoding [#135](https://github.com/q9f/eth.rb/pull/135) [#185](https://github.com/q9f/eth.rb/pull/185)
 * Eth/client: support camel case (convert before sending the tx) [#172](https://github.com/q9f/eth.rb/pull/172)
 * Eth/client: add `tx_succeeded?` [#173](https://github.com/q9f/eth.rb/pull/173)
 

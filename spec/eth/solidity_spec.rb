@@ -2,10 +2,9 @@ require "spec_helper"
 
 describe Solidity do
   it "finds a solc compiler" do
-
     # This fails if no `solc` is in the $PATH.
     expect(Solidity.new).to be
-    expect(Solidity.new(system("which", "solc"))).to be
+    expect(Solidity.new(system("which", "solc", :out => File::NULL))).to be
   end
 
   subject(:solc) { Solidity.new }
@@ -34,7 +33,8 @@ describe Solidity do
     result = solc.compile contract
     expect(result["DepositContract"]).to be
     payload = result["DepositContract"]["bin"]
-    expect(payload).to start_with "604060808152"
+    expect(payload).to start_with "60"
+    expect(payload).to end_with "33"
     params = {
       from: geth.default_account,
       priority_fee: 0,

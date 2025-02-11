@@ -9,6 +9,10 @@ describe Abi do
     let(:basic_abi_tests_file) { File.read "spec/fixtures/ethereum/tests/ABITests/basic_abi_tests.json" }
     subject(:basic_abi_tests) { JSON.parse basic_abi_tests_file }
 
+    # load ethers.js abi test cases
+    let(:ethers_abi_tests_file) { File.read "spec/fixtures/abi/ethers.json" }
+    subject(:ethers_abi_tests) { JSON.parse ethers_abi_tests_file }
+
     describe "dynamic encode" do
       it "can encode array of string" do
         encoded = Util.bin_to_hex(described_class.encode(["string[]"], [["hello", "world"]]))
@@ -124,6 +128,20 @@ describe Abi do
       bytes = "\x00" * 32 * 3
       expect(Abi.encode(["address[]"], [["\x00" * 20] * 3])).to eq "#{Util.zpad_int(32)}#{Util.zpad_int(3)}#{bytes}"
       expect(Abi.encode(["uint16[2]"], [[5, 6]])).to eq "#{Util.zpad_int(5)}#{Util.zpad_int(6)}"
+    end
+
+    it "passes ethersjs test cases" do
+      pending("https://github.com/q9f/eth.rb/issues/102")
+      ethers_abi_tests.each do |test|
+        types = test["type"]
+        args = test["value"]
+        result = test["encoded"]
+        encoded = Abi.encode types, args
+        expect(Util.bin_to_hex encoded).to eq result
+        expect(encoded).to eq Util.hex_to_bin result
+        decoded = Abi.decode types, result
+        expect(decoded).to eq args
+      end
     end
 
     it "can decode abi" do
@@ -386,6 +404,29 @@ describe Abi do
       data = Util.hex_to_bin "0000000000000000000000000000000000000000000000000000000000000042000000000000000000000000000000000000000000000000000000000000006000000000000000000000000000000000000000000000000000000000000000c0000000000000000000000000000000000000000000000000000000000000000100000000000000000000000018a475d6741215709ed6cc5f4d064732379b5a580000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000002e516d57426953453942795236767278346876726a71533353473572367745345352713743503252567061665a5756000000000000000000000000000000000000"
       pending("https://github.com/q9f/eth.rb/issues/102")
       assert(data, types, args)
+    end
+  end
+
+  describe "edge cases" do
+    it "test negative number" do
+      types = ["int24"]
+      args = [-887220]
+      data = Util.hex_to_bin "fffffffffffffffffffffffffffffffffffffffffffffffffffffffffff2764c"
+      expect(data).to eq Abi.encode(types, args)
+      expect(args).to eq Abi.decode(types, data)
+      expect(args).to eq Abi.decode(types, Abi.encode(types, args))
+
+      expect(Abi.encode(["int8"], [0])).to eq Util.hex_to_bin "0000000000000000000000000000000000000000000000000000000000000000"
+      expect(Abi.encode(["int8"], [1])).to eq Util.hex_to_bin "0000000000000000000000000000000000000000000000000000000000000001"
+      expect(Abi.encode(["int8"], [-1])).to eq Util.hex_to_bin "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+      expect(Abi.encode(["int24"], [887220])).to eq Util.hex_to_bin "00000000000000000000000000000000000000000000000000000000000d89b4"
+      expect(Abi.encode(["int24"], [-887220])).to eq Util.hex_to_bin "fffffffffffffffffffffffffffffffffffffffffffffffffffffffffff2764c"
+
+      expect(Abi.decode(["int8"], "0000000000000000000000000000000000000000000000000000000000000000")).to eq [0]
+      expect(Abi.decode(["int8"], "0000000000000000000000000000000000000000000000000000000000000001")).to eq [1]
+      expect(Abi.decode(["int8"], "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff")).to eq [-1]
+      expect(Abi.decode(["int24"], "00000000000000000000000000000000000000000000000000000000000d89b4")).to eq [887220]
+      expect(Abi.decode(["int24"], "fffffffffffffffffffffffffffffffffffffffffffffffffffffffffff2764c")).to eq [-887220]
     end
   end
 end

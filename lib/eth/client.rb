@@ -1,4 +1,4 @@
-# Copyright (c) 2016-2023 The Ruby-Eth Contributors
+# Copyright (c) 2016-2025 The Ruby-Eth Contributors
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -25,7 +25,7 @@ module Eth
     # The connected network's chain ID.
     attr_reader :chain_id
 
-    # The connected network's client coinbase.
+    # The connected network's client default account.
     attr_accessor :default_account
 
     # The default transaction max priority fee per gas in Wei, defaults to {Tx::DEFAULT_PRIORITY_FEE}.
@@ -33,6 +33,9 @@ module Eth
 
     # The default transaction max fee per gas in Wei, defaults to {Tx::DEFAULT_GAS_PRICE}.
     attr_accessor :max_fee_per_gas
+
+    # The block number used for archive calls.
+    attr_accessor :block_number
 
     # A custom error type if a contract interaction fails.
     class ContractExecutionError < StandardError; end
@@ -64,15 +67,15 @@ module Eth
       @max_fee_per_gas = Tx::DEFAULT_GAS_PRICE
     end
 
-    # Gets the default account (coinbase) of the connected client.
+    # Gets the default account (first account) of the connected client.
     #
     # **Note**, that many remote providers (e.g., Infura) do not provide
     # any accounts.
     #
-    # @return [Eth::Address] the coinbase account address.
+    # @return [Eth::Address] the default account address.
     def default_account
       raise ArgumentError, "The default account is not available on remote connections!" unless local? || @default_account
-      @default_account ||= Address.new eth_coinbase["result"]
+      @default_account ||= Address.new eth_accounts["result"].first
     end
 
     # Gets the chain ID of the connected network.
@@ -110,7 +113,7 @@ module Eth
     end
 
     # Simply transfer Ether to an account and waits for it to be mined.
-    # Uses `eth_coinbase` and external signer if no sender key is
+    # Uses `eth_accounts` and external signer if no sender key is
     # provided.
     #
     # See {#transfer} for params and overloads.
@@ -121,7 +124,7 @@ module Eth
     end
 
     # Simply transfer Ether to an account without any call data or
-    # access lists attached. Uses `eth_coinbase` and external signer
+    # access lists attached. Uses `eth_accounts` and external signer
     # if no sender key is provided.
     #
     # **Note**, that many remote providers (e.g., Infura) do not provide
@@ -181,7 +184,7 @@ module Eth
     end
 
     # Deploys a contract and waits for it to be mined. Uses
-    # `eth_coinbase` or external signer if no sender key is provided.
+    # `eth_accounts` or external signer if no sender key is provided.
     #
     # See {#deploy} for params and overloads.
     #
@@ -192,7 +195,7 @@ module Eth
       contract.address = Address.new(addr).to_s
     end
 
-    # Deploys a contract. Uses `eth_coinbase` or external signer
+    # Deploys a contract. Uses `eth_accounts` or external signer
     # if no sender key is provided.
     #
     # **Note**, that many remote providers (e.g., Infura) do not provide
@@ -314,11 +317,11 @@ module Eth
     # See {#transact} for params and overloads.
     #
     # @raise [Client::ContractExecutionError] if the execution fails.
-    # @return [Object] returns the result of the transaction.
+    # @return [Object, Boolean] returns the result of the transaction (hash and execution status).
     def transact_and_wait(contract, function, *args, **kwargs)
       begin
         hash = wait_for_tx(transact(contract, function, *args, **kwargs))
-        return hash if tx_succeeded? hash
+        return hash, tx_succeeded?(hash)
       rescue IOError => e
         raise ContractExecutionError, e
       end
@@ -471,7 +474,8 @@ module Eth
 
     # Prepares parameters and sends the command to the client.
     def send_command(command, args)
-      args << "latest" if ["eth_getBalance", "eth_call"].include? command
+      @block_number ||= "latest"
+      args << block_number if ["eth_getBalance", "eth_call"].include? command
       payload = {
         jsonrpc: "2.0",
         method: command,

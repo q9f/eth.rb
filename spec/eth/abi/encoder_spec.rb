@@ -23,7 +23,7 @@ describe Abi::Encoder do
     expect(Abi::Encoder.type t_uint_8, 255).to eq Util.zpad_int 255
     expect { Abi::Encoder.type t_uint_8, 256 }.to raise_error Abi::ValueOutOfBounds
 
-    expect(Abi::Encoder.type t_int_8, -128).to eq Util.zpad "\x80", 32
+    expect(Abi::Encoder.type t_int_8, -128).to eq Util.zpad "\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\x80", 32
     expect(Abi::Encoder.type t_int_8, 127).to eq Util.zpad "\x7f", 32
     expect { Abi::Encoder.type t_int_8, -129 }.to raise_error Abi::ValueOutOfBounds
     expect { Abi::Encoder.type t_int_8, 128 }.to raise_error Abi::ValueOutOfBounds
@@ -62,7 +62,7 @@ describe Abi::Encoder do
     expect(Abi::Encoder.primitive_type t_uint_8, 255).to eq Util.zpad_int 255
     expect { Abi::Encoder.primitive_type t_uint_8, 256 }.to raise_error Abi::ValueOutOfBounds
 
-    expect(Abi::Encoder.primitive_type t_int_8, -128).to eq Util.zpad "\x80", 32
+    expect(Abi::Encoder.primitive_type t_int_8, -128).to eq Util.zpad "\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\x80", 32
     expect(Abi::Encoder.primitive_type t_int_8, 127).to eq Util.zpad "\x7f", 32
     expect { Abi::Encoder.primitive_type t_int_8, -129 }.to raise_error Abi::ValueOutOfBounds
     expect { Abi::Encoder.primitive_type t_int_8, 128 }.to raise_error Abi::ValueOutOfBounds

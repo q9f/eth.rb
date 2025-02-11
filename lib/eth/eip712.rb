@@ -1,4 +1,4 @@
-# Copyright (c) 2016-2023 The Ruby-Eth Contributors
+# Copyright (c) 2016-2025 The Ruby-Eth Contributors
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -113,7 +113,6 @@ module Eth
       types[primary_type.to_sym].each do |field|
         value = data[field[:name].to_sym]
         type = field[:type]
-        raise NotImplementedError, "Arrays currently unimplemented for EIP-712." if type.end_with? "]"
         if type == "string"
           encoded_types.push "bytes32"
           encoded_values.push Util.keccak256 value
@@ -125,6 +124,8 @@ module Eth
           encoded_types.push "bytes32"
           value = encode_data type, value, types
           encoded_values.push Util.keccak256 value
+        elsif type.end_with? "]"
+          raise NotImplementedError, "Arrays currently unimplemented for EIP-712."
         else
           encoded_types.push type
           encoded_values.push value

@@ -128,8 +128,17 @@ describe Tx::Legacy do
           nonce: 0,
           gas_price: Unit::GWEI,
           gas_limit: Tx::BLOCK_GAS_LIMIT + 1,
+          chain_id: Chain::ETHEREUM,
         })
       }.to raise_error Tx::ParameterError, "Invalid gas limit 30000001!"
+      expect {
+        Tx.new({
+          nonce: 0,
+          gas_price: Unit::GWEI,
+          gas_limit: Tx::BLOCK_GAS_LIMIT + 1,
+          chain_id: Chain::OPTIMISM,
+        })
+      }.not_to raise_error # Block gas limit is only enforced in Ethereum mainnet
       expect {
         Tx.new({
           nonce: -1,
