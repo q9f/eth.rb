@@ -6,4 +6,4 @@ rufo .
 yard doc
 rspec
 
-echo "Tests fail? Run \`geth --dev --http --ipcpath /tmp/geth.ipc\` in background and try again."
+echo "Tests fail? Run \`geth --dev --http --ws --ipcpath /tmp/geth.ipc\` in background and try again."
