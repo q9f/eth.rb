@@ -6,10 +6,12 @@ describe Client do
   # to provide both http and ipc to pass these tests.
   let(:geth_ipc_path) { "/tmp/geth.ipc" }
   let(:geth_http_path) { "http://127.0.0.1:8545" }
+  let(:geth_ws_path) { "ws://127.0.0.1:8546" }
   let(:geth_http_authed_path) { "http://username:password@127.0.0.1:8545" }
   let(:geth_http_query_path) { "http://127.0.0.1:8545?foo=bar&asdf=qwer" }
   subject(:geth_ipc) { Client.create geth_ipc_path }
   subject(:geth_http) { Client.create geth_http_path }
+  subject(:geth_ws) { Client.create geth_ws_path }
   subject(:geth_http_authed) { Client.create geth_http_authed_path }
   subject(:geth_http_query) { Client.create geth_http_query_path }
 
@@ -45,6 +47,15 @@ describe Client do
       expect(geth_http_query.uri.query).to eq "foo=bar&asdf=qwer"
     end
 
+    it "creates an ws cleint" do
+      expect(geth_ws).to be
+      expect(geth_ws).to be_instance_of Client::Ws
+      expect(geth_ws.host).to eq "127.0.0.1"
+      expect(geth_ws.port).to eq 8546
+      expect(geth_ws.uri.to_s).to eq geth_ws_path
+      expect(geth_ws.ssl).to be_falsy
+    end
+
     it "connects to an drpc api" do
       expect(drpc_mainnet).to be
       expect(drpc_mainnet).to be_instance_of Client::Http
@@ -68,12 +79,20 @@ describe Client do
       expect(geth_http_authed.ssl).to be_falsy
     end
 
-    it "functions as geth development client" do
+    it "functions as geth development client (ipc)" do
       expect(geth_ipc.id).to eq 0
       expect(geth_ipc.chain_id).to eq Chain::PRIVATE_GETH
       expect(geth_ipc.default_account).to be_instance_of Address
       expect(geth_ipc.max_priority_fee_per_gas).to eq Tx::DEFAULT_PRIORITY_FEE
       expect(geth_ipc.max_fee_per_gas).to eq Tx::DEFAULT_GAS_PRICE
+    end
+
+    it "functions as geth development client (ws)" do
+      expect(geth_ws.id).to eq 0
+      expect(geth_ws.chain_id).to eq Chain::PRIVATE_GETH
+      # expect(geth_ws.default_account).to be_instance_of Address
+      expect(geth_ws.max_priority_fee_per_gas).to eq Tx::DEFAULT_PRIORITY_FEE
+      expect(geth_ws.max_fee_per_gas).to eq Tx::DEFAULT_GAS_PRICE
     end
 
     it "http can query basic methods" do
