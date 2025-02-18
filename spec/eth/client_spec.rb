@@ -126,7 +126,7 @@ describe Client do
       it "raises exception when nonce incorrect" do
         expect {
           geth_http.transfer(another_key.address, 69 * Unit::ETHER, legacy: true, nonce: 0)
-        }.to raise_error(IOError, /nonce too low: next nonce [0-9]+, tx nonce [0-9]+/)
+        }.to raise_error(Client::ClientInteractionError, /nonce too low: next nonce [0-9]+, tx nonce [0-9]+/)
       end
 
       it "funds account twice" do
@@ -144,7 +144,7 @@ describe Client do
   end
 
   describe ".deploy .deploy_and_wait" do
-    subject(:contract) { Eth::Contract.from_file(file: "spec/fixtures/contracts/dummy.sol") }
+    subject(:contract) { Contract.from_file(file: "spec/fixtures/contracts/dummy.sol") }
     subject(:test_key) { Key.new }
     let(:ens_registry_bin) { File.read "spec/fixtures/bin/ENSRegistryWithFallback.bin", :encoding => "ascii-8bit" }
     let(:ens_registry_abi) { File.read "spec/fixtures/abi/ENSRegistryWithFallback.json", :encoding => "ascii-8bit" }
@@ -183,7 +183,7 @@ describe Client do
     it "can deploy and call an ens registry" do
       ens_registry = Contract.from_bin(bin: ens_registry_bin.strip, abi: ens_registry_abi.strip, name: "ENSRegistryWithFallback")
       ens_address = geth_ipc.deploy_and_wait(ens_registry, "0x112234455c3a32fd11230c42e7bccd4a84e02010")
-      expect(ens_registry).to be_instance_of(Eth::Contract::ENSRegistryWithFallback)
+      expect(ens_registry).to be_instance_of(Contract::ENSRegistryWithFallback)
       expect(ens_registry.address).to eq Address.new(ens_address).to_s
       expect(geth_ipc.call(ens_registry, "old")).to eq "0x112234455c3a32fd11230c42e7bccd4a84e02010"
     end
@@ -192,7 +192,7 @@ describe Client do
       it "raises exception when nonce incorrect" do
         expect {
           geth_http.deploy_and_wait(contract, nonce: 0)
-        }.to raise_error(IOError, /nonce too low: next nonce [0-9]+, tx nonce [0-9]+/)
+        }.to raise_error(Client::ClientInteractionError, /nonce too low: next nonce [0-9]+, tx nonce [0-9]+/)
       end
 
       it "deploys the contract twice" do
@@ -211,14 +211,14 @@ describe Client do
 
   describe ".call" do
     subject(:test_key) { Key.new }
-    subject(:contract) { Eth::Contract.from_file(file: "spec/fixtures/contracts/dummy.sol") }
-    subject(:test_contract) { Eth::Contract.from_file(file: "spec/fixtures/contracts/simple_registry.sol") }
+    subject(:contract) { Contract.from_file(file: "spec/fixtures/contracts/dummy.sol") }
+    subject(:test_contract) { Contract.from_file(file: "spec/fixtures/contracts/simple_registry.sol") }
     let(:erc20_abi_file) { File.read "spec/fixtures/abi/ERC20.json" }
-    let(:address) { Eth::Address.new("0xd496b23d61f88a8c7758fca7560dcfac7b3b01f9").address }
+    let(:address) { Address.new("0xd496b23d61f88a8c7758fca7560dcfac7b3b01f9").address }
     subject(:erc20_abi) { JSON.parse erc20_abi_file }
-    subject(:erc20_contract) { Eth::Contract.from_abi(abi: erc20_abi, name: "ERC20", address: address) }
+    subject(:erc20_contract) { Contract.from_abi(abi: erc20_abi, name: "ERC20", address: address) }
 
-    it "call function name" do
+    it "calls function name" do
       geth_http.deploy_and_wait(contract)
       result = geth_http.call(contract, "get")
       expect(result).to eq(0)
@@ -230,11 +230,11 @@ describe Client do
       expect(result).to eq(0)
     end
 
-    it "return nil if raw result is 0x" do
+    it "returns nil if raw result is 0x" do
       expect(geth_http.call(erc20_contract, "balanceOf", address)).to be_nil
     end
 
-    it "allows to call client with custom block numberreturn nil if raw result is 0x" do
+    it "allows to call client with custom block number return nil if raw result is 0x" do
       block_number = 123
 
       geth_http.block_number = block_number
@@ -255,9 +255,9 @@ describe Client do
         result: "0x0000000000000000000000000000000000000000000000000000000000000000",
       }
 
-      expect_any_instance_of(Eth::Client::Http).to receive(:send_request)
-                                                     .with(expected_payload)
-                                                     .and_return(mock_response.to_json)
+      expect_any_instance_of(Client::Http).to receive(:send_request)
+                                                .with(expected_payload)
+                                                .and_return(mock_response.to_json)
 
       geth_http.call(erc20_contract, "balanceOf", address)
     end
@@ -313,11 +313,33 @@ describe Client do
       lending_pool = Contract.from_abi(name: nam, address: adr, abi: abi)
       drpc_base.call(lending_pool, "getReserveStatus", [64])
     end
+
+    it "raises custom solidity errors" do
+      abi = "[{\"constant\":true,\"inputs\":[{\"name\":\"tokenId\",\"type\":\"uint256\"}],\"name\":\"ownerOf\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"tokenId\",\"type\":\"uint256\"}],\"name\":\"ERC721NonexistentToken\",\"type\":\"error\"}]"
+      contract = Contract.from_abi(name: "ERC721", address: "0x6f813e6430a223e3ac285144fa9857cb38a642a6", abi: abi)
+      error = {
+        "id" => 1,
+        "jsonrpc" => "2.0",
+        "error" => {
+          "message" => "execution reverted",
+          "code" => 3,
+          "data" => "0x7e2732890000000000000000000000000000000000000000000000000000000000000001",
+        },
+      }
+      expect {
+        drpc_base.call(contract, "ownerOf", 1)
+      }.to raise_error Client::CustomSolidityError
+      begin
+        drpc_base.call(contract, "ownerOf", 1)
+      rescue Client::CustomSolidityError => e
+        expect(JSON.parse(e.message.gsub("=>", ":")).dig("error").dig("data")).to eq "0x7e2732890000000000000000000000000000000000000000000000000000000000000001"
+      end
+    end
   end
 
   describe ".transact .transact_and_wait" do
     subject(:test_key) { Key.new }
-    subject(:contract) { Eth::Contract.from_file(file: "spec/fixtures/contracts/dummy.sol") }
+    subject(:contract) { Contract.from_file(file: "spec/fixtures/contracts/dummy.sol") }
 
     it "the value can be set with the set function" do
       address = geth_http.deploy_and_wait(contract)
@@ -397,7 +419,7 @@ describe Client do
       it "raises exception when nonce incorrect" do
         expect {
           geth_http.transact(contract, "set", 42, address: contract_address, nonce: 0)
-        }.to raise_error(IOError, /nonce too low: next nonce [0-9]+, tx nonce [0-9]+/)
+        }.to raise_error(Client::ClientInteractionError, /nonce too low: next nonce [0-9]+, tx nonce [0-9]+/)
       end
 
       it "transacts function twice" do
@@ -426,7 +448,7 @@ describe Client do
 
   describe ".transfer_erc20 .transfer_erc20_and_wait" do
     subject(:key) { Key.new }
-    subject(:erc20) { Eth::Contract.from_file(file: "spec/fixtures/contracts/erc20.sol") }
+    subject(:erc20) { Contract.from_file(file: "spec/fixtures/contracts/erc20.sol") }
 
     it "deploys and mints erc20 tokens" do
       geth_ipc.transfer_and_wait(key.address, Unit::ETHER)

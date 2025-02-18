@@ -37,6 +37,12 @@ module Eth
     # The block number used for archive calls.
     attr_accessor :block_number
 
+    # A custom error type if a client interaction fails.
+    class ClientInteractionError < StandardError; end
+
+    # A custom error type if a for solidity error data.
+    class CustomSolidityError < StandardError; end
+
     # A custom error type if a contract interaction fails.
     class ContractExecutionError < StandardError; end
 
@@ -320,7 +326,7 @@ module Eth
       begin
         hash = wait_for_tx(transact(contract, function, *args, **kwargs))
         return hash, tx_succeeded?(hash)
-      rescue IOError => e
+      rescue ClientInteractionError => e
         raise ContractExecutionError, e
       end
     end
@@ -481,8 +487,13 @@ module Eth
         id: next_id,
       }
       output = JSON.parse(send_request(payload.to_json))
-      raise IOError, output["error"]["message"] unless output["error"].nil?
-      output
+      if output.dig("error").nil?
+        return output
+      elsif !output.dig("error").dig("data").nil?
+        raise CustomSolidityError, output
+      else
+        raise ClientInteractionError, output.dig("error").dig("message")
+      end
     end
 
     # Increments the request id.
