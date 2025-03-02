@@ -54,6 +54,7 @@ module Eth
     def self.create(host)
       return Client::Ipc.new host if host.end_with? ".ipc"
       return Client::Http.new host if host.start_with? "http"
+      return Client::Ws.new host if host.start_with? "ws"
       raise ArgumentError, "Unable to detect client type!"
     end
 
@@ -480,13 +481,17 @@ module Eth
         params: marshal(args),
         id: next_id,
       }
-      output = JSON.parse(send_request(payload.to_json))
+      payload = payload.to_json
+      output = send_request(payload)
+      output = JSON.parse(output)
+      pp output["error"]
       raise IOError, output["error"]["message"] unless output["error"].nil?
       output
     end
 
     # Increments the request id.
     def next_id
+      @id ||= 0
       @id += 1
     end
 
@@ -523,3 +528,4 @@ end
 # Load the client/* libraries
 require "eth/client/http"
 require "eth/client/ipc"
+require "eth/client/ws"
