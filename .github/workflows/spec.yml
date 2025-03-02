@@ -48,8 +48,6 @@ jobs:
     - name: Run Tests
       run: |
         bundle exec rspec
-      env:
-        DRPC_TOKEN: ${{ secrets.DRPC_TOKEN }}
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v5
       with:
