@@ -2,8 +2,8 @@ require "spec_helper"
 
 describe Ens::Resolver do
 
-  # it expects an $DRPC_TOKEN in environment
-  let(:drpc_api) { "https://lb.drpc.org/ogrpc?network=ethereum&dkey=#{ENV["DRPC_TOKEN"]}" }
+  # public rpc
+  let(:drpc_api) { "https://eth.drpc.org" }
   subject(:drpc_mainnet) { Client.create drpc_api }
   let(:resolver) { Ens::Resolver.new(drpc_mainnet) }
 
