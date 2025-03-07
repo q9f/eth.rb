@@ -126,7 +126,6 @@ module Eth
     # @raise [TransactionTypeError] if the transaction type is unknown.
     def decode(hex)
       hex = Util.remove_hex_prefix hex
-      puts hex[0, 2].to_i(16)
       type = hex[0, 2].to_i(16)
 
       case type

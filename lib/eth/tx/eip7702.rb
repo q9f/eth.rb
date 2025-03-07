@@ -89,6 +89,13 @@ module Eth
 
         def raw
           authorization_data = []
+          # authorization_data.push @chain_id
+          # authorization_data.push @address
+          # authorization_data.push @nonce
+          #
+          # authorization_data.push @signature_y_parity
+          # authorization_data.push @signature_r
+          # authorization_data.push @signature_s
           authorization_data.push Util.serialize_int_to_big_endian @chain_id
           authorization_data.push Util.hex_to_bin @address
           authorization_data.push Util.serialize_int_to_big_endian @nonce
@@ -240,7 +247,6 @@ module Eth
 
         bin = Util.hex_to_bin hex[2..]
         tx = Rlp.decode bin
-        puts tx.inspect
 
         # decoded transactions always have 9 + 3 fields, even if they are empty or zero
         raise ParameterError, "Transaction missing fields!" if tx.size < 10
@@ -431,7 +437,7 @@ module Eth
         tx_data.push Rlp::Sedes.infer(@access_list).serialize @access_list
 
         #TODO make the authorization_list right
-        authorization_list = @authorization_list.map { |authorization| authorization.encoded }
+        authorization_list = @authorization_list.map { |authorization| authorization.raw }
         tx_data.push Rlp::Sedes.infer(authorization_list).serialize authorization_list
 
         tx_encoded = Rlp.encode tx_data
