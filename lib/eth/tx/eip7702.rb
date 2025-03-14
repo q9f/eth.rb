@@ -198,7 +198,7 @@ module Eth
         # ensure sane values for all mandatory fields
         fields = Tx.validate_params fields
         fields = Tx.validate_eip1559_params fields
-        # TODO fields = Tx.validate_eip7702_params fields
+        fields = Tx.validate_eip7702_params fields
         fields[:access_list] = Tx.sanitize_list fields[:access_list]
 
         # ensure gas limit is not too low
@@ -392,9 +392,8 @@ module Eth
         tx_data.push Rlp::Sedes.binary.serialize @payload
         tx_data.push Rlp::Sedes.infer(@access_list).serialize @access_list
 
-        #TODO make the authorization_list right
         authorization_list = @authorization_list.map { |authorization| authorization.raw }
-        tx_data.push Rlp::Sedes.infer(authorization_list).serialize authorization_list #TODO this might need an extra Rpl.encode here
+        tx_data.push Rlp::Sedes.infer(authorization_list).serialize authorization_list
 
         tx_data.push Util.serialize_int_to_big_endian @signature_y_parity
         tx_data.push Util.serialize_int_to_big_endian @signature_r
@@ -436,7 +435,6 @@ module Eth
         tx_data.push Rlp::Sedes.binary.serialize @payload
         tx_data.push Rlp::Sedes.infer(@access_list).serialize @access_list
 
-        #TODO make the authorization_list right
         authorization_list = @authorization_list.map { |authorization| authorization.raw }
         tx_data.push Rlp::Sedes.infer(authorization_list).serialize authorization_list
 

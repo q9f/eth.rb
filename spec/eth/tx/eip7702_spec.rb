@@ -235,6 +235,30 @@ describe Tx::Eip7702 do
                  authorization_list: authorization_list,
                })
       }.to raise_error Tx::ParameterError, "Invalid access list bar!"
+      expect {
+        Tx.new({
+                 nonce: 0,
+                 priority_fee: 0,
+                 max_gas_fee: Unit::GWEI,
+                 gas_limit: Tx::BLOCK_GAS_LIMIT,
+                 to: "0xef26b1f67797e7a5a3c192c93d821fadef3ba173",
+                 value: 1,
+                 access_list: access_list,
+                 authorization_list: "bar",
+               })
+      }.to raise_error Tx::ParameterError, "Invalid access list bar!"
+      expect {
+        Tx.new({
+                 nonce: 0,
+                 priority_fee: 0,
+                 max_gas_fee: Unit::GWEI,
+                 gas_limit: Tx::BLOCK_GAS_LIMIT,
+                 to: "0xef26b1f67797e7a5a3c192c93d821fadef3ba173",
+                 value: 1,
+                 access_list: access_list,
+                 authorization_list: nil,
+               })
+      }.to raise_error Tx::ParameterError, "Invalid access list bar!"
     end
   end
 

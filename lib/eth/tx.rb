@@ -260,6 +260,18 @@ module Eth
       return fields
     end
 
+    # Validates that the type-4 transaction field authorization list is present
+    #
+    # @param fields [Hash] the transaction fields.
+    # @return [Hash] the validated transaction fields.
+    # @raise [ParameterError] if authorization list is missing.
+    def validate_eip7702_params(fields)
+      unless fields[:authorization_list].nil? or fields[:authorization_list].is_a? Array
+        raise ParameterError, "Invalid authorization list #{fields[:authorization_list]}!"
+      end
+      return fields
+    end
+
     # Validates the common legacy transaction fields such as gas price.
     #
     # @param fields [Hash] the transaction fields.
