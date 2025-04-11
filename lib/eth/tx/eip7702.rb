@@ -89,13 +89,6 @@ module Eth
 
         def raw
           authorization_data = []
-          # authorization_data.push @chain_id
-          # authorization_data.push @address
-          # authorization_data.push @nonce
-          #
-          # authorization_data.push @signature_y_parity
-          # authorization_data.push @signature_r
-          # authorization_data.push @signature_s
           authorization_data.push Util.serialize_int_to_big_endian @chain_id
           authorization_data.push Util.hex_to_bin @address
           authorization_data.push Util.serialize_int_to_big_endian @nonce
@@ -104,10 +97,6 @@ module Eth
           authorization_data.push Util.serialize_int_to_big_endian @signature_r
           authorization_data.push Util.serialize_int_to_big_endian @signature_s
           authorization_data
-        end
-
-        def encoded
-          Rlp.encode raw
         end
 
         def ==(o)
