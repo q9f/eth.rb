@@ -99,7 +99,18 @@
   
 </div>
 
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    
+<p>Provides an EIP-7702 authorization that store the address to code which the signer desires to execute in the context of their EOA.</p>
 
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
 
 
 
@@ -129,7 +140,7 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Returns the value of attribute address.</p>
+<p>The authority addess.</p>
 </div></span>
   
 </li>
@@ -158,7 +169,7 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Returns the value of attribute chain_id.</p>
+<p>The EIP-155 Chain ID.</p>
 </div></span>
   
 </li>
@@ -187,7 +198,7 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Returns the value of attribute nonce.</p>
+<p>The transaction nonce.</p>
 </div></span>
   
 </li>
@@ -296,7 +307,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#==-instance_method" title="#== (instance method)">#<strong>==</strong>(o)  &#x21d2; Object </a>
+      <a href="#==-instance_method" title="#== (instance method)">#<strong>==</strong>(o)  &#x21d2; Bool </a>
     
 
     
@@ -310,7 +321,9 @@
   
 
   
-    <span class="summary_desc"><div class='inline'></div></span>
+    <span class="summary_desc"><div class='inline'>
+<p>Compares two authorization data objects.</p>
+</div></span>
   
 </li>
 
@@ -335,7 +348,7 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>A new instance of Authorization.</p>
+<p>Create a type-4 (EIP-7702) authorization object that can be prepared for type-4 transactions.</p>
 </div></span>
   
 </li>
@@ -344,7 +357,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#raw-instance_method" title="#raw (instance method)">#<strong>raw</strong>  &#x21d2; Object </a>
+      <a href="#raw-instance_method" title="#raw (instance method)">#<strong>raw</strong>  &#x21d2; Bytes </a>
     
 
     
@@ -358,7 +371,9 @@
   
 
   
-    <span class="summary_desc"><div class='inline'></div></span>
+    <span class="summary_desc"><div class='inline'>
+<p>Gets the raw serialized authorization data.</p>
+</div></span>
   
 </li>
 
@@ -390,7 +405,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#unsigned_encoded-instance_method" title="#unsigned_encoded (instance method)">#<strong>unsigned_encoded</strong>  &#x21d2; Object </a>
+      <a href="#unsigned_encoded-instance_method" title="#unsigned_encoded (instance method)">#<strong>unsigned_encoded</strong>  &#x21d2; String </a>
     
 
     
@@ -404,7 +419,9 @@
   
 
   
-    <span class="summary_desc"><div class='inline'></div></span>
+    <span class="summary_desc"><div class='inline'>
+<p>Encodes the unsigned authorization payload required for signing.</p>
+</div></span>
   
 </li>
 
@@ -412,7 +429,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#unsigned_hash-instance_method" title="#unsigned_hash (instance method)">#<strong>unsigned_hash</strong>  &#x21d2; Object </a>
+      <a href="#unsigned_hash-instance_method" title="#unsigned_hash (instance method)">#<strong>unsigned_hash</strong>  &#x21d2; String </a>
     
 
     
@@ -426,7 +443,9 @@
   
 
   
-    <span class="summary_desc"><div class='inline'></div></span>
+    <span class="summary_desc"><div class='inline'>
+<p>Gets the sign-hash required to sign.</p>
+</div></span>
   
 </li>
 
@@ -449,13 +468,81 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns a new instance of Authorization.</p>
+<p>Create a type-4 (EIP-7702) authorization object that can be prepared for type-4 transactions. Ref: <a href="https://eips.ethereum.org/EIPS/eip-7702">eips.ethereum.org/EIPS/eip-7702</a></p>
 
 
   </div>
 </div>
 <div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
   
+    <li>
+      
+        <span class='name'>fields</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>all necessary transaction fields.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+  
+    
+    
+    <p class="tag_title">Options Hash (<tt>fields</tt>):</p>
+    <ul class="option">
+      
+        <li>
+          <span class="name">:chain_id</span>
+          <span class="type">(<tt>Integer</tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'>
+<p>the chain ID.</p>
+</div>
+          
+        </li>
+      
+        <li>
+          <span class="name">:address</span>
+          <span class="type">(<tt><span class='object_link'><a href="../../Address.html" title="Eth::Address (class)">Eth::Address</a></span></tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'>
+<p>the authority address.</p>
+</div>
+          
+        </li>
+      
+        <li>
+          <span class="name">:nonce</span>
+          <span class="type">(<tt>Integer</tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'>
+<p>the transaction nonce.</p>
+</div>
+          
+        </li>
+      
+    </ul>
+  
+
 
 </div><table class="source_code">
   <tr>
@@ -463,17 +550,17 @@
       <pre class="lines">
 
 
-41
-42
-43
-44
-45
-46
-47
-48</pre>
+57
+58
+59
+60
+61
+62
+63
+64</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip7702.rb', line 41</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip7702.rb', line 57</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_fields'>fields</span><span class='rparen'>)</span>
   <span class='ivar'>@chain_id</span> <span class='op'>=</span> <span class='id identifier rubyid_fields'>fields</span><span class='lbracket'>[</span><span class='symbol'>:chain_id</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span>
@@ -507,7 +594,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the value of attribute address.</p>
+<p>The authority addess.</p>
 
 
   </div>
@@ -521,12 +608,12 @@
       <pre class="lines">
 
 
-28
-29
-30</pre>
+35
+36
+37</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip7702.rb', line 28</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip7702.rb', line 35</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_address'>address</span>
   <span class='ivar'>@address</span>
@@ -550,7 +637,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the value of attribute chain_id.</p>
+<p>The EIP-155 Chain ID. Ref: <a href="https://eips.ethereum.org/EIPS/eip-155">eips.ethereum.org/EIPS/eip-155</a></p>
 
 
   </div>
@@ -564,12 +651,12 @@
       <pre class="lines">
 
 
-26
-27
-28</pre>
+32
+33
+34</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip7702.rb', line 26</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip7702.rb', line 32</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_chain_id'>chain_id</span>
   <span class='ivar'>@chain_id</span>
@@ -593,7 +680,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Returns the value of attribute nonce.</p>
+<p>The transaction nonce.</p>
 
 
   </div>
@@ -607,12 +694,12 @@
       <pre class="lines">
 
 
-30
-31
-32</pre>
+38
+39
+40</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip7702.rb', line 30</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip7702.rb', line 38</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_nonce'>nonce</span>
   <span class='ivar'>@nonce</span>
@@ -650,12 +737,12 @@
       <pre class="lines">
 
 
-36
-37
-38</pre>
+44
+45
+46</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip7702.rb', line 36</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip7702.rb', line 44</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_signature_r'>signature_r</span>
   <span class='ivar'>@signature_r</span>
@@ -693,12 +780,12 @@
       <pre class="lines">
 
 
-39
-40
-41</pre>
+47
+48
+49</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip7702.rb', line 39</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip7702.rb', line 47</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_signature_s'>signature_s</span>
   <span class='ivar'>@signature_s</span>
@@ -736,12 +823,12 @@
       <pre class="lines">
 
 
-33
-34
-35</pre>
+41
+42
+43</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip7702.rb', line 33</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip7702.rb', line 41</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_signature_y_parity'>signature_y_parity</span>
   <span class='ivar'>@signature_y_parity</span>
@@ -761,24 +848,53 @@
       <div class="method_details first">
   <h3 class="signature first" id="==-instance_method">
   
-    #<strong>==</strong>(o)  &#x21d2; <tt>Object</tt> 
+    #<strong>==</strong>(o)  &#x21d2; <tt>Bool</tt> 
   
 
   
 
   
-</h3><table class="source_code">
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Compares two authorization data objects.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Bool</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>true if objects are same and share same state.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-102
-103
-104</pre>
+130
+131
+132</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip7702.rb', line 102</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip7702.rb', line 130</span>
 
 <span class='kw'>def</span> <span class='op'>==</span><span class='lparen'>(</span><span class='id identifier rubyid_o'>o</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_o'>o</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span> <span class='op'>==</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_o'>o</span><span class='period'>.</span><span class='id identifier rubyid_state'>state</span> <span class='op'>==</span> <span class='id identifier rubyid_state'>state</span>
@@ -791,32 +907,61 @@
       <div class="method_details ">
   <h3 class="signature " id="raw-instance_method">
   
-    #<strong>raw</strong>  &#x21d2; <tt>Object</tt> 
+    #<strong>raw</strong>  &#x21d2; <tt>Bytes</tt> 
   
 
   
 
   
-</h3><table class="source_code">
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Gets the raw serialized authorization data.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Bytes</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>raw serialized authorization data.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-90
-91
-92
-93
-94
-95
-96
-97
-98
-99
-100</pre>
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip7702.rb', line 90</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip7702.rb', line 115</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_raw'>raw</span>
   <span class='id identifier rubyid_authorization_data'>authorization_data</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
@@ -930,30 +1075,30 @@
       <pre class="lines">
 
 
-56
-57
-58
-59
-60
-61
-62
-63
-64
-65
-66
-67
-68
-69
-70
-71
 72
 73
 74
 75
-76</pre>
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip7702.rb', line 56</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip7702.rb', line 72</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_sign'>sign</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='rparen'>)</span>
   <span class='kw'>if</span> <span class='const'><span class='object_link'><a href="../../Tx.html" title="Eth::Tx (module)">Tx</a></span></span><span class='period'>.</span><span class='id identifier rubyid_signed?'><span class='object_link'><a href="../../Tx.html#signed%3F-instance_method" title="Eth::Tx#signed? (method)">signed?</a></span></span> <span class='kw'>self</span>
@@ -984,28 +1129,57 @@
       <div class="method_details ">
   <h3 class="signature " id="unsigned_encoded-instance_method">
   
-    #<strong>unsigned_encoded</strong>  &#x21d2; <tt>Object</tt> 
+    #<strong>unsigned_encoded</strong>  &#x21d2; <tt>String</tt> 
   
 
   
 
   
-</h3><table class="source_code">
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Encodes the unsigned authorization payload required for signing.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>an RLP-encoded, unsigned, enveloped EIP-7702 transaction.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-78
-79
-80
-81
-82
-83
-84</pre>
+97
+98
+99
+100
+101
+102
+103</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip7702.rb', line 78</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip7702.rb', line 97</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_unsigned_encoded'>unsigned_encoded</span>
   <span class='id identifier rubyid_authorization_data'>authorization_data</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
@@ -1022,24 +1196,53 @@
       <div class="method_details ">
   <h3 class="signature " id="unsigned_hash-instance_method">
   
-    #<strong>unsigned_hash</strong>  &#x21d2; <tt>Object</tt> 
+    #<strong>unsigned_hash</strong>  &#x21d2; <tt>String</tt> 
   
 
   
 
   
-</h3><table class="source_code">
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Gets the sign-hash required to sign.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>a Keccak-256 hash.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-86
-87
-88</pre>
+108
+109
+110</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip7702.rb', line 86</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip7702.rb', line 108</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_unsigned_hash'>unsigned_hash</span>
   <span class='const'><span class='object_link'><a href="../../Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_keccak256'><span class='object_link'><a href="../../Util.html#keccak256-instance_method" title="Eth::Util#keccak256 (method)">keccak256</a></span></span> <span class='id identifier rubyid_unsigned_encoded'>unsigned_encoded</span>
@@ -1054,7 +1257,7 @@
 </div>
 
       <div id="footer">
-  Generated on Wed Apr 16 10:03:40 2025 by
+  Generated on Wed Apr 16 11:00:36 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.37 (ruby-3.4.3).
 </div>

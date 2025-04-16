@@ -795,6 +795,22 @@
         </dt>
         <dd><pre class="code"><span class='int'>421613</span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
       
+        <dt id="HOODI-constant" class="">HOODI =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>Chain ID for Hoodi testnet.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='int'>560048</span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
         <dt id="SEPOLIA-constant" class="">SEPOLIA =
           <div class="docstring">
   <div class="discussion">
@@ -828,7 +844,18 @@
         <dd><pre class="code"><span class='int'>11166111</span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
       
         <dt id="HOLESKY-constant" class="">HOLESKY =
-          
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>Chain ID for Holesovice testnet.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
         </dt>
         <dd><pre class="code"><span class='const'><span class='object_link'><a href="#HOLESOVICE-constant" title="Eth::Chain::HOLESOVICE (constant)">HOLESOVICE</a></span></span></pre></dd>
       
@@ -1187,12 +1214,12 @@
       <pre class="lines">
 
 
-167
-168
-169</pre>
+172
+173
+174</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/chain.rb', line 167</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/chain.rb', line 172</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_ledger?'>ledger?</span><span class='lparen'>(</span><span class='id identifier rubyid_v'>v</span><span class='rparen'>)</span>
   <span class='lbracket'>[</span><span class='int'>0</span><span class='comma'>,</span> <span class='int'>1</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='id identifier rubyid_v'>v</span>
@@ -1266,12 +1293,12 @@
       <pre class="lines">
 
 
-176
-177
-178</pre>
+181
+182
+183</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/chain.rb', line 176</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/chain.rb', line 181</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_legacy?'>legacy?</span><span class='lparen'>(</span><span class='id identifier rubyid_v'>v</span><span class='rparen'>)</span>
   <span class='lbracket'>[</span><span class='int'>27</span><span class='comma'>,</span> <span class='int'>28</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='id identifier rubyid_v'>v</span>
@@ -1345,15 +1372,15 @@
       <pre class="lines">
 
 
-226
-227
-228
-229
-230
-231</pre>
+231
+232
+233
+234
+235
+236</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/chain.rb', line 226</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/chain.rb', line 231</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_to_chain_id'>to_chain_id</span><span class='lparen'>(</span><span class='id identifier rubyid_v'>v</span><span class='rparen'>)</span>
   <span class='kw'>return</span> <span class='kw'>nil</span> <span class='kw'>if</span> <span class='id identifier rubyid_v'>v</span> <span class='op'>&lt;</span> <span class='int'>36</span>
@@ -1466,11 +1493,6 @@
       <pre class="lines">
 
 
-187
-188
-189
-190
-191
 192
 193
 194
@@ -1484,10 +1506,15 @@
 202
 203
 204
-205</pre>
+205
+206
+207
+208
+209
+210</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/chain.rb', line 187</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/chain.rb', line 192</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_to_recovery_id'>to_recovery_id</span><span class='lparen'>(</span><span class='id identifier rubyid_v'>v</span><span class='comma'>,</span> <span class='id identifier rubyid_chain_id'>chain_id</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="#ETHEREUM-constant" title="Eth::Chain::ETHEREUM (constant)">ETHEREUM</a></span></span><span class='rparen'>)</span>
   <span class='id identifier rubyid_e'>e</span> <span class='op'>=</span> <span class='int'>0</span> <span class='op'>+</span> <span class='int'>2</span> <span class='op'>*</span> <span class='id identifier rubyid_chain_id'>chain_id</span> <span class='op'>+</span> <span class='int'>35</span>
@@ -1595,17 +1622,17 @@
       <pre class="lines">
 
 
-212
-213
-214
-215
-216
 217
 218
-219</pre>
+219
+220
+221
+222
+223
+224</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/chain.rb', line 212</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/chain.rb', line 217</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_to_v'>to_v</span><span class='lparen'>(</span><span class='id identifier rubyid_recovery_id'>recovery_id</span><span class='comma'>,</span> <span class='id identifier rubyid_chain_id'>chain_id</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rparen'>)</span>
   <span class='kw'>if</span> <span class='id identifier rubyid_chain_id'>chain_id</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='kw'>or</span> <span class='id identifier rubyid_chain_id'>chain_id</span> <span class='op'>&lt;</span> <span class='int'>1</span>
@@ -1690,12 +1717,12 @@
       <pre class="lines">
 
 
-167
-168
-169</pre>
+172
+173
+174</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/chain.rb', line 167</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/chain.rb', line 172</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_ledger?'>ledger?</span><span class='lparen'>(</span><span class='id identifier rubyid_v'>v</span><span class='rparen'>)</span>
   <span class='lbracket'>[</span><span class='int'>0</span><span class='comma'>,</span> <span class='int'>1</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='id identifier rubyid_v'>v</span>
@@ -1769,12 +1796,12 @@
       <pre class="lines">
 
 
-176
-177
-178</pre>
+181
+182
+183</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/chain.rb', line 176</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/chain.rb', line 181</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_legacy?'>legacy?</span><span class='lparen'>(</span><span class='id identifier rubyid_v'>v</span><span class='rparen'>)</span>
   <span class='lbracket'>[</span><span class='int'>27</span><span class='comma'>,</span> <span class='int'>28</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='id identifier rubyid_v'>v</span>
@@ -1848,15 +1875,15 @@
       <pre class="lines">
 
 
-226
-227
-228
-229
-230
-231</pre>
+231
+232
+233
+234
+235
+236</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/chain.rb', line 226</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/chain.rb', line 231</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_to_chain_id'>to_chain_id</span><span class='lparen'>(</span><span class='id identifier rubyid_v'>v</span><span class='rparen'>)</span>
   <span class='kw'>return</span> <span class='kw'>nil</span> <span class='kw'>if</span> <span class='id identifier rubyid_v'>v</span> <span class='op'>&lt;</span> <span class='int'>36</span>
@@ -1969,11 +1996,6 @@
       <pre class="lines">
 
 
-187
-188
-189
-190
-191
 192
 193
 194
@@ -1987,10 +2009,15 @@
 202
 203
 204
-205</pre>
+205
+206
+207
+208
+209
+210</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/chain.rb', line 187</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/chain.rb', line 192</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_to_recovery_id'>to_recovery_id</span><span class='lparen'>(</span><span class='id identifier rubyid_v'>v</span><span class='comma'>,</span> <span class='id identifier rubyid_chain_id'>chain_id</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="#ETHEREUM-constant" title="Eth::Chain::ETHEREUM (constant)">ETHEREUM</a></span></span><span class='rparen'>)</span>
   <span class='id identifier rubyid_e'>e</span> <span class='op'>=</span> <span class='int'>0</span> <span class='op'>+</span> <span class='int'>2</span> <span class='op'>*</span> <span class='id identifier rubyid_chain_id'>chain_id</span> <span class='op'>+</span> <span class='int'>35</span>
@@ -2098,17 +2125,17 @@
       <pre class="lines">
 
 
-212
-213
-214
-215
-216
 217
 218
-219</pre>
+219
+220
+221
+222
+223
+224</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/chain.rb', line 212</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/chain.rb', line 217</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_to_v'>to_v</span><span class='lparen'>(</span><span class='id identifier rubyid_recovery_id'>recovery_id</span><span class='comma'>,</span> <span class='id identifier rubyid_chain_id'>chain_id</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rparen'>)</span>
   <span class='kw'>if</span> <span class='id identifier rubyid_chain_id'>chain_id</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='kw'>or</span> <span class='id identifier rubyid_chain_id'>chain_id</span> <span class='op'>&lt;</span> <span class='int'>1</span>
@@ -2128,7 +2155,7 @@
 </div>
 
       <div id="footer">
-  Generated on Wed Apr 16 10:03:37 2025 by
+  Generated on Wed Apr 16 11:00:33 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.37 (ruby-3.4.3).
 </div>

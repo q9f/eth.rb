@@ -317,6 +317,22 @@
         </dt>
         <dd><pre class="code"><span class='int'>0x02</span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
       
+        <dt id="TYPE_4844-constant" class="">TYPE_4844 =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>The EIP-4844 transaction type is 3.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='int'>0x03</span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
         <dt id="TYPE_7702-constant" class="">TYPE_7702 =
           <div class="docstring">
   <div class="discussion">
@@ -1154,14 +1170,6 @@
       <pre class="lines">
 
 
-127
-128
-129
-130
-131
-132
-133
-134
 135
 136
 137
@@ -1180,20 +1188,28 @@
 150
 151
 152
-153</pre>
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx.rb', line 127</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx.rb', line 135</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_decode'>decode</span><span class='lparen'>(</span><span class='id identifier rubyid_hex'>hex</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_hex'>hex</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_remove_hex_prefix'><span class='object_link'><a href="Util.html#remove_hex_prefix-instance_method" title="Eth::Util#remove_hex_prefix (method)">remove_hex_prefix</a></span></span> <span class='id identifier rubyid_hex'>hex</span>
   <span class='id identifier rubyid_type'>type</span> <span class='op'>=</span> <span class='id identifier rubyid_hex'>hex</span><span class='lbracket'>[</span><span class='int'>0</span><span class='comma'>,</span> <span class='int'>2</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span><span class='lparen'>(</span><span class='int'>16</span><span class='rparen'>)</span>
 
   <span class='kw'>case</span> <span class='id identifier rubyid_type'>type</span>
-  <span class='kw'>when</span> <span class='const'><span class='object_link'><a href="#TYPE_7702-constant" title="Eth::Tx::TYPE_7702 (constant)">TYPE_7702</a></span></span>
-
-    <span class='comment'># EIP-1559 transaction (type 2)
-</span>    <span class='kw'>return</span> <span class='const'><span class='object_link'><a href="" title="Eth::Tx (module)">Tx</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Tx/Eip7702.html" title="Eth::Tx::Eip7702 (class)">Eip7702</a></span></span><span class='period'>.</span><span class='id identifier rubyid_decode'><span class='object_link'><a href="Tx/Eip7702.html#decode-instance_method" title="Eth::Tx::Eip7702#decode (method)">decode</a></span></span> <span class='id identifier rubyid_hex'>hex</span>
   <span class='kw'>when</span> <span class='const'><span class='object_link'><a href="#TYPE_1559-constant" title="Eth::Tx::TYPE_1559 (constant)">TYPE_1559</a></span></span>
 
     <span class='comment'># EIP-1559 transaction (type 2)
@@ -1202,6 +1218,14 @@
 
     <span class='comment'># EIP-2930 transaction (type 1)
 </span>    <span class='kw'>return</span> <span class='const'><span class='object_link'><a href="" title="Eth::Tx (module)">Tx</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Tx/Eip2930.html" title="Eth::Tx::Eip2930 (class)">Eip2930</a></span></span><span class='period'>.</span><span class='id identifier rubyid_decode'><span class='object_link'><a href="Tx/Eip2930.html#decode-instance_method" title="Eth::Tx::Eip2930#decode (method)">decode</a></span></span> <span class='id identifier rubyid_hex'>hex</span>
+  <span class='kw'>when</span> <span class='const'><span class='object_link'><a href="#TYPE_4844-constant" title="Eth::Tx::TYPE_4844 (constant)">TYPE_4844</a></span></span>
+
+    <span class='comment'># EIP-4844 transaction (type 3)
+</span>    <span class='id identifier rubyid_raise'>raise</span> <span class='const'>NotimplementedError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>EIP-4844 blob transactions are not implemented</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>when</span> <span class='const'><span class='object_link'><a href="#TYPE_7702-constant" title="Eth::Tx::TYPE_7702 (constant)">TYPE_7702</a></span></span>
+
+    <span class='comment'># EIP-7702 transaction (type 4)
+</span>    <span class='kw'>return</span> <span class='const'><span class='object_link'><a href="" title="Eth::Tx (module)">Tx</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Tx/Eip7702.html" title="Eth::Tx::Eip7702 (class)">Eip7702</a></span></span><span class='period'>.</span><span class='id identifier rubyid_decode'><span class='object_link'><a href="Tx/Eip7702.html#decode-instance_method" title="Eth::Tx::Eip7702#decode (method)">decode</a></span></span> <span class='id identifier rubyid_hex'>hex</span>
   <span class='kw'>else</span>
 
     <span class='comment'># Legacy transaction if first byte is RLP (&gt;= 192)
@@ -1301,24 +1325,6 @@
       <pre class="lines">
 
 
-186
-187
-188
-189
-190
-191
-192
-193
-194
-195
-196
-197
-198
-199
-200
-201
-202
-203
 204
 205
 206
@@ -1332,10 +1338,28 @@
 214
 215
 216
-217</pre>
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx.rb', line 186</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx.rb', line 204</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_estimate_intrinsic_gas'>estimate_intrinsic_gas</span><span class='lparen'>(</span><span class='id identifier rubyid_data'>data</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='id identifier rubyid_list'>list</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_gas'>gas</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="#DEFAULT_GAS_LIMIT-constant" title="Eth::Tx::DEFAULT_GAS_LIMIT (constant)">DEFAULT_GAS_LIMIT</a></span></span>
@@ -1386,7 +1410,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Creates a new transaction of any type for given parameters and chain ID. Required parameters are (optional in brackets): - EIP-7702: chain_id, nonce, priority_fee, max_gas_fee, gas_limit, authorizations(, from, to, value, data, access_list) - EIP-1559: chain_id, nonce, priority_fee, max_gas_fee, gas_limit(, from, to, value, data, access_list) - EIP-2930: chain_id, nonce, gas_price, gas_limit, access_list(, from, to, value, data) - Legacy: nonce, gas_price, gas_limit(, from, to, value, data)</p>
+<p>Creates a new transaction of any type for given parameters and chain ID. Required parameters are (optional in brackets): - EIP-1559: chain_id, nonce, priority_fee, max_gas_fee, gas_limit(, from, to, value, data, access_list) - EIP-2930: chain_id, nonce, gas_price, gas_limit, access_list(, from, to, value, data) - EIP-7702: chain_id, nonce, priority_fee, max_gas_fee, gas_limit, authorizations(, from, to, value, data, access_list) - Legacy: nonce, gas_price, gas_limit(, from, to, value, data)</p>
 
 
   </div>
@@ -1438,9 +1462,6 @@
       <pre class="lines">
 
 
-97
-98
-99
 100
 101
 102
@@ -1461,12 +1482,25 @@
 117
 118
 119
-120</pre>
+120
+121
+122
+123
+124
+125
+126
+127
+128</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx.rb', line 97</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx.rb', line 100</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='comma'>,</span> <span class='id identifier rubyid_chain_id'>chain_id</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Chain.html" title="Eth::Chain (module)">Chain</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Chain.html#ETHEREUM-constant" title="Eth::Chain::ETHEREUM (constant)">ETHEREUM</a></span></span><span class='rparen'>)</span>
+
+  <span class='comment'># if we deal with blobs, attempt EIP-4844 (not implemented)
+</span>  <span class='kw'>unless</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:max_fee_per_blob_gas</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'>NotimplementedError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>EIP-4844 blob transactions are not implemented</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>end</span>
 
   <span class='comment'># if we deal with authorizations, attempt EIP-7702
 </span>  <span class='kw'>unless</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:authorization_list</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
@@ -1559,17 +1593,17 @@
       <pre class="lines">
 
 
-303
-304
-305
-306
-307
-308
-309
-310</pre>
+321
+322
+323
+324
+325
+326
+327
+328</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx.rb', line 303</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx.rb', line 321</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_sanitize_address'>sanitize_address</span><span class='lparen'>(</span><span class='id identifier rubyid_addr'>addr</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_addr'>addr</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_addr'>addr</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
@@ -1648,13 +1682,13 @@
       <pre class="lines">
 
 
-317
-318
-319
-320</pre>
+335
+336
+337
+338</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx.rb', line 317</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx.rb', line 335</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_sanitize_amount'>sanitize_amount</span><span class='lparen'>(</span><span class='id identifier rubyid_val'>val</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_val'>val</span> <span class='op'>=</span> <span class='int'>0</span> <span class='kw'>if</span> <span class='id identifier rubyid_val'>val</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
@@ -1729,13 +1763,13 @@
       <pre class="lines">
 
 
-292
-293
-294
-295</pre>
+310
+311
+312
+313</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx.rb', line 292</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx.rb', line 310</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_sanitize_chain'>sanitize_chain</span><span class='lparen'>(</span><span class='id identifier rubyid_id'>id</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_id'>id</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Chain.html" title="Eth::Chain (module)">Chain</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Chain.html#ETHEREUM-constant" title="Eth::Chain::ETHEREUM (constant)">ETHEREUM</a></span></span> <span class='kw'>if</span> <span class='id identifier rubyid_id'>id</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
@@ -1810,16 +1844,16 @@
       <pre class="lines">
 
 
-327
-328
-329
-330
-331
-332
-333</pre>
+345
+346
+347
+348
+349
+350
+351</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx.rb', line 327</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx.rb', line 345</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_sanitize_data'>sanitize_data</span><span class='lparen'>(</span><span class='id identifier rubyid_data'>data</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_data'>data</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_data'>data</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
@@ -1897,24 +1931,24 @@
       <pre class="lines">
 
 
-341
-342
-343
-344
-345
-346
-347
-348
-349
-350
-351
-352
-353
-354
-355</pre>
+359
+360
+361
+362
+363
+364
+365
+366
+367
+368
+369
+370
+371
+372
+373</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx.rb', line 341</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx.rb', line 359</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_sanitize_list'>sanitize_list</span><span class='lparen'>(</span><span class='id identifier rubyid_list'>list</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_list'>list</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span> <span class='kw'>if</span> <span class='id identifier rubyid_list'>list</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
@@ -1980,13 +2014,13 @@
       <pre class="lines">
 
 
-360
-361
-362
-363</pre>
+378
+379
+380
+381</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx.rb', line 360</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx.rb', line 378</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_signed?'>signed?</span><span class='lparen'>(</span><span class='id identifier rubyid_tx'>tx</span><span class='rparen'>)</span>
   <span class='op'>!</span><span class='id identifier rubyid_tx'>tx</span><span class='period'>.</span><span class='id identifier rubyid_signature_r'>signature_r</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='kw'>and</span> <span class='id identifier rubyid_tx'>tx</span><span class='period'>.</span><span class='id identifier rubyid_signature_r'>signature_r</span> <span class='op'>!=</span> <span class='int'>0</span> <span class='kw'>and</span>
@@ -2079,33 +2113,37 @@
       <pre class="lines">
 
 
-160
-161
-162
-163
-164
-165
-166
-167
-168
-169
-170
-171
 172
 173
 174
 175
 176
 177
-178</pre>
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx.rb', line 160</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx.rb', line 172</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_unsigned_copy'>unsigned_copy</span><span class='lparen'>(</span><span class='id identifier rubyid_tx'>tx</span><span class='rparen'>)</span>
   <span class='kw'>case</span> <span class='id identifier rubyid_tx'>tx</span><span class='period'>.</span><span class='id identifier rubyid_type'>type</span>
-  <span class='kw'>when</span> <span class='const'><span class='object_link'><a href="#TYPE_7702-constant" title="Eth::Tx::TYPE_7702 (constant)">TYPE_7702</a></span></span>
-    <span class='kw'>return</span> <span class='const'><span class='object_link'><a href="" title="Eth::Tx (module)">Tx</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Tx/Eip7702.html" title="Eth::Tx::Eip7702 (class)">Eip7702</a></span></span><span class='period'>.</span><span class='id identifier rubyid_unsigned_copy'><span class='object_link'><a href="Tx/Eip7702.html#unsigned_copy-instance_method" title="Eth::Tx::Eip7702#unsigned_copy (method)">unsigned_copy</a></span></span> <span class='id identifier rubyid_tx'>tx</span>
   <span class='kw'>when</span> <span class='const'><span class='object_link'><a href="#TYPE_1559-constant" title="Eth::Tx::TYPE_1559 (constant)">TYPE_1559</a></span></span>
 
     <span class='comment'># EIP-1559 transaction (type 2)
@@ -2114,6 +2152,14 @@
 
     <span class='comment'># EIP-2930 transaction (type 1)
 </span>    <span class='kw'>return</span> <span class='const'><span class='object_link'><a href="" title="Eth::Tx (module)">Tx</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Tx/Eip2930.html" title="Eth::Tx::Eip2930 (class)">Eip2930</a></span></span><span class='period'>.</span><span class='id identifier rubyid_unsigned_copy'><span class='object_link'><a href="Tx/Eip2930.html#unsigned_copy-instance_method" title="Eth::Tx::Eip2930#unsigned_copy (method)">unsigned_copy</a></span></span> <span class='id identifier rubyid_tx'>tx</span>
+  <span class='kw'>when</span> <span class='const'><span class='object_link'><a href="#TYPE_4844-constant" title="Eth::Tx::TYPE_4844 (constant)">TYPE_4844</a></span></span>
+
+    <span class='comment'># EIP-4844 transaction (type 3)
+</span>    <span class='id identifier rubyid_raise'>raise</span> <span class='const'>NotimplementedError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>EIP-4844 blob transactions are not implemented</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>when</span> <span class='const'><span class='object_link'><a href="#TYPE_7702-constant" title="Eth::Tx::TYPE_7702 (constant)">TYPE_7702</a></span></span>
+
+    <span class='comment'># EIP-7702 transaction (type 4)
+</span>    <span class='kw'>return</span> <span class='const'><span class='object_link'><a href="" title="Eth::Tx (module)">Tx</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Tx/Eip7702.html" title="Eth::Tx::Eip7702 (class)">Eip7702</a></span></span><span class='period'>.</span><span class='id identifier rubyid_unsigned_copy'><span class='object_link'><a href="Tx/Eip7702.html#unsigned_copy-instance_method" title="Eth::Tx::Eip7702#unsigned_copy (method)">unsigned_copy</a></span></span> <span class='id identifier rubyid_tx'>tx</span>
   <span class='kw'>when</span> <span class='const'><span class='object_link'><a href="#TYPE_LEGACY-constant" title="Eth::Tx::TYPE_LEGACY (constant)">TYPE_LEGACY</a></span></span>
 
     <span class='comment'># Legacy transaction (&quot;type 0&quot;)
@@ -2222,18 +2268,18 @@
       <pre class="lines">
 
 
-253
-254
-255
-256
-257
-258
-259
-260
-261</pre>
+271
+272
+273
+274
+275
+276
+277
+278
+279</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx.rb', line 253</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx.rb', line 271</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_validate_eip1559_params'>validate_eip1559_params</span><span class='lparen'>(</span><span class='id identifier rubyid_fields'>fields</span><span class='rparen'>)</span>
   <span class='kw'>if</span> <span class='id identifier rubyid_fields'>fields</span><span class='lbracket'>[</span><span class='symbol'>:priority_fee</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='kw'>or</span> <span class='id identifier rubyid_fields'>fields</span><span class='lbracket'>[</span><span class='symbol'>:priority_fee</span><span class='rbracket'>]</span> <span class='op'>&lt;</span> <span class='int'>0</span>
@@ -2331,15 +2377,15 @@
       <pre class="lines">
 
 
-268
-269
-270
-271
-272
-273</pre>
+286
+287
+288
+289
+290
+291</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx.rb', line 268</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx.rb', line 286</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_validate_eip7702_params'>validate_eip7702_params</span><span class='lparen'>(</span><span class='id identifier rubyid_fields'>fields</span><span class='rparen'>)</span>
   <span class='kw'>unless</span> <span class='id identifier rubyid_fields'>fields</span><span class='lbracket'>[</span><span class='symbol'>:authorization_list</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='kw'>or</span> <span class='id identifier rubyid_fields'>fields</span><span class='lbracket'>[</span><span class='symbol'>:authorization_list</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span> <span class='const'>Array</span>
@@ -2434,15 +2480,15 @@
       <pre class="lines">
 
 
-280
-281
-282
-283
-284
-285</pre>
+298
+299
+300
+301
+302
+303</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx.rb', line 280</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx.rb', line 298</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_validate_legacy_params'>validate_legacy_params</span><span class='lparen'>(</span><span class='id identifier rubyid_fields'>fields</span><span class='rparen'>)</span>
   <span class='kw'>if</span> <span class='id identifier rubyid_fields'>fields</span><span class='lbracket'>[</span><span class='symbol'>:gas_price</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='kw'>or</span> <span class='id identifier rubyid_fields'>fields</span><span class='lbracket'>[</span><span class='symbol'>:gas_price</span><span class='rbracket'>]</span> <span class='op'>&lt;</span> <span class='int'>0</span>
@@ -2579,26 +2625,26 @@
       <pre class="lines">
 
 
-228
-229
-230
-231
-232
-233
-234
-235
-236
-237
-238
-239
-240
-241
-242
-243
-244</pre>
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256
+257
+258
+259
+260
+261
+262</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx.rb', line 228</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx.rb', line 246</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_validate_params'>validate_params</span><span class='lparen'>(</span><span class='id identifier rubyid_fields'>fields</span><span class='rparen'>)</span>
   <span class='kw'>if</span> <span class='id identifier rubyid_fields'>fields</span><span class='lbracket'>[</span><span class='symbol'>:nonce</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='kw'>or</span> <span class='id identifier rubyid_fields'>fields</span><span class='lbracket'>[</span><span class='symbol'>:nonce</span><span class='rbracket'>]</span> <span class='op'>&lt;</span> <span class='int'>0</span>
@@ -2710,14 +2756,6 @@
       <pre class="lines">
 
 
-127
-128
-129
-130
-131
-132
-133
-134
 135
 136
 137
@@ -2736,20 +2774,28 @@
 150
 151
 152
-153</pre>
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx.rb', line 127</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx.rb', line 135</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_decode'>decode</span><span class='lparen'>(</span><span class='id identifier rubyid_hex'>hex</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_hex'>hex</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_remove_hex_prefix'><span class='object_link'><a href="Util.html#remove_hex_prefix-instance_method" title="Eth::Util#remove_hex_prefix (method)">remove_hex_prefix</a></span></span> <span class='id identifier rubyid_hex'>hex</span>
   <span class='id identifier rubyid_type'>type</span> <span class='op'>=</span> <span class='id identifier rubyid_hex'>hex</span><span class='lbracket'>[</span><span class='int'>0</span><span class='comma'>,</span> <span class='int'>2</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span><span class='lparen'>(</span><span class='int'>16</span><span class='rparen'>)</span>
 
   <span class='kw'>case</span> <span class='id identifier rubyid_type'>type</span>
-  <span class='kw'>when</span> <span class='const'><span class='object_link'><a href="#TYPE_7702-constant" title="Eth::Tx::TYPE_7702 (constant)">TYPE_7702</a></span></span>
-
-    <span class='comment'># EIP-1559 transaction (type 2)
-</span>    <span class='kw'>return</span> <span class='const'><span class='object_link'><a href="" title="Eth::Tx (module)">Tx</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Tx/Eip7702.html" title="Eth::Tx::Eip7702 (class)">Eip7702</a></span></span><span class='period'>.</span><span class='id identifier rubyid_decode'><span class='object_link'><a href="Tx/Eip7702.html#decode-instance_method" title="Eth::Tx::Eip7702#decode (method)">decode</a></span></span> <span class='id identifier rubyid_hex'>hex</span>
   <span class='kw'>when</span> <span class='const'><span class='object_link'><a href="#TYPE_1559-constant" title="Eth::Tx::TYPE_1559 (constant)">TYPE_1559</a></span></span>
 
     <span class='comment'># EIP-1559 transaction (type 2)
@@ -2758,6 +2804,14 @@
 
     <span class='comment'># EIP-2930 transaction (type 1)
 </span>    <span class='kw'>return</span> <span class='const'><span class='object_link'><a href="" title="Eth::Tx (module)">Tx</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Tx/Eip2930.html" title="Eth::Tx::Eip2930 (class)">Eip2930</a></span></span><span class='period'>.</span><span class='id identifier rubyid_decode'><span class='object_link'><a href="Tx/Eip2930.html#decode-instance_method" title="Eth::Tx::Eip2930#decode (method)">decode</a></span></span> <span class='id identifier rubyid_hex'>hex</span>
+  <span class='kw'>when</span> <span class='const'><span class='object_link'><a href="#TYPE_4844-constant" title="Eth::Tx::TYPE_4844 (constant)">TYPE_4844</a></span></span>
+
+    <span class='comment'># EIP-4844 transaction (type 3)
+</span>    <span class='id identifier rubyid_raise'>raise</span> <span class='const'>NotimplementedError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>EIP-4844 blob transactions are not implemented</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>when</span> <span class='const'><span class='object_link'><a href="#TYPE_7702-constant" title="Eth::Tx::TYPE_7702 (constant)">TYPE_7702</a></span></span>
+
+    <span class='comment'># EIP-7702 transaction (type 4)
+</span>    <span class='kw'>return</span> <span class='const'><span class='object_link'><a href="" title="Eth::Tx (module)">Tx</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Tx/Eip7702.html" title="Eth::Tx::Eip7702 (class)">Eip7702</a></span></span><span class='period'>.</span><span class='id identifier rubyid_decode'><span class='object_link'><a href="Tx/Eip7702.html#decode-instance_method" title="Eth::Tx::Eip7702#decode (method)">decode</a></span></span> <span class='id identifier rubyid_hex'>hex</span>
   <span class='kw'>else</span>
 
     <span class='comment'># Legacy transaction if first byte is RLP (&gt;= 192)
@@ -2857,24 +2911,6 @@
       <pre class="lines">
 
 
-186
-187
-188
-189
-190
-191
-192
-193
-194
-195
-196
-197
-198
-199
-200
-201
-202
-203
 204
 205
 206
@@ -2888,10 +2924,28 @@
 214
 215
 216
-217</pre>
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx.rb', line 186</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx.rb', line 204</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_estimate_intrinsic_gas'>estimate_intrinsic_gas</span><span class='lparen'>(</span><span class='id identifier rubyid_data'>data</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='id identifier rubyid_list'>list</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_gas'>gas</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="#DEFAULT_GAS_LIMIT-constant" title="Eth::Tx::DEFAULT_GAS_LIMIT (constant)">DEFAULT_GAS_LIMIT</a></span></span>
@@ -2942,7 +2996,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Creates a new transaction of any type for given parameters and chain ID. Required parameters are (optional in brackets): - EIP-7702: chain_id, nonce, priority_fee, max_gas_fee, gas_limit, authorizations(, from, to, value, data, access_list) - EIP-1559: chain_id, nonce, priority_fee, max_gas_fee, gas_limit(, from, to, value, data, access_list) - EIP-2930: chain_id, nonce, gas_price, gas_limit, access_list(, from, to, value, data) - Legacy: nonce, gas_price, gas_limit(, from, to, value, data)</p>
+<p>Creates a new transaction of any type for given parameters and chain ID. Required parameters are (optional in brackets): - EIP-1559: chain_id, nonce, priority_fee, max_gas_fee, gas_limit(, from, to, value, data, access_list) - EIP-2930: chain_id, nonce, gas_price, gas_limit, access_list(, from, to, value, data) - EIP-7702: chain_id, nonce, priority_fee, max_gas_fee, gas_limit, authorizations(, from, to, value, data, access_list) - Legacy: nonce, gas_price, gas_limit(, from, to, value, data)</p>
 
 
   </div>
@@ -2994,9 +3048,6 @@
       <pre class="lines">
 
 
-97
-98
-99
 100
 101
 102
@@ -3017,12 +3068,25 @@
 117
 118
 119
-120</pre>
+120
+121
+122
+123
+124
+125
+126
+127
+128</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx.rb', line 97</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx.rb', line 100</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='comma'>,</span> <span class='id identifier rubyid_chain_id'>chain_id</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Chain.html" title="Eth::Chain (module)">Chain</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Chain.html#ETHEREUM-constant" title="Eth::Chain::ETHEREUM (constant)">ETHEREUM</a></span></span><span class='rparen'>)</span>
+
+  <span class='comment'># if we deal with blobs, attempt EIP-4844 (not implemented)
+</span>  <span class='kw'>unless</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:max_fee_per_blob_gas</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'>NotimplementedError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>EIP-4844 blob transactions are not implemented</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>end</span>
 
   <span class='comment'># if we deal with authorizations, attempt EIP-7702
 </span>  <span class='kw'>unless</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:authorization_list</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
@@ -3115,17 +3179,17 @@
       <pre class="lines">
 
 
-303
-304
-305
-306
-307
-308
-309
-310</pre>
+321
+322
+323
+324
+325
+326
+327
+328</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx.rb', line 303</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx.rb', line 321</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_sanitize_address'>sanitize_address</span><span class='lparen'>(</span><span class='id identifier rubyid_addr'>addr</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_addr'>addr</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_addr'>addr</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
@@ -3204,13 +3268,13 @@
       <pre class="lines">
 
 
-317
-318
-319
-320</pre>
+335
+336
+337
+338</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx.rb', line 317</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx.rb', line 335</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_sanitize_amount'>sanitize_amount</span><span class='lparen'>(</span><span class='id identifier rubyid_val'>val</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_val'>val</span> <span class='op'>=</span> <span class='int'>0</span> <span class='kw'>if</span> <span class='id identifier rubyid_val'>val</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
@@ -3285,13 +3349,13 @@
       <pre class="lines">
 
 
-292
-293
-294
-295</pre>
+310
+311
+312
+313</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx.rb', line 292</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx.rb', line 310</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_sanitize_chain'>sanitize_chain</span><span class='lparen'>(</span><span class='id identifier rubyid_id'>id</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_id'>id</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Chain.html" title="Eth::Chain (module)">Chain</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Chain.html#ETHEREUM-constant" title="Eth::Chain::ETHEREUM (constant)">ETHEREUM</a></span></span> <span class='kw'>if</span> <span class='id identifier rubyid_id'>id</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
@@ -3366,16 +3430,16 @@
       <pre class="lines">
 
 
-327
-328
-329
-330
-331
-332
-333</pre>
+345
+346
+347
+348
+349
+350
+351</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx.rb', line 327</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx.rb', line 345</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_sanitize_data'>sanitize_data</span><span class='lparen'>(</span><span class='id identifier rubyid_data'>data</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_data'>data</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_data'>data</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
@@ -3453,24 +3517,24 @@
       <pre class="lines">
 
 
-341
-342
-343
-344
-345
-346
-347
-348
-349
-350
-351
-352
-353
-354
-355</pre>
+359
+360
+361
+362
+363
+364
+365
+366
+367
+368
+369
+370
+371
+372
+373</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx.rb', line 341</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx.rb', line 359</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_sanitize_list'>sanitize_list</span><span class='lparen'>(</span><span class='id identifier rubyid_list'>list</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_list'>list</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span> <span class='kw'>if</span> <span class='id identifier rubyid_list'>list</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
@@ -3536,13 +3600,13 @@
       <pre class="lines">
 
 
-360
-361
-362
-363</pre>
+378
+379
+380
+381</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx.rb', line 360</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx.rb', line 378</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_signed?'>signed?</span><span class='lparen'>(</span><span class='id identifier rubyid_tx'>tx</span><span class='rparen'>)</span>
   <span class='op'>!</span><span class='id identifier rubyid_tx'>tx</span><span class='period'>.</span><span class='id identifier rubyid_signature_r'>signature_r</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='kw'>and</span> <span class='id identifier rubyid_tx'>tx</span><span class='period'>.</span><span class='id identifier rubyid_signature_r'>signature_r</span> <span class='op'>!=</span> <span class='int'>0</span> <span class='kw'>and</span>
@@ -3635,33 +3699,37 @@
       <pre class="lines">
 
 
-160
-161
-162
-163
-164
-165
-166
-167
-168
-169
-170
-171
 172
 173
 174
 175
 176
 177
-178</pre>
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx.rb', line 160</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx.rb', line 172</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_unsigned_copy'>unsigned_copy</span><span class='lparen'>(</span><span class='id identifier rubyid_tx'>tx</span><span class='rparen'>)</span>
   <span class='kw'>case</span> <span class='id identifier rubyid_tx'>tx</span><span class='period'>.</span><span class='id identifier rubyid_type'>type</span>
-  <span class='kw'>when</span> <span class='const'><span class='object_link'><a href="#TYPE_7702-constant" title="Eth::Tx::TYPE_7702 (constant)">TYPE_7702</a></span></span>
-    <span class='kw'>return</span> <span class='const'><span class='object_link'><a href="" title="Eth::Tx (module)">Tx</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Tx/Eip7702.html" title="Eth::Tx::Eip7702 (class)">Eip7702</a></span></span><span class='period'>.</span><span class='id identifier rubyid_unsigned_copy'><span class='object_link'><a href="Tx/Eip7702.html#unsigned_copy-instance_method" title="Eth::Tx::Eip7702#unsigned_copy (method)">unsigned_copy</a></span></span> <span class='id identifier rubyid_tx'>tx</span>
   <span class='kw'>when</span> <span class='const'><span class='object_link'><a href="#TYPE_1559-constant" title="Eth::Tx::TYPE_1559 (constant)">TYPE_1559</a></span></span>
 
     <span class='comment'># EIP-1559 transaction (type 2)
@@ -3670,6 +3738,14 @@
 
     <span class='comment'># EIP-2930 transaction (type 1)
 </span>    <span class='kw'>return</span> <span class='const'><span class='object_link'><a href="" title="Eth::Tx (module)">Tx</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Tx/Eip2930.html" title="Eth::Tx::Eip2930 (class)">Eip2930</a></span></span><span class='period'>.</span><span class='id identifier rubyid_unsigned_copy'><span class='object_link'><a href="Tx/Eip2930.html#unsigned_copy-instance_method" title="Eth::Tx::Eip2930#unsigned_copy (method)">unsigned_copy</a></span></span> <span class='id identifier rubyid_tx'>tx</span>
+  <span class='kw'>when</span> <span class='const'><span class='object_link'><a href="#TYPE_4844-constant" title="Eth::Tx::TYPE_4844 (constant)">TYPE_4844</a></span></span>
+
+    <span class='comment'># EIP-4844 transaction (type 3)
+</span>    <span class='id identifier rubyid_raise'>raise</span> <span class='const'>NotimplementedError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>EIP-4844 blob transactions are not implemented</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>when</span> <span class='const'><span class='object_link'><a href="#TYPE_7702-constant" title="Eth::Tx::TYPE_7702 (constant)">TYPE_7702</a></span></span>
+
+    <span class='comment'># EIP-7702 transaction (type 4)
+</span>    <span class='kw'>return</span> <span class='const'><span class='object_link'><a href="" title="Eth::Tx (module)">Tx</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Tx/Eip7702.html" title="Eth::Tx::Eip7702 (class)">Eip7702</a></span></span><span class='period'>.</span><span class='id identifier rubyid_unsigned_copy'><span class='object_link'><a href="Tx/Eip7702.html#unsigned_copy-instance_method" title="Eth::Tx::Eip7702#unsigned_copy (method)">unsigned_copy</a></span></span> <span class='id identifier rubyid_tx'>tx</span>
   <span class='kw'>when</span> <span class='const'><span class='object_link'><a href="#TYPE_LEGACY-constant" title="Eth::Tx::TYPE_LEGACY (constant)">TYPE_LEGACY</a></span></span>
 
     <span class='comment'># Legacy transaction (&quot;type 0&quot;)
@@ -3778,18 +3854,18 @@
       <pre class="lines">
 
 
-253
-254
-255
-256
-257
-258
-259
-260
-261</pre>
+271
+272
+273
+274
+275
+276
+277
+278
+279</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx.rb', line 253</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx.rb', line 271</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_validate_eip1559_params'>validate_eip1559_params</span><span class='lparen'>(</span><span class='id identifier rubyid_fields'>fields</span><span class='rparen'>)</span>
   <span class='kw'>if</span> <span class='id identifier rubyid_fields'>fields</span><span class='lbracket'>[</span><span class='symbol'>:priority_fee</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='kw'>or</span> <span class='id identifier rubyid_fields'>fields</span><span class='lbracket'>[</span><span class='symbol'>:priority_fee</span><span class='rbracket'>]</span> <span class='op'>&lt;</span> <span class='int'>0</span>
@@ -3887,15 +3963,15 @@
       <pre class="lines">
 
 
-268
-269
-270
-271
-272
-273</pre>
+286
+287
+288
+289
+290
+291</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx.rb', line 268</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx.rb', line 286</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_validate_eip7702_params'>validate_eip7702_params</span><span class='lparen'>(</span><span class='id identifier rubyid_fields'>fields</span><span class='rparen'>)</span>
   <span class='kw'>unless</span> <span class='id identifier rubyid_fields'>fields</span><span class='lbracket'>[</span><span class='symbol'>:authorization_list</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='kw'>or</span> <span class='id identifier rubyid_fields'>fields</span><span class='lbracket'>[</span><span class='symbol'>:authorization_list</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span> <span class='const'>Array</span>
@@ -3990,15 +4066,15 @@
       <pre class="lines">
 
 
-280
-281
-282
-283
-284
-285</pre>
+298
+299
+300
+301
+302
+303</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx.rb', line 280</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx.rb', line 298</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_validate_legacy_params'>validate_legacy_params</span><span class='lparen'>(</span><span class='id identifier rubyid_fields'>fields</span><span class='rparen'>)</span>
   <span class='kw'>if</span> <span class='id identifier rubyid_fields'>fields</span><span class='lbracket'>[</span><span class='symbol'>:gas_price</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='kw'>or</span> <span class='id identifier rubyid_fields'>fields</span><span class='lbracket'>[</span><span class='symbol'>:gas_price</span><span class='rbracket'>]</span> <span class='op'>&lt;</span> <span class='int'>0</span>
@@ -4135,26 +4211,26 @@
       <pre class="lines">
 
 
-228
-229
-230
-231
-232
-233
-234
-235
-236
-237
-238
-239
-240
-241
-242
-243
-244</pre>
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256
+257
+258
+259
+260
+261
+262</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx.rb', line 228</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx.rb', line 246</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_validate_params'>validate_params</span><span class='lparen'>(</span><span class='id identifier rubyid_fields'>fields</span><span class='rparen'>)</span>
   <span class='kw'>if</span> <span class='id identifier rubyid_fields'>fields</span><span class='lbracket'>[</span><span class='symbol'>:nonce</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='kw'>or</span> <span class='id identifier rubyid_fields'>fields</span><span class='lbracket'>[</span><span class='symbol'>:nonce</span><span class='rbracket'>]</span> <span class='op'>&lt;</span> <span class='int'>0</span>
@@ -4183,7 +4259,7 @@
 </div>
 
       <div id="footer">
-  Generated on Wed Apr 16 10:03:36 2025 by
+  Generated on Wed Apr 16 11:00:32 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.37 (ruby-3.4.3).
 </div>

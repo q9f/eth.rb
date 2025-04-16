@@ -208,7 +208,7 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>The list of authorizations (a list of Eth::Tx::Eip7702::Authorization instances).</p>
+<p>The list of of <span class='object_link'><a href="Eip7702/Authorization.html" title="Eth::Tx::Eip7702::Authorization (class)">Authorization</a></span> instances.</p>
 </div></span>
   
 </li>
@@ -1015,34 +1015,6 @@
       <pre class="lines">
 
 
-177
-178
-179
-180
-181
-182
-183
-184
-185
-186
-187
-188
-189
-190
-191
-192
-193
-194
-195
-196
-197
-198
-199
-200
-201
-202
-203
-204
 205
 206
 207
@@ -1057,10 +1029,38 @@
 216
 217
 218
-219</pre>
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip7702.rb', line 177</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip7702.rb', line 205</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_fields'>fields</span> <span class='op'>=</span> <span class='lbrace'>{</span> <span class='label'>recovery_id:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>r:</span> <span class='int'>0</span><span class='comma'>,</span> <span class='label'>s:</span> <span class='int'>0</span> <span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_merge'>merge</span> <span class='id identifier rubyid_params'>params</span>
@@ -1143,12 +1143,12 @@
       <pre class="lines">
 
 
-140
-141
-142</pre>
+168
+169
+170</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip7702.rb', line 140</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip7702.rb', line 168</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_access_list'>access_list</span>
   <span class='ivar'>@access_list</span>
@@ -1186,12 +1186,12 @@
       <pre class="lines">
 
 
-133
-134
-135</pre>
+161
+162
+163</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip7702.rb', line 133</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip7702.rb', line 161</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_amount'>amount</span>
   <span class='ivar'>@amount</span>
@@ -1215,7 +1215,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>The list of authorizations (a list of Eth::Tx::Eip7702::Authorization instances)</p>
+<p>The list of of <span class='object_link'><a href="Eip7702/Authorization.html" title="Eth::Tx::Eip7702::Authorization (class)">Authorization</a></span> instances</p>
 
 
   </div>
@@ -1229,12 +1229,12 @@
       <pre class="lines">
 
 
-143
-144
-145</pre>
+171
+172
+173</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip7702.rb', line 143</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip7702.rb', line 171</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_authorization_list'>authorization_list</span>
   <span class='ivar'>@authorization_list</span>
@@ -1272,12 +1272,12 @@
       <pre class="lines">
 
 
-115
-116
-117</pre>
+143
+144
+145</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip7702.rb', line 115</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip7702.rb', line 143</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_chain_id'>chain_id</span>
   <span class='ivar'>@chain_id</span>
@@ -1315,12 +1315,12 @@
       <pre class="lines">
 
 
-130
-131
-132</pre>
+158
+159
+160</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip7702.rb', line 130</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip7702.rb', line 158</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_destination'>destination</span>
   <span class='ivar'>@destination</span>
@@ -1358,12 +1358,12 @@
       <pre class="lines">
 
 
-127
-128
-129</pre>
+155
+156
+157</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip7702.rb', line 127</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip7702.rb', line 155</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_gas_limit'>gas_limit</span>
   <span class='ivar'>@gas_limit</span>
@@ -1401,12 +1401,12 @@
       <pre class="lines">
 
 
-124
-125
-126</pre>
+152
+153
+154</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip7702.rb', line 124</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip7702.rb', line 152</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_max_fee_per_gas'>max_fee_per_gas</span>
   <span class='ivar'>@max_fee_per_gas</span>
@@ -1444,12 +1444,12 @@
       <pre class="lines">
 
 
-121
-122
-123</pre>
+149
+150
+151</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip7702.rb', line 121</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip7702.rb', line 149</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_max_priority_fee_per_gas'>max_priority_fee_per_gas</span>
   <span class='ivar'>@max_priority_fee_per_gas</span>
@@ -1487,12 +1487,12 @@
       <pre class="lines">
 
 
-136
-137
-138</pre>
+164
+165
+166</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip7702.rb', line 136</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip7702.rb', line 164</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_payload'>payload</span>
   <span class='ivar'>@payload</span>
@@ -1530,12 +1530,12 @@
       <pre class="lines">
 
 
-155
-156
-157</pre>
+183
+184
+185</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip7702.rb', line 155</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip7702.rb', line 183</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_sender'>sender</span>
   <span class='ivar'>@sender</span>
@@ -1573,12 +1573,12 @@
       <pre class="lines">
 
 
-149
-150
-151</pre>
+177
+178
+179</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip7702.rb', line 149</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip7702.rb', line 177</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_signature_r'>signature_r</span>
   <span class='ivar'>@signature_r</span>
@@ -1616,12 +1616,12 @@
       <pre class="lines">
 
 
-152
-153
-154</pre>
+180
+181
+182</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip7702.rb', line 152</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip7702.rb', line 180</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_signature_s'>signature_s</span>
   <span class='ivar'>@signature_s</span>
@@ -1659,12 +1659,12 @@
       <pre class="lines">
 
 
-146
-147
-148</pre>
+174
+175
+176</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip7702.rb', line 146</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip7702.rb', line 174</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_signature_y_parity'>signature_y_parity</span>
   <span class='ivar'>@signature_y_parity</span>
@@ -1702,12 +1702,12 @@
       <pre class="lines">
 
 
-118
-119
-120</pre>
+146
+147
+148</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip7702.rb', line 118</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip7702.rb', line 146</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_signer_nonce'>signer_nonce</span>
   <span class='ivar'>@signer_nonce</span>
@@ -1745,12 +1745,12 @@
       <pre class="lines">
 
 
-158
-159
-160</pre>
+186
+187
+188</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip7702.rb', line 158</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip7702.rb', line 186</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_type'>type</span>
   <span class='ivar'>@type</span>
@@ -1877,34 +1877,6 @@
       <pre class="lines">
 
 
-232
-233
-234
-235
-236
-237
-238
-239
-240
-241
-242
-243
-244
-245
-246
-247
-248
-249
-250
-251
-252
-253
-254
-255
-256
-257
-258
-259
 260
 261
 262
@@ -1940,10 +1912,38 @@
 292
 293
 294
-295</pre>
+295
+296
+297
+298
+299
+300
+301
+302
+303
+304
+305
+306
+307
+308
+309
+310
+311
+312
+313
+314
+315
+316
+317
+318
+319
+320
+321
+322
+323</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip7702.rb', line 232</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip7702.rb', line 260</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_decode'>decode</span><span class='lparen'>(</span><span class='id identifier rubyid_hex'>hex</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_hex'>hex</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_remove_hex_prefix'><span class='object_link'><a href="../Util.html#remove_hex_prefix-instance_method" title="Eth::Util#remove_hex_prefix (method)">remove_hex_prefix</a></span></span> <span class='id identifier rubyid_hex'>hex</span>
@@ -2076,36 +2076,36 @@
       <pre class="lines">
 
 
-369
-370
-371
-372
-373
-374
-375
-376
-377
-378
-379
-380
-381
-382
-383
-384
-385
-386
-387
-388
-389
-390
-391
-392
-393
-394
-395</pre>
+397
+398
+399
+400
+401
+402
+403
+404
+405
+406
+407
+408
+409
+410
+411
+412
+413
+414
+415
+416
+417
+418
+419
+420
+421
+422
+423</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip7702.rb', line 369</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip7702.rb', line 397</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_encoded'>encoded</span>
   <span class='kw'>unless</span> <span class='const'><span class='object_link'><a href="../Tx.html" title="Eth::Tx (module)">Tx</a></span></span><span class='period'>.</span><span class='id identifier rubyid_signed?'><span class='object_link'><a href="../Tx.html#signed%3F-instance_method" title="Eth::Tx#signed? (method)">signed?</a></span></span> <span class='kw'>self</span>
@@ -2183,12 +2183,12 @@
       <pre class="lines">
 
 
-407
-408
-409</pre>
+435
+436
+437</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip7702.rb', line 407</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip7702.rb', line 435</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_hash'>hash</span>
   <span class='const'><span class='object_link'><a href="../Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_bin_to_hex'><span class='object_link'><a href="../Util.html#bin_to_hex-instance_method" title="Eth::Util#bin_to_hex (method)">bin_to_hex</a></span></span> <span class='const'><span class='object_link'><a href="../Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_keccak256'><span class='object_link'><a href="../Util.html#keccak256-instance_method" title="Eth::Util#keccak256 (method)">keccak256</a></span></span> <span class='id identifier rubyid_encoded'>encoded</span>
@@ -2242,12 +2242,12 @@
       <pre class="lines">
 
 
-400
-401
-402</pre>
+428
+429
+430</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip7702.rb', line 400</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip7702.rb', line 428</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_hex'>hex</span>
   <span class='const'><span class='object_link'><a href="../Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_bin_to_hex'><span class='object_link'><a href="../Util.html#bin_to_hex-instance_method" title="Eth::Util#bin_to_hex (method)">bin_to_hex</a></span></span> <span class='id identifier rubyid_encoded'>encoded</span>
@@ -2353,30 +2353,30 @@
       <pre class="lines">
 
 
-342
-343
-344
-345
-346
-347
-348
-349
-350
-351
-352
-353
-354
-355
-356
-357
-358
-359
-360
-361
-362</pre>
+370
+371
+372
+373
+374
+375
+376
+377
+378
+379
+380
+381
+382
+383
+384
+385
+386
+387
+388
+389
+390</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip7702.rb', line 342</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip7702.rb', line 370</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_sign'>sign</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='rparen'>)</span>
   <span class='kw'>if</span> <span class='const'><span class='object_link'><a href="../Tx.html" title="Eth::Tx (module)">Tx</a></span></span><span class='period'>.</span><span class='id identifier rubyid_signed?'><span class='object_link'><a href="../Tx.html#signed%3F-instance_method" title="Eth::Tx#signed? (method)">signed?</a></span></span> <span class='kw'>self</span>
@@ -2486,42 +2486,42 @@
       <pre class="lines">
 
 
-302
-303
-304
-305
-306
-307
-308
-309
-310
-311
-312
-313
-314
-315
-316
-317
-318
-319
-320
-321
-322
-323
-324
-325
-326
-327
-328
-329
 330
 331
 332
 333
-334</pre>
+334
+335
+336
+337
+338
+339
+340
+341
+342
+343
+344
+345
+346
+347
+348
+349
+350
+351
+352
+353
+354
+355
+356
+357
+358
+359
+360
+361
+362</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip7702.rb', line 302</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip7702.rb', line 330</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_unsigned_copy'>unsigned_copy</span><span class='lparen'>(</span><span class='id identifier rubyid_tx'>tx</span><span class='rparen'>)</span>
 
@@ -2605,31 +2605,31 @@
       <pre class="lines">
 
 
-415
-416
-417
-418
-419
-420
-421
-422
-423
-424
-425
-426
-427
-428
-429
-430
-431
-432
-433
-434
-435
-436</pre>
+443
+444
+445
+446
+447
+448
+449
+450
+451
+452
+453
+454
+455
+456
+457
+458
+459
+460
+461
+462
+463
+464</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip7702.rb', line 415</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip7702.rb', line 443</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_unsigned_encoded'>unsigned_encoded</span>
   <span class='id identifier rubyid_tx_data'>tx_data</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
@@ -2702,12 +2702,12 @@
       <pre class="lines">
 
 
-441
-442
-443</pre>
+469
+470
+471</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip7702.rb', line 441</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip7702.rb', line 469</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_unsigned_hash'>unsigned_hash</span>
   <span class='const'><span class='object_link'><a href="../Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_keccak256'><span class='object_link'><a href="../Util.html#keccak256-instance_method" title="Eth::Util#keccak256 (method)">keccak256</a></span></span> <span class='id identifier rubyid_unsigned_encoded'>unsigned_encoded</span>
@@ -2722,7 +2722,7 @@
 </div>
 
       <div id="footer">
-  Generated on Wed Apr 16 10:03:40 2025 by
+  Generated on Wed Apr 16 11:00:36 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.37 (ruby-3.4.3).
 </div>
