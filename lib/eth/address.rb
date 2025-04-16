@@ -17,6 +17,8 @@ module Eth
 
   # The {Eth::Address} class to handle checksummed Ethereum addresses.
   class Address
+
+    # The literal zero address 0x0.
     ZERO = "0x0000000000000000000000000000000000000000"
 
     # Provides a special checksum error if EIP-55 is violated.

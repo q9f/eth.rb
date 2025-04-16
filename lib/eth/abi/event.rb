@@ -44,6 +44,10 @@ module Eth
         "#{name}(#{types.join(",")})"
       end
 
+      # Gets the input type for events.
+      #
+      # @param input [Hash] events input.
+      # @return [String] input type.
       def type(input)
         if input["type"] == "tuple"
           "(#{input["components"].map { |c| type(c) }.join(",")})"
