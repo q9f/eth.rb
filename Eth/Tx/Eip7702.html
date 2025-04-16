@@ -4,7 +4,7 @@
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>
-  Class: Eth::Tx::Eip2930
+  Class: Eth::Tx::Eip7702
   
     &mdash; Documentation by YARD 0.9.37
   
@@ -15,7 +15,7 @@
   <link rel="stylesheet" href="../../css/common.css" type="text/css" />
 
 <script type="text/javascript">
-  pathId = "Eth::Tx::Eip2930";
+  pathId = "Eth::Tx::Eip7702";
   relpath = '../../';
 </script>
 
@@ -39,7 +39,7 @@
     <a href="../../_index.html">Index (E)</a> &raquo;
     <span class='title'><span class='object_link'><a href="../../Eth.html" title="Eth (module)">Eth</a></span></span> &raquo; <span class='title'><span class='object_link'><a href="../Tx.html" title="Eth::Tx (module)">Tx</a></span></span>
      &raquo; 
-    <span class="title">Eip2930</span>
+    <span class="title">Eip7702</span>
   
 </div>
 
@@ -59,7 +59,7 @@
         <div class="clear"></div>
       </div>
 
-      <div id="content"><h1>Class: Eth::Tx::Eip2930
+      <div id="content"><h1>Class: Eth::Tx::Eip7702
   
   
   
@@ -74,7 +74,7 @@
         <ul class="fullTree">
           <li>Object</li>
           
-            <li class="next">Eth::Tx::Eip2930</li>
+            <li class="next">Eth::Tx::Eip7702</li>
           
         </ul>
         <a href="#" class="inheritanceTree">show all</a>
@@ -94,7 +94,7 @@
   
   <dl>
     <dt>Defined in:</dt>
-    <dd>lib/eth/tx/eip2930.rb</dd>
+    <dd>lib/eth/tx/eip7702.rb</dd>
   </dl>
   
 </div>
@@ -102,7 +102,7 @@
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
     
-<p>Provides legacy support for transactions on blockchains that do not implement EIP-1559 but still want to utilize EIP-2718 envelopes. Ref: <a href="https://eips.ethereum.org/EIPS/eip-2930">eips.ethereum.org/EIPS/eip-2930</a></p>
+<p>Provides support for EIP-7702 transactions utilizing EIP-2718 types and envelopes. Ref: <a href="https://eips.ethereum.org/EIPS/eip-7702">eips.ethereum.org/EIPS/eip-7702</a></p>
 
 
   </div>
@@ -110,7 +110,17 @@
 <div class="tags">
   
 
-</div>
+</div><h2>Defined Under Namespace</h2>
+<p class="children">
+  
+    
+  
+    
+      <strong class="classes">Classes:</strong> <span class='object_link'><a href="Eip7702/Authorization.html" title="Eth::Tx::Eip7702::Authorization (class)">Authorization</a></span>
+    
+  
+</p>
+
 
 
 
@@ -170,6 +180,35 @@
   
     <span class="summary_desc"><div class='inline'>
 <p>The transaction amount in Wei.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#authorization_list-instance_method" title="#authorization_list (instance method)">#<strong>authorization_list</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The list of authorizations (a list of Eth::Tx::Eip7702::Authorization instances).</p>
 </div></span>
   
 </li>
@@ -265,7 +304,7 @@
       <li class="public ">
   <span class="summary_signature">
     
-      <a href="#gas_price-instance_method" title="#gas_price (instance method)">#<strong>gas_price</strong>  &#x21d2; Object </a>
+      <a href="#max_fee_per_gas-instance_method" title="#max_fee_per_gas (instance method)">#<strong>max_fee_per_gas</strong>  &#x21d2; Object </a>
     
 
     
@@ -285,7 +324,36 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>The gas price for the transaction in Wei.</p>
+<p>The transaction max fee per gas in Wei.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#max_priority_fee_per_gas-instance_method" title="#max_priority_fee_per_gas (instance method)">#<strong>max_priority_fee_per_gas</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The transaction max priority fee per gas in Wei.</p>
 </div></span>
   
 </li>
@@ -430,7 +498,7 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>The signature’s <code>y</code>-parity byte (not <code>v</code>).</p>
+<p>The signature’s y-parity byte (not v).</p>
 </div></span>
   
 </li>
@@ -510,7 +578,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#decode-instance_method" title="#decode (instance method)">#<strong>decode</strong>(hex)  &#x21d2; Eth::Tx::Eip2930 </a>
+      <a href="#decode-instance_method" title="#decode (instance method)">#<strong>decode</strong>(hex)  &#x21d2; Eth::Tx::Eip7702 </a>
     
 
     
@@ -525,7 +593,7 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Decodes a raw transaction hex into an <span class='object_link'><a href="" title="Eth::Tx::Eip2930 (class)">Eip2930</a></span> transaction object.</p>
+<p>Decodes a raw transaction hex into an <span class='object_link'><a href="" title="Eth::Tx::Eip7702 (class)">Eip7702</a></span> transaction object.</p>
 </div></span>
   
 </li>
@@ -549,7 +617,7 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Encodes a raw transaction object, wraps it in an EIP-2718 envelope with an EIP-2930 type prefix.</p>
+<p>Encodes a raw transaction object, wraps it in an EIP-2718 envelope with an EIP-7702 type prefix.</p>
 </div></span>
   
 </li>
@@ -606,7 +674,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#initialize-instance_method" title="#initialize (instance method)">#<strong>initialize</strong>(params)  &#x21d2; Eip2930 </a>
+      <a href="#initialize-instance_method" title="#initialize (instance method)">#<strong>initialize</strong>(params)  &#x21d2; Eip7702 </a>
     
 
     
@@ -623,7 +691,7 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Create a legacy type-1 (EIP-2930) transaction payload object that can be prepared for envelope, signature and broadcast.</p>
+<p>Create a type-4 (EIP-7702) transaction payload object that can be prepared for envelope, signature and broadcast.</p>
 </div></span>
   
 </li>
@@ -656,7 +724,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#unsigned_copy-instance_method" title="#unsigned_copy (instance method)">#<strong>unsigned_copy</strong>(tx)  &#x21d2; Eth::Tx::Eip2930 </a>
+      <a href="#unsigned_copy-instance_method" title="#unsigned_copy (instance method)">#<strong>unsigned_copy</strong>(tx)  &#x21d2; Eth::Tx::Eip7702 </a>
     
 
     
@@ -671,7 +739,7 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Creates an unsigned copy of a transaction payload.</p>
+<p>Creates an unsigned copy of a transaction payload (keeping the signatures on the authorizations).</p>
 </div></span>
   
 </li>
@@ -695,7 +763,7 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Encodes the unsigned transaction payload in an EIP-2930 envelope, required for signing.</p>
+<p>Encodes the unsigned transaction payload in an EIP-7702 envelope, required for signing.</p>
 </div></span>
   
 </li>
@@ -734,7 +802,7 @@
     <div class="method_details first">
   <h3 class="signature first" id="initialize-instance_method">
   
-    #<strong>initialize</strong>(params)  &#x21d2; <tt><span class='object_link'><a href="" title="Eth::Tx::Eip2930 (class)">Eip2930</a></span></tt> 
+    #<strong>initialize</strong>(params)  &#x21d2; <tt><span class='object_link'><a href="" title="Eth::Tx::Eip7702 (class)">Eip7702</a></span></tt> 
   
 
   
@@ -743,7 +811,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Create a legacy type-1 (EIP-2930) transaction payload object that can be prepared for envelope, signature and broadcast. Should not be used unless there is no EIP-1559 support. Ref: <a href="https://eips.ethereum.org/EIPS/eip-2930">eips.ethereum.org/EIPS/eip-2930</a></p>
+<p>Create a type-4 (EIP-7702) transaction payload object that can be prepared for envelope, signature and broadcast. Ref: <a href="https://eips.ethereum.org/EIPS/eip-7702">eips.ethereum.org/EIPS/eip-7702</a></p>
 
 
   </div>
@@ -803,14 +871,27 @@
         </li>
       
         <li>
-          <span class="name">:gas_price</span>
+          <span class="name">:priority_fee</span>
           <span class="type">(<tt>Integer</tt>)</span>
           <span class="default">
             
           </span>
           
             &mdash; <div class='inline'>
-<p>the gas price.</p>
+<p>the max priority fee per gas.</p>
+</div>
+          
+        </li>
+      
+        <li>
+          <span class="name">:max_gas_fee</span>
+          <span class="type">(<tt>Integer</tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'>
+<p>the max transaction fee per gas.</p>
 </div>
           
         </li>
@@ -893,6 +974,19 @@
           
         </li>
       
+        <li>
+          <span class="name">:authorization_list</span>
+          <span class="type">(<tt>Array</tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'>
+<p>the list of authorization instances (a list of Eth::Tx::Eip7702::Authorization instances).</p>
+</div>
+          
+        </li>
+      
     </ul>
   
 
@@ -921,49 +1015,52 @@
       <pre class="lines">
 
 
-84
-85
-86
-87
-88
-89
-90
-91
-92
-93
-94
-95
-96
-97
-98
-99
-100
-101
-102
-103
-104
-105
-106
-107
-108
-109
-110
-111
-112
-113
-114
-115
-116
-117
-118
-119
-120
-121
-122
-123</pre>
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip2930.rb', line 84</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip7702.rb', line 177</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_fields'>fields</span> <span class='op'>=</span> <span class='lbrace'>{</span> <span class='label'>recovery_id:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>r:</span> <span class='int'>0</span><span class='comma'>,</span> <span class='label'>s:</span> <span class='int'>0</span> <span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_merge'>merge</span> <span class='id identifier rubyid_params'>params</span>
@@ -977,7 +1074,8 @@
 
   <span class='comment'># ensure sane values for all mandatory fields
 </span>  <span class='id identifier rubyid_fields'>fields</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Tx.html" title="Eth::Tx (module)">Tx</a></span></span><span class='period'>.</span><span class='id identifier rubyid_validate_params'><span class='object_link'><a href="../Tx.html#validate_params-instance_method" title="Eth::Tx#validate_params (method)">validate_params</a></span></span> <span class='id identifier rubyid_fields'>fields</span>
-  <span class='id identifier rubyid_fields'>fields</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Tx.html" title="Eth::Tx (module)">Tx</a></span></span><span class='period'>.</span><span class='id identifier rubyid_validate_legacy_params'><span class='object_link'><a href="../Tx.html#validate_legacy_params-instance_method" title="Eth::Tx#validate_legacy_params (method)">validate_legacy_params</a></span></span> <span class='id identifier rubyid_fields'>fields</span>
+  <span class='id identifier rubyid_fields'>fields</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Tx.html" title="Eth::Tx (module)">Tx</a></span></span><span class='period'>.</span><span class='id identifier rubyid_validate_eip1559_params'><span class='object_link'><a href="../Tx.html#validate_eip1559_params-instance_method" title="Eth::Tx#validate_eip1559_params (method)">validate_eip1559_params</a></span></span> <span class='id identifier rubyid_fields'>fields</span>
+  <span class='id identifier rubyid_fields'>fields</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Tx.html" title="Eth::Tx (module)">Tx</a></span></span><span class='period'>.</span><span class='id identifier rubyid_validate_eip7702_params'><span class='object_link'><a href="../Tx.html#validate_eip7702_params-instance_method" title="Eth::Tx#validate_eip7702_params (method)">validate_eip7702_params</a></span></span> <span class='id identifier rubyid_fields'>fields</span>
   <span class='id identifier rubyid_fields'>fields</span><span class='lbracket'>[</span><span class='symbol'>:access_list</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Tx.html" title="Eth::Tx (module)">Tx</a></span></span><span class='period'>.</span><span class='id identifier rubyid_sanitize_list'><span class='object_link'><a href="../Tx.html#sanitize_list-instance_method" title="Eth::Tx#sanitize_list (method)">sanitize_list</a></span></span> <span class='id identifier rubyid_fields'>fields</span><span class='lbracket'>[</span><span class='symbol'>:access_list</span><span class='rbracket'>]</span>
 
   <span class='comment'># ensure gas limit is not too low
@@ -986,13 +1084,15 @@
 
   <span class='comment'># populate class attributes
 </span>  <span class='ivar'>@signer_nonce</span> <span class='op'>=</span> <span class='id identifier rubyid_fields'>fields</span><span class='lbracket'>[</span><span class='symbol'>:nonce</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span>
-  <span class='ivar'>@gas_price</span> <span class='op'>=</span> <span class='id identifier rubyid_fields'>fields</span><span class='lbracket'>[</span><span class='symbol'>:gas_price</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span>
+  <span class='ivar'>@max_priority_fee_per_gas</span> <span class='op'>=</span> <span class='id identifier rubyid_fields'>fields</span><span class='lbracket'>[</span><span class='symbol'>:priority_fee</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span>
+  <span class='ivar'>@max_fee_per_gas</span> <span class='op'>=</span> <span class='id identifier rubyid_fields'>fields</span><span class='lbracket'>[</span><span class='symbol'>:max_gas_fee</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span>
   <span class='ivar'>@gas_limit</span> <span class='op'>=</span> <span class='id identifier rubyid_fields'>fields</span><span class='lbracket'>[</span><span class='symbol'>:gas_limit</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span>
   <span class='ivar'>@sender</span> <span class='op'>=</span> <span class='id identifier rubyid_fields'>fields</span><span class='lbracket'>[</span><span class='symbol'>:from</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>
   <span class='ivar'>@destination</span> <span class='op'>=</span> <span class='id identifier rubyid_fields'>fields</span><span class='lbracket'>[</span><span class='symbol'>:to</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>
   <span class='ivar'>@amount</span> <span class='op'>=</span> <span class='id identifier rubyid_fields'>fields</span><span class='lbracket'>[</span><span class='symbol'>:value</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span>
   <span class='ivar'>@payload</span> <span class='op'>=</span> <span class='id identifier rubyid_fields'>fields</span><span class='lbracket'>[</span><span class='symbol'>:data</span><span class='rbracket'>]</span>
   <span class='ivar'>@access_list</span> <span class='op'>=</span> <span class='id identifier rubyid_fields'>fields</span><span class='lbracket'>[</span><span class='symbol'>:access_list</span><span class='rbracket'>]</span>
+  <span class='ivar'>@authorization_list</span> <span class='op'>=</span> <span class='id identifier rubyid_fields'>fields</span><span class='lbracket'>[</span><span class='symbol'>:authorization_list</span><span class='rbracket'>]</span>
 
   <span class='comment'># the signature v is set to the chain id for unsigned transactions
 </span>  <span class='ivar'>@signature_y_parity</span> <span class='op'>=</span> <span class='id identifier rubyid_fields'>fields</span><span class='lbracket'>[</span><span class='symbol'>:recovery_id</span><span class='rbracket'>]</span>
@@ -1003,7 +1103,7 @@
   <span class='ivar'>@signature_s</span> <span class='op'>=</span> <span class='id identifier rubyid_fields'>fields</span><span class='lbracket'>[</span><span class='symbol'>:s</span><span class='rbracket'>]</span>
 
   <span class='comment'># last but not least, set the type.
-</span>  <span class='ivar'>@type</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Tx.html#TYPE_2930-constant" title="Eth::Tx::TYPE_2930 (constant)">TYPE_2930</a></span></span>
+</span>  <span class='ivar'>@type</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Tx.html#TYPE_7702-constant" title="Eth::Tx::TYPE_7702 (constant)">TYPE_7702</a></span></span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1043,12 +1143,12 @@
       <pre class="lines">
 
 
-50
-51
-52</pre>
+140
+141
+142</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip2930.rb', line 50</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip7702.rb', line 140</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_access_list'>access_list</span>
   <span class='ivar'>@access_list</span>
@@ -1086,15 +1186,58 @@
       <pre class="lines">
 
 
-43
-44
-45</pre>
+133
+134
+135</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip2930.rb', line 43</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip7702.rb', line 133</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_amount'>amount</span>
   <span class='ivar'>@amount</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="authorization_list-instance_method">
+  
+    #<strong>authorization_list</strong>  &#x21d2; <tt>Object</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>The list of authorizations (a list of Eth::Tx::Eip7702::Authorization instances)</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+143
+144
+145</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip7702.rb', line 143</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_authorization_list'>authorization_list</span>
+  <span class='ivar'>@authorization_list</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1129,12 +1272,12 @@
       <pre class="lines">
 
 
-28
-29
-30</pre>
+115
+116
+117</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip2930.rb', line 28</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip7702.rb', line 115</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_chain_id'>chain_id</span>
   <span class='ivar'>@chain_id</span>
@@ -1172,12 +1315,12 @@
       <pre class="lines">
 
 
-40
-41
-42</pre>
+130
+131
+132</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip2930.rb', line 40</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip7702.rb', line 130</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_destination'>destination</span>
   <span class='ivar'>@destination</span>
@@ -1215,12 +1358,12 @@
       <pre class="lines">
 
 
-37
-38
-39</pre>
+127
+128
+129</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip2930.rb', line 37</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip7702.rb', line 127</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_gas_limit'>gas_limit</span>
   <span class='ivar'>@gas_limit</span>
@@ -1233,9 +1376,9 @@
       
       <span id=""></span>
       <div class="method_details ">
-  <h3 class="signature " id="gas_price-instance_method">
+  <h3 class="signature " id="max_fee_per_gas-instance_method">
   
-    #<strong>gas_price</strong>  &#x21d2; <tt>Object</tt>  <span class="extras">(readonly)</span>
+    #<strong>max_fee_per_gas</strong>  &#x21d2; <tt>Object</tt>  <span class="extras">(readonly)</span>
   
 
   
@@ -1244,7 +1387,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>The gas price for the transaction in Wei.</p>
+<p>The transaction max fee per gas in Wei.</p>
 
 
   </div>
@@ -1258,15 +1401,58 @@
       <pre class="lines">
 
 
-34
-35
-36</pre>
+124
+125
+126</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip2930.rb', line 34</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip7702.rb', line 124</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_gas_price'>gas_price</span>
-  <span class='ivar'>@gas_price</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_max_fee_per_gas'>max_fee_per_gas</span>
+  <span class='ivar'>@max_fee_per_gas</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="max_priority_fee_per_gas-instance_method">
+  
+    #<strong>max_priority_fee_per_gas</strong>  &#x21d2; <tt>Object</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>The transaction max priority fee per gas in Wei.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+121
+122
+123</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip7702.rb', line 121</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_max_priority_fee_per_gas'>max_priority_fee_per_gas</span>
+  <span class='ivar'>@max_priority_fee_per_gas</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1301,12 +1487,12 @@
       <pre class="lines">
 
 
-46
-47
-48</pre>
+136
+137
+138</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip2930.rb', line 46</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip7702.rb', line 136</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_payload'>payload</span>
   <span class='ivar'>@payload</span>
@@ -1344,12 +1530,12 @@
       <pre class="lines">
 
 
-62
-63
-64</pre>
+155
+156
+157</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip2930.rb', line 62</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip7702.rb', line 155</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_sender'>sender</span>
   <span class='ivar'>@sender</span>
@@ -1387,12 +1573,12 @@
       <pre class="lines">
 
 
-56
-57
-58</pre>
+149
+150
+151</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip2930.rb', line 56</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip7702.rb', line 149</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_signature_r'>signature_r</span>
   <span class='ivar'>@signature_r</span>
@@ -1430,12 +1616,12 @@
       <pre class="lines">
 
 
-59
-60
-61</pre>
+152
+153
+154</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip2930.rb', line 59</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip7702.rb', line 152</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_signature_s'>signature_s</span>
   <span class='ivar'>@signature_s</span>
@@ -1459,7 +1645,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>The signature’s <code>y</code>-parity byte (not <code>v</code>).</p>
+<p>The signature’s y-parity byte (not v).</p>
 
 
   </div>
@@ -1473,12 +1659,12 @@
       <pre class="lines">
 
 
-53
-54
-55</pre>
+146
+147
+148</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip2930.rb', line 53</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip7702.rb', line 146</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_signature_y_parity'>signature_y_parity</span>
   <span class='ivar'>@signature_y_parity</span>
@@ -1516,12 +1702,12 @@
       <pre class="lines">
 
 
-31
-32
-33</pre>
+118
+119
+120</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip2930.rb', line 31</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip7702.rb', line 118</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_signer_nonce'>signer_nonce</span>
   <span class='ivar'>@signer_nonce</span>
@@ -1559,12 +1745,12 @@
       <pre class="lines">
 
 
-65
-66
-67</pre>
+158
+159
+160</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip2930.rb', line 65</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip7702.rb', line 158</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_type'>type</span>
   <span class='ivar'>@type</span>
@@ -1584,7 +1770,7 @@
       <div class="method_details first">
   <h3 class="signature first" id="decode-instance_method">
   
-    #<strong>decode</strong>(hex)  &#x21d2; <tt><span class='object_link'><a href="" title="Eth::Tx::Eip2930 (class)">Eth::Tx::Eip2930</a></span></tt> 
+    #<strong>decode</strong>(hex)  &#x21d2; <tt><span class='object_link'><a href="" title="Eth::Tx::Eip7702 (class)">Eth::Tx::Eip7702</a></span></tt> 
   
 
   
@@ -1593,7 +1779,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Decodes a raw transaction hex into an <span class='object_link'><a href="" title="Eth::Tx::Eip2930 (class)">Eth::Tx::Eip2930</a></span> transaction object.</p>
+<p>Decodes a raw transaction hex into an <span class='object_link'><a href="" title="Eth::Tx::Eip7702 (class)">Eth::Tx::Eip7702</a></span> transaction object.</p>
 
 
   </div>
@@ -1626,7 +1812,7 @@
     <li>
       
       
-        <span class='type'>(<tt><span class='object_link'><a href="" title="Eth::Tx::Eip2930 (class)">Eth::Tx::Eip2930</a></span></tt>)</span>
+        <span class='type'>(<tt><span class='object_link'><a href="" title="Eth::Tx::Eip7702 (class)">Eth::Tx::Eip7702</a></span></tt>)</span>
       
       
       
@@ -1691,116 +1877,126 @@
       <pre class="lines">
 
 
-136
-137
-138
-139
-140
-141
-142
-143
-144
-145
-146
-147
-148
-149
-150
-151
-152
-153
-154
-155
-156
-157
-158
-159
-160
-161
-162
-163
-164
-165
-166
-167
-168
-169
-170
-171
-172
-173
-174
-175
-176
-177
-178
-179
-180
-181
-182
-183
-184
-185
-186
-187
-188
-189
-190
-191
-192
-193
-194</pre>
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266
+267
+268
+269
+270
+271
+272
+273
+274
+275
+276
+277
+278
+279
+280
+281
+282
+283
+284
+285
+286
+287
+288
+289
+290
+291
+292
+293
+294
+295</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip2930.rb', line 136</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip7702.rb', line 232</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_decode'>decode</span><span class='lparen'>(</span><span class='id identifier rubyid_hex'>hex</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_hex'>hex</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_remove_hex_prefix'><span class='object_link'><a href="../Util.html#remove_hex_prefix-instance_method" title="Eth::Util#remove_hex_prefix (method)">remove_hex_prefix</a></span></span> <span class='id identifier rubyid_hex'>hex</span>
   <span class='id identifier rubyid_type'>type</span> <span class='op'>=</span> <span class='id identifier rubyid_hex'>hex</span><span class='lbracket'>[</span><span class='int'>0</span><span class='comma'>,</span> <span class='int'>2</span><span class='rbracket'>]</span>
-  <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="TransactionTypeError.html" title="Eth::Tx::TransactionTypeError (class)">TransactionTypeError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Invalid transaction type </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_type'>type</span><span class='embexpr_end'>}</span><span class='tstring_content'>!</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_type'>type</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span><span class='lparen'>(</span><span class='int'>16</span><span class='rparen'>)</span> <span class='op'>!=</span> <span class='const'><span class='object_link'><a href="../Tx.html#TYPE_2930-constant" title="Eth::Tx::TYPE_2930 (constant)">TYPE_2930</a></span></span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="TransactionTypeError.html" title="Eth::Tx::TransactionTypeError (class)">TransactionTypeError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Invalid transaction type </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_type'>type</span><span class='period'>.</span><span class='id identifier rubyid_inspect'>inspect</span><span class='embexpr_end'>}</span><span class='tstring_content'>!</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_type'>type</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span><span class='lparen'>(</span><span class='int'>16</span><span class='rparen'>)</span> <span class='op'>!=</span> <span class='const'><span class='object_link'><a href="../Tx.html#TYPE_7702-constant" title="Eth::Tx::TYPE_7702 (constant)">TYPE_7702</a></span></span>
 
   <span class='id identifier rubyid_bin'>bin</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_hex_to_bin'><span class='object_link'><a href="../Util.html#hex_to_bin-instance_method" title="Eth::Util#hex_to_bin (method)">hex_to_bin</a></span></span> <span class='id identifier rubyid_hex'>hex</span><span class='lbracket'>[</span><span class='int'>2</span><span class='op'>..</span><span class='rbracket'>]</span>
   <span class='id identifier rubyid_tx'>tx</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Rlp.html" title="Eth::Rlp (module)">Rlp</a></span></span><span class='period'>.</span><span class='id identifier rubyid_decode'><span class='object_link'><a href="../Rlp.html#decode-instance_method" title="Eth::Rlp#decode (method)">decode</a></span></span> <span class='id identifier rubyid_bin'>bin</span>
 
-  <span class='comment'># decoded transactions always have 8 + 3 fields, even if they are empty or zero
-</span>  <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="ParameterError.html" title="Eth::Tx::ParameterError (class)">ParameterError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Transaction missing fields!</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_tx'>tx</span><span class='period'>.</span><span class='id identifier rubyid_size'>size</span> <span class='op'>&lt;</span> <span class='int'>8</span>
+  <span class='comment'># decoded transactions always have 9 + 3 fields, even if they are empty or zero
+</span>  <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="ParameterError.html" title="Eth::Tx::ParameterError (class)">ParameterError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Transaction missing fields!</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_tx'>tx</span><span class='period'>.</span><span class='id identifier rubyid_size'>size</span> <span class='op'>&lt;</span> <span class='int'>10</span>
 
-  <span class='comment'># populate the 8 payload fields
+  <span class='comment'># populate the 10 payload fields
 </span>  <span class='id identifier rubyid_chain_id'>chain_id</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_deserialize_big_endian_to_int'><span class='object_link'><a href="../Util.html#deserialize_big_endian_to_int-instance_method" title="Eth::Util#deserialize_big_endian_to_int (method)">deserialize_big_endian_to_int</a></span></span> <span class='id identifier rubyid_tx'>tx</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span>
   <span class='id identifier rubyid_nonce'>nonce</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_deserialize_big_endian_to_int'><span class='object_link'><a href="../Util.html#deserialize_big_endian_to_int-instance_method" title="Eth::Util#deserialize_big_endian_to_int (method)">deserialize_big_endian_to_int</a></span></span> <span class='id identifier rubyid_tx'>tx</span><span class='lbracket'>[</span><span class='int'>1</span><span class='rbracket'>]</span>
-  <span class='id identifier rubyid_gas_price'>gas_price</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_deserialize_big_endian_to_int'><span class='object_link'><a href="../Util.html#deserialize_big_endian_to_int-instance_method" title="Eth::Util#deserialize_big_endian_to_int (method)">deserialize_big_endian_to_int</a></span></span> <span class='id identifier rubyid_tx'>tx</span><span class='lbracket'>[</span><span class='int'>2</span><span class='rbracket'>]</span>
-  <span class='id identifier rubyid_gas_limit'>gas_limit</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_deserialize_big_endian_to_int'><span class='object_link'><a href="../Util.html#deserialize_big_endian_to_int-instance_method" title="Eth::Util#deserialize_big_endian_to_int (method)">deserialize_big_endian_to_int</a></span></span> <span class='id identifier rubyid_tx'>tx</span><span class='lbracket'>[</span><span class='int'>3</span><span class='rbracket'>]</span>
-  <span class='id identifier rubyid_to'>to</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_bin_to_hex'><span class='object_link'><a href="../Util.html#bin_to_hex-instance_method" title="Eth::Util#bin_to_hex (method)">bin_to_hex</a></span></span> <span class='id identifier rubyid_tx'>tx</span><span class='lbracket'>[</span><span class='int'>4</span><span class='rbracket'>]</span>
-  <span class='id identifier rubyid_value'>value</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_deserialize_big_endian_to_int'><span class='object_link'><a href="../Util.html#deserialize_big_endian_to_int-instance_method" title="Eth::Util#deserialize_big_endian_to_int (method)">deserialize_big_endian_to_int</a></span></span> <span class='id identifier rubyid_tx'>tx</span><span class='lbracket'>[</span><span class='int'>5</span><span class='rbracket'>]</span>
-  <span class='id identifier rubyid_data'>data</span> <span class='op'>=</span> <span class='id identifier rubyid_tx'>tx</span><span class='lbracket'>[</span><span class='int'>6</span><span class='rbracket'>]</span>
-  <span class='id identifier rubyid_access_list'>access_list</span> <span class='op'>=</span> <span class='id identifier rubyid_tx'>tx</span><span class='lbracket'>[</span><span class='int'>7</span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_priority_fee'>priority_fee</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_deserialize_big_endian_to_int'><span class='object_link'><a href="../Util.html#deserialize_big_endian_to_int-instance_method" title="Eth::Util#deserialize_big_endian_to_int (method)">deserialize_big_endian_to_int</a></span></span> <span class='id identifier rubyid_tx'>tx</span><span class='lbracket'>[</span><span class='int'>2</span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_max_gas_fee'>max_gas_fee</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_deserialize_big_endian_to_int'><span class='object_link'><a href="../Util.html#deserialize_big_endian_to_int-instance_method" title="Eth::Util#deserialize_big_endian_to_int (method)">deserialize_big_endian_to_int</a></span></span> <span class='id identifier rubyid_tx'>tx</span><span class='lbracket'>[</span><span class='int'>3</span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_gas_limit'>gas_limit</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_deserialize_big_endian_to_int'><span class='object_link'><a href="../Util.html#deserialize_big_endian_to_int-instance_method" title="Eth::Util#deserialize_big_endian_to_int (method)">deserialize_big_endian_to_int</a></span></span> <span class='id identifier rubyid_tx'>tx</span><span class='lbracket'>[</span><span class='int'>4</span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_to'>to</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_bin_to_hex'><span class='object_link'><a href="../Util.html#bin_to_hex-instance_method" title="Eth::Util#bin_to_hex (method)">bin_to_hex</a></span></span> <span class='id identifier rubyid_tx'>tx</span><span class='lbracket'>[</span><span class='int'>5</span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_value'>value</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_deserialize_big_endian_to_int'><span class='object_link'><a href="../Util.html#deserialize_big_endian_to_int-instance_method" title="Eth::Util#deserialize_big_endian_to_int (method)">deserialize_big_endian_to_int</a></span></span> <span class='id identifier rubyid_tx'>tx</span><span class='lbracket'>[</span><span class='int'>6</span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_data'>data</span> <span class='op'>=</span> <span class='id identifier rubyid_tx'>tx</span><span class='lbracket'>[</span><span class='int'>7</span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_access_list'>access_list</span> <span class='op'>=</span> <span class='id identifier rubyid_tx'>tx</span><span class='lbracket'>[</span><span class='int'>8</span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_authorization_list'>authorization_list</span> <span class='op'>=</span> <span class='id identifier rubyid_tx'>tx</span><span class='lbracket'>[</span><span class='int'>9</span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_authorizations'>authorizations</span> <span class='op'>=</span> <span class='id identifier rubyid_deserialize_authorizations'>deserialize_authorizations</span><span class='lparen'>(</span><span class='id identifier rubyid_authorization_list'>authorization_list</span><span class='rparen'>)</span>
 
   <span class='comment'># populate class attributes
 </span>  <span class='ivar'>@chain_id</span> <span class='op'>=</span> <span class='id identifier rubyid_chain_id'>chain_id</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span>
   <span class='ivar'>@signer_nonce</span> <span class='op'>=</span> <span class='id identifier rubyid_nonce'>nonce</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span>
-  <span class='ivar'>@gas_price</span> <span class='op'>=</span> <span class='id identifier rubyid_gas_price'>gas_price</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span>
+  <span class='ivar'>@max_priority_fee_per_gas</span> <span class='op'>=</span> <span class='id identifier rubyid_priority_fee'>priority_fee</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span>
+  <span class='ivar'>@max_fee_per_gas</span> <span class='op'>=</span> <span class='id identifier rubyid_max_gas_fee'>max_gas_fee</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span>
   <span class='ivar'>@gas_limit</span> <span class='op'>=</span> <span class='id identifier rubyid_gas_limit'>gas_limit</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span>
   <span class='ivar'>@destination</span> <span class='op'>=</span> <span class='id identifier rubyid_to'>to</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>
   <span class='ivar'>@amount</span> <span class='op'>=</span> <span class='id identifier rubyid_value'>value</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span>
   <span class='ivar'>@payload</span> <span class='op'>=</span> <span class='id identifier rubyid_data'>data</span>
   <span class='ivar'>@access_list</span> <span class='op'>=</span> <span class='id identifier rubyid_access_list'>access_list</span>
+  <span class='ivar'>@authorization_list</span> <span class='op'>=</span> <span class='id identifier rubyid_authorizations'>authorizations</span>
 
   <span class='comment'># populate the 3 signature fields
-</span>  <span class='kw'>if</span> <span class='id identifier rubyid_tx'>tx</span><span class='period'>.</span><span class='id identifier rubyid_size'>size</span> <span class='op'>==</span> <span class='int'>8</span>
+</span>  <span class='kw'>if</span> <span class='id identifier rubyid_tx'>tx</span><span class='period'>.</span><span class='id identifier rubyid_size'>size</span> <span class='op'>==</span> <span class='int'>10</span>
     <span class='id identifier rubyid__set_signature'>_set_signature</span><span class='lparen'>(</span><span class='kw'>nil</span><span class='comma'>,</span> <span class='int'>0</span><span class='comma'>,</span> <span class='int'>0</span><span class='rparen'>)</span>
-  <span class='kw'>elsif</span> <span class='id identifier rubyid_tx'>tx</span><span class='period'>.</span><span class='id identifier rubyid_size'>size</span> <span class='op'>==</span> <span class='int'>11</span>
-    <span class='id identifier rubyid_recovery_id'>recovery_id</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_bin_to_hex'><span class='object_link'><a href="../Util.html#bin_to_hex-instance_method" title="Eth::Util#bin_to_hex (method)">bin_to_hex</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_tx'>tx</span><span class='lbracket'>[</span><span class='int'>8</span><span class='rbracket'>]</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span><span class='lparen'>(</span><span class='int'>16</span><span class='rparen'>)</span>
-    <span class='id identifier rubyid_r'>r</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_bin_to_hex'><span class='object_link'><a href="../Util.html#bin_to_hex-instance_method" title="Eth::Util#bin_to_hex (method)">bin_to_hex</a></span></span> <span class='id identifier rubyid_tx'>tx</span><span class='lbracket'>[</span><span class='int'>9</span><span class='rbracket'>]</span>
-    <span class='id identifier rubyid_s'>s</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_bin_to_hex'><span class='object_link'><a href="../Util.html#bin_to_hex-instance_method" title="Eth::Util#bin_to_hex (method)">bin_to_hex</a></span></span> <span class='id identifier rubyid_tx'>tx</span><span class='lbracket'>[</span><span class='int'>10</span><span class='rbracket'>]</span>
+  <span class='kw'>elsif</span> <span class='id identifier rubyid_tx'>tx</span><span class='period'>.</span><span class='id identifier rubyid_size'>size</span> <span class='op'>==</span> <span class='int'>13</span>
+    <span class='id identifier rubyid_recovery_id'>recovery_id</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_bin_to_hex'><span class='object_link'><a href="../Util.html#bin_to_hex-instance_method" title="Eth::Util#bin_to_hex (method)">bin_to_hex</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_tx'>tx</span><span class='lbracket'>[</span><span class='int'>10</span><span class='rbracket'>]</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span><span class='lparen'>(</span><span class='int'>16</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_r'>r</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_bin_to_hex'><span class='object_link'><a href="../Util.html#bin_to_hex-instance_method" title="Eth::Util#bin_to_hex (method)">bin_to_hex</a></span></span> <span class='id identifier rubyid_tx'>tx</span><span class='lbracket'>[</span><span class='int'>11</span><span class='rbracket'>]</span>
+    <span class='id identifier rubyid_s'>s</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_bin_to_hex'><span class='object_link'><a href="../Util.html#bin_to_hex-instance_method" title="Eth::Util#bin_to_hex (method)">bin_to_hex</a></span></span> <span class='id identifier rubyid_tx'>tx</span><span class='lbracket'>[</span><span class='int'>12</span><span class='rbracket'>]</span>
 
     <span class='comment'># allows us to force-setting a signature if the transaction is signed already
 </span>    <span class='id identifier rubyid__set_signature'>_set_signature</span><span class='lparen'>(</span><span class='id identifier rubyid_recovery_id'>recovery_id</span><span class='comma'>,</span> <span class='id identifier rubyid_r'>r</span><span class='comma'>,</span> <span class='id identifier rubyid_s'>s</span><span class='rparen'>)</span>
   <span class='kw'>else</span>
-    <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="DecoderError.html" title="Eth::Tx::DecoderError (class)">DecoderError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Cannot decode EIP-2930 payload!</span><span class='tstring_end'>&quot;</span></span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="DecoderError.html" title="Eth::Tx::DecoderError (class)">DecoderError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Cannot decode EIP-7702 payload!</span><span class='tstring_end'>&quot;</span></span>
   <span class='kw'>end</span>
 
   <span class='comment'># last but not least, set the type.
-</span>  <span class='ivar'>@type</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Tx.html#TYPE_2930-constant" title="Eth::Tx::TYPE_2930 (constant)">TYPE_2930</a></span></span>
+</span>  <span class='ivar'>@type</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Tx.html#TYPE_7702-constant" title="Eth::Tx::TYPE_7702 (constant)">TYPE_7702</a></span></span>
 
   <span class='kw'>unless</span> <span class='id identifier rubyid_recovery_id'>recovery_id</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
     <span class='comment'># recover sender address
@@ -1830,7 +2026,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Encodes a raw transaction object, wraps it in an EIP-2718 envelope with an EIP-2930 type prefix.</p>
+<p>Encodes a raw transaction object, wraps it in an EIP-2718 envelope with an EIP-7702 type prefix.</p>
 
 
   </div>
@@ -1849,7 +2045,7 @@
       
         &mdash;
         <div class='inline'>
-<p>a raw, RLP-encoded EIP-2930 type transaction object.</p>
+<p>a raw, RLP-encoded EIP-7702 type transaction object.</p>
 </div>
       
     </li>
@@ -1880,31 +2076,36 @@
       <pre class="lines">
 
 
-259
-260
-261
-262
-263
-264
-265
-266
-267
-268
-269
-270
-271
-272
-273
-274
-275
-276
-277
-278
-279
-280</pre>
+369
+370
+371
+372
+373
+374
+375
+376
+377
+378
+379
+380
+381
+382
+383
+384
+385
+386
+387
+388
+389
+390
+391
+392
+393
+394
+395</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip2930.rb', line 259</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip7702.rb', line 369</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_encoded'>encoded</span>
   <span class='kw'>unless</span> <span class='const'><span class='object_link'><a href="../Tx.html" title="Eth::Tx (module)">Tx</a></span></span><span class='period'>.</span><span class='id identifier rubyid_signed?'><span class='object_link'><a href="../Tx.html#signed%3F-instance_method" title="Eth::Tx#signed? (method)">signed?</a></span></span> <span class='kw'>self</span>
@@ -1913,18 +2114,23 @@
   <span class='id identifier rubyid_tx_data'>tx_data</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
   <span class='id identifier rubyid_tx_data'>tx_data</span><span class='period'>.</span><span class='id identifier rubyid_push'>push</span> <span class='const'><span class='object_link'><a href="../Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_serialize_int_to_big_endian'><span class='object_link'><a href="../Util.html#serialize_int_to_big_endian-instance_method" title="Eth::Util#serialize_int_to_big_endian (method)">serialize_int_to_big_endian</a></span></span> <span class='ivar'>@chain_id</span>
   <span class='id identifier rubyid_tx_data'>tx_data</span><span class='period'>.</span><span class='id identifier rubyid_push'>push</span> <span class='const'><span class='object_link'><a href="../Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_serialize_int_to_big_endian'><span class='object_link'><a href="../Util.html#serialize_int_to_big_endian-instance_method" title="Eth::Util#serialize_int_to_big_endian (method)">serialize_int_to_big_endian</a></span></span> <span class='ivar'>@signer_nonce</span>
-  <span class='id identifier rubyid_tx_data'>tx_data</span><span class='period'>.</span><span class='id identifier rubyid_push'>push</span> <span class='const'><span class='object_link'><a href="../Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_serialize_int_to_big_endian'><span class='object_link'><a href="../Util.html#serialize_int_to_big_endian-instance_method" title="Eth::Util#serialize_int_to_big_endian (method)">serialize_int_to_big_endian</a></span></span> <span class='ivar'>@gas_price</span>
+  <span class='id identifier rubyid_tx_data'>tx_data</span><span class='period'>.</span><span class='id identifier rubyid_push'>push</span> <span class='const'><span class='object_link'><a href="../Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_serialize_int_to_big_endian'><span class='object_link'><a href="../Util.html#serialize_int_to_big_endian-instance_method" title="Eth::Util#serialize_int_to_big_endian (method)">serialize_int_to_big_endian</a></span></span> <span class='ivar'>@max_priority_fee_per_gas</span>
+  <span class='id identifier rubyid_tx_data'>tx_data</span><span class='period'>.</span><span class='id identifier rubyid_push'>push</span> <span class='const'><span class='object_link'><a href="../Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_serialize_int_to_big_endian'><span class='object_link'><a href="../Util.html#serialize_int_to_big_endian-instance_method" title="Eth::Util#serialize_int_to_big_endian (method)">serialize_int_to_big_endian</a></span></span> <span class='ivar'>@max_fee_per_gas</span>
   <span class='id identifier rubyid_tx_data'>tx_data</span><span class='period'>.</span><span class='id identifier rubyid_push'>push</span> <span class='const'><span class='object_link'><a href="../Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_serialize_int_to_big_endian'><span class='object_link'><a href="../Util.html#serialize_int_to_big_endian-instance_method" title="Eth::Util#serialize_int_to_big_endian (method)">serialize_int_to_big_endian</a></span></span> <span class='ivar'>@gas_limit</span>
   <span class='id identifier rubyid_tx_data'>tx_data</span><span class='period'>.</span><span class='id identifier rubyid_push'>push</span> <span class='const'><span class='object_link'><a href="../Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_hex_to_bin'><span class='object_link'><a href="../Util.html#hex_to_bin-instance_method" title="Eth::Util#hex_to_bin (method)">hex_to_bin</a></span></span> <span class='ivar'>@destination</span>
   <span class='id identifier rubyid_tx_data'>tx_data</span><span class='period'>.</span><span class='id identifier rubyid_push'>push</span> <span class='const'><span class='object_link'><a href="../Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_serialize_int_to_big_endian'><span class='object_link'><a href="../Util.html#serialize_int_to_big_endian-instance_method" title="Eth::Util#serialize_int_to_big_endian (method)">serialize_int_to_big_endian</a></span></span> <span class='ivar'>@amount</span>
   <span class='id identifier rubyid_tx_data'>tx_data</span><span class='period'>.</span><span class='id identifier rubyid_push'>push</span> <span class='const'><span class='object_link'><a href="../Rlp.html" title="Eth::Rlp (module)">Rlp</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Rlp/Sedes.html" title="Eth::Rlp::Sedes (module)">Sedes</a></span></span><span class='period'>.</span><span class='id identifier rubyid_binary'><span class='object_link'><a href="../Rlp/Sedes.html#binary-class_method" title="Eth::Rlp::Sedes.binary (method)">binary</a></span></span><span class='period'>.</span><span class='id identifier rubyid_serialize'><span class='object_link'><a href="../Rlp/Sedes/Binary.html#serialize-instance_method" title="Eth::Rlp::Sedes::Binary#serialize (method)">serialize</a></span></span> <span class='ivar'>@payload</span>
   <span class='id identifier rubyid_tx_data'>tx_data</span><span class='period'>.</span><span class='id identifier rubyid_push'>push</span> <span class='const'><span class='object_link'><a href="../Rlp.html" title="Eth::Rlp (module)">Rlp</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Rlp/Sedes.html" title="Eth::Rlp::Sedes (module)">Sedes</a></span></span><span class='period'>.</span><span class='id identifier rubyid_infer'><span class='object_link'><a href="../Rlp/Sedes.html#infer-class_method" title="Eth::Rlp::Sedes.infer (method)">infer</a></span></span><span class='lparen'>(</span><span class='ivar'>@access_list</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_serialize'>serialize</span> <span class='ivar'>@access_list</span>
+
+  <span class='id identifier rubyid_authorization_list'>authorization_list</span> <span class='op'>=</span> <span class='ivar'>@authorization_list</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_authorization'>authorization</span><span class='op'>|</span> <span class='id identifier rubyid_authorization'>authorization</span><span class='period'>.</span><span class='id identifier rubyid_raw'>raw</span> <span class='rbrace'>}</span>
+  <span class='id identifier rubyid_tx_data'>tx_data</span><span class='period'>.</span><span class='id identifier rubyid_push'>push</span> <span class='const'><span class='object_link'><a href="../Rlp.html" title="Eth::Rlp (module)">Rlp</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Rlp/Sedes.html" title="Eth::Rlp::Sedes (module)">Sedes</a></span></span><span class='period'>.</span><span class='id identifier rubyid_infer'><span class='object_link'><a href="../Rlp/Sedes.html#infer-class_method" title="Eth::Rlp::Sedes.infer (method)">infer</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_authorization_list'>authorization_list</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_serialize'>serialize</span> <span class='id identifier rubyid_authorization_list'>authorization_list</span>
+
   <span class='id identifier rubyid_tx_data'>tx_data</span><span class='period'>.</span><span class='id identifier rubyid_push'>push</span> <span class='const'><span class='object_link'><a href="../Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_serialize_int_to_big_endian'><span class='object_link'><a href="../Util.html#serialize_int_to_big_endian-instance_method" title="Eth::Util#serialize_int_to_big_endian (method)">serialize_int_to_big_endian</a></span></span> <span class='ivar'>@signature_y_parity</span>
   <span class='id identifier rubyid_tx_data'>tx_data</span><span class='period'>.</span><span class='id identifier rubyid_push'>push</span> <span class='const'><span class='object_link'><a href="../Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_serialize_int_to_big_endian'><span class='object_link'><a href="../Util.html#serialize_int_to_big_endian-instance_method" title="Eth::Util#serialize_int_to_big_endian (method)">serialize_int_to_big_endian</a></span></span> <span class='ivar'>@signature_r</span>
   <span class='id identifier rubyid_tx_data'>tx_data</span><span class='period'>.</span><span class='id identifier rubyid_push'>push</span> <span class='const'><span class='object_link'><a href="../Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_serialize_int_to_big_endian'><span class='object_link'><a href="../Util.html#serialize_int_to_big_endian-instance_method" title="Eth::Util#serialize_int_to_big_endian (method)">serialize_int_to_big_endian</a></span></span> <span class='ivar'>@signature_s</span>
   <span class='id identifier rubyid_tx_encoded'>tx_encoded</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Rlp.html" title="Eth::Rlp (module)">Rlp</a></span></span><span class='period'>.</span><span class='id identifier rubyid_encode'><span class='object_link'><a href="../Rlp.html#encode-instance_method" title="Eth::Rlp#encode (method)">encode</a></span></span> <span class='id identifier rubyid_tx_data'>tx_data</span>
 
-  <span class='comment'># create an EIP-2718 envelope with EIP-2930 type payload
+  <span class='comment'># create an EIP-2718 envelope with EIP-7702 type payload
 </span>  <span class='id identifier rubyid_tx_type'>tx_type</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_serialize_int_to_big_endian'><span class='object_link'><a href="../Util.html#serialize_int_to_big_endian-instance_method" title="Eth::Util#serialize_int_to_big_endian (method)">serialize_int_to_big_endian</a></span></span> <span class='ivar'>@type</span>
   <span class='kw'>return</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_tx_type'>tx_type</span><span class='embexpr_end'>}</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_tx_encoded'>tx_encoded</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
 <span class='kw'>end</span></pre>
@@ -1977,12 +2183,12 @@
       <pre class="lines">
 
 
-292
-293
-294</pre>
+407
+408
+409</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip2930.rb', line 292</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip7702.rb', line 407</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_hash'>hash</span>
   <span class='const'><span class='object_link'><a href="../Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_bin_to_hex'><span class='object_link'><a href="../Util.html#bin_to_hex-instance_method" title="Eth::Util#bin_to_hex (method)">bin_to_hex</a></span></span> <span class='const'><span class='object_link'><a href="../Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_keccak256'><span class='object_link'><a href="../Util.html#keccak256-instance_method" title="Eth::Util#keccak256 (method)">keccak256</a></span></span> <span class='id identifier rubyid_encoded'>encoded</span>
@@ -2036,12 +2242,12 @@
       <pre class="lines">
 
 
-285
-286
-287</pre>
+400
+401
+402</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip2930.rb', line 285</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip7702.rb', line 400</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_hex'>hex</span>
   <span class='const'><span class='object_link'><a href="../Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_bin_to_hex'><span class='object_link'><a href="../Util.html#bin_to_hex-instance_method" title="Eth::Util#bin_to_hex (method)">bin_to_hex</a></span></span> <span class='id identifier rubyid_encoded'>encoded</span>
@@ -2147,30 +2353,30 @@
       <pre class="lines">
 
 
-232
-233
-234
-235
-236
-237
-238
-239
-240
-241
-242
-243
-244
-245
-246
-247
-248
-249
-250
-251
-252</pre>
+342
+343
+344
+345
+346
+347
+348
+349
+350
+351
+352
+353
+354
+355
+356
+357
+358
+359
+360
+361
+362</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip2930.rb', line 232</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip7702.rb', line 342</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_sign'>sign</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='rparen'>)</span>
   <span class='kw'>if</span> <span class='const'><span class='object_link'><a href="../Tx.html" title="Eth::Tx (module)">Tx</a></span></span><span class='period'>.</span><span class='id identifier rubyid_signed?'><span class='object_link'><a href="../Tx.html#signed%3F-instance_method" title="Eth::Tx#signed? (method)">signed?</a></span></span> <span class='kw'>self</span>
@@ -2201,7 +2407,7 @@
       <div class="method_details ">
   <h3 class="signature " id="unsigned_copy-instance_method">
   
-    #<strong>unsigned_copy</strong>(tx)  &#x21d2; <tt><span class='object_link'><a href="" title="Eth::Tx::Eip2930 (class)">Eth::Tx::Eip2930</a></span></tt> 
+    #<strong>unsigned_copy</strong>(tx)  &#x21d2; <tt><span class='object_link'><a href="" title="Eth::Tx::Eip7702 (class)">Eth::Tx::Eip7702</a></span></tt> 
   
 
   
@@ -2210,7 +2416,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Creates an unsigned copy of a transaction payload.</p>
+<p>Creates an unsigned copy of a transaction payload (keeping the signatures on the authorizations).</p>
 
 
   </div>
@@ -2224,13 +2430,13 @@
         <span class='name'>tx</span>
       
       
-        <span class='type'>(<tt><span class='object_link'><a href="" title="Eth::Tx::Eip2930 (class)">Eth::Tx::Eip2930</a></span></tt>)</span>
+        <span class='type'>(<tt><span class='object_link'><a href="" title="Eth::Tx::Eip7702 (class)">Eth::Tx::Eip7702</a></span></tt>)</span>
       
       
       
         &mdash;
         <div class='inline'>
-<p>an EIP-2930 transaction payload.</p>
+<p>an EIP-7702 transaction payload.</p>
 </div>
       
     </li>
@@ -2243,13 +2449,13 @@
     <li>
       
       
-        <span class='type'>(<tt><span class='object_link'><a href="" title="Eth::Tx::Eip2930 (class)">Eth::Tx::Eip2930</a></span></tt>)</span>
+        <span class='type'>(<tt><span class='object_link'><a href="" title="Eth::Tx::Eip7702 (class)">Eth::Tx::Eip7702</a></span></tt>)</span>
       
       
       
         &mdash;
         <div class='inline'>
-<p>an unsigned EIP-2930 transaction payload.</p>
+<p>an unsigned EIP-7702 transaction payload.</p>
 </div>
       
     </li>
@@ -2280,42 +2486,52 @@
       <pre class="lines">
 
 
-201
-202
-203
-204
-205
-206
-207
-208
-209
-210
-211
-212
-213
-214
-215
-216
-217
-218
-219
-220
-221
-222
-223
-224</pre>
+302
+303
+304
+305
+306
+307
+308
+309
+310
+311
+312
+313
+314
+315
+316
+317
+318
+319
+320
+321
+322
+323
+324
+325
+326
+327
+328
+329
+330
+331
+332
+333
+334</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip2930.rb', line 201</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip7702.rb', line 302</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_unsigned_copy'>unsigned_copy</span><span class='lparen'>(</span><span class='id identifier rubyid_tx'>tx</span><span class='rparen'>)</span>
 
   <span class='comment'># not checking transaction validity unless it&#39;s of a different class
-</span>  <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="TransactionTypeError.html" title="Eth::Tx::TransactionTypeError (class)">TransactionTypeError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Cannot copy transaction of different payload type!</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_tx'>tx</span><span class='period'>.</span><span class='id identifier rubyid_instance_of?'>instance_of?</span> <span class='const'><span class='object_link'><a href="../Tx.html" title="Eth::Tx (module)">Tx</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Eth::Tx::Eip2930 (class)">Eip2930</a></span></span>
+</span>  <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="TransactionTypeError.html" title="Eth::Tx::TransactionTypeError (class)">TransactionTypeError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Cannot copy transaction of different payload type!</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_tx'>tx</span><span class='period'>.</span><span class='id identifier rubyid_instance_of?'>instance_of?</span> <span class='const'><span class='object_link'><a href="../Tx.html" title="Eth::Tx (module)">Tx</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Eth::Tx::Eip7702 (class)">Eip7702</a></span></span>
 
   <span class='comment'># populate class attributes
 </span>  <span class='ivar'>@signer_nonce</span> <span class='op'>=</span> <span class='id identifier rubyid_tx'>tx</span><span class='period'>.</span><span class='id identifier rubyid_signer_nonce'>signer_nonce</span>
-  <span class='ivar'>@gas_price</span> <span class='op'>=</span> <span class='id identifier rubyid_tx'>tx</span><span class='period'>.</span><span class='id identifier rubyid_gas_price'>gas_price</span>
+  <span class='ivar'>@max_priority_fee_per_gas</span> <span class='op'>=</span> <span class='id identifier rubyid_tx'>tx</span><span class='period'>.</span><span class='id identifier rubyid_max_priority_fee_per_gas'>max_priority_fee_per_gas</span>
+  <span class='ivar'>@max_fee_per_gas</span> <span class='op'>=</span> <span class='id identifier rubyid_tx'>tx</span><span class='period'>.</span><span class='id identifier rubyid_max_fee_per_gas'>max_fee_per_gas</span>
   <span class='ivar'>@gas_limit</span> <span class='op'>=</span> <span class='id identifier rubyid_tx'>tx</span><span class='period'>.</span><span class='id identifier rubyid_gas_limit'>gas_limit</span>
   <span class='ivar'>@destination</span> <span class='op'>=</span> <span class='id identifier rubyid_tx'>tx</span><span class='period'>.</span><span class='id identifier rubyid_destination'>destination</span>
   <span class='ivar'>@amount</span> <span class='op'>=</span> <span class='id identifier rubyid_tx'>tx</span><span class='period'>.</span><span class='id identifier rubyid_amount'>amount</span>
@@ -2323,6 +2539,14 @@
   <span class='ivar'>@access_list</span> <span class='op'>=</span> <span class='id identifier rubyid_tx'>tx</span><span class='period'>.</span><span class='id identifier rubyid_access_list'>access_list</span>
   <span class='ivar'>@chain_id</span> <span class='op'>=</span> <span class='id identifier rubyid_tx'>tx</span><span class='period'>.</span><span class='id identifier rubyid_chain_id'>chain_id</span>
 
+  <span class='ivar'>@authorization_list</span> <span class='op'>=</span> <span class='id identifier rubyid_tx'>tx</span><span class='period'>.</span><span class='id identifier rubyid_authorization_list'>authorization_list</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_authorization'>authorization</span><span class='op'>|</span>
+    <span class='const'><span class='object_link'><a href="Eip7702/Authorization.html" title="Eth::Tx::Eip7702::Authorization (class)">Authorization</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="Eip7702/Authorization.html#initialize-instance_method" title="Eth::Tx::Eip7702::Authorization#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='label'>chain_id:</span> <span class='id identifier rubyid_authorization'>authorization</span><span class='period'>.</span><span class='id identifier rubyid_chain_id'>chain_id</span><span class='comma'>,</span>
+                      <span class='label'>address:</span> <span class='id identifier rubyid_authorization'>authorization</span><span class='period'>.</span><span class='id identifier rubyid_address'>address</span><span class='comma'>,</span>
+                      <span class='label'>nonce:</span> <span class='id identifier rubyid_authorization'>authorization</span><span class='period'>.</span><span class='id identifier rubyid_nonce'>nonce</span><span class='comma'>,</span>
+                      <span class='label'>recovery_id:</span> <span class='id identifier rubyid_authorization'>authorization</span><span class='period'>.</span><span class='id identifier rubyid_signature_y_parity'>signature_y_parity</span><span class='comma'>,</span>
+                      <span class='label'>r:</span> <span class='id identifier rubyid_authorization'>authorization</span><span class='period'>.</span><span class='id identifier rubyid_signature_r'>signature_r</span><span class='comma'>,</span>
+                      <span class='label'>s:</span> <span class='id identifier rubyid_authorization'>authorization</span><span class='period'>.</span><span class='id identifier rubyid_signature_s'>signature_s</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
   <span class='comment'># force-set signature to unsigned
 </span>  <span class='id identifier rubyid__set_signature'>_set_signature</span><span class='lparen'>(</span><span class='kw'>nil</span><span class='comma'>,</span> <span class='int'>0</span><span class='comma'>,</span> <span class='int'>0</span><span class='rparen'>)</span>
 
@@ -2330,7 +2554,7 @@
 </span>  <span class='ivar'>@sender</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Tx.html" title="Eth::Tx (module)">Tx</a></span></span><span class='period'>.</span><span class='id identifier rubyid_sanitize_address'><span class='object_link'><a href="../Tx.html#sanitize_address-instance_method" title="Eth::Tx#sanitize_address (method)">sanitize_address</a></span></span> <span class='kw'>nil</span>
 
   <span class='comment'># last but not least, set the type.
-</span>  <span class='ivar'>@type</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Tx.html#TYPE_2930-constant" title="Eth::Tx::TYPE_2930 (constant)">TYPE_2930</a></span></span>
+</span>  <span class='ivar'>@type</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Tx.html#TYPE_7702-constant" title="Eth::Tx::TYPE_7702 (constant)">TYPE_7702</a></span></span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -2349,7 +2573,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Encodes the unsigned transaction payload in an EIP-2930 envelope, required for signing.</p>
+<p>Encodes the unsigned transaction payload in an EIP-7702 envelope, required for signing.</p>
 
 
   </div>
@@ -2368,7 +2592,7 @@
       
         &mdash;
         <div class='inline'>
-<p>an RLP-encoded, unsigned, enveloped EIP-2930 transaction.</p>
+<p>an RLP-encoded, unsigned, enveloped EIP-7702 transaction.</p>
 </div>
       
     </li>
@@ -2381,40 +2605,52 @@
       <pre class="lines">
 
 
-300
-301
-302
-303
-304
-305
-306
-307
-308
-309
-310
-311
-312
-313
-314
-315</pre>
+415
+416
+417
+418
+419
+420
+421
+422
+423
+424
+425
+426
+427
+428
+429
+430
+431
+432
+433
+434
+435
+436</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip2930.rb', line 300</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip7702.rb', line 415</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_unsigned_encoded'>unsigned_encoded</span>
   <span class='id identifier rubyid_tx_data'>tx_data</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
   <span class='id identifier rubyid_tx_data'>tx_data</span><span class='period'>.</span><span class='id identifier rubyid_push'>push</span> <span class='const'><span class='object_link'><a href="../Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_serialize_int_to_big_endian'><span class='object_link'><a href="../Util.html#serialize_int_to_big_endian-instance_method" title="Eth::Util#serialize_int_to_big_endian (method)">serialize_int_to_big_endian</a></span></span> <span class='ivar'>@chain_id</span>
   <span class='id identifier rubyid_tx_data'>tx_data</span><span class='period'>.</span><span class='id identifier rubyid_push'>push</span> <span class='const'><span class='object_link'><a href="../Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_serialize_int_to_big_endian'><span class='object_link'><a href="../Util.html#serialize_int_to_big_endian-instance_method" title="Eth::Util#serialize_int_to_big_endian (method)">serialize_int_to_big_endian</a></span></span> <span class='ivar'>@signer_nonce</span>
-  <span class='id identifier rubyid_tx_data'>tx_data</span><span class='period'>.</span><span class='id identifier rubyid_push'>push</span> <span class='const'><span class='object_link'><a href="../Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_serialize_int_to_big_endian'><span class='object_link'><a href="../Util.html#serialize_int_to_big_endian-instance_method" title="Eth::Util#serialize_int_to_big_endian (method)">serialize_int_to_big_endian</a></span></span> <span class='ivar'>@gas_price</span>
+  <span class='id identifier rubyid_tx_data'>tx_data</span><span class='period'>.</span><span class='id identifier rubyid_push'>push</span> <span class='const'><span class='object_link'><a href="../Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_serialize_int_to_big_endian'><span class='object_link'><a href="../Util.html#serialize_int_to_big_endian-instance_method" title="Eth::Util#serialize_int_to_big_endian (method)">serialize_int_to_big_endian</a></span></span> <span class='ivar'>@max_priority_fee_per_gas</span>
+  <span class='id identifier rubyid_tx_data'>tx_data</span><span class='period'>.</span><span class='id identifier rubyid_push'>push</span> <span class='const'><span class='object_link'><a href="../Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_serialize_int_to_big_endian'><span class='object_link'><a href="../Util.html#serialize_int_to_big_endian-instance_method" title="Eth::Util#serialize_int_to_big_endian (method)">serialize_int_to_big_endian</a></span></span> <span class='ivar'>@max_fee_per_gas</span>
   <span class='id identifier rubyid_tx_data'>tx_data</span><span class='period'>.</span><span class='id identifier rubyid_push'>push</span> <span class='const'><span class='object_link'><a href="../Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_serialize_int_to_big_endian'><span class='object_link'><a href="../Util.html#serialize_int_to_big_endian-instance_method" title="Eth::Util#serialize_int_to_big_endian (method)">serialize_int_to_big_endian</a></span></span> <span class='ivar'>@gas_limit</span>
   <span class='id identifier rubyid_tx_data'>tx_data</span><span class='period'>.</span><span class='id identifier rubyid_push'>push</span> <span class='const'><span class='object_link'><a href="../Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_hex_to_bin'><span class='object_link'><a href="../Util.html#hex_to_bin-instance_method" title="Eth::Util#hex_to_bin (method)">hex_to_bin</a></span></span> <span class='ivar'>@destination</span>
   <span class='id identifier rubyid_tx_data'>tx_data</span><span class='period'>.</span><span class='id identifier rubyid_push'>push</span> <span class='const'><span class='object_link'><a href="../Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_serialize_int_to_big_endian'><span class='object_link'><a href="../Util.html#serialize_int_to_big_endian-instance_method" title="Eth::Util#serialize_int_to_big_endian (method)">serialize_int_to_big_endian</a></span></span> <span class='ivar'>@amount</span>
   <span class='id identifier rubyid_tx_data'>tx_data</span><span class='period'>.</span><span class='id identifier rubyid_push'>push</span> <span class='const'><span class='object_link'><a href="../Rlp.html" title="Eth::Rlp (module)">Rlp</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Rlp/Sedes.html" title="Eth::Rlp::Sedes (module)">Sedes</a></span></span><span class='period'>.</span><span class='id identifier rubyid_binary'><span class='object_link'><a href="../Rlp/Sedes.html#binary-class_method" title="Eth::Rlp::Sedes.binary (method)">binary</a></span></span><span class='period'>.</span><span class='id identifier rubyid_serialize'><span class='object_link'><a href="../Rlp/Sedes/Binary.html#serialize-instance_method" title="Eth::Rlp::Sedes::Binary#serialize (method)">serialize</a></span></span> <span class='ivar'>@payload</span>
   <span class='id identifier rubyid_tx_data'>tx_data</span><span class='period'>.</span><span class='id identifier rubyid_push'>push</span> <span class='const'><span class='object_link'><a href="../Rlp.html" title="Eth::Rlp (module)">Rlp</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Rlp/Sedes.html" title="Eth::Rlp::Sedes (module)">Sedes</a></span></span><span class='period'>.</span><span class='id identifier rubyid_infer'><span class='object_link'><a href="../Rlp/Sedes.html#infer-class_method" title="Eth::Rlp::Sedes.infer (method)">infer</a></span></span><span class='lparen'>(</span><span class='ivar'>@access_list</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_serialize'>serialize</span> <span class='ivar'>@access_list</span>
+
+  <span class='id identifier rubyid_authorization_list'>authorization_list</span> <span class='op'>=</span> <span class='ivar'>@authorization_list</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_authorization'>authorization</span><span class='op'>|</span> <span class='id identifier rubyid_authorization'>authorization</span><span class='period'>.</span><span class='id identifier rubyid_raw'>raw</span> <span class='rbrace'>}</span>
+  <span class='id identifier rubyid_tx_data'>tx_data</span><span class='period'>.</span><span class='id identifier rubyid_push'>push</span> <span class='const'><span class='object_link'><a href="../Rlp.html" title="Eth::Rlp (module)">Rlp</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Rlp/Sedes.html" title="Eth::Rlp::Sedes (module)">Sedes</a></span></span><span class='period'>.</span><span class='id identifier rubyid_infer'><span class='object_link'><a href="../Rlp/Sedes.html#infer-class_method" title="Eth::Rlp::Sedes.infer (method)">infer</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_authorization_list'>authorization_list</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_serialize'>serialize</span> <span class='id identifier rubyid_authorization_list'>authorization_list</span>
+
   <span class='id identifier rubyid_tx_encoded'>tx_encoded</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Rlp.html" title="Eth::Rlp (module)">Rlp</a></span></span><span class='period'>.</span><span class='id identifier rubyid_encode'><span class='object_link'><a href="../Rlp.html#encode-instance_method" title="Eth::Rlp#encode (method)">encode</a></span></span> <span class='id identifier rubyid_tx_data'>tx_data</span>
 
-  <span class='comment'># create an EIP-2718 envelope with EIP-2930 type payload (unsigned)
+  <span class='comment'># create an EIP-2718 envelope with EIP-7702 type payload (unsigned)
 </span>  <span class='id identifier rubyid_tx_type'>tx_type</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_serialize_int_to_big_endian'><span class='object_link'><a href="../Util.html#serialize_int_to_big_endian-instance_method" title="Eth::Util#serialize_int_to_big_endian (method)">serialize_int_to_big_endian</a></span></span> <span class='ivar'>@type</span>
+
   <span class='kw'>return</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_tx_type'>tx_type</span><span class='embexpr_end'>}</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_tx_encoded'>tx_encoded</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
 <span class='kw'>end</span></pre>
     </td>
@@ -2466,12 +2702,12 @@
       <pre class="lines">
 
 
-320
-321
-322</pre>
+441
+442
+443</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip2930.rb', line 320</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip7702.rb', line 441</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_unsigned_hash'>unsigned_hash</span>
   <span class='const'><span class='object_link'><a href="../Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_keccak256'><span class='object_link'><a href="../Util.html#keccak256-instance_method" title="Eth::Util#keccak256 (method)">keccak256</a></span></span> <span class='id identifier rubyid_unsigned_encoded'>unsigned_encoded</span>
