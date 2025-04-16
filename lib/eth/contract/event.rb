@@ -14,6 +14,7 @@
 
 # -*- encoding : ascii-8bit -*-
 
+# Provides the {Eth} module.
 module Eth
   # Provide classes for contract event.
   class Contract::Event
@@ -106,5 +107,3 @@ module Eth
     end
   end
 end
-
-# Provides the {Eth} module.
