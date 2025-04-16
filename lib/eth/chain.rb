@@ -149,11 +149,16 @@ module Eth
     # Chain ID for Arbitrum Goerli testnet.
     GOERLI_ARBITRUM = 421613.freeze
 
+    # Chain ID for Hoodi testnet.
+    HOODI = 560048.freeze
+
     # Chain ID for Sepolia testnet.
     SEPOLIA = 11155111.freeze
 
     # Chain ID for Holesovice testnet.
     HOLESOVICE = 11166111.freeze
+
+    # Chain ID for Holesovice testnet.
     HOLESKY = HOLESOVICE
 
     # Chain ID for the geth private network preset.

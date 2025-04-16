@@ -22,11 +22,19 @@ module Eth
     # types and envelopes.
     # Ref: https://eips.ethereum.org/EIPS/eip-7702
     class Eip7702
+
+      # Provides an EIP-7702 authorization that store the address to
+      # code which the signer desires to execute in the context of their EOA.
       class Authorization
+
+        # The EIP-155 Chain ID.
+        # Ref: https://eips.ethereum.org/EIPS/eip-155
         attr_reader :chain_id
 
+        # The authority addess.
         attr_reader :address
 
+        # The transaction nonce.
         attr_reader :nonce
 
         # The signature's y-parity byte (not v).
@@ -38,6 +46,14 @@ module Eth
         # The signature `s` value.
         attr_reader :signature_s
 
+        # Create a type-4 (EIP-7702) authorization object that
+        # can be prepared for type-4 transactions.
+        # Ref: https://eips.ethereum.org/EIPS/eip-7702
+        #
+        # @param fields [Hash] all necessary transaction fields.
+        # @option fields [Integer] :chain_id the chain ID.
+        # @option fields [Eth::Address] :address the authority address.
+        # @option fields [Integer] :nonce the transaction nonce.
         def initialize(fields)
           @chain_id = fields[:chain_id].to_i
           @address = fields[:address].to_s
@@ -75,6 +91,9 @@ module Eth
           return hash
         end
 
+        # Encodes the unsigned authorization payload required for signing.
+        #
+        # @return [String] an RLP-encoded, unsigned, enveloped EIP-7702 transaction.
         def unsigned_encoded
           authorization_data = []
           authorization_data.push Util.serialize_int_to_big_endian @chain_id
@@ -83,10 +102,16 @@ module Eth
           Rlp.encode authorization_data
         end
 
+        # Gets the sign-hash required to sign.
+        #
+        # @return [String] a Keccak-256 hash.
         def unsigned_hash
           Util.keccak256 unsigned_encoded
         end
 
+        # Gets the raw serialized authorization data.
+        #
+        # @return [Bytes] raw serialized authorization data.
         def raw
           authorization_data = []
           authorization_data.push Util.serialize_int_to_big_endian @chain_id
@@ -99,6 +124,9 @@ module Eth
           authorization_data
         end
 
+        # Compares two authorization data objects.
+        #
+        # @return [Bool] true if objects are same and share same state.
         def ==(o)
           o.class == self.class && o.state == state
         end
@@ -139,7 +167,7 @@ module Eth
       # Ref: https://eips.ethereum.org/EIPS/eip-2930
       attr_reader :access_list
 
-      # The list of authorizations (a list of Eth::Tx::Eip7702::Authorization instances)
+      # The list of of {Authorization} instances
       attr_reader :authorization_list
 
       # The signature's y-parity byte (not v).

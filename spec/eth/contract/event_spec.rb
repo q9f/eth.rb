@@ -103,8 +103,9 @@ describe Contract::Event do
           { "indexed" => true, "name" => "collection", "type" => "address" },
           { "indexed" => true, "name" => "tokenId", "type" => "uint256" },
           { "indexed" => true, "name" => "ipfsHash", "type" => "bytes32" },
-          { "indexed" => false, "name" => "to", "type" => "address" }
-        ]
+          { "indexed" => false, "name" => "to", "type" => "address" },
+        ],
+        "type" => "tuple",
       })
     end
 
@@ -124,6 +125,15 @@ describe Contract::Event do
     let(:data) do
       # to address
       "0x000000000000000000000000f0d00750656f12ab7550bf5039d74691f9e461f0"
+    end
+
+    it "correctly serves accessors" do
+      expect(event.name).to eq "TokenMint"
+      expect(event.input_types).to eq ["address", "uint256", "bytes32", "address"]
+      expect(event.inputs).to eq ["collection", "tokenId", "ipfsHash", "to"]
+      expect(event.event_string).to eq "TokenMint(address,uint256,bytes32,address)"
+      expect(event.signature).to eq Util.remove_hex_prefix topics.first
+      expect(event.address).to be_nil
     end
 
     it "correctly decodes the event parameters" do

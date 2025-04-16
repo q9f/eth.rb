@@ -48,6 +48,7 @@ describe Chain do
       expect(Chain::MUMBAI).to eq 80001
       expect(Chain::RINKEBY_ARBITRUM).to eq 421611
       expect(Chain::GOERLI_ARBITRUM).to eq 421613
+      expect(Chain::HOODI).to eq 560048
       expect(Chain::SEPOLIA).to eq 11155111
       expect(Chain::HOLESOVICE).to eq 11166111
       expect(Chain::HOLESKY).to eq 11166111
