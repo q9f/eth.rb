@@ -99,7 +99,6 @@ module Eth
     # @param chain_id [Integer] the EIP-155 Chain ID (legacy transactions only).
     def new(params, chain_id = Chain::ETHEREUM)
 
-
       # if we deal with blobs, attempt EIP-4844 (not implemented)
       unless params[:max_fee_per_blob_gas].nil?
         raise NotimplementedError, "EIP-4844 blob transactions are not implemented"
