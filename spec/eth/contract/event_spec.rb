@@ -103,8 +103,8 @@ describe Contract::Event do
           { "indexed" => true, "name" => "collection", "type" => "address" },
           { "indexed" => true, "name" => "tokenId", "type" => "uint256" },
           { "indexed" => true, "name" => "ipfsHash", "type" => "bytes32" },
-          { "indexed" => false, "name" => "to", "type" => "address" }
-        ]
+          { "indexed" => false, "name" => "to", "type" => "address" },
+        ],
       })
     end
 

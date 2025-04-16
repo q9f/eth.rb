@@ -73,7 +73,6 @@ module Eth
       @address = address ? Eth::Address.new(address).address : nil
     end
 
-
     # Decodes event parameters from logs.
     #
     # @param topics [Array<String>] The list of log topics, including the event selector.
@@ -90,8 +89,8 @@ module Eth
           result
         end,
         **Hash[non_indexed_inputs.map { _1["name"] }.zip(
-          Eth::Abi.decode(non_indexed_inputs.map { |i| i["type"] }, data)
-        )],
+                 Eth::Abi.decode(non_indexed_inputs.map { |i| i["type"] }, data)
+               )],
       }
     end
 
@@ -107,4 +106,5 @@ module Eth
     end
   end
 end
+
 # Provides the {Eth} module.
