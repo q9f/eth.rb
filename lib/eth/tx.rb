@@ -99,17 +99,6 @@ module Eth
     # @param chain_id [Integer] the EIP-155 Chain ID (legacy transactions only).
     def new(params, chain_id = Chain::ETHEREUM)
 
-      # if we deal with max gas fee parameter, attempt EIP-1559
-      unless params[:max_gas_fee].nil?
-        params[:chain_id] = chain_id if params[:chain_id].nil?
-        return Tx::Eip1559.new params
-      end
-
-      # if we deal with access list parameter, attempt EIP-2930
-      unless params[:access_list].nil?
-        params[:chain_id] = chain_id if params[:chain_id].nil?
-        return Tx::Eip2930.new params
-      end
 
       # if we deal with blobs, attempt EIP-4844 (not implemented)
       unless params[:max_fee_per_blob_gas].nil?
@@ -120,6 +109,18 @@ module Eth
       unless params[:authorization_list].nil?
         params[:chain_id] = chain_id if params[:chain_id].nil?
         return Tx::Eip7702.new params
+      end
+
+      # if we deal with max gas fee parameter, attempt EIP-1559
+      unless params[:max_gas_fee].nil?
+        params[:chain_id] = chain_id if params[:chain_id].nil?
+        return Tx::Eip1559.new params
+      end
+
+      # if we deal with access list parameter, attempt EIP-2930
+      unless params[:access_list].nil?
+        params[:chain_id] = chain_id if params[:chain_id].nil?
+        return Tx::Eip2930.new params
       end
 
       # if nothing else, go with legacy transactions
