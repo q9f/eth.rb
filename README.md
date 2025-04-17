@@ -10,7 +10,6 @@
 [![GitHub release (latest by date)](https://img.shields.io/github/v/release/q9f/eth.rb)](https://github.com/q9f/eth.rb/releases)
 [![Gem](https://img.shields.io/gem/v/eth)](https://rubygems.org/gems/eth)
 [![Gem](https://img.shields.io/gem/dt/eth)](https://rubygems.org/gems/eth)
-[![Visitors](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2Fq9f%2Feth.rb&count_bg=%2379C83D&title_bg=%23555555&icon=rubygems.svg&icon_color=%23FF0000&title=visitors&edge_flat=false)](https://hits.seeyoufarm.com)
 [![codecov](https://codecov.io/gh/q9f/eth.rb/branch/main/graph/badge.svg?token=IK7USBPBZY)](https://codecov.io/gh/q9f/eth.rb)
 [![Maintainability](https://api.codeclimate.com/v1/badges/469e6f66425198ad7614/maintainability)](https://codeclimate.com/github/q9f/eth.rb/maintainability)
 [![Top Language](https://img.shields.io/github/languages/top/q9f/eth.rb?color=red)](https://github.com/q9f/eth.rb/pulse)
@@ -34,7 +33,9 @@ What you get:
 - [x] EIP-2028 Call-data intrinsic gas cost estimates (plus access lists)
 - [x] EIP-2718 Ethereum Transaction Envelopes (and types)
 - [x] EIP-2930 Ethereum Type-1 Transactions (with access lists)
+- [x] EIP-7702 Ethereum Type-4 Transactions (with authorization lists)
 - [x] ABI-Encoder and Decoder (including type parser)
+- [x] Packed ABI-Encoder for Solidity smart contracts
 - [x] RLP-Encoder and Decoder (including sedes)
 - [x] RPC-Client (IPC/HTTP) for Execution-Layer APIs
 - [x] Solidity bindings (compile contracts from Ruby)
@@ -88,7 +89,7 @@ bundle install
 rspec
 ```
 
-The goal is to have 100% specification coverage for all code inside this gem.
+The goal is to have 100% unit-test coverage for all code inside this gem.
 
 ## Contributing
 Pull requests are welcome! To contribute, please consider the following:

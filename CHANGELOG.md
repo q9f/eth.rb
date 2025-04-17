@@ -1,6 +1,30 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## [0.5.14]
+### Added
+* Add ability to decode event parameters using ABI reference. [#328](https://github.com/q9f/eth.rb/pull/328)
+* Add support for EIP-7702 transactions  [#320](https://github.com/q9f/eth.rb/pull/320)
+* Eth/abi: implement packed encoder [#310](https://github.com/q9f/eth.rb/pull/310)
+
+### Changed
+* Chore: run rufo, add docs [#332](https://github.com/q9f/eth.rb/pull/332)
+* Spec/client: fix nonce too low error handling in spec [#331](https://github.com/q9f/eth.rb/pull/331)
+* Move the tests that are failing due to a geth upgrade to pending  [#330](https://github.com/q9f/eth.rb/pull/330)
+* Spec/client: don't require any rpc api token for tests [#326](https://github.com/q9f/eth.rb/pull/326)
+* Build(deps): bump JamesIves/github-pages-deploy-action from 4.7.2 to 4.7.3 [#327](https://github.com/q9f/eth.rb/pull/327)
+* Eth/eip712: prepare tests for packed encoding [#216](https://github.com/q9f/eth.rb/pull/216)
+* Spec/solidity: mute system call output [#319](https://github.com/q9f/eth.rb/pull/319)
+* Updated nesting of describe blocks in the EIP-1559 spec. [#318](https://github.com/q9f/eth.rb/pull/318)
+* Update README.md [#317](https://github.com/q9f/eth.rb/pull/317)
+* Docs: update README.md [#314](https://github.com/q9f/eth.rb/pull/314)
+* Gem: update copyright headers [#312](https://github.com/q9f/eth.rb/pull/312)
+* Build(deps): bump JamesIves/github-pages-deploy-action from 4.7.1 to 4.7.2 [#309](https://github.com/q9f/eth.rb/pull/309)
+* Spec: switch from infura to drpc [#308](https://github.com/q9f/eth.rb/pull/308)
+* Ci: update ruby version [#307](https://github.com/q9f/eth.rb/pull/307)
+* Gem: bump version to 0.5.14 [#305](https://github.com/q9f/eth.rb/pull/305)
+* Docs: update changelog [#304](https://github.com/q9f/eth.rb/pull/304)
+
 ## [0.5.13]
 ### Changed
 * Eth/api: update to latest available go-ethereum apis [#301](https://github.com/q9f/eth.rb/pull/301)
