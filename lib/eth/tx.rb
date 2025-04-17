@@ -17,6 +17,7 @@ require "konstructor"
 require "eth/chain"
 require "eth/tx/eip1559"
 require "eth/tx/eip2930"
+require "eth/tx/eip7702"
 require "eth/tx/legacy"
 require "eth/unit"
 
@@ -72,6 +73,12 @@ module Eth
     # The EIP-1559 transaction type is 2.
     TYPE_1559 = 0x02.freeze
 
+    # The EIP-4844 transaction type is 3.
+    TYPE_4844 = 0x03.freeze
+
+    # The EIP-7702 transaction type is 4.
+    TYPE_7702 = 0x04.freeze
+
     # The zero byte is 0x00.
     ZERO_BYTE = "\x00".freeze
 
@@ -84,11 +91,24 @@ module Eth
     #   value, data, access_list)
     # - EIP-2930: chain_id, nonce, gas_price, gas_limit, access_list(, from, to,
     #   value, data)
+    # - EIP-7702: chain_id, nonce, priority_fee, max_gas_fee, gas_limit, authorizations(, from, to,
+    #   value, data, access_list)
     # - Legacy: nonce, gas_price, gas_limit(, from, to, value, data)
     #
     # @param params [Hash] all necessary transaction fields.
     # @param chain_id [Integer] the EIP-155 Chain ID (legacy transactions only).
     def new(params, chain_id = Chain::ETHEREUM)
+
+      # if we deal with blobs, attempt EIP-4844 (not implemented)
+      unless params[:max_fee_per_blob_gas].nil?
+        raise NotimplementedError, "EIP-4844 blob transactions are not implemented"
+      end
+
+      # if we deal with authorizations, attempt EIP-7702
+      unless params[:authorization_list].nil?
+        params[:chain_id] = chain_id if params[:chain_id].nil?
+        return Tx::Eip7702.new params
+      end
 
       # if we deal with max gas fee parameter, attempt EIP-1559
       unless params[:max_gas_fee].nil?
@@ -115,6 +135,7 @@ module Eth
     def decode(hex)
       hex = Util.remove_hex_prefix hex
       type = hex[0, 2].to_i(16)
+
       case type
       when TYPE_1559
 
@@ -124,6 +145,14 @@ module Eth
 
         # EIP-2930 transaction (type 1)
         return Tx::Eip2930.decode hex
+      when TYPE_4844
+
+        # EIP-4844 transaction (type 3)
+        raise NotimplementedError, "EIP-4844 blob transactions are not implemented"
+      when TYPE_7702
+
+        # EIP-7702 transaction (type 4)
+        return Tx::Eip7702.decode hex
       else
 
         # Legacy transaction if first byte is RLP (>= 192)
@@ -150,6 +179,14 @@ module Eth
 
         # EIP-2930 transaction (type 1)
         return Tx::Eip2930.unsigned_copy tx
+      when TYPE_4844
+
+        # EIP-4844 transaction (type 3)
+        raise NotimplementedError, "EIP-4844 blob transactions are not implemented"
+      when TYPE_7702
+
+        # EIP-7702 transaction (type 4)
+        return Tx::Eip7702.unsigned_copy tx
       when TYPE_LEGACY
 
         # Legacy transaction ("type 0")
@@ -237,6 +274,18 @@ module Eth
       end
       if fields[:max_gas_fee].nil? or fields[:max_gas_fee] < 0
         raise ParameterError, "Invalid max gas fee #{fields[:max_gas_fee]}!"
+      end
+      return fields
+    end
+
+    # Validates that the type-4 transaction field authorization list is present
+    #
+    # @param fields [Hash] the transaction fields.
+    # @return [Hash] the validated transaction fields.
+    # @raise [ParameterError] if authorization list is missing.
+    def validate_eip7702_params(fields)
+      unless fields[:authorization_list].nil? or fields[:authorization_list].is_a? Array
+        raise ParameterError, "Invalid authorization list #{fields[:authorization_list]}!"
       end
       return fields
     end

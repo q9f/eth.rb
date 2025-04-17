@@ -16,40 +16,93 @@
 
 # Provides the {Eth} module.
 module Eth
-
   # Provide classes for contract event.
   class Contract::Event
-    attr_accessor :name, :signature, :input_types, :inputs, :event_string, :address
-
     # Constructor of the {Eth::Contract::Event} class.
     #
     # @param data [Hash] contract event data.
     def initialize(data)
-      @name = data["name"]
-      @input_types = data["inputs"].collect do |x|
-        type_name x
-      end
-      @inputs = data["inputs"].collect { |x| x["name"] }
-      @event_string = Abi::Event.signature(data)
-      @signature = Digest::Keccak.hexdigest(@event_string, 256)
+      @data = data
+    end
+
+    # Returns the name of the event.
+    #
+    # @return [String] The event name.
+    def name
+      @data["name"]
+    end
+
+    # Returns the input types for the event.
+    #
+    # @return [Array<String>] An array of input type names.
+    def input_types
+      @input_types ||= @data["inputs"].map { |x| type_name(x) }
+    end
+
+    # Returns the names of input parameters.
+    #
+    # @return [Array<String>] An array of input parameter names.
+    def inputs
+      @inputs ||= @data["inputs"].map { |x| x["name"] }
+    end
+
+    # Returns the event signature string.
+    #
+    # @return [String] The event signature string, generated from ABI.
+    def event_string
+      @event_string ||= Abi::Event.signature(@data)
+    end
+
+    # Returns the Keccak-256 event signature hash.
+    #
+    # @return [String] The event signature hash in hexadecimal format.
+    def signature
+      @signature ||= Digest::Keccak.hexdigest(event_string, 256)
+    end
+
+    # Returns the Ethereum address associated with the event.
+    #
+    # @return [String, nil] The Ethereum address, or `nil` if not set.
+    def address
+      @address ||= nil
     end
 
     # Set the address of the smart contract
     #
     # @param address [String] contract address.
     def set_address(address)
-      @address = address.nil? ? nil : Eth::Address.new(address).address
+      @address = address ? Eth::Address.new(address).address : nil
+    end
+
+    # Decodes event parameters from logs.
+    #
+    # @param topics [Array<String>] The list of log topics, including the event selector.
+    # @param data [String] The log data containing non-indexed parameters.
+    # @return [ActiveSupport::HashWithIndifferentAccess] A hash of decoded event parameters.
+    def decode_params(topics, data = "0x")
+      inputs = @data["inputs"]
+
+      indexed_inputs, non_indexed_inputs = inputs.partition { _1["indexed"] }
+
+      {
+        **indexed_inputs.each_with_index.inject({}) do |result, (input, index)|
+          result[input["name"]] = Eth::Abi.decode([input["type"]], topics[index + 1])[0]
+          result
+        end,
+        **Hash[non_indexed_inputs.map { _1["name"] }.zip(
+                 Eth::Abi.decode(non_indexed_inputs.map { |i| i["type"] }, data)
+               )],
+      }
     end
 
     private
 
     def type_name(x)
-      type = x["type"]
-      case type
+      case x["type"]
       when "tuple"
-        "(#{x["components"].collect { |c| type_name(c) }.join(",")})"
+        "(#{x["components"].map { |c| type_name(c) }.join(",")})"
       else
-        type
+        x["type"]
       end
     end
   end

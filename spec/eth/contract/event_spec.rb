@@ -94,4 +94,62 @@ describe Contract::Event do
       expect(event.signature).to eq("4449031b77cbe261580701c097fb63211e768f685581e616330dfff20493536c")
     end
   end
+
+  describe "#decode_params" do
+    let(:event) do
+      described_class.new({
+        "name" => "TokenMint",
+        "inputs" => [
+          { "indexed" => true, "name" => "collection", "type" => "address" },
+          { "indexed" => true, "name" => "tokenId", "type" => "uint256" },
+          { "indexed" => true, "name" => "ipfsHash", "type" => "bytes32" },
+          { "indexed" => false, "name" => "to", "type" => "address" },
+        ],
+        "type" => "tuple",
+      })
+    end
+
+    let(:topics) do
+      [
+        # Event Signature
+        "0x56cf26bc53ebe38f9e4d908b15e9c50ad826767b3ae8726088db3772f9f9b61f",
+        # collection
+        "0x0000000000000000000000005c9cbf795b4d113e0cb34c5eb60ca1f41670d2fb",
+        # tokenId
+        "0x3c9995b18871ee6c45703900fdc22b220944763432b726a2d37e95559b866506",
+        # ipfsHash
+        "0xa02633d596babc5141f89d9f5737410b7559353a4aa3328c2a67668193eaa209",
+      ]
+    end
+
+    let(:data) do
+      # to address
+      "0x000000000000000000000000f0d00750656f12ab7550bf5039d74691f9e461f0"
+    end
+
+    it "correctly serves accessors" do
+      expect(event.name).to eq "TokenMint"
+      expect(event.input_types).to eq ["address", "uint256", "bytes32", "address"]
+      expect(event.inputs).to eq ["collection", "tokenId", "ipfsHash", "to"]
+      expect(event.event_string).to eq "TokenMint(address,uint256,bytes32,address)"
+      expect(event.signature).to eq Util.remove_hex_prefix topics.first
+      expect(event.address).to be_nil
+    end
+
+    it "correctly decodes the event parameters" do
+      decoded = event.decode_params(
+        topics,
+        data,
+      )
+
+      expect(decoded["collection"]).to eq("0x5c9cbf795b4d113e0cb34c5eb60ca1f41670d2fb")
+      expect(decoded["tokenId"]).to eq(
+        27410131662392648286045511960347474962097127373970128911820026866366436238598,
+      )
+      expect(decoded["ipfsHash"]).to eq(
+        ["a02633d596babc5141f89d9f5737410b7559353a4aa3328c2a67668193eaa209"].pack("H*"),
+      )
+      expect(decoded["to"]).to eq("0xf0d00750656f12ab7550bf5039d74691f9e461f0")
+    end
+  end
 end

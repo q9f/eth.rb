@@ -10,8 +10,8 @@ later.
 
 | Gem            | Version | Supported          |
 | -------------- | ------- | ------------------ |
-| `eth`          | 0.5.x   | :white_check_mark: |
-| `eth`          | < 0.5   | :x:                |
+| `eth`          | >= 0.5  | :white_check_mark: |
+| `eth`          | <  0.5  | :x:                |
 | `ethereum`     | _any_   | :x:                |
 | `ethereum-abi` | _any_   | :x:                |
 | `rlp`          | _any_   | :x:                |
