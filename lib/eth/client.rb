@@ -251,16 +251,21 @@ module Eth
     #   @param **sender_key [Eth::Key] the sender private key.
     #   @param **legacy [Boolean] enables legacy transactions (pre-EIP-1559).
     # @return [Object] returns the result of the call.
+    # @see https://ethereum.org/en/developers/docs/apis/json-rpc/#eth_call
     def call(contract, function, *args, **kwargs)
-      func = contract.functions.select { |func| func.name == function }
-      raise ArgumentError, "this function does not exist!" if func.nil? || func.size === 0
-      selected_func = func.first
-      func.each do |f|
-        if f.inputs.size === args.size
-          selected_func = f
-        end
-      end
-      output = call_raw(contract, selected_func, *args, **kwargs)
+      function = contract.function(function, args: args.size)
+      output = function.decode_call_result(
+        eth_call(
+          {
+            data: function.encode_call(*args),
+            to: kwargs[:address] || contract.address,
+            from: kwargs[:from],
+            gas: kwargs[:gas],
+            gasPrice: kwargs[:gas_price],
+            value: kwargs[:value]
+          }.compact
+        )["result"]
+      )
       if output&.length == 1
         output[0]
       else
@@ -298,13 +303,12 @@ module Eth
         else
           Tx.estimate_intrinsic_gas(contract.bin)
         end
-      fun = contract.functions.select { |func| func.name == function }[0]
       params = {
         value: kwargs[:tx_value] || 0,
         gas_limit: gas_limit,
         chain_id: chain_id,
         to: kwargs[:address] || contract.address,
-        data: call_payload(fun, args),
+        data: contract.function(function, args: args.size).encode_call(*args),
       }
       send_transaction(params, kwargs[:legacy], kwargs[:sender_key], kwargs[:nonce])
     end
@@ -440,28 +444,6 @@ module Eth
         })
         eth_send_transaction(params)["result"]
       end
-    end
-
-    # Non-transactional function call called from call().
-    # @see https://ethereum.org/en/developers/docs/apis/json-rpc/#eth_call
-    def call_raw(contract, func, *args, **kwargs)
-      params = {
-        data: call_payload(func, args),
-        to: kwargs[:address] || contract.address,
-        from: kwargs[:from],
-      }.compact
-
-      raw_result = eth_call(params)["result"]
-      types = func.outputs.map { |i| i.type }
-      return nil if raw_result == "0x"
-      Eth::Abi.decode(types, raw_result)
-    end
-
-    # Encodes function call payloads.
-    def call_payload(fun, args)
-      types = fun.inputs.map(&:parsed_type)
-      encoded_str = Util.bin_to_hex(Eth::Abi.encode(types, args))
-      Util.prefix_hex(fun.signature + (encoded_str.empty? ? "0" * 64 : encoded_str))
     end
 
     # Encodes constructor params

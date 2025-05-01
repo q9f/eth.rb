@@ -44,6 +44,7 @@ module Eth
       return solidity_packed(types, args) if packed
       types = [types] unless types.instance_of? Array
       args = [args] unless args.instance_of? Array
+      raise ArgumentError, "Types and values must be the same length" if types.length != args.length
 
       # parse all types
       parsed_types = types.map { |t| Type === t ? t : Type.parse(t) }
