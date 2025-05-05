@@ -262,7 +262,7 @@ module Eth
             from: kwargs[:from],
             gas: kwargs[:gas],
             gasPrice: kwargs[:gas_price],
-            value: kwargs[:value]
+            value: kwargs[:value],
           }.compact
         )["result"]
       )
