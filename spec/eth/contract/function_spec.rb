@@ -53,4 +53,20 @@ describe Contract::Function do
       expect(Contract::Function.encoded_function_signature(signature)).to eq("1b9faea1")
     end
   end
+
+  describe "#encode_call" do
+    it "encodes function arguments" do
+      expect(
+        functions[0].encode_call("0xA64d0659990256F7669cf3BcF422998aAE7536f5", "0x6f813e6430a223e3ac285144fa9857cb38a642a6")
+      ).to eq("0xdd62ed3e000000000000000000000000a64d0659990256f7669cf3bcf422998aae7536f50000000000000000000000006f813e6430a223e3ac285144fa9857cb38a642a6")
+    end
+  end
+
+  describe "#decode_call_result" do
+    it "decodes call result" do
+      expect(
+        functions[0].decode_call_result("0x00000000000000000000000000000000000000000000000000000000000000af")
+      ).to eq([175])
+    end
+  end
 end
