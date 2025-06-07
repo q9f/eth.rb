@@ -161,6 +161,9 @@ module Eth
     # Chain ID for Holesovice testnet.
     HOLESKY = HOLESOVICE
 
+    # Chain ID for Basecamp testnet.
+    BASECAMP = 123420001114.freeze
+
     # Chain ID for the geth private network preset.
     PRIVATE_GETH = 1337.freeze
 
