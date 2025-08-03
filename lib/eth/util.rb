@@ -129,7 +129,11 @@ module Eth
     # @param num [Integer] integer to be converted.
     # @return [String] packed, big-endian integer string.
     def int_to_big_endian(num)
-      hex = num.to_s(16) unless hex? num
+      hex = if hex? num
+        remove_hex_prefix num
+      else
+        num.to_s(16)
+      end
       hex = "0#{hex}" if hex.size.odd?
       hex_to_bin hex
     end
