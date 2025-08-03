@@ -117,4 +117,20 @@ describe Contract do
       expect(geth.call(cont, "retrieveMyArray", 2)).to eq "0x852b8A5b155C3aaB8EafE1BAd2c0E2D3D643F69d".downcase
     end
   end
+
+  describe "#function" do
+    it "finds function by name" do
+      expect(dummy_contract.function("set").name).to eq("set")
+      expect(dummy_contract.function("set", args: 1).name).to eq("set")
+    end
+
+    it "raises in args size mismatch" do
+      expect do
+        dummy_contract.function("set", args: 0)
+      end.to raise_error("this function does not exist!")
+      expect do
+        dummy_contract.function("get", args: 1)
+      end.to raise_error("this function does not exist!")
+    end
+  end
 end

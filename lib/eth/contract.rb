@@ -106,6 +106,18 @@ module Eth
       end
     end
 
+    # Finds a function by name.
+    #
+    # @param name [String] function name.
+    # @param args [Integer, nil] number of arguments of a function.
+    # @return [Eth::Contract::Function] function object.
+    # @raise [ArgumentError] if function not found.
+    def function(name, args: nil)
+      functions.find do |f|
+        f.name == name && (args.nil? || args == f.inputs.size)
+      end || raise(ArgumentError, "this function does not exist!")
+    end
+
     # Create meta classes for smart contracts.
     def build
       class_name = @name
@@ -119,6 +131,7 @@ module Eth
         def_delegators :parent, :events
         def_delegators :parent, :address, :address=
         def_delegator :parent, :functions
+        def_delegator :parent, :function
         def_delegator :parent, :constructor_inputs
         define_method :parent do
           parent
