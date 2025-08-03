@@ -290,7 +290,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#hex%3F-class_method" title="#hex? (class method)">.<strong>hex?</strong>(str)  &#x21d2; String </a>
+      <a href="#hex%3F-class_method" title="#hex? (class method)">.<strong>hex?</strong>(str)  &#x21d2; MatchData<sup>?</sup> </a>
     
 
     
@@ -305,7 +305,7 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Checks if a string is hex-adecimal.</p>
+<p>Checks if a string is hexadecimal.</p>
 </div></span>
   
 </li>
@@ -851,7 +851,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#hex%3F-instance_method" title="#hex? (instance method)">#<strong>hex?</strong>(str)  &#x21d2; String </a>
+      <a href="#hex%3F-instance_method" title="#hex? (instance method)">#<strong>hex?</strong>(str)  &#x21d2; MatchData<sup>?</sup> </a>
     
 
     
@@ -866,7 +866,7 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Checks if a string is hex-adecimal.</p>
+<p>Checks if a string is hexadecimal.</p>
 </div></span>
   
 </li>
@@ -1817,7 +1817,7 @@
       <div class="method_details ">
   <h3 class="signature " id="hex?-class_method">
   
-    .<strong>hex?</strong>(str)  &#x21d2; <tt>String</tt> 
+    .<strong>hex?</strong>(str)  &#x21d2; <tt>MatchData</tt><sup>?</sup> 
   
 
   
@@ -1826,7 +1826,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Checks if a string is hex-adecimal.</p>
+<p>Checks if a string is hexadecimal.</p>
 
 
   </div>
@@ -1859,7 +1859,7 @@
     <li>
       
       
-        <span class='type'>(<tt>String</tt>)</span>
+        <span class='type'>(<tt>MatchData</tt>, <tt>nil</tt>)</span>
       
       
       
@@ -1888,7 +1888,7 @@
       <pre class="code"><span class="info file"># File 'lib/eth/util.rb', line 100</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_hex?'>hex?</span><span class='lparen'>(</span><span class='id identifier rubyid_str'>str</span><span class='rparen'>)</span>
-  <span class='kw'>return</span> <span class='kw'>false</span> <span class='kw'>unless</span> <span class='id identifier rubyid_str'>str</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span> <span class='const'>String</span>
+  <span class='kw'>return</span> <span class='kw'>unless</span> <span class='id identifier rubyid_str'>str</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span> <span class='const'>String</span>
   <span class='id identifier rubyid_str'>str</span> <span class='op'>=</span> <span class='id identifier rubyid_remove_hex_prefix'>remove_hex_prefix</span> <span class='id identifier rubyid_str'>str</span>
   <span class='id identifier rubyid_str'>str</span><span class='period'>.</span><span class='id identifier rubyid_match'>match</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>\A[0-9a-fA-F]*\z</span><span class='regexp_end'>/</span></span>
 <span class='kw'>end</span></pre>
@@ -3816,7 +3816,7 @@
       <div class="method_details ">
   <h3 class="signature " id="hex?-instance_method">
   
-    #<strong>hex?</strong>(str)  &#x21d2; <tt>String</tt> 
+    #<strong>hex?</strong>(str)  &#x21d2; <tt>MatchData</tt><sup>?</sup> 
   
 
   
@@ -3825,7 +3825,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Checks if a string is hex-adecimal.</p>
+<p>Checks if a string is hexadecimal.</p>
 
 
   </div>
@@ -3858,7 +3858,7 @@
     <li>
       
       
-        <span class='type'>(<tt>String</tt>)</span>
+        <span class='type'>(<tt>MatchData</tt>, <tt>nil</tt>)</span>
       
       
       
@@ -3887,7 +3887,7 @@
       <pre class="code"><span class="info file"># File 'lib/eth/util.rb', line 100</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_hex?'>hex?</span><span class='lparen'>(</span><span class='id identifier rubyid_str'>str</span><span class='rparen'>)</span>
-  <span class='kw'>return</span> <span class='kw'>false</span> <span class='kw'>unless</span> <span class='id identifier rubyid_str'>str</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span> <span class='const'>String</span>
+  <span class='kw'>return</span> <span class='kw'>unless</span> <span class='id identifier rubyid_str'>str</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span> <span class='const'>String</span>
   <span class='id identifier rubyid_str'>str</span> <span class='op'>=</span> <span class='id identifier rubyid_remove_hex_prefix'>remove_hex_prefix</span> <span class='id identifier rubyid_str'>str</span>
   <span class='id identifier rubyid_str'>str</span><span class='period'>.</span><span class='id identifier rubyid_match'>match</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>\A[0-9a-fA-F]*\z</span><span class='regexp_end'>/</span></span>
 <span class='kw'>end</span></pre>
@@ -5238,7 +5238,7 @@
 </div>
 
       <div id="footer">
-  Generated on Sun Aug  3 20:12:16 2025 by
+  Generated on Sun Aug  3 20:12:57 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.37 (ruby-3.4.5).
 </div>
