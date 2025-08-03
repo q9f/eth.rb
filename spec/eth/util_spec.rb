@@ -87,27 +87,27 @@ describe Util do
     end
   end
 
-    describe ".prefix_hex .remove_hex_prefix" do
+  describe ".prefix_hex .remove_hex_prefix" do
     it "ensures that a hex value has 0x at the beginning" do
       expect(Util.prefix_hex "abc").to eq "0xabc"
       expect(Util.prefix_hex "0xabc").to eq "0xabc"
     end
 
-      it "ensures we can remove 0x hex prefixes" do
-        expect(Util.remove_hex_prefix "abc").to eq "abc"
-        expect(Util.remove_hex_prefix "0xabc").to eq "abc"
-      end
-
-      it "does not reformat the hex or remove leading zeros" do
-        expect(Util.prefix_hex "0123").to eq "0x0123"
-        expect(Util.remove_hex_prefix "0x0123").to eq "0123"
-      end
-
-      it "handles upper-case 0X prefixes" do
-        expect(Util.prefix_hex "0Xabc").to eq "0xabc"
-        expect(Util.remove_hex_prefix "0Xabc").to eq "abc"
-      end
+    it "ensures we can remove 0x hex prefixes" do
+      expect(Util.remove_hex_prefix "abc").to eq "abc"
+      expect(Util.remove_hex_prefix "0xabc").to eq "abc"
     end
+
+    it "does not reformat the hex or remove leading zeros" do
+      expect(Util.prefix_hex "0123").to eq "0x0123"
+      expect(Util.remove_hex_prefix "0x0123").to eq "0123"
+    end
+
+    it "handles upper-case 0X prefixes" do
+      expect(Util.prefix_hex "0Xabc").to eq "0xabc"
+      expect(Util.remove_hex_prefix "0Xabc").to eq "abc"
+    end
+  end
 
   describe ".hex .prefixed" do
     it "can determine prefixed and unprefixed hexa-decimal strings" do
