@@ -102,6 +102,11 @@ describe Util do
       expect(Util.prefix_hex "0123").to eq "0x0123"
       expect(Util.remove_hex_prefix "0x0123").to eq "0123"
     end
+
+    it "handles upper-case 0X prefixes" do
+      expect(Util.prefix_hex "0Xabc").to eq "0xabc"
+      expect(Util.remove_hex_prefix "0Xabc").to eq "abc"
+    end
   end
 
   describe ".hex .prefixed" do
@@ -113,6 +118,7 @@ describe Util do
 
       # Ensure we can detect hexa-decimal prefixes.
       expect(Util.prefixed? "0x94ead6c8ca752be9383610ee078961").to be_truthy
+      expect(Util.prefixed? "0X94ead6c8ca752be9383610ee078961").to be_truthy
       expect(Util.prefixed? "563df9c4690a3be20b5abc9c6705c4c7").to be_falsy
 
       # Ensure we can add and remove prefixes.
