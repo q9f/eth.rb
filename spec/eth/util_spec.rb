@@ -116,10 +116,10 @@ describe Util do
       expect(Util.hex? "f77a7b601a1902ce8fb866fb304527f6").to be_truthy
       expect(Util.hex? "B7ktIsrmF4DCxsOVhRmmBMh8ArXRs2I6").to be_falsy
 
-        # Ensure we can detect hexa-decimal prefixes.
-        expect(Util.prefixed? "0x94ead6c8ca752be9383610ee078961").to be_truthy
-        expect(Util.prefixed? "0X94ead6c8ca752be9383610ee078961").to be_truthy
-        expect(Util.prefixed? "563df9c4690a3be20b5abc9c6705c4c7").to be_falsy
+      # Ensure we can detect hexa-decimal prefixes.
+      expect(Util.prefixed? "0x94ead6c8ca752be9383610ee078961").to be_truthy
+      expect(Util.prefixed? "0X94ead6c8ca752be9383610ee078961").to be_truthy
+      expect(Util.prefixed? "563df9c4690a3be20b5abc9c6705c4c7").to be_falsy
 
       # Ensure we can add and remove prefixes.
       expect(Util.prefixed? Util.remove_hex_prefix "0xa6cae631a6b7121648cc940613208e").to be_falsy
