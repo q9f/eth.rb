@@ -22,6 +22,11 @@ describe Address do
       expect(alice.address).to start_with "0x"
       expect(bob.address).to start_with "0x"
     end
+
+    it "accepts an address with upper-case 0X prefix" do
+      carol = Address.new "0X7291d3cd257053bac810ee2c55fd7c154bd455af"
+      expect(carol.address).to start_with "0x"
+    end
   end
 
   describe ".valid?" do
