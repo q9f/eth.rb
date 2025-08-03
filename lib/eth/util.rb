@@ -93,12 +93,12 @@ module Eth
       prefix_hex bin_to_hex bin
     end
 
-    # Checks if a string is hex-adecimal.
+    # Checks if a string is hexadecimal.
     #
     # @param str [String] a string to be checked.
-    # @return [String] a match if true; `nil` if not.
+    # @return [MatchData, nil] a match if true; `nil` if not.
     def hex?(str)
-      return false unless str.is_a? String
+      return unless str.is_a? String
       str = remove_hex_prefix str
       str.match /\A[0-9a-fA-F]*\z/
     end
