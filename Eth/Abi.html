@@ -388,7 +388,6 @@
       <pre class="lines">
 
 
-97
 98
 99
 100
@@ -437,10 +436,11 @@
 143
 144
 145
-146</pre>
+146
+147</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/abi.rb', line 97</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/abi.rb', line 98</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_decode'>decode</span><span class='lparen'>(</span><span class='id identifier rubyid_types'>types</span><span class='comma'>,</span> <span class='id identifier rubyid_data'>data</span><span class='rparen'>)</span>
 
@@ -588,6 +588,19 @@
     </li>
   
 </ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>ArgumentError</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -621,7 +634,8 @@
 66
 67
 68
-69</pre>
+69
+70</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/eth/abi.rb', line 43</span>
@@ -630,6 +644,7 @@
   <span class='kw'>return</span> <span class='id identifier rubyid_solidity_packed'>solidity_packed</span><span class='lparen'>(</span><span class='id identifier rubyid_types'>types</span><span class='comma'>,</span> <span class='id identifier rubyid_args'>args</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_packed'>packed</span>
   <span class='id identifier rubyid_types'>types</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='id identifier rubyid_types'>types</span><span class='rbracket'>]</span> <span class='kw'>unless</span> <span class='id identifier rubyid_types'>types</span><span class='period'>.</span><span class='id identifier rubyid_instance_of?'>instance_of?</span> <span class='const'>Array</span>
   <span class='id identifier rubyid_args'>args</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='id identifier rubyid_args'>args</span><span class='rbracket'>]</span> <span class='kw'>unless</span> <span class='id identifier rubyid_args'>args</span><span class='period'>.</span><span class='id identifier rubyid_instance_of?'>instance_of?</span> <span class='const'>Array</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'>ArgumentError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Types and values must be the same length</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_types'>types</span><span class='period'>.</span><span class='id identifier rubyid_length'>length</span> <span class='op'>!=</span> <span class='id identifier rubyid_args'>args</span><span class='period'>.</span><span class='id identifier rubyid_length'>length</span>
 
   <span class='comment'># parse all types
 </span>  <span class='id identifier rubyid_parsed_types'>parsed_types</span> <span class='op'>=</span> <span class='id identifier rubyid_types'>types</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_t'>t</span><span class='op'>|</span> <span class='const'><span class='object_link'><a href="Abi/Type.html" title="Eth::Abi::Type (class)">Type</a></span></span> <span class='op'>===</span> <span class='id identifier rubyid_t'>t</span> <span class='op'>?</span> <span class='id identifier rubyid_t'>t</span> <span class='op'>:</span> <span class='const'><span class='object_link'><a href="Abi/Type.html" title="Eth::Abi::Type (class)">Type</a></span></span><span class='period'>.</span><span class='id identifier rubyid_parse'><span class='object_link'><a href="Abi/Type.html#parse-instance_method" title="Eth::Abi::Type#parse (method)">parse</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_t'>t</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
@@ -756,7 +771,6 @@
       <pre class="lines">
 
 
-78
 79
 80
 81
@@ -767,10 +781,11 @@
 86
 87
 88
-89</pre>
+89
+90</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/abi.rb', line 78</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/abi.rb', line 79</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_solidity_packed'>solidity_packed</span><span class='lparen'>(</span><span class='id identifier rubyid_types'>types</span><span class='comma'>,</span> <span class='id identifier rubyid_args'>args</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_raise'>raise</span> <span class='const'>ArgumentError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Types and values must be the same length</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_types'>types</span><span class='period'>.</span><span class='id identifier rubyid_length'>length</span> <span class='op'>!=</span> <span class='id identifier rubyid_args'>args</span><span class='period'>.</span><span class='id identifier rubyid_length'>length</span>
@@ -888,7 +903,6 @@
       <pre class="lines">
 
 
-97
 98
 99
 100
@@ -937,10 +951,11 @@
 143
 144
 145
-146</pre>
+146
+147</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/abi.rb', line 97</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/abi.rb', line 98</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_decode'>decode</span><span class='lparen'>(</span><span class='id identifier rubyid_types'>types</span><span class='comma'>,</span> <span class='id identifier rubyid_data'>data</span><span class='rparen'>)</span>
 
@@ -1088,6 +1103,19 @@
     </li>
   
 </ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>ArgumentError</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -1121,7 +1149,8 @@
 66
 67
 68
-69</pre>
+69
+70</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/eth/abi.rb', line 43</span>
@@ -1130,6 +1159,7 @@
   <span class='kw'>return</span> <span class='id identifier rubyid_solidity_packed'>solidity_packed</span><span class='lparen'>(</span><span class='id identifier rubyid_types'>types</span><span class='comma'>,</span> <span class='id identifier rubyid_args'>args</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_packed'>packed</span>
   <span class='id identifier rubyid_types'>types</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='id identifier rubyid_types'>types</span><span class='rbracket'>]</span> <span class='kw'>unless</span> <span class='id identifier rubyid_types'>types</span><span class='period'>.</span><span class='id identifier rubyid_instance_of?'>instance_of?</span> <span class='const'>Array</span>
   <span class='id identifier rubyid_args'>args</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='id identifier rubyid_args'>args</span><span class='rbracket'>]</span> <span class='kw'>unless</span> <span class='id identifier rubyid_args'>args</span><span class='period'>.</span><span class='id identifier rubyid_instance_of?'>instance_of?</span> <span class='const'>Array</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'>ArgumentError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Types and values must be the same length</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_types'>types</span><span class='period'>.</span><span class='id identifier rubyid_length'>length</span> <span class='op'>!=</span> <span class='id identifier rubyid_args'>args</span><span class='period'>.</span><span class='id identifier rubyid_length'>length</span>
 
   <span class='comment'># parse all types
 </span>  <span class='id identifier rubyid_parsed_types'>parsed_types</span> <span class='op'>=</span> <span class='id identifier rubyid_types'>types</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_t'>t</span><span class='op'>|</span> <span class='const'><span class='object_link'><a href="Abi/Type.html" title="Eth::Abi::Type (class)">Type</a></span></span> <span class='op'>===</span> <span class='id identifier rubyid_t'>t</span> <span class='op'>?</span> <span class='id identifier rubyid_t'>t</span> <span class='op'>:</span> <span class='const'><span class='object_link'><a href="Abi/Type.html" title="Eth::Abi::Type (class)">Type</a></span></span><span class='period'>.</span><span class='id identifier rubyid_parse'><span class='object_link'><a href="Abi/Type.html#parse-instance_method" title="Eth::Abi::Type#parse (method)">parse</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_t'>t</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
@@ -1256,7 +1286,6 @@
       <pre class="lines">
 
 
-78
 79
 80
 81
@@ -1267,10 +1296,11 @@
 86
 87
 88
-89</pre>
+89
+90</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/abi.rb', line 78</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/abi.rb', line 79</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_solidity_packed'>solidity_packed</span><span class='lparen'>(</span><span class='id identifier rubyid_types'>types</span><span class='comma'>,</span> <span class='id identifier rubyid_args'>args</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_raise'>raise</span> <span class='const'>ArgumentError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Types and values must be the same length</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_types'>types</span><span class='period'>.</span><span class='id identifier rubyid_length'>length</span> <span class='op'>!=</span> <span class='id identifier rubyid_args'>args</span><span class='period'>.</span><span class='id identifier rubyid_length'>length</span>
@@ -1294,7 +1324,7 @@
 </div>
 
       <div id="footer">
-  Generated on Sun Aug  3 20:12:57 2025 by
+  Generated on Sun Aug  3 20:18:49 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.37 (ruby-3.4.5).
 </div>
