@@ -269,13 +269,13 @@ module Eth
         raise ParameterError, "Transaction missing fields!" if tx.size < 10
 
         # populate the 10 payload fields
-        chain_id = Util.deserialize_big_endian_to_int tx[0]
-        nonce = Util.deserialize_big_endian_to_int tx[1]
-        priority_fee = Util.deserialize_big_endian_to_int tx[2]
-        max_gas_fee = Util.deserialize_big_endian_to_int tx[3]
-        gas_limit = Util.deserialize_big_endian_to_int tx[4]
+        chain_id = Util.deserialize_rlp_int tx[0]
+        nonce = Util.deserialize_rlp_int tx[1]
+        priority_fee = Util.deserialize_rlp_int tx[2]
+        max_gas_fee = Util.deserialize_rlp_int tx[3]
+        gas_limit = Util.deserialize_rlp_int tx[4]
         to = Util.bin_to_hex tx[5]
-        value = Util.deserialize_big_endian_to_int tx[6]
+        value = Util.deserialize_rlp_int tx[6]
         data = tx[7]
         access_list = tx[8]
         authorization_list = tx[9]
@@ -474,9 +474,9 @@ module Eth
 
       def deserialize_authorizations(authorization_list)
         authorization_list.map do |authorization_tuple|
-          chain_id = Util.deserialize_big_endian_to_int authorization_tuple[0]
+          chain_id = Util.deserialize_rlp_int authorization_tuple[0]
           address = Util.bin_to_hex authorization_tuple[1]
-          nonce = Util.deserialize_big_endian_to_int authorization_tuple[2]
+          nonce = Util.deserialize_rlp_int authorization_tuple[2]
           recovery_id = Util.bin_to_hex(authorization_tuple[3]).to_i(16)
           r = Util.bin_to_hex authorization_tuple[4]
           s = Util.bin_to_hex authorization_tuple[5]

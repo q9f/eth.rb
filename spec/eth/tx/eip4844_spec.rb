@@ -48,5 +48,44 @@ describe Tx::Eip4844 do
       expect(blob_tx).to be_instance_of Tx::Eip4844
       expect(blob_tx.hex).to eq tx.hex
     end
+
+    it "raises on non-minimal integer encoding" do
+      fields = [
+        Util.serialize_int_to_big_endian(1),
+        "\x00\x01",
+        Util.serialize_int_to_big_endian(1),
+        Util.serialize_int_to_big_endian(1),
+        Util.serialize_int_to_big_endian(1),
+        "",
+        Util.serialize_int_to_big_endian(1),
+        "",
+        [],
+        Util.serialize_int_to_big_endian(1),
+        [],
+      ]
+      encoded = Rlp.encode(fields)
+      hex = "0x03#{Util.bin_to_hex(encoded)}"
+      expect { Tx::Eip4844.decode(hex) }.to raise_error Rlp::DeserializationError
+    end
+
+    it "round-trips valid integer encoding" do
+      fields = [
+        Util.serialize_int_to_big_endian(1),
+        Util.serialize_int_to_big_endian(1),
+        Util.serialize_int_to_big_endian(1),
+        Util.serialize_int_to_big_endian(1),
+        Util.serialize_int_to_big_endian(1),
+        "",
+        Util.serialize_int_to_big_endian(1),
+        "",
+        [],
+        Util.serialize_int_to_big_endian(1),
+        [],
+      ]
+      encoded = Rlp.encode(fields)
+      hex = "0x03#{Util.bin_to_hex(encoded)}"
+      tx = Tx::Eip4844.decode(hex)
+      expect(tx.signer_nonce).to eq 1
+    end
   end
 end

@@ -128,18 +128,18 @@ module Eth
         raise ParameterError, "Transaction missing fields!" if tx.size < 9
 
         # populate the 9 fields
-        nonce = Util.deserialize_big_endian_to_int tx[0]
-        gas_price = Util.deserialize_big_endian_to_int tx[1]
-        gas_limit = Util.deserialize_big_endian_to_int tx[2]
+        nonce = Util.deserialize_rlp_int tx[0]
+        gas_price = Util.deserialize_rlp_int tx[1]
+        gas_limit = Util.deserialize_rlp_int tx[2]
         to = Util.bin_to_hex tx[3]
-        value = Util.deserialize_big_endian_to_int tx[4]
+        value = Util.deserialize_rlp_int tx[4]
         data = tx[5]
         v = Util.bin_to_hex tx[6]
         r = Util.bin_to_hex tx[7]
         s = Util.bin_to_hex tx[8]
 
         # try to recover the chain id from v
-        chain_id = Chain.to_chain_id Util.deserialize_big_endian_to_int tx[6]
+        chain_id = Chain.to_chain_id Util.deserialize_rlp_int tx[6]
 
         # populate class attributes
         @signer_nonce = nonce.to_i

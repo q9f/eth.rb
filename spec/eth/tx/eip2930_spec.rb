@@ -65,6 +65,39 @@ describe Tx::Eip2930 do
       expect(type01.hex).to eq duplicated.hex
       expect(type01.hash).to eq duplicated.hash
     end
+
+    it "raises on non-minimal integer encoding" do
+      fields = [
+        Util.serialize_int_to_big_endian(1),
+        "\x00\x01",
+        Util.serialize_int_to_big_endian(1),
+        Util.serialize_int_to_big_endian(1),
+        "",
+        Util.serialize_int_to_big_endian(1),
+        "",
+        [],
+      ]
+      encoded = Rlp.encode(fields)
+      hex = "0x01#{Util.bin_to_hex(encoded)}"
+      expect { Tx::Eip2930.decode(hex) }.to raise_error Rlp::DeserializationError
+    end
+
+    it "round-trips valid integer encoding" do
+      fields = [
+        Util.serialize_int_to_big_endian(1),
+        Util.serialize_int_to_big_endian(1),
+        Util.serialize_int_to_big_endian(1),
+        Util.serialize_int_to_big_endian(1),
+        "",
+        Util.serialize_int_to_big_endian(1),
+        "",
+        [],
+      ]
+      encoded = Rlp.encode(fields)
+      hex = "0x01#{Util.bin_to_hex(encoded)}"
+      tx = Tx::Eip2930.decode(hex)
+      expect(tx.signer_nonce).to eq 1
+    end
   end
 
   describe ".initialize" do

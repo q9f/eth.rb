@@ -92,6 +92,41 @@ describe Tx::Legacy do
       expect(ruby.hex).to eq duplicated.hex
       expect(ruby.hash).to eq duplicated.hash
     end
+
+    it "raises on non-minimal integer encoding" do
+      fields = [
+        "\x00\x01", # nonce with leading zero
+        Util.serialize_int_to_big_endian(1),
+        Util.serialize_int_to_big_endian(1),
+        "",
+        Util.serialize_int_to_big_endian(1),
+        "",
+        Util.serialize_int_to_big_endian(1),
+        "",
+        "",
+      ]
+      encoded = Rlp.encode(fields)
+      hex = Util.bin_to_hex(encoded)
+      expect { Tx::Legacy.decode(hex) }.to raise_error Rlp::DeserializationError
+    end
+
+    it "round-trips valid integer encoding" do
+      fields = [
+        Util.serialize_int_to_big_endian(1),
+        Util.serialize_int_to_big_endian(1),
+        Util.serialize_int_to_big_endian(1),
+        "",
+        Util.serialize_int_to_big_endian(1),
+        "",
+        Util.serialize_int_to_big_endian(1),
+        "",
+        "",
+      ]
+      encoded = Rlp.encode(fields)
+      hex = Util.bin_to_hex(encoded)
+      tx = Tx::Legacy.decode(hex)
+      expect(tx.signer_nonce).to eq 1
+    end
   end
 
   describe ".initialize" do
