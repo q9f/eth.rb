@@ -10,7 +10,7 @@ group :test, :development do
   gem "rspec", "~> 3.13"
   gem "rufo", "~> 0.18"
   gem "simplecov", "~> 0.22"
-  gem "simplecov-cobertura", "~> 2.1"
+  gem "simplecov-cobertura", "~> 3.0"
   gem "yard", "~> 0.9"
 end
 
