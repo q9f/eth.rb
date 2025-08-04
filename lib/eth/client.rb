@@ -287,7 +287,7 @@ module Eth
         output
       end
     rescue RpcError => e
-      raise ContractExecutionError, decode_contract_error(contract, e)
+      raise ContractExecutionError, contract.decode_error(e)
     end
 
     # Executes a contract function with a transaction (transactional
@@ -342,7 +342,7 @@ module Eth
         hash = wait_for_tx(transact(contract, function, *args, **kwargs))
         return hash, tx_succeeded?(hash)
       rescue RpcError => e
-        raise ContractExecutionError, decode_contract_error(contract, e)
+        raise ContractExecutionError, contract.decode_error(e)
       end
     end
 
@@ -484,29 +484,6 @@ module Eth
         raise RpcError.new(err["message"], err["data"])
       end
       output
-    end
-
-    # Decodes a custom error returned by an RPC error using the contract ABI.
-    #
-    # @param contract [Eth::Contract] the contract with error definitions.
-    # @param rpc_error [RpcError] the RPC error containing revert data.
-    # @return [String] a human readable error message.
-    def decode_contract_error(contract, rpc_error)
-      data = rpc_error.data
-      return rpc_error.message if data.nil? || contract.errors.nil?
-
-      signature = data[0, 10]
-      if (err = contract.errors.find { _1.signature == signature })
-        values = err.decode(data)
-        args = values&.map { |v| v.is_a?(String) ? v : v.inspect }&.join(",")
-        args ||= ""
-        "execution reverted: #{err.name}(#{args})"
-      elsif signature == "0x08c379a0"
-        reason = Abi.decode(["string"], "0x" + data[10..])&.first
-        "execution reverted: #{reason}"
-      else
-        rpc_error.message
-      end
     end
 
     # Increments the request id.

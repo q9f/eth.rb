@@ -30,4 +30,12 @@ describe Contract do
       expect { client.call(contract, "foo") }.to raise_error(Client::ContractExecutionError, "execution reverted: Unauthorized(0x0000000000000000000000000000000000000000)")
     end
   end
+
+  describe "#decode_error" do
+    let(:rpc_error) { Client::RpcError.new("execution reverted", error_data) }
+
+    it "returns a readable message" do
+      expect(contract.decode_error(rpc_error)).to eq("execution reverted: Unauthorized(0x0000000000000000000000000000000000000000)")
+    end
+  end
 end
