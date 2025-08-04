@@ -62,24 +62,6 @@ and the
 [![Usage Wiki](https://img.shields.io/badge/usage-WIKI-blue)](https://github.com/q9f/eth.rb/wiki)
 for all the details and example snippets.
 
-### Signing transactions with external providers
-
-Keys can be kept with a remote signer or "key-as-a-service" provider. Build an
-unsigned transaction locally, obtain the signature from the external service and
-attach it before broadcasting:
-
-```ruby
-client = Eth::Client.create
-tx = Eth::Tx.new({
-  chain_id: client.chain_id,
-  nonce: client.get_nonce("0x...")
-  # ... additional transaction fields ...
-})
-signature = external.sign(tx.unsigned_hash, tx.chain_id)
-tx.sign_with(signature)
-client.eth_send_raw_transaction(tx.hex)
-```
-
 ## Documentation
 The documentation can be found at: https://q9f.github.io/eth.rb
 
