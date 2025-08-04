@@ -5,6 +5,9 @@ All notable changes to this project will be documented in this file.
 ### Added
 * Eth/contract: support solidity custom errors as per ERC-6093 [#344](https://github.com/q9f/eth.rb/pull/344)
 
+### Fixed
+* Eth/abi: handle tuple type without components [#335](https://github.com/q9f/eth.rb/issues/335)
+
 ## [0.5.14]
 ### Added
 * Add ability to decode event parameters using ABI reference. [#328](https://github.com/q9f/eth.rb/pull/328)
