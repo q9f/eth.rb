@@ -40,6 +40,21 @@ module Eth
     # A custom error type if a contract interaction fails.
     class ContractExecutionError < StandardError; end
 
+    # Raised when an RPC call returns an error. Carries the optional
+    # hex-encoded error data to support custom error decoding.
+    class RpcError < IOError
+      attr_reader :data
+
+      # Constructor for the {RpcError} class.
+      #
+      # @param message [String] the error message returned by the RPC.
+      # @param data [String] optional hex encoded error data.
+      def initialize(message, data = nil)
+        super(message)
+        @data = data
+      end
+    end
+
     # Creates a new RPC-Client, either by providing an HTTP/S host or
     # an IPC path. Supports basic authentication with username and password.
     #
@@ -271,6 +286,8 @@ module Eth
       else
         output
       end
+    rescue RpcError => e
+      raise ContractExecutionError, decode_contract_error(contract, e)
     end
 
     # Executes a contract function with a transaction (transactional
@@ -324,8 +341,8 @@ module Eth
       begin
         hash = wait_for_tx(transact(contract, function, *args, **kwargs))
         return hash, tx_succeeded?(hash)
-      rescue IOError => e
-        raise ContractExecutionError, e
+      rescue RpcError => e
+        raise ContractExecutionError, decode_contract_error(contract, e)
       end
     end
 
@@ -463,8 +480,33 @@ module Eth
         id: next_id,
       }
       output = JSON.parse(send_request(payload.to_json))
-      raise IOError, output["error"]["message"] unless output["error"].nil?
+      if (err = output["error"])
+        raise RpcError.new(err["message"], err["data"])
+      end
       output
+    end
+
+    # Decodes a custom error returned by an RPC error using the contract ABI.
+    #
+    # @param contract [Eth::Contract] the contract with error definitions.
+    # @param rpc_error [RpcError] the RPC error containing revert data.
+    # @return [String] a human readable error message.
+    def decode_contract_error(contract, rpc_error)
+      data = rpc_error.data
+      return rpc_error.message if data.nil? || contract.errors.nil?
+
+      signature = data[0, 10]
+      if (err = contract.errors.find { _1.signature == signature })
+        values = err.decode(data)
+        args = values&.map { |v| v.is_a?(String) ? v : v.inspect }&.join(",")
+        args ||= ""
+        "execution reverted: #{err.name}(#{args})"
+      elsif signature == "0x08c379a0"
+        reason = Abi.decode(["string"], "0x" + data[10..])&.first
+        "execution reverted: #{reason}"
+      else
+        rpc_error.message
+      end
     end
 
     # Increments the request id.

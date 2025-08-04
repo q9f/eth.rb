@@ -3,7 +3,8 @@ All notable changes to this project will be documented in this file.
 
 ## [0.5.15]
 ### Added
-* Add support for EIP-4844 transactions [#322](https://github.com/q9f/eth.rb/issues/322)
+* Eth/tx: add support for EIP-4844 transactions [#345](https://github.com/q9f/eth.rb/pull/345)
+* Eth/contract: support solidity custom errors as per ERC-6093 [#344](https://github.com/q9f/eth.rb/pull/344)
 
 ## [0.5.14]
 ### Added
