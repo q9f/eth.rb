@@ -83,6 +83,7 @@ describe Abi::Type do
       expect(Abi::Type.parse("bytes").size).to be_nil
       expect(Abi::Type.parse("uint256[]").size).to be_nil
       expect(Abi::Type.parse("uint256[4][]").size).to be_nil
+      expect(Abi::Type.parse("tuple").size).to be_nil
 
       expect(Abi::Type.parse("bytes32").size).to eq 32
       expect(Abi::Type.parse("uint256").size).to eq 32
