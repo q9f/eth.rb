@@ -151,6 +151,11 @@ describe Util do
       end
     end
 
+    it "converts hex strings to big endian" do
+      expect(Util.int_to_big_endian("0x10")).to eq "\x10"
+      expect(Util.int_to_big_endian("10")).to eq "\x10"
+    end
+
     it "can raises if integers are invalid" do
       negative_ints = [-1, -100, -255, -256, -2342423]
       negative_ints.each do |n|
