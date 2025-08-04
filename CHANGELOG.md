@@ -6,6 +6,7 @@ All notable changes to this project will be documented in this file.
 * Add ability to decode event parameters using ABI reference. [#328](https://github.com/q9f/eth.rb/pull/328)
 * Add support for EIP-7702 transactions  [#320](https://github.com/q9f/eth.rb/pull/320)
 * Eth/abi: implement packed encoder [#310](https://github.com/q9f/eth.rb/pull/310)
+* Support Solidity custom errors as per EIP-6093 [#323](https://github.com/q9f/eth.rb/issues/323)
 
 ### Changed
 * Chore: run rufo, add docs [#332](https://github.com/q9f/eth.rb/pull/332)
