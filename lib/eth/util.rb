@@ -72,8 +72,7 @@ module Eth
     # @param hex [String] a hex-string to be prefixed.
     # @return [String] a prefixed hex-string.
     def prefix_hex(hex)
-      return hex if prefixed? hex
-      return "0x#{hex}"
+      "0x#{remove_hex_prefix hex}"
     end
 
     # Removes the `0x` prefix of a hexa-decimal string.
@@ -93,12 +92,12 @@ module Eth
       prefix_hex bin_to_hex bin
     end
 
-    # Checks if a string is hex-adecimal.
+    # Checks if a string is hexadecimal.
     #
     # @param str [String] a string to be checked.
-    # @return [String] a match if true; `nil` if not.
+    # @return [MatchData, nil] a match if true; `nil` if not.
     def hex?(str)
-      return false unless str.is_a? String
+      return unless str.is_a? String
       str = remove_hex_prefix str
       str.match /\A[0-9a-fA-F]*\z/
     end
@@ -108,7 +107,7 @@ module Eth
     # @param hex [String] a string to be checked.
     # @return [String] a match if true; `nil` if not.
     def prefixed?(hex)
-      hex.match /\A0x/
+      hex.match /\A0x/i
     end
 
     # Serializes an unsigned integer to big endian.

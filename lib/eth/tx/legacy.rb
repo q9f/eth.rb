@@ -68,7 +68,7 @@ module Eth
       # @option params [Integer] :gas_price the gas price.
       # @option params [Integer] :gas_limit the gas limit.
       # @option params [Eth::Address] :from the sender address.
-      # @option params [Eth::Address] :to the reciever address.
+      # @option params [Eth::Address] :to the receiver address.
       # @option params [Integer] :value the transaction value.
       # @option params [String] :data the transaction data payload.
       # @param chain_id [Integer] the EIP-155 Chain ID.

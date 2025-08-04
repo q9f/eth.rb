@@ -52,6 +52,7 @@ describe Chain do
       expect(Chain::SEPOLIA).to eq 11155111
       expect(Chain::HOLESOVICE).to eq 11166111
       expect(Chain::HOLESKY).to eq 11166111
+      expect(Chain::BASECAMP).to eq 123420001114
 
       # Chain IDs for selected private networks
       expect(Chain::PRIVATE_GETH).to eq 1337

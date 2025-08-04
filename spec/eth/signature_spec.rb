@@ -254,5 +254,16 @@ describe Signature do
       expect(Signature.personal_recover msg, sig, chain_id).to eq key.public_hex
       expect(Signature.verify msg, sig, key.public_hex, chain_id).to be_truthy
     end
+
+    it "can sign and verify for chain IDs > 4294967295" do
+      key = Key.new priv: "8e091dfb95a1b03cdd22890248c3f1b0f048186f2f3aa93257bc5271339eb306"
+      msg = "Hello, Basecamp!"
+      chain_id = Chain::BASECAMP
+      sig = key.personal_sign msg, chain_id
+      r, s, v = Signature.dissect sig
+      expect(Chain.to_chain_id v.to_i(16)).to eq chain_id
+      expect(Signature.personal_recover msg, sig, chain_id).to eq key.public_hex
+      expect(Signature.verify msg, sig, key.public_hex, chain_id).to be_truthy
+    end
   end
 end
