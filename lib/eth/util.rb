@@ -129,10 +129,10 @@ module Eth
     # @return [String] packed, big-endian integer string.
     def int_to_big_endian(num)
       hex = if hex? num
-        remove_hex_prefix num
-      else
-        num.to_s(16)
-      end
+          remove_hex_prefix num
+        else
+          num.to_s(16)
+        end
       hex = "0#{hex}" if hex.size.odd?
       hex_to_bin hex
     end
