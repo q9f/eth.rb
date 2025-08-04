@@ -272,6 +272,18 @@ describe Tx::Eip7702 do
     end
   end
 
+  describe ".sign_with" do
+    it "signs with an external signature" do
+      signature = cow.sign(tx.unsigned_hash, tx.chain_id)
+      r, s, v = Signature.dissect(signature)
+      recovery_id = Chain.to_recovery_id v.to_i(16), tx.chain_id
+      tx.sign_with(signature)
+      expect(tx.signature_y_parity).to eq recovery_id
+      expect(tx.signature_r).to eq r
+      expect(tx.signature_s).to eq s
+    end
+  end
+
   describe ".encoded" do
     it "encodes the default transaction" do
       expect { tx.encoded }.to raise_error StandardError, "Transaction is not signed!"
