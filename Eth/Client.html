@@ -120,7 +120,7 @@
     
   
     
-      <strong class="classes">Classes:</strong> <span class='object_link'><a href="Client/ContractExecutionError.html" title="Eth::Client::ContractExecutionError (class)">ContractExecutionError</a></span>, <span class='object_link'><a href="Client/Http.html" title="Eth::Client::Http (class)">Http</a></span>, <span class='object_link'><a href="Client/Ipc.html" title="Eth::Client::Ipc (class)">Ipc</a></span>
+      <strong class="classes">Classes:</strong> <span class='object_link'><a href="Client/ContractExecutionError.html" title="Eth::Client::ContractExecutionError (class)">ContractExecutionError</a></span>, <span class='object_link'><a href="Client/Http.html" title="Eth::Client::Http (class)">Http</a></span>, <span class='object_link'><a href="Client/Ipc.html" title="Eth::Client::Ipc (class)">Ipc</a></span>, <span class='object_link'><a href="Client/RpcError.html" title="Eth::Client::RpcError (class)">RpcError</a></span>
     
   
 </p>
@@ -809,14 +809,14 @@
       <pre class="lines">
 
 
-62
-63
-64
-65
-66</pre>
+77
+78
+79
+80
+81</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 62</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 77</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid__'>_</span><span class='rparen'>)</span>
   <span class='ivar'>@id</span> <span class='op'>=</span> <span class='int'>0</span>
@@ -1247,14 +1247,14 @@
       <pre class="lines">
 
 
-54
-55
-56
-57
-58</pre>
+69
+70
+71
+72
+73</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 54</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 69</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_create'>create</span><span class='lparen'>(</span><span class='id identifier rubyid_host'>host</span><span class='rparen'>)</span>
   <span class='kw'>return</span> <span class='const'><span class='object_link'><a href="" title="Eth::Client (class)">Client</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Client/Ipc.html" title="Eth::Client::Ipc (class)">Ipc</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="Client/Ipc.html#initialize-instance_method" title="Eth::Client::Ipc#initialize (method)">new</a></span></span> <span class='id identifier rubyid_host'>host</span> <span class='kw'>if</span> <span class='id identifier rubyid_host'>host</span><span class='period'>.</span><span class='id identifier rubyid_end_with?'>end_with?</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>.ipc</span><span class='tstring_end'>&quot;</span></span>
@@ -1551,29 +1551,31 @@
       <pre class="lines">
 
 
-255
-256
-257
-258
-259
-260
-261
-262
-263
-264
-265
-266
-267
-268
-269
 270
 271
 272
 273
-274</pre>
+274
+275
+276
+277
+278
+279
+280
+281
+282
+283
+284
+285
+286
+287
+288
+289
+290
+291</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 255</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 270</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_call'>call</span><span class='lparen'>(</span><span class='id identifier rubyid_contract'>contract</span><span class='comma'>,</span> <span class='id identifier rubyid_function'>function</span><span class='comma'>,</span> <span class='op'>*</span><span class='id identifier rubyid_args'>args</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_kwargs'>kwargs</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_function'>function</span> <span class='op'>=</span> <span class='id identifier rubyid_contract'>contract</span><span class='period'>.</span><span class='id identifier rubyid_function'>function</span><span class='lparen'>(</span><span class='id identifier rubyid_function'>function</span><span class='comma'>,</span> <span class='label'>args:</span> <span class='id identifier rubyid_args'>args</span><span class='period'>.</span><span class='id identifier rubyid_size'>size</span><span class='rparen'>)</span>
@@ -1594,6 +1596,8 @@
   <span class='kw'>else</span>
     <span class='id identifier rubyid_output'>output</span>
   <span class='kw'>end</span>
+<span class='kw'>rescue</span> <span class='const'><span class='object_link'><a href="Client/RpcError.html" title="Eth::Client::RpcError (class)">RpcError</a></span></span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_e'>e</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="Client/ContractExecutionError.html" title="Eth::Client::ContractExecutionError (class)">ContractExecutionError</a></span></span><span class='comma'>,</span> <span class='id identifier rubyid_decode_contract_error'>decode_contract_error</span><span class='lparen'>(</span><span class='id identifier rubyid_contract'>contract</span><span class='comma'>,</span> <span class='id identifier rubyid_e'>e</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1876,29 +1880,29 @@
       <pre class="lines">
 
 
-216
-217
-218
-219
-220
-221
-222
-223
-224
-225
-226
-227
-228
-229
-230
 231
 232
 233
 234
-235</pre>
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 216</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 231</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_deploy'>deploy</span><span class='lparen'>(</span><span class='id identifier rubyid_contract'>contract</span><span class='comma'>,</span> <span class='op'>*</span><span class='id identifier rubyid_args'>args</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_kwargs'>kwargs</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_raise'>raise</span> <span class='const'>ArgumentError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Cannot deploy contract without source or binary!</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_contract'>contract</span><span class='period'>.</span><span class='id identifier rubyid_bin'>bin</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
@@ -1971,14 +1975,14 @@
       <pre class="lines">
 
 
-190
-191
-192
-193
-194</pre>
+205
+206
+207
+208
+209</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 190</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 205</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_deploy_and_wait'>deploy_and_wait</span><span class='lparen'>(</span><span class='id identifier rubyid_contract'>contract</span><span class='comma'>,</span> <span class='op'>*</span><span class='id identifier rubyid_args'>args</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_kwargs'>kwargs</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_hash'>hash</span> <span class='op'>=</span> <span class='id identifier rubyid_wait_for_tx'>wait_for_tx</span><span class='lparen'>(</span><span class='id identifier rubyid_deploy'>deploy</span><span class='lparen'>(</span><span class='id identifier rubyid_contract'>contract</span><span class='comma'>,</span> <span class='op'>*</span><span class='id identifier rubyid_args'>args</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_kwargs'>kwargs</span><span class='rparen'>)</span><span class='rparen'>)</span>
@@ -2054,12 +2058,12 @@
       <pre class="lines">
 
 
-90
-91
-92</pre>
+105
+106
+107</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 90</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 105</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_get_balance'>get_balance</span><span class='lparen'>(</span><span class='id identifier rubyid_address'>address</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_eth_get_balance'>eth_get_balance</span><span class='lparen'>(</span><span class='id identifier rubyid_address'>address</span><span class='rparen'>)</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>result</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span> <span class='int'>16</span>
@@ -2133,12 +2137,12 @@
       <pre class="lines">
 
 
-98
-99
-100</pre>
+113
+114
+115</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 98</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 113</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_get_nonce'>get_nonce</span><span class='lparen'>(</span><span class='id identifier rubyid_address'>address</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_eth_get_transaction_count'>eth_get_transaction_count</span><span class='lparen'>(</span><span class='id identifier rubyid_address'>address</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>pending</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>result</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span> <span class='int'>16</span>
@@ -2280,17 +2284,17 @@
       <pre class="lines">
 
 
-342
-343
-344
-345
-346
-347
-348
-349</pre>
+359
+360
+361
+362
+363
+364
+365
+366</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 342</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 359</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_is_valid_signature'>is_valid_signature</span><span class='lparen'>(</span><span class='id identifier rubyid_contract'>contract</span><span class='comma'>,</span> <span class='id identifier rubyid_hash'>hash</span><span class='comma'>,</span> <span class='id identifier rubyid_signature'>signature</span><span class='comma'>,</span> <span class='id identifier rubyid_magic'>magic</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>1626ba7e</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
   <span class='id identifier rubyid_raise'>raise</span> <span class='const'>ArgumentError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Contract not deployed yet.</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_contract'>contract</span><span class='period'>.</span><span class='id identifier rubyid_address'>address</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
@@ -2349,12 +2353,12 @@
       <pre class="lines">
 
 
-355
-356
-357</pre>
+372
+373
+374</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 355</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 372</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_reset_id'>reset_id</span>
   <span class='ivar'>@id</span> <span class='op'>=</span> <span class='int'>0</span>
@@ -2464,13 +2468,13 @@
       <pre class="lines">
 
 
-108
-109
-110
-111</pre>
+123
+124
+125
+126</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 108</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 123</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_resolve_ens'>resolve_ens</span><span class='lparen'>(</span><span class='id identifier rubyid_ens_name'>ens_name</span><span class='comma'>,</span> <span class='id identifier rubyid_registry'>registry</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Ens.html" title="Eth::Ens (module)">Ens</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Ens.html#DEFAULT_ADDRESS-constant" title="Eth::Ens::DEFAULT_ADDRESS (constant)">DEFAULT_ADDRESS</a></span></span><span class='comma'>,</span> <span class='id identifier rubyid_coin_type'>coin_type</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Ens.html" title="Eth::Ens (module)">Ens</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Ens/CoinType.html" title="Eth::Ens::CoinType (module)">CoinType</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Ens/CoinType.html#ETHEREUM-constant" title="Eth::Ens::CoinType::ETHEREUM (constant)">ETHEREUM</a></span></span><span class='rparen'>)</span>
   <span class='id identifier rubyid_ens'>ens</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Ens.html" title="Eth::Ens (module)">Ens</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Ens/Resolver.html" title="Eth::Ens::Resolver (class)">Resolver</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="Ens/Resolver.html#initialize-instance_method" title="Eth::Ens::Resolver#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='kw'>self</span><span class='comma'>,</span> <span class='id identifier rubyid_registry'>registry</span><span class='rparen'>)</span>
@@ -2819,24 +2823,24 @@
       <pre class="lines">
 
 
-300
-301
-302
-303
-304
-305
-306
-307
-308
-309
-310
-311
-312
-313
-314</pre>
+317
+318
+319
+320
+321
+322
+323
+324
+325
+326
+327
+328
+329
+330
+331</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 300</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 317</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_transact'>transact</span><span class='lparen'>(</span><span class='id identifier rubyid_contract'>contract</span><span class='comma'>,</span> <span class='id identifier rubyid_function'>function</span><span class='comma'>,</span> <span class='op'>*</span><span class='id identifier rubyid_args'>args</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_kwargs'>kwargs</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_gas_limit'>gas_limit</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='id identifier rubyid_kwargs'>kwargs</span><span class='lbracket'>[</span><span class='symbol'>:gas_limit</span><span class='rbracket'>]</span>
@@ -2922,24 +2926,24 @@
       <pre class="lines">
 
 
-323
-324
-325
-326
-327
-328
-329
-330</pre>
+340
+341
+342
+343
+344
+345
+346
+347</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 323</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 340</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_transact_and_wait'>transact_and_wait</span><span class='lparen'>(</span><span class='id identifier rubyid_contract'>contract</span><span class='comma'>,</span> <span class='id identifier rubyid_function'>function</span><span class='comma'>,</span> <span class='op'>*</span><span class='id identifier rubyid_args'>args</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_kwargs'>kwargs</span><span class='rparen'>)</span>
   <span class='kw'>begin</span>
     <span class='id identifier rubyid_hash'>hash</span> <span class='op'>=</span> <span class='id identifier rubyid_wait_for_tx'>wait_for_tx</span><span class='lparen'>(</span><span class='id identifier rubyid_transact'>transact</span><span class='lparen'>(</span><span class='id identifier rubyid_contract'>contract</span><span class='comma'>,</span> <span class='id identifier rubyid_function'>function</span><span class='comma'>,</span> <span class='op'>*</span><span class='id identifier rubyid_args'>args</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_kwargs'>kwargs</span><span class='rparen'>)</span><span class='rparen'>)</span>
     <span class='kw'>return</span> <span class='id identifier rubyid_hash'>hash</span><span class='comma'>,</span> <span class='id identifier rubyid_tx_succeeded?'>tx_succeeded?</span><span class='lparen'>(</span><span class='id identifier rubyid_hash'>hash</span><span class='rparen'>)</span>
-  <span class='kw'>rescue</span> <span class='const'>IOError</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_e'>e</span>
-    <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="Client/ContractExecutionError.html" title="Eth::Client::ContractExecutionError (class)">ContractExecutionError</a></span></span><span class='comma'>,</span> <span class='id identifier rubyid_e'>e</span>
+  <span class='kw'>rescue</span> <span class='const'><span class='object_link'><a href="Client/RpcError.html" title="Eth::Client::RpcError (class)">RpcError</a></span></span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_e'>e</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="Client/ContractExecutionError.html" title="Eth::Client::ContractExecutionError (class)">ContractExecutionError</a></span></span><span class='comma'>,</span> <span class='id identifier rubyid_decode_contract_error'>decode_contract_error</span><span class='lparen'>(</span><span class='id identifier rubyid_contract'>contract</span><span class='comma'>,</span> <span class='id identifier rubyid_e'>e</span><span class='rparen'>)</span>
   <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -3152,18 +3156,18 @@
       <pre class="lines">
 
 
-141
-142
-143
-144
-145
-146
-147
-148
-149</pre>
+156
+157
+158
+159
+160
+161
+162
+163
+164</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 141</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 156</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_transfer'>transfer</span><span class='lparen'>(</span><span class='id identifier rubyid_destination'>destination</span><span class='comma'>,</span> <span class='id identifier rubyid_amount'>amount</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_kwargs'>kwargs</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_params'>params</span> <span class='op'>=</span> <span class='lbrace'>{</span>
@@ -3225,12 +3229,12 @@
       <pre class="lines">
 
 
-120
-121
-122</pre>
+135
+136
+137</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 120</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 135</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_transfer_and_wait'>transfer_and_wait</span><span class='lparen'>(</span><span class='id identifier rubyid_destination'>destination</span><span class='comma'>,</span> <span class='id identifier rubyid_amount'>amount</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_kwargs'>kwargs</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_wait_for_tx'>wait_for_tx</span><span class='lparen'>(</span><span class='id identifier rubyid_transfer'>transfer</span><span class='lparen'>(</span><span class='id identifier rubyid_destination'>destination</span><span class='comma'>,</span> <span class='id identifier rubyid_amount'>amount</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_kwargs'>kwargs</span><span class='rparen'>)</span><span class='rparen'>)</span>
@@ -3509,13 +3513,13 @@
       <pre class="lines">
 
 
-179
-180
-181
-182</pre>
+194
+195
+196
+197</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 179</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 194</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_transfer_erc20'>transfer_erc20</span><span class='lparen'>(</span><span class='id identifier rubyid_erc20_contract'>erc20_contract</span><span class='comma'>,</span> <span class='id identifier rubyid_destination'>destination</span><span class='comma'>,</span> <span class='id identifier rubyid_amount'>amount</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_kwargs'>kwargs</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_destination'>destination</span> <span class='op'>=</span> <span class='id identifier rubyid_destination'>destination</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span> <span class='kw'>if</span> <span class='id identifier rubyid_destination'>destination</span><span class='period'>.</span><span class='id identifier rubyid_instance_of?'>instance_of?</span> <span class='const'><span class='object_link'><a href="../Eth.html" title="Eth (module)">Eth</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Address.html" title="Eth::Address (class)">Address</a></span></span>
@@ -3572,12 +3576,12 @@
       <pre class="lines">
 
 
-156
-157
-158</pre>
+171
+172
+173</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 156</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 171</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_transfer_erc20_and_wait'>transfer_erc20_and_wait</span><span class='lparen'>(</span><span class='id identifier rubyid_erc20_contract'>erc20_contract</span><span class='comma'>,</span> <span class='id identifier rubyid_destination'>destination</span><span class='comma'>,</span> <span class='id identifier rubyid_amount'>amount</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_kwargs'>kwargs</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_transact_and_wait'>transact_and_wait</span><span class='lparen'>(</span><span class='id identifier rubyid_erc20_contract'>erc20_contract</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>transfer</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='id identifier rubyid_destination'>destination</span><span class='comma'>,</span> <span class='id identifier rubyid_amount'>amount</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_kwargs'>kwargs</span><span class='rparen'>)</span>
@@ -3651,13 +3655,13 @@
       <pre class="lines">
 
 
-363
-364
-365
-366</pre>
+380
+381
+382
+383</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 363</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 380</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_tx_mined?'>tx_mined?</span><span class='lparen'>(</span><span class='id identifier rubyid_hash'>hash</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_mined_tx'>mined_tx</span> <span class='op'>=</span> <span class='id identifier rubyid_eth_get_transaction_by_hash'>eth_get_transaction_by_hash</span> <span class='id identifier rubyid_hash'>hash</span>
@@ -3732,13 +3736,13 @@
       <pre class="lines">
 
 
-372
-373
-374
-375</pre>
+389
+390
+391
+392</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 372</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 389</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_tx_succeeded?'>tx_succeeded?</span><span class='lparen'>(</span><span class='id identifier rubyid_hash'>hash</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_tx_receipt'>tx_receipt</span> <span class='op'>=</span> <span class='id identifier rubyid_eth_get_transaction_receipt'>eth_get_transaction_receipt</span><span class='lparen'>(</span><span class='id identifier rubyid_hash'>hash</span><span class='rparen'>)</span>
@@ -3831,19 +3835,19 @@
       <pre class="lines">
 
 
-382
-383
-384
-385
-386
-387
-388
-389
-390
-391</pre>
+399
+400
+401
+402
+403
+404
+405
+406
+407
+408</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 382</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/client.rb', line 399</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_wait_for_tx'>wait_for_tx</span><span class='lparen'>(</span><span class='id identifier rubyid_hash'>hash</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_start_time'>start_time</span> <span class='op'>=</span> <span class='const'>Time</span><span class='period'>.</span><span class='id identifier rubyid_now'>now</span>
@@ -3865,7 +3869,7 @@
 </div>
 
       <div id="footer">
-  Generated on Mon Aug  4 06:47:39 2025 by
+  Generated on Mon Aug  4 06:54:13 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.37 (ruby-3.4.5).
 </div>
