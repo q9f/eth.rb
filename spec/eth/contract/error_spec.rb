@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe Client do
+describe Contract do
   describe "#call with custom error" do
     let(:client) { Client.new(nil) }
 
