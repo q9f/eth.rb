@@ -145,12 +145,12 @@ module Eth
         raise ParameterError, "Transaction missing fields!" if tx.size < 8
 
         # populate the 8 payload fields
-        chain_id = Util.deserialize_big_endian_to_int tx[0]
-        nonce = Util.deserialize_big_endian_to_int tx[1]
-        gas_price = Util.deserialize_big_endian_to_int tx[2]
-        gas_limit = Util.deserialize_big_endian_to_int tx[3]
+        chain_id = Util.deserialize_rlp_int tx[0]
+        nonce = Util.deserialize_rlp_int tx[1]
+        gas_price = Util.deserialize_rlp_int tx[2]
+        gas_limit = Util.deserialize_rlp_int tx[3]
         to = Util.bin_to_hex tx[4]
-        value = Util.deserialize_big_endian_to_int tx[5]
+        value = Util.deserialize_rlp_int tx[5]
         data = tx[6]
         access_list = tx[7]
 

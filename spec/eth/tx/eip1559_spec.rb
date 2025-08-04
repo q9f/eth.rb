@@ -56,6 +56,43 @@ describe Tx::Eip1559 do
 
   subject(:cow) { Key.new(priv: Util.keccak256("cow")) }
 
+  describe ".decode" do
+    it "raises on non-minimal integer encoding" do
+      fields = [
+        Util.serialize_int_to_big_endian(1),
+        "\x00\x01",
+        Util.serialize_int_to_big_endian(1),
+        Util.serialize_int_to_big_endian(1),
+        Util.serialize_int_to_big_endian(1),
+        "",
+        Util.serialize_int_to_big_endian(1),
+        "",
+        [],
+      ]
+      encoded = Rlp.encode(fields)
+      hex = "0x02#{Util.bin_to_hex(encoded)}"
+      expect { Tx::Eip1559.decode(hex) }.to raise_error Rlp::DeserializationError
+    end
+
+    it "round-trips valid integer encoding" do
+      fields = [
+        Util.serialize_int_to_big_endian(1),
+        Util.serialize_int_to_big_endian(1),
+        Util.serialize_int_to_big_endian(1),
+        Util.serialize_int_to_big_endian(1),
+        Util.serialize_int_to_big_endian(1),
+        "",
+        Util.serialize_int_to_big_endian(1),
+        "",
+        [],
+      ]
+      encoded = Rlp.encode(fields)
+      hex = "0x02#{Util.bin_to_hex(encoded)}"
+      tx = Tx::Eip1559.decode(hex)
+      expect(tx.signer_nonce).to eq 1
+    end
+  end
+
   describe ".initialize" do
     it "creates EIP-1559 transaction objects" do
       expect(tx).to be

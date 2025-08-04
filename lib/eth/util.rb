@@ -145,6 +145,15 @@ module Eth
       Rlp::Sedes.big_endian_int.deserialize str.sub(/\A(\x00)+/, "")
     end
 
+    # Deserializes an RLP integer, enforcing minimal encoding.
+    #
+    # @param str [String] serialized big endian integer string.
+    # @return [Integer] a deserialized unsigned integer.
+    # @raise [Rlp::DeserializationError] if encoding is not minimal.
+    def deserialize_rlp_int(str)
+      Rlp::Sedes.big_endian_int.deserialize str
+    end
+
     # Converts a big endian to an interger.
     #
     # @param str [String] big endian to be converted.

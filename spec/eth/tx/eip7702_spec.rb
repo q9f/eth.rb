@@ -380,6 +380,43 @@ describe Tx::Eip7702 do
     it "gives an error when the transaction is missing a signature field" do
       expect { Tx::Eip7702.decode(transaction_data_missing_the_last_field) }.to raise_error Eth::Tx::DecoderError, "Cannot decode EIP-7702 payload!"
     end
+
+    it "raises on non-minimal integer encoding" do
+      fields = [
+        Util.serialize_int_to_big_endian(1),
+        "\x00\x01",
+        Util.serialize_int_to_big_endian(1),
+        Util.serialize_int_to_big_endian(1),
+        Util.serialize_int_to_big_endian(1),
+        "",
+        Util.serialize_int_to_big_endian(1),
+        "",
+        [],
+        [],
+      ]
+      encoded = Rlp.encode(fields)
+      hex = "0x04#{Util.bin_to_hex(encoded)}"
+      expect { Tx::Eip7702.decode(hex) }.to raise_error Rlp::DeserializationError
+    end
+
+    it "round-trips valid integer encoding" do
+      fields = [
+        Util.serialize_int_to_big_endian(1),
+        Util.serialize_int_to_big_endian(1),
+        Util.serialize_int_to_big_endian(1),
+        Util.serialize_int_to_big_endian(1),
+        Util.serialize_int_to_big_endian(1),
+        "",
+        Util.serialize_int_to_big_endian(1),
+        "",
+        [],
+        [],
+      ]
+      encoded = Rlp.encode(fields)
+      hex = "0x04#{Util.bin_to_hex(encoded)}"
+      tx = Tx::Eip7702.decode(hex)
+      expect(tx.signer_nonce).to eq 1
+    end
   end
 
   describe "Authorization" do

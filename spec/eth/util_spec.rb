@@ -193,6 +193,20 @@ describe Util do
     end
   end
 
+  describe ".deserialize_rlp_int" do
+    it "raises on non-minimal encodings" do
+      expect { Util.deserialize_rlp_int "\x00" }.to raise_error Rlp::DeserializationError
+      expect { Util.deserialize_rlp_int "\x00\x01" }.to raise_error Rlp::DeserializationError
+    end
+
+    it "round-trips valid integers" do
+      [0, 1, 256].each do |n|
+        encoded = Util.serialize_int_to_big_endian n
+        expect(Util.deserialize_rlp_int encoded).to eq n
+      end
+    end
+  end
+
   describe ".ceil32 .lpad .zpad{,_int,_hex}" do
     it "can ceil to the next multiple of 32 bytes" do
       expect(Util.ceil32 0).to eq 0
