@@ -11,7 +11,6 @@
 [![Gem](https://img.shields.io/gem/v/eth)](https://rubygems.org/gems/eth)
 [![Gem](https://img.shields.io/gem/dt/eth)](https://rubygems.org/gems/eth)
 [![codecov](https://codecov.io/gh/q9f/eth.rb/branch/main/graph/badge.svg?token=IK7USBPBZY)](https://codecov.io/gh/q9f/eth.rb)
-[![Maintainability](https://api.codeclimate.com/v1/badges/469e6f66425198ad7614/maintainability)](https://codeclimate.com/github/q9f/eth.rb/maintainability)
 [![Top Language](https://img.shields.io/github/languages/top/q9f/eth.rb?color=red)](https://github.com/q9f/eth.rb/pulse)
 [![Yard Doc API](https://img.shields.io/badge/documentation-API-blue)](https://q9f.github.io/eth.rb)
 [![Usage Wiki](https://img.shields.io/badge/usage-WIKI-blue)](https://github.com/q9f/eth.rb/wiki)
@@ -41,6 +40,7 @@ What you get:
 - [x] RPC-Client (IPC/HTTP) for Execution-Layer APIs
 - [x] Solidity bindings (compile contracts from Ruby)
 - [x] Full smart-contract support (deploy, transact, and call)
+- [x] ERC-6093 custom Solidity errors
 
 ## Installation
 Add this line to your application's Gemfile:
