@@ -17,6 +17,7 @@ require "konstructor"
 require "eth/chain"
 require "eth/tx/eip1559"
 require "eth/tx/eip2930"
+require "eth/tx/eip4844"
 require "eth/tx/eip7702"
 require "eth/tx/legacy"
 require "eth/unit"
@@ -87,6 +88,8 @@ module Eth
 
     # Creates a new transaction of any type for given parameters and chain ID.
     # Required parameters are (optional in brackets):
+    # - EIP-4844: chain_id, nonce, priority_fee, max_gas_fee, gas_limit, max_fee_per_blob_gas, blob_versioned_hashes(, from, to,
+    #   value, data, access_list)
     # - EIP-1559: chain_id, nonce, priority_fee, max_gas_fee, gas_limit(, from, to,
     #   value, data, access_list)
     # - EIP-2930: chain_id, nonce, gas_price, gas_limit, access_list(, from, to,
@@ -99,9 +102,10 @@ module Eth
     # @param chain_id [Integer] the EIP-155 Chain ID (legacy transactions only).
     def new(params, chain_id = Chain::ETHEREUM)
 
-      # if we deal with blobs, attempt EIP-4844 (not implemented)
+      # if we deal with blobs, attempt EIP-4844
       unless params[:max_fee_per_blob_gas].nil?
-        raise NotimplementedError, "EIP-4844 blob transactions are not implemented"
+        params[:chain_id] = chain_id if params[:chain_id].nil?
+        return Tx::Eip4844.new params
       end
 
       # if we deal with authorizations, attempt EIP-7702
@@ -148,7 +152,7 @@ module Eth
       when TYPE_4844
 
         # EIP-4844 transaction (type 3)
-        raise NotimplementedError, "EIP-4844 blob transactions are not implemented"
+        return Tx::Eip4844.decode hex
       when TYPE_7702
 
         # EIP-7702 transaction (type 4)
@@ -182,7 +186,7 @@ module Eth
       when TYPE_4844
 
         # EIP-4844 transaction (type 3)
-        raise NotimplementedError, "EIP-4844 blob transactions are not implemented"
+        return Tx::Eip4844.unsigned_copy tx
       when TYPE_7702
 
         # EIP-7702 transaction (type 4)
@@ -278,6 +282,24 @@ module Eth
       return fields
     end
 
+    # Validates that the type-3 transaction blob fields are present
+    #
+    # @param fields [Hash] the transaction fields.
+    # @return [Hash] the validated transaction fields.
+    # @raise [ParameterError] if max blob fee or blob hashes are invalid.
+    def validate_eip4844_params(fields)
+      if fields[:max_fee_per_blob_gas].nil? or fields[:max_fee_per_blob_gas] < 0
+        raise ParameterError, "Invalid max blob fee #{fields[:max_fee_per_blob_gas]}!"
+      end
+      if fields[:blob_versioned_hashes].nil? or !fields[:blob_versioned_hashes].is_a? Array or fields[:blob_versioned_hashes].empty?
+        raise ParameterError, "Invalid blob versioned hashes #{fields[:blob_versioned_hashes]}!"
+      end
+      if fields[:to].nil? or fields[:to].empty?
+        raise ParameterError, "Invalid destination address #{fields[:to]}!"
+      end
+      return fields
+    end
+
     # Validates that the type-4 transaction field authorization list is present
     #
     # @param fields [Hash] the transaction fields.
@@ -366,6 +388,22 @@ module Eth
         elsif Util.hex? value
 
           # only modify if we find a hex value
+          list[index] = Util.hex_to_bin value
+        end
+      end
+      return list
+    end
+
+    # Populates the blob versioned hashes field with a serializable empty
+    # array in case it is undefined; also ensures the hashes are binary
+    # not hex.
+    #
+    # @param list [Array] the blob versioned hashes.
+    # @return [Array] the sanitized blob versioned hashes.
+    def sanitize_hashes(list)
+      list = [] if list.nil?
+      list.each_with_index do |value, index|
+        if Util.hex? value
           list[index] = Util.hex_to_bin value
         end
       end
