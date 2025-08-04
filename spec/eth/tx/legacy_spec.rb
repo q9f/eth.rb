@@ -197,6 +197,17 @@ describe Tx::Legacy do
     end
   end
 
+  describe ".sign_with" do
+    it "signs with an external signature" do
+      signature = cow.sign(tx.unsigned_hash, tx.chain_id)
+      r, s, v = Signature.dissect(signature)
+      tx.sign_with(signature)
+      expect(tx.signature_v).to eq v
+      expect(tx.signature_r).to eq r
+      expect(tx.signature_s).to eq s
+    end
+  end
+
   describe ".encoded" do
     it "encodes the default transaction" do
       expect { tx.encoded }.to raise_error StandardError, "Transaction is not signed!"

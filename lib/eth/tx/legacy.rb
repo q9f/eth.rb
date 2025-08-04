@@ -223,6 +223,30 @@ module Eth
         return hash
       end
 
+      # Signs the transaction with a provided signature blob.
+      #
+      # @param signature [String] the concatenated `r`, `s`, and `v` values.
+      # @return [String] a transaction hash.
+      # @raise [Signature::SignatureError] if transaction is already signed.
+      # @raise [Signature::SignatureError] if sender address does not match signer.
+      def sign_with(signature)
+        if Tx.signed? self
+          raise Signature::SignatureError, "Transaction is already signed!"
+        end
+
+        # ensure the sender address matches the signature
+        unless @sender.nil? or sender.empty?
+          public_key = Signature.recover(unsigned_hash, signature, @chain_id)
+          signer_address = Tx.sanitize_address Util.public_key_to_address(public_key).to_s
+          from_address = Tx.sanitize_address @sender
+          raise Signature::SignatureError, "Signer does not match sender" unless signer_address == from_address
+        end
+
+        r, s, v = Signature.dissect signature
+        send :_set_signature, v, r, s
+        return hash
+      end
+
       # Encodes a raw transaction object.
       #
       # @return [String] a raw, RLP-encoded legacy transaction.
