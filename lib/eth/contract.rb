@@ -167,6 +167,7 @@ module Eth
         def_delegator :parent, :functions
         def_delegator :parent, :function
         def_delegator :parent, :error
+        def_delegator :parent, :decode_error
         def_delegator :parent, :constructor_inputs
         define_method :parent do
           parent
