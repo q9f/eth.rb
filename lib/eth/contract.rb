@@ -130,6 +130,28 @@ module Eth
       end || raise(ArgumentError, "this error does not exist!")
     end
 
+    # Decodes a custom error returned by an RPC error using the contract ABI.
+    #
+    # @param rpc_error [RpcError] the RPC error containing revert data.
+    # @return [String] a human readable error message.
+    def decode_error(rpc_error)
+      data = rpc_error.data
+      return rpc_error.message if data.nil? || errors.nil?
+
+      signature = data[0, 10]
+      if (err = errors.find { |e| e.signature == signature })
+        values = err.decode(data)
+        args = values&.map { |v| v.is_a?(String) ? v : v.inspect }&.join(",")
+        args ||= ""
+        "execution reverted: #{err.name}(#{args})"
+      elsif signature == "0x08c379a0"
+        reason = Abi.decode(["string"], "0x" + data[10..])&.first
+        "execution reverted: #{reason}"
+      else
+        rpc_error.message
+      end
+    end
+
     # Create meta classes for smart contracts.
     def build
       class_name = @name
@@ -145,6 +167,7 @@ module Eth
         def_delegator :parent, :functions
         def_delegator :parent, :function
         def_delegator :parent, :error
+        def_delegator :parent, :decode_error
         def_delegator :parent, :constructor_inputs
         define_method :parent do
           parent
