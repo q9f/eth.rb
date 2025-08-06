@@ -98,6 +98,23 @@ describe Tx::Eip2930 do
       tx = Tx::Eip2930.decode(hex)
       expect(tx.signer_nonce).to eq 1
     end
+
+    it "raises when field count is invalid" do
+      fields = [
+        Util.serialize_int_to_big_endian(1),
+        Util.serialize_int_to_big_endian(1),
+        Util.serialize_int_to_big_endian(1),
+        "",
+        Util.serialize_int_to_big_endian(1),
+        "",
+        [],
+        "",
+        "",
+      ]
+      encoded = Rlp.encode(fields)
+      hex = "0x01#{Util.bin_to_hex(encoded)}"
+      expect { Tx::Eip2930.decode(hex) }.to raise_error Tx::DecoderError
+    end
   end
 
   describe ".initialize" do
@@ -215,6 +232,24 @@ describe Tx::Eip2930 do
       expect(tx.signature_y_parity).to eq recovery_id
       expect(tx.signature_r).to eq r
       expect(tx.signature_s).to eq s
+    end
+
+    it "does not sign a transaction twice" do
+      signature = cow.sign(tx.unsigned_hash, tx.chain_id)
+      tx.sign_with(signature)
+      expect { tx.sign_with(signature) }.to raise_error Signature::SignatureError, "Transaction is already signed!"
+    end
+
+    it "checks for valid signer" do
+      tx_from_cow = Tx.new({
+        nonce: 0,
+        gas_price: Unit::WEI,
+        gas_limit: 29_600,
+        from: "0xCD2a3d9F938E13CD947Ec05AbC7FE734Df8DD826",
+        access_list: list,
+      })
+      signature = Key.new.sign(tx_from_cow.unsigned_hash, tx_from_cow.chain_id)
+      expect { tx_from_cow.sign_with(signature) }.to raise_error Signature::SignatureError, "Signer does not match sender"
     end
   end
 

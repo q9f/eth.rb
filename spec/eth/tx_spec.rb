@@ -150,4 +150,33 @@ describe Tx do
       end
     end
   end
+
+  describe ".decode" do
+    it "raises on unknown transaction type" do
+      expect { Tx.decode("05") }.to raise_error Tx::TransactionTypeError
+    end
+  end
+
+  describe ".unsigned_copy" do
+    it "duplicates EIP-4844 transactions" do
+      blob_hashes = ["0x" + "11" * 32]
+      blob_tx = Tx.new({
+        nonce: 0,
+        priority_fee: 0,
+        max_gas_fee: Unit::WEI,
+        gas_limit: Tx::DEFAULT_GAS_LIMIT,
+        to: "0xCD2a3d9F938E13CD947Ec05AbC7FE734Df8DD826",
+        max_fee_per_blob_gas: Unit::WEI,
+        blob_versioned_hashes: blob_hashes,
+      })
+      unsigned = Tx.unsigned_copy(blob_tx)
+      expect(unsigned).to be_instance_of Tx::Eip4844
+      expect(unsigned.signature_r).to eq 0
+    end
+
+    it "raises on unknown transaction type" do
+      dummy = Struct.new(:type).new(0x42)
+      expect { Tx.unsigned_copy(dummy) }.to raise_error Tx::TransactionTypeError
+    end
+  end
 end
