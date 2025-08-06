@@ -83,12 +83,21 @@ module Eth
         # ensure the type string is reasonable before attempting to parse
         raise ParseError, "Invalid type format" unless type.is_a?(String) && type.bytesize <= 256
 
-        match = /\A([a-z]+)([0-9]*x?[0-9]*)((\[[0-9]+\])*)\z/.match(type)
-        raise ParseError, "Invalid type format" unless match
-        _, base_type, sub_type, dimension = match.to_a
+        if type.start_with?("tuple(")
+          inner, rest = extract_tuple(type)
+          inner_types = split_tuple_types(inner)
+          inner_types.each { |t| Type.parse(t) }
+          base_type = "tuple"
+          sub_type = ""
+          dimension = rest
+        else
+          match = /\A([a-z]+)([0-9]*x?[0-9]*)((?:\[\d+\]|\[\])*)\z/.match(type)
+          raise ParseError, "Invalid type format" unless match
+          _, base_type, sub_type, dimension = match.to_a
+        end
 
-        # type dimension can only be numeric
-        dims = dimension.scan(/\[[0-9]+\]/)
+        # type dimension can only be numeric or empty for dynamic arrays
+        dims = dimension.scan(/\[\d+\]|\[\]/)
         raise ParseError, "Unknown characters found in array declaration" if dims.join != dimension
 
         # enforce base types
@@ -98,7 +107,7 @@ module Eth
         sub_type = sub_type.to_s
         @base_type = base_type
         @sub_type = sub_type
-        @dimensions = dims.map { |x| x[1...-1].to_i }
+        @dimensions = dims.map { |x| x == "[]" ? 0 : x[1...-1].to_i }
         @components = components.map { |component| Abi::Type.parse(component["type"], component.dig("components"), component.dig("name")) } if components&.any?
         @name = component_name
       end
@@ -219,6 +228,53 @@ module Eth
           # we cannot parse arbitrary types such as 'decimal' or 'hex'
           raise ParseError, "Unknown base type"
         end
+      end
+
+      # Extracts the inner type list and trailing dimensions from an inline tuple definition.
+      def extract_tuple(type)
+        idx = 6 # skip "tuple("
+        depth = 1
+        while idx < type.length && depth > 0
+          case type[idx]
+          when "("
+            depth += 1
+          when ")"
+            depth -= 1
+          end
+          idx += 1
+        end
+        raise ParseError, "Invalid tuple format" unless depth.zero?
+        inner = type[6...(idx - 1)]
+        rest = type[idx..] || ""
+        [inner, rest]
+      end
+
+      # Splits a tuple component list into individual type strings, handling nested tuples.
+      def split_tuple_types(str)
+        types = []
+        depth = 0
+        current = ""
+        str.each_char do |ch|
+          case ch
+          when "("
+            depth += 1
+            current << ch
+          when ")"
+            depth -= 1
+            current << ch
+          when ","
+            if depth.zero?
+              types << current
+              current = ""
+            else
+              current << ch
+            end
+          else
+            current << ch
+          end
+        end
+        types << current unless current.empty?
+        types
       end
     end
   end
