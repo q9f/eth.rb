@@ -37,6 +37,9 @@ module Eth
     # The block number used for archive calls.
     attr_accessor :block_number
 
+    # The predeploy address for validator withdrawal requests (EIP-7002).
+    WITHDRAWAL_REQUEST_PREDEPLOY_ADDRESS = "0x00000961Ef480Eb55e80D19ad83579A64c007002".freeze
+
     # A custom error type if a contract interaction fails.
     class ContractExecutionError < StandardError; end
 
@@ -123,6 +126,36 @@ module Eth
     def resolve_ens(ens_name, registry = Ens::DEFAULT_ADDRESS, coin_type = Ens::CoinType::ETHEREUM)
       ens = Ens::Resolver.new(self, registry)
       ens.resolve(ens_name, coin_type)
+    end
+
+    # Queries the current validator withdrawal request fee as per EIP-7002.
+    #
+    # @return [Integer] the required fee in Wei.
+    def withdrawal_request_fee
+      result = eth_call({ to: WITHDRAWAL_REQUEST_PREDEPLOY_ADDRESS }, "latest")["result"]
+      result.nil? ? 0 : result.to_i(16)
+    end
+
+    # Requests a validator withdrawal by submitting a message to the
+    # withdrawal request predeploy contract.
+    #
+    # @param pubkey [String] the 48-byte validator public key as hex.
+    # @param amount [Integer] the withdrawal amount in GWei.
+    # @return [String] the transaction hash.
+    def request_validator_withdrawal(pubkey, amount, **kwargs)
+      pubkey = Util.remove_hex_prefix(pubkey)
+      raise ArgumentError, "Invalid validator pubkey!" unless pubkey.size == 96
+      amount_hex = [amount].pack("Q>").unpack1("H*")
+      data = "0x" + pubkey + amount_hex
+      fee = withdrawal_request_fee
+      params = {
+        to: WITHDRAWAL_REQUEST_PREDEPLOY_ADDRESS,
+        data: data,
+        value: fee,
+        gas_limit: Tx.estimate_intrinsic_gas(data),
+        chain_id: chain_id,
+      }
+      send_transaction(params, kwargs[:legacy], kwargs[:sender_key], kwargs[:nonce])
     end
 
     # Simply transfer Ether to an account and waits for it to be mined.
