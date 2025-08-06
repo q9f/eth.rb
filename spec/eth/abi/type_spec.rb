@@ -186,4 +186,23 @@ describe Abi::Type do
       ]).to_s).to eq("(string,string,(uint256,string,(string,bytes))[],uint256,string[],bytes[10],(string,bytes))")
     end
   end
+
+  describe "inline tuple parsing helpers" do
+    it "extracts nested tuples" do
+      t = Abi::Type.new("tuple", "", [])
+      inner, rest = t.send(:extract_tuple, "tuple(uint256,(string,bytes))[3]")
+      expect(inner).to eq("uint256,(string,bytes)")
+      expect(rest).to eq("[3]")
+    end
+
+    it "splits nested tuple types" do
+      t = Abi::Type.new("tuple", "", [])
+      result = t.send(:split_tuple_types, "uint256,(string,bytes),address")
+      expect(result).to eq(["uint256", "(string,bytes)", "address"])
+    end
+
+    it "parses inline tuples with nesting" do
+      expect { Abi::Type.parse("tuple(uint256,tuple(string,bytes),address)") }.not_to raise_error
+    end
+  end
 end
