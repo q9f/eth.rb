@@ -3,12 +3,32 @@ All notable changes to this project will be documented in this file.
 
 ## [0.5.15]
 ### Added
-* Eth/tx: add support for EIP-4844 transactions [#345](https://github.com/q9f/eth.rb/pull/345)
-* Eth/contract: support solidity custom errors as per ERC-6093 [#344](https://github.com/q9f/eth.rb/pull/344)
-* Eth/abi: decode transaction input [#354](https://github.com/q9f/eth.rb/pull/354)
+* Implement EIP712 array encoding [#361](https://github.com/q9f/eth.rb/pull/361)
+* Support nested dynamic arrays in ABI [#356](https://github.com/q9f/eth.rb/pull/356)
+* Allow signing transactions with external signatures [#349](https://github.com/q9f/eth.rb/pull/349)
+* Feat: add eip-4844 transactions [#345](https://github.com/q9f/eth.rb/pull/345)
+* Support Solidity custom errors per ERC-6093 [#344](https://github.com/q9f/eth.rb/pull/344)
+* Allow to use chains with id > 4294967295 [#337](https://github.com/q9f/eth.rb/pull/337)
 
-### Fixed
-* Eth/abi: handle tuple type without components [#335](https://github.com/q9f/eth.rb/issues/335)
+### Changed
+* Harden ABI type parsing [#358](https://github.com/q9f/eth.rb/pull/358)
+* Ensure ABI decoder rejects ZST offsets [#359](https://github.com/q9f/eth.rb/pull/359)
+* Test: decode eip4844 blobs [#360](https://github.com/q9f/eth.rb/pull/360)
+* Abi: decode transaction input [#354](https://github.com/q9f/eth.rb/pull/354)
+* Fix tuple output decoding for contract calls [#353](https://github.com/q9f/eth.rb/pull/353)
+* Add comprehensive Tx module tests [#352](https://github.com/q9f/eth.rb/pull/352)
+* Move error decoding to contract module [#350](https://github.com/q9f/eth.rb/pull/350)
+* Enforce minimal RLP integer decoding [#351](https://github.com/q9f/eth.rb/pull/351)
+* Fix tuple size calculation without components [#348](https://github.com/q9f/eth.rb/pull/348)
+* Docs: update readme [#347](https://github.com/q9f/eth.rb/pull/347)
+* Chore: update development dependencies [#346](https://github.com/q9f/eth.rb/pull/346)
+* Handle hex string inputs in big-endian conversion [#343](https://github.com/q9f/eth.rb/pull/343)
+* Handle uppercase hex prefixes [#339](https://github.com/q9f/eth.rb/pull/339)
+* Add methods to encode function call and decode its result [#334](https://github.com/q9f/eth.rb/pull/334)
+* Docs(util): fix hex? return type [#342](https://github.com/q9f/eth.rb/pull/342)
+* Handle hex input consistently in int_to_big_endian [#341](https://github.com/q9f/eth.rb/pull/341)
+* Fix receiver option spelling [#340](https://github.com/q9f/eth.rb/pull/340)
+* Chore: bump version to 0.5.15 [#333](https://github.com/q9f/eth.rb/pull/333)
 
 ## [0.5.14]
 ### Added

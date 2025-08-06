@@ -22,7 +22,7 @@ module Eth
   MINOR = 5.freeze
 
   # Defines the patch version of the {Eth} module.
-  PATCH = 15.freeze
+  PATCH = 16.freeze
 
   # Defines the version string of the {Eth} module.
   VERSION = [MAJOR, MINOR, PATCH].join(".").freeze
