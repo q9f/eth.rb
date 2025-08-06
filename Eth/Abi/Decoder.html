@@ -331,15 +331,6 @@
       <pre class="lines">
 
 
-102
-103
-104
-105
-106
-107
-108
-109
-110
 111
 112
 113
@@ -381,10 +372,19 @@
 149
 150
 151
-152</pre>
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/abi/decoder.rb', line 102</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/abi/decoder.rb', line 111</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_primitive_type'>primitive_type</span><span class='lparen'>(</span><span class='id identifier rubyid_type'>type</span><span class='comma'>,</span> <span class='id identifier rubyid_data'>data</span><span class='rparen'>)</span>
   <span class='kw'>case</span> <span class='id identifier rubyid_type'>type</span><span class='period'>.</span><span class='id identifier rubyid_base_type'>base_type</span>
@@ -601,7 +601,16 @@
 91
 92
 93
-94</pre>
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/eth/abi/decoder.rb', line 33</span>
@@ -619,12 +628,15 @@
       <span class='comment'># Case: decoding array of string/bytes
 </span>    <span class='kw'>else</span>
       <span class='id identifier rubyid_l'>l</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_deserialize_big_endian_to_int'><span class='object_link'><a href="../Util.html#deserialize_big_endian_to_int-instance_method" title="Eth::Util#deserialize_big_endian_to_int (method)">deserialize_big_endian_to_int</a></span></span> <span class='id identifier rubyid_arg'>arg</span><span class='lbracket'>[</span><span class='int'>0</span><span class='comma'>,</span> <span class='int'>32</span><span class='rbracket'>]</span>
+      <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="DecodingError.html" title="Eth::Abi::DecodingError (class)">DecodingError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Wrong data size for dynamic array</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_arg'>arg</span><span class='period'>.</span><span class='id identifier rubyid_size'>size</span> <span class='op'>&gt;=</span> <span class='int'>32</span> <span class='op'>+</span> <span class='int'>32</span> <span class='op'>*</span> <span class='id identifier rubyid_l'>l</span>
 
       <span class='comment'># Decode each element of the array
 </span>      <span class='lparen'>(</span><span class='int'>1</span><span class='op'>..</span><span class='id identifier rubyid_l'>l</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_i'>i</span><span class='op'>|</span>
         <span class='id identifier rubyid_pointer'>pointer</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_deserialize_big_endian_to_int'><span class='object_link'><a href="../Util.html#deserialize_big_endian_to_int-instance_method" title="Eth::Util#deserialize_big_endian_to_int (method)">deserialize_big_endian_to_int</a></span></span> <span class='id identifier rubyid_arg'>arg</span><span class='lbracket'>[</span><span class='id identifier rubyid_i'>i</span> <span class='op'>*</span> <span class='int'>32</span><span class='comma'>,</span> <span class='int'>32</span><span class='rbracket'>]</span> <span class='comment'># Pointer to the size of the array&#39;s element
-</span>        <span class='id identifier rubyid_data_l'>data_l</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_deserialize_big_endian_to_int'><span class='object_link'><a href="../Util.html#deserialize_big_endian_to_int-instance_method" title="Eth::Util#deserialize_big_endian_to_int (method)">deserialize_big_endian_to_int</a></span></span> <span class='id identifier rubyid_arg'>arg</span><span class='lbracket'>[</span><span class='int'>32</span> <span class='op'>+</span> <span class='id identifier rubyid_pointer'>pointer</span><span class='comma'>,</span> <span class='int'>32</span><span class='rbracket'>]</span> <span class='comment'># length of the element
-</span>        <span class='id identifier rubyid_type'>type</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="Type.html" title="Eth::Abi::Type (class)">Type</a></span></span><span class='period'>.</span><span class='id identifier rubyid_parse'><span class='object_link'><a href="Type.html#parse-instance_method" title="Eth::Abi::Type#parse (method)">parse</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_type'>type</span><span class='period'>.</span><span class='id identifier rubyid_base_type'>base_type</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='id identifier rubyid_arg'>arg</span><span class='lbracket'>[</span><span class='id identifier rubyid_pointer'>pointer</span> <span class='op'>+</span> <span class='int'>32</span><span class='comma'>,</span> <span class='const'><span class='object_link'><a href="../Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_ceil32'><span class='object_link'><a href="../Util.html#ceil32-instance_method" title="Eth::Util#ceil32 (method)">ceil32</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_data_l'>data_l</span><span class='rparen'>)</span> <span class='op'>+</span> <span class='int'>32</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+</span>        <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="DecodingError.html" title="Eth::Abi::DecodingError (class)">DecodingError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Offset out of bounds</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_pointer'>pointer</span> <span class='op'>&lt;</span> <span class='int'>32</span> <span class='op'>*</span> <span class='id identifier rubyid_l'>l</span> <span class='op'>||</span> <span class='id identifier rubyid_pointer'>pointer</span> <span class='op'>&gt;</span> <span class='id identifier rubyid_arg'>arg</span><span class='period'>.</span><span class='id identifier rubyid_size'>size</span> <span class='op'>-</span> <span class='int'>64</span>
+        <span class='id identifier rubyid_data_l'>data_l</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_deserialize_big_endian_to_int'><span class='object_link'><a href="../Util.html#deserialize_big_endian_to_int-instance_method" title="Eth::Util#deserialize_big_endian_to_int (method)">deserialize_big_endian_to_int</a></span></span> <span class='id identifier rubyid_arg'>arg</span><span class='lbracket'>[</span><span class='int'>32</span> <span class='op'>+</span> <span class='id identifier rubyid_pointer'>pointer</span><span class='comma'>,</span> <span class='int'>32</span><span class='rbracket'>]</span> <span class='comment'># length of the element
+</span>        <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="DecodingError.html" title="Eth::Abi::DecodingError (class)">DecodingError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Offset out of bounds</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_pointer'>pointer</span> <span class='op'>+</span> <span class='int'>32</span> <span class='op'>+</span> <span class='const'><span class='object_link'><a href="../Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_ceil32'><span class='object_link'><a href="../Util.html#ceil32-instance_method" title="Eth::Util#ceil32 (method)">ceil32</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_data_l'>data_l</span><span class='rparen'>)</span> <span class='op'>&gt;</span> <span class='id identifier rubyid_arg'>arg</span><span class='period'>.</span><span class='id identifier rubyid_size'>size</span>
+        <span class='id identifier rubyid_type'>type</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="Type.html" title="Eth::Abi::Type (class)">Type</a></span></span><span class='period'>.</span><span class='id identifier rubyid_parse'><span class='object_link'><a href="Type.html#parse-instance_method" title="Eth::Abi::Type#parse (method)">parse</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_type'>type</span><span class='period'>.</span><span class='id identifier rubyid_base_type'>base_type</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='id identifier rubyid_arg'>arg</span><span class='lbracket'>[</span><span class='id identifier rubyid_pointer'>pointer</span> <span class='op'>+</span> <span class='int'>32</span><span class='comma'>,</span> <span class='const'><span class='object_link'><a href="../Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_ceil32'><span class='object_link'><a href="../Util.html#ceil32-instance_method" title="Eth::Util#ceil32 (method)">ceil32</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_data_l'>data_l</span><span class='rparen'>)</span> <span class='op'>+</span> <span class='int'>32</span><span class='rbracket'>]</span><span class='rparen'>)</span>
       <span class='kw'>end</span>
     <span class='kw'>end</span>
   <span class='kw'>elsif</span> <span class='id identifier rubyid_type'>type</span><span class='period'>.</span><span class='id identifier rubyid_base_type'>base_type</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>tuple</span><span class='tstring_end'>&quot;</span></span>
@@ -650,9 +662,15 @@
     <span class='id identifier rubyid_nested_sub'>nested_sub</span> <span class='op'>=</span> <span class='id identifier rubyid_type'>type</span><span class='period'>.</span><span class='id identifier rubyid_nested_sub'>nested_sub</span>
 
     <span class='kw'>if</span> <span class='id identifier rubyid_nested_sub'>nested_sub</span><span class='period'>.</span><span class='id identifier rubyid_dynamic?'>dynamic?</span>
-      <span class='id identifier rubyid_offsets'>offsets</span> <span class='op'>=</span> <span class='lparen'>(</span><span class='int'>0</span><span class='op'>...</span><span class='id identifier rubyid_l'>l</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_i'>i</span><span class='op'>|</span> <span class='const'><span class='object_link'><a href="../Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_deserialize_big_endian_to_int'><span class='object_link'><a href="../Util.html#deserialize_big_endian_to_int-instance_method" title="Eth::Util#deserialize_big_endian_to_int (method)">deserialize_big_endian_to_int</a></span></span> <span class='id identifier rubyid_arg'>arg</span><span class='lbracket'>[</span><span class='int'>32</span> <span class='op'>+</span> <span class='int'>32</span> <span class='op'>*</span> <span class='id identifier rubyid_i'>i</span><span class='comma'>,</span> <span class='int'>32</span><span class='rbracket'>]</span> <span class='rbrace'>}</span>
+      <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="DecodingError.html" title="Eth::Abi::DecodingError (class)">DecodingError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Wrong data size for dynamic array</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_arg'>arg</span><span class='period'>.</span><span class='id identifier rubyid_size'>size</span> <span class='op'>&gt;=</span> <span class='int'>32</span> <span class='op'>+</span> <span class='int'>32</span> <span class='op'>*</span> <span class='id identifier rubyid_l'>l</span>
+      <span class='id identifier rubyid_offsets'>offsets</span> <span class='op'>=</span> <span class='lparen'>(</span><span class='int'>0</span><span class='op'>...</span><span class='id identifier rubyid_l'>l</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_i'>i</span><span class='op'>|</span>
+        <span class='id identifier rubyid_off'>off</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_deserialize_big_endian_to_int'><span class='object_link'><a href="../Util.html#deserialize_big_endian_to_int-instance_method" title="Eth::Util#deserialize_big_endian_to_int (method)">deserialize_big_endian_to_int</a></span></span> <span class='id identifier rubyid_arg'>arg</span><span class='lbracket'>[</span><span class='int'>32</span> <span class='op'>+</span> <span class='int'>32</span> <span class='op'>*</span> <span class='id identifier rubyid_i'>i</span><span class='comma'>,</span> <span class='int'>32</span><span class='rbracket'>]</span>
+        <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="DecodingError.html" title="Eth::Abi::DecodingError (class)">DecodingError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Offset out of bounds</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_off'>off</span> <span class='op'>&lt;</span> <span class='int'>32</span> <span class='op'>*</span> <span class='id identifier rubyid_l'>l</span> <span class='op'>||</span> <span class='id identifier rubyid_off'>off</span> <span class='op'>&gt;</span> <span class='id identifier rubyid_arg'>arg</span><span class='period'>.</span><span class='id identifier rubyid_size'>size</span> <span class='op'>-</span> <span class='int'>64</span>
+        <span class='id identifier rubyid_off'>off</span>
+      <span class='kw'>end</span>
       <span class='id identifier rubyid_offsets'>offsets</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_off'>off</span><span class='op'>|</span> <span class='id identifier rubyid_type'>type</span><span class='lparen'>(</span><span class='id identifier rubyid_nested_sub'>nested_sub</span><span class='comma'>,</span> <span class='id identifier rubyid_arg'>arg</span><span class='lbracket'>[</span><span class='int'>32</span> <span class='op'>+</span> <span class='id identifier rubyid_off'>off</span><span class='op'>..</span><span class='rbracket'>]</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
     <span class='kw'>else</span>
+      <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="DecodingError.html" title="Eth::Abi::DecodingError (class)">DecodingError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Wrong data size for dynamic array</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_arg'>arg</span><span class='period'>.</span><span class='id identifier rubyid_size'>size</span> <span class='op'>&gt;=</span> <span class='int'>32</span> <span class='op'>+</span> <span class='id identifier rubyid_nested_sub'>nested_sub</span><span class='period'>.</span><span class='id identifier rubyid_size'>size</span> <span class='op'>*</span> <span class='id identifier rubyid_l'>l</span>
       <span class='comment'># decoded dynamic-sized arrays with static sub-types
 </span>      <span class='lparen'>(</span><span class='int'>0</span><span class='op'>...</span><span class='id identifier rubyid_l'>l</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_i'>i</span><span class='op'>|</span> <span class='id identifier rubyid_type'>type</span><span class='lparen'>(</span><span class='id identifier rubyid_nested_sub'>nested_sub</span><span class='comma'>,</span> <span class='id identifier rubyid_arg'>arg</span><span class='lbracket'>[</span><span class='int'>32</span> <span class='op'>+</span> <span class='id identifier rubyid_nested_sub'>nested_sub</span><span class='period'>.</span><span class='id identifier rubyid_size'>size</span> <span class='op'>*</span> <span class='id identifier rubyid_i'>i</span><span class='comma'>,</span> <span class='id identifier rubyid_nested_sub'>nested_sub</span><span class='period'>.</span><span class='id identifier rubyid_size'>size</span><span class='rbracket'>]</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
     <span class='kw'>end</span>
@@ -777,15 +795,6 @@
       <pre class="lines">
 
 
-102
-103
-104
-105
-106
-107
-108
-109
-110
 111
 112
 113
@@ -827,10 +836,19 @@
 149
 150
 151
-152</pre>
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/abi/decoder.rb', line 102</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/abi/decoder.rb', line 111</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_primitive_type'>primitive_type</span><span class='lparen'>(</span><span class='id identifier rubyid_type'>type</span><span class='comma'>,</span> <span class='id identifier rubyid_data'>data</span><span class='rparen'>)</span>
   <span class='kw'>case</span> <span class='id identifier rubyid_type'>type</span><span class='period'>.</span><span class='id identifier rubyid_base_type'>base_type</span>
@@ -1047,7 +1065,16 @@
 91
 92
 93
-94</pre>
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/eth/abi/decoder.rb', line 33</span>
@@ -1065,12 +1092,15 @@
       <span class='comment'># Case: decoding array of string/bytes
 </span>    <span class='kw'>else</span>
       <span class='id identifier rubyid_l'>l</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_deserialize_big_endian_to_int'><span class='object_link'><a href="../Util.html#deserialize_big_endian_to_int-instance_method" title="Eth::Util#deserialize_big_endian_to_int (method)">deserialize_big_endian_to_int</a></span></span> <span class='id identifier rubyid_arg'>arg</span><span class='lbracket'>[</span><span class='int'>0</span><span class='comma'>,</span> <span class='int'>32</span><span class='rbracket'>]</span>
+      <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="DecodingError.html" title="Eth::Abi::DecodingError (class)">DecodingError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Wrong data size for dynamic array</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_arg'>arg</span><span class='period'>.</span><span class='id identifier rubyid_size'>size</span> <span class='op'>&gt;=</span> <span class='int'>32</span> <span class='op'>+</span> <span class='int'>32</span> <span class='op'>*</span> <span class='id identifier rubyid_l'>l</span>
 
       <span class='comment'># Decode each element of the array
 </span>      <span class='lparen'>(</span><span class='int'>1</span><span class='op'>..</span><span class='id identifier rubyid_l'>l</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_i'>i</span><span class='op'>|</span>
         <span class='id identifier rubyid_pointer'>pointer</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_deserialize_big_endian_to_int'><span class='object_link'><a href="../Util.html#deserialize_big_endian_to_int-instance_method" title="Eth::Util#deserialize_big_endian_to_int (method)">deserialize_big_endian_to_int</a></span></span> <span class='id identifier rubyid_arg'>arg</span><span class='lbracket'>[</span><span class='id identifier rubyid_i'>i</span> <span class='op'>*</span> <span class='int'>32</span><span class='comma'>,</span> <span class='int'>32</span><span class='rbracket'>]</span> <span class='comment'># Pointer to the size of the array&#39;s element
-</span>        <span class='id identifier rubyid_data_l'>data_l</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_deserialize_big_endian_to_int'><span class='object_link'><a href="../Util.html#deserialize_big_endian_to_int-instance_method" title="Eth::Util#deserialize_big_endian_to_int (method)">deserialize_big_endian_to_int</a></span></span> <span class='id identifier rubyid_arg'>arg</span><span class='lbracket'>[</span><span class='int'>32</span> <span class='op'>+</span> <span class='id identifier rubyid_pointer'>pointer</span><span class='comma'>,</span> <span class='int'>32</span><span class='rbracket'>]</span> <span class='comment'># length of the element
-</span>        <span class='id identifier rubyid_type'>type</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="Type.html" title="Eth::Abi::Type (class)">Type</a></span></span><span class='period'>.</span><span class='id identifier rubyid_parse'><span class='object_link'><a href="Type.html#parse-instance_method" title="Eth::Abi::Type#parse (method)">parse</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_type'>type</span><span class='period'>.</span><span class='id identifier rubyid_base_type'>base_type</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='id identifier rubyid_arg'>arg</span><span class='lbracket'>[</span><span class='id identifier rubyid_pointer'>pointer</span> <span class='op'>+</span> <span class='int'>32</span><span class='comma'>,</span> <span class='const'><span class='object_link'><a href="../Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_ceil32'><span class='object_link'><a href="../Util.html#ceil32-instance_method" title="Eth::Util#ceil32 (method)">ceil32</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_data_l'>data_l</span><span class='rparen'>)</span> <span class='op'>+</span> <span class='int'>32</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+</span>        <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="DecodingError.html" title="Eth::Abi::DecodingError (class)">DecodingError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Offset out of bounds</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_pointer'>pointer</span> <span class='op'>&lt;</span> <span class='int'>32</span> <span class='op'>*</span> <span class='id identifier rubyid_l'>l</span> <span class='op'>||</span> <span class='id identifier rubyid_pointer'>pointer</span> <span class='op'>&gt;</span> <span class='id identifier rubyid_arg'>arg</span><span class='period'>.</span><span class='id identifier rubyid_size'>size</span> <span class='op'>-</span> <span class='int'>64</span>
+        <span class='id identifier rubyid_data_l'>data_l</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_deserialize_big_endian_to_int'><span class='object_link'><a href="../Util.html#deserialize_big_endian_to_int-instance_method" title="Eth::Util#deserialize_big_endian_to_int (method)">deserialize_big_endian_to_int</a></span></span> <span class='id identifier rubyid_arg'>arg</span><span class='lbracket'>[</span><span class='int'>32</span> <span class='op'>+</span> <span class='id identifier rubyid_pointer'>pointer</span><span class='comma'>,</span> <span class='int'>32</span><span class='rbracket'>]</span> <span class='comment'># length of the element
+</span>        <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="DecodingError.html" title="Eth::Abi::DecodingError (class)">DecodingError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Offset out of bounds</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_pointer'>pointer</span> <span class='op'>+</span> <span class='int'>32</span> <span class='op'>+</span> <span class='const'><span class='object_link'><a href="../Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_ceil32'><span class='object_link'><a href="../Util.html#ceil32-instance_method" title="Eth::Util#ceil32 (method)">ceil32</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_data_l'>data_l</span><span class='rparen'>)</span> <span class='op'>&gt;</span> <span class='id identifier rubyid_arg'>arg</span><span class='period'>.</span><span class='id identifier rubyid_size'>size</span>
+        <span class='id identifier rubyid_type'>type</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="Type.html" title="Eth::Abi::Type (class)">Type</a></span></span><span class='period'>.</span><span class='id identifier rubyid_parse'><span class='object_link'><a href="Type.html#parse-instance_method" title="Eth::Abi::Type#parse (method)">parse</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_type'>type</span><span class='period'>.</span><span class='id identifier rubyid_base_type'>base_type</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='id identifier rubyid_arg'>arg</span><span class='lbracket'>[</span><span class='id identifier rubyid_pointer'>pointer</span> <span class='op'>+</span> <span class='int'>32</span><span class='comma'>,</span> <span class='const'><span class='object_link'><a href="../Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_ceil32'><span class='object_link'><a href="../Util.html#ceil32-instance_method" title="Eth::Util#ceil32 (method)">ceil32</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_data_l'>data_l</span><span class='rparen'>)</span> <span class='op'>+</span> <span class='int'>32</span><span class='rbracket'>]</span><span class='rparen'>)</span>
       <span class='kw'>end</span>
     <span class='kw'>end</span>
   <span class='kw'>elsif</span> <span class='id identifier rubyid_type'>type</span><span class='period'>.</span><span class='id identifier rubyid_base_type'>base_type</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>tuple</span><span class='tstring_end'>&quot;</span></span>
@@ -1096,9 +1126,15 @@
     <span class='id identifier rubyid_nested_sub'>nested_sub</span> <span class='op'>=</span> <span class='id identifier rubyid_type'>type</span><span class='period'>.</span><span class='id identifier rubyid_nested_sub'>nested_sub</span>
 
     <span class='kw'>if</span> <span class='id identifier rubyid_nested_sub'>nested_sub</span><span class='period'>.</span><span class='id identifier rubyid_dynamic?'>dynamic?</span>
-      <span class='id identifier rubyid_offsets'>offsets</span> <span class='op'>=</span> <span class='lparen'>(</span><span class='int'>0</span><span class='op'>...</span><span class='id identifier rubyid_l'>l</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_i'>i</span><span class='op'>|</span> <span class='const'><span class='object_link'><a href="../Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_deserialize_big_endian_to_int'><span class='object_link'><a href="../Util.html#deserialize_big_endian_to_int-instance_method" title="Eth::Util#deserialize_big_endian_to_int (method)">deserialize_big_endian_to_int</a></span></span> <span class='id identifier rubyid_arg'>arg</span><span class='lbracket'>[</span><span class='int'>32</span> <span class='op'>+</span> <span class='int'>32</span> <span class='op'>*</span> <span class='id identifier rubyid_i'>i</span><span class='comma'>,</span> <span class='int'>32</span><span class='rbracket'>]</span> <span class='rbrace'>}</span>
+      <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="DecodingError.html" title="Eth::Abi::DecodingError (class)">DecodingError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Wrong data size for dynamic array</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_arg'>arg</span><span class='period'>.</span><span class='id identifier rubyid_size'>size</span> <span class='op'>&gt;=</span> <span class='int'>32</span> <span class='op'>+</span> <span class='int'>32</span> <span class='op'>*</span> <span class='id identifier rubyid_l'>l</span>
+      <span class='id identifier rubyid_offsets'>offsets</span> <span class='op'>=</span> <span class='lparen'>(</span><span class='int'>0</span><span class='op'>...</span><span class='id identifier rubyid_l'>l</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_i'>i</span><span class='op'>|</span>
+        <span class='id identifier rubyid_off'>off</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_deserialize_big_endian_to_int'><span class='object_link'><a href="../Util.html#deserialize_big_endian_to_int-instance_method" title="Eth::Util#deserialize_big_endian_to_int (method)">deserialize_big_endian_to_int</a></span></span> <span class='id identifier rubyid_arg'>arg</span><span class='lbracket'>[</span><span class='int'>32</span> <span class='op'>+</span> <span class='int'>32</span> <span class='op'>*</span> <span class='id identifier rubyid_i'>i</span><span class='comma'>,</span> <span class='int'>32</span><span class='rbracket'>]</span>
+        <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="DecodingError.html" title="Eth::Abi::DecodingError (class)">DecodingError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Offset out of bounds</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_off'>off</span> <span class='op'>&lt;</span> <span class='int'>32</span> <span class='op'>*</span> <span class='id identifier rubyid_l'>l</span> <span class='op'>||</span> <span class='id identifier rubyid_off'>off</span> <span class='op'>&gt;</span> <span class='id identifier rubyid_arg'>arg</span><span class='period'>.</span><span class='id identifier rubyid_size'>size</span> <span class='op'>-</span> <span class='int'>64</span>
+        <span class='id identifier rubyid_off'>off</span>
+      <span class='kw'>end</span>
       <span class='id identifier rubyid_offsets'>offsets</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_off'>off</span><span class='op'>|</span> <span class='id identifier rubyid_type'>type</span><span class='lparen'>(</span><span class='id identifier rubyid_nested_sub'>nested_sub</span><span class='comma'>,</span> <span class='id identifier rubyid_arg'>arg</span><span class='lbracket'>[</span><span class='int'>32</span> <span class='op'>+</span> <span class='id identifier rubyid_off'>off</span><span class='op'>..</span><span class='rbracket'>]</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
     <span class='kw'>else</span>
+      <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="DecodingError.html" title="Eth::Abi::DecodingError (class)">DecodingError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Wrong data size for dynamic array</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_arg'>arg</span><span class='period'>.</span><span class='id identifier rubyid_size'>size</span> <span class='op'>&gt;=</span> <span class='int'>32</span> <span class='op'>+</span> <span class='id identifier rubyid_nested_sub'>nested_sub</span><span class='period'>.</span><span class='id identifier rubyid_size'>size</span> <span class='op'>*</span> <span class='id identifier rubyid_l'>l</span>
       <span class='comment'># decoded dynamic-sized arrays with static sub-types
 </span>      <span class='lparen'>(</span><span class='int'>0</span><span class='op'>...</span><span class='id identifier rubyid_l'>l</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_i'>i</span><span class='op'>|</span> <span class='id identifier rubyid_type'>type</span><span class='lparen'>(</span><span class='id identifier rubyid_nested_sub'>nested_sub</span><span class='comma'>,</span> <span class='id identifier rubyid_arg'>arg</span><span class='lbracket'>[</span><span class='int'>32</span> <span class='op'>+</span> <span class='id identifier rubyid_nested_sub'>nested_sub</span><span class='period'>.</span><span class='id identifier rubyid_size'>size</span> <span class='op'>*</span> <span class='id identifier rubyid_i'>i</span><span class='comma'>,</span> <span class='id identifier rubyid_nested_sub'>nested_sub</span><span class='period'>.</span><span class='id identifier rubyid_size'>size</span><span class='rbracket'>]</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
     <span class='kw'>end</span>
@@ -1124,7 +1160,7 @@
 </div>
 
       <div id="footer">
-  Generated on Wed Aug  6 11:52:19 2025 by
+  Generated on Wed Aug  6 11:54:21 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.37 (ruby-3.4.5).
 </div>
