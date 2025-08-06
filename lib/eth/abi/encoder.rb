@@ -46,32 +46,21 @@ module Eth
         elsif type.dynamic? && arg.is_a?(Array)
 
           # encodes dynamic-sized arrays
-          head, tail = "", ""
-          head += type(Type.size_type, arg.size)
+          head = type(Type.size_type, arg.size)
           nested_sub = type.nested_sub
 
-          # calculate offsets
-          if %w(string bytes).include?(type.base_type) && type.sub_type.empty?
-            offset = 0
-            arg.size.times do |i|
-              if i == 0
-                offset = arg.size * 32
-              else
-                number_of_words = ((arg[i - 1].size + 32 - 1) / 32).floor
-                total_bytes_length = number_of_words * 32
-                offset += total_bytes_length + 32
-              end
-
+          if nested_sub.dynamic?
+            tails = arg.map { |a| type(nested_sub, a) }
+            offset = arg.size * 32
+            tails.each do |t|
               head += type(Type.size_type, offset)
+              offset += t.size
             end
-          elsif nested_sub.base_type == "tuple" && nested_sub.dynamic?
-            head += struct_offsets(nested_sub, arg)
+            head + tails.join
+          else
+            arg.each { |a| head += type(nested_sub, a) }
+            head
           end
-
-          arg.size.times do |i|
-            head += type nested_sub, arg[i]
-          end
-          "#{head}#{tail}"
         else
           if type.dimensions.empty?
 
