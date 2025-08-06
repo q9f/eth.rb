@@ -21,6 +21,7 @@ require "eth/tx/eip4844"
 require "eth/tx/eip7702"
 require "eth/tx/legacy"
 require "eth/unit"
+require "eth/blob"
 
 # Provides the {Eth} module.
 module Eth
@@ -291,9 +292,20 @@ module Eth
       if fields[:max_fee_per_blob_gas].nil? or fields[:max_fee_per_blob_gas] < 0
         raise ParameterError, "Invalid max blob fee #{fields[:max_fee_per_blob_gas]}!"
       end
+
+      blob_config = Blob.config
+      if fields[:max_fee_per_blob_gas] < blob_config.min_fee_per_blob_gas
+        raise ParameterError, "Invalid max blob fee #{fields[:max_fee_per_blob_gas]}!"
+      end
+
       if fields[:blob_versioned_hashes].nil? or !fields[:blob_versioned_hashes].is_a? Array or fields[:blob_versioned_hashes].empty?
         raise ParameterError, "Invalid blob versioned hashes #{fields[:blob_versioned_hashes]}!"
       end
+
+      if fields[:blob_versioned_hashes].size > blob_config.max_blobs
+        raise ParameterError, "Invalid blob versioned hashes #{fields[:blob_versioned_hashes]}!"
+      end
+
       if fields[:to].nil? or fields[:to].empty?
         raise ParameterError, "Invalid destination address #{fields[:to]}!"
       end
