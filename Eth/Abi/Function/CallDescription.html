@@ -4,7 +4,7 @@
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>
-  Class: Eth::Abi::Event::LogDescription
+  Class: Eth::Abi::Function::CallDescription
   
     &mdash; Documentation by YARD 0.9.37
   
@@ -15,7 +15,7 @@
   <link rel="stylesheet" href="../../../css/common.css" type="text/css" />
 
 <script type="text/javascript">
-  pathId = "Eth::Abi::Event::LogDescription";
+  pathId = "Eth::Abi::Function::CallDescription";
   relpath = '../../../';
 </script>
 
@@ -36,10 +36,10 @@
       <div id="header">
         <div id="menu">
   
-    <a href="../../../_index.html">Index (L)</a> &raquo;
-    <span class='title'><span class='object_link'><a href="../../../Eth.html" title="Eth (module)">Eth</a></span></span> &raquo; <span class='title'><span class='object_link'><a href="../../Abi.html" title="Eth::Abi (module)">Abi</a></span></span> &raquo; <span class='title'><span class='object_link'><a href="../Event.html" title="Eth::Abi::Event (module)">Event</a></span></span>
+    <a href="../../../_index.html">Index (C)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../../../Eth.html" title="Eth (module)">Eth</a></span></span> &raquo; <span class='title'><span class='object_link'><a href="../../Abi.html" title="Eth::Abi (module)">Abi</a></span></span> &raquo; <span class='title'><span class='object_link'><a href="../Function.html" title="Eth::Abi::Function (module)">Function</a></span></span>
      &raquo; 
-    <span class="title">LogDescription</span>
+    <span class="title">CallDescription</span>
   
 </div>
 
@@ -59,7 +59,7 @@
         <div class="clear"></div>
       </div>
 
-      <div id="content"><h1>Class: Eth::Abi::Event::LogDescription
+      <div id="content"><h1>Class: Eth::Abi::Function::CallDescription
   
   
   
@@ -74,7 +74,7 @@
         <ul class="fullTree">
           <li>Object</li>
           
-            <li class="next">Eth::Abi::Event::LogDescription</li>
+            <li class="next">Eth::Abi::Function::CallDescription</li>
           
         </ul>
         <a href="#" class="inheritanceTree">show all</a>
@@ -94,7 +94,7 @@
   
   <dl>
     <dt>Defined in:</dt>
-    <dd>lib/eth/abi/event.rb</dd>
+    <dd>lib/eth/abi/function.rb</dd>
   </dl>
   
 </div>
@@ -102,7 +102,7 @@
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
     
-<p>A decoded event log.</p>
+<p>A decoded function call.</p>
 
 
   </div>
@@ -138,7 +138,7 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>The the input argument of the event.</p>
+<p>The positional arguments of the call.</p>
 </div></span>
   
 </li>
@@ -147,7 +147,7 @@
       <li class="public ">
   <span class="summary_signature">
     
-      <a href="#event_interface-instance_method" title="#event_interface (instance method)">#<strong>event_interface</strong>  &#x21d2; Object </a>
+      <a href="#function_interface-instance_method" title="#function_interface (instance method)">#<strong>function_interface</strong>  &#x21d2; Object </a>
     
 
     
@@ -165,7 +165,7 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>The event ABI interface used to decode the log.</p>
+<p>The function ABI interface used to decode the call.</p>
 </div></span>
   
 </li>
@@ -192,7 +192,7 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>The named input argument of the event.</p>
+<p>The named arguments of the call.</p>
 </div></span>
   
 </li>
@@ -201,7 +201,7 @@
       <li class="public ">
   <span class="summary_signature">
     
-      <a href="#topic-instance_method" title="#topic (instance method)">#<strong>topic</strong>  &#x21d2; Object </a>
+      <a href="#selector-instance_method" title="#selector (instance method)">#<strong>selector</strong>  &#x21d2; Object </a>
     
 
     
@@ -219,7 +219,7 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>The topic hash.</p>
+<p>The function selector.</p>
 </div></span>
   
 </li>
@@ -241,7 +241,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#initialize-instance_method" title="#initialize (instance method)">#<strong>initialize</strong>(event_interface, log)  &#x21d2; LogDescription </a>
+      <a href="#initialize-instance_method" title="#initialize (instance method)">#<strong>initialize</strong>(function_interface, selector, args, kwargs)  &#x21d2; CallDescription </a>
     
 
     
@@ -258,7 +258,7 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Decodes event log argument values.</p>
+<p>Creates a description object for a decoded function call.</p>
 </div></span>
   
 </li>
@@ -282,7 +282,7 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>The event name.</p>
+<p>The function name.</p>
 </div></span>
   
 </li>
@@ -306,7 +306,7 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>The event signature.</p>
+<p>The function signature.</p>
 </div></span>
   
 </li>
@@ -321,7 +321,7 @@
     <div class="method_details first">
   <h3 class="signature first" id="initialize-instance_method">
   
-    #<strong>initialize</strong>(event_interface, log)  &#x21d2; <tt><span class='object_link'><a href="" title="Eth::Abi::Event::LogDescription (class)">LogDescription</a></span></tt> 
+    #<strong>initialize</strong>(function_interface, selector, args, kwargs)  &#x21d2; <tt><span class='object_link'><a href="" title="Eth::Abi::Function::CallDescription (class)">CallDescription</a></span></tt> 
   
 
   
@@ -330,7 +330,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Decodes event log argument values.</p>
+<p>Creates a description object for a decoded function call.</p>
 
 
   </div>
@@ -341,7 +341,7 @@
   
     <li>
       
-        <span class='name'>event_interface</span>
+        <span class='name'>function_interface</span>
       
       
         <span class='type'>(<tt>Hash</tt>)</span>
@@ -350,14 +350,46 @@
       
         &mdash;
         <div class='inline'>
-<p>event ABI type.</p>
+<p>function ABI type.</p>
 </div>
       
     </li>
   
     <li>
       
-        <span class='name'>log</span>
+        <span class='name'>selector</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>function selector hex-string.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>args</span>
+      
+      
+        <span class='type'>(<tt>Array</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>decoded positional arguments.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>kwargs</span>
       
       
         <span class='type'>(<tt>Hash</tt>)</span>
@@ -366,7 +398,7 @@
       
         &mdash;
         <div class='inline'>
-<p>transaction receipt log</p>
+<p>decoded keyword arguments.</p>
 </div>
       
     </li>
@@ -380,31 +412,21 @@
       <pre class="lines">
 
 
-79
-80
 81
 82
 83
 84
 85
-86
-87
-88
-89</pre>
+86</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/abi/event.rb', line 79</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/abi/function.rb', line 81</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_event_interface'>event_interface</span><span class='comma'>,</span> <span class='id identifier rubyid_log'>log</span><span class='rparen'>)</span>
-  <span class='ivar'>@event_interface</span> <span class='op'>=</span> <span class='id identifier rubyid_event_interface'>event_interface</span>
-
-  <span class='id identifier rubyid_inputs'>inputs</span> <span class='op'>=</span> <span class='id identifier rubyid_event_interface'>event_interface</span><span class='period'>.</span><span class='id identifier rubyid_fetch'>fetch</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>inputs</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_data'>data</span> <span class='op'>=</span> <span class='id identifier rubyid_log'>log</span><span class='period'>.</span><span class='id identifier rubyid_fetch'>fetch</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>data</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_topics'>topics</span> <span class='op'>=</span> <span class='id identifier rubyid_log'>log</span><span class='period'>.</span><span class='id identifier rubyid_fetch'>fetch</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>topics</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='rbracket'>]</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_anonymous'>anonymous</span> <span class='op'>=</span> <span class='id identifier rubyid_event_interface'>event_interface</span><span class='period'>.</span><span class='id identifier rubyid_fetch'>fetch</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>anonymous</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='kw'>false</span><span class='rparen'>)</span>
-
-  <span class='ivar'>@topic</span> <span class='op'>=</span> <span class='id identifier rubyid_topics'>topics</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span> <span class='kw'>if</span> <span class='op'>!</span><span class='id identifier rubyid_anonymous'>anonymous</span>
-  <span class='ivar'>@args</span><span class='comma'>,</span> <span class='ivar'>@kwargs</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Event.html" title="Eth::Abi::Event (module)">Event</a></span></span><span class='period'>.</span><span class='id identifier rubyid_decode_log'><span class='object_link'><a href="../Event.html#decode_log-instance_method" title="Eth::Abi::Event#decode_log (method)">decode_log</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_inputs'>inputs</span><span class='comma'>,</span> <span class='id identifier rubyid_data'>data</span><span class='comma'>,</span> <span class='id identifier rubyid_topics'>topics</span><span class='comma'>,</span> <span class='id identifier rubyid_anonymous'>anonymous</span><span class='rparen'>)</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_function_interface'>function_interface</span><span class='comma'>,</span> <span class='id identifier rubyid_selector'>selector</span><span class='comma'>,</span> <span class='id identifier rubyid_args'>args</span><span class='comma'>,</span> <span class='id identifier rubyid_kwargs'>kwargs</span><span class='rparen'>)</span>
+  <span class='ivar'>@function_interface</span> <span class='op'>=</span> <span class='id identifier rubyid_function_interface'>function_interface</span>
+  <span class='ivar'>@selector</span> <span class='op'>=</span> <span class='id identifier rubyid_selector'>selector</span>
+  <span class='ivar'>@args</span> <span class='op'>=</span> <span class='id identifier rubyid_args'>args</span>
+  <span class='ivar'>@kwargs</span> <span class='op'>=</span> <span class='id identifier rubyid_kwargs'>kwargs</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -430,7 +452,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>The the input argument of the event.</p>
+<p>The positional arguments of the call.</p>
 
 
   </div>
@@ -449,7 +471,7 @@
 69</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/abi/event.rb', line 67</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/abi/function.rb', line 67</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_args'>args</span>
   <span class='ivar'>@args</span>
@@ -460,11 +482,11 @@
 </div>
     
       
-      <span id="event_interface=-instance_method"></span>
+      <span id="function_interface=-instance_method"></span>
       <div class="method_details ">
-  <h3 class="signature " id="event_interface-instance_method">
+  <h3 class="signature " id="function_interface-instance_method">
   
-    #<strong>event_interface</strong>  &#x21d2; <tt>Object</tt> 
+    #<strong>function_interface</strong>  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -473,7 +495,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>The event ABI interface used to decode the log.</p>
+<p>The function ABI interface used to decode the call.</p>
 
 
   </div>
@@ -492,10 +514,10 @@
 66</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/abi/event.rb', line 64</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/abi/function.rb', line 64</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_event_interface'>event_interface</span>
-  <span class='ivar'>@event_interface</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_function_interface'>function_interface</span>
+  <span class='ivar'>@function_interface</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -516,7 +538,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>The named input argument of the event.</p>
+<p>The named arguments of the call.</p>
 
 
   </div>
@@ -535,7 +557,7 @@
 72</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/abi/event.rb', line 70</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/abi/function.rb', line 70</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_kwargs'>kwargs</span>
   <span class='ivar'>@kwargs</span>
@@ -546,11 +568,11 @@
 </div>
     
       
-      <span id="topic=-instance_method"></span>
+      <span id="selector=-instance_method"></span>
       <div class="method_details ">
-  <h3 class="signature " id="topic-instance_method">
+  <h3 class="signature " id="selector-instance_method">
   
-    #<strong>topic</strong>  &#x21d2; <tt>Object</tt> 
+    #<strong>selector</strong>  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -559,7 +581,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>The topic hash.</p>
+<p>The function selector.</p>
 
 
   </div>
@@ -578,10 +600,10 @@
 75</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/abi/event.rb', line 73</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/abi/function.rb', line 73</span>
 
-<span class='kw'>def</span> <span class='id identifier rubyid_topic'>topic</span>
-  <span class='ivar'>@topic</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_selector'>selector</span>
+  <span class='ivar'>@selector</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -607,7 +629,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>The event name. (e.g. Transfer)</p>
+<p>The function name. (e.g. transfer)</p>
 
 
   </div>
@@ -621,15 +643,15 @@
       <pre class="lines">
 
 
-92
-93
-94</pre>
+89
+90
+91</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/abi/event.rb', line 92</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/abi/function.rb', line 89</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_name'>name</span>
-  <span class='ivar'>@name</span> <span class='op'>||=</span> <span class='id identifier rubyid_event_interface'>event_interface</span><span class='period'>.</span><span class='id identifier rubyid_fetch'>fetch</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>name</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+  <span class='ivar'>@name</span> <span class='op'>||=</span> <span class='id identifier rubyid_function_interface'>function_interface</span><span class='period'>.</span><span class='id identifier rubyid_fetch'>fetch</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>name</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -648,7 +670,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>The event signature. (e.g. Transfer(address,address,uint256))</p>
+<p>The function signature. (e.g. transfer(address,uint256))</p>
 
 
   </div>
@@ -662,15 +684,15 @@
       <pre class="lines">
 
 
-97
-98
-99</pre>
+94
+95
+96</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/abi/event.rb', line 97</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/abi/function.rb', line 94</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_signature'>signature</span>
-  <span class='ivar'>@signature</span> <span class='op'>||=</span> <span class='const'><span class='object_link'><a href="../../Abi.html" title="Eth::Abi (module)">Abi</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Event.html" title="Eth::Abi::Event (module)">Event</a></span></span><span class='period'>.</span><span class='id identifier rubyid_signature'><span class='object_link'><a href="../Event.html#signature-instance_method" title="Eth::Abi::Event#signature (method)">signature</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_event_interface'>event_interface</span><span class='rparen'>)</span>
+  <span class='ivar'>@signature</span> <span class='op'>||=</span> <span class='const'><span class='object_link'><a href="../Function.html" title="Eth::Abi::Function (module)">Function</a></span></span><span class='period'>.</span><span class='id identifier rubyid_signature'><span class='object_link'><a href="../Function.html#signature-instance_method" title="Eth::Abi::Function#signature (method)">signature</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_function_interface'>function_interface</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -682,7 +704,7 @@
 </div>
 
       <div id="footer">
-  Generated on Wed Aug  6 11:19:56 2025 by
+  Generated on Wed Aug  6 11:19:57 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.37 (ruby-3.4.5).
 </div>
