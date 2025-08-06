@@ -62,6 +62,20 @@ and the
 [![Usage Wiki](https://img.shields.io/badge/usage-WIKI-blue)](https://github.com/q9f/eth.rb/wiki)
 for all the details and example snippets.
 
+### Validator withdrawals
+
+Networks implementing [EIP-7002](https://eips.ethereum.org/EIPS/eip-7002)
+allow validators to trigger withdrawals through a predeploy contract. The
+current fee can be queried and a request submitted as follows:
+
+```ruby
+client = Eth::Client.create "/tmp/geth.ipc"
+fee = client.withdrawal_request_fee
+pubkey = "0x" + ("11" * 48)
+tx = client.request_validator_withdrawal(pubkey, 1)
+client.wait_for_tx tx
+```
+
 ## Documentation
 The documentation can be found at: https://q9f.github.io/eth.rb
 
