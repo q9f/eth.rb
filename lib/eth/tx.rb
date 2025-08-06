@@ -47,11 +47,17 @@ module Eth
     # The "default" transaction gas price of 42.69 GWei. Do not use.
     DEFAULT_GAS_PRICE = (42.69 * Unit::GWEI).freeze
 
-    # The calldata gas cost of a non-zero byte as per EIP-2028.
+    # The calldata cost of a non-zero byte as per EIP-2028.
     COST_NON_ZERO_BYTE = 16.freeze
 
-    # The calldata gas cost of a zero byte.
+    # The calldata cost of a zero byte as per EIP-2028.
     COST_ZERO_BYTE = 4.freeze
+
+    # The calldata token cost as per EIP-7623.
+    COST_DATA_TOKEN = 4.freeze
+
+    # The calldata token floor cost as per EIP-7623.
+    COST_DATA_TOKEN_FLOOR = 10.freeze
 
     # The initcode gas cost for each word (32 bytes).
     COST_INITCODE_WORD = 2.freeze
@@ -207,20 +213,24 @@ module Eth
     # @return [Integer] the estimated intrinsic gas cost.
     def estimate_intrinsic_gas(data = "", list = [])
       gas = DEFAULT_GAS_LIMIT
+      floor = gas
       unless data.nil? or data.empty?
         data = Util.hex_to_bin data if Util.hex? data
 
-        # count zero bytes
+        # count zero and non-zero bytes
         zero = data.count ZERO_BYTE
-        gas += zero * COST_ZERO_BYTE
-
-        # count non-zero bytes
         none = data.size - zero
-        gas += none * COST_NON_ZERO_BYTE
+
+        # calculate token based costs
+        tokens = zero + none * 4
+        gas += zero * COST_ZERO_BYTE + none * COST_NON_ZERO_BYTE
 
         # count "words" as per EIP-3860
         word_count = (data.length.to_f / 32.0).ceil
         gas += word_count * COST_INITCODE_WORD
+
+        # enforce calldata floor pricing
+        floor += tokens * COST_DATA_TOKEN_FLOOR
       end
       unless list.nil? or list.empty?
         list.each do |entry|
@@ -235,6 +245,7 @@ module Eth
           end
         end
       end
+      gas = [gas, floor].max
       return gas.to_i
     end
 
