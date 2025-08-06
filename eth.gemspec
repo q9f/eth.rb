@@ -54,4 +54,7 @@ Gem::Specification.new do |spec|
 
   # scrypt for encrypted key derivation
   spec.add_dependency "scrypt", "~> 3.0"
+
+  # bls12-381 for BLS signatures and pairings
+  spec.add_dependency "bls12-381", "~> 0.3"
 end
