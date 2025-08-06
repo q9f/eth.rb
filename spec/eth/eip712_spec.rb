@@ -128,6 +128,40 @@ describe Eip712 do
     end
   end
 
+  describe ".encode_value" do
+    it "abi-encodes primitive values" do
+      expect(Eip712.encode_value("uint256", 1, {})).to eq Abi.encode(["uint256"], [1])
+    end
+  end
+
+  describe ".encode_array" do
+    it "hashes string array items" do
+      expect(Eip712.encode_array("string[]", ["foo", "bar"], {})).to eq [Util.keccak256("foo"), Util.keccak256("bar")]
+    end
+
+    it "hashes bytes array items" do
+      arr = ["0x1234", "0xabcd"]
+      expected = arr.map { |v| Util.keccak256(Util.hex_to_bin(v)) }
+      expect(Eip712.encode_array("bytes[]", arr, {})).to eq expected
+    end
+
+    it "hashes struct array items" do
+      types = { Person: person }
+      people = [
+        { name: "Cow", wallet: Address.new("0xCD2a3d9F938E13CD947Ec05AbC7FE734Df8DD826") },
+        { name: "Bob", wallet: Address.new("0xbBbBBBBbbBBBbbbBbbBbbbbBBbBbbbbBbBbbBBbB") },
+      ]
+      expected = people.map { |p| Util.keccak256(Eip712.encode_data("Person", p, types)) }
+      expect(Eip712.encode_array("Person[]", people, types)).to eq expected
+    end
+
+    it "recursively encodes nested arrays" do
+      nested = [["foo"], ["bar"]]
+      expected = nested.map { |inner| inner.map { |v| Util.keccak256(v) } }
+      expect(Eip712.encode_array("string[][]", nested, {})).to eq expected
+    end
+  end
+
   context "eip 712 arrays" do
     subject(:domain) {
       [

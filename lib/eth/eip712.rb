@@ -50,7 +50,7 @@ module Eth
           nested_type = t[:type]
           # unpack arrays to their inner types to resolve dependencies
           if nested_type.end_with?(']')
-            nested_type = nested_type.gsub(/\[.*\]/, '')
+            nested_type = nested_type.gsub(/\[[^\]]*\]/, '')
           end
           dependency = type_dependencies nested_type, types, result
         end
@@ -154,7 +154,7 @@ module Eth
     # Prepares array values by encoding each element according to its
     # base type. Returns an array compatible with Abi.encode.
     def encode_array(type, value, types)
-      inner_type = type.gsub(/\[.*\]/, '')
+      inner_type = type.sub(/\[[^\]]*\]\z/, '')
       return [] if value.nil?
       value.map do |v|
         if inner_type.end_with?(']')
