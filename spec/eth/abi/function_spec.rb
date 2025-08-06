@@ -6,6 +6,21 @@ describe Abi::Function do
 
   let(:functions) { interfaces.map { |fun| Eth::Contract::Function.new(fun) } }
 
+  describe ".type" do
+    it "encodes tuple types recursively" do
+      input = {
+        "type" => "tuple",
+        "components" => [{ "type" => "address" }, { "type" => "uint256" }]
+      }
+      expect(Abi::Function.type(input)).to eq("(address,uint256)")
+    end
+
+    it "normalizes enum types" do
+      input = { "type" => "enum" }
+      expect(Abi::Function.type(input)).to eq("uint8")
+    end
+  end
+
   describe ".decode" do
     it "decodes function call data" do
       approve = functions.find { |f| f.name == "approve" }
@@ -18,6 +33,7 @@ describe Abi::Function do
       expect(call.args[1]).to eq(1_000_000)
       expect(call.kwargs[:spender]).to eq("0x7f8c1877ed0da352f78be4fe4cda58bb804a30df")
       expect(call.kwargs[:amount]).to eq(1_000_000)
+      expect(call.signature).to eq("approve(address,uint256)")
     end
   end
 end
