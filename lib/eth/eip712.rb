@@ -49,8 +49,8 @@ module Eth
         types[primary_type.to_sym].each do |t|
           nested_type = t[:type]
           # unpack arrays to their inner types to resolve dependencies
-          if nested_type.end_with?(']')
-            nested_type = nested_type.partition('[').first
+          if nested_type.end_with?("]")
+            nested_type = nested_type.partition("[").first
           end
           dependency = type_dependencies nested_type, types, result
         end
@@ -118,7 +118,7 @@ module Eth
       types[primary_type.to_sym].each do |field|
         value = data[field[:name].to_sym]
         type = field[:type]
-        if type.end_with?(']')
+        if type.end_with?("]")
           encoded_types.push type
           encoded_values.push encode_array(type, value, types)
         elsif type == "string" || type == "bytes" || !types[type.to_sym].nil?
@@ -154,10 +154,10 @@ module Eth
     # Prepares array values by encoding each element according to its
     # base type. Returns an array compatible with Abi.encode.
     def encode_array(type, value, types)
-      inner_type = type.slice(0, type.rindex('['))
+      inner_type = type.slice(0, type.rindex("["))
       return [] if value.nil?
       value.map do |v|
-        if inner_type.end_with?(']')
+        if inner_type.end_with?("]")
           encode_array inner_type, v, types
         elsif inner_type == "string"
           Util.keccak256 v
