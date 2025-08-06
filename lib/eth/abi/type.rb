@@ -80,10 +80,15 @@ module Eth
           return
         end
 
-        _, base_type, sub_type, dimension = /([a-z]*)([0-9]*x?[0-9]*)((\[[0-9]*\])*)/.match(type).to_a
+        # ensure the type string is reasonable before attempting to parse
+        raise ParseError, "Invalid type format" unless type.is_a?(String) && type.bytesize <= 256
+
+        match = /\A([a-z]+)([0-9]*x?[0-9]*)((\[[0-9]+\])*)\z/.match(type)
+        raise ParseError, "Invalid type format" unless match
+        _, base_type, sub_type, dimension = match.to_a
 
         # type dimension can only be numeric
-        dims = dimension.scan(/\[[0-9]*\]/)
+        dims = dimension.scan(/\[[0-9]+\]/)
         raise ParseError, "Unknown characters found in array declaration" if dims.join != dimension
 
         # enforce base types
