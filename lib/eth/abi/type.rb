@@ -81,19 +81,22 @@ module Eth
         end
 
         # ensure the type string is reasonable before attempting to parse
-        raise ParseError, "Invalid type format" unless type.is_a?(String) && type.bytesize <= 256
+        raise ParseError, "Invalid type format" unless type.is_a? String
 
-        if type.start_with?("tuple(")
-          inner, rest = extract_tuple(type)
+        if type.start_with?("tuple(") || type.start_with?("(")
+          tuple_str = type.start_with?("tuple(") ? type : "tuple#{type}"
+          inner, rest = extract_tuple(tuple_str)
           inner_types = split_tuple_types(inner)
           inner_types.each { |t| Type.parse(t) }
           base_type = "tuple"
           sub_type = ""
           dimension = rest
+          components ||= inner_types.map { |t| { "type" => t } }
         else
           match = /\A([a-z]+)([0-9]*x?[0-9]*)((?:\[\d+\]|\[\])*)\z/.match(type)
           raise ParseError, "Invalid type format" unless match
           _, base_type, sub_type, dimension = match.to_a
+          sub_type = "256" if %w[uint int].include?(base_type) && sub_type.empty?
         end
 
         # type dimension can only be numeric or empty for dynamic arrays

@@ -13,6 +13,7 @@
 # limitations under the License.
 
 # -*- encoding : ascii-8bit -*-
+require "bigdecimal"
 
 # Provides the {Eth} module.
 module Eth
@@ -33,6 +34,7 @@ module Eth
       def type(type, arg)
         if %w(string bytes).include? type.base_type and type.sub_type.empty? and type.dimensions.empty?
           raise EncodingError, "Argument must be a String" unless arg.instance_of? String
+          arg = handle_hex_string arg, type
 
           # encodes strings and bytes
           size = type Type.size_type, arg.size
@@ -43,7 +45,7 @@ module Eth
           result += struct_offsets(type.nested_sub, arg)
           result += arg.map { |x| type(type.nested_sub, x) }.join
           result
-        elsif type.dynamic? && arg.is_a?(Array)
+        elsif type.dynamic? && !type.dimensions.empty? && arg.is_a?(Array)
 
           # encodes dynamic-sized arrays
           head = type(Type.size_type, arg.size)
@@ -111,6 +113,7 @@ module Eth
 
       # Properly encodes unsigned integers.
       def uint(arg, type)
+        arg = coerce_number arg
         raise ArgumentError, "Don't know how to handle this input." unless arg.is_a? Numeric
         raise ValueOutOfBounds, "Number out of range: #{arg}" if arg > Constant::UINT_MAX or arg < Constant::UINT_MIN
         real_size = type.sub_type.to_i
@@ -121,6 +124,7 @@ module Eth
 
       # Properly encodes signed integers.
       def int(arg, type)
+        arg = coerce_number arg
         raise ArgumentError, "Don't know how to handle this input." unless arg.is_a? Numeric
         raise ValueOutOfBounds, "Number out of range: #{arg}" if arg > Constant::INT_MAX or arg < Constant::INT_MIN
         real_size = type.sub_type.to_i
@@ -137,6 +141,7 @@ module Eth
 
       # Properly encodes unsigned fixed-point numbers.
       def ufixed(arg, type)
+        arg = coerce_number arg
         raise ArgumentError, "Don't know how to handle this input." unless arg.is_a? Numeric
         high, low = type.sub_type.split("x").map(&:to_i)
         raise ValueOutOfBounds, arg unless arg >= 0 and arg < 2 ** high
@@ -145,6 +150,7 @@ module Eth
 
       # Properly encodes signed fixed-point numbers.
       def fixed(arg, type)
+        arg = coerce_number arg
         raise ArgumentError, "Don't know how to handle this input." unless arg.is_a? Numeric
         high, low = type.sub_type.split("x").map(&:to_i)
         raise ValueOutOfBounds, arg unless arg >= -2 ** (high - 1) and arg < 2 ** (high - 1)
@@ -174,7 +180,9 @@ module Eth
 
       # Properly encodes tuples.
       def tuple(arg, type)
-        raise EncodingError, "Expecting Hash: #{arg}" unless arg.instance_of? Hash
+        unless arg.is_a?(Hash) || arg.is_a?(Array)
+          raise EncodingError, "Expecting Hash or Array: #{arg}"
+        end
         raise EncodingError, "Expecting #{type.components.size} elements: #{arg}" unless arg.size == type.components.size
 
         static_size = 0
@@ -203,6 +211,13 @@ module Eth
         end
 
         offsets_and_static_values.join + dynamic_values.join
+      end
+
+      def coerce_number(arg)
+        return arg if arg.is_a? Numeric
+        return arg.to_i(0) if arg.is_a?(String) && arg.match?(/^-?(0x)?[0-9a-fA-F]+$/)
+        return BigDecimal(arg) if arg.is_a?(String) && arg.match?(/^-?\d+(\.\d+)?$/)
+        arg
       end
 
       # Properly encode struct offsets.
