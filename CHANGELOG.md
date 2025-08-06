@@ -5,6 +5,7 @@ All notable changes to this project will be documented in this file.
 ### Added
 * Eth/tx: add support for EIP-4844 transactions [#345](https://github.com/q9f/eth.rb/pull/345)
 * Eth/contract: support solidity custom errors as per ERC-6093 [#344](https://github.com/q9f/eth.rb/pull/344)
+* Eth/abi: decode transaction input [#354](https://github.com/q9f/eth.rb/pull/354)
 
 ### Fixed
 * Eth/abi: handle tuple type without components [#335](https://github.com/q9f/eth.rb/issues/335)
