@@ -282,6 +282,25 @@ describe Tx::Eip7702 do
       expect(tx.signature_r).to eq r
       expect(tx.signature_s).to eq s
     end
+
+    it "does not sign a transaction twice" do
+      signature = cow.sign(tx.unsigned_hash, tx.chain_id)
+      tx.sign_with(signature)
+      expect { tx.sign_with(signature) }.to raise_error Signature::SignatureError, "Transaction is already signed!"
+    end
+
+    it "checks for a valid signer" do
+      tx_from_cow = Tx.new({
+        nonce: 0,
+        priority_fee: 0,
+        max_gas_fee: Unit::WEI,
+        gas_limit: Tx::DEFAULT_GAS_LIMIT,
+        from: cow.address.to_s,
+        authorization_list: authorization_list,
+      })
+      signature = dog.sign(tx_from_cow.unsigned_hash, tx_from_cow.chain_id)
+      expect { tx_from_cow.sign_with(signature) }.to raise_error Signature::SignatureError, "Signer does not match sender"
+    end
   end
 
   describe ".encoded" do
