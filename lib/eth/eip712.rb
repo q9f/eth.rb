@@ -47,7 +47,12 @@ module Eth
 
         # recursively look for further nested dependencies
         types[primary_type.to_sym].each do |t|
-          dependency = type_dependencies t[:type], types, result
+          nested_type = t[:type]
+          # unpack arrays to their inner types to resolve dependencies
+          if nested_type.end_with?("]")
+            nested_type = nested_type.partition("[").first
+          end
+          dependency = type_dependencies nested_type, types, result
         end
         return result
       end
@@ -113,19 +118,12 @@ module Eth
       types[primary_type.to_sym].each do |field|
         value = data[field[:name].to_sym]
         type = field[:type]
-        if type == "string"
+        if type.end_with?("]")
+          encoded_types.push type
+          encoded_values.push encode_array(type, value, types)
+        elsif type == "string" || type == "bytes" || !types[type.to_sym].nil?
           encoded_types.push "bytes32"
-          encoded_values.push Util.keccak256 value
-        elsif type == "bytes"
-          encoded_types.push "bytes32"
-          value = Util.hex_to_bin value
-          encoded_values.push Util.keccak256 value
-        elsif !types[type.to_sym].nil?
-          encoded_types.push "bytes32"
-          value = encode_data type, value, types
-          encoded_values.push Util.keccak256 value
-        elsif type.end_with? "]"
-          raise NotImplementedError, "Arrays currently unimplemented for EIP-712."
+          encoded_values.push encode_value(type, value, types)
         else
           encoded_types.push type
           encoded_values.push value
@@ -134,6 +132,43 @@ module Eth
 
       # all data is abi-encoded
       return Abi.encode encoded_types, encoded_values
+    end
+
+    # Encodes a single value according to its type following EIP-712 rules.
+    # Returns a 32-byte binary string.
+    def encode_value(type, value, types)
+      if type == "string"
+        return Util.keccak256 value
+      elsif type == "bytes"
+        value = Util.hex_to_bin value
+        return Util.keccak256 value
+      elsif !types[type.to_sym].nil?
+        nested = encode_data type, value, types
+        return Util.keccak256 nested
+      else
+        # encode basic types via ABI to get 32-byte representation
+        return Abi.encode([type], [value])
+      end
+    end
+
+    # Prepares array values by encoding each element according to its
+    # base type. Returns an array compatible with Abi.encode.
+    def encode_array(type, value, types)
+      inner_type = type.slice(0, type.rindex("["))
+      return [] if value.nil?
+      value.map do |v|
+        if inner_type.end_with?("]")
+          encode_array inner_type, v, types
+        elsif inner_type == "string"
+          Util.keccak256 v
+        elsif inner_type == "bytes"
+          Util.keccak256 Util.hex_to_bin(v)
+        elsif !types[inner_type.to_sym].nil?
+          Util.keccak256 encode_data(inner_type, v, types)
+        else
+          v
+        end
+      end
     end
 
     # Recursively ABI-encodes and hashes all data and types.
