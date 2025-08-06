@@ -121,6 +121,7 @@ module Eth
       "debug_writeBlockProfile",
       "debug_writeMemProfile",
       "debug_writeMutexProfile",
+      "dev_addDeposit",
       "dev_addWithdrawal",
       "dev_setFeeRecipient",
       "eth_accounts",
