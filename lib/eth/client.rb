@@ -65,10 +65,12 @@ module Eth
     # @param host [String] either an HTTP/S host or an IPC path.
     # @return [Eth::Client::Ipc] an IPC client.
     # @return [Eth::Client::Http] an HTTP client.
+    # @return [Eth::Client::Ws] an WebSocket client.
     # @raise [ArgumentError] in case it cannot determine the client type.
-    def self.create(host)
+    def self.create(host, options = {})
       return Client::Ipc.new host if host.end_with? ".ipc"
       return Client::Http.new host if host.start_with? "http"
+      return Client::Ws.new(host, options) if host.start_with? "ws"
       raise ArgumentError, "Unable to detect client type!"
     end
 
@@ -524,3 +526,4 @@ end
 # Load the client/* libraries
 require "eth/client/http"
 require "eth/client/ipc"
+require "eth/client/ws"
