@@ -73,11 +73,13 @@ module Eth
           l = Util.deserialize_big_endian_to_int arg[0, 32]
           nested_sub = type.nested_sub
 
-          # ref https://github.com/ethereum/tests/issues/691
-          raise NotImplementedError, "Decoding dynamic arrays with nested dynamic sub-types is not implemented for ABI." if nested_sub.dynamic?
-
-          # decoded dynamic-sized arrays
-          (0...l).map { |i| type(nested_sub, arg[32 + nested_sub.size * i, nested_sub.size]) }
+          if nested_sub.dynamic?
+            offsets = (0...l).map { |i| Util.deserialize_big_endian_to_int arg[32 + 32 * i, 32] }
+            offsets.map { |off| type(nested_sub, arg[32 + off..]) }
+          else
+            # decoded dynamic-sized arrays with static sub-types
+            (0...l).map { |i| type(nested_sub, arg[32 + nested_sub.size * i, nested_sub.size]) }
+          end
         elsif !type.dimensions.empty?
           l = type.dimensions.first
           nested_sub = type.nested_sub
