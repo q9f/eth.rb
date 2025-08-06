@@ -154,9 +154,9 @@ describe Tx::Eip4844 do
       expect(blob_tx).to be_instance_of Tx::Eip4844
       hashes = blob_tx.blob_versioned_hashes.map { |b| Util.bin_to_hex b }
       expect(hashes).to eq [
-          "0183be5e67ea6eb79f14071b13f96e51522f1b74566b95a015dd2f7deb9efdab",
-          "01b7e9368622cfd553884b59fbce02cee983a43c9d66bc26eca20973570e86e2",
-        ]
+                             "0183be5e67ea6eb79f14071b13f96e51522f1b74566b95a015dd2f7deb9efdab",
+                             "01b7e9368622cfd553884b59fbce02cee983a43c9d66bc26eca20973570e86e2",
+                           ]
     end
 
     it "raises on non-minimal integer encoding" do
