@@ -34,6 +34,7 @@ What you get:
 - [x] EIP-2930 Ethereum Type-1 Transactions (with access lists)
 - [x] EIP-4844 Ethereum Type-3 Transactions (with shard blobs)
 - [x] EIP-7702 Ethereum Type-4 Transactions (with authorization lists)
+- [x] Consensus deposit contract interactions and event parsing
 - [x] ABI-Encoder and Decoder (including type parser)
 - [x] Packed ABI-Encoder for Solidity smart contracts
 - [x] RLP-Encoder and Decoder (including sedes)
@@ -74,6 +75,25 @@ yard doc
 ```
 
 The goal is to have 100% API documentation available.
+
+## Deposits
+Eth.rb can interact with the Ethereum consensus deposit contract and also
+submit deposits directly into a block on developer chains.
+
+```ruby
+client = Eth::Client.create("http://localhost:8545")
+pubkey = "0x..."
+withdrawal_credentials = "0x..."
+signature = "0x..."
+root = "0x..."
+Eth::Deposit.deposit(client, pubkey, withdrawal_credentials, signature, root, value: 32 * Eth::Unit::ETHER)
+```
+
+The resulting `DepositEvent` can be decoded via `Eth::Deposit.parse_deposit_event`
+to obtain the submitted fields. When using the `dev_add_deposit` RPC call on a
+local node, deposits are inserted directly into the block body without touching
+the contract. Deposits become active once the block containing them is
+processed by the consensus layer, typically in the following epoch.
 
 ## Testing
 The test suite expects working local HTTP and IPC endpoints with a prefunded developer account, e.g.:
