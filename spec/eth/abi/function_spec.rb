@@ -10,7 +10,7 @@ describe Abi::Function do
     it "encodes tuple types recursively" do
       input = {
         "type" => "tuple",
-        "components" => [{ "type" => "address" }, { "type" => "uint256" }]
+        "components" => [{ "type" => "address" }, { "type" => "uint256" }],
       }
       expect(Abi::Function.type(input)).to eq("(address,uint256)")
     end
