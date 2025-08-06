@@ -71,7 +71,7 @@ module Eth
     def decode_call_result(data)
       return nil if data == "0x"
 
-      types = outputs.map { |i| i.type }
+      types = outputs.map(&:parsed_type)
       Eth::Abi.decode(types, data)
     end
   end
