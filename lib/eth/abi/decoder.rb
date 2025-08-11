@@ -54,6 +54,71 @@ module Eth
               type(Type.parse(type.base_type), arg[pointer + 32, Util.ceil32(data_l) + 32])
             end
           end
+        elsif type.dynamic?
+          l = Util.deserialize_big_endian_to_int arg[0, 32]
+          nested_sub = type.nested_sub
+
+          if nested_sub.base_type == "tuple"
+            # Special handling for tuple arrays - decode until no more data
+            result = []
+            current_pos = 32  # Skip the length field
+
+            # Try to decode as many tuples as possible
+            while current_pos < arg.size
+              begin
+                # Try to decode a tuple at the current position
+                tuple_data = arg[current_pos..-1]
+                if tuple_data.size < 32
+                  break  # Not enough data for even one field
+                end
+
+                # Decode one tuple - use the original tuple type instead of nested_sub
+                tuple_type = Eth::Abi::Type.new("tuple", "", [], type.components, nil)
+                tuple = type(tuple_type, tuple_data)
+                result << tuple
+
+                # Calculate tuple size based on components
+                tuple_size = calculate_tuple_size(nested_sub)
+                current_pos += tuple_size
+
+                # Safety check to prevent infinite loops
+                if current_pos >= arg.size
+                  break
+                end
+              rescue => e
+                # If we can't decode more tuples, stop
+                break
+              end
+            end
+            result
+          elsif nested_sub.dynamic?
+            raise DecodingError, "Wrong data size for dynamic array" unless arg.size >= 32 + 32 * l
+            offsets = (0...l).map do |i|
+              off = Util.deserialize_big_endian_to_int arg[32 + 32 * i, 32]
+              raise DecodingError, "Offset out of bounds" if off < 32 * l || off > arg.size - 64
+              off
+            end
+
+            # For dynamic arrays with dynamic sub-types, we need to calculate the data boundaries
+            # Each element starts at its offset and continues until the next offset or end of data
+            result = []
+            offsets.each_with_index do |off, i|
+              if i < offsets.length - 1
+                # Use the next offset as the boundary
+                next_off = offsets[i + 1]
+                data_length = next_off - off
+                result << type(nested_sub, arg[32 + off, data_length])
+              else
+                # For the last element, use the remaining data
+                result << type(nested_sub, arg[32 + off..])
+              end
+            end
+            result
+          else
+            raise DecodingError, "Wrong data size for dynamic array" unless arg.size >= 32 + nested_sub.size * l
+            # decoded dynamic-sized arrays with static sub-types
+            (0...l).map { |i| type(nested_sub, arg[32 + nested_sub.size * i, nested_sub.size]) }
+          end
         elsif type.base_type == "tuple"
           offset = 0
           data = {}
@@ -72,23 +137,6 @@ module Eth
             end
           end
           data
-        elsif type.dynamic?
-          l = Util.deserialize_big_endian_to_int arg[0, 32]
-          nested_sub = type.nested_sub
-
-          if nested_sub.dynamic?
-            raise DecodingError, "Wrong data size for dynamic array" unless arg.size >= 32 + 32 * l
-            offsets = (0...l).map do |i|
-              off = Util.deserialize_big_endian_to_int arg[32 + 32 * i, 32]
-              raise DecodingError, "Offset out of bounds" if off < 32 * l || off > arg.size - 64
-              off
-            end
-            offsets.map { |off| type(nested_sub, arg[32 + off..]) }
-          else
-            raise DecodingError, "Wrong data size for dynamic array" unless arg.size >= 32 + nested_sub.size * l
-            # decoded dynamic-sized arrays with static sub-types
-            (0...l).map { |i| type(nested_sub, arg[32 + nested_sub.size * i, nested_sub.size]) }
-          end
         elsif !type.dimensions.empty?
           l = type.dimensions.first
           nested_sub = type.nested_sub
@@ -100,6 +148,29 @@ module Eth
           # decoded primitive types
           primitive_type type, arg
         end
+      end
+
+      # Calculates the size of a tuple based on its components.
+      #
+      # @param type [Eth::Abi::Type] the tuple type
+      # @return [Integer] the size of the tuple in bytes
+      def calculate_tuple_size(type)
+        return 0 if type.components.nil?
+
+        # Calculate the total size based on all components
+        total_size = 0
+        type.components.each do |component|
+          if component.dynamic?
+            # Dynamic components use 32 bytes for the offset
+            total_size += 32
+          else
+            # Static components use their defined size
+            component_size = component.size || 32
+            total_size += component_size
+          end
+        end
+
+        total_size
       end
 
       # Decodes primitive types.
