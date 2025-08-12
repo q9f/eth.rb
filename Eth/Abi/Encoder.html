@@ -359,8 +359,6 @@
       <pre class="lines">
 
 
-85
-86
 87
 88
 89
@@ -382,10 +380,12 @@
 105
 106
 107
-108</pre>
+108
+109
+110</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/abi/encoder.rb', line 85</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/abi/encoder.rb', line 87</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_primitive_type'>primitive_type</span><span class='lparen'>(</span><span class='id identifier rubyid_type'>type</span><span class='comma'>,</span> <span class='id identifier rubyid_arg'>arg</span><span class='rparen'>)</span>
   <span class='kw'>case</span> <span class='id identifier rubyid_type'>type</span><span class='period'>.</span><span class='id identifier rubyid_base_type'>base_type</span>
@@ -514,7 +514,6 @@
       <pre class="lines">
 
 
-33
 34
 35
 36
@@ -556,14 +555,17 @@
 72
 73
 74
-75</pre>
+75
+76
+77</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/abi/encoder.rb', line 33</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/abi/encoder.rb', line 34</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_type'>type</span><span class='lparen'>(</span><span class='id identifier rubyid_type'>type</span><span class='comma'>,</span> <span class='id identifier rubyid_arg'>arg</span><span class='rparen'>)</span>
   <span class='kw'>if</span> <span class='qwords_beg'>%w(</span><span class='tstring_content'>string</span><span class='words_sep'> </span><span class='tstring_content'>bytes</span><span class='tstring_end'>)</span></span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='id identifier rubyid_type'>type</span><span class='period'>.</span><span class='id identifier rubyid_base_type'>base_type</span> <span class='kw'>and</span> <span class='id identifier rubyid_type'>type</span><span class='period'>.</span><span class='id identifier rubyid_sub_type'>sub_type</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span> <span class='kw'>and</span> <span class='id identifier rubyid_type'>type</span><span class='period'>.</span><span class='id identifier rubyid_dimensions'>dimensions</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
     <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="EncodingError.html" title="Eth::Abi::EncodingError (class)">EncodingError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Argument must be a String</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_arg'>arg</span><span class='period'>.</span><span class='id identifier rubyid_instance_of?'>instance_of?</span> <span class='const'>String</span>
+    <span class='id identifier rubyid_arg'>arg</span> <span class='op'>=</span> <span class='id identifier rubyid_handle_hex_string'>handle_hex_string</span> <span class='id identifier rubyid_arg'>arg</span><span class='comma'>,</span> <span class='id identifier rubyid_type'>type</span>
 
     <span class='comment'># encodes strings and bytes
 </span>    <span class='id identifier rubyid_size'>size</span> <span class='op'>=</span> <span class='id identifier rubyid_type'>type</span> <span class='const'><span class='object_link'><a href="Type.html" title="Eth::Abi::Type (class)">Type</a></span></span><span class='period'>.</span><span class='id identifier rubyid_size_type'><span class='object_link'><a href="Type.html#size_type-class_method" title="Eth::Abi::Type.size_type (method)">size_type</a></span></span><span class='comma'>,</span> <span class='id identifier rubyid_arg'>arg</span><span class='period'>.</span><span class='id identifier rubyid_size'>size</span>
@@ -574,7 +576,7 @@
     <span class='id identifier rubyid_result'>result</span> <span class='op'>+=</span> <span class='id identifier rubyid_struct_offsets'>struct_offsets</span><span class='lparen'>(</span><span class='id identifier rubyid_type'>type</span><span class='period'>.</span><span class='id identifier rubyid_nested_sub'>nested_sub</span><span class='comma'>,</span> <span class='id identifier rubyid_arg'>arg</span><span class='rparen'>)</span>
     <span class='id identifier rubyid_result'>result</span> <span class='op'>+=</span> <span class='id identifier rubyid_arg'>arg</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_x'>x</span><span class='op'>|</span> <span class='id identifier rubyid_type'>type</span><span class='lparen'>(</span><span class='id identifier rubyid_type'>type</span><span class='period'>.</span><span class='id identifier rubyid_nested_sub'>nested_sub</span><span class='comma'>,</span> <span class='id identifier rubyid_x'>x</span><span class='rparen'>)</span> <span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span>
     <span class='id identifier rubyid_result'>result</span>
-  <span class='kw'>elsif</span> <span class='id identifier rubyid_type'>type</span><span class='period'>.</span><span class='id identifier rubyid_dynamic?'>dynamic?</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_arg'>arg</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>Array</span><span class='rparen'>)</span>
+  <span class='kw'>elsif</span> <span class='id identifier rubyid_type'>type</span><span class='period'>.</span><span class='id identifier rubyid_dynamic?'>dynamic?</span> <span class='op'>&amp;&amp;</span> <span class='op'>!</span><span class='id identifier rubyid_type'>type</span><span class='period'>.</span><span class='id identifier rubyid_dimensions'>dimensions</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_arg'>arg</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>Array</span><span class='rparen'>)</span>
 
     <span class='comment'># encodes dynamic-sized arrays
 </span>    <span class='id identifier rubyid_head'>head</span> <span class='op'>=</span> <span class='id identifier rubyid_type'>type</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="Type.html" title="Eth::Abi::Type (class)">Type</a></span></span><span class='period'>.</span><span class='id identifier rubyid_size_type'><span class='object_link'><a href="Type.html#size_type-class_method" title="Eth::Abi::Type.size_type (method)">size_type</a></span></span><span class='comma'>,</span> <span class='id identifier rubyid_arg'>arg</span><span class='period'>.</span><span class='id identifier rubyid_size'>size</span><span class='rparen'>)</span>
@@ -741,8 +743,6 @@
       <pre class="lines">
 
 
-85
-86
 87
 88
 89
@@ -764,10 +764,12 @@
 105
 106
 107
-108</pre>
+108
+109
+110</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/abi/encoder.rb', line 85</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/abi/encoder.rb', line 87</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_primitive_type'>primitive_type</span><span class='lparen'>(</span><span class='id identifier rubyid_type'>type</span><span class='comma'>,</span> <span class='id identifier rubyid_arg'>arg</span><span class='rparen'>)</span>
   <span class='kw'>case</span> <span class='id identifier rubyid_type'>type</span><span class='period'>.</span><span class='id identifier rubyid_base_type'>base_type</span>
@@ -896,7 +898,6 @@
       <pre class="lines">
 
 
-33
 34
 35
 36
@@ -938,14 +939,17 @@
 72
 73
 74
-75</pre>
+75
+76
+77</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/abi/encoder.rb', line 33</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/abi/encoder.rb', line 34</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_type'>type</span><span class='lparen'>(</span><span class='id identifier rubyid_type'>type</span><span class='comma'>,</span> <span class='id identifier rubyid_arg'>arg</span><span class='rparen'>)</span>
   <span class='kw'>if</span> <span class='qwords_beg'>%w(</span><span class='tstring_content'>string</span><span class='words_sep'> </span><span class='tstring_content'>bytes</span><span class='tstring_end'>)</span></span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='id identifier rubyid_type'>type</span><span class='period'>.</span><span class='id identifier rubyid_base_type'>base_type</span> <span class='kw'>and</span> <span class='id identifier rubyid_type'>type</span><span class='period'>.</span><span class='id identifier rubyid_sub_type'>sub_type</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span> <span class='kw'>and</span> <span class='id identifier rubyid_type'>type</span><span class='period'>.</span><span class='id identifier rubyid_dimensions'>dimensions</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
     <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="EncodingError.html" title="Eth::Abi::EncodingError (class)">EncodingError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Argument must be a String</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_arg'>arg</span><span class='period'>.</span><span class='id identifier rubyid_instance_of?'>instance_of?</span> <span class='const'>String</span>
+    <span class='id identifier rubyid_arg'>arg</span> <span class='op'>=</span> <span class='id identifier rubyid_handle_hex_string'>handle_hex_string</span> <span class='id identifier rubyid_arg'>arg</span><span class='comma'>,</span> <span class='id identifier rubyid_type'>type</span>
 
     <span class='comment'># encodes strings and bytes
 </span>    <span class='id identifier rubyid_size'>size</span> <span class='op'>=</span> <span class='id identifier rubyid_type'>type</span> <span class='const'><span class='object_link'><a href="Type.html" title="Eth::Abi::Type (class)">Type</a></span></span><span class='period'>.</span><span class='id identifier rubyid_size_type'><span class='object_link'><a href="Type.html#size_type-class_method" title="Eth::Abi::Type.size_type (method)">size_type</a></span></span><span class='comma'>,</span> <span class='id identifier rubyid_arg'>arg</span><span class='period'>.</span><span class='id identifier rubyid_size'>size</span>
@@ -956,7 +960,7 @@
     <span class='id identifier rubyid_result'>result</span> <span class='op'>+=</span> <span class='id identifier rubyid_struct_offsets'>struct_offsets</span><span class='lparen'>(</span><span class='id identifier rubyid_type'>type</span><span class='period'>.</span><span class='id identifier rubyid_nested_sub'>nested_sub</span><span class='comma'>,</span> <span class='id identifier rubyid_arg'>arg</span><span class='rparen'>)</span>
     <span class='id identifier rubyid_result'>result</span> <span class='op'>+=</span> <span class='id identifier rubyid_arg'>arg</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_x'>x</span><span class='op'>|</span> <span class='id identifier rubyid_type'>type</span><span class='lparen'>(</span><span class='id identifier rubyid_type'>type</span><span class='period'>.</span><span class='id identifier rubyid_nested_sub'>nested_sub</span><span class='comma'>,</span> <span class='id identifier rubyid_x'>x</span><span class='rparen'>)</span> <span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span>
     <span class='id identifier rubyid_result'>result</span>
-  <span class='kw'>elsif</span> <span class='id identifier rubyid_type'>type</span><span class='period'>.</span><span class='id identifier rubyid_dynamic?'>dynamic?</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_arg'>arg</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>Array</span><span class='rparen'>)</span>
+  <span class='kw'>elsif</span> <span class='id identifier rubyid_type'>type</span><span class='period'>.</span><span class='id identifier rubyid_dynamic?'>dynamic?</span> <span class='op'>&amp;&amp;</span> <span class='op'>!</span><span class='id identifier rubyid_type'>type</span><span class='period'>.</span><span class='id identifier rubyid_dimensions'>dimensions</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_arg'>arg</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>Array</span><span class='rparen'>)</span>
 
     <span class='comment'># encodes dynamic-sized arrays
 </span>    <span class='id identifier rubyid_head'>head</span> <span class='op'>=</span> <span class='id identifier rubyid_type'>type</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="Type.html" title="Eth::Abi::Type (class)">Type</a></span></span><span class='period'>.</span><span class='id identifier rubyid_size_type'><span class='object_link'><a href="Type.html#size_type-class_method" title="Eth::Abi::Type.size_type (method)">size_type</a></span></span><span class='comma'>,</span> <span class='id identifier rubyid_arg'>arg</span><span class='period'>.</span><span class='id identifier rubyid_size'>size</span><span class='rparen'>)</span>
@@ -996,7 +1000,7 @@
 </div>
 
       <div id="footer">
-  Generated on Wed Aug  6 14:21:29 2025 by
+  Generated on Tue Aug 12 08:18:22 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.37 (ruby-3.4.5).
 </div>
