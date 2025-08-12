@@ -196,6 +196,7 @@ module Eth
 end
 
 # Load the contract/* libraries
+require "eth/contract/deposit"
 require "eth/contract/event"
 require "eth/contract/function"
 require "eth/contract/function_input"
