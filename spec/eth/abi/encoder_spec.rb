@@ -97,4 +97,27 @@ describe Abi::Encoder do
     expect { Abi::Encoder.primitive_type(t_address, "0x8cb9d52661513ac5490483c79ac715f5dd572bfb0xbd76086b38f2660fcaa65781ff5998f5c18e766d") }.to raise_error Abi::EncodingError
     expect { Abi::Encoder.primitive_type(Abi::Type.new("foo", 32, []), 12354235345634646546346346345) }.to raise_error Abi::EncodingError
   end
+
+  describe "#tuple" do
+    it "rejects non-collection arguments" do
+      type = Abi::Type.parse("(uint256)", [{"type" => "uint256"}])
+      expect { Abi::Encoder.send(:tuple, "foo", type) }.to raise_error Abi::EncodingError, /Expecting Hash or Array/
+    end
+  end
+
+  describe "#coerce_number" do
+    it "coerces numeric strings" do
+      expect(Abi::Encoder.send(:coerce_number, "0xff")).to eq 255
+      expect(Abi::Encoder.send(:coerce_number, "-42")).to eq(-42)
+      expect(Abi::Encoder.send(:coerce_number, 7)).to eq 7
+    end
+
+    it "coerces decimal strings" do
+      expect(Abi::Encoder.send(:coerce_number, "1.5")).to eq BigDecimal("1.5")
+    end
+
+    it "returns original value for other strings" do
+      expect(Abi::Encoder.send(:coerce_number, "foo")).to eq "foo"
+    end
+  end
 end

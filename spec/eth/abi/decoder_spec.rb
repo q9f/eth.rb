@@ -84,6 +84,36 @@ describe Abi::Decoder do
     expect { Abi::Decoder.primitive_type(Abi::Type.new("foo", 32, []), "bar") }.to raise_error Abi::DecodingError
   end
 
+  describe "static arrays with dynamic elements" do
+    let(:tuple_type) { Abi::Type.parse("(string)", [{"type" => "string"}]) }
+    let(:array_type) do
+      t = Abi::Type.parse("(string)[2]", [{"type" => "string"}])
+      t.instance_variable_set(:@size, 64)
+      t
+    end
+    let(:enc0) { Abi::Encoder.type(tuple_type, ["foo"]) }
+    let(:enc1) { Abi::Encoder.type(tuple_type, ["bar"]) }
+
+    it "decodes static arrays" do
+      off0 = Abi::Encoder.type(Abi::Type.size_type, 64)
+      off1 = Abi::Encoder.type(Abi::Type.size_type, 64 + enc0.size)
+      arg = off0 + off1 + enc0 + enc1
+      expect(Abi::Decoder.type(array_type, arg)).to eq [["foo"], ["bar"]]
+    end
+
+    it "raises on insufficient data" do
+      short_arg = Abi::Encoder.type(Abi::Type.size_type, 0)
+      expect { Abi::Decoder.type(array_type, short_arg) }.to raise_error Abi::DecodingError, /Wrong data size/
+    end
+
+    it "raises on out of bounds offset" do
+      off0 = Abi::Encoder.type(Abi::Type.size_type, 0)
+      off1 = Abi::Encoder.type(Abi::Type.size_type, 64 + enc0.size)
+      arg = off0 + off1 + enc0 + enc1
+      expect { Abi::Decoder.type(array_type, arg) }.to raise_error Abi::DecodingError, /Offset out of bounds/
+    end
+  end
+
   describe "ZST robustness" do
     it "rejects self-referential dynamic array offsets" do
       payload = "0000000000000000000000000000000000000000000000000000000000000020" \
