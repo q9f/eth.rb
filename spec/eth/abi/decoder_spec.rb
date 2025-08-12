@@ -85,9 +85,9 @@ describe Abi::Decoder do
   end
 
   describe "static arrays with dynamic elements" do
-    let(:tuple_type) { Abi::Type.parse("(string)", [{"type" => "string"}]) }
+    let(:tuple_type) { Abi::Type.parse("(string)", [{ "type" => "string" }]) }
     let(:array_type) do
-      t = Abi::Type.parse("(string)[2]", [{"type" => "string"}])
+      t = Abi::Type.parse("(string)[2]", [{ "type" => "string" }])
       t.instance_variable_set(:@size, 64)
       t
     end

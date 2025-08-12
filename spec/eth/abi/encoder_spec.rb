@@ -100,7 +100,7 @@ describe Abi::Encoder do
 
   describe "#tuple" do
     it "rejects non-collection arguments" do
-      type = Abi::Type.parse("(uint256)", [{"type" => "uint256"}])
+      type = Abi::Type.parse("(uint256)", [{ "type" => "uint256" }])
       expect { Abi::Encoder.send(:tuple, "foo", type) }.to raise_error Abi::EncodingError, /Expecting Hash or Array/
     end
   end
