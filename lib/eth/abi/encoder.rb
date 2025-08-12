@@ -43,7 +43,7 @@ module Eth
           result += struct_offsets(type.nested_sub, arg)
           result += arg.map { |x| type(type.nested_sub, x) }.join
           result
-        elsif type.dynamic? && arg.is_a?(Array)
+        elsif type.dimensions.any? && type.dimensions.first == 0
 
           # encodes dynamic-sized arrays
           head = type(Type.size_type, arg.size)
@@ -174,7 +174,13 @@ module Eth
 
       # Properly encodes tuples.
       def tuple(arg, type)
-        raise EncodingError, "Expecting Hash: #{arg}" unless arg.instance_of? Hash
+        unless arg.is_a?(Hash) || arg.is_a?(Array)
+          if type.components.size == 1
+            arg = [arg]
+          else
+            raise EncodingError, "Expecting Hash or Array: #{arg}"
+          end
+        end
         raise EncodingError, "Expecting #{type.components.size} elements: #{arg}" unless arg.size == type.components.size
 
         static_size = 0
@@ -192,13 +198,14 @@ module Eth
 
         type.components.each_with_index do |component, i|
           component_type = type.components[i]
+          value = arg.is_a?(Array) ? arg[i] : arg[component_type.name]
           if component_type.dynamic?
             offsets_and_static_values << type(Type.size_type, dynamic_offset)
-            dynamic_value = type(component_type, arg.is_a?(Array) ? arg[i] : arg[component_type.name])
+            dynamic_value = type(component_type, value)
             dynamic_values << dynamic_value
             dynamic_offset += dynamic_value.size
           else
-            offsets_and_static_values << type(component_type, arg.is_a?(Array) ? arg[i] : arg[component_type.name])
+            offsets_and_static_values << type(component_type, value)
           end
         end
 

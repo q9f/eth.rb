@@ -83,13 +83,14 @@ module Eth
         # ensure the type string is reasonable before attempting to parse
         raise ParseError, "Invalid type format" unless type.is_a?(String) && type.bytesize <= 256
 
-        if type.start_with?("tuple(")
+        if type.start_with?("tuple(") || type.start_with?("(")
           inner, rest = extract_tuple(type)
           inner_types = split_tuple_types(inner)
-          inner_types.each { |t| Type.parse(t) }
+          component_types = inner_types.map { |t| Type.parse(t) }
           base_type = "tuple"
           sub_type = ""
           dimension = rest
+          @components = component_types
         else
           match = /\A([a-z]+)([0-9]*x?[0-9]*)((?:\[\d+\]|\[\])*)\z/.match(type)
           raise ParseError, "Invalid type format" unless match
@@ -108,7 +109,9 @@ module Eth
         @base_type = base_type
         @sub_type = sub_type
         @dimensions = dims.map { |x| x == "[]" ? 0 : x[1...-1].to_i }
-        @components = components.map { |component| Abi::Type.parse(component["type"], component.dig("components"), component.dig("name")) } if components&.any?
+        unless @components
+          @components = components.map { |component| Abi::Type.parse(component["type"], component.dig("components"), component.dig("name")) } if components&.any?
+        end
         @name = component_name
       end
 
@@ -232,7 +235,13 @@ module Eth
 
       # Extracts the inner type list and trailing dimensions from an inline tuple definition.
       def extract_tuple(type)
-        idx = 6 # skip "tuple("
+        if type.start_with?("tuple(")
+          idx = 6
+        elsif type.start_with?("(")
+          idx = 1
+        else
+          raise ParseError, "Invalid tuple format"
+        end
         depth = 1
         while idx < type.length && depth > 0
           case type[idx]
@@ -244,7 +253,8 @@ module Eth
           idx += 1
         end
         raise ParseError, "Invalid tuple format" unless depth.zero?
-        inner = type[6...(idx - 1)]
+        start = type.start_with?("tuple(") ? 6 : 1
+        inner = type[start...(idx - 1)]
         rest = type[idx..] || ""
         [inner, rest]
       end
