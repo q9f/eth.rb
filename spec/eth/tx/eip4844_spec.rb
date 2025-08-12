@@ -55,6 +55,29 @@ describe Tx::Eip4844 do
           blob_versioned_hashes: blob_hashes,
         })
       }.to raise_error Tx::ParameterError, /Invalid destination address/
+      expect {
+        Tx::Eip4844.new({
+          nonce: 0,
+          priority_fee: 0,
+          max_gas_fee: Unit::WEI,
+          gas_limit: Tx::DEFAULT_GAS_LIMIT,
+          to: "0xCD2a3d9F938E13CD947Ec05AbC7FE734Df8DD826",
+          max_fee_per_blob_gas: 0,
+          blob_versioned_hashes: blob_hashes,
+        })
+      }.to raise_error Tx::ParameterError, /Invalid max blob fee/
+      too_many_hashes = Array.new(Eth::Blob.config.max_blobs + 1, blob_hashes.first)
+      expect {
+        Tx::Eip4844.new({
+          nonce: 0,
+          priority_fee: 0,
+          max_gas_fee: Unit::WEI,
+          gas_limit: Tx::DEFAULT_GAS_LIMIT,
+          to: "0xCD2a3d9F938E13CD947Ec05AbC7FE734Df8DD826",
+          max_fee_per_blob_gas: Unit::WEI,
+          blob_versioned_hashes: too_many_hashes,
+        })
+      }.to raise_error Tx::ParameterError, /Invalid blob versioned hashes/
     end
   end
 

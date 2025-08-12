@@ -62,6 +62,27 @@ and the
 [![Usage Wiki](https://img.shields.io/badge/usage-WIKI-blue)](https://github.com/q9f/eth.rb/wiki)
 for all the details and example snippets.
 
+## Blob Configuration
+
+Blob transactions (EIP-4844) rely on network parameters such as the
+maximum number of blobs and the minimum blob gas fee. These values can
+change over time and are described by a schedule in
+`Eth::Blob.schedule`. The currently active configuration is accessible
+via `Eth::Blob.config` and is used when validating and encoding blob
+transactions.
+
+Future upgrades can be modelled by appending entries to the schedule:
+
+```ruby
+Eth::Blob.schedule << {
+  time: Time.utc(2025, 1, 1),
+  config: Eth::Blob::Config.new(max_blobs: 8, min_fee_per_blob_gas: 2 * Unit::WEI)
+}
+```
+
+`Tx.new` will reference this configuration whenever blob parameters are
+provided.
+
 ## Documentation
 The documentation can be found at: https://q9f.github.io/eth.rb
 
