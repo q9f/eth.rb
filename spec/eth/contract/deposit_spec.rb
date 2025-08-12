@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe Eth::Deposit do
+describe Eth::Contract::Deposit do
   let(:contract) { described_class.contract("0x0000000000000000000000000000000000000000") }
 
   it "builds deposit contract wrapper" do
