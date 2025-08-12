@@ -62,10 +62,10 @@ module Eth
             if c.dynamic?
               pointer = Util.deserialize_big_endian_to_int arg[offset, 32]
               next_offset = if i + 1 < type.components.size
-                              Util.deserialize_big_endian_to_int arg[offset + 32, 32]
-                            else
-                              arg.size
-                            end
+                  Util.deserialize_big_endian_to_int arg[offset + 32, 32]
+                else
+                  arg.size
+                end
               raise DecodingError, "Offset out of bounds" if pointer > arg.size || next_offset > arg.size || next_offset < pointer
               result << type(c, arg[pointer, next_offset - pointer])
               offset += 32
