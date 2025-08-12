@@ -23,6 +23,18 @@ module Eth
     # Ref: https://eips.ethereum.org/EIPS/eip-4844
     class Eip4844
 
+      # The blob gas consumed by a single blob.
+      GAS_PER_BLOB = (2**17).freeze
+
+      # The target blob gas per block as per EIP-7691.
+      TARGET_BLOB_GAS_PER_BLOCK = 786_432.freeze
+
+      # The maximum blob gas allowed in a block as per EIP-7691.
+      MAX_BLOB_GAS_PER_BLOCK = 1_179_648.freeze
+
+      # The maximum number of blobs permitted in a single block.
+      MAX_BLOBS_PER_BLOCK = (MAX_BLOB_GAS_PER_BLOCK / GAS_PER_BLOB).freeze
+
       # The EIP-155 Chain ID.
       # Ref: https://eips.ethereum.org/EIPS/eip-155
       attr_reader :chain_id
@@ -89,7 +101,7 @@ module Eth
       # @option params [String] :data the transaction data payload.
       # @option params [Array] :access_list an optional access list.
       # @option params [Integer] :max_fee_per_blob_gas the max blob fee per gas.
-      # @option params [Array] :blob_versioned_hashes the blob versioned hashes.
+      # @option params [Array] :blob_versioned_hashes the blob versioned hashes (max 9).
       # @raise [ParameterError] if gas limit is too low.
       def initialize(params)
         fields = { recovery_id: nil, r: 0, s: 0 }.merge params

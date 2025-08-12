@@ -32,7 +32,7 @@ What you get:
 - [x] EIP-2028 Call-data intrinsic gas cost estimates (plus access lists)
 - [x] EIP-2718 Ethereum Transaction Envelopes (and types)
 - [x] EIP-2930 Ethereum Type-1 Transactions (with access lists)
-- [x] EIP-4844 Ethereum Type-3 Transactions (with shard blobs)
+- [x] EIP-4844 Ethereum Type-3 Transactions (with shard blobs, up to 9 blobs per block)
 - [x] EIP-7702 Ethereum Type-4 Transactions (with authorization lists)
 - [x] ABI-Encoder and Decoder (including type parser)
 - [x] Packed ABI-Encoder for Solidity smart contracts
