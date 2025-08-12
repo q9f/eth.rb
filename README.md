@@ -41,6 +41,7 @@ What you get:
 - [x] Solidity bindings (compile contracts from Ruby)
 - [x] Full smart-contract support (deploy, transact, and call)
 - [x] ERC-6093 custom Solidity errors
+- [x] Staking deposits, deposit contract interactions, and event parsing
 
 ## Installation
 Add this line to your application's Gemfile:
