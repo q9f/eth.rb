@@ -121,18 +121,23 @@ module Eth
           end
         elsif type.base_type == "tuple"
           offset = 0
-          data = {}
+          result = []
           raise DecodingError, "Cannot decode tuples without known components" if type.components.nil?
-          type.components.each do |c|
+          type.components.each_with_index do |c, i|
             if c.dynamic?
-              pointer = Util.deserialize_big_endian_to_int arg[offset, 32] # Pointer to the size of the array's element
-              data_len = Util.deserialize_big_endian_to_int arg[pointer, 32] # length of the element
-
-              data[c.name] = type(c, arg[pointer, Util.ceil32(data_len) + 32])
+              pointer = Util.deserialize_big_endian_to_int arg[offset, 32]
+              next_offset = if i + 1 < type.components.size
+                  Util.deserialize_big_endian_to_int arg[offset + 32, 32]
+                else
+                  arg.size
+                end
+              raise DecodingError, "Offset out of bounds" if pointer > arg.size || next_offset > arg.size || next_offset < pointer
+              result << type(c, arg[pointer, next_offset - pointer])
               offset += 32
             else
               size = c.size
-              data[c.name] = type(c, arg[offset, size])
+              raise DecodingError, "Offset out of bounds" if offset + size > arg.size
+              result << type(c, arg[offset, size])
               offset += size
             end
           end
@@ -141,8 +146,21 @@ module Eth
           l = type.dimensions.first
           nested_sub = type.nested_sub
 
-          # decoded static-size arrays
-          (0...l).map { |i| type(nested_sub, arg[nested_sub.size * i, nested_sub.size]) }
+          if nested_sub.dynamic?
+            raise DecodingError, "Wrong data size for static array" unless arg.size >= 32 * l
+            offsets = (0...l).map do |i|
+              off = Util.deserialize_big_endian_to_int arg[32 * i, 32]
+              raise DecodingError, "Offset out of bounds" if off < 32 * l || off > arg.size - 32
+              off
+            end
+            offsets.each_with_index.map do |off, i|
+              size = (i + 1 < offsets.length ? offsets[i + 1] : arg.size) - off
+              type(nested_sub, arg[off, size])
+            end
+          else
+            # decoded static-size arrays with static sub-types
+            (0...l).map { |i| type(nested_sub, arg[nested_sub.size * i, nested_sub.size]) }
+          end
         else
 
           # decoded primitive types
@@ -190,7 +208,9 @@ module Eth
             size = Util.deserialize_big_endian_to_int data[0, 32]
 
             # decoded dynamic-sized array
-            data[32..-1][0, size]
+            decoded = data[32..-1][0, size]
+            decoded.force_encoding(Encoding::UTF_8)
+            decoded
           else
 
             # decoded static-sized array
