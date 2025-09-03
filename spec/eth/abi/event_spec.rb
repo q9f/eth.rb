@@ -188,20 +188,20 @@ describe Abi::Event do
 
       expect(args[0]).to eq "\xF6T\xC1~\xA8\x91\b\xD7\x18>\xAF1\xC7b\xFE\f\x12]Gj\xA8\x13\t8\xD8\xA1\x89S\a\xB7\xDBZ"
       expect(args[1]).to eq "\xFC*\a\xBA\xE9\xB7]Z\x81z\xA5\xFFu-&=!2\x86\xDD\xA4\x83\x87\xA2\xE8\x18\x81OEW\xD6\x12"
-      expect(args[2]["channel"]).to eq "0x0000000000bd9dcfda5c60697039e2b3b28b079b"
-      expect(args[2]["index"]).to eq 1
-      expect(args[2]["fromChainId"]).to eq 421613
-      expect(args[2]["from"]).to eq "0x0f14341a7f464320319025540e8fe48ad0fe5aec"
-      expect(args[2]["toChainId"]).to eq 43
-      expect(args[2]["to"]).to eq "0x0000000000bd9dcfda5c60697039e2b3b28b079b"
+      expect(args[2][0]).to eq "0x0000000000bd9dcfda5c60697039e2b3b28b079b"
+      expect(args[2][1]).to eq 1
+      expect(args[2][2]).to eq 421613
+      expect(args[2][3]).to eq "0x0f14341a7f464320319025540e8fe48ad0fe5aec"
+      expect(args[2][4]).to eq 43
+      expect(args[2][5]).to eq "0x0000000000bd9dcfda5c60697039e2b3b28b079b"
       expect(kwargs[:msgHash]).to eq "\xF6T\xC1~\xA8\x91\b\xD7\x18>\xAF1\xC7b\xFE\f\x12]Gj\xA8\x13\t8\xD8\xA1\x89S\a\xB7\xDBZ"
       expect(kwargs[:root]).to eq "\xFC*\a\xBA\xE9\xB7]Z\x81z\xA5\xFFu-&=!2\x86\xDD\xA4\x83\x87\xA2\xE8\x18\x81OEW\xD6\x12"
-      expect(kwargs[:message]["channel"]).to eq "0x0000000000bd9dcfda5c60697039e2b3b28b079b"
-      expect(kwargs[:message]["index"]).to eq 1
-      expect(kwargs[:message]["fromChainId"]).to eq 421613
-      expect(kwargs[:message]["from"]).to eq "0x0f14341a7f464320319025540e8fe48ad0fe5aec"
-      expect(kwargs[:message]["toChainId"]).to eq 43
-      expect(kwargs[:message]["to"]).to eq "0x0000000000bd9dcfda5c60697039e2b3b28b079b"
+      expect(kwargs[:message][0]).to eq "0x0000000000bd9dcfda5c60697039e2b3b28b079b"
+      expect(kwargs[:message][1]).to eq 1
+      expect(kwargs[:message][2]).to eq 421613
+      expect(kwargs[:message][3]).to eq "0x0f14341a7f464320319025540e8fe48ad0fe5aec"
+      expect(kwargs[:message][4]).to eq 43
+      expect(kwargs[:message][5]).to eq "0x0000000000bd9dcfda5c60697039e2b3b28b079b"
     end
   end
 

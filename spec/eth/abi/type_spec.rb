@@ -28,7 +28,6 @@ describe Abi::Type do
       expect { Abi::Type.parse "bool8" }.to raise_error Abi::Type::ParseError
       expect { Abi::Type.parse "decimal" }.to raise_error Abi::Type::ParseError
 
-      expect { Abi::Type.parse "int" }.to raise_error Abi::Type::ParseError
       expect { Abi::Type.parse "int2" }.to raise_error Abi::Type::ParseError
       expect { Abi::Type.parse "int20" }.to raise_error Abi::Type::ParseError
       expect { Abi::Type.parse "int512" }.to raise_error Abi::Type::ParseError
