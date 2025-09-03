@@ -141,7 +141,7 @@ module Eth
               offset += size
             end
           end
-          data
+          result
         elsif !type.dimensions.empty?
           l = type.dimensions.first
           nested_sub = type.nested_sub
