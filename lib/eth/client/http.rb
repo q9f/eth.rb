@@ -12,7 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-require "net/http"
+require "uri"
+require "httpx"
 
 # Provides the {Eth} module.
 module Eth
@@ -57,6 +58,7 @@ module Eth
       else
         @uri = uri
       end
+      @client = HTTPX.plugin(:persistent).with(headers: { "Content-Type" => "application/json" })
     end
 
     # Sends an RPC request to the connected HTTP client.
@@ -64,13 +66,8 @@ module Eth
     # @param payload [Hash] the RPC request parameters.
     # @return [String] a JSON-encoded response.
     def send_request(payload)
-      http = Net::HTTP.new(@host, @port)
-      http.use_ssl = @ssl
-      header = { "Content-Type" => "application/json" }
-      request = Net::HTTP::Post.new(@uri, header)
-      request.body = payload
-      response = http.request(request)
-      response.body
+      response = @client.post(@uri, body: payload)
+      response.body.to_s
     end
   end
 
