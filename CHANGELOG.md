@@ -1,10 +1,6 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
-## [0.5.16]
-### Changed
-* Replace Net::HTTP with HTTPX for HTTP/2 support and persistent connections [#377](https://github.com/q9f/eth.rb/issues/377)
-
 ## [0.5.15]
 ### Added
 * Implement EIP712 array encoding [#361](https://github.com/q9f/eth.rb/pull/361)
