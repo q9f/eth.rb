@@ -184,6 +184,7 @@ module Eth
           raise EncodingError, "Expecting Hash or Array: #{arg}"
         end
         raise EncodingError, "Expecting #{type.components.size} elements: #{arg}" unless arg.size == type.components.size
+        arg = arg.transform_keys(&:to_s) if arg.is_a?(Hash) # because component_type.name is String
 
         static_size = 0
         type.components.each_with_index do |component, i|
