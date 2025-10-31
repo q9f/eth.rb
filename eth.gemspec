@@ -52,6 +52,9 @@ Gem::Specification.new do |spec|
   # openssl for encrypted key derivation
   spec.add_dependency "openssl", "~> 3.3"
 
+  # base64 is required explicitly in Ruby >= 3.4
+  spec.add_dependency "base64", "~> 0.1"
+
   # scrypt for encrypted key derivation
   spec.add_dependency "scrypt", "~> 3.0"
 

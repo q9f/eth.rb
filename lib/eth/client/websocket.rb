@@ -103,6 +103,14 @@ module Eth
       end
     end
 
+    # Establishes the TCP socket for the RPC connection and upgrades it to TLS
+    # when a secure endpoint is requested. TLS sessions enforce peer
+    # verification, load the default system trust store, and enable hostname
+    # verification when the current OpenSSL bindings support it.
+    #
+    # @return [TCPSocket, OpenSSL::SSL::SSLSocket] the established socket.
+    # @raise [IOError, SystemCallError, OpenSSL::SSL::SSLError] if the socket
+    #   cannot be opened or the TLS handshake fails.
     def open_socket
       tcp = TCPSocket.new(@host, @port)
       return tcp unless @ssl
@@ -111,9 +119,7 @@ module Eth
       params = { verify_mode: OpenSSL::SSL::VERIFY_PEER }
       params[:verify_hostname] = true if context.respond_to?(:verify_hostname=)
       context.set_params(params)
-      store = OpenSSL::X509::Store.new
-      store.set_default_paths
-      context.cert_store = store
+      context.cert_store = OpenSSL::X509::Store.new.tap(&:set_default_paths)
 
       ssl_socket = OpenSSL::SSL::SSLSocket.new(tcp, context)
       ssl_socket.hostname = @host
