@@ -31,53 +31,51 @@ module Eth
       # @return [String] the decoded data for the type.
       # @raise [DecodingError] if decoding fails for type.
       def type(type, arg)
-        if %w(string bytes).include?(type.base_type) and type.sub_type.empty?
-          # Case: decoding a string/bytes
-          if type.dimensions.empty?
-            l = Util.deserialize_big_endian_to_int arg[0, 32]
-            data = arg[32..-1]
-            raise DecodingError, "Wrong data size for string/bytes object" unless data.size == Util.ceil32(l)
+        if %w(string bytes).include?(type.base_type) and type.sub_type.empty? and type.dimensions.empty?
+          l = Util.deserialize_big_endian_to_int arg[0, 32]
+          data = arg[32..-1]
+          raise DecodingError, "Wrong data size for string/bytes object" unless data.size == Util.ceil32(l)
 
-            # decoded strings and bytes
-            data[0, l]
-            # Case: decoding array of string/bytes
-          else
-            l = Util.deserialize_big_endian_to_int arg[0, 32]
-            raise DecodingError, "Wrong data size for dynamic array" unless arg.size >= 32 + 32 * l
-
-            # Decode each element of the array
-            (1..l).map do |i|
-              pointer = Util.deserialize_big_endian_to_int arg[i * 32, 32] # Pointer to the size of the array's element
-              raise DecodingError, "Offset out of bounds" if pointer < 32 * l || pointer > arg.size - 64
-              data_l = Util.deserialize_big_endian_to_int arg[32 + pointer, 32] # length of the element
-              raise DecodingError, "Offset out of bounds" if pointer + 32 + Util.ceil32(data_l) > arg.size
-              type(Type.parse(type.base_type), arg[pointer + 32, Util.ceil32(data_l) + 32])
-            end
-          end
+          # decoded strings and bytes
+          data[0, l]
         elsif type.base_type == "tuple" && type.dimensions.empty?
           offset = 0
           result = []
           raise DecodingError, "Cannot decode tuples without known components" if type.components.nil?
-          type.components.each_with_index do |c, i|
-            if c.dynamic?
-              pointer = Util.deserialize_big_endian_to_int arg[offset, 32]
-              next_offset = if i + 1 < type.components.size
-                  Util.deserialize_big_endian_to_int arg[offset + 32, 32]
-                else
-                  arg.size
-                end
-              raise DecodingError, "Offset out of bounds" if pointer > arg.size || next_offset > arg.size || next_offset < pointer
-              result << type(c, arg[pointer, next_offset - pointer])
+
+          head_offset = 0
+          dynamic_offsets = []
+          type.components.each_with_index do |component, index|
+            if component.dynamic?
+              raise DecodingError, "Offset out of bounds" if head_offset + 32 > arg.size
+              pointer = Util.deserialize_big_endian_to_int arg[head_offset, 32]
+              dynamic_offsets << [index, pointer]
+              head_offset += 32
+            else
+              size = component.size
+              raise DecodingError, "Offset out of bounds" if head_offset + size > arg.size
+              head_offset += size
+            end
+          end
+
+          dynamic_ranges = tuple_dynamic_ranges(dynamic_offsets, arg.size, head_offset)
+
+          type.components.each_with_index do |component, index|
+            if component.dynamic?
+              pointer, next_offset = dynamic_ranges[index]
+              raise DecodingError, "Offset out of bounds" if pointer > arg.size || next_offset > arg.size
+              raise DecodingError, "Offset out of bounds" if next_offset < pointer
+              result << type(component, arg[pointer, next_offset - pointer])
               offset += 32
             else
-              size = c.size
+              size = component.size
               raise DecodingError, "Offset out of bounds" if offset + size > arg.size
-              result << type(c, arg[offset, size])
+              result << type(component, arg[offset, size])
               offset += size
             end
           end
           result
-        elsif type.dynamic?
+        elsif type.dynamic? && !type.dimensions.empty? && type.dimensions.last == 0
           l = Util.deserialize_big_endian_to_int arg[0, 32]
           nested_sub = type.nested_sub
 
@@ -88,14 +86,19 @@ module Eth
               raise DecodingError, "Offset out of bounds" if off < 32 * l || off > arg.size - 64
               off
             end
-            offsets.map { |off| type(nested_sub, arg[32 + off..]) }
+            offsets.each_with_index.map do |off, index|
+              start = 32 + off
+              stop = index + 1 < offsets.length ? 32 + offsets[index + 1] : arg.size
+              raise DecodingError, "Offset out of bounds" if stop > arg.size || stop < start
+              type(nested_sub, arg[start, stop - start])
+            end
           else
             raise DecodingError, "Wrong data size for dynamic array" unless arg.size >= 32 + nested_sub.size * l
             # decoded dynamic-sized arrays with static sub-types
             (0...l).map { |i| type(nested_sub, arg[32 + nested_sub.size * i, nested_sub.size]) }
           end
         elsif !type.dimensions.empty?
-          l = type.dimensions.first
+          l = type.dimensions.last
           nested_sub = type.nested_sub
 
           if nested_sub.dynamic?
@@ -178,6 +181,27 @@ module Eth
         else
           raise DecodingError, "Unknown primitive type: #{type.base_type}"
         end
+      end
+
+      private
+
+      # Computes the byte ranges for dynamic tuple components.
+      #
+      # @param offsets [Array<Array(Integer, Integer)>] list of tuples containing the component index and pointer.
+      # @param total_size [Integer] total number of bytes available for the tuple.
+      # @param head_size [Integer] size in bytes of the tuple head.
+      # @return [Hash{Integer=>Array(Integer, Integer)}] mapping component index to a [start, stop) range.
+      # @raise [DecodingError] if the encoded offsets overlap or leave the tuple head.
+      def tuple_dynamic_ranges(offsets, total_size, head_size)
+        ranges = {}
+        sorted = offsets.sort_by { |(_, pointer)| pointer }
+        sorted.each_with_index do |(index, pointer), idx|
+          raise DecodingError, "Offset out of bounds" if pointer < head_size || pointer > total_size
+          next_pointer = idx + 1 < sorted.length ? sorted[idx + 1][1] : total_size
+          raise DecodingError, "Offset out of bounds" if next_pointer < pointer || next_pointer > total_size
+          ranges[index] = [pointer, next_pointer]
+        end
+        ranges
       end
     end
   end
