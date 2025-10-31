@@ -114,6 +114,53 @@ describe Abi::Decoder do
     end
   end
 
+  describe "tuple arrays" do
+    let(:dynamic_components) do
+      [
+        { "name" => "count", "type" => "uint256" },
+        { "name" => "label", "type" => "string" },
+      ]
+    end
+    let(:static_components) do
+      [
+        { "name" => "count", "type" => "uint256" },
+        { "name" => "flag", "type" => "uint8" },
+      ]
+    end
+
+    let(:dynamic_array_type) { Abi::Type.parse("(uint256,string)[]", dynamic_components) }
+    let(:static_array_type) { Abi::Type.parse("(uint256,string)[2]", dynamic_components) }
+    let(:static_tuple_array_type) { Abi::Type.parse("(uint256,uint8)[2]", static_components) }
+
+    it "decodes dynamic arrays of tuples" do
+      values = [[8, "hotel"], [9, "india"]]
+      encoded = Abi::Encoder.type(dynamic_array_type, values)
+      expect(Abi::Decoder.type(dynamic_array_type, encoded)).to eq values
+    end
+
+    it "decodes static arrays of tuples with dynamic members" do
+      values = [[10, "juliet"], [11, "kilo"]]
+      encoded = Abi::Encoder.type(static_array_type, values)
+      expect(Abi::Decoder.type(static_array_type, encoded)).to eq values
+    end
+
+    it "decodes static arrays of tuples with static members" do
+      values = [[12, 1], [13, 0]]
+      encoded = Abi::Encoder.type(static_tuple_array_type, values)
+      expect(Abi::Decoder.type(static_tuple_array_type, encoded)).to eq values
+    end
+
+    it "decodes nested arrays of tuples" do
+      nested_type = Abi::Type.parse("(uint256,string)[][2]", dynamic_components)
+      values = [
+        [[14, "lima"]],
+        [[15, "mike"], [16, "november"]],
+      ]
+      encoded = Abi::Encoder.type(nested_type, values)
+      expect(Abi::Decoder.type(nested_type, encoded)).to eq values
+    end
+  end
+
   describe "ZST robustness" do
     it "rejects self-referential dynamic array offsets" do
       payload = "0000000000000000000000000000000000000000000000000000000000000020" \

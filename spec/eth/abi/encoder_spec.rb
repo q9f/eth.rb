@@ -105,6 +105,76 @@ describe Abi::Encoder do
     end
   end
 
+  describe "tuple arrays" do
+    let(:tuple_components) do
+      [
+        { "name" => "count", "type" => "uint256" },
+        { "name" => "label", "type" => "string" },
+      ]
+    end
+
+    let(:tuple_type) { Abi::Type.parse("(uint256,string)", tuple_components) }
+    let(:dynamic_array_type) { Abi::Type.parse("(uint256,string)[]", tuple_components) }
+    let(:static_array_type) { Abi::Type.parse("(uint256,string)[2]", tuple_components) }
+
+    it "encodes dynamic arrays of tuples with dynamic members" do
+      values = [[1, "alpha"], [2, "bravo"]]
+      encoded = Abi::Encoder.type(dynamic_array_type, values)
+
+      expect(encoded[0, 32]).to eq Abi::Encoder.type(Abi::Type.size_type, values.length)
+      first_offset = Util.deserialize_big_endian_to_int encoded[32, 32]
+      expect(first_offset).to eq values.length * 32
+      expect(Abi::Decoder.type(dynamic_array_type, encoded)).to eq values
+    end
+
+    it "encodes static arrays of tuples with dynamic members" do
+      values = [[3, "charlie"], [4, "delta"]]
+      encoded = Abi::Encoder.type(static_array_type, values)
+
+      first_offset = Util.deserialize_big_endian_to_int encoded[0, 32]
+      expect(first_offset).to eq values.length * 32
+
+      second_offset = Util.deserialize_big_endian_to_int encoded[32, 32]
+      expect(second_offset).to eq values.length * 32 + Abi::Encoder.type(tuple_type, values[0]).size
+
+      expect(Abi::Decoder.type(static_array_type, encoded)).to eq values
+    end
+
+    it "encodes nested arrays of tuples" do
+      nested_type = Abi::Type.parse("(uint256,string)[][2]", tuple_components)
+      values = [
+        [[5, "echo"]],
+        [[6, "foxtrot"], [7, "golf"]],
+      ]
+
+      encoded = Abi::Encoder.type(nested_type, values)
+      expect(Abi::Decoder.type(nested_type, encoded)).to eq values
+    end
+
+    it "rejects incorrect cardinality" do
+      expect do
+        Abi::Encoder.send(:encode_array, static_array_type, [[1, "a"]])
+      end.to raise_error Abi::EncodingError, /Expecting 2 elements/
+    end
+  end
+
+  describe "static tuple arrays" do
+    let(:tuple_components) do
+      [
+        { "type" => "uint256" },
+        { "type" => "uint32" },
+      ]
+    end
+    let(:static_tuple_array) { Abi::Type.parse("(uint256,uint32)[2]", tuple_components) }
+
+    it "encodes static arrays with static tuple members" do
+      values = [[10, 1], [11, 2]]
+      encoded = Abi::Encoder.type(static_tuple_array, values)
+      expect(encoded.size).to eq static_tuple_array.size
+      expect(Abi::Decoder.type(static_tuple_array, encoded)).to eq values
+    end
+  end
+
   describe "#coerce_number" do
     it "coerces numeric strings" do
       expect(Abi::Encoder.send(:coerce_number, "0xff")).to eq 255
