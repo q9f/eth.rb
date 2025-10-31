@@ -24,7 +24,7 @@ module Eth
     class Eip4844
 
       # The blob gas consumed by a single blob.
-      GAS_PER_BLOB = (2**17).freeze
+      GAS_PER_BLOB = (2 ** 17).freeze
 
       # The target blob gas per block as per EIP-7691.
       TARGET_BLOB_GAS_PER_BLOCK = 786_432.freeze

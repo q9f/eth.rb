@@ -31,88 +31,89 @@ module Eth
       # @return [String] the decoded data for the type.
       # @raise [DecodingError] if decoding fails for type.
       def type(type, arg)
-        if %w(string bytes).include?(type.base_type) and type.sub_type.empty?
-          # Case: decoding a string/bytes
-          if type.dimensions.empty?
+        if !type.dimensions.empty?
+          if type.dimensions.last.zero?
             l = Util.deserialize_big_endian_to_int arg[0, 32]
-            data = arg[32..-1]
-            raise DecodingError, "Wrong data size for string/bytes object" unless data.size == Util.ceil32(l)
+            nested_sub = type.nested_sub
 
-            # decoded strings and bytes
-            data[0, l]
-            # Case: decoding array of string/bytes
+            if nested_sub.dynamic?
+              raise DecodingError, "Wrong data size for dynamic array" unless arg.size >= 32 + 32 * l
+              offsets = (0...l).map do |i|
+                off = Util.deserialize_big_endian_to_int arg[32 + 32 * i, 32]
+                raise DecodingError, "Offset out of bounds" if off < 32 * l || off > arg.size - 64
+                off
+              end
+              offsets.map { |off| type(nested_sub, arg[32 + off..]) }
+            else
+              raise DecodingError, "Wrong data size for dynamic array" unless arg.size >= 32 + nested_sub.size * l
+              (0...l).map { |i| type(nested_sub, arg[32 + nested_sub.size * i, nested_sub.size]) }
+            end
           else
-            l = Util.deserialize_big_endian_to_int arg[0, 32]
-            raise DecodingError, "Wrong data size for dynamic array" unless arg.size >= 32 + 32 * l
+            l = type.dimensions.last
+            nested_sub = type.nested_sub
 
-            # Decode each element of the array
-            (1..l).map do |i|
-              pointer = Util.deserialize_big_endian_to_int arg[i * 32, 32] # Pointer to the size of the array's element
-              raise DecodingError, "Offset out of bounds" if pointer < 32 * l || pointer > arg.size - 64
-              data_l = Util.deserialize_big_endian_to_int arg[32 + pointer, 32] # length of the element
-              raise DecodingError, "Offset out of bounds" if pointer + 32 + Util.ceil32(data_l) > arg.size
-              type(Type.parse(type.base_type), arg[pointer + 32, Util.ceil32(data_l) + 32])
+            if nested_sub.dynamic?
+              raise DecodingError, "Wrong data size for static array" unless arg.size >= 32 * l
+              offsets = (0...l).map do |i|
+                off = Util.deserialize_big_endian_to_int arg[32 * i, 32]
+                raise DecodingError, "Offset out of bounds" if off < 32 * l || off > arg.size - 32
+                off
+              end
+              offsets.each_with_index.map do |off, i|
+                size = (i + 1 < offsets.length ? offsets[i + 1] : arg.size) - off
+                type(nested_sub, arg[off, size])
+              end
+            else
+              (0...l).map { |i| type(nested_sub, arg[nested_sub.size * i, nested_sub.size]) }
             end
           end
+        elsif %w(string bytes).include?(type.base_type) and type.sub_type.empty?
+          l = Util.deserialize_big_endian_to_int arg[0, 32]
+          data = arg[32..-1]
+          raise DecodingError, "Wrong data size for string/bytes object" if data.size < Util.ceil32(l)
+
+          # decoded strings and bytes
+          data[0, l]
         elsif type.base_type == "tuple" && type.dimensions.empty?
-          offset = 0
-          result = []
           raise DecodingError, "Cannot decode tuples without known components" if type.components.nil?
+
+          # Determine the head (static portion) offsets for each component once so we
+          # can safely resolve dynamic pointers regardless of the component order.
+          component_offsets = []
+          head_offset = 0
+          type.components.each do |component|
+            component_offsets << head_offset
+            head_offset += component.dynamic? ? 32 : component.size
+          end
+
+          result = []
+
           type.components.each_with_index do |c, i|
+            offset = component_offsets[i]
             if c.dynamic?
               pointer = Util.deserialize_big_endian_to_int arg[offset, 32]
-              next_offset = if i + 1 < type.components.size
-                  Util.deserialize_big_endian_to_int arg[offset + 32, 32]
-                else
-                  arg.size
-                end
-              raise DecodingError, "Offset out of bounds" if pointer > arg.size || next_offset > arg.size || next_offset < pointer
-              result << type(c, arg[pointer, next_offset - pointer])
-              offset += 32
+              raise DecodingError, "Offset out of bounds" if pointer < head_offset || pointer > arg.size
+
+              next_pointer = nil
+              ((i + 1)...type.components.size).each do |j|
+                next_component = type.components[j]
+                next unless next_component.dynamic?
+
+                next_pointer = Util.deserialize_big_endian_to_int arg[component_offsets[j], 32]
+                break
+              end
+
+              pointer_limit = next_pointer || arg.size
+              raise DecodingError, "Offset out of bounds" if pointer_limit > arg.size || pointer_limit < pointer || pointer_limit < head_offset
+
+              result << type(c, arg[pointer, pointer_limit - pointer])
             else
               size = c.size
               raise DecodingError, "Offset out of bounds" if offset + size > arg.size
               result << type(c, arg[offset, size])
-              offset += size
             end
           end
           result
-        elsif type.dynamic?
-          l = Util.deserialize_big_endian_to_int arg[0, 32]
-          nested_sub = type.nested_sub
-
-          if nested_sub.dynamic?
-            raise DecodingError, "Wrong data size for dynamic array" unless arg.size >= 32 + 32 * l
-            offsets = (0...l).map do |i|
-              off = Util.deserialize_big_endian_to_int arg[32 + 32 * i, 32]
-              raise DecodingError, "Offset out of bounds" if off < 32 * l || off > arg.size - 64
-              off
-            end
-            offsets.map { |off| type(nested_sub, arg[32 + off..]) }
-          else
-            raise DecodingError, "Wrong data size for dynamic array" unless arg.size >= 32 + nested_sub.size * l
-            # decoded dynamic-sized arrays with static sub-types
-            (0...l).map { |i| type(nested_sub, arg[32 + nested_sub.size * i, nested_sub.size]) }
-          end
-        elsif !type.dimensions.empty?
-          l = type.dimensions.first
-          nested_sub = type.nested_sub
-
-          if nested_sub.dynamic?
-            raise DecodingError, "Wrong data size for static array" unless arg.size >= 32 * l
-            offsets = (0...l).map do |i|
-              off = Util.deserialize_big_endian_to_int arg[32 * i, 32]
-              raise DecodingError, "Offset out of bounds" if off < 32 * l || off > arg.size - 32
-              off
-            end
-            offsets.each_with_index.map do |off, i|
-              size = (i + 1 < offsets.length ? offsets[i + 1] : arg.size) - off
-              type(nested_sub, arg[off, size])
-            end
-          else
-            # decoded static-size arrays with static sub-types
-            (0...l).map { |i| type(nested_sub, arg[nested_sub.size * i, nested_sub.size]) }
-          end
         else
 
           # decoded primitive types

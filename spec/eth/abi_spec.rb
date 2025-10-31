@@ -6,7 +6,12 @@ describe Abi do
   describe ".encode .decode" do
 
     # load official ethereum/tests fixtures for ABIs
-    let(:basic_abi_tests_file) { File.read "spec/fixtures/ethereum/tests/ABITests/basic_abi_tests.json" }
+    let(:basic_abi_tests_path) do
+      legacy_path = "spec/fixtures/ethereum/tests/ABITests/basic_abi_tests.json"
+      fallback_path = "spec/fixtures/abi/basic_abi_tests.json"
+      File.exist?(legacy_path) ? legacy_path : fallback_path
+    end
+    let(:basic_abi_tests_file) { File.read basic_abi_tests_path }
     subject(:basic_abi_tests) { JSON.parse basic_abi_tests_file }
 
     # load ethers.js abi test cases
@@ -131,7 +136,6 @@ describe Abi do
     end
 
     it "passes ethersjs test cases" do
-      pending("https://github.com/q9f/eth.rb/issues/372")
       normalize = lambda do |val, type|
         t = Eth::Abi::Type.parse(type)
         if t.dimensions.any?

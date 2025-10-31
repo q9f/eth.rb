@@ -41,11 +41,19 @@ module Eth
           padding = Constant::BYTE_ZERO * (Util.ceil32(arg.size) - arg.size)
           "#{size}#{arg}#{padding}"
         elsif type.base_type == "tuple" && type.dimensions.size == 1 && type.dimensions[0] != 0
-          result = ""
-          result += struct_offsets(type.nested_sub, arg)
-          result += arg.map { |x| type(type.nested_sub, x) }.join
-          result
-        elsif type.dynamic? && !type.dimensions.empty? && arg.is_a?(Array)
+          raise EncodingError, "Argument must be an Array" unless arg.is_a?(Array)
+          raise EncodingError, "Expecting #{type.dimensions[0]} elements: #{arg}" unless arg.size == type.dimensions[0]
+
+          nested_sub = type.nested_sub
+
+          if nested_sub.dynamic?
+            result = ""
+            result += struct_offsets(nested_sub, arg)
+            result + arg.map { |x| type(nested_sub, x) }.join
+          else
+            arg.map { |x| type(nested_sub, x) }.join
+          end
+        elsif !type.dimensions.empty? && type.dimensions.last.zero? && arg.is_a?(Array)
 
           # encodes dynamic-sized arrays
           head = type(Type.size_type, arg.size)
@@ -69,9 +77,26 @@ module Eth
             # encode a primitive type
             primitive_type type, arg
           else
+            raise EncodingError, "Argument must be an Array" unless arg.is_a?(Array)
+            expected_length = type.dimensions.last
+            raise EncodingError, "Expecting #{expected_length} elements: #{arg}" if expected_length != 0 && arg.size != expected_length
 
-            # encode static-size arrays
-            arg.map { |x| type(type.nested_sub, x) }.join
+            nested_sub = type.nested_sub
+
+            if nested_sub.dynamic?
+              tails = arg.map { |x| type(nested_sub, x) }
+              head = ""
+              offset = arg.size * 32
+              tails.each do |tail|
+                head += type(Type.size_type, offset)
+                offset += tail.size
+              end
+              head + tails.join
+            else
+
+              # encode static-size arrays with static elements
+              arg.map { |x| type(nested_sub, x) }.join
+            end
           end
         end
       end
