@@ -16,7 +16,7 @@
 module Eth
 
   # Provides the {Eth::Client} super-class to connect to Ethereum
-  # network's RPC-API endpoints (IPC or HTTP).
+  # network's RPC-API endpoints (IPC, HTTP/S, or WS/S).
   class Client
 
     # The client's RPC-request ID starting at 0.
@@ -55,20 +55,22 @@ module Eth
       end
     end
 
-    # Creates a new RPC-Client, either by providing an HTTP/S host or
-    # an IPC path. Supports basic authentication with username and password.
+    # Creates a new RPC-Client, either by providing an HTTP/S host, WS/S host,
+    # or an IPC path. Supports basic authentication with username and password.
     #
     # **Note**, this sets the folling gas defaults: {Tx::DEFAULT_PRIORITY_FEE}
     # and {Tx::DEFAULT_GAS_PRICE. Use {#max_priority_fee_per_gas} and
     # {#max_fee_per_gas} to set custom values prior to submitting transactions.
     #
-    # @param host [String] either an HTTP/S host or an IPC path.
+    # @param host [String] either an HTTP/S host, WS/S host, or an IPC path.
     # @return [Eth::Client::Ipc] an IPC client.
     # @return [Eth::Client::Http] an HTTP client.
+    # @return [Eth::Client::Websocket] a WebSocket client.
     # @raise [ArgumentError] in case it cannot determine the client type.
     def self.create(host)
       return Client::Ipc.new host if host.end_with? ".ipc"
       return Client::Http.new host if host.start_with? "http"
+      return Client::Websocket.new host if host.start_with? "ws"
       raise ArgumentError, "Unable to detect client type!"
     end
 
@@ -524,3 +526,4 @@ end
 # Load the client/* libraries
 require "eth/client/http"
 require "eth/client/ipc"
+require "eth/client/websocket"
