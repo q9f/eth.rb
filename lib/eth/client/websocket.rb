@@ -108,6 +108,13 @@ module Eth
       return tcp unless @ssl
 
       context = OpenSSL::SSL::SSLContext.new
+      params = { verify_mode: OpenSSL::SSL::VERIFY_PEER }
+      params[:verify_hostname] = true if context.respond_to?(:verify_hostname=)
+      context.set_params(params)
+      store = OpenSSL::X509::Store.new
+      store.set_default_paths
+      context.cert_store = store
+
       ssl_socket = OpenSSL::SSL::SSLSocket.new(tcp, context)
       ssl_socket.hostname = @host
       ssl_socket.sync_close = true

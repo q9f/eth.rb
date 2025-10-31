@@ -200,4 +200,36 @@ describe Client::Websocket do
       expect { client.close }.not_to raise_error
     end
   end
+
+  describe "#open_socket" do
+    it "verifies tls certificates for wss endpoints" do
+      tcp_socket = instance_double(TCPSocket)
+      expect(TCPSocket).to receive(:new).with("example.org", 443).and_return(tcp_socket)
+
+      ssl_socket = instance_double(OpenSSL::SSL::SSLSocket)
+      allow(ssl_socket).to receive(:hostname=).with("example.org")
+      allow(ssl_socket).to receive(:sync_close=).with(true)
+      allow(ssl_socket).to receive(:connect)
+
+      captured_context = nil
+      allow(OpenSSL::SSL::SSLContext).to receive(:new).and_wrap_original do |original, *args|
+        captured_context = original.call(*args)
+        captured_context
+      end
+
+      allow(OpenSSL::SSL::SSLSocket).to receive(:new) do |socket, context|
+        expect(socket).to eq(tcp_socket)
+        expect(context.verify_mode).to eq(OpenSSL::SSL::VERIFY_PEER)
+        expect(context.cert_store).to be_a(OpenSSL::X509::Store)
+        ssl_socket
+      end
+
+      wss_client = described_class.new("wss://example.org/socket")
+      expect(wss_client.send(:open_socket)).to eq(ssl_socket)
+
+      if captured_context.respond_to?(:verify_hostname)
+        expect(captured_context.verify_hostname).to be true
+      end
+    end
+  end
 end
