@@ -24,7 +24,7 @@ require "thread"
 module Eth
 
   # Provides a WS/S-RPC client with automatic reconnection support.
-  class Client::Websocket < Client
+  class Client::Ws < Client
 
     # The host of the WebSocket endpoint.
     attr_reader :host
@@ -38,7 +38,7 @@ module Eth
     # Attribute indicator for SSL.
     attr_reader :ssl
 
-    # Constructor for the WebSocket Client. Should not be used; use
+    # Constructor for the WebSocket client. Should not be used; use
     # {Client.create} instead.
     #
     # @param host [String] a URI pointing to a WebSocket RPC-API.
