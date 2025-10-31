@@ -32,9 +32,12 @@ module Eth
       # @raise [DecodingError] if decoding fails for type.
       def type(type, arg)
         if !type.dimensions.empty?
-          if type.dimensions.last.zero?
+          dimensions = type.dimensions.reverse
+          outermost_length = dimensions.first
+          nested_sub = type.nested_sub
+
+          if outermost_length.zero?
             l = Util.deserialize_big_endian_to_int arg[0, 32]
-            nested_sub = type.nested_sub
 
             if nested_sub.dynamic?
               raise DecodingError, "Wrong data size for dynamic array" unless arg.size >= 32 + 32 * l
@@ -49,8 +52,7 @@ module Eth
               (0...l).map { |i| type(nested_sub, arg[32 + nested_sub.size * i, nested_sub.size]) }
             end
           else
-            l = type.dimensions.last
-            nested_sub = type.nested_sub
+            l = outermost_length
 
             if nested_sub.dynamic?
               raise DecodingError, "Wrong data size for static array" unless arg.size >= 32 * l

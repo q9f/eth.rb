@@ -53,35 +53,33 @@ module Eth
           else
             arg.map { |x| type(nested_sub, x) }.join
           end
-        elsif !type.dimensions.empty? && type.dimensions.last.zero? && arg.is_a?(Array)
+        elsif !type.dimensions.empty?
+          raise EncodingError, "Argument must be an Array" unless arg.is_a?(Array)
 
-          # encodes dynamic-sized arrays
-          head = type(Type.size_type, arg.size)
+          dimensions = type.dimensions.reverse
+          outermost_length = dimensions.first
           nested_sub = type.nested_sub
 
-          if nested_sub.dynamic?
-            tails = arg.map { |a| type(nested_sub, a) }
-            offset = arg.size * 32
-            tails.each do |t|
-              head += type(Type.size_type, offset)
-              offset += t.size
+          if outermost_length.zero?
+
+            # encodes dynamic-sized arrays
+            head = type(Type.size_type, arg.size)
+
+            if nested_sub.dynamic?
+              tails = arg.map { |a| type(nested_sub, a) }
+              offset = arg.size * 32
+              tails.each do |t|
+                head += type(Type.size_type, offset)
+                offset += t.size
+              end
+              head + tails.join
+            else
+              arg.each { |a| head += type(nested_sub, a) }
+              head
             end
-            head + tails.join
           else
-            arg.each { |a| head += type(nested_sub, a) }
-            head
-          end
-        else
-          if type.dimensions.empty?
-
-            # encode a primitive type
-            primitive_type type, arg
-          else
-            raise EncodingError, "Argument must be an Array" unless arg.is_a?(Array)
-            expected_length = type.dimensions.last
-            raise EncodingError, "Expecting #{expected_length} elements: #{arg}" if expected_length != 0 && arg.size != expected_length
-
-            nested_sub = type.nested_sub
+            expected_length = outermost_length
+            raise EncodingError, "Expecting #{expected_length} elements: #{arg}" if arg.size != expected_length
 
             if nested_sub.dynamic?
               tails = arg.map { |x| type(nested_sub, x) }
@@ -98,6 +96,10 @@ module Eth
               arg.map { |x| type(nested_sub, x) }.join
             end
           end
+        else
+
+          # encode a primitive type
+          primitive_type type, arg
         end
       end
 
