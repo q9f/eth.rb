@@ -131,7 +131,6 @@ describe Abi do
     end
 
     it "passes ethersjs test cases" do
-      pending("https://github.com/q9f/eth.rb/issues/372")
       normalize = lambda do |val, type|
         t = Eth::Abi::Type.parse(type)
         if t.dimensions.any?
