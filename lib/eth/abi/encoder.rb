@@ -40,57 +40,12 @@ module Eth
           size = type Type.size_type, arg.size
           padding = Constant::BYTE_ZERO * (Util.ceil32(arg.size) - arg.size)
           "#{size}#{arg}#{padding}"
-        elsif type.base_type == "tuple" && type.dimensions.size == 1 && type.dimensions[0] != 0
-          nested_sub = type.nested_sub
-          if nested_sub.dynamic?
-            result = ""
-            result += struct_offsets(nested_sub, arg)
-            result += arg.map { |x| type(nested_sub, x) }.join
-            result
-          else
-            arg.map { |x| type(nested_sub, x) }.join
-          end
-        elsif type.dynamic? && !type.dimensions.empty? && type.dimensions.last == 0 && arg.is_a?(Array)
-
-          # encodes dynamic-sized arrays
-          head = type(Type.size_type, arg.size)
-          nested_sub = type.nested_sub
-
-          if nested_sub.dynamic?
-            tails = arg.map { |a| type(nested_sub, a) }
-            offset = arg.size * 32
-            tails.each do |t|
-              head += type(Type.size_type, offset)
-              offset += t.size
-            end
-            head + tails.join
-          else
-            arg.each { |a| head += type(nested_sub, a) }
-            head
-          end
+        elsif type.base_type == "tuple" && type.dimensions.empty?
+          tuple arg, type
+        elsif !type.dimensions.empty?
+          encode_array type, arg
         else
-          if type.dimensions.empty?
-
-            # encode a primitive type
-            primitive_type type, arg
-          else
-            nested_sub = type.nested_sub
-
-            if nested_sub.dynamic?
-              head = ""
-              tails = arg.map { |x| type(nested_sub, x) }
-              offset = arg.size * 32
-              tails.each do |t|
-                head += type(Type.size_type, offset)
-                offset += t.size
-              end
-              head + tails.join
-            else
-
-              # encode static-size arrays with static sub-types
-              arg.map { |x| type(nested_sub, x) }.join
-            end
-          end
+          primitive_type type, arg
         end
       end
 
@@ -239,21 +194,70 @@ module Eth
         arg
       end
 
-      # Properly encode struct offsets.
-      def struct_offsets(type, arg)
-        result = ""
-        offset = arg.size
-        tails_encoding = arg.map { |a| type(type, a) }
-        arg.size.times do |i|
-          if i == 0
-            offset *= 32
-          else
-            offset += tails_encoding[i - 1].size
-          end
-          offset_string = type(Type.size_type, offset)
-          result += offset_string
+      # Encodes array values of any dimensionality.
+      #
+      # @param type [Eth::Abi::Type] the type describing the array.
+      # @param values [Array] the Ruby values to encode.
+      # @return [String] ABI encoded array payload.
+      # @raise [EncodingError] if the value cardinality does not match static dimensions.
+      def encode_array(type, values)
+        raise EncodingError, "Expecting Array value" unless values.is_a?(Array)
+
+        required_length = type.dimensions.last
+        if required_length != 0 && values.size != required_length
+          raise EncodingError, "Expecting #{required_length} elements: #{values.size} provided"
         end
-        result
+
+        nested_sub = type.nested_sub
+
+        if required_length.zero?
+          encode_dynamic_array(nested_sub, values)
+        else
+          encode_static_array(nested_sub, values)
+        end
+      end
+
+      # Encodes dynamic-sized arrays, including nested tuples.
+      #
+      # @param nested_sub [Eth::Abi::Type] the element type.
+      # @param values [Array] elements to encode.
+      # @return [String] ABI encoded dynamic array payload.
+      def encode_dynamic_array(nested_sub, values)
+        head = type(Type.size_type, values.size)
+        element_heads, element_tails = encode_array_elements(nested_sub, values)
+        head + element_heads + element_tails
+      end
+
+      # Encodes static-sized arrays, including nested tuples.
+      #
+      # @param nested_sub [Eth::Abi::Type] the element type.
+      # @param values [Array] elements to encode.
+      # @return [String] ABI encoded static array payload.
+      def encode_static_array(nested_sub, values)
+        element_heads, element_tails = encode_array_elements(nested_sub, values)
+        element_heads + element_tails
+      end
+
+      # Encodes the head/tail portions for array elements.
+      #
+      # @param nested_sub [Eth::Abi::Type] the element type.
+      # @param values [Array] elements to encode.
+      # @return [Array<String, String>] head/tail encoded segments.
+      def encode_array_elements(nested_sub, values)
+        if nested_sub.dynamic?
+          head = ""
+          tail = ""
+          offset = values.size * 32
+          values.each do |value|
+            encoded = type(nested_sub, value)
+            head += type(Type.size_type, offset)
+            tail += encoded
+            offset += encoded.size
+          end
+          [head, tail]
+        else
+          [values.map { |value| type(nested_sub, value) }.join, ""]
+        end
       end
 
       # Properly encodes hash-strings.
