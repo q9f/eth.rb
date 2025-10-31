@@ -286,13 +286,16 @@ module Eth
     #
     # @param fields [Hash] the transaction fields.
     # @return [Hash] the validated transaction fields.
-    # @raise [ParameterError] if max blob fee or blob hashes are invalid.
+    # @raise [ParameterError] if max blob fee or blob hashes are invalid or exceed limits.
     def validate_eip4844_params(fields)
       if fields[:max_fee_per_blob_gas].nil? or fields[:max_fee_per_blob_gas] < 0
         raise ParameterError, "Invalid max blob fee #{fields[:max_fee_per_blob_gas]}!"
       end
       if fields[:blob_versioned_hashes].nil? or !fields[:blob_versioned_hashes].is_a? Array or fields[:blob_versioned_hashes].empty?
         raise ParameterError, "Invalid blob versioned hashes #{fields[:blob_versioned_hashes]}!"
+      end
+      if fields[:blob_versioned_hashes].length > Eip4844::MAX_BLOBS_PER_BLOCK
+        raise ParameterError, "Too many blob versioned hashes #{fields[:blob_versioned_hashes].length}!"
       end
       if fields[:to].nil? or fields[:to].empty?
         raise ParameterError, "Invalid destination address #{fields[:to]}!"
