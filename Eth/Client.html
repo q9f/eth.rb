@@ -112,7 +112,7 @@
 
 </div><div id="subclasses">
   <h2>Direct Known Subclasses</h2>
-  <p class="children"><span class='object_link'><a href="Client/Http.html" title="Eth::Client::Http (class)">Http</a></span>, <span class='object_link'><a href="Client/Ipc.html" title="Eth::Client::Ipc (class)">Ipc</a></span>, <span class='object_link'><a href="Client/Websocket.html" title="Eth::Client::Websocket (class)">Websocket</a></span></p>
+  <p class="children"><span class='object_link'><a href="Client/Http.html" title="Eth::Client::Http (class)">Http</a></span>, <span class='object_link'><a href="Client/Ipc.html" title="Eth::Client::Ipc (class)">Ipc</a></span>, <span class='object_link'><a href="Client/Ws.html" title="Eth::Client::Ws (class)">Ws</a></span></p>
 </div>
 <h2>Defined Under Namespace</h2>
 <p class="children">
@@ -120,7 +120,7 @@
     
   
     
-      <strong class="classes">Classes:</strong> <span class='object_link'><a href="Client/ContractExecutionError.html" title="Eth::Client::ContractExecutionError (class)">ContractExecutionError</a></span>, <span class='object_link'><a href="Client/Http.html" title="Eth::Client::Http (class)">Http</a></span>, <span class='object_link'><a href="Client/Ipc.html" title="Eth::Client::Ipc (class)">Ipc</a></span>, <span class='object_link'><a href="Client/RpcError.html" title="Eth::Client::RpcError (class)">RpcError</a></span>, <span class='object_link'><a href="Client/Websocket.html" title="Eth::Client::Websocket (class)">Websocket</a></span>
+      <strong class="classes">Classes:</strong> <span class='object_link'><a href="Client/ContractExecutionError.html" title="Eth::Client::ContractExecutionError (class)">ContractExecutionError</a></span>, <span class='object_link'><a href="Client/Http.html" title="Eth::Client::Http (class)">Http</a></span>, <span class='object_link'><a href="Client/Ipc.html" title="Eth::Client::Ipc (class)">Ipc</a></span>, <span class='object_link'><a href="Client/RpcError.html" title="Eth::Client::RpcError (class)">RpcError</a></span>, <span class='object_link'><a href="Client/Ws.html" title="Eth::Client::Ws (class)">Ws</a></span>
     
   
 </p>
@@ -1224,7 +1224,7 @@
     <li>
       
       
-        <span class='type'>(<tt><span class='object_link'><a href="Client/Websocket.html" title="Eth::Client::Websocket (class)">Eth::Client::Websocket</a></span></tt>)</span>
+        <span class='type'>(<tt><span class='object_link'><a href="Client/Ws.html" title="Eth::Client::Ws (class)">Eth::Client::Ws</a></span></tt>)</span>
       
       
       
@@ -1274,7 +1274,7 @@
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_create'>create</span><span class='lparen'>(</span><span class='id identifier rubyid_host'>host</span><span class='rparen'>)</span>
   <span class='kw'>return</span> <span class='const'><span class='object_link'><a href="" title="Eth::Client (class)">Client</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Client/Ipc.html" title="Eth::Client::Ipc (class)">Ipc</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="Client/Ipc.html#initialize-instance_method" title="Eth::Client::Ipc#initialize (method)">new</a></span></span> <span class='id identifier rubyid_host'>host</span> <span class='kw'>if</span> <span class='id identifier rubyid_host'>host</span><span class='period'>.</span><span class='id identifier rubyid_end_with?'>end_with?</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>.ipc</span><span class='tstring_end'>&quot;</span></span>
   <span class='kw'>return</span> <span class='const'><span class='object_link'><a href="" title="Eth::Client (class)">Client</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Client/Http.html" title="Eth::Client::Http (class)">Http</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="Client/Http.html#initialize-instance_method" title="Eth::Client::Http#initialize (method)">new</a></span></span> <span class='id identifier rubyid_host'>host</span> <span class='kw'>if</span> <span class='id identifier rubyid_host'>host</span><span class='period'>.</span><span class='id identifier rubyid_start_with?'>start_with?</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>http</span><span class='tstring_end'>&quot;</span></span>
-  <span class='kw'>return</span> <span class='const'><span class='object_link'><a href="" title="Eth::Client (class)">Client</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Client/Websocket.html" title="Eth::Client::Websocket (class)">Websocket</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="Client/Websocket.html#initialize-instance_method" title="Eth::Client::Websocket#initialize (method)">new</a></span></span> <span class='id identifier rubyid_host'>host</span> <span class='kw'>if</span> <span class='id identifier rubyid_host'>host</span><span class='period'>.</span><span class='id identifier rubyid_start_with?'>start_with?</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>ws</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>return</span> <span class='const'><span class='object_link'><a href="" title="Eth::Client (class)">Client</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Client/Ws.html" title="Eth::Client::Ws (class)">Ws</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="Client/Ws.html#initialize-instance_method" title="Eth::Client::Ws#initialize (method)">new</a></span></span> <span class='id identifier rubyid_host'>host</span> <span class='kw'>if</span> <span class='id identifier rubyid_host'>host</span><span class='period'>.</span><span class='id identifier rubyid_start_with?'>start_with?</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>ws</span><span class='tstring_end'>&quot;</span></span>
   <span class='id identifier rubyid_raise'>raise</span> <span class='const'>ArgumentError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Unable to detect client type!</span><span class='tstring_end'>&quot;</span></span>
 <span class='kw'>end</span></pre>
     </td>
@@ -3885,7 +3885,7 @@
 </div>
 
       <div id="footer">
-  Generated on Fri Oct 31 17:02:57 2025 by
+  Generated on Sat Nov  1 07:48:14 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.37 (ruby-3.4.7).
 </div>
