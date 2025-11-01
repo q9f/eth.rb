@@ -17,18 +17,29 @@ require "json"
 require "socket"
 require "base64"
 require "digest/sha1"
+require "digest/sha2"
 
-describe Client::Websocket do
+describe Client::Ws do
 
   # Minimal WebSocket server implementing JSON-RPC responses for testing.
   class DummyWebsocketServer
-    attr_reader :port
+    DEFAULT_ACCOUNT = "0x90f8bf6a479f320ead074411a4b0e7944ea8c9c1"
+
+    attr_reader :port, :default_account
 
     def initialize
       @server = TCPServer.new("127.0.0.1", 0)
       @port = @server.addr[1]
       @thread = nil
       @running = false
+      @default_account = DEFAULT_ACCOUNT
+      @accounts = [DEFAULT_ACCOUNT]
+      @balances = Hash.new(0)
+      @balances[normalize_address(DEFAULT_ACCOUNT)] = 2 * 10 ** 18
+      @nonces = Hash.new(0)
+      @transactions = {}
+      @receipts = {}
+      @block_number = 10
     end
 
     def start
@@ -104,17 +115,31 @@ describe Client::Websocket do
     def rpc_response_for(message)
       method = message["method"]
       id = message["id"]
+      params = message["params"] || []
       case method
       when "eth_chainId"
-        { "jsonrpc" => "2.0", "id" => id, "result" => "0x1" }
+        success(id, "0x1")
       when "eth_blockNumber"
-        { "jsonrpc" => "2.0", "id" => id, "result" => "0xa" }
+        success(id, to_hex(@block_number))
+      when "eth_accounts"
+        success(id, @accounts)
+      when "eth_getBalance"
+        address = normalize_address(params[0])
+        success(id, to_hex(@balances[address]))
+      when "eth_getTransactionCount"
+        address = normalize_address(params[0])
+        success(id, to_hex(@nonces[address]))
+      when "eth_sendTransaction"
+        tx_hash = record_transaction(params[0] || {})
+        success(id, tx_hash)
+      when "eth_getTransactionByHash"
+        success(id, @transactions[params[0]])
+      when "eth_getTransactionReceipt"
+        success(id, @receipts[params[0]])
+      when "eth_call"
+        success(id, "0x")
       else
-        {
-          "jsonrpc" => "2.0",
-          "id" => id,
-          "error" => { "code" => -32601, "message" => "Method not found" },
-        }
+        error(id, "Method not found")
       end
     end
 
@@ -161,6 +186,67 @@ describe Client::Websocket do
     def send_close(socket)
       send_frame(socket, [1000].pack("n"), 0x8)
     end
+
+    def success(id, result)
+      {
+        "jsonrpc" => "2.0",
+        "id" => id,
+        "result" => result,
+      }
+    end
+
+    def error(id, message)
+      {
+        "jsonrpc" => "2.0",
+        "id" => id,
+        "error" => { "code" => -32601, "message" => message },
+      }
+    end
+
+    def record_transaction(tx)
+      from = normalize_address(tx["from"] || DEFAULT_ACCOUNT)
+      to = normalize_address(tx["to"])
+      value = hex_to_int(tx["value"])
+      nonce = @nonces[from]
+      @nonces[from] += 1
+      @balances[from] -= value
+      @balances[to] += value if to
+      hash = build_tx_hash(from, to, nonce, value)
+      @transactions[hash] = {
+        "hash" => hash,
+        "from" => from,
+        "to" => to,
+        "value" => to_hex(value),
+        "blockNumber" => to_hex(@block_number),
+      }
+      @receipts[hash] = {
+        "transactionHash" => hash,
+        "status" => "0x1",
+        "blockNumber" => to_hex(@block_number),
+      }
+      hash
+    end
+
+    def build_tx_hash(from, to, nonce, value)
+      seed = [from, to, nonce, value].compact.join(":")
+      "0x#{Digest::SHA256.hexdigest(seed)}"
+    end
+
+    def normalize_address(address)
+      return nil if address.nil?
+      address.downcase
+    end
+
+    def hex_to_int(value)
+      return 0 if value.nil?
+      value = value.delete_prefix("0x")
+      return 0 if value.empty?
+      value.to_i(16)
+    end
+
+    def to_hex(number)
+      "0x#{number.to_i.to_s(16)}"
+    end
   end
 
   let(:server) { DummyWebsocketServer.new }
@@ -191,6 +277,41 @@ describe Client::Websocket do
 
     it "raises rpc errors returned by the server" do
       expect { client.send(:send_command, "eth_unknown", []) }.to raise_error(Client::RpcError, "Method not found")
+    end
+  end
+
+  describe "account interactions" do
+    let(:default_address) { Address.new(server.default_account) }
+    let(:recipient) { Address.new("0x1ef5f5e0b3bbf3b6a4a8d8cd75b8d907af9e4661") }
+
+    it "exposes the default account" do
+      expect(client.default_account.to_s).to eq(default_address.to_s)
+    end
+
+    it "reports balances and nonces for known accounts" do
+      expect(client.get_balance(default_address)).to eq(2 * Unit::ETHER)
+      expect(client.get_nonce(default_address)).to eq(0)
+    end
+
+    it "processes transfers and updates RPC derived state" do
+      initial_sender_balance = client.get_balance(default_address)
+      amount = Unit::ETHER
+
+      tx_hash = client.transfer(recipient, amount)
+
+      expect(tx_hash).to start_with("0x")
+      expect(client.get_nonce(default_address)).to eq(1)
+      expect(client.tx_mined?(tx_hash)).to be true
+      expect(client.tx_succeeded?(tx_hash)).to be true
+      expect(client.get_balance(recipient)).to eq(amount)
+      expect(client.get_balance(default_address)).to eq(initial_sender_balance - amount)
+    end
+
+    it "resets the RPC id counter" do
+      client.eth_block_number
+      client.eth_chain_id
+      expect(client.reset_id).to eq(0)
+      expect(client.instance_variable_get(:@id)).to eq(0)
     end
   end
 
