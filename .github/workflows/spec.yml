@@ -22,32 +22,50 @@ jobs:
         ruby: ['3.3', '3.4']
     steps:
     - uses: actions/checkout@v5
-    - uses: ruby/setup-ruby@v1
-      with:
-        ruby-version: ${{ matrix.ruby }}
-        bundler-cache: false
     - name: MacOs Dependencies
+      if: matrix.os == 'macos-latest'
       run: |
+        brew update
         brew tap ethereum/ethereum
-        brew install --verbose pkg-config automake autogen geth solidity
-      if: startsWith(matrix.os, 'macOS')
+        brew install --verbose autoconf automake libtool pkg-config autogen geth solidity
     - name: Ubuntu Dependencies
+      if: matrix.os == 'ubuntu-latest'
       run: |
         sudo add-apt-repository -y ppa:ethereum/ethereum
         sudo apt-get update
-        sudo apt-get install geth solc
-      if: startsWith(matrix.os, 'Ubuntu')
+        sudo apt-get install -y autoconf automake libtool pkg-config geth solc
+    - uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: ${{ matrix.ruby }}
+        bundler-cache: true
     - name: Run Geth
       run: |
-        geth --dev --http --ws --ipcpath /tmp/geth.ipc &
-        disown &
+        geth --dev \
+             --http \
+             --ws \
+             --ipcpath /tmp/geth.ipc \
+             >/tmp/geth.log 2>&1 &
+        echo $! > /tmp/geth.pid
+        sleep 10
     - name: Gem Dependencies
       run: |
-        git submodule update --init
-        bundle install
+        git submodule update --init --recursive
     - name: Run Tests
       run: |
         bundle exec rspec
+    - name: Stop Geth
+      if: always()
+      run: |
+        if [ -f /tmp/geth.pid ]; then
+          kill "$(cat /tmp/geth.pid)" 2>/dev/null || true
+        fi
+    - name: Geth Logs (on failure)
+      if: failure()
+      run: |
+        if [ -f /tmp/geth.log ]; then
+          echo "===== geth log ====="
+          tail -n 200 /tmp/geth.log
+        fi
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v5
       with:
