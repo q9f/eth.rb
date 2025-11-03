@@ -6,10 +6,12 @@ describe Client do
   # to provide both http and ipc to pass these tests.
   let(:geth_ipc_path) { "/tmp/geth.ipc" }
   let(:geth_http_path) { "http://127.0.0.1:8545" }
+  let(:geth_ws_path) { "ws://127.0.0.1:8546" }
   let(:geth_http_authed_path) { "http://username:password@127.0.0.1:8545" }
   let(:geth_http_query_path) { "http://127.0.0.1:8545?foo=bar&asdf=qwer" }
   subject(:geth_ipc) { Client.create geth_ipc_path }
   subject(:geth_http) { Client.create geth_http_path }
+  subject(:geth_ws) { Client.create geth_ws_path }
   subject(:geth_http_authed) { Client.create geth_http_authed_path }
   subject(:geth_http_query) { Client.create geth_http_query_path }
 
@@ -35,6 +37,15 @@ describe Client do
       expect(geth_http.ssl).to be_falsy
     end
 
+    it "creates a ws client" do
+      expect(geth_ws).to be
+      expect(geth_ws).to be_instance_of Client::Ws
+      expect(geth_ws.host).to eq "127.0.0.1"
+      expect(geth_ws.port).to eq 8546
+      expect(geth_ws.uri.to_s).to eq geth_ws_path
+      expect(geth_ws.ssl).to be_falsy
+    end
+
     it "creates an http client with query params" do
       expect(geth_http_query).to be
       expect(geth_http_query).to be_instance_of Client::Http
@@ -55,6 +66,7 @@ describe Client do
     it "does not query remote accounts" do
       expect { drpc_mainnet.default_account }.to raise_error ArgumentError, "The default account is not available on remote connections!"
       expect(geth_http.default_account).to be
+      expect(geth_ws.default_account).to be
     end
 
     it "creates a http basic auth client" do
@@ -69,19 +81,24 @@ describe Client do
     end
 
     it "functions as geth development client" do
-      expect(geth_ipc.id).to eq 0
-      expect(geth_ipc.chain_id).to eq Chain::PRIVATE_GETH
-      expect(geth_ipc.default_account).to be_instance_of Address
-      expect(geth_ipc.max_priority_fee_per_gas).to eq Tx::DEFAULT_PRIORITY_FEE
-      expect(geth_ipc.max_fee_per_gas).to eq Tx::DEFAULT_GAS_PRICE
+      [geth_ipc, geth_http, geth_ws].each do |client|
+        expect(client.id).to eq 0
+        expect(client.chain_id).to eq Chain::PRIVATE_GETH
+        expect(client.default_account).to be_instance_of Address
+        expect(client.max_priority_fee_per_gas).to eq Tx::DEFAULT_PRIORITY_FEE
+        expect(client.max_fee_per_gas).to eq Tx::DEFAULT_GAS_PRICE
+      end
     end
 
-    it "http can query basic methods" do
+    %i[http ws].each do |protocol|
+      it "#{protocol} can query basic methods" do
 
-      # the default account is prefunded; this test fails if you manually drain the account to zero
-      expect(geth_http.get_balance geth_http.default_account).to be > 0
-      expect(geth_http.get_nonce geth_http.default_account).to be >= 0
-      expect(geth_http.reset_id).to eq 0
+        # the default account is prefunded; this test fails if you manually drain the account to zero
+        client = send("geth_#{protocol}")
+        expect(client.get_balance client.default_account).to be > 0
+        expect(client.get_nonce client.default_account).to be >= 0
+        expect(client.reset_id).to eq 0
+      end
     end
 
     it "http basic auth can query basic methods" do
@@ -108,37 +125,47 @@ describe Client do
     subject(:test_key) { Key.new }
     subject(:another_key) { Key.new }
 
-    it "funds a random account and returns the money" do
-      geth_http.transfer_and_wait(test_key.address, 1337 * Unit::ETHER)
-      expect(geth_http.get_balance test_key.address).to eq 1337 * Unit::ETHER
-      geth_ipc.transfer_and_wait(geth_ipc.default_account, 42 * Unit::ETHER, sender_key: test_key)
-      expect(geth_ipc.get_nonce test_key.address).to eq 1
-    end
+    %i[http ws].each do |protocol|
+      it "#{protocol} funds a random account and returns the money" do
+        client = send("geth_#{protocol}")
+        client.transfer_and_wait(test_key.address, 1337 * Unit::ETHER)
+        expect(client.get_balance test_key.address).to eq 1337 * Unit::ETHER
+        geth_ipc.transfer_and_wait(geth_ipc.default_account, 42 * Unit::ETHER, sender_key: test_key)
+        expect(geth_ipc.get_nonce test_key.address).to eq 1
+      end
 
-    it "funds a random account using legacy transactions" do
-      geth_http.transfer_and_wait(another_key.address, 69 * Unit::ETHER, legacy: true)
-      expect(geth_http.get_balance another_key.address).to eq 69 * Unit::ETHER
-      geth_ipc.transfer_and_wait(geth_ipc.default_account, 23 * Unit::ETHER, sender_key: another_key, legacy: true)
-      expect(geth_ipc.get_nonce another_key.address).to eq 1
+      it "#{protocol} funds a random account using legacy transactions" do
+        client = send("geth_#{protocol}")
+        client.transfer_and_wait(another_key.address, 69 * Unit::ETHER, legacy: true)
+        expect(client.get_balance another_key.address).to eq 69 * Unit::ETHER
+        geth_ipc.transfer_and_wait(geth_ipc.default_account, 23 * Unit::ETHER, sender_key: another_key, legacy: true)
+        expect(geth_ipc.get_nonce another_key.address).to eq 1
+      end
     end
 
     context "when nonce manually set" do
       it "raises exception when nonce incorrect" do
-        expect {
-          geth_http.transfer(another_key.address, 69 * Unit::ETHER, legacy: true, nonce: 0)
-        }.to raise_error(IOError, /nonce too low/)
+        %i[http ws].each do |protocol|
+          expect {
+            client = send("geth_#{protocol}")
+            client.transfer(another_key.address, 69 * Unit::ETHER, legacy: true, nonce: 0)
+          }.to raise_error(IOError, /nonce too low/)
+        end
       end
 
       it "funds account twice" do
-        inblock_account_nonce = geth_http.get_nonce(geth_http.default_account)
+        %i[http ws].each do |protocol|
+          client = send("geth_#{protocol}")
+          inblock_account_nonce = client.get_nonce(client.default_account)
 
-        geth_http.transfer(another_key.address, 69 * Unit::ETHER, legacy: true, nonce: inblock_account_nonce)
-        inblock_account_nonce += 1
+          client.transfer(another_key.address, 69 * Unit::ETHER, legacy: true, nonce: inblock_account_nonce)
+          inblock_account_nonce += 1
 
-        geth_http.transfer_and_wait(another_key.address, 69 * Unit::ETHER, legacy: true, nonce: inblock_account_nonce)
-        inblock_account_nonce += 1
+          client.transfer_and_wait(another_key.address, 69 * Unit::ETHER, legacy: true, nonce: inblock_account_nonce)
+          inblock_account_nonce += 1
 
-        expect(inblock_account_nonce).to eq(geth_http.get_nonce(geth_http.default_account))
+          expect(inblock_account_nonce).to eq(client.get_nonce(client.default_account))
+        end
       end
     end
   end
@@ -149,35 +176,41 @@ describe Client do
     let(:ens_registry_bin) { File.read "spec/fixtures/bin/ENSRegistryWithFallback.bin", :encoding => "ascii-8bit" }
     let(:ens_registry_abi) { File.read "spec/fixtures/abi/ENSRegistryWithFallback.json", :encoding => "ascii-8bit" }
 
-    it "deploy the contract and the address is returned" do
-      address = geth_http.deploy_and_wait(contract)
-      expect(address).to start_with "0x"
-      expect(address.length).to eq 42
-      address = geth_ipc.deploy_and_wait(contract)
-      expect(address).to start_with "0x"
-      expect(address.length).to eq 42
+    %i[http ws ipc].each do |protocol|
+      it "#{protocol} deploys the contract and returns the address" do
+        client = send("geth_#{protocol}")
+        address = client.deploy_and_wait(contract)
+        expect(address).to start_with "0x"
+        expect(address.length).to eq 42
+      end
     end
 
-    it "deploy the contract with key" do
-      geth_http.transfer_and_wait(test_key.address, 1337 * Unit::ETHER)
-      address = geth_http.deploy_and_wait(contract, sender_key: test_key)
-      expect(address).to start_with "0x"
-    end
+    %i[http ws].each do |protocol|
+      it "#{protocol} deploys the contract with key" do
+        client = send("geth_#{protocol}")
+        client.transfer_and_wait(test_key.address, 1337 * Unit::ETHER)
+        address = client.deploy_and_wait(contract, sender_key: test_key)
+        expect(address).to start_with "0x"
+      end
 
-    it "deploy the contract using legacy transactions" do
-      address = geth_http.deploy_and_wait(contract, legacy: true)
-      expect(address).to start_with "0x"
-    end
+      it "#{protocol} deploys the contract using legacy transactions" do
+        client = send("geth_#{protocol}")
+        address = client.deploy_and_wait(contract, legacy: true)
+        expect(address).to start_with "0x"
+      end
 
-    it "deploys the contract with a gas limit override" do
-      address = geth_http.deploy_and_wait(contract, gas_limit: 1_000_000)
-      expect(address).to start_with "0x"
-    end
+      it "#{protocol} deploys the contract with a gas limit override" do
+        client = send("geth_#{protocol}")
+        address = client.deploy_and_wait(contract, gas_limit: 1_000_000)
+        expect(address).to start_with "0x"
+      end
 
-    it "deploy the contract with constructor params" do
-      contract = Contract.from_file(file: "spec/fixtures/contracts/greeter.sol", contract_index: 0)
-      address = geth_http.deploy_and_wait(contract, "Hello!")
-      expect(address).to start_with "0x"
+      it "#{protocol} deploys the contract with constructor params" do
+        greeter = Contract.from_file(file: "spec/fixtures/contracts/greeter.sol", contract_index: 0)
+        client = send("geth_#{protocol}")
+        address = client.deploy_and_wait(greeter, "Hello!")
+        expect(address).to start_with "0x"
+      end
     end
 
     it "can deploy and call an ens registry" do
@@ -190,21 +223,27 @@ describe Client do
 
     context "when nonce manually set" do
       it "raises exception when nonce incorrect" do
-        expect {
-          geth_http.deploy_and_wait(contract, nonce: 0)
-        }.to raise_error(IOError, /nonce too low/)
+        %i[http ws].each do |protocol|
+          expect {
+            client = send("geth_#{protocol}")
+            client.deploy_and_wait(contract, nonce: 0)
+          }.to raise_error(IOError, /nonce too low/)
+        end
       end
 
       it "deploys the contract twice" do
-        inblock_account_nonce = geth_http.get_nonce(geth_http.default_account)
+        %i[http ws].each do |protocol|
+          client = send("geth_#{protocol}")
+          inblock_account_nonce = client.get_nonce(client.default_account)
 
-        geth_http.deploy(contract, nonce: inblock_account_nonce)
-        inblock_account_nonce += 1
+          client.deploy(contract, nonce: inblock_account_nonce)
+          inblock_account_nonce += 1
 
-        geth_http.deploy_and_wait(contract, nonce: inblock_account_nonce)
-        inblock_account_nonce += 1
+          client.deploy_and_wait(contract, nonce: inblock_account_nonce)
+          inblock_account_nonce += 1
 
-        expect(inblock_account_nonce).to eq(geth_http.get_nonce(geth_http.default_account))
+          expect(inblock_account_nonce).to eq(client.get_nonce(client.default_account))
+        end
       end
     end
   end
@@ -218,91 +257,107 @@ describe Client do
     subject(:erc20_abi) { JSON.parse erc20_abi_file }
     subject(:erc20_contract) { Eth::Contract.from_abi(abi: erc20_abi, name: "ERC20", address: address) }
 
-    it "call function name" do
-      geth_http.deploy_and_wait(contract)
-      result = geth_http.call(contract, "get")
-      expect(result).to eq(0)
+    %i[http ws].each do |protocol|
+      it "#{protocol} calls function name" do
+        client = send("geth_#{protocol}")
+        client.deploy_and_wait(contract)
+        result = client.call(contract, "get")
+        expect(result).to eq(0)
+      end
+
+      it "#{protocol} calls a function with gas_limit override" do
+        client = send("geth_#{protocol}")
+        client.deploy_and_wait(contract)
+        result = client.call(contract, "get", gas_limit: 60_000)
+        expect(result).to eq(0)
+      end
+
+      it "#{protocol} returns nil if raw result is 0x" do
+        client = send("geth_#{protocol}")
+        expect(client.call(erc20_contract, "balanceOf", address)).to be_nil
+      end
     end
 
-    it "calls a function with gas_limit override" do
-      geth_http.deploy_and_wait(contract)
-      result = geth_http.call(contract, "get", gas_limit: 60_000)
-      expect(result).to eq(0)
+    { http: Eth::Client::Http, ws: Eth::Client::Ws }.each do |protocol, klass|
+      it "#{protocol} allows custom block number when calling client" do
+        client = send("geth_#{protocol}")
+        block_number = 123
+
+        client.block_number = block_number
+
+        expected_payload = {
+          jsonrpc: "2.0",
+          method: "eth_call",
+          params: [{
+            data: "0x70a08231000000000000000000000000d496b23d61f88a8c7758fca7560dcfac7b3b01f9",
+            to: "0xD496b23D61F88A8C7758fca7560dCFac7b3b01F9",
+          }, "0x#{block_number.to_s(16)}"],
+          id: 1,
+        }.to_json
+
+        mock_response = {
+          jsonrpc: "2.0",
+          id: 1,
+          result: "0x0000000000000000000000000000000000000000000000000000000000000000",
+        }
+
+        expect_any_instance_of(klass).to receive(:send_request)
+                                           .with(expected_payload)
+                                           .and_return(mock_response.to_json)
+
+        client.call(erc20_contract, "balanceOf", address)
+      end
     end
 
-    it "return nil if raw result is 0x" do
-      expect(geth_http.call(erc20_contract, "balanceOf", address)).to be_nil
-    end
+    %i[http ws].each do |protocol|
+      it "#{protocol} raises when function name not defined" do
+        client = send("geth_#{protocol}")
+        expect {
+          client.call(contract, "ge")
+        }.to raise_error ArgumentError, "this function does not exist!"
+      end
 
-    it "allows to call client with custom block numberreturn nil if raw result is 0x" do
-      block_number = 123
+      it "#{protocol} calls the function with key" do
+        client = send("geth_#{protocol}")
+        client.deploy_and_wait(contract)
+        result = client.call(contract, "get", sender_key: test_key)
+        expect(result).to eq(0)
+      end
 
-      geth_http.block_number = block_number
+      it "#{protocol} calls the function using legacy transactions" do
+        client = send("geth_#{protocol}")
+        client.deploy_and_wait(contract)
+        result = client.call(contract, "get", legacy: true)
+        expect(result).to eq(0)
+      end
 
-      expected_payload = {
-        jsonrpc: "2.0",
-        method: "eth_call",
-        params: [{
-          data: "0x70a08231000000000000000000000000d496b23d61f88a8c7758fca7560dcfac7b3b01f9",
-          to: "0xD496b23D61F88A8C7758fca7560dCFac7b3b01F9",
-        }, "0x#{block_number.to_s(16)}"],
-        id: 1,
-      }.to_json
+      it "#{protocol} processes when two numbers are returned" do
+        client = send("geth_#{protocol}")
+        address = client.deploy_and_wait(test_contract)
+        response = client.call(test_contract, "get")
+        expect(response).to eq([0, 0])
+        client.transact_and_wait(test_contract, "set", 12, 24, address: address)
+        response = client.call(test_contract, "get")
+        expect(response).to eq([12, 24])
+      end
 
-      mock_response = {
-        jsonrpc: "2.0",
-        id: 1,
-        result: "0x0000000000000000000000000000000000000000000000000000000000000000",
-      }
+      it "#{protocol} transacts with gas limit override" do
+        client = send("geth_#{protocol}")
+        address = client.deploy_and_wait(test_contract)
+        txn_hash, txn_status = client.transact_and_wait(test_contract, "set", 12, 24, address: address, gas_limit: 100_000_000)
+        expect(txn_status).to be_truthy
+        client.eth_get_transaction_by_hash(txn_hash)
+        response = client.call(test_contract, "get")
+        expect(response).to eq([12, 24])
+      end
 
-      expect_any_instance_of(Eth::Client::Http).to receive(:send_request)
-                                                     .with(expected_payload)
-                                                     .and_return(mock_response.to_json)
-
-      geth_http.call(erc20_contract, "balanceOf", address)
-    end
-
-    it "called function name not defined" do
-      expect {
-        geth_http.call(contract, "ge")
-      }.to raise_error ArgumentError, "this function does not exist!"
-    end
-
-    it "call the function with key" do
-      geth_http.deploy_and_wait(contract)
-      result = geth_http.call(contract, "get", sender_key: test_key)
-      expect(result).to eq(0)
-    end
-
-    it "call the function using legacy transactions" do
-      geth_http.deploy_and_wait(contract)
-      result = geth_http.call(contract, "get", legacy: true)
-      expect(result).to eq(0)
-    end
-
-    it "processing when two numbers are returned" do
-      address = geth_http.deploy_and_wait(test_contract)
-      response = geth_http.call(test_contract, "get")
-      expect(response).to eq([0, 0])
-      geth_http.transact_and_wait(test_contract, "set", 12, 24, address: address)
-      response = geth_http.call(test_contract, "get")
-      expect(response).to eq([12, 24])
-    end
-
-    it "transacts with gas limit override" do
-      address = geth_http.deploy_and_wait(test_contract)
-      txn_hash, txn_status = geth_http.transact_and_wait(test_contract, "set", 12, 24, address: address, gas_limit: 100_000_000)
-      expect(txn_status).to be_truthy
-      response = geth_http.eth_get_transaction_by_hash(txn_hash)
-      response = geth_http.call(test_contract, "get")
-      expect(response).to eq([12, 24])
-    end
-
-    it "calls the function with constructor params" do
-      contract = Contract.from_file(file: "spec/fixtures/contracts/greeter.sol", contract_index: 0)
-      address = geth_http.deploy_and_wait(contract, "Hello!")
-      result = geth_http.call(contract, "greet", address: address)
-      expect(result).to eq("Hello!")
+      it "#{protocol} calls the function with constructor params" do
+        greeter = Contract.from_file(file: "spec/fixtures/contracts/greeter.sol", contract_index: 0)
+        client = send("geth_#{protocol}")
+        address = client.deploy_and_wait(greeter, "Hello!")
+        result = client.call(greeter, "greet", address: address)
+        expect(result).to eq("Hello!")
+      end
     end
 
     it "calls a lendingpool contract on base returning tuple abi" do
@@ -321,107 +376,125 @@ describe Client do
     subject(:test_key) { Key.new }
     subject(:contract) { Eth::Contract.from_file(file: "spec/fixtures/contracts/dummy.sol") }
 
-    it "the value can be set with the set function" do
-      address = geth_http.deploy_and_wait(contract)
-      response = geth_http.call(contract, "get")
-      expect(response).to eq(0)
-      geth_http.transact_and_wait(contract, "set", 42, address: address)
-      response = geth_http.call(contract, "get")
-      expect(response).to eq(42)
-    end
+    %i[http ws].each do |protocol|
+      it "#{protocol} sets the value with the set function" do
+        client = send("geth_#{protocol}")
+        address = client.deploy_and_wait(contract)
+        response = client.call(contract, "get")
+        expect(response).to eq(0)
+        client.transact_and_wait(contract, "set", 42, address: address)
+        response = client.call(contract, "get")
+        expect(response).to eq(42)
+      end
 
-    it "the value can be set with the set function, overwriting constructor params" do
-      contract = Contract.from_file(file: "spec/fixtures/contracts/greeter.sol", contract_index: 0)
-      address = geth_http.deploy_and_wait(contract, "Hello!")
-      geth_http.transact_and_wait(contract, "setGreeting", "How are you?", address: address)
-      response = geth_http.call(contract, "greet")
-      expect(response).to eq("How are you?")
-    end
+      it "#{protocol} overwrites constructor params via set function" do
+        greeter = Contract.from_file(file: "spec/fixtures/contracts/greeter.sol", contract_index: 0)
+        client = send("geth_#{protocol}")
+        address = client.deploy_and_wait(greeter, "Hello!")
+        client.transact_and_wait(greeter, "setGreeting", "How are you?", address: address)
+        response = client.call(greeter, "greet")
+        expect(response).to eq("How are you?")
+      end
 
-    it "transact the function with key" do
-      geth_http.transfer_and_wait(test_key.address, 1337 * Unit::ETHER)
-      address = geth_http.deploy_and_wait(contract, sender_key: test_key)
-      response, status = geth_http.transact_and_wait(contract, "set", 42, sender_key: test_key, address: address)
-      expect(status).to be_truthy
-      expect(response).to start_with "0x"
-    end
+      it "#{protocol} transacts the function with key" do
+        client = send("geth_#{protocol}")
+        client.transfer_and_wait(test_key.address, 1337 * Unit::ETHER)
+        address = client.deploy_and_wait(contract, sender_key: test_key)
+        response, status = client.transact_and_wait(contract, "set", 42, sender_key: test_key, address: address)
+        expect(status).to be_truthy
+        expect(response).to start_with "0x"
+      end
 
-    it "transact the function using legacy transactions" do
-      address = geth_http.deploy_and_wait(contract)
-      response, status = geth_http.transact_and_wait(contract, "set", 42, legacy: true, address: address)
-      expect(status).to be_truthy
-      expect(response).to start_with "0x"
-    end
+      it "#{protocol} transacts the function using legacy transactions" do
+        client = send("geth_#{protocol}")
+        address = client.deploy_and_wait(contract)
+        response, status = client.transact_and_wait(contract, "set", 42, legacy: true, address: address)
+        expect(status).to be_truthy
+        expect(response).to start_with "0x"
+      end
 
-    it "transacts the function with constructor params" do
-      contract = Contract.from_file(file: "spec/fixtures/contracts/greeter.sol", contract_index: 0)
-      address = geth_http.deploy_and_wait(contract, "Hello!")
-      response, status = geth_http.transact_and_wait(contract, "setGreeting", "How are you?", address: address)
-      expect(status).to be_truthy
-      expect(response).to start_with "0x"
-    end
+      it "#{protocol} transacts the function with constructor params" do
+        greeter = Contract.from_file(file: "spec/fixtures/contracts/greeter.sol", contract_index: 0)
+        client = send("geth_#{protocol}")
+        address = client.deploy_and_wait(greeter, "Hello!")
+        response, status = client.transact_and_wait(greeter, "setGreeting", "How are you?", address: address)
+        expect(status).to be_truthy
+        expect(response).to start_with "0x"
+      end
 
-    it "transacts the function with specific tx value argument" do
-      geth_http.transfer_and_wait(test_key.address, 0.01 * Unit::ETHER)
-      address = geth_http.deploy_and_wait(contract, sender_key: test_key)
-      tx_value = 1
-      tx_hash, tx_status = geth_http.transact_and_wait(contract, "set", 42, sender_key: test_key, address: address, tx_value: tx_value)
-      expect(tx_status).to be_truthy
-      tx_value_from_server = geth_http.eth_get_transaction_by_hash(tx_hash)["result"]["value"].to_i(16)
-      expect(tx_value_from_server).to eq(tx_value)
-    end
+      it "#{protocol} transacts the function with specific tx value argument" do
+        client = send("geth_#{protocol}")
+        client.transfer_and_wait(test_key.address, 0.01 * Unit::ETHER)
+        address = client.deploy_and_wait(contract, sender_key: test_key)
+        tx_value = 1
+        tx_hash, tx_status = client.transact_and_wait(contract, "set", 42, sender_key: test_key, address: address, tx_value: tx_value)
+        expect(tx_status).to be_truthy
+        tx_value_from_server = client.eth_get_transaction_by_hash(tx_hash)["result"]["value"].to_i(16)
+        expect(tx_value_from_server).to eq(tx_value)
+      end
 
-    it "can determine if a transaction is mined or succeeded" do
-      hash = geth_http.deploy(contract)
-      hash = geth_http.wait_for_tx(hash)
-      expect(geth_http.tx_mined? hash).to be_truthy
-      addr = geth_http.eth_get_transaction_receipt(hash)["result"]["contractAddress"]
-      hash = geth_http.transact(contract, "set", 42, address: addr)
-      hash = geth_http.wait_for_tx(hash)
-      expect(geth_http.tx_mined? hash).to be_truthy
-      expect(geth_http.tx_succeeded? hash).to be_truthy
-    end
+      it "#{protocol} determines if a transaction is mined or succeeded" do
+        client = send("geth_#{protocol}")
+        hash = client.deploy(contract)
+        hash = client.wait_for_tx(hash)
+        expect(client.tx_mined? hash).to be_truthy
+        addr = client.eth_get_transaction_receipt(hash)["result"]["contractAddress"]
+        hash = client.transact(contract, "set", 42, address: addr)
+        hash = client.wait_for_tx(hash)
+        expect(client.tx_mined? hash).to be_truthy
+        expect(client.tx_succeeded? hash).to be_truthy
+      end
 
-    it "raises if a transaction fails" do
-      addr = geth_http.deploy_and_wait(contract)
-      hash, status = geth_http.transact_and_wait(contract, "set", 42, address: addr)
-      expect(status).to be_truthy
-      expect(geth_http.tx_mined? hash).to be_truthy
-      expect(geth_http.tx_succeeded? hash).to be_truthy
-      expect {
-        hash, status = geth_http.transact_and_wait(contract, "set", 138, address: addr)
-      }.to raise_error(Client::ContractExecutionError, "execution reverted")
+      it "#{protocol} raises if a transaction fails" do
+        client = send("geth_#{protocol}")
+        addr = client.deploy_and_wait(contract)
+        hash, status = client.transact_and_wait(contract, "set", 42, address: addr)
+        expect(status).to be_truthy
+        expect(client.tx_mined? hash).to be_truthy
+        expect(client.tx_succeeded? hash).to be_truthy
+        expect {
+          client.transact_and_wait(contract, "set", 138, address: addr)
+        }.to raise_error(Client::ContractExecutionError, "execution reverted")
+      end
     end
 
     context "when nonce manually set" do
-      let(:contract_address) { geth_http.deploy_and_wait(contract) }
-
-      it "raises exception when nonce incorrect" do
-        expect {
-          geth_http.transact(contract, "set", 42, address: contract_address, nonce: 0)
-        }.to raise_error(IOError, /nonce too low/)
+      %i[http ws].each do |protocol|
+        let(:"#{protocol}_contract_address") { send("geth_#{protocol}").deploy_and_wait(contract) }
       end
 
-      it "transacts function twice" do
-        contract_address
-        inblock_account_nonce = geth_http.get_nonce(geth_http.default_account)
+      %i[http ws].each do |protocol|
+        it "#{protocol} raises exception when nonce incorrect" do
+          client = send("geth_#{protocol}")
+          address = send("#{protocol}_contract_address")
+          expect {
+            client.transact(contract, "set", 42, address: address, nonce: 0)
+          }.to raise_error(IOError, /nonce too low/)
+        end
 
-        geth_http.transact(contract, "set", 42, address: contract_address, nonce: inblock_account_nonce)
-        inblock_account_nonce += 1
+        it "#{protocol} transacts function twice" do
+          client = send("geth_#{protocol}")
+          address = send("#{protocol}_contract_address")
+          inblock_account_nonce = client.get_nonce(client.default_account)
 
-        geth_http.transact(contract, "set", 43, address: contract_address, nonce: inblock_account_nonce)
-        inblock_account_nonce += 1
+          client.transact(contract, "set", 42, address: address, nonce: inblock_account_nonce)
+          inblock_account_nonce += 1
 
-        expect(inblock_account_nonce).to eq(geth_http.get_nonce(geth_http.default_account))
-      end
+          client.transact(contract, "set", 43, address: address, nonce: inblock_account_nonce)
+          inblock_account_nonce += 1
 
-      it "does not mutate marshalled objects" do
-        params = {
-          from: geth_http.default_account,
-          value: 101,
-        }
-        geth_http.eth_estimate_gas(params)
-        expect(params.dig(:value)).to eq 101
+          expect(inblock_account_nonce).to eq(client.get_nonce(client.default_account))
+        end
+
+        it "#{protocol} does not mutate marshalled objects" do
+          client = send("geth_#{protocol}")
+          params = {
+            from: client.default_account,
+            value: 101,
+          }
+          client.eth_estimate_gas(params)
+          expect(params.dig(:value)).to eq 101
+        end
       end
     end
   end
