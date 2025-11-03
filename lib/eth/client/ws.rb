@@ -19,6 +19,7 @@ require "base64"
 require "securerandom"
 require "digest/sha1"
 require "thread"
+require "ipaddr"
 
 # Provides the {Eth} module.
 module Eth
@@ -137,9 +138,10 @@ module Eth
     end
 
     def build_handshake_request(key)
-      origin = @ssl ? "https://#{@host}" : "http://#{@host}"
+      origin = build_origin_header
+      host_header = build_host_header
       "GET #{@path} HTTP/1.1\r\n" \
-      "Host: #{@host}:#{@port}\r\n" \
+      "Host: #{host_header}\r\n" \
       "Upgrade: websocket\r\n" \
       "Connection: Upgrade\r\n" \
       "Sec-WebSocket-Version: 13\r\n" \
@@ -160,11 +162,15 @@ module Eth
     end
 
     def verify_handshake!(response, key)
+      status_line = response.lines.first&.strip
+      unless status_line&.start_with?("HTTP/1.1 101")
+        raise IOError, "WebSocket handshake failed (status: #{status_line || "unknown"})"
+      end
+
       accept = response[/Sec-WebSocket-Accept:\s*(.+)\r/i, 1]&.strip
       expected = Base64.strict_encode64(Digest::SHA1.digest("#{key}258EAFA5-E914-47DA-95CA-C5AB0DC85B11"))
-      unless response.start_with?("HTTP/1.1 101") && accept == expected
-        raise IOError, "WebSocket handshake failed"
-      end
+      raise IOError, "WebSocket handshake failed (missing accept header)" unless accept
+      raise IOError, "WebSocket handshake failed (invalid accept header)" unless accept == expected
     end
 
     def write_frame(socket, payload, opcode = 0x1)
@@ -255,6 +261,37 @@ module Eth
     def apply_mask(payload, mask_key)
       mask_bytes = mask_key.bytes
       payload.bytes.map.with_index { |byte, index| byte ^ mask_bytes[index % 4] }.pack("C*")
+    end
+
+    def build_origin_header
+      scheme = @ssl ? "https" : "http"
+      host = format_origin_host(@uri.host)
+      default_port = @ssl ? 443 : 80
+      port = @uri.port
+      port_suffix = port == default_port ? "" : ":#{port}"
+      "#{scheme}://#{host}#{port_suffix}"
+    end
+
+    def build_host_header
+      "#{format_host(@uri.host)}:#{@uri.port}"
+    end
+
+    def format_origin_host(host)
+      return "localhost" if loopback_host?(host)
+      format_host(host)
+    end
+
+    def format_host(host)
+      return host unless host&.include?(":")
+      host.start_with?("[") ? host : "[#{host}]"
+    end
+
+    def loopback_host?(host)
+      return false if host.nil?
+      return true if host == "localhost"
+      IPAddr.new(host).loopback?
+    rescue IPAddr::InvalidAddressError
+      false
     end
 
     def close_socket
