@@ -37,7 +37,7 @@ What you get:
 - [x] ABI-Encoder and Decoder (including type parser)
 - [x] Packed ABI-Encoder for Solidity smart contracts
 - [x] RLP-Encoder and Decoder (including sedes)
-- [x] RPC-Client (IPC/HTTP) for Execution-Layer APIs
+- [x] RPC-Client (IPC/HTTP/WS) for Execution-Layer APIs
 - [x] Solidity bindings (compile contracts from Ruby)
 - [x] Full smart-contract support (deploy, transact, and call)
 - [x] ERC-6093 custom Solidity errors
@@ -76,10 +76,10 @@ yard doc
 The goal is to have 100% API documentation available.
 
 ## Testing
-The test suite expects working local HTTP and IPC endpoints with a prefunded developer account, e.g.:
+The test suite expects working local HTTP, WS, and IPC endpoints with a prefunded developer account, e.g.:
 
 ```shell
-geth --dev --http --ipcpath /tmp/geth.ipc &
+geth --dev --http --ws --ipcpath /tmp/geth.ipc &
 ```
 
 To run tests, simply use `rspec`. Note, that the Ethereum test fixtures are also required.
