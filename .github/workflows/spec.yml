@@ -39,7 +39,7 @@ jobs:
       if: startsWith(matrix.os, 'Ubuntu')
     - name: Run Geth
       run: |
-        geth --dev --http --ipcpath /tmp/geth.ipc &
+        geth --dev --http --ws --ipcpath /tmp/geth.ipc &
         disown &
     - name: Gem Dependencies
       run: |
