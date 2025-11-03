@@ -104,6 +104,16 @@ describe Client::Ws do
         break if line == "\r\n"
         request << line
       end
+      origin = request[/Origin:\s*(.+)\r/i, 1]&.strip
+      expected_origins = [
+        "http://127.0.0.1:#{@port}",
+        "http://localhost:#{@port}",
+      ]
+      unless expected_origins.include?(origin)
+        socket.write("HTTP/1.1 403 Forbidden\r\n")
+        socket.write("Connection: close\r\n\r\n")
+        raise IOError, "Forbidden origin"
+      end
       key = request[/Sec-WebSocket-Key:\s*(.+)\r/i, 1]&.strip
       accept = Base64.strict_encode64(Digest::SHA1.digest("#{key}258EAFA5-E914-47DA-95CA-C5AB0DC85B11"))
       socket.write("HTTP/1.1 101 Switching Protocols\r\n")
@@ -265,6 +275,13 @@ describe Client::Ws do
   describe ".create" do
     it "detects a websocket endpoint" do
       expect(Client.create(endpoint)).to be_a(described_class)
+    end
+  end
+
+  describe "handshake" do
+    it "uses localhost as origin for loopback endpoints" do
+      request = client.send(:build_handshake_request, "test-key")
+      expect(request).to include("Origin: http://localhost:#{server.port}\r\n")
     end
   end
 
