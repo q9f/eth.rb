@@ -29,7 +29,7 @@ jobs:
     - name: MacOs Dependencies
       run: |
         brew tap ethereum/ethereum
-        brew install --verbose pkg-config automake autogen geth solidity
+        brew install --verbose autoconf automake libtool pkg-config autogen geth solidity
       if: matrix.os == 'macos-latest'
     - name: Ubuntu Dependencies
       run: |
