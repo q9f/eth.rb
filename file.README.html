@@ -64,7 +64,7 @@
 
 <p>A straightforward library to build, sign, and broadcast Ethereum transactions. It allows the separation of key and node management. Sign transactions and handle keys anywhere you can run Ruby and broadcast transactions through any local or remote node. Sign messages and recover signatures for authentication.</p>
 
-<p>What you get: - [x] Secp256k1 Key-Pairs and Encrypted Ethereum Key-Stores (JSON) - [x] EIP-20 Token Transfers (ERC20) - [x] EIP-55 Checksummed Ethereum Addresses - [x] EIP-137 Ethereum Domain Name Service (ENS) - [x] EIP-155 Replay protection with Chain IDs (with presets) - [x] EIP-191 Ethereum Signed Messages (with prefix and type) - [x] EIP-712 Ethereum Signed Type Data - [x] EIP-1271 Smart-Contract Authentification - [x] EIP-1559 Ethereum Type-2 Transactions (with priority fee and max gas fee) - [x] EIP-2028 Call-data intrinsic gas cost estimates (plus access lists) - [x] EIP-2718 Ethereum Transaction Envelopes (and types) - [x] EIP-2930 Ethereum Type-1 Transactions (with access lists) - [x] EIP-4844 Ethereum Type-3 Transactions (with shard blobs, up to 9 blobs per block) - [x] EIP-7702 Ethereum Type-4 Transactions (with authorization lists) - [x] ABI-Encoder and Decoder (including type parser) - [x] Packed ABI-Encoder for Solidity smart contracts - [x] RLP-Encoder and Decoder (including sedes) - [x] RPC-Client (IPC/HTTP) for Execution-Layer APIs - [x] Solidity bindings (compile contracts from Ruby) - [x] Full smart-contract support (deploy, transact, and call) - [x] ERC-6093 custom Solidity errors</p>
+<p>What you get: - [x] Secp256k1 Key-Pairs and Encrypted Ethereum Key-Stores (JSON) - [x] EIP-20 Token Transfers (ERC20) - [x] EIP-55 Checksummed Ethereum Addresses - [x] EIP-137 Ethereum Domain Name Service (ENS) - [x] EIP-155 Replay protection with Chain IDs (with presets) - [x] EIP-191 Ethereum Signed Messages (with prefix and type) - [x] EIP-712 Ethereum Signed Type Data - [x] EIP-1271 Smart-Contract Authentification - [x] EIP-1559 Ethereum Type-2 Transactions (with priority fee and max gas fee) - [x] EIP-2028 Call-data intrinsic gas cost estimates (plus access lists) - [x] EIP-2718 Ethereum Transaction Envelopes (and types) - [x] EIP-2930 Ethereum Type-1 Transactions (with access lists) - [x] EIP-4844 Ethereum Type-3 Transactions (with shard blobs, up to 9 blobs per block) - [x] EIP-7702 Ethereum Type-4 Transactions (with authorization lists) - [x] ABI-Encoder and Decoder (including type parser) - [x] Packed ABI-Encoder for Solidity smart contracts - [x] RLP-Encoder and Decoder (including sedes) - [x] RPC-Client (IPC/HTTP/WS) for Execution-Layer APIs - [x] Solidity bindings (compile contracts from Ruby) - [x] Full smart-contract support (deploy, transact, and call) - [x] ERC-6093 custom Solidity errors</p>
 
 <h2 id="label-Installation">Installation</h2>
 
@@ -97,9 +97,9 @@
 
 <h2 id="label-Testing">Testing</h2>
 
-<p>The test suite expects working local HTTP and IPC endpoints with a prefunded developer account, e.g.:</p>
+<p>The test suite expects working local HTTP, WS, and IPC endpoints with a prefunded developer account, e.g.:</p>
 
-<pre class="code ruby"><code class="ruby">geth --dev --http --ipcpath /tmp/geth.ipc &amp;
+<pre class="code ruby"><code class="ruby">geth --dev --http --ws --ipcpath /tmp/geth.ipc &amp;
 </code></pre>
 
 <p>To run tests, simply use <code>rspec</code>. Note, that the Ethereum test fixtures are also required.</p>
@@ -129,7 +129,7 @@ rspec
 </div></div>
 
       <div id="footer">
-  Generated on Sat Nov  1 07:48:11 2025 by
+  Generated on Mon Nov  3 10:17:59 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.37 (ruby-3.4.7).
 </div>
