@@ -2,8 +2,8 @@ require "spec_helper"
 
 describe Client do
 
-  # run `geth --dev --http --ipcpath /tmp/geth.ipc`
-  # to provide both http and ipc to pass these tests.
+  # run `geth --dev --http --wc --ipcpath /tmp/geth.ipc`
+  # to provide http, ws and ipc to pass these tests.
   let(:geth_ipc_path) { "/tmp/geth.ipc" }
   let(:geth_http_path) { "http://127.0.0.1:8545" }
   let(:geth_ws_path) { "ws://127.0.0.1:8546" }
@@ -118,6 +118,20 @@ describe Client do
   describe "ens" do
     it "can resolve an ens record" do
       expect(drpc_mainnet.resolve_ens("ncwc6edqldzy6mlo.eth")).to eq "0xde270e46d63b1816d1b798cff473c4ba238aca73"
+    end
+  end
+
+  describe Client::RpcError do
+    %i[http ws].each do |protocol|
+      context "when #{protocol}" do
+        it "carries the JSONRPC message and code returned by the server" do
+          client = send("geth_#{protocol}")
+
+          expect { client.get_balance("0xinvalid") }.to(
+            raise_error(an_instance_of(Client::RpcError).and have_attributes(message: /invalid argument 0:/, code: -32602))
+          )
+        end
+      end
     end
   end
 

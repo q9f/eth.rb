@@ -40,25 +40,28 @@ module Eth
     # A custom error type if a contract interaction fails.
     class ContractExecutionError < StandardError; end
 
-    # Raised when an RPC call returns an error. Carries the optional
+    # Raised when an RPC call returns an error. Carries the error code and the optional
     # hex-encoded error data to support custom error decoding.
     class RpcError < IOError
       attr_reader :data
+      attr_reader :code
 
       # Constructor for the {RpcError} class.
       #
       # @param message [String] the error message returned by the RPC.
       # @param data [String] optional hex encoded error data.
-      def initialize(message, data = nil)
+      # @param code [String] optional error code returned by the RPC.
+      def initialize(message, data = nil, code = nil)
         super(message)
         @data = data
+        @code = code
       end
     end
 
     # Creates a new RPC-Client, either by providing an HTTP/S host, WS/S host,
     # or an IPC path. Supports basic authentication with username and password.
     #
-    # **Note**, this sets the folling gas defaults: {Tx::DEFAULT_PRIORITY_FEE}
+    # **Note**, this sets the following gas defaults: {Tx::DEFAULT_PRIORITY_FEE}
     # and {Tx::DEFAULT_GAS_PRICE. Use {#max_priority_fee_per_gas} and
     # {#max_fee_per_gas} to set custom values prior to submitting transactions.
     #
@@ -483,7 +486,7 @@ module Eth
       }
       output = JSON.parse(send_request(payload.to_json))
       if (err = output["error"])
-        raise RpcError.new(err["message"], err["data"])
+        raise RpcError.new(err["message"], err["data"], err["code"])
       end
       output
     end
