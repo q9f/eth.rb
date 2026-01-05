@@ -32,7 +32,7 @@ Gem::Specification.new do |spec|
   spec.test_files = spec.files.grep %r{^(test|spec|features)/}
 
   spec.platform = Gem::Platform::RUBY
-  spec.required_ruby_version = ">= 3.0", "< 4.0"
+  spec.required_ruby_version = ">= 3.0", "< 5.0"
 
   # bigdecimal for big decimals ;)
   spec.add_dependency "bigdecimal", "~> 3.1"
