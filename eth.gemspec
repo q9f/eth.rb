@@ -34,9 +34,6 @@ Gem::Specification.new do |spec|
   spec.platform = Gem::Platform::RUBY
   spec.required_ruby_version = ">= 3.0", "< 5.0"
 
-  # bundler for gem development tooling
-  spec.add_development_dependency "bundler", ">= 2.7"
-
   # bigdecimal for big decimals ;)
   spec.add_dependency "bigdecimal", "~> 3.1"
 
