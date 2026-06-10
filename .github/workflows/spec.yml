@@ -19,7 +19,15 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, macos-latest]
-        ruby: ['3.4', '4.0']
+        ruby: [
+            { version: "3.4", gemfile: bigdecimal3 },
+            { version: "3.4", gemfile: bigdecimal4 },
+            { version: "4.0", gemfile: bigdecimal3 },
+            { version: "4.0", gemfile: bigdecimal4 },
+          ]
+    env:
+      BUNDLE_GEMFILE: ${{ github.workspace }}/gemfiles/${{ matrix.ruby.gemfile }}.gemfile
+      BUNDLE_PATH_RELATIVE_TO_CWD: true
     steps:
     - uses: actions/checkout@v6
     - name: MacOs Dependencies
@@ -36,7 +44,7 @@ jobs:
         sudo apt-get install -y autoconf automake libtool pkg-config geth solc
     - uses: ruby/setup-ruby@v1
       with:
-        ruby-version: ${{ matrix.ruby }}
+        ruby-version: ${{ matrix.ruby.version }}
         bundler-cache: true
     - name: Run Geth
       run: |
