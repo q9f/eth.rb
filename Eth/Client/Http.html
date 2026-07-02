@@ -6,13 +6,13 @@
 <title>
   Class: Eth::Client::Http
   
-    &mdash; Documentation by YARD 0.9.38
+    &mdash; Documentation by YARD 0.9.44
   
 </title>
 
-  <link rel="stylesheet" href="../../css/style.css" type="text/css" />
+  <link rel="stylesheet" href="../../css/style.css" type="text/css">
 
-  <link rel="stylesheet" href="../../css/common.css" type="text/css" />
+  <link rel="stylesheet" href="../../css/common.css" type="text/css">
 
 <script type="text/javascript">
   pathId = "Eth::Client::Http";
@@ -27,6 +27,8 @@
 
   </head>
   <body>
+    <div id="main_progress" aria-hidden="true"></div>
+
     <div class="nav_wrap">
       <iframe id="nav" src="../../class_list.html?1"></iframe>
       <div id="resizer"></div>
@@ -69,12 +71,12 @@
   <dl>
     <dt>Inherits:</dt>
     <dd>
-      <span class="inheritName"><span class='object_link'><a href="../Client.html" title="Eth::Client (class)">Eth::Client</a></span></span>
+      <span class="inheritName">Client</span>
       
         <ul class="fullTree">
           <li>Object</li>
           
-            <li class="next"><span class='object_link'><a href="../Client.html" title="Eth::Client (class)">Eth::Client</a></span></li>
+            <li class="next">Client</li>
           
             <li class="next">Eth::Client::Http</li>
           
@@ -96,16 +98,15 @@
   
   <dl>
     <dt>Defined in:</dt>
-    <dd>lib/eth/client/http.rb</dd>
+    <dd>lib/eth/client/http.rb
+</dd>
   </dl>
   
 </div>
 
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
-    
-<p>Provides an HTTP/S-RPC client with basic authentication.</p>
-
+    <p>Provides an HTTP/S-RPC client with basic authentication.</p>
 
   </div>
 </div>
@@ -141,9 +142,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>The host of the HTTP endpoint.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>The host of the HTTP endpoint.</p></div></span>
   
 </li>
 
@@ -170,9 +169,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>The port of the HTTP endpoint.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>The port of the HTTP endpoint.</p></div></span>
   
 </li>
 
@@ -199,9 +196,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Attribute indicator for SSL.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Attribute indicator for SSL.</p></div></span>
   
 </li>
 
@@ -228,9 +223,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>The full URI of the HTTP endpoint, including path.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>The full URI of the HTTP endpoint, including path.</p></div></span>
   
 </li>
 
@@ -257,9 +250,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Attribute for user.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Attribute for user.</p></div></span>
   
 </li>
 
@@ -296,9 +287,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Constructor for the HTTP Client.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Constructor for the HTTP Client.</p></div></span>
   
 </li>
 
@@ -320,18 +309,16 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Sends an RPC request to the connected HTTP client.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Sends an RPC request to the connected HTTP client.</p></div></span>
   
 </li>
 
       
     </ul>
+    
   
 
 
-  
   <div id="constructor_details" class="method_details_list">
   <h2>Constructor Details</h2>
   
@@ -346,9 +333,8 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Constructor for the HTTP Client. Should not be used; use <span class='object_link'><a href="../Client.html#create-class_method" title="Eth::Client.create (method)">Eth::Client.create</a></span> instead.</p>
-
+    <p>Constructor for the HTTP Client. Should not be used; use
+<span class='object_link'><a href="../Client.html#create-class_method" title="Eth::Client.create (method)">Eth::Client.create</a></span> instead.</p>
 
   </div>
 </div>
@@ -366,9 +352,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>an URI pointing to an HTTP RPC-API.</p>
-</div>
+        <div class='inline'><p>an URI pointing to an HTTP RPC-API.</p></div>
       
     </li>
   
@@ -461,9 +445,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>The host of the HTTP endpoint.</p>
-
+    <p>The host of the HTTP endpoint.</p>
 
   </div>
 </div>
@@ -504,9 +486,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>The port of the HTTP endpoint.</p>
-
+    <p>The port of the HTTP endpoint.</p>
 
   </div>
 </div>
@@ -547,9 +527,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Attribute indicator for SSL.</p>
-
+    <p>Attribute indicator for SSL.</p>
 
   </div>
 </div>
@@ -590,9 +568,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>The full URI of the HTTP endpoint, including path.</p>
-
+    <p>The full URI of the HTTP endpoint, including path.</p>
 
   </div>
 </div>
@@ -633,9 +609,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Attribute for user.</p>
-
+    <p>Attribute for user.</p>
 
   </div>
 </div>
@@ -681,9 +655,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Sends an RPC request to the connected HTTP client.</p>
-
+    <p>Sends an RPC request to the connected HTTP client.</p>
 
   </div>
 </div>
@@ -701,9 +673,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the RPC request parameters.</p>
-</div>
+        <div class='inline'><p>the RPC request parameters.</p></div>
       
     </li>
   
@@ -720,9 +690,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>a JSON-encoded response.</p>
-</div>
+        <div class='inline'><p>a JSON-encoded response.</p></div>
       
     </li>
   
@@ -756,9 +724,9 @@
 </div>
 
       <div id="footer">
-  Generated on Thu Apr  2 13:24:45 2026 by
+  Generated on Thu Jul  2 18:48:21 2026 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.38 (ruby-3.4.9).
+  0.9.44 (ruby-3.4.10).
 </div>
 
     </div>

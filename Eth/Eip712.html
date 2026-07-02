@@ -6,13 +6,13 @@
 <title>
   Module: Eth::Eip712
   
-    &mdash; Documentation by YARD 0.9.38
+    &mdash; Documentation by YARD 0.9.44
   
 </title>
 
-  <link rel="stylesheet" href="../css/style.css" type="text/css" />
+  <link rel="stylesheet" href="../css/style.css" type="text/css">
 
-  <link rel="stylesheet" href="../css/common.css" type="text/css" />
+  <link rel="stylesheet" href="../css/common.css" type="text/css">
 
 <script type="text/javascript">
   pathId = "Eth::Eip712";
@@ -27,6 +27,8 @@
 
   </head>
   <body>
+    <div id="main_progress" aria-hidden="true"></div>
+
     <div class="nav_wrap">
       <iframe id="nav" src="../class_list.html?1"></iframe>
       <div id="resizer"></div>
@@ -88,16 +90,16 @@
   
   <dl>
     <dt>Defined in:</dt>
-    <dd>lib/eth/eip712.rb</dd>
+    <dd>lib/eth/eip712.rb
+</dd>
   </dl>
   
 </div>
 
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
-    
-<p>Defines handy tools for encoding typed structured data as per EIP-712. Ref: <a href="https://eips.ethereum.org/EIPS/eip-712">eips.ethereum.org/EIPS/eip-712</a></p>
-
+    <p>Defines handy tools for encoding typed structured data as per EIP-712.
+Ref: <a href="https://eips.ethereum.org/EIPS/eip-712">https://eips.ethereum.org/EIPS/eip-712</a></p>
 
   </div>
 </div>
@@ -146,9 +148,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Prepares array values by encoding each element according to its base type.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Prepares array values by encoding each element according to its base type.</p></div></span>
   
 </li>
 
@@ -170,9 +170,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Recursively ABI-encodes all data and types according to EIP-712.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Recursively ABI-encodes all data and types according to EIP-712.</p></div></span>
   
 </li>
 
@@ -194,9 +192,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Encode types as an EIP-712 confrom string, e.g., <code>MyType(string attribute)</code>.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Encode types as an EIP-712 confrom string, e.g., <code>MyType(string attribute)</code>.</p></div></span>
   
 </li>
 
@@ -218,9 +214,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Encodes a single value according to its type following EIP-712 rules.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Encodes a single value according to its type following EIP-712 rules.</p></div></span>
   
 </li>
 
@@ -242,9 +236,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Enforces basic properties to be represented in the EIP-712 typed data structure: types, domain, message, etc.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Enforces basic properties to be represented in the EIP-712 typed data structure: types, domain, message, etc.</p></div></span>
   
 </li>
 
@@ -266,9 +258,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Hashes a typed data structure with Keccak-256 to prepare a signed typed data operation respecting EIP-712.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Hashes a typed data structure with Keccak-256 to prepare a signed typed data operation respecting EIP-712.</p></div></span>
   
 </li>
 
@@ -290,9 +280,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Recursively ABI-encodes and hashes all data and types.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Recursively ABI-encodes and hashes all data and types.</p></div></span>
   
 </li>
 
@@ -314,9 +302,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Hashes an EIP-712 confrom type-string.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Hashes an EIP-712 confrom type-string.</p></div></span>
   
 </li>
 
@@ -338,14 +324,13 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Scans all dependencies of a given type recursively and returns either all dependencies or none if not found.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Scans all dependencies of a given type recursively and returns either all dependencies or none if not found.</p></div></span>
   
 </li>
 
       
     </ul>
+    
   
     <h2>
       Instance Method Summary
@@ -371,9 +356,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Prepares array values by encoding each element according to its base type.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Prepares array values by encoding each element according to its base type.</p></div></span>
   
 </li>
 
@@ -395,9 +378,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Recursively ABI-encodes all data and types according to EIP-712.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Recursively ABI-encodes all data and types according to EIP-712.</p></div></span>
   
 </li>
 
@@ -419,9 +400,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Encode types as an EIP-712 confrom string, e.g., <code>MyType(string attribute)</code>.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Encode types as an EIP-712 confrom string, e.g., <code>MyType(string attribute)</code>.</p></div></span>
   
 </li>
 
@@ -443,9 +422,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Encodes a single value according to its type following EIP-712 rules.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Encodes a single value according to its type following EIP-712 rules.</p></div></span>
   
 </li>
 
@@ -467,9 +444,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Enforces basic properties to be represented in the EIP-712 typed data structure: types, domain, message, etc.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Enforces basic properties to be represented in the EIP-712 typed data structure: types, domain, message, etc.</p></div></span>
   
 </li>
 
@@ -491,9 +466,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Hashes a typed data structure with Keccak-256 to prepare a signed typed data operation respecting EIP-712.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Hashes a typed data structure with Keccak-256 to prepare a signed typed data operation respecting EIP-712.</p></div></span>
   
 </li>
 
@@ -515,9 +488,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Recursively ABI-encodes and hashes all data and types.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Recursively ABI-encodes and hashes all data and types.</p></div></span>
   
 </li>
 
@@ -539,9 +510,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Hashes an EIP-712 confrom type-string.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Hashes an EIP-712 confrom type-string.</p></div></span>
   
 </li>
 
@@ -563,14 +532,13 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Scans all dependencies of a given type recursively and returns either all dependencies or none if not found.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Scans all dependencies of a given type recursively and returns either all dependencies or none if not found.</p></div></span>
   
 </li>
 
       
     </ul>
+    
   
 
 
@@ -590,9 +558,8 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Prepares array values by encoding each element according to its base type. Returns an array compatible with Abi.encode.</p>
-
+    <p>Prepares array values by encoding each element according to its
+base type. Returns an array compatible with Abi.encode.</p>
 
   </div>
 </div>
@@ -659,9 +626,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Recursively ABI-encodes all data and types according to EIP-712.</p>
-
+    <p>Recursively ABI-encodes all data and types according to EIP-712.</p>
 
   </div>
 </div>
@@ -679,9 +644,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the primary type which we want to encode.</p>
-</div>
+        <div class='inline'><p>the primary type which we want to encode.</p></div>
       
     </li>
   
@@ -695,9 +658,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the data in the data structure we want to encode.</p>
-</div>
+        <div class='inline'><p>the data in the data structure we want to encode.</p></div>
       
     </li>
   
@@ -711,9 +672,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>all existing types in the data structure.</p>
-</div>
+        <div class='inline'><p>all existing types in the data structure.</p></div>
       
     </li>
   
@@ -730,9 +689,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>an ABI-encoded representation of the data and the types.</p>
-</div>
+        <div class='inline'><p>an ABI-encoded representation of the data and the types.</p></div>
       
     </li>
   
@@ -814,9 +771,8 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Encode types as an EIP-712 confrom string, e.g., <code>MyType(string attribute)</code>.</p>
-
+    <p>Encode types as an EIP-712 confrom string, e.g.,
+<code>MyType(string attribute)</code>.</p>
 
   </div>
 </div>
@@ -834,9 +790,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the type which we want to encode.</p>
-</div>
+        <div class='inline'><p>the type which we want to encode.</p></div>
       
     </li>
   
@@ -850,9 +804,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>all existing types in the data structure.</p>
-</div>
+        <div class='inline'><p>all existing types in the data structure.</p></div>
       
     </li>
   
@@ -869,9 +821,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>an EIP-712 encoded type-string.</p>
-</div>
+        <div class='inline'><p>an EIP-712 encoded type-string.</p></div>
       
     </li>
   
@@ -887,9 +837,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>if non-primary type found.</p>
-</div>
+        <div class='inline'><p>if non-primary type found.</p></div>
       
     </li>
   
@@ -973,9 +921,8 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Encodes a single value according to its type following EIP-712 rules. Returns a 32-byte binary string.</p>
-
+    <p>Encodes a single value according to its type following EIP-712 rules.
+Returns a 32-byte binary string.</p>
 
   </div>
 </div>
@@ -1036,9 +983,8 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Enforces basic properties to be represented in the EIP-712 typed data structure: types, domain, message, etc.</p>
-
+    <p>Enforces basic properties to be represented in the EIP-712 typed
+data structure: types, domain, message, etc.</p>
 
   </div>
 </div>
@@ -1056,9 +1002,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the data in the data structure we want to hash.</p>
-</div>
+        <div class='inline'><p>the data in the data structure we want to hash.</p></div>
       
     </li>
   
@@ -1075,9 +1019,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the data in the data structure we want to hash.</p>
-</div>
+        <div class='inline'><p>the data in the data structure we want to hash.</p></div>
       
     </li>
   
@@ -1093,9 +1035,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>if the data fails validation.</p>
-</div>
+        <div class='inline'><p>if the data fails validation.</p></div>
       
     </li>
   
@@ -1147,9 +1087,8 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Hashes a typed data structure with Keccak-256 to prepare a signed typed data operation respecting EIP-712.</p>
-
+    <p>Hashes a typed data structure with Keccak-256 to prepare a signed
+typed data operation respecting EIP-712.</p>
 
   </div>
 </div>
@@ -1167,9 +1106,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>all the data in the typed data structure.</p>
-</div>
+        <div class='inline'><p>all the data in the typed data structure.</p></div>
       
     </li>
   
@@ -1186,9 +1123,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>a Keccak-256 hash of the EIP-712-encoded typed data.</p>
-</div>
+        <div class='inline'><p>a Keccak-256 hash of the EIP-712-encoded typed data.</p></div>
       
     </li>
   
@@ -1252,9 +1187,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Recursively ABI-encodes and hashes all data and types.</p>
-
+    <p>Recursively ABI-encodes and hashes all data and types.</p>
 
   </div>
 </div>
@@ -1272,9 +1205,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the primary type which we want to hash.</p>
-</div>
+        <div class='inline'><p>the primary type which we want to hash.</p></div>
       
     </li>
   
@@ -1288,9 +1219,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the data in the data structure we want to hash.</p>
-</div>
+        <div class='inline'><p>the data in the data structure we want to hash.</p></div>
       
     </li>
   
@@ -1304,9 +1233,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>all existing types in the data structure.</p>
-</div>
+        <div class='inline'><p>all existing types in the data structure.</p></div>
       
     </li>
   
@@ -1323,9 +1250,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>a Keccak-256 hash of the ABI-encoded data and types.</p>
-</div>
+        <div class='inline'><p>a Keccak-256 hash of the ABI-encoded data and types.</p></div>
       
     </li>
   
@@ -1365,9 +1290,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Hashes an EIP-712 confrom type-string.</p>
-
+    <p>Hashes an EIP-712 confrom type-string.</p>
 
   </div>
 </div>
@@ -1385,9 +1308,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the type which we want to hash.</p>
-</div>
+        <div class='inline'><p>the type which we want to hash.</p></div>
       
     </li>
   
@@ -1401,9 +1322,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>all existing types in the data structure.</p>
-</div>
+        <div class='inline'><p>all existing types in the data structure.</p></div>
       
     </li>
   
@@ -1420,9 +1339,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>a Keccak-256 hash of an EIP-712 encoded type-string.</p>
-</div>
+        <div class='inline'><p>a Keccak-256 hash of an EIP-712 encoded type-string.</p></div>
       
     </li>
   
@@ -1462,9 +1379,8 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Scans all dependencies of a given type recursively and returns either all dependencies or none if not found.</p>
-
+    <p>Scans all dependencies of a given type recursively and returns
+either all dependencies or none if not found.</p>
 
   </div>
 </div>
@@ -1482,9 +1398,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the primary type which we want to scan.</p>
-</div>
+        <div class='inline'><p>the primary type which we want to scan.</p></div>
       
     </li>
   
@@ -1498,9 +1412,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>all existing types in the data structure.</p>
-</div>
+        <div class='inline'><p>all existing types in the data structure.</p></div>
       
     </li>
   
@@ -1516,9 +1428,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>found results from previous recursions.</p>
-</div>
+        <div class='inline'><p>found results from previous recursions.</p></div>
       
     </li>
   
@@ -1535,9 +1445,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>all dependent types for the given primary type.</p>
-</div>
+        <div class='inline'><p>all dependent types for the given primary type.</p></div>
       
     </li>
   
@@ -1627,9 +1535,8 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Prepares array values by encoding each element according to its base type. Returns an array compatible with Abi.encode.</p>
-
+    <p>Prepares array values by encoding each element according to its
+base type. Returns an array compatible with Abi.encode.</p>
 
   </div>
 </div>
@@ -1696,9 +1603,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Recursively ABI-encodes all data and types according to EIP-712.</p>
-
+    <p>Recursively ABI-encodes all data and types according to EIP-712.</p>
 
   </div>
 </div>
@@ -1716,9 +1621,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the primary type which we want to encode.</p>
-</div>
+        <div class='inline'><p>the primary type which we want to encode.</p></div>
       
     </li>
   
@@ -1732,9 +1635,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the data in the data structure we want to encode.</p>
-</div>
+        <div class='inline'><p>the data in the data structure we want to encode.</p></div>
       
     </li>
   
@@ -1748,9 +1649,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>all existing types in the data structure.</p>
-</div>
+        <div class='inline'><p>all existing types in the data structure.</p></div>
       
     </li>
   
@@ -1767,9 +1666,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>an ABI-encoded representation of the data and the types.</p>
-</div>
+        <div class='inline'><p>an ABI-encoded representation of the data and the types.</p></div>
       
     </li>
   
@@ -1851,9 +1748,8 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Encode types as an EIP-712 confrom string, e.g., <code>MyType(string attribute)</code>.</p>
-
+    <p>Encode types as an EIP-712 confrom string, e.g.,
+<code>MyType(string attribute)</code>.</p>
 
   </div>
 </div>
@@ -1871,9 +1767,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the type which we want to encode.</p>
-</div>
+        <div class='inline'><p>the type which we want to encode.</p></div>
       
     </li>
   
@@ -1887,9 +1781,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>all existing types in the data structure.</p>
-</div>
+        <div class='inline'><p>all existing types in the data structure.</p></div>
       
     </li>
   
@@ -1906,9 +1798,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>an EIP-712 encoded type-string.</p>
-</div>
+        <div class='inline'><p>an EIP-712 encoded type-string.</p></div>
       
     </li>
   
@@ -1924,9 +1814,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>if non-primary type found.</p>
-</div>
+        <div class='inline'><p>if non-primary type found.</p></div>
       
     </li>
   
@@ -2010,9 +1898,8 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Encodes a single value according to its type following EIP-712 rules. Returns a 32-byte binary string.</p>
-
+    <p>Encodes a single value according to its type following EIP-712 rules.
+Returns a 32-byte binary string.</p>
 
   </div>
 </div>
@@ -2073,9 +1960,8 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Enforces basic properties to be represented in the EIP-712 typed data structure: types, domain, message, etc.</p>
-
+    <p>Enforces basic properties to be represented in the EIP-712 typed
+data structure: types, domain, message, etc.</p>
 
   </div>
 </div>
@@ -2093,9 +1979,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the data in the data structure we want to hash.</p>
-</div>
+        <div class='inline'><p>the data in the data structure we want to hash.</p></div>
       
     </li>
   
@@ -2112,9 +1996,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the data in the data structure we want to hash.</p>
-</div>
+        <div class='inline'><p>the data in the data structure we want to hash.</p></div>
       
     </li>
   
@@ -2130,9 +2012,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>if the data fails validation.</p>
-</div>
+        <div class='inline'><p>if the data fails validation.</p></div>
       
     </li>
   
@@ -2184,9 +2064,8 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Hashes a typed data structure with Keccak-256 to prepare a signed typed data operation respecting EIP-712.</p>
-
+    <p>Hashes a typed data structure with Keccak-256 to prepare a signed
+typed data operation respecting EIP-712.</p>
 
   </div>
 </div>
@@ -2204,9 +2083,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>all the data in the typed data structure.</p>
-</div>
+        <div class='inline'><p>all the data in the typed data structure.</p></div>
       
     </li>
   
@@ -2223,9 +2100,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>a Keccak-256 hash of the EIP-712-encoded typed data.</p>
-</div>
+        <div class='inline'><p>a Keccak-256 hash of the EIP-712-encoded typed data.</p></div>
       
     </li>
   
@@ -2289,9 +2164,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Recursively ABI-encodes and hashes all data and types.</p>
-
+    <p>Recursively ABI-encodes and hashes all data and types.</p>
 
   </div>
 </div>
@@ -2309,9 +2182,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the primary type which we want to hash.</p>
-</div>
+        <div class='inline'><p>the primary type which we want to hash.</p></div>
       
     </li>
   
@@ -2325,9 +2196,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the data in the data structure we want to hash.</p>
-</div>
+        <div class='inline'><p>the data in the data structure we want to hash.</p></div>
       
     </li>
   
@@ -2341,9 +2210,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>all existing types in the data structure.</p>
-</div>
+        <div class='inline'><p>all existing types in the data structure.</p></div>
       
     </li>
   
@@ -2360,9 +2227,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>a Keccak-256 hash of the ABI-encoded data and types.</p>
-</div>
+        <div class='inline'><p>a Keccak-256 hash of the ABI-encoded data and types.</p></div>
       
     </li>
   
@@ -2402,9 +2267,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Hashes an EIP-712 confrom type-string.</p>
-
+    <p>Hashes an EIP-712 confrom type-string.</p>
 
   </div>
 </div>
@@ -2422,9 +2285,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the type which we want to hash.</p>
-</div>
+        <div class='inline'><p>the type which we want to hash.</p></div>
       
     </li>
   
@@ -2438,9 +2299,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>all existing types in the data structure.</p>
-</div>
+        <div class='inline'><p>all existing types in the data structure.</p></div>
       
     </li>
   
@@ -2457,9 +2316,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>a Keccak-256 hash of an EIP-712 encoded type-string.</p>
-</div>
+        <div class='inline'><p>a Keccak-256 hash of an EIP-712 encoded type-string.</p></div>
       
     </li>
   
@@ -2499,9 +2356,8 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Scans all dependencies of a given type recursively and returns either all dependencies or none if not found.</p>
-
+    <p>Scans all dependencies of a given type recursively and returns
+either all dependencies or none if not found.</p>
 
   </div>
 </div>
@@ -2519,9 +2375,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the primary type which we want to scan.</p>
-</div>
+        <div class='inline'><p>the primary type which we want to scan.</p></div>
       
     </li>
   
@@ -2535,9 +2389,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>all existing types in the data structure.</p>
-</div>
+        <div class='inline'><p>all existing types in the data structure.</p></div>
       
     </li>
   
@@ -2553,9 +2405,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>found results from previous recursions.</p>
-</div>
+        <div class='inline'><p>found results from previous recursions.</p></div>
       
     </li>
   
@@ -2572,9 +2422,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>all dependent types for the given primary type.</p>
-</div>
+        <div class='inline'><p>all dependent types for the given primary type.</p></div>
       
     </li>
   
@@ -2652,9 +2500,9 @@
 </div>
 
       <div id="footer">
-  Generated on Thu Apr  2 13:24:42 2026 by
+  Generated on Thu Jul  2 18:48:19 2026 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.38 (ruby-3.4.9).
+  0.9.44 (ruby-3.4.10).
 </div>
 
     </div>

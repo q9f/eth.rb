@@ -6,13 +6,13 @@
 <title>
   Class: Eth::Key::Encrypter
   
-    &mdash; Documentation by YARD 0.9.38
+    &mdash; Documentation by YARD 0.9.44
   
 </title>
 
-  <link rel="stylesheet" href="../../css/style.css" type="text/css" />
+  <link rel="stylesheet" href="../../css/style.css" type="text/css">
 
-  <link rel="stylesheet" href="../../css/common.css" type="text/css" />
+  <link rel="stylesheet" href="../../css/common.css" type="text/css">
 
 <script type="text/javascript">
   pathId = "Eth::Key::Encrypter";
@@ -27,6 +27,8 @@
 
   </head>
   <body>
+    <div id="main_progress" aria-hidden="true"></div>
+
     <div class="nav_wrap">
       <iframe id="nav" src="../../class_list.html?1"></iframe>
       <div id="resizer"></div>
@@ -94,16 +96,15 @@
   
   <dl>
     <dt>Defined in:</dt>
-    <dd>lib/eth/key/encrypter.rb</dd>
+    <dd>lib/eth/key/encrypter.rb
+</dd>
   </dl>
   
 </div>
 
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
-    
-<p>The <span class='object_link'><a href="" title="Eth::Key::Encrypter (class)">Encrypter</a></span> class to handle PBKDF2-SHA-256 encryption.</p>
-
+    <p>The <span class='object_link'><a href="" title="Eth::Key::Encrypter (class)">Encrypter</a></span> class to handle PBKDF2-SHA-256 encryption.</p>
 
   </div>
 </div>
@@ -152,14 +153,13 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Class method <span class='object_link'><a href="#perform-class_method" title="Eth::Key::Encrypter.perform (method)">Encrypter.perform</a></span> to performa an key-store encryption.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Class method <span class='object_link'><a href="#perform-class_method" title="Eth::Key::Encrypter.perform (method)">Encrypter.perform</a></span> to performa an key-store encryption.</p></div></span>
   
 </li>
 
       
     </ul>
+    
   
     <h2>
       Instance Method Summary
@@ -185,9 +185,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Output containing the encrypted key and <a href="https://github.com/ethereum/wiki/wiki/Web3-Secret-Storage-Definition#pbkdf2-sha-256">other identifying data</a>.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Output containing the encrypted key and <a href="https://github.com/ethereum/wiki/wiki/Web3-Secret-Storage-Definition#pbkdf2-sha-256">other identifying data</a>.</p></div></span>
   
 </li>
 
@@ -211,9 +209,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Constructor of the <span class='object_link'><a href="" title="Eth::Key::Encrypter (class)">Encrypter</a></span> class for secret key encryption.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Constructor of the <span class='object_link'><a href="" title="Eth::Key::Encrypter (class)">Encrypter</a></span> class for secret key encryption.</p></div></span>
   
 </li>
 
@@ -235,14 +231,13 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Encrypt the key with a given password.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Encrypt the key with a given password.</p></div></span>
   
 </li>
 
       
     </ul>
+    
   
 
 <div id="constructor_details" class="method_details_list">
@@ -259,9 +254,9 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Constructor of the <span class='object_link'><a href="" title="Eth::Key::Encrypter (class)">Eth::Key::Encrypter</a></span> class for secret key encryption. Should not be used; use <span class='object_link'><a href="#perform-class_method" title="Eth::Key::Encrypter.perform (method)">perform</a></span> instead.</p>
-
+    <p>Constructor of the <span class='object_link'><a href="" title="Eth::Key::Encrypter (class)">Eth::Key::Encrypter</a></span> class for secret key
+encryption. Should not be used; use <span class='object_link'><a href="#perform-class_method" title="Eth::Key::Encrypter.perform (method)">perform</a></span>
+instead.</p>
 
   </div>
 </div>
@@ -279,9 +274,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>representing a secret key-pair used for encryption.</p>
-</div>
+        <div class='inline'><p>representing a secret key-pair used for encryption.</p></div>
       
     </li>
   
@@ -297,9 +290,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the options to encrypt with.</p>
-</div>
+        <div class='inline'><p>the options to encrypt with.</p></div>
       
     </li>
   
@@ -320,9 +311,7 @@
             
           </span>
           
-            &mdash; <div class='inline'>
-<p>key derivation function defaults to pbkdf2.</p>
-</div>
+            &mdash; <div class='inline'><p>key derivation function defaults to pbkdf2.</p></div>
           
         </li>
       
@@ -333,9 +322,7 @@
             
           </span>
           
-            &mdash; <div class='inline'>
-<p>uuid given to the secret key.</p>
-</div>
+            &mdash; <div class='inline'><p>uuid given to the secret key.</p></div>
           
         </li>
       
@@ -346,9 +333,7 @@
             
           </span>
           
-            &mdash; <div class='inline'>
-<p>number of iterations for the hash function.</p>
-</div>
+            &mdash; <div class='inline'><p>number of iterations for the hash function.</p></div>
           
         </li>
       
@@ -359,9 +344,7 @@
             
           </span>
           
-            &mdash; <div class='inline'>
-<p>passed to PBKDF.</p>
-</div>
+            &mdash; <div class='inline'><p>passed to PBKDF.</p></div>
           
         </li>
       
@@ -372,9 +355,7 @@
             
           </span>
           
-            &mdash; <div class='inline'>
-<p>128-bit initialisation vector for the cipher.</p>
-</div>
+            &mdash; <div class='inline'><p>128-bit initialisation vector for the cipher.</p></div>
           
         </li>
       
@@ -385,9 +366,7 @@
             
           </span>
           
-            &mdash; <div class='inline'>
-<p>parallelization factor for scrypt, defaults to 8.</p>
-</div>
+            &mdash; <div class='inline'><p>parallelization factor for scrypt, defaults to 8.</p></div>
           
         </li>
       
@@ -398,9 +377,7 @@
             
           </span>
           
-            &mdash; <div class='inline'>
-<p>for scrypt, defaults to 1.</p>
-</div>
+            &mdash; <div class='inline'><p>for scrypt, defaults to 1.</p></div>
           
         </li>
       
@@ -463,9 +440,8 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Class method <span class='object_link'><a href="#perform-class_method" title="Eth::Key::Encrypter.perform (method)">perform</a></span> to performa an key-store encryption.</p>
-
+    <p>Class method <span class='object_link'><a href="#perform-class_method" title="Eth::Key::Encrypter.perform (method)">perform</a></span> to performa an key-store
+encryption.</p>
 
   </div>
 </div>
@@ -483,9 +459,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>representing a secret key-pair used for encryption.</p>
-</div>
+        <div class='inline'><p>representing a secret key-pair used for encryption.</p></div>
       
     </li>
   
@@ -501,9 +475,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the options to encrypt with.</p>
-</div>
+        <div class='inline'><p>the options to encrypt with.</p></div>
       
     </li>
   
@@ -526,9 +498,7 @@
             
           </span>
           
-            &mdash; <div class='inline'>
-<p>key derivation function defaults to pbkdf2.</p>
-</div>
+            &mdash; <div class='inline'><p>key derivation function defaults to pbkdf2.</p></div>
           
         </li>
       
@@ -539,9 +509,7 @@
             
           </span>
           
-            &mdash; <div class='inline'>
-<p>uuid given to the secret key.</p>
-</div>
+            &mdash; <div class='inline'><p>uuid given to the secret key.</p></div>
           
         </li>
       
@@ -552,9 +520,7 @@
             
           </span>
           
-            &mdash; <div class='inline'>
-<p>number of iterations for the hash function.</p>
-</div>
+            &mdash; <div class='inline'><p>number of iterations for the hash function.</p></div>
           
         </li>
       
@@ -565,9 +531,7 @@
             
           </span>
           
-            &mdash; <div class='inline'>
-<p>passed to PBKDF.</p>
-</div>
+            &mdash; <div class='inline'><p>passed to PBKDF.</p></div>
           
         </li>
       
@@ -578,9 +542,7 @@
             
           </span>
           
-            &mdash; <div class='inline'>
-<p>128-bit initialisation vector for the cipher.</p>
-</div>
+            &mdash; <div class='inline'><p>128-bit initialisation vector for the cipher.</p></div>
           
         </li>
       
@@ -591,9 +553,7 @@
             
           </span>
           
-            &mdash; <div class='inline'>
-<p>parallelization factor for scrypt, defaults to 8.</p>
-</div>
+            &mdash; <div class='inline'><p>parallelization factor for scrypt, defaults to 8.</p></div>
           
         </li>
       
@@ -604,9 +564,7 @@
             
           </span>
           
-            &mdash; <div class='inline'>
-<p>for scrypt, defaults to 1.</p>
-</div>
+            &mdash; <div class='inline'><p>for scrypt, defaults to 1.</p></div>
           
         </li>
       
@@ -624,9 +582,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>formatted with encrypted key (cyphertext) and <a href="https://github.com/ethereum/wiki/wiki/Web3-Secret-Storage-Definition#pbkdf2-sha-256">other identifying data</a>.</p>
-</div>
+        <div class='inline'><p>formatted with encrypted key (cyphertext) and <a href="https://github.com/ethereum/wiki/wiki/Web3-Secret-Storage-Definition#pbkdf2-sha-256">other identifying data</a>.</p></div>
       
     </li>
   
@@ -670,9 +626,8 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Output containing the encrypted key and <a href="https://github.com/ethereum/wiki/wiki/Web3-Secret-Storage-Definition#pbkdf2-sha-256">other identifying data</a></p>
-
+    <p>Output containing the encrypted key and
+<a href="https://github.com/ethereum/wiki/wiki/Web3-Secret-Storage-Definition#pbkdf2-sha-256">other identifying data</a></p>
 
   </div>
 </div>
@@ -689,9 +644,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the encrypted keystore data.</p>
-</div>
+        <div class='inline'><p>the encrypted keystore data.</p></div>
       
     </li>
   
@@ -791,9 +744,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Encrypt the key with a given password.</p>
-
+    <p>Encrypt the key with a given password.</p>
 
   </div>
 </div>
@@ -811,9 +762,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>a secret key used for encryption</p>
-</div>
+        <div class='inline'><p>a secret key used for encryption</p></div>
       
     </li>
   
@@ -830,9 +779,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>a JSON-formatted keystore string.</p>
-</div>
+        <div class='inline'><p>a JSON-formatted keystore string.</p></div>
       
     </li>
   
@@ -868,9 +815,9 @@
 </div>
 
       <div id="footer">
-  Generated on Thu Apr  2 13:24:45 2026 by
+  Generated on Thu Jul  2 18:48:21 2026 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.38 (ruby-3.4.9).
+  0.9.44 (ruby-3.4.10).
 </div>
 
     </div>

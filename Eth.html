@@ -6,13 +6,13 @@
 <title>
   Module: Eth
   
-    &mdash; Documentation by YARD 0.9.38
+    &mdash; Documentation by YARD 0.9.44
   
 </title>
 
-  <link rel="stylesheet" href="css/style.css" type="text/css" />
+  <link rel="stylesheet" href="css/style.css" type="text/css">
 
-  <link rel="stylesheet" href="css/common.css" type="text/css" />
+  <link rel="stylesheet" href="css/common.css" type="text/css">
 
 <script type="text/javascript">
   pathId = "Eth";
@@ -27,6 +27,8 @@
 
   </head>
   <body>
+    <div id="main_progress" aria-hidden="true"></div>
+
     <div class="nav_wrap">
       <iframe id="nav" src="class_list.html?1"></iframe>
       <div id="resizer"></div>
@@ -78,8 +80,9 @@
   
   <dl>
     <dt>Defined in:</dt>
-    <dd>lib/eth.rb<span class="defines">,<br />
-  lib/eth/tx.rb,<br /> lib/eth/abi.rb,<br /> lib/eth/api.rb,<br /> lib/eth/bls.rb,<br /> lib/eth/ens.rb,<br /> lib/eth/key.rb,<br /> lib/eth/rlp.rb,<br /> lib/eth/unit.rb,<br /> lib/eth/util.rb,<br /> lib/eth/chain.rb,<br /> lib/eth/client.rb,<br /> lib/eth/eip712.rb,<br /> lib/eth/address.rb,<br /> lib/eth/version.rb,<br /> lib/eth/abi/type.rb,<br /> lib/eth/constant.rb,<br /> lib/eth/contract.rb,<br /> lib/eth/solidity.rb,<br /> lib/eth/abi/event.rb,<br /> lib/eth/client/ws.rb,<br /> lib/eth/rlp/sedes.rb,<br /> lib/eth/signature.rb,<br /> lib/eth/tx/legacy.rb,<br /> lib/eth/client/ipc.rb,<br /> lib/eth/tx/eip1559.rb,<br /> lib/eth/tx/eip2930.rb,<br /> lib/eth/tx/eip4844.rb,<br /> lib/eth/tx/eip7702.rb,<br /> lib/eth/abi/decoder.rb,<br /> lib/eth/abi/encoder.rb,<br /> lib/eth/client/http.rb,<br /> lib/eth/rlp/decoder.rb,<br /> lib/eth/rlp/encoder.rb,<br /> lib/eth/abi/function.rb,<br /> lib/eth/ens/resolver.rb,<br /> lib/eth/ens/coin_type.rb,<br /> lib/eth/key/decrypter.rb,<br /> lib/eth/key/encrypter.rb,<br /> lib/eth/contract/error.rb,<br /> lib/eth/contract/event.rb,<br /> lib/eth/rlp/sedes/list.rb,<br /> lib/eth/rlp/sedes/binary.rb,<br /> lib/eth/contract/function.rb,<br /> lib/eth/abi/packed/encoder.rb,<br /> lib/eth/contract/initializer.rb,<br /> lib/eth/contract/function_input.rb,<br /> lib/eth/contract/function_output.rb,<br /> lib/eth/rlp/sedes/big_endian_int.rb</span>
+    <dd>lib/eth.rb<span class="defines">,<br>
+  lib/eth/tx.rb,<br> lib/eth/abi.rb,<br> lib/eth/api.rb,<br> lib/eth/bls.rb,<br> lib/eth/ens.rb,<br> lib/eth/key.rb,<br> lib/eth/rlp.rb,<br> lib/eth/unit.rb,<br> lib/eth/util.rb,<br> lib/eth/chain.rb,<br> lib/eth/client.rb,<br> lib/eth/eip712.rb,<br> lib/eth/address.rb,<br> lib/eth/version.rb,<br> lib/eth/abi/type.rb,<br> lib/eth/constant.rb,<br> lib/eth/contract.rb,<br> lib/eth/solidity.rb,<br> lib/eth/abi/event.rb,<br> lib/eth/client/ws.rb,<br> lib/eth/rlp/sedes.rb,<br> lib/eth/signature.rb,<br> lib/eth/tx/legacy.rb,<br> lib/eth/client/ipc.rb,<br> lib/eth/tx/eip1559.rb,<br> lib/eth/tx/eip2930.rb,<br> lib/eth/tx/eip4844.rb,<br> lib/eth/tx/eip7702.rb,<br> lib/eth/abi/decoder.rb,<br> lib/eth/abi/encoder.rb,<br> lib/eth/client/http.rb,<br> lib/eth/rlp/decoder.rb,<br> lib/eth/rlp/encoder.rb,<br> lib/eth/abi/function.rb,<br> lib/eth/ens/resolver.rb,<br> lib/eth/ens/coin_type.rb,<br> lib/eth/key/decrypter.rb,<br> lib/eth/key/encrypter.rb,<br> lib/eth/contract/error.rb,<br> lib/eth/contract/event.rb,<br> lib/eth/rlp/sedes/list.rb,<br> lib/eth/rlp/sedes/binary.rb,<br> lib/eth/contract/function.rb,<br> lib/eth/abi/packed/encoder.rb,<br> lib/eth/contract/initializer.rb,<br> lib/eth/contract/function_input.rb,<br> lib/eth/contract/function_output.rb,<br> lib/eth/rlp/sedes/big_endian_int.rb</span>
+
 </dd>
   </dl>
   
@@ -87,9 +90,7 @@
 
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
-    
-<p>Provides the <span class='object_link'><a href="" title="Eth (module)">Eth</a></span> module.</p>
-
+    <p>Provides the <span class='object_link'><a href="" title="Eth (module)">Eth</a></span> module.</p>
 
   </div>
 </div>
@@ -120,9 +121,7 @@
         <dt id="MAJOR-constant" class="">MAJOR =
           <div class="docstring">
   <div class="discussion">
-    
-<p>Defines the major version of the <span class='object_link'><a href="" title="Eth (module)">Eth</a></span> module.</p>
-
+    <p>Defines the major version of the <span class='object_link'><a href="" title="Eth (module)">Eth</a></span> module.</p>
 
   </div>
 </div>
@@ -136,9 +135,7 @@
         <dt id="MINOR-constant" class="">MINOR =
           <div class="docstring">
   <div class="discussion">
-    
-<p>Defines the minor version of the <span class='object_link'><a href="" title="Eth (module)">Eth</a></span> module.</p>
-
+    <p>Defines the minor version of the <span class='object_link'><a href="" title="Eth (module)">Eth</a></span> module.</p>
 
   </div>
 </div>
@@ -152,9 +149,7 @@
         <dt id="PATCH-constant" class="">PATCH =
           <div class="docstring">
   <div class="discussion">
-    
-<p>Defines the patch version of the <span class='object_link'><a href="" title="Eth (module)">Eth</a></span> module.</p>
-
+    <p>Defines the patch version of the <span class='object_link'><a href="" title="Eth (module)">Eth</a></span> module.</p>
 
   </div>
 </div>
@@ -168,9 +163,7 @@
         <dt id="VERSION-constant" class="">VERSION =
           <div class="docstring">
   <div class="discussion">
-    
-<p>Defines the version string of the <span class='object_link'><a href="" title="Eth (module)">Eth</a></span> module.</p>
-
+    <p>Defines the version string of the <span class='object_link'><a href="" title="Eth (module)">Eth</a></span> module.</p>
 
   </div>
 </div>
@@ -195,9 +188,9 @@
 </div>
 
       <div id="footer">
-  Generated on Thu Apr  2 13:24:40 2026 by
+  Generated on Thu Jul  2 18:48:19 2026 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.38 (ruby-3.4.9).
+  0.9.44 (ruby-3.4.10).
 </div>
 
     </div>

@@ -6,13 +6,13 @@
 <title>
   Module: Eth::Signature
   
-    &mdash; Documentation by YARD 0.9.38
+    &mdash; Documentation by YARD 0.9.44
   
 </title>
 
-  <link rel="stylesheet" href="../css/style.css" type="text/css" />
+  <link rel="stylesheet" href="../css/style.css" type="text/css">
 
-  <link rel="stylesheet" href="../css/common.css" type="text/css" />
+  <link rel="stylesheet" href="../css/common.css" type="text/css">
 
 <script type="text/javascript">
   pathId = "Eth::Signature";
@@ -27,6 +27,8 @@
 
   </head>
   <body>
+    <div id="main_progress" aria-hidden="true"></div>
+
     <div class="nav_wrap">
       <iframe id="nav" src="../class_list.html?1"></iframe>
       <div id="resizer"></div>
@@ -88,16 +90,15 @@
   
   <dl>
     <dt>Defined in:</dt>
-    <dd>lib/eth/signature.rb</dd>
+    <dd>lib/eth/signature.rb
+</dd>
   </dl>
   
 </div>
 
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
-    
-<p>Defines handy tools for verifying and recovering signatures.</p>
-
+    <p>Defines handy tools for verifying and recovering signatures.</p>
 
   </div>
 </div>
@@ -126,9 +127,7 @@
         <dt id="EIP191_PREFIX_BYTE-constant" class="">EIP191_PREFIX_BYTE =
           <div class="docstring">
   <div class="discussion">
-    
-<p>EIP-191 prefix byte 0x19</p>
-
+    <p>EIP-191 prefix byte 0x19</p>
 
   </div>
 </div>
@@ -142,9 +141,7 @@
         <dt id="EIP712_VERSION_BYTE-constant" class="">EIP712_VERSION_BYTE =
           <div class="docstring">
   <div class="discussion">
-    
-<p>EIP-712 version byte 0x01</p>
-
+    <p>EIP-712 version byte 0x01</p>
 
   </div>
 </div>
@@ -189,9 +186,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Dissects a signature blob of 65+ bytes into its <code>r</code>, <code>s</code>, and <code>v</code> values.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Dissects a signature blob of 65+ bytes into its <code>r</code>, <code>s</code>, and <code>v</code> values.</p></div></span>
   
 </li>
 
@@ -213,9 +208,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Recovers a public key from a prefixed, personal message and a signature on a given chain.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Recovers a public key from a prefixed, personal message and a signature on a given chain.</p></div></span>
   
 </li>
 
@@ -237,9 +230,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Prefix message as per EIP-191 with <code>0x19</code> to ensure the data is not valid RLP and thus not mistaken for a transaction.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Prefix message as per EIP-191 with <code>0x19</code> to ensure the data is not valid RLP and thus not mistaken for a transaction.</p></div></span>
   
 </li>
 
@@ -261,9 +252,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Recovers a signature from arbitrary data without validation on a given chain.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Recovers a signature from arbitrary data without validation on a given chain.</p></div></span>
   
 </li>
 
@@ -285,9 +274,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Recovers a public key from a typed data structure and a signature on a given chain.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Recovers a public key from a typed data structure and a signature on a given chain.</p></div></span>
   
 </li>
 
@@ -309,14 +296,13 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Verifies a signature for a given public key or address.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Verifies a signature for a given public key or address.</p></div></span>
   
 </li>
 
       
     </ul>
+    
   
     <h2>
       Instance Method Summary
@@ -342,9 +328,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Dissects a signature blob of 65+ bytes into its <code>r</code>, <code>s</code>, and <code>v</code> values.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Dissects a signature blob of 65+ bytes into its <code>r</code>, <code>s</code>, and <code>v</code> values.</p></div></span>
   
 </li>
 
@@ -366,9 +350,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Recovers a public key from a prefixed, personal message and a signature on a given chain.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Recovers a public key from a prefixed, personal message and a signature on a given chain.</p></div></span>
   
 </li>
 
@@ -390,9 +372,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Prefix message as per EIP-191 with <code>0x19</code> to ensure the data is not valid RLP and thus not mistaken for a transaction.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Prefix message as per EIP-191 with <code>0x19</code> to ensure the data is not valid RLP and thus not mistaken for a transaction.</p></div></span>
   
 </li>
 
@@ -414,9 +394,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Recovers a signature from arbitrary data without validation on a given chain.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Recovers a signature from arbitrary data without validation on a given chain.</p></div></span>
   
 </li>
 
@@ -438,9 +416,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Recovers a public key from a typed data structure and a signature on a given chain.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Recovers a public key from a typed data structure and a signature on a given chain.</p></div></span>
   
 </li>
 
@@ -462,14 +438,13 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Verifies a signature for a given public key or address.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Verifies a signature for a given public key or address.</p></div></span>
   
 </li>
 
       
     </ul>
+    
   
 
 
@@ -489,9 +464,8 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Dissects a signature blob of 65+ bytes into its <code>r</code>, <code>s</code>, and <code>v</code> values.</p>
-
+    <p>Dissects a signature blob of 65+ bytes into its <code>r</code>, <code>s</code>, and <code>v</code>
+values.</p>
 
   </div>
 </div>
@@ -509,9 +483,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>a concatenated Secp256k1 signature string.</p>
-</div>
+        <div class='inline'><p>a concatenated Secp256k1 signature string.</p></div>
       
     </li>
   
@@ -528,9 +500,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the <code>r</code>, <code>s</code>, and <code>v</code> values.</p>
-</div>
+        <div class='inline'><p>the <code>r</code>, <code>s</code>, and <code>v</code> values.</p></div>
       
     </li>
   
@@ -546,9 +516,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>if signature is of unknown size.</p>
-</div>
+        <div class='inline'><p>if signature is of unknown size.</p></div>
       
     </li>
   
@@ -602,9 +570,9 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Recovers a public key from a prefixed, personal message and a signature on a given chain. (EIP-191) Ref: <a href="https://eips.ethereum.org/EIPS/eip-191">eips.ethereum.org/EIPS/eip-191</a></p>
-
+    <p>Recovers a public key from a prefixed, personal message and
+a signature on a given chain. (EIP-191)
+Ref: <a href="https://eips.ethereum.org/EIPS/eip-191">https://eips.ethereum.org/EIPS/eip-191</a></p>
 
   </div>
 </div>
@@ -622,9 +590,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the message string.</p>
-</div>
+        <div class='inline'><p>the message string.</p></div>
       
     </li>
   
@@ -638,9 +604,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the hex string containing the signature.</p>
-</div>
+        <div class='inline'><p>the hex string containing the signature.</p></div>
       
     </li>
   
@@ -656,9 +620,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the chain ID the signature should be recovered from.</p>
-</div>
+        <div class='inline'><p>the chain ID the signature should be recovered from.</p></div>
       
     </li>
   
@@ -675,9 +637,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>a hexa-decimal, uncompressed public key.</p>
-</div>
+        <div class='inline'><p>a hexa-decimal, uncompressed public key.</p></div>
       
     </li>
   
@@ -719,9 +679,10 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Prefix message as per EIP-191 with <code>0x19</code> to ensure the data is not valid RLP and thus not mistaken for a transaction. EIP-191 Version byte: <code>0x45</code> (<code>E</code>) Ref: <a href="https://eips.ethereum.org/EIPS/eip-191">eips.ethereum.org/EIPS/eip-191</a></p>
-
+    <p>Prefix message as per EIP-191 with <code>0x19</code> to ensure the data is not
+valid RLP and thus not mistaken for a transaction.
+EIP-191 Version byte: <code>0x45</code> (<code>E</code>)
+Ref: <a href="https://eips.ethereum.org/EIPS/eip-191">https://eips.ethereum.org/EIPS/eip-191</a></p>
 
   </div>
 </div>
@@ -739,9 +700,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the message string to be prefixed.</p>
-</div>
+        <div class='inline'><p>the message string to be prefixed.</p></div>
       
     </li>
   
@@ -758,9 +717,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>an EIP-191 prefixed string.</p>
-</div>
+        <div class='inline'><p>an EIP-191 prefixed string.</p></div>
       
     </li>
   
@@ -798,9 +755,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Recovers a signature from arbitrary data without validation on a given chain.</p>
-
+    <p>Recovers a signature from arbitrary data without validation on a given chain.</p>
 
   </div>
 </div>
@@ -818,9 +773,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>that arbitrary data to be recovered.</p>
-</div>
+        <div class='inline'><p>that arbitrary data to be recovered.</p></div>
       
     </li>
   
@@ -834,9 +787,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the hex string containing the signature.</p>
-</div>
+        <div class='inline'><p>the hex string containing the signature.</p></div>
       
     </li>
   
@@ -852,9 +803,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the chain ID the signature should be recovered from.</p>
-</div>
+        <div class='inline'><p>the chain ID the signature should be recovered from.</p></div>
       
     </li>
   
@@ -871,9 +820,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>a hexa-decimal, uncompressed public key.</p>
-</div>
+        <div class='inline'><p>a hexa-decimal, uncompressed public key.</p></div>
       
     </li>
   
@@ -889,9 +836,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>if signature is of invalid size or invalid v.</p>
-</div>
+        <div class='inline'><p>if signature is of invalid size or invalid v.</p></div>
       
     </li>
   
@@ -951,9 +896,9 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Recovers a public key from a typed data structure and a signature on a given chain. (EIP-712) Ref: <a href="https://eips.ethereum.org/EIPS/eip-712">eips.ethereum.org/EIPS/eip-712</a></p>
-
+    <p>Recovers a public key from a typed data structure and a signature
+on a given chain. (EIP-712)
+Ref: <a href="https://eips.ethereum.org/EIPS/eip-712">https://eips.ethereum.org/EIPS/eip-712</a></p>
 
   </div>
 </div>
@@ -971,9 +916,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>all the data in the typed data structure to be recovered.</p>
-</div>
+        <div class='inline'><p>all the data in the typed data structure to be recovered.</p></div>
       
     </li>
   
@@ -987,9 +930,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the hex string containing the signature.</p>
-</div>
+        <div class='inline'><p>the hex string containing the signature.</p></div>
       
     </li>
   
@@ -1005,9 +946,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the chain ID the signature should be recovered from.</p>
-</div>
+        <div class='inline'><p>the chain ID the signature should be recovered from.</p></div>
       
     </li>
   
@@ -1024,9 +963,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>a hexa-decimal, uncompressed public key.</p>
-</div>
+        <div class='inline'><p>a hexa-decimal, uncompressed public key.</p></div>
       
     </li>
   
@@ -1066,9 +1003,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Verifies a signature for a given public key or address.</p>
-
+    <p>Verifies a signature for a given public key or address.</p>
 
   </div>
 </div>
@@ -1086,9 +1021,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>that arbitrary data to be verified.</p>
-</div>
+        <div class='inline'><p>that arbitrary data to be verified.</p></div>
       
     </li>
   
@@ -1102,9 +1035,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the hex string containing the signature.</p>
-</div>
+        <div class='inline'><p>the hex string containing the signature.</p></div>
       
     </li>
   
@@ -1118,9 +1049,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>either a public key or an Ethereum address.</p>
-</div>
+        <div class='inline'><p>either a public key or an Ethereum address.</p></div>
       
     </li>
   
@@ -1136,9 +1065,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the chain ID used to sign.</p>
-</div>
+        <div class='inline'><p>the chain ID used to sign.</p></div>
       
     </li>
   
@@ -1155,9 +1082,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>true if signature matches provided public key.</p>
-</div>
+        <div class='inline'><p>true if signature matches provided public key.</p></div>
       
     </li>
   
@@ -1173,9 +1098,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>if it cannot determine the type of data or public key.</p>
-</div>
+        <div class='inline'><p>if it cannot determine the type of data or public key.</p></div>
       
     </li>
   
@@ -1305,9 +1228,8 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Dissects a signature blob of 65+ bytes into its <code>r</code>, <code>s</code>, and <code>v</code> values.</p>
-
+    <p>Dissects a signature blob of 65+ bytes into its <code>r</code>, <code>s</code>, and <code>v</code>
+values.</p>
 
   </div>
 </div>
@@ -1325,9 +1247,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>a concatenated Secp256k1 signature string.</p>
-</div>
+        <div class='inline'><p>a concatenated Secp256k1 signature string.</p></div>
       
     </li>
   
@@ -1344,9 +1264,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the <code>r</code>, <code>s</code>, and <code>v</code> values.</p>
-</div>
+        <div class='inline'><p>the <code>r</code>, <code>s</code>, and <code>v</code> values.</p></div>
       
     </li>
   
@@ -1362,9 +1280,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>if signature is of unknown size.</p>
-</div>
+        <div class='inline'><p>if signature is of unknown size.</p></div>
       
     </li>
   
@@ -1418,9 +1334,9 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Recovers a public key from a prefixed, personal message and a signature on a given chain. (EIP-191) Ref: <a href="https://eips.ethereum.org/EIPS/eip-191">eips.ethereum.org/EIPS/eip-191</a></p>
-
+    <p>Recovers a public key from a prefixed, personal message and
+a signature on a given chain. (EIP-191)
+Ref: <a href="https://eips.ethereum.org/EIPS/eip-191">https://eips.ethereum.org/EIPS/eip-191</a></p>
 
   </div>
 </div>
@@ -1438,9 +1354,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the message string.</p>
-</div>
+        <div class='inline'><p>the message string.</p></div>
       
     </li>
   
@@ -1454,9 +1368,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the hex string containing the signature.</p>
-</div>
+        <div class='inline'><p>the hex string containing the signature.</p></div>
       
     </li>
   
@@ -1472,9 +1384,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the chain ID the signature should be recovered from.</p>
-</div>
+        <div class='inline'><p>the chain ID the signature should be recovered from.</p></div>
       
     </li>
   
@@ -1491,9 +1401,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>a hexa-decimal, uncompressed public key.</p>
-</div>
+        <div class='inline'><p>a hexa-decimal, uncompressed public key.</p></div>
       
     </li>
   
@@ -1535,9 +1443,10 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Prefix message as per EIP-191 with <code>0x19</code> to ensure the data is not valid RLP and thus not mistaken for a transaction. EIP-191 Version byte: <code>0x45</code> (<code>E</code>) Ref: <a href="https://eips.ethereum.org/EIPS/eip-191">eips.ethereum.org/EIPS/eip-191</a></p>
-
+    <p>Prefix message as per EIP-191 with <code>0x19</code> to ensure the data is not
+valid RLP and thus not mistaken for a transaction.
+EIP-191 Version byte: <code>0x45</code> (<code>E</code>)
+Ref: <a href="https://eips.ethereum.org/EIPS/eip-191">https://eips.ethereum.org/EIPS/eip-191</a></p>
 
   </div>
 </div>
@@ -1555,9 +1464,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the message string to be prefixed.</p>
-</div>
+        <div class='inline'><p>the message string to be prefixed.</p></div>
       
     </li>
   
@@ -1574,9 +1481,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>an EIP-191 prefixed string.</p>
-</div>
+        <div class='inline'><p>an EIP-191 prefixed string.</p></div>
       
     </li>
   
@@ -1614,9 +1519,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Recovers a signature from arbitrary data without validation on a given chain.</p>
-
+    <p>Recovers a signature from arbitrary data without validation on a given chain.</p>
 
   </div>
 </div>
@@ -1634,9 +1537,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>that arbitrary data to be recovered.</p>
-</div>
+        <div class='inline'><p>that arbitrary data to be recovered.</p></div>
       
     </li>
   
@@ -1650,9 +1551,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the hex string containing the signature.</p>
-</div>
+        <div class='inline'><p>the hex string containing the signature.</p></div>
       
     </li>
   
@@ -1668,9 +1567,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the chain ID the signature should be recovered from.</p>
-</div>
+        <div class='inline'><p>the chain ID the signature should be recovered from.</p></div>
       
     </li>
   
@@ -1687,9 +1584,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>a hexa-decimal, uncompressed public key.</p>
-</div>
+        <div class='inline'><p>a hexa-decimal, uncompressed public key.</p></div>
       
     </li>
   
@@ -1705,9 +1600,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>if signature is of invalid size or invalid v.</p>
-</div>
+        <div class='inline'><p>if signature is of invalid size or invalid v.</p></div>
       
     </li>
   
@@ -1767,9 +1660,9 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Recovers a public key from a typed data structure and a signature on a given chain. (EIP-712) Ref: <a href="https://eips.ethereum.org/EIPS/eip-712">eips.ethereum.org/EIPS/eip-712</a></p>
-
+    <p>Recovers a public key from a typed data structure and a signature
+on a given chain. (EIP-712)
+Ref: <a href="https://eips.ethereum.org/EIPS/eip-712">https://eips.ethereum.org/EIPS/eip-712</a></p>
 
   </div>
 </div>
@@ -1787,9 +1680,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>all the data in the typed data structure to be recovered.</p>
-</div>
+        <div class='inline'><p>all the data in the typed data structure to be recovered.</p></div>
       
     </li>
   
@@ -1803,9 +1694,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the hex string containing the signature.</p>
-</div>
+        <div class='inline'><p>the hex string containing the signature.</p></div>
       
     </li>
   
@@ -1821,9 +1710,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the chain ID the signature should be recovered from.</p>
-</div>
+        <div class='inline'><p>the chain ID the signature should be recovered from.</p></div>
       
     </li>
   
@@ -1840,9 +1727,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>a hexa-decimal, uncompressed public key.</p>
-</div>
+        <div class='inline'><p>a hexa-decimal, uncompressed public key.</p></div>
       
     </li>
   
@@ -1882,9 +1767,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Verifies a signature for a given public key or address.</p>
-
+    <p>Verifies a signature for a given public key or address.</p>
 
   </div>
 </div>
@@ -1902,9 +1785,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>that arbitrary data to be verified.</p>
-</div>
+        <div class='inline'><p>that arbitrary data to be verified.</p></div>
       
     </li>
   
@@ -1918,9 +1799,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the hex string containing the signature.</p>
-</div>
+        <div class='inline'><p>the hex string containing the signature.</p></div>
       
     </li>
   
@@ -1934,9 +1813,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>either a public key or an Ethereum address.</p>
-</div>
+        <div class='inline'><p>either a public key or an Ethereum address.</p></div>
       
     </li>
   
@@ -1952,9 +1829,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the chain ID used to sign.</p>
-</div>
+        <div class='inline'><p>the chain ID used to sign.</p></div>
       
     </li>
   
@@ -1971,9 +1846,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>true if signature matches provided public key.</p>
-</div>
+        <div class='inline'><p>true if signature matches provided public key.</p></div>
       
     </li>
   
@@ -1989,9 +1862,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>if it cannot determine the type of data or public key.</p>
-</div>
+        <div class='inline'><p>if it cannot determine the type of data or public key.</p></div>
       
     </li>
   
@@ -2109,9 +1980,9 @@
 </div>
 
       <div id="footer">
-  Generated on Thu Apr  2 13:24:42 2026 by
+  Generated on Thu Jul  2 18:48:20 2026 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.38 (ruby-3.4.9).
+  0.9.44 (ruby-3.4.10).
 </div>
 
     </div>

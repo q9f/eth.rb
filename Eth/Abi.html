@@ -6,13 +6,13 @@
 <title>
   Module: Eth::Abi
   
-    &mdash; Documentation by YARD 0.9.38
+    &mdash; Documentation by YARD 0.9.44
   
 </title>
 
-  <link rel="stylesheet" href="../css/style.css" type="text/css" />
+  <link rel="stylesheet" href="../css/style.css" type="text/css">
 
-  <link rel="stylesheet" href="../css/common.css" type="text/css" />
+  <link rel="stylesheet" href="../css/common.css" type="text/css">
 
 <script type="text/javascript">
   pathId = "Eth::Abi";
@@ -27,6 +27,8 @@
 
   </head>
   <body>
+    <div id="main_progress" aria-hidden="true"></div>
+
     <div class="nav_wrap">
       <iframe id="nav" src="../class_list.html?1"></iframe>
       <div id="resizer"></div>
@@ -88,8 +90,9 @@
   
   <dl>
     <dt>Defined in:</dt>
-    <dd>lib/eth/abi.rb<span class="defines">,<br />
-  lib/eth/abi/type.rb,<br /> lib/eth/abi/event.rb,<br /> lib/eth/abi/decoder.rb,<br /> lib/eth/abi/encoder.rb,<br /> lib/eth/abi/function.rb,<br /> lib/eth/abi/packed/encoder.rb</span>
+    <dd>lib/eth/abi.rb<span class="defines">,<br>
+  lib/eth/abi/type.rb,<br> lib/eth/abi/event.rb,<br> lib/eth/abi/decoder.rb,<br> lib/eth/abi/encoder.rb,<br> lib/eth/abi/function.rb,<br> lib/eth/abi/packed/encoder.rb</span>
+
 </dd>
   </dl>
   
@@ -97,9 +100,7 @@
 
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
-    
-<p>Provides a Ruby implementation of the Ethereum Application Binary Interface (ABI).</p>
-
+    <p>Provides a Ruby implementation of the Ethereum Application Binary Interface (ABI).</p>
 
   </div>
 </div>
@@ -150,9 +151,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Decodes Application Binary Interface (ABI) data.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Decodes Application Binary Interface (ABI) data.</p></div></span>
   
 </li>
 
@@ -174,9 +173,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Encodes Application Binary Interface (ABI) data.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Encodes Application Binary Interface (ABI) data.</p></div></span>
   
 </li>
 
@@ -198,14 +195,13 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Encodes Application Binary Interface (ABI) data in non-standard packed mode.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Encodes Application Binary Interface (ABI) data in non-standard packed mode.</p></div></span>
   
 </li>
 
       
     </ul>
+    
   
     <h2>
       Instance Method Summary
@@ -231,9 +227,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Decodes Application Binary Interface (ABI) data.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Decodes Application Binary Interface (ABI) data.</p></div></span>
   
 </li>
 
@@ -255,9 +249,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Encodes Application Binary Interface (ABI) data.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Encodes Application Binary Interface (ABI) data.</p></div></span>
   
 </li>
 
@@ -279,14 +271,13 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Encodes Application Binary Interface (ABI) data in non-standard packed mode.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Encodes Application Binary Interface (ABI) data in non-standard packed mode.</p></div></span>
   
 </li>
 
       
     </ul>
+    
   
 
 
@@ -306,9 +297,8 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Decodes Application Binary Interface (ABI) data. It accepts multiple arguments and decodes using the head/tail mechanism.</p>
-
+    <p>Decodes Application Binary Interface (ABI) data. It accepts multiple
+arguments and decodes using the head/tail mechanism.</p>
 
   </div>
 </div>
@@ -326,9 +316,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the ABI to be decoded.</p>
-</div>
+        <div class='inline'><p>the ABI to be decoded.</p></div>
       
     </li>
   
@@ -342,9 +330,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>ABI data to be decoded.</p>
-</div>
+        <div class='inline'><p>ABI data to be decoded.</p></div>
       
     </li>
   
@@ -361,9 +347,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the decoded ABI data.</p>
-</div>
+        <div class='inline'><p>the decoded ABI data.</p></div>
       
     </li>
   
@@ -508,9 +492,8 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Encodes Application Binary Interface (ABI) data. It accepts multiple arguments and encodes using the head/tail mechanism.</p>
-
+    <p>Encodes Application Binary Interface (ABI) data. It accepts multiple
+arguments and encodes using the head/tail mechanism.</p>
 
   </div>
 </div>
@@ -528,9 +511,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>types to be ABI-encoded.</p>
-</div>
+        <div class='inline'><p>types to be ABI-encoded.</p></div>
       
     </li>
   
@@ -544,9 +525,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>values to be ABI-encoded.</p>
-</div>
+        <div class='inline'><p>values to be ABI-encoded.</p></div>
       
     </li>
   
@@ -562,9 +541,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>set true to return packed encoding (default: <code>false</code>).</p>
-</div>
+        <div class='inline'><p>set true to return packed encoding (default: <code>false</code>).</p></div>
       
     </li>
   
@@ -581,9 +558,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the encoded ABI data.</p>
-</div>
+        <div class='inline'><p>the encoded ABI data.</p></div>
       
     </li>
   
@@ -684,9 +659,8 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Encodes Application Binary Interface (ABI) data in non-standard packed mode. It accepts multiple arguments and encodes using the head/tail mechanism.</p>
-
+    <p>Encodes Application Binary Interface (ABI) data in non-standard packed mode.
+It accepts multiple arguments and encodes using the head/tail mechanism.</p>
 
   </div>
 </div>
@@ -704,9 +678,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>types to be ABI-encoded.</p>
-</div>
+        <div class='inline'><p>types to be ABI-encoded.</p></div>
       
     </li>
   
@@ -720,9 +692,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>values to be ABI-encoded.</p>
-</div>
+        <div class='inline'><p>values to be ABI-encoded.</p></div>
       
     </li>
   
@@ -739,9 +709,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the encoded packed ABI data.</p>
-</div>
+        <div class='inline'><p>the encoded packed ABI data.</p></div>
       
     </li>
   
@@ -757,9 +725,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>if types and args are of different size.</p>
-</div>
+        <div class='inline'><p>if types and args are of different size.</p></div>
       
     </li>
   
@@ -821,9 +787,8 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Decodes Application Binary Interface (ABI) data. It accepts multiple arguments and decodes using the head/tail mechanism.</p>
-
+    <p>Decodes Application Binary Interface (ABI) data. It accepts multiple
+arguments and decodes using the head/tail mechanism.</p>
 
   </div>
 </div>
@@ -841,9 +806,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the ABI to be decoded.</p>
-</div>
+        <div class='inline'><p>the ABI to be decoded.</p></div>
       
     </li>
   
@@ -857,9 +820,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>ABI data to be decoded.</p>
-</div>
+        <div class='inline'><p>ABI data to be decoded.</p></div>
       
     </li>
   
@@ -876,9 +837,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the decoded ABI data.</p>
-</div>
+        <div class='inline'><p>the decoded ABI data.</p></div>
       
     </li>
   
@@ -1023,9 +982,8 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Encodes Application Binary Interface (ABI) data. It accepts multiple arguments and encodes using the head/tail mechanism.</p>
-
+    <p>Encodes Application Binary Interface (ABI) data. It accepts multiple
+arguments and encodes using the head/tail mechanism.</p>
 
   </div>
 </div>
@@ -1043,9 +1001,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>types to be ABI-encoded.</p>
-</div>
+        <div class='inline'><p>types to be ABI-encoded.</p></div>
       
     </li>
   
@@ -1059,9 +1015,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>values to be ABI-encoded.</p>
-</div>
+        <div class='inline'><p>values to be ABI-encoded.</p></div>
       
     </li>
   
@@ -1077,9 +1031,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>set true to return packed encoding (default: <code>false</code>).</p>
-</div>
+        <div class='inline'><p>set true to return packed encoding (default: <code>false</code>).</p></div>
       
     </li>
   
@@ -1096,9 +1048,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the encoded ABI data.</p>
-</div>
+        <div class='inline'><p>the encoded ABI data.</p></div>
       
     </li>
   
@@ -1199,9 +1149,8 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Encodes Application Binary Interface (ABI) data in non-standard packed mode. It accepts multiple arguments and encodes using the head/tail mechanism.</p>
-
+    <p>Encodes Application Binary Interface (ABI) data in non-standard packed mode.
+It accepts multiple arguments and encodes using the head/tail mechanism.</p>
 
   </div>
 </div>
@@ -1219,9 +1168,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>types to be ABI-encoded.</p>
-</div>
+        <div class='inline'><p>types to be ABI-encoded.</p></div>
       
     </li>
   
@@ -1235,9 +1182,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>values to be ABI-encoded.</p>
-</div>
+        <div class='inline'><p>values to be ABI-encoded.</p></div>
       
     </li>
   
@@ -1254,9 +1199,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the encoded packed ABI data.</p>
-</div>
+        <div class='inline'><p>the encoded packed ABI data.</p></div>
       
     </li>
   
@@ -1272,9 +1215,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>if types and args are of different size.</p>
-</div>
+        <div class='inline'><p>if types and args are of different size.</p></div>
       
     </li>
   
@@ -1324,9 +1265,9 @@
 </div>
 
       <div id="footer">
-  Generated on Thu Apr  2 13:24:41 2026 by
+  Generated on Thu Jul  2 18:48:19 2026 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.38 (ruby-3.4.9).
+  0.9.44 (ruby-3.4.10).
 </div>
 
     </div>

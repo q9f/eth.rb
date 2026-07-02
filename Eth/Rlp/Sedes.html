@@ -6,13 +6,13 @@
 <title>
   Module: Eth::Rlp::Sedes
   
-    &mdash; Documentation by YARD 0.9.38
+    &mdash; Documentation by YARD 0.9.44
   
 </title>
 
-  <link rel="stylesheet" href="../../css/style.css" type="text/css" />
+  <link rel="stylesheet" href="../../css/style.css" type="text/css">
 
-  <link rel="stylesheet" href="../../css/common.css" type="text/css" />
+  <link rel="stylesheet" href="../../css/common.css" type="text/css">
 
 <script type="text/javascript">
   pathId = "Eth::Rlp::Sedes";
@@ -27,6 +27,8 @@
 
   </head>
   <body>
+    <div id="main_progress" aria-hidden="true"></div>
+
     <div class="nav_wrap">
       <iframe id="nav" src="../../class_list.html?1"></iframe>
       <div id="resizer"></div>
@@ -78,8 +80,9 @@
   
   <dl>
     <dt>Defined in:</dt>
-    <dd>lib/eth/rlp/sedes.rb<span class="defines">,<br />
-  lib/eth/rlp/sedes/list.rb,<br /> lib/eth/rlp/sedes/binary.rb,<br /> lib/eth/rlp/sedes/big_endian_int.rb</span>
+    <dd>lib/eth/rlp/sedes.rb<span class="defines">,<br>
+  lib/eth/rlp/sedes/list.rb,<br> lib/eth/rlp/sedes/binary.rb,<br> lib/eth/rlp/sedes/big_endian_int.rb</span>
+
 </dd>
   </dl>
   
@@ -87,9 +90,7 @@
 
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
-    
-<p>Provides serializable and deserializable types (SeDes).</p>
-
+    <p>Provides serializable and deserializable types (SeDes).</p>
 
   </div>
 </div>
@@ -138,9 +139,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>A utility to use a big-endian, unsigned integer sedes type with unspecified length.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>A utility to use a big-endian, unsigned integer sedes type with unspecified length.</p></div></span>
   
 </li>
 
@@ -162,9 +161,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>A utility to use a binary sedes type.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>A utility to use a binary sedes type.</p></div></span>
   
 </li>
 
@@ -186,9 +183,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Tries to find a sedes objects suitable for a given Ruby object.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Tries to find a sedes objects suitable for a given Ruby object.</p></div></span>
   
 </li>
 
@@ -210,14 +205,13 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Determines if an object is a sedes object.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Determines if an object is a sedes object.</p></div></span>
   
 </li>
 
       
     </ul>
+    
   
 
 
@@ -237,9 +231,8 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>A utility to use a big-endian, unsigned integer sedes type with unspecified length.</p>
-
+    <p>A utility to use a big-endian, unsigned integer sedes type with
+unspecified length.</p>
 
   </div>
 </div>
@@ -256,9 +249,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>a big-endian, unsigned integer sedes.</p>
-</div>
+        <div class='inline'><p>a big-endian, unsigned integer sedes.</p></div>
       
     </li>
   
@@ -296,9 +287,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>A utility to use a binary sedes type.</p>
-
+    <p>A utility to use a binary sedes type.</p>
 
   </div>
 </div>
@@ -315,9 +304,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>a binary sedes.</p>
-</div>
+        <div class='inline'><p>a binary sedes.</p></div>
       
     </li>
   
@@ -355,11 +342,10 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Tries to find a sedes objects suitable for a given Ruby object.</p>
-
-<p>The sedes objects considered are <code>obj</code>‘s class, <span class='object_link'><a href="#big_endian_int-class_method" title="Eth::Rlp::Sedes.big_endian_int (method)">big_endian_int</a></span> and <span class='object_link'><a href="#binary-class_method" title="Eth::Rlp::Sedes.binary (method)">binary</a></span>. If <code>obj</code> is a list, an <span class='object_link'><a href="Sedes/List.html" title="Eth::Rlp::Sedes::List (class)">List</a></span> will be constructed recursively.</p>
-
+    <p>Tries to find a sedes objects suitable for a given Ruby object.</p>
+<p>The sedes objects considered are <code>obj</code>'s class, <span class='object_link'><a href="#big_endian_int-class_method" title="Eth::Rlp::Sedes.big_endian_int (method)">big_endian_int</a></span> and
+<span class='object_link'><a href="#binary-class_method" title="Eth::Rlp::Sedes.binary (method)">binary</a></span>. If <code>obj</code> is a list, an <span class='object_link'><a href="Sedes/List.html" title="Eth::Rlp::Sedes::List (class)">List</a></span> will be
+constructed recursively.</p>
 
   </div>
 </div>
@@ -377,9 +363,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the Ruby object for which to find a sedes object.</p>
-</div>
+        <div class='inline'><p>the Ruby object for which to find a sedes object.</p></div>
       
     </li>
   
@@ -396,9 +380,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>if no appropriate sedes could be found.</p>
-</div>
+        <div class='inline'><p>if no appropriate sedes could be found.</p></div>
       
     </li>
   
@@ -444,9 +426,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Determines if an object is a sedes object.</p>
-
+    <p>Determines if an object is a sedes object.</p>
 
   </div>
 </div>
@@ -464,9 +444,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the object to check.</p>
-</div>
+        <div class='inline'><p>the object to check.</p></div>
       
     </li>
   
@@ -483,9 +461,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>true if it’s serializable and deserializable.</p>
-</div>
+        <div class='inline'><p>true if it's serializable and deserializable.</p></div>
       
     </li>
   
@@ -517,9 +493,9 @@
 </div>
 
       <div id="footer">
-  Generated on Thu Apr  2 13:24:42 2026 by
+  Generated on Thu Jul  2 18:48:20 2026 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.38 (ruby-3.4.9).
+  0.9.44 (ruby-3.4.10).
 </div>
 
     </div>

@@ -6,13 +6,13 @@
 <title>
   Class: Eth::Abi::Type
   
-    &mdash; Documentation by YARD 0.9.38
+    &mdash; Documentation by YARD 0.9.44
   
 </title>
 
-  <link rel="stylesheet" href="../../css/style.css" type="text/css" />
+  <link rel="stylesheet" href="../../css/style.css" type="text/css">
 
-  <link rel="stylesheet" href="../../css/common.css" type="text/css" />
+  <link rel="stylesheet" href="../../css/common.css" type="text/css">
 
 <script type="text/javascript">
   pathId = "Eth::Abi::Type";
@@ -27,6 +27,8 @@
 
   </head>
   <body>
+    <div id="main_progress" aria-hidden="true"></div>
+
     <div class="nav_wrap">
       <iframe id="nav" src="../../class_list.html?1"></iframe>
       <div id="resizer"></div>
@@ -94,16 +96,15 @@
   
   <dl>
     <dt>Defined in:</dt>
-    <dd>lib/eth/abi/type.rb</dd>
+    <dd>lib/eth/abi/type.rb
+</dd>
   </dl>
   
 </div>
 
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
-    
-<p>Provides a class to handle and parse common ABI types.</p>
-
+    <p>Provides a class to handle and parse common ABI types.</p>
 
   </div>
 </div>
@@ -149,9 +150,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>The base attribute, e.g., <code>string</code> or <code>bytes</code>.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>The base attribute, e.g., <code>string</code> or <code>bytes</code>.</p></div></span>
   
 </li>
 
@@ -178,9 +177,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>The components of a tuple type.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>The components of a tuple type.</p></div></span>
   
 </li>
 
@@ -207,9 +204,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>The dimension attribute, e.g., <code>[10]</code> for an array of size 10.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>The dimension attribute, e.g., <code>[10]</code> for an array of size 10.</p></div></span>
   
 </li>
 
@@ -236,9 +231,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>The name of tuple component.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>The name of tuple component.</p></div></span>
   
 </li>
 
@@ -265,9 +258,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>The sub-type attribute, e.g., <code>256</code> as size of an uint256.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>The sub-type attribute, e.g., <code>256</code> as size of an uint256.</p></div></span>
   
 </li>
 
@@ -302,14 +293,13 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Creates a new uint256 type used for size.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Creates a new uint256 type used for size.</p></div></span>
   
 </li>
 
       
     </ul>
+    
   
     <h2>
       Instance Method Summary
@@ -335,9 +325,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Compares two types for their attributes.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Compares two types for their attributes.</p></div></span>
   
 </li>
 
@@ -359,9 +347,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Helpes to determine whether array is of dynamic size.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Helpes to determine whether array is of dynamic size.</p></div></span>
   
 </li>
 
@@ -385,9 +371,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Create a new Type object for base types, sub types, and dimensions.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Create a new Type object for base types, sub types, and dimensions.</p></div></span>
   
 </li>
 
@@ -409,9 +393,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Types can have nested sub-types in arrays.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Types can have nested sub-types in arrays.</p></div></span>
   
 </li>
 
@@ -433,9 +415,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Attempts to parse a string containing a common Solidity type.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Attempts to parse a string containing a common Solidity type.</p></div></span>
   
 </li>
 
@@ -457,9 +437,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Computes the size of a type if possible.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Computes the size of a type if possible.</p></div></span>
   
 </li>
 
@@ -481,14 +459,13 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Allows exporting the type as string.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Allows exporting the type as string.</p></div></span>
   
 </li>
 
       
     </ul>
+    
   
 
 <div id="constructor_details" class="method_details_list">
@@ -505,9 +482,8 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Create a new Type object for base types, sub types, and dimensions. Should not be used; use <span class='object_link'><a href="#parse-instance_method" title="Eth::Abi::Type#parse (method)">#parse</a></span> instead.</p>
-
+    <p>Create a new Type object for base types, sub types, and dimensions.
+Should not be used; use <span class='object_link'><a href="#parse-instance_method" title="Eth::Abi::Type#parse (method)">#parse</a></span> instead.</p>
 
   </div>
 </div>
@@ -525,9 +501,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the base-type attribute.</p>
-</div>
+        <div class='inline'><p>the base-type attribute.</p></div>
       
     </li>
   
@@ -541,9 +515,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the sub-type attribute.</p>
-</div>
+        <div class='inline'><p>the sub-type attribute.</p></div>
       
     </li>
   
@@ -557,9 +529,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the dimension attribute.</p>
-</div>
+        <div class='inline'><p>the dimension attribute.</p></div>
       
     </li>
   
@@ -575,9 +545,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the components attribute.</p>
-</div>
+        <div class='inline'><p>the components attribute.</p></div>
       
     </li>
   
@@ -593,9 +561,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the tuple component’s name.</p>
-</div>
+        <div class='inline'><p>the tuple component's name.</p></div>
       
     </li>
   
@@ -651,9 +617,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>The base attribute, e.g., <code>string</code> or <code>bytes</code>.</p>
-
+    <p>The base attribute, e.g., <code>string</code> or <code>bytes</code>.</p>
 
   </div>
 </div>
@@ -694,9 +658,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>The components of a tuple type.</p>
-
+    <p>The components of a tuple type.</p>
 
   </div>
 </div>
@@ -737,9 +699,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>The dimension attribute, e.g., <code>[10]</code> for an array of size 10.</p>
-
+    <p>The dimension attribute, e.g., <code>[10]</code> for an array of size 10.</p>
 
   </div>
 </div>
@@ -780,9 +740,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>The name of tuple component.</p>
-
+    <p>The name of tuple component.</p>
 
   </div>
 </div>
@@ -823,9 +781,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>The sub-type attribute, e.g., <code>256</code> as size of an uint256.</p>
-
+    <p>The sub-type attribute, e.g., <code>256</code> as size of an uint256.</p>
 
   </div>
 </div>
@@ -871,9 +827,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Creates a new uint256 type used for size.</p>
-
+    <p>Creates a new uint256 type used for size.</p>
 
   </div>
 </div>
@@ -890,9 +844,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>a uint256 size type.</p>
-</div>
+        <div class='inline'><p>a uint256 size type.</p></div>
       
     </li>
   
@@ -936,9 +888,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Compares two types for their attributes.</p>
-
+    <p>Compares two types for their attributes.</p>
 
   </div>
 </div>
@@ -956,9 +906,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>another type to be compared.</p>
-</div>
+        <div class='inline'><p>another type to be compared.</p></div>
       
     </li>
   
@@ -975,9 +923,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>true if all attributes match.</p>
-</div>
+        <div class='inline'><p>true if all attributes match.</p></div>
       
     </li>
   
@@ -1019,9 +965,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Helpes to determine whether array is of dynamic size.</p>
-
+    <p>Helpes to determine whether array is of dynamic size.</p>
 
   </div>
 </div>
@@ -1038,9 +982,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>true if array is of dynamic size.</p>
-</div>
+        <div class='inline'><p>true if array is of dynamic size.</p></div>
       
     </li>
   
@@ -1078,9 +1020,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Types can have nested sub-types in arrays.</p>
-
+    <p>Types can have nested sub-types in arrays.</p>
 
   </div>
 </div>
@@ -1097,9 +1037,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>nested sub-type.</p>
-</div>
+        <div class='inline'><p>nested sub-type.</p></div>
       
     </li>
   
@@ -1137,9 +1075,8 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Attempts to parse a string containing a common Solidity type. Creates a new Type upon success (using konstructor).</p>
-
+    <p>Attempts to parse a string containing a common Solidity type.
+Creates a new Type upon success (using konstructor).</p>
 
   </div>
 </div>
@@ -1157,9 +1094,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>a common Solidity type.</p>
-</div>
+        <div class='inline'><p>a common Solidity type.</p></div>
       
     </li>
   
@@ -1175,9 +1110,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the components attribute.</p>
-</div>
+        <div class='inline'><p>the components attribute.</p></div>
       
     </li>
   
@@ -1193,9 +1126,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the tuple component’s name.</p>
-</div>
+        <div class='inline'><p>the tuple component's name.</p></div>
       
     </li>
   
@@ -1212,9 +1143,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>a parsed Type object.</p>
-</div>
+        <div class='inline'><p>a parsed Type object.</p></div>
       
     </li>
   
@@ -1230,9 +1159,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>if it fails to parse the type.</p>
-</div>
+        <div class='inline'><p>if it fails to parse the type.</p></div>
       
     </li>
   
@@ -1352,9 +1279,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Computes the size of a type if possible.</p>
-
+    <p>Computes the size of a type if possible.</p>
 
   </div>
 </div>
@@ -1371,9 +1296,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the size of the type; or nil if not available.</p>
-</div>
+        <div class='inline'><p>the size of the type; or nil if not available.</p></div>
       
     </li>
   
@@ -1431,9 +1354,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Allows exporting the type as string.</p>
-
+    <p>Allows exporting the type as string.</p>
 
   </div>
 </div>
@@ -1450,9 +1371,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the type string.</p>
-</div>
+        <div class='inline'><p>the type string.</p></div>
       
     </li>
   
@@ -1504,9 +1423,9 @@
 </div>
 
       <div id="footer">
-  Generated on Thu Apr  2 13:24:43 2026 by
+  Generated on Thu Jul  2 18:48:20 2026 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.38 (ruby-3.4.9).
+  0.9.44 (ruby-3.4.10).
 </div>
 
     </div>

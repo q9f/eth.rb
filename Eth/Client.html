@@ -6,13 +6,13 @@
 <title>
   Class: Eth::Client
   
-    &mdash; Documentation by YARD 0.9.38
+    &mdash; Documentation by YARD 0.9.44
   
 </title>
 
-  <link rel="stylesheet" href="../css/style.css" type="text/css" />
+  <link rel="stylesheet" href="../css/style.css" type="text/css">
 
-  <link rel="stylesheet" href="../css/common.css" type="text/css" />
+  <link rel="stylesheet" href="../css/common.css" type="text/css">
 
 <script type="text/javascript">
   pathId = "Eth::Client";
@@ -27,6 +27,8 @@
 
   </head>
   <body>
+    <div id="main_progress" aria-hidden="true"></div>
+
     <div class="nav_wrap">
       <iframe id="nav" src="../class_list.html?1"></iframe>
       <div id="resizer"></div>
@@ -94,27 +96,23 @@
   
   <dl>
     <dt>Defined in:</dt>
-    <dd>lib/eth/client.rb</dd>
+    <dd>lib/eth/client.rb
+</dd>
   </dl>
   
 </div>
 
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
-    
-<p>Provides the <span class='object_link'><a href="" title="Eth::Client (class)">Client</a></span> super-class to connect to Ethereum network’s RPC-API endpoints (IPC, HTTP/S, or WS/S).</p>
-
+    <p>Provides the <span class='object_link'><a href="" title="Eth::Client (class)">Client</a></span> super-class to connect to Ethereum
+network's RPC-API endpoints (IPC, HTTP/S, or WS/S).</p>
 
   </div>
 </div>
 <div class="tags">
   
 
-</div><div id="subclasses">
-  <h2>Direct Known Subclasses</h2>
-  <p class="children"><span class='object_link'><a href="Client/Http.html" title="Eth::Client::Http (class)">Http</a></span>, <span class='object_link'><a href="Client/Ipc.html" title="Eth::Client::Ipc (class)">Ipc</a></span>, <span class='object_link'><a href="Client/Ws.html" title="Eth::Client::Ws (class)">Ws</a></span></p>
-</div>
-<h2>Defined Under Namespace</h2>
+</div><h2>Defined Under Namespace</h2>
 <p class="children">
   
     
@@ -151,9 +149,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>The block number used for archive calls.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>The block number used for archive calls.</p></div></span>
   
 </li>
 
@@ -180,9 +176,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Gets the chain ID of the connected network.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Gets the chain ID of the connected network.</p></div></span>
   
 </li>
 
@@ -207,9 +201,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Gets the default account (first account) of the connected client.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Gets the default account (first account) of the connected client.</p></div></span>
   
 </li>
 
@@ -236,9 +228,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>The client’s RPC-request ID starting at 0.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>The client's RPC-request ID starting at 0.</p></div></span>
   
 </li>
 
@@ -263,9 +253,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>The default transaction max fee per gas in Wei, defaults to <span class='object_link'><a href="Tx.html#DEFAULT_GAS_PRICE-constant" title="Eth::Tx::DEFAULT_GAS_PRICE (constant)">Tx::DEFAULT_GAS_PRICE</a></span>.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>The default transaction max fee per gas in Wei, defaults to <span class='object_link'><a href="Tx.html#DEFAULT_GAS_PRICE-constant" title="Eth::Tx::DEFAULT_GAS_PRICE (constant)">Tx::DEFAULT_GAS_PRICE</a></span>.</p></div></span>
   
 </li>
 
@@ -290,9 +278,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>The default transaction max priority fee per gas in Wei, defaults to <span class='object_link'><a href="Tx.html#DEFAULT_PRIORITY_FEE-constant" title="Eth::Tx::DEFAULT_PRIORITY_FEE (constant)">Tx::DEFAULT_PRIORITY_FEE</a></span>.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>The default transaction max priority fee per gas in Wei, defaults to <span class='object_link'><a href="Tx.html#DEFAULT_PRIORITY_FEE-constant" title="Eth::Tx::DEFAULT_PRIORITY_FEE (constant)">Tx::DEFAULT_PRIORITY_FEE</a></span>.</p></div></span>
   
 </li>
 
@@ -327,14 +313,13 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Creates a new RPC-Client, either by providing an HTTP/S host, WS/S host, or an IPC path.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Creates a new RPC-Client, either by providing an HTTP/S host, WS/S host, or an IPC path.</p></div></span>
   
 </li>
 
       
     </ul>
+    
   
     <h2>
       Instance Method Summary
@@ -360,9 +345,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Calls a contract function without executing it (non-transactional contract read).</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Calls a contract function without executing it (non-transactional contract read).</p></div></span>
   
 </li>
 
@@ -384,9 +367,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Deploys a contract.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Deploys a contract.</p></div></span>
   
 </li>
 
@@ -408,9 +389,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Deploys a contract and waits for it to be mined.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Deploys a contract and waits for it to be mined.</p></div></span>
   
 </li>
 
@@ -432,9 +411,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Gets the balance for an address.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Gets the balance for an address.</p></div></span>
   
 </li>
 
@@ -456,9 +433,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Gets the next nonce for an address used to draft new transactions.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Gets the next nonce for an address used to draft new transactions.</p></div></span>
   
 </li>
 
@@ -482,9 +457,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Constructor for the <span class='object_link'><a href="" title="Eth::Client (class)">Client</a></span> super-class.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Constructor for the <span class='object_link'><a href="" title="Eth::Client (class)">Client</a></span> super-class.</p></div></span>
   
 </li>
 
@@ -506,9 +479,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Provides an interface to call <code>isValidSignature</code> as per EIP-1271 on a given smart contract to verify the given hash and signature matching the magic value.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Provides an interface to call <code>isValidSignature</code> as per EIP-1271 on a given smart contract to verify the given hash and signature matching the magic value.</p></div></span>
   
 </li>
 
@@ -530,9 +501,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Gives control over resetting the RPC request ID back to zero.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Gives control over resetting the RPC request ID back to zero.</p></div></span>
   
 </li>
 
@@ -554,9 +523,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Resolves an ENS name to an Ethereum address on the connected chain.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Resolves an ENS name to an Ethereum address on the connected chain.</p></div></span>
   
 </li>
 
@@ -578,9 +545,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Executes a contract function with a transaction (transactional contract read/write).</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Executes a contract function with a transaction (transactional contract read/write).</p></div></span>
   
 </li>
 
@@ -602,9 +567,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Executes a contract function with a transaction and waits for it to be mined (transactional contract read/write).</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Executes a contract function with a transaction and waits for it to be mined (transactional contract read/write).</p></div></span>
   
 </li>
 
@@ -626,9 +589,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Simply transfer Ether to an account without any call data or access lists attached.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Simply transfer Ether to an account without any call data or access lists attached.</p></div></span>
   
 </li>
 
@@ -650,9 +611,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Simply transfer Ether to an account and waits for it to be mined.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Simply transfer Ether to an account and waits for it to be mined.</p></div></span>
   
 </li>
 
@@ -674,9 +633,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Transfers a token that implements the ERC20 <code>transfer()</code> interface.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Transfers a token that implements the ERC20 <code>transfer()</code> interface.</p></div></span>
   
 </li>
 
@@ -698,9 +655,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Transfers a token that implements the ERC20 <code>transfer()</code> interface.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Transfers a token that implements the ERC20 <code>transfer()</code> interface.</p></div></span>
   
 </li>
 
@@ -722,9 +677,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Checks whether a transaction is mined or not.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Checks whether a transaction is mined or not.</p></div></span>
   
 </li>
 
@@ -746,9 +699,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Checks whether a contract transaction succeeded or not.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Checks whether a contract transaction succeeded or not.</p></div></span>
   
 </li>
 
@@ -770,14 +721,13 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Waits for an transaction to be mined by the connected chain.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Waits for an transaction to be mined by the connected chain.</p></div></span>
   
 </li>
 
       
     </ul>
+    
   
 
 <div id="constructor_details" class="method_details_list">
@@ -794,9 +744,8 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Constructor for the <span class='object_link'><a href="" title="Eth::Client (class)">Eth::Client</a></span> super-class. Should not be used; use <span class='object_link'><a href="#create-class_method" title="Eth::Client.create (method)">create</a></span> intead.</p>
-
+    <p>Constructor for the <span class='object_link'><a href="" title="Eth::Client (class)">Eth::Client</a></span> super-class. Should not be used;
+use <span class='object_link'><a href="#create-class_method" title="Eth::Client.create (method)">create</a></span> intead.</p>
 
   </div>
 </div>
@@ -846,9 +795,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>The block number used for archive calls.</p>
-
+    <p>The block number used for archive calls.</p>
 
   </div>
 </div>
@@ -889,9 +836,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Gets the chain ID of the connected network.</p>
-
+    <p>Gets the chain ID of the connected network.</p>
 
   </div>
 </div>
@@ -908,9 +853,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the chain ID.</p>
-</div>
+        <div class='inline'><p>the chain ID.</p></div>
       
     </li>
   
@@ -950,11 +893,9 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Gets the default account (first account) of the connected client.</p>
-
-<p><strong>Note</strong>, that many remote providers (e.g., Infura) do not provide any accounts.</p>
-
+    <p>Gets the default account (first account) of the connected client.</p>
+<p><strong>Note</strong>, that many remote providers (e.g., Infura) do not provide
+any accounts.</p>
 
   </div>
 </div>
@@ -971,9 +912,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the default account address.</p>
-</div>
+        <div class='inline'><p>the default account address.</p></div>
       
     </li>
   
@@ -1026,9 +965,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>The client’s RPC-request ID starting at 0.</p>
-
+    <p>The client's RPC-request ID starting at 0.</p>
 
   </div>
 </div>
@@ -1069,9 +1006,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>The default transaction max fee per gas in Wei, defaults to <span class='object_link'><a href="Tx.html#DEFAULT_GAS_PRICE-constant" title="Eth::Tx::DEFAULT_GAS_PRICE (constant)">Tx::DEFAULT_GAS_PRICE</a></span>.</p>
-
+    <p>The default transaction max fee per gas in Wei, defaults to <span class='object_link'><a href="Tx.html#DEFAULT_GAS_PRICE-constant" title="Eth::Tx::DEFAULT_GAS_PRICE (constant)">Tx::DEFAULT_GAS_PRICE</a></span>.</p>
 
   </div>
 </div>
@@ -1112,9 +1047,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>The default transaction max priority fee per gas in Wei, defaults to <span class='object_link'><a href="Tx.html#DEFAULT_PRIORITY_FEE-constant" title="Eth::Tx::DEFAULT_PRIORITY_FEE (constant)">Tx::DEFAULT_PRIORITY_FEE</a></span>.</p>
-
+    <p>The default transaction max priority fee per gas in Wei, defaults to <span class='object_link'><a href="Tx.html#DEFAULT_PRIORITY_FEE-constant" title="Eth::Tx::DEFAULT_PRIORITY_FEE (constant)">Tx::DEFAULT_PRIORITY_FEE</a></span>.</p>
 
   </div>
 </div>
@@ -1160,11 +1093,11 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Creates a new RPC-Client, either by providing an HTTP/S host, WS/S host, or an IPC path. Supports basic authentication with username and password.</p>
-
-<p><strong>Note</strong>, this sets the following gas defaults: <span class='object_link'><a href="Tx.html#DEFAULT_PRIORITY_FEE-constant" title="Eth::Tx::DEFAULT_PRIORITY_FEE (constant)">Tx::DEFAULT_PRIORITY_FEE</a></span> and <span class='object_link'><a href="Tx.html#DEFAULT_GAS_PRICE-constant" title="Eth::Tx::DEFAULT_GAS_PRICE (constant)">Use {#max_priority_fee_per_gas</a></span> and <span class='object_link'><a href="#max_fee_per_gas-instance_method" title="Eth::Client#max_fee_per_gas (method)">#max_fee_per_gas</a></span> to set custom values prior to submitting transactions.</p>
-
+    <p>Creates a new RPC-Client, either by providing an HTTP/S host, WS/S host,
+or an IPC path. Supports basic authentication with username and password.</p>
+<p><strong>Note</strong>, this sets the following gas defaults: <span class='object_link'><a href="Tx.html#DEFAULT_PRIORITY_FEE-constant" title="Eth::Tx::DEFAULT_PRIORITY_FEE (constant)">Tx::DEFAULT_PRIORITY_FEE</a></span>
+and <span class='object_link'><a href="Tx.html#DEFAULT_GAS_PRICE-constant" title="Eth::Tx::DEFAULT_GAS_PRICE (constant)">Use {#max_priority_fee_per_gas</a></span> and
+<span class='object_link'><a href="#max_fee_per_gas-instance_method" title="Eth::Client#max_fee_per_gas (method)">#max_fee_per_gas</a></span> to set custom values prior to submitting transactions.</p>
 
   </div>
 </div>
@@ -1182,9 +1115,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>either an HTTP/S host, WS/S host, or an IPC path.</p>
-</div>
+        <div class='inline'><p>either an HTTP/S host, WS/S host, or an IPC path.</p></div>
       
     </li>
   
@@ -1201,9 +1132,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>an IPC client.</p>
-</div>
+        <div class='inline'><p>an IPC client.</p></div>
       
     </li>
   
@@ -1215,9 +1144,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>an HTTP client.</p>
-</div>
+        <div class='inline'><p>an HTTP client.</p></div>
       
     </li>
   
@@ -1229,9 +1156,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>a WebSocket client.</p>
-</div>
+        <div class='inline'><p>a WebSocket client.</p></div>
       
     </li>
   
@@ -1247,9 +1172,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>in case it cannot determine the client type.</p>
-</div>
+        <div class='inline'><p>in case it cannot determine the client type.</p></div>
       
     </li>
   
@@ -1305,9 +1228,8 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Calls a contract function without executing it (non-transactional contract read).</p>
-
+    <p>Calls a contract function without executing it
+(non-transactional contract read).</p>
 
   </div>
 </div>
@@ -1339,9 +1261,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the subject contract to call.</p>
-</div>
+        <div class='inline'><p>the subject contract to call.</p></div>
       
     </li>
   
@@ -1355,9 +1275,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>method name to be called.</p>
-</div>
+        <div class='inline'><p>method name to be called.</p></div>
       
     </li>
   
@@ -1390,9 +1308,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the subject contract to call.</p>
-</div>
+        <div class='inline'><p>the subject contract to call.</p></div>
       
     </li>
   
@@ -1406,9 +1322,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>method name to be called.</p>
-</div>
+        <div class='inline'><p>method name to be called.</p></div>
       
     </li>
   
@@ -1422,9 +1336,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>optional function arguments.</p>
-</div>
+        <div class='inline'><p>optional function arguments.</p></div>
       
     </li>
   
@@ -1457,9 +1369,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the subject contract to call.</p>
-</div>
+        <div class='inline'><p>the subject contract to call.</p></div>
       
     </li>
   
@@ -1473,9 +1383,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>method name to be called.</p>
-</div>
+        <div class='inline'><p>method name to be called.</p></div>
       
     </li>
   
@@ -1489,9 +1397,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>optional function arguments.</p>
-</div>
+        <div class='inline'><p>optional function arguments.</p></div>
       
     </li>
   
@@ -1505,9 +1411,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the sender private key.</p>
-</div>
+        <div class='inline'><p>the sender private key.</p></div>
       
     </li>
   
@@ -1521,9 +1425,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>enables legacy transactions (pre-EIP-1559).</p>
-</div>
+        <div class='inline'><p>enables legacy transactions (pre-EIP-1559).</p></div>
       
     </li>
   
@@ -1546,9 +1448,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>returns the result of the call.</p>
-</div>
+        <div class='inline'><p>returns the result of the call.</p></div>
       
     </li>
   
@@ -1637,11 +1537,10 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Deploys a contract. Uses <code>eth_accounts</code> or external signer if no sender key is provided.</p>
-
-<p><strong>Note</strong>, that many remote providers (e.g., Infura) do not provide any accounts. Provide a <code>sender_key:</code> if you experience issues.</p>
-
+    <p>Deploys a contract. Uses <code>eth_accounts</code> or external signer
+if no sender key is provided.</p>
+<p><strong>Note</strong>, that many remote providers (e.g., Infura) do not provide
+any accounts. Provide a <code>sender_key:</code> if you experience issues.</p>
 
   </div>
 </div>
@@ -1673,9 +1572,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>contracts to deploy.</p>
-</div>
+        <div class='inline'><p>contracts to deploy.</p></div>
       
     </li>
   
@@ -1708,9 +1605,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the contracts to deploy.</p>
-</div>
+        <div class='inline'><p>the contracts to deploy.</p></div>
       
     </li>
   
@@ -1724,9 +1619,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>variable constructor parameter list.</p>
-</div>
+        <div class='inline'><p>variable constructor parameter list.</p></div>
       
     </li>
   
@@ -1759,9 +1652,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the contracts to deploy.</p>
-</div>
+        <div class='inline'><p>the contracts to deploy.</p></div>
       
     </li>
   
@@ -1775,9 +1666,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>variable constructor parameter list.</p>
-</div>
+        <div class='inline'><p>variable constructor parameter list.</p></div>
       
     </li>
   
@@ -1791,9 +1680,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the sender private key.</p>
-</div>
+        <div class='inline'><p>the sender private key.</p></div>
       
     </li>
   
@@ -1807,9 +1694,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>enables legacy transactions (pre-EIP-1559).</p>
-</div>
+        <div class='inline'><p>enables legacy transactions (pre-EIP-1559).</p></div>
       
     </li>
   
@@ -1823,9 +1708,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>optional gas limit override for deploying the contract.</p>
-</div>
+        <div class='inline'><p>optional gas limit override for deploying the contract.</p></div>
       
     </li>
   
@@ -1839,9 +1722,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>optional specific nonce for transaction.</p>
-</div>
+        <div class='inline'><p>optional specific nonce for transaction.</p></div>
       
     </li>
   
@@ -1864,9 +1745,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the transaction hash.</p>
-</div>
+        <div class='inline'><p>the transaction hash.</p></div>
       
     </li>
   
@@ -1882,9 +1761,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>in case the contract does not have any source.</p>
-</div>
+        <div class='inline'><p>in case the contract does not have any source.</p></div>
       
     </li>
   
@@ -1956,11 +1833,9 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Deploys a contract and waits for it to be mined. Uses <code>eth_accounts</code> or external signer if no sender key is provided.</p>
-
+    <p>Deploys a contract and waits for it to be mined. Uses
+<code>eth_accounts</code> or external signer if no sender key is provided.</p>
 <p>See <span class='object_link'><a href="#deploy-instance_method" title="Eth::Client#deploy (method)">#deploy</a></span> for params and overloads.</p>
-
 
   </div>
 </div>
@@ -1977,9 +1852,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the contract address once it’s mined.</p>
-</div>
+        <div class='inline'><p>the contract address once it's mined.</p></div>
       
     </li>
   
@@ -2021,9 +1894,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Gets the balance for an address.</p>
-
+    <p>Gets the balance for an address.</p>
 
   </div>
 </div>
@@ -2041,9 +1912,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the address to get the balance for.</p>
-</div>
+        <div class='inline'><p>the address to get the balance for.</p></div>
       
     </li>
   
@@ -2060,9 +1929,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the balance in Wei.</p>
-</div>
+        <div class='inline'><p>the balance in Wei.</p></div>
       
     </li>
   
@@ -2100,9 +1967,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Gets the next nonce for an address used to draft new transactions.</p>
-
+    <p>Gets the next nonce for an address used to draft new transactions.</p>
 
   </div>
 </div>
@@ -2120,9 +1985,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the address to get the nonce for.</p>
-</div>
+        <div class='inline'><p>the address to get the nonce for.</p></div>
       
     </li>
   
@@ -2139,9 +2002,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the next nonce to be used.</p>
-</div>
+        <div class='inline'><p>the next nonce to be used.</p></div>
       
     </li>
   
@@ -2179,9 +2040,9 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Provides an interface to call <code>isValidSignature</code> as per EIP-1271 on a given smart contract to verify the given hash and signature matching the magic value.</p>
-
+    <p>Provides an interface to call <code>isValidSignature</code> as per EIP-1271 on a given
+smart contract to verify the given hash and signature matching the magic
+value.</p>
 
   </div>
 </div>
@@ -2199,9 +2060,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>a deployed contract implementing EIP-1271.</p>
-</div>
+        <div class='inline'><p>a deployed contract implementing EIP-1271.</p></div>
       
     </li>
   
@@ -2215,9 +2074,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the message hash to be checked against the signature.</p>
-</div>
+        <div class='inline'><p>the message hash to be checked against the signature.</p></div>
       
     </li>
   
@@ -2231,9 +2088,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the signature to be recovered by the contract.</p>
-</div>
+        <div class='inline'><p>the signature to be recovered by the contract.</p></div>
       
     </li>
   
@@ -2249,9 +2104,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the expected magic value (defaults to <code>1626ba7e</code>).</p>
-</div>
+        <div class='inline'><p>the expected magic value (defaults to <code>1626ba7e</code>).</p></div>
       
     </li>
   
@@ -2268,9 +2121,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>true if magic matches and signature is valid.</p>
-</div>
+        <div class='inline'><p>true if magic matches and signature is valid.</p></div>
       
     </li>
   
@@ -2286,9 +2137,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>in case the contract cannot be called yet.</p>
-</div>
+        <div class='inline'><p>in case the contract cannot be called yet.</p></div>
       
     </li>
   
@@ -2336,9 +2185,8 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Gives control over resetting the RPC request ID back to zero. Usually not needed.</p>
-
+    <p>Gives control over resetting the RPC request ID back to zero.
+Usually not needed.</p>
 
   </div>
 </div>
@@ -2355,9 +2203,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>0</p>
-</div>
+        <div class='inline'><p>0</p></div>
       
     </li>
   
@@ -2395,9 +2241,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Resolves an ENS name to an Ethereum address on the connected chain.</p>
-
+    <p>Resolves an ENS name to an Ethereum address on the connected chain.</p>
 
   </div>
 </div>
@@ -2415,9 +2259,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>The ENS name, e.g., <code>fancy.eth</code>.</p>
-</div>
+        <div class='inline'><p>The ENS name, e.g., <code>fancy.eth</code>.</p></div>
       
     </li>
   
@@ -2433,9 +2275,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the address for the ENS registry.</p>
-</div>
+        <div class='inline'><p>the address for the ENS registry.</p></div>
       
     </li>
   
@@ -2451,9 +2291,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the coin type as per EIP-2304.</p>
-</div>
+        <div class='inline'><p>the coin type as per EIP-2304.</p></div>
       
     </li>
   
@@ -2470,9 +2308,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the Ethereum address resolved from the ENS record.</p>
-</div>
+        <div class='inline'><p>the Ethereum address resolved from the ENS record.</p></div>
       
     </li>
   
@@ -2518,11 +2354,10 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Executes a contract function with a transaction (transactional contract read/write).</p>
-
-<p><strong>Note</strong>, that many remote providers (e.g., Infura) do not provide any accounts. Provide a <code>sender_key:</code> if you experience issues.</p>
-
+    <p>Executes a contract function with a transaction (transactional
+contract read/write).</p>
+<p><strong>Note</strong>, that many remote providers (e.g., Infura) do not provide
+any accounts. Provide a <code>sender_key:</code> if you experience issues.</p>
 
   </div>
 </div>
@@ -2554,9 +2389,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the subject contract to write to.</p>
-</div>
+        <div class='inline'><p>the subject contract to write to.</p></div>
       
     </li>
   
@@ -2570,9 +2403,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>method name to be executed.</p>
-</div>
+        <div class='inline'><p>method name to be executed.</p></div>
       
     </li>
   
@@ -2605,9 +2436,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the subject contract to write to.</p>
-</div>
+        <div class='inline'><p>the subject contract to write to.</p></div>
       
     </li>
   
@@ -2621,9 +2450,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>method name to be executed.</p>
-</div>
+        <div class='inline'><p>method name to be executed.</p></div>
       
     </li>
   
@@ -2637,9 +2464,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>optional function arguments.</p>
-</div>
+        <div class='inline'><p>optional function arguments.</p></div>
       
     </li>
   
@@ -2672,9 +2497,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the subject contract to write to.</p>
-</div>
+        <div class='inline'><p>the subject contract to write to.</p></div>
       
     </li>
   
@@ -2688,9 +2511,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>method name to be executed.</p>
-</div>
+        <div class='inline'><p>method name to be executed.</p></div>
       
     </li>
   
@@ -2704,9 +2525,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>optional function arguments.</p>
-</div>
+        <div class='inline'><p>optional function arguments.</p></div>
       
     </li>
   
@@ -2720,9 +2539,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the sender private key.</p>
-</div>
+        <div class='inline'><p>the sender private key.</p></div>
       
     </li>
   
@@ -2736,9 +2553,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>enables legacy transactions (pre-EIP-1559).</p>
-</div>
+        <div class='inline'><p>enables legacy transactions (pre-EIP-1559).</p></div>
       
     </li>
   
@@ -2752,9 +2567,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>contract address.</p>
-</div>
+        <div class='inline'><p>contract address.</p></div>
       
     </li>
   
@@ -2768,9 +2581,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>optional gas limit override for transacting with the contract.</p>
-</div>
+        <div class='inline'><p>optional gas limit override for transacting with the contract.</p></div>
       
     </li>
   
@@ -2784,9 +2595,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>optional specific nonce for transaction.</p>
-</div>
+        <div class='inline'><p>optional specific nonce for transaction.</p></div>
       
     </li>
   
@@ -2800,9 +2609,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>optional transaction value field filling.</p>
-</div>
+        <div class='inline'><p>optional transaction value field filling.</p></div>
       
     </li>
   
@@ -2825,9 +2632,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>returns the result of the transaction.</p>
-</div>
+        <div class='inline'><p>returns the result of the transaction.</p></div>
       
     </li>
   
@@ -2889,11 +2694,9 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Executes a contract function with a transaction and waits for it to be mined (transactional contract read/write).</p>
-
+    <p>Executes a contract function with a transaction and waits for it
+to be mined (transactional contract read/write).</p>
 <p>See <span class='object_link'><a href="#transact-instance_method" title="Eth::Client#transact (method)">#transact</a></span> for params and overloads.</p>
-
 
   </div>
 </div>
@@ -2910,9 +2713,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>returns the result of the transaction (hash and execution status).</p>
-</div>
+        <div class='inline'><p>returns the result of the transaction (hash and execution status).</p></div>
       
     </li>
   
@@ -2928,9 +2729,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>if the execution fails.</p>
-</div>
+        <div class='inline'><p>if the execution fails.</p></div>
       
     </li>
   
@@ -2982,11 +2781,11 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Simply transfer Ether to an account without any call data or access lists attached. Uses <code>eth_accounts</code> and external signer if no sender key is provided.</p>
-
-<p><strong>Note</strong>, that many remote providers (e.g., Infura) do not provide any accounts. Provide a <code>sender_key:</code> if you experience issues.</p>
-
+    <p>Simply transfer Ether to an account without any call data or
+access lists attached. Uses <code>eth_accounts</code> and external signer
+if no sender key is provided.</p>
+<p><strong>Note</strong>, that many remote providers (e.g., Infura) do not provide
+any accounts. Provide a <code>sender_key:</code> if you experience issues.</p>
 
   </div>
 </div>
@@ -3018,9 +2817,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the destination address.</p>
-</div>
+        <div class='inline'><p>the destination address.</p></div>
       
     </li>
   
@@ -3034,9 +2831,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the transfer amount in Wei.</p>
-</div>
+        <div class='inline'><p>the transfer amount in Wei.</p></div>
       
     </li>
   
@@ -3069,9 +2864,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the destination address.</p>
-</div>
+        <div class='inline'><p>the destination address.</p></div>
       
     </li>
   
@@ -3085,9 +2878,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the transfer amount in Wei.</p>
-</div>
+        <div class='inline'><p>the transfer amount in Wei.</p></div>
       
     </li>
   
@@ -3101,9 +2892,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the sender private key.</p>
-</div>
+        <div class='inline'><p>the sender private key.</p></div>
       
     </li>
   
@@ -3117,9 +2906,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>enables legacy transactions (pre-EIP-1559).</p>
-</div>
+        <div class='inline'><p>enables legacy transactions (pre-EIP-1559).</p></div>
       
     </li>
   
@@ -3133,9 +2920,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>optional specific nonce for transaction.</p>
-</div>
+        <div class='inline'><p>optional specific nonce for transaction.</p></div>
       
     </li>
   
@@ -3158,9 +2943,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the local transaction hash.</p>
-</div>
+        <div class='inline'><p>the local transaction hash.</p></div>
       
     </li>
   
@@ -3210,11 +2993,10 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Simply transfer Ether to an account and waits for it to be mined. Uses <code>eth_accounts</code> and external signer if no sender key is provided.</p>
-
+    <p>Simply transfer Ether to an account and waits for it to be mined.
+Uses <code>eth_accounts</code> and external signer if no sender key is
+provided.</p>
 <p>See <span class='object_link'><a href="#transfer-instance_method" title="Eth::Client#transfer (method)">#transfer</a></span> for params and overloads.</p>
-
 
   </div>
 </div>
@@ -3231,9 +3013,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the transaction hash once it is mined.</p>
-</div>
+        <div class='inline'><p>the transaction hash once it is mined.</p></div>
       
     </li>
   
@@ -3275,11 +3055,9 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Transfers a token that implements the ERC20 <code>transfer()</code> interface.</p>
-
-<p><strong>Note</strong>, that many remote providers (e.g., Infura) do not provide any accounts. Provide a <code>sender_key:</code> if you experience issues.</p>
-
+    <p>Transfers a token that implements the ERC20 <code>transfer()</code> interface.</p>
+<p><strong>Note</strong>, that many remote providers (e.g., Infura) do not provide
+any accounts. Provide a <code>sender_key:</code> if you experience issues.</p>
 
   </div>
 </div>
@@ -3311,9 +3089,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the ERC20 contract to write to.</p>
-</div>
+        <div class='inline'><p>the ERC20 contract to write to.</p></div>
       
     </li>
   
@@ -3327,9 +3103,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the destination address.</p>
-</div>
+        <div class='inline'><p>the destination address.</p></div>
       
     </li>
   
@@ -3343,9 +3117,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the transfer amount (mind the <code>decimals()</code>).</p>
-</div>
+        <div class='inline'><p>the transfer amount (mind the <code>decimals()</code>).</p></div>
       
     </li>
   
@@ -3378,9 +3150,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the ERC20 contract to write to.</p>
-</div>
+        <div class='inline'><p>the ERC20 contract to write to.</p></div>
       
     </li>
   
@@ -3394,9 +3164,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the destination address.</p>
-</div>
+        <div class='inline'><p>the destination address.</p></div>
       
     </li>
   
@@ -3410,9 +3178,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the transfer amount (mind the <code>decimals()</code>).</p>
-</div>
+        <div class='inline'><p>the transfer amount (mind the <code>decimals()</code>).</p></div>
       
     </li>
   
@@ -3426,9 +3192,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the sender private key.</p>
-</div>
+        <div class='inline'><p>the sender private key.</p></div>
       
     </li>
   
@@ -3442,9 +3206,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>enables legacy transactions (pre-EIP-1559).</p>
-</div>
+        <div class='inline'><p>enables legacy transactions (pre-EIP-1559).</p></div>
       
     </li>
   
@@ -3458,9 +3220,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>optional gas limit override for the transfer.</p>
-</div>
+        <div class='inline'><p>optional gas limit override for the transfer.</p></div>
       
     </li>
   
@@ -3474,9 +3234,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>optional specific nonce for transaction.</p>
-</div>
+        <div class='inline'><p>optional specific nonce for transaction.</p></div>
       
     </li>
   
@@ -3490,9 +3248,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>optional transaction value field filling.</p>
-</div>
+        <div class='inline'><p>optional transaction value field filling.</p></div>
       
     </li>
   
@@ -3515,9 +3271,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>returns the result of the transaction.</p>
-</div>
+        <div class='inline'><p>returns the result of the transaction.</p></div>
       
     </li>
   
@@ -3557,11 +3311,8 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Transfers a token that implements the ERC20 <code>transfer()</code> interface.</p>
-
+    <p>Transfers a token that implements the ERC20 <code>transfer()</code> interface.</p>
 <p>See <span class='object_link'><a href="#transfer_erc20-instance_method" title="Eth::Client#transfer_erc20 (method)">#transfer_erc20</a></span> for params and overloads.</p>
-
 
   </div>
 </div>
@@ -3578,9 +3329,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>returns the result of the transaction.</p>
-</div>
+        <div class='inline'><p>returns the result of the transaction.</p></div>
       
     </li>
   
@@ -3618,9 +3367,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Checks whether a transaction is mined or not.</p>
-
+    <p>Checks whether a transaction is mined or not.</p>
 
   </div>
 </div>
@@ -3638,9 +3385,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the transaction hash.</p>
-</div>
+        <div class='inline'><p>the transaction hash.</p></div>
       
     </li>
   
@@ -3657,9 +3402,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>true if included in a block.</p>
-</div>
+        <div class='inline'><p>true if included in a block.</p></div>
       
     </li>
   
@@ -3699,9 +3442,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Checks whether a contract transaction succeeded or not.</p>
-
+    <p>Checks whether a contract transaction succeeded or not.</p>
 
   </div>
 </div>
@@ -3719,9 +3460,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the transaction hash.</p>
-</div>
+        <div class='inline'><p>the transaction hash.</p></div>
       
     </li>
   
@@ -3738,9 +3477,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>true if status is success.</p>
-</div>
+        <div class='inline'><p>true if status is success.</p></div>
       
     </li>
   
@@ -3780,9 +3517,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Waits for an transaction to be mined by the connected chain.</p>
-
+    <p>Waits for an transaction to be mined by the connected chain.</p>
 
   </div>
 </div>
@@ -3800,9 +3535,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the transaction hash.</p>
-</div>
+        <div class='inline'><p>the transaction hash.</p></div>
       
     </li>
   
@@ -3819,9 +3552,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the transaction hash once the transaction is mined.</p>
-</div>
+        <div class='inline'><p>the transaction hash once the transaction is mined.</p></div>
       
     </li>
   
@@ -3837,9 +3568,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>if it’s not mined within 5 minutes.</p>
-</div>
+        <div class='inline'><p>if it's not mined within 5 minutes.</p></div>
       
     </li>
   
@@ -3885,9 +3614,9 @@
 </div>
 
       <div id="footer">
-  Generated on Thu Apr  2 13:24:43 2026 by
+  Generated on Thu Jul  2 18:48:20 2026 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.38 (ruby-3.4.9).
+  0.9.44 (ruby-3.4.10).
 </div>
 
     </div>

@@ -6,13 +6,13 @@
 <title>
   Module: Eth::Tx
   
-    &mdash; Documentation by YARD 0.9.38
+    &mdash; Documentation by YARD 0.9.44
   
 </title>
 
-  <link rel="stylesheet" href="../css/style.css" type="text/css" />
+  <link rel="stylesheet" href="../css/style.css" type="text/css">
 
-  <link rel="stylesheet" href="../css/common.css" type="text/css" />
+  <link rel="stylesheet" href="../css/common.css" type="text/css">
 
 <script type="text/javascript">
   pathId = "Eth::Tx";
@@ -27,6 +27,8 @@
 
   </head>
   <body>
+    <div id="main_progress" aria-hidden="true"></div>
+
     <div class="nav_wrap">
       <iframe id="nav" src="../class_list.html?1"></iframe>
       <div id="resizer"></div>
@@ -88,8 +90,9 @@
   
   <dl>
     <dt>Defined in:</dt>
-    <dd>lib/eth/tx.rb<span class="defines">,<br />
-  lib/eth/tx/legacy.rb,<br /> lib/eth/tx/eip1559.rb,<br /> lib/eth/tx/eip2930.rb,<br /> lib/eth/tx/eip4844.rb,<br /> lib/eth/tx/eip7702.rb</span>
+    <dd>lib/eth/tx.rb<span class="defines">,<br>
+  lib/eth/tx/legacy.rb,<br> lib/eth/tx/eip1559.rb,<br> lib/eth/tx/eip2930.rb,<br> lib/eth/tx/eip4844.rb,<br> lib/eth/tx/eip7702.rb</span>
+
 </dd>
   </dl>
   
@@ -97,9 +100,7 @@
 
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
-    
-<p>Provides the <code>Tx</code> module supporting various transaction types.</p>
-
+    <p>Provides the <code>Tx</code> module supporting various transaction types.</p>
 
   </div>
 </div>
@@ -128,9 +129,7 @@
         <dt id="DEFAULT_GAS_LIMIT-constant" class="">DEFAULT_GAS_LIMIT =
           <div class="docstring">
   <div class="discussion">
-    
-<p>The minimum transaction gas limit required for a value transfer.</p>
-
+    <p>The minimum transaction gas limit required for a value transfer.</p>
 
   </div>
 </div>
@@ -144,9 +143,7 @@
         <dt id="DEFAULT_PRIORITY_FEE-constant" class="">DEFAULT_PRIORITY_FEE =
           <div class="docstring">
   <div class="discussion">
-    
-<p>The “default” transaction priority fee of 1.01 GWei. Do not use.</p>
-
+    <p>The &quot;default&quot; transaction priority fee of 1.01 GWei. Do not use.</p>
 
   </div>
 </div>
@@ -160,9 +157,7 @@
         <dt id="DEFAULT_GAS_PRICE-constant" class="">DEFAULT_GAS_PRICE =
           <div class="docstring">
   <div class="discussion">
-    
-<p>The “default” transaction gas price of 42.69 GWei. Do not use.</p>
-
+    <p>The &quot;default&quot; transaction gas price of 42.69 GWei. Do not use.</p>
 
   </div>
 </div>
@@ -176,9 +171,7 @@
         <dt id="COST_NON_ZERO_BYTE-constant" class="">COST_NON_ZERO_BYTE =
           <div class="docstring">
   <div class="discussion">
-    
-<p>The calldata gas cost of a non-zero byte as per EIP-2028.</p>
-
+    <p>The calldata gas cost of a non-zero byte as per EIP-2028.</p>
 
   </div>
 </div>
@@ -192,9 +185,7 @@
         <dt id="COST_ZERO_BYTE-constant" class="">COST_ZERO_BYTE =
           <div class="docstring">
   <div class="discussion">
-    
-<p>The calldata gas cost of a zero byte.</p>
-
+    <p>The calldata gas cost of a zero byte.</p>
 
   </div>
 </div>
@@ -208,9 +199,7 @@
         <dt id="COST_INITCODE_WORD-constant" class="">COST_INITCODE_WORD =
           <div class="docstring">
   <div class="discussion">
-    
-<p>The initcode gas cost for each word (32 bytes).</p>
-
+    <p>The initcode gas cost for each word (32 bytes).</p>
 
   </div>
 </div>
@@ -224,9 +213,7 @@
         <dt id="COST_STORAGE_KEY-constant" class="">COST_STORAGE_KEY =
           <div class="docstring">
   <div class="discussion">
-    
-<p>The access list gas cost of a storage key as per EIP-2930.</p>
-
+    <p>The access list gas cost of a storage key as per EIP-2930.</p>
 
   </div>
 </div>
@@ -240,9 +227,7 @@
         <dt id="COST_ADDRESS-constant" class="">COST_ADDRESS =
           <div class="docstring">
   <div class="discussion">
-    
-<p>The access list gas cost of an address as per EIP-2930.</p>
-
+    <p>The access list gas cost of an address as per EIP-2930.</p>
 
   </div>
 </div>
@@ -256,9 +241,7 @@
         <dt id="BLOCK_GAS_LIMIT-constant" class="">BLOCK_GAS_LIMIT =
           <div class="docstring">
   <div class="discussion">
-    
-<p>The maximum transaction gas limit is bound by the block gas limit.</p>
-
+    <p>The maximum transaction gas limit is bound by the block gas limit.</p>
 
   </div>
 </div>
@@ -272,9 +255,7 @@
         <dt id="TYPE_LEGACY-constant" class="">TYPE_LEGACY =
           <div class="docstring">
   <div class="discussion">
-    
-<p>The legacy transaction type is 0.</p>
-
+    <p>The legacy transaction type is 0.</p>
 
   </div>
 </div>
@@ -288,9 +269,7 @@
         <dt id="TYPE_2930-constant" class="">TYPE_2930 =
           <div class="docstring">
   <div class="discussion">
-    
-<p>The EIP-2930 transaction type is 1.</p>
-
+    <p>The EIP-2930 transaction type is 1.</p>
 
   </div>
 </div>
@@ -304,9 +283,7 @@
         <dt id="TYPE_1559-constant" class="">TYPE_1559 =
           <div class="docstring">
   <div class="discussion">
-    
-<p>The EIP-1559 transaction type is 2.</p>
-
+    <p>The EIP-1559 transaction type is 2.</p>
 
   </div>
 </div>
@@ -320,9 +297,7 @@
         <dt id="TYPE_4844-constant" class="">TYPE_4844 =
           <div class="docstring">
   <div class="discussion">
-    
-<p>The EIP-4844 transaction type is 3.</p>
-
+    <p>The EIP-4844 transaction type is 3.</p>
 
   </div>
 </div>
@@ -336,9 +311,7 @@
         <dt id="TYPE_7702-constant" class="">TYPE_7702 =
           <div class="docstring">
   <div class="discussion">
-    
-<p>The EIP-7702 transaction type is 4.</p>
-
+    <p>The EIP-7702 transaction type is 4.</p>
 
   </div>
 </div>
@@ -352,9 +325,7 @@
         <dt id="ZERO_BYTE-constant" class="">ZERO_BYTE =
           <div class="docstring">
   <div class="discussion">
-    
-<p>The zero byte is 0x00.</p>
-
+    <p>The zero byte is 0x00.</p>
 
   </div>
 </div>
@@ -368,9 +339,7 @@
         <dt id="CREATE_GAS-constant" class="">CREATE_GAS =
           <div class="docstring">
   <div class="discussion">
-    
-<p>Smart contract transaction gas cost</p>
-
+    <p>Smart contract transaction gas cost</p>
 
   </div>
 </div>
@@ -415,9 +384,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Decodes a transaction hex of any known type (2, 1, or legacy).</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Decodes a transaction hex of any known type (2, 1, or legacy).</p></div></span>
   
 </li>
 
@@ -439,9 +406,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Estimates intrinsic gas for provided call data (EIP-2028) and access lists (EIP-2930).</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Estimates intrinsic gas for provided call data (EIP-2028) and access lists (EIP-2930).</p></div></span>
   
 </li>
 
@@ -463,9 +428,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Creates a new transaction of any type for given parameters and chain ID.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Creates a new transaction of any type for given parameters and chain ID.</p></div></span>
   
 </li>
 
@@ -487,9 +450,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Populates the transaction destination address with a serializable empty value in case it is undefined; also ensures the address is checksummed but not prefixed for consistency.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Populates the transaction destination address with a serializable empty value in case it is undefined; also ensures the address is checksummed but not prefixed for consistency.</p></div></span>
   
 </li>
 
@@ -511,9 +472,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Populates the transaction value field with a serializable empty value in case it is undefined.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Populates the transaction value field with a serializable empty value in case it is undefined.</p></div></span>
   
 </li>
 
@@ -535,9 +494,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Populates the transaction chain id field with a serializable default value (1) in case it is undefined.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Populates the transaction chain id field with a serializable default value (1) in case it is undefined.</p></div></span>
   
 </li>
 
@@ -559,9 +516,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Populates the transaction payload field with a serializable empty value in case it is undefined; also ensures the data is binary not hex.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Populates the transaction payload field with a serializable empty value in case it is undefined; also ensures the data is binary not hex.</p></div></span>
   
 </li>
 
@@ -583,9 +538,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Populates the blob versioned hashes field with a serializable empty array in case it is undefined; also ensures the hashes are binary not hex.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Populates the blob versioned hashes field with a serializable empty array in case it is undefined; also ensures the hashes are binary not hex.</p></div></span>
   
 </li>
 
@@ -607,9 +560,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Populates the transaction access list field with a serializable empty array in case it is undefined; also ensures the nested data is binary not hex.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Populates the transaction access list field with a serializable empty array in case it is undefined; also ensures the nested data is binary not hex.</p></div></span>
   
 </li>
 
@@ -631,9 +582,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Allows to check wether a transaction is signed already.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Allows to check wether a transaction is signed already.</p></div></span>
   
 </li>
 
@@ -655,9 +604,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Creates an unsigned copy of any transaction object.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Creates an unsigned copy of any transaction object.</p></div></span>
   
 </li>
 
@@ -679,9 +626,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Validates the common type-2 transaction fields such as priority fee and max gas fee.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Validates the common type-2 transaction fields such as priority fee and max gas fee.</p></div></span>
   
 </li>
 
@@ -703,9 +648,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Validates that the type-3 transaction blob fields are present.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Validates that the type-3 transaction blob fields are present.</p></div></span>
   
 </li>
 
@@ -727,9 +670,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Validates that the type-4 transaction field authorization list is present.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Validates that the type-4 transaction field authorization list is present.</p></div></span>
   
 </li>
 
@@ -751,9 +692,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Validates the common legacy transaction fields such as gas price.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Validates the common legacy transaction fields such as gas price.</p></div></span>
   
 </li>
 
@@ -775,14 +714,13 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Validates the common transaction fields such as nonce, gas limit, amount, and access list.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Validates the common transaction fields such as nonce, gas limit, amount, and access list.</p></div></span>
   
 </li>
 
       
     </ul>
+    
   
     <h2>
       Instance Method Summary
@@ -808,9 +746,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Decodes a transaction hex of any known type (2, 1, or legacy).</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Decodes a transaction hex of any known type (2, 1, or legacy).</p></div></span>
   
 </li>
 
@@ -832,9 +768,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Estimates intrinsic gas for provided call data (EIP-2028) and access lists (EIP-2930).</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Estimates intrinsic gas for provided call data (EIP-2028) and access lists (EIP-2930).</p></div></span>
   
 </li>
 
@@ -856,9 +790,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Creates a new transaction of any type for given parameters and chain ID.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Creates a new transaction of any type for given parameters and chain ID.</p></div></span>
   
 </li>
 
@@ -880,9 +812,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Populates the transaction destination address with a serializable empty value in case it is undefined; also ensures the address is checksummed but not prefixed for consistency.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Populates the transaction destination address with a serializable empty value in case it is undefined; also ensures the address is checksummed but not prefixed for consistency.</p></div></span>
   
 </li>
 
@@ -904,9 +834,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Populates the transaction value field with a serializable empty value in case it is undefined.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Populates the transaction value field with a serializable empty value in case it is undefined.</p></div></span>
   
 </li>
 
@@ -928,9 +856,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Populates the transaction chain id field with a serializable default value (1) in case it is undefined.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Populates the transaction chain id field with a serializable default value (1) in case it is undefined.</p></div></span>
   
 </li>
 
@@ -952,9 +878,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Populates the transaction payload field with a serializable empty value in case it is undefined; also ensures the data is binary not hex.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Populates the transaction payload field with a serializable empty value in case it is undefined; also ensures the data is binary not hex.</p></div></span>
   
 </li>
 
@@ -976,9 +900,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Populates the blob versioned hashes field with a serializable empty array in case it is undefined; also ensures the hashes are binary not hex.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Populates the blob versioned hashes field with a serializable empty array in case it is undefined; also ensures the hashes are binary not hex.</p></div></span>
   
 </li>
 
@@ -1000,9 +922,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Populates the transaction access list field with a serializable empty array in case it is undefined; also ensures the nested data is binary not hex.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Populates the transaction access list field with a serializable empty array in case it is undefined; also ensures the nested data is binary not hex.</p></div></span>
   
 </li>
 
@@ -1024,9 +944,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Allows to check wether a transaction is signed already.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Allows to check wether a transaction is signed already.</p></div></span>
   
 </li>
 
@@ -1048,9 +966,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Creates an unsigned copy of any transaction object.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Creates an unsigned copy of any transaction object.</p></div></span>
   
 </li>
 
@@ -1072,9 +988,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Validates the common type-2 transaction fields such as priority fee and max gas fee.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Validates the common type-2 transaction fields such as priority fee and max gas fee.</p></div></span>
   
 </li>
 
@@ -1096,9 +1010,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Validates that the type-3 transaction blob fields are present.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Validates that the type-3 transaction blob fields are present.</p></div></span>
   
 </li>
 
@@ -1120,9 +1032,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Validates that the type-4 transaction field authorization list is present.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Validates that the type-4 transaction field authorization list is present.</p></div></span>
   
 </li>
 
@@ -1144,9 +1054,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Validates the common legacy transaction fields such as gas price.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Validates the common legacy transaction fields such as gas price.</p></div></span>
   
 </li>
 
@@ -1168,14 +1076,13 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Validates the common transaction fields such as nonce, gas limit, amount, and access list.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Validates the common transaction fields such as nonce, gas limit, amount, and access list.</p></div></span>
   
 </li>
 
       
     </ul>
+    
   
 
 
@@ -1195,9 +1102,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Decodes a transaction hex of any known type (2, 1, or legacy).</p>
-
+    <p>Decodes a transaction hex of any known type (2, 1, or legacy).</p>
 
   </div>
 </div>
@@ -1215,9 +1120,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the raw transaction hex-string.</p>
-</div>
+        <div class='inline'><p>the raw transaction hex-string.</p></div>
       
     </li>
   
@@ -1234,9 +1137,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>transaction payload.</p>
-</div>
+        <div class='inline'><p>transaction payload.</p></div>
       
     </li>
   
@@ -1252,9 +1153,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>if the transaction type is unknown.</p>
-</div>
+        <div class='inline'><p>if the transaction type is unknown.</p></div>
       
     </li>
   
@@ -1348,9 +1247,8 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Estimates intrinsic gas for provided call data (EIP-2028) and access lists (EIP-2930). Respects initcode word cost (EIP-3860).</p>
-
+    <p>Estimates intrinsic gas for provided call data (EIP-2028) and
+access lists (EIP-2930). Respects initcode word cost (EIP-3860).</p>
 
   </div>
 </div>
@@ -1370,9 +1268,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the call data.</p>
-</div>
+        <div class='inline'><p>the call data.</p></div>
       
     </li>
   
@@ -1388,9 +1284,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the access list.</p>
-</div>
+        <div class='inline'><p>the access list.</p></div>
       
     </li>
   
@@ -1407,9 +1301,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the estimated intrinsic gas cost.</p>
-</div>
+        <div class='inline'><p>the estimated intrinsic gas cost.</p></div>
       
     </li>
   
@@ -1505,9 +1397,19 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Creates a new transaction of any type for given parameters and chain ID. Required parameters are (optional in brackets): - EIP-4844: chain_id, nonce, priority_fee, max_gas_fee, gas_limit, max_fee_per_blob_gas, blob_versioned_hashes(, from, to, value, data, access_list) - EIP-1559: chain_id, nonce, priority_fee, max_gas_fee, gas_limit(, from, to, value, data, access_list) - EIP-2930: chain_id, nonce, gas_price, gas_limit, access_list(, from, to, value, data) - EIP-7702: chain_id, nonce, priority_fee, max_gas_fee, gas_limit, authorizations(, from, to, value, data, access_list) - Legacy: nonce, gas_price, gas_limit(, from, to, value, data)</p>
-
+    <p>Creates a new transaction of any type for given parameters and chain ID.
+Required parameters are (optional in brackets):</p>
+<ul>
+<li>EIP-4844: chain_id, nonce, priority_fee, max_gas_fee, gas_limit, max_fee_per_blob_gas, blob_versioned_hashes(, from, to,
+value, data, access_list)</li>
+<li>EIP-1559: chain_id, nonce, priority_fee, max_gas_fee, gas_limit(, from, to,
+value, data, access_list)</li>
+<li>EIP-2930: chain_id, nonce, gas_price, gas_limit, access_list(, from, to,
+value, data)</li>
+<li>EIP-7702: chain_id, nonce, priority_fee, max_gas_fee, gas_limit, authorizations(, from, to,
+value, data, access_list)</li>
+<li>Legacy: nonce, gas_price, gas_limit(, from, to, value, data)</li>
+</ul>
 
   </div>
 </div>
@@ -1525,9 +1427,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>all necessary transaction fields.</p>
-</div>
+        <div class='inline'><p>all necessary transaction fields.</p></div>
       
     </li>
   
@@ -1543,9 +1443,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the EIP-155 Chain ID (legacy transactions only).</p>
-</div>
+        <div class='inline'><p>the EIP-155 Chain ID (legacy transactions only).</p></div>
       
     </li>
   
@@ -1638,9 +1536,9 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Populates the transaction destination address with a serializable empty value in case it is undefined; also ensures the address is checksummed but not prefixed for consistency.</p>
-
+    <p>Populates the transaction destination address with a serializable
+empty value in case it is undefined; also ensures the address is
+checksummed but not prefixed for consistency.</p>
 
   </div>
 </div>
@@ -1658,9 +1556,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the transaction destination address.</p>
-</div>
+        <div class='inline'><p>the transaction destination address.</p></div>
       
     </li>
   
@@ -1677,9 +1573,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the sanitized transaction destination address.</p>
-</div>
+        <div class='inline'><p>the sanitized transaction destination address.</p></div>
       
     </li>
   
@@ -1727,9 +1621,8 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Populates the transaction value field with a serializable empty value in case it is undefined.</p>
-
+    <p>Populates the transaction value field with a serializable empty value
+in case it is undefined.</p>
 
   </div>
 </div>
@@ -1747,9 +1640,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the transaction value.</p>
-</div>
+        <div class='inline'><p>the transaction value.</p></div>
       
     </li>
   
@@ -1766,9 +1657,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the sanitized transaction value.</p>
-</div>
+        <div class='inline'><p>the sanitized transaction value.</p></div>
       
     </li>
   
@@ -1808,9 +1697,8 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Populates the transaction chain id field with a serializable default value (1) in case it is undefined.</p>
-
+    <p>Populates the transaction chain id field with a serializable default
+value (1) in case it is undefined.</p>
 
   </div>
 </div>
@@ -1828,9 +1716,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the transaction chain id.</p>
-</div>
+        <div class='inline'><p>the transaction chain id.</p></div>
       
     </li>
   
@@ -1847,9 +1733,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the sanitized transaction chain id.</p>
-</div>
+        <div class='inline'><p>the sanitized transaction chain id.</p></div>
       
     </li>
   
@@ -1889,9 +1773,8 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Populates the transaction payload field with a serializable empty value in case it is undefined; also ensures the data is binary not hex.</p>
-
+    <p>Populates the transaction payload field with a serializable empty value
+in case it is undefined; also ensures the data is binary not hex.</p>
 
   </div>
 </div>
@@ -1909,9 +1792,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the transaction payload data.</p>
-</div>
+        <div class='inline'><p>the transaction payload data.</p></div>
       
     </li>
   
@@ -1928,9 +1809,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the sanitized transaction payload data.</p>
-</div>
+        <div class='inline'><p>the sanitized transaction payload data.</p></div>
       
     </li>
   
@@ -1976,9 +1855,9 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Populates the blob versioned hashes field with a serializable empty array in case it is undefined; also ensures the hashes are binary not hex.</p>
-
+    <p>Populates the blob versioned hashes field with a serializable empty
+array in case it is undefined; also ensures the hashes are binary
+not hex.</p>
 
   </div>
 </div>
@@ -1996,9 +1875,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the blob versioned hashes.</p>
-</div>
+        <div class='inline'><p>the blob versioned hashes.</p></div>
       
     </li>
   
@@ -2015,9 +1892,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the sanitized blob versioned hashes.</p>
-</div>
+        <div class='inline'><p>the sanitized blob versioned hashes.</p></div>
       
     </li>
   
@@ -2067,9 +1942,9 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Populates the transaction access list field with a serializable empty array in case it is undefined; also ensures the nested data is binary not hex.</p>
-
+    <p>Populates the transaction access list field with a serializable empty
+array in case it is undefined; also ensures the nested data is binary
+not hex.</p>
 
   </div>
 </div>
@@ -2087,9 +1962,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the transaction access list.</p>
-</div>
+        <div class='inline'><p>the transaction access list.</p></div>
       
     </li>
   
@@ -2106,9 +1979,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the sanitized transaction access list.</p>
-</div>
+        <div class='inline'><p>the sanitized transaction access list.</p></div>
       
     </li>
   
@@ -2170,9 +2041,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Allows to check wether a transaction is signed already.</p>
-
+    <p>Allows to check wether a transaction is signed already.</p>
 
   </div>
 </div>
@@ -2189,9 +2058,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>true if transaction is already signed.</p>
-</div>
+        <div class='inline'><p>true if transaction is already signed.</p></div>
       
     </li>
   
@@ -2231,9 +2098,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Creates an unsigned copy of any transaction object.</p>
-
+    <p>Creates an unsigned copy of any transaction object.</p>
 
   </div>
 </div>
@@ -2251,9 +2116,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>any transaction payload.</p>
-</div>
+        <div class='inline'><p>any transaction payload.</p></div>
       
     </li>
   
@@ -2270,9 +2133,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>an unsigned transaction payload of the same type.</p>
-</div>
+        <div class='inline'><p>an unsigned transaction payload of the same type.</p></div>
       
     </li>
   
@@ -2288,9 +2149,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>if the transaction type is unknown.</p>
-</div>
+        <div class='inline'><p>if the transaction type is unknown.</p></div>
       
     </li>
   
@@ -2372,9 +2231,8 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Validates the common type-2 transaction fields such as priority fee and max gas fee.</p>
-
+    <p>Validates the common type-2 transaction fields such as priority
+fee and max gas fee.</p>
 
   </div>
 </div>
@@ -2392,9 +2250,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the transaction fields.</p>
-</div>
+        <div class='inline'><p>the transaction fields.</p></div>
       
     </li>
   
@@ -2411,9 +2267,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the validated transaction fields.</p>
-</div>
+        <div class='inline'><p>the validated transaction fields.</p></div>
       
     </li>
   
@@ -2429,9 +2283,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>if priority fee is invalid.</p>
-</div>
+        <div class='inline'><p>if priority fee is invalid.</p></div>
       
     </li>
   
@@ -2443,9 +2295,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>if max gas fee is invalid.</p>
-</div>
+        <div class='inline'><p>if max gas fee is invalid.</p></div>
       
     </li>
   
@@ -2495,9 +2345,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Validates that the type-3 transaction blob fields are present</p>
-
+    <p>Validates that the type-3 transaction blob fields are present</p>
 
   </div>
 </div>
@@ -2515,9 +2363,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the transaction fields.</p>
-</div>
+        <div class='inline'><p>the transaction fields.</p></div>
       
     </li>
   
@@ -2534,9 +2380,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the validated transaction fields.</p>
-</div>
+        <div class='inline'><p>the validated transaction fields.</p></div>
       
     </li>
   
@@ -2552,9 +2396,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>if max blob fee or blob hashes are invalid or exceed limits.</p>
-</div>
+        <div class='inline'><p>if max blob fee or blob hashes are invalid or exceed limits.</p></div>
       
     </li>
   
@@ -2616,9 +2458,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Validates that the type-4 transaction field authorization list is present</p>
-
+    <p>Validates that the type-4 transaction field authorization list is present</p>
 
   </div>
 </div>
@@ -2636,9 +2476,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the transaction fields.</p>
-</div>
+        <div class='inline'><p>the transaction fields.</p></div>
       
     </li>
   
@@ -2655,9 +2493,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the validated transaction fields.</p>
-</div>
+        <div class='inline'><p>the validated transaction fields.</p></div>
       
     </li>
   
@@ -2673,9 +2509,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>if authorization list is missing.</p>
-</div>
+        <div class='inline'><p>if authorization list is missing.</p></div>
       
     </li>
   
@@ -2719,9 +2553,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Validates the common legacy transaction fields such as gas price.</p>
-
+    <p>Validates the common legacy transaction fields such as gas price.</p>
 
   </div>
 </div>
@@ -2739,9 +2571,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the transaction fields.</p>
-</div>
+        <div class='inline'><p>the transaction fields.</p></div>
       
     </li>
   
@@ -2758,9 +2588,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the validated transaction fields.</p>
-</div>
+        <div class='inline'><p>the validated transaction fields.</p></div>
       
     </li>
   
@@ -2776,9 +2604,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>if gas price is invalid.</p>
-</div>
+        <div class='inline'><p>if gas price is invalid.</p></div>
       
     </li>
   
@@ -2822,9 +2648,8 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Validates the common transaction fields such as nonce, gas limit, amount, and access list.</p>
-
+    <p>Validates the common transaction fields such as nonce, gas limit,
+amount, and access list.</p>
 
   </div>
 </div>
@@ -2842,9 +2667,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the transaction fields.</p>
-</div>
+        <div class='inline'><p>the transaction fields.</p></div>
       
     </li>
   
@@ -2861,9 +2684,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the validated transaction fields.</p>
-</div>
+        <div class='inline'><p>the validated transaction fields.</p></div>
       
     </li>
   
@@ -2879,9 +2700,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>if nonce is an invalid integer.</p>
-</div>
+        <div class='inline'><p>if nonce is an invalid integer.</p></div>
       
     </li>
   
@@ -2893,9 +2712,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>if gas limit is invalid.</p>
-</div>
+        <div class='inline'><p>if gas limit is invalid.</p></div>
       
     </li>
   
@@ -2907,9 +2724,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>if amount is invalid.</p>
-</div>
+        <div class='inline'><p>if amount is invalid.</p></div>
       
     </li>
   
@@ -2921,9 +2736,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>if access list is invalid.</p>
-</div>
+        <div class='inline'><p>if access list is invalid.</p></div>
       
     </li>
   
@@ -2995,9 +2808,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Decodes a transaction hex of any known type (2, 1, or legacy).</p>
-
+    <p>Decodes a transaction hex of any known type (2, 1, or legacy).</p>
 
   </div>
 </div>
@@ -3015,9 +2826,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the raw transaction hex-string.</p>
-</div>
+        <div class='inline'><p>the raw transaction hex-string.</p></div>
       
     </li>
   
@@ -3034,9 +2843,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>transaction payload.</p>
-</div>
+        <div class='inline'><p>transaction payload.</p></div>
       
     </li>
   
@@ -3052,9 +2859,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>if the transaction type is unknown.</p>
-</div>
+        <div class='inline'><p>if the transaction type is unknown.</p></div>
       
     </li>
   
@@ -3148,9 +2953,8 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Estimates intrinsic gas for provided call data (EIP-2028) and access lists (EIP-2930). Respects initcode word cost (EIP-3860).</p>
-
+    <p>Estimates intrinsic gas for provided call data (EIP-2028) and
+access lists (EIP-2930). Respects initcode word cost (EIP-3860).</p>
 
   </div>
 </div>
@@ -3170,9 +2974,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the call data.</p>
-</div>
+        <div class='inline'><p>the call data.</p></div>
       
     </li>
   
@@ -3188,9 +2990,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the access list.</p>
-</div>
+        <div class='inline'><p>the access list.</p></div>
       
     </li>
   
@@ -3207,9 +3007,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the estimated intrinsic gas cost.</p>
-</div>
+        <div class='inline'><p>the estimated intrinsic gas cost.</p></div>
       
     </li>
   
@@ -3305,9 +3103,19 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Creates a new transaction of any type for given parameters and chain ID. Required parameters are (optional in brackets): - EIP-4844: chain_id, nonce, priority_fee, max_gas_fee, gas_limit, max_fee_per_blob_gas, blob_versioned_hashes(, from, to, value, data, access_list) - EIP-1559: chain_id, nonce, priority_fee, max_gas_fee, gas_limit(, from, to, value, data, access_list) - EIP-2930: chain_id, nonce, gas_price, gas_limit, access_list(, from, to, value, data) - EIP-7702: chain_id, nonce, priority_fee, max_gas_fee, gas_limit, authorizations(, from, to, value, data, access_list) - Legacy: nonce, gas_price, gas_limit(, from, to, value, data)</p>
-
+    <p>Creates a new transaction of any type for given parameters and chain ID.
+Required parameters are (optional in brackets):</p>
+<ul>
+<li>EIP-4844: chain_id, nonce, priority_fee, max_gas_fee, gas_limit, max_fee_per_blob_gas, blob_versioned_hashes(, from, to,
+value, data, access_list)</li>
+<li>EIP-1559: chain_id, nonce, priority_fee, max_gas_fee, gas_limit(, from, to,
+value, data, access_list)</li>
+<li>EIP-2930: chain_id, nonce, gas_price, gas_limit, access_list(, from, to,
+value, data)</li>
+<li>EIP-7702: chain_id, nonce, priority_fee, max_gas_fee, gas_limit, authorizations(, from, to,
+value, data, access_list)</li>
+<li>Legacy: nonce, gas_price, gas_limit(, from, to, value, data)</li>
+</ul>
 
   </div>
 </div>
@@ -3325,9 +3133,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>all necessary transaction fields.</p>
-</div>
+        <div class='inline'><p>all necessary transaction fields.</p></div>
       
     </li>
   
@@ -3343,9 +3149,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the EIP-155 Chain ID (legacy transactions only).</p>
-</div>
+        <div class='inline'><p>the EIP-155 Chain ID (legacy transactions only).</p></div>
       
     </li>
   
@@ -3438,9 +3242,9 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Populates the transaction destination address with a serializable empty value in case it is undefined; also ensures the address is checksummed but not prefixed for consistency.</p>
-
+    <p>Populates the transaction destination address with a serializable
+empty value in case it is undefined; also ensures the address is
+checksummed but not prefixed for consistency.</p>
 
   </div>
 </div>
@@ -3458,9 +3262,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the transaction destination address.</p>
-</div>
+        <div class='inline'><p>the transaction destination address.</p></div>
       
     </li>
   
@@ -3477,9 +3279,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the sanitized transaction destination address.</p>
-</div>
+        <div class='inline'><p>the sanitized transaction destination address.</p></div>
       
     </li>
   
@@ -3527,9 +3327,8 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Populates the transaction value field with a serializable empty value in case it is undefined.</p>
-
+    <p>Populates the transaction value field with a serializable empty value
+in case it is undefined.</p>
 
   </div>
 </div>
@@ -3547,9 +3346,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the transaction value.</p>
-</div>
+        <div class='inline'><p>the transaction value.</p></div>
       
     </li>
   
@@ -3566,9 +3363,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the sanitized transaction value.</p>
-</div>
+        <div class='inline'><p>the sanitized transaction value.</p></div>
       
     </li>
   
@@ -3608,9 +3403,8 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Populates the transaction chain id field with a serializable default value (1) in case it is undefined.</p>
-
+    <p>Populates the transaction chain id field with a serializable default
+value (1) in case it is undefined.</p>
 
   </div>
 </div>
@@ -3628,9 +3422,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the transaction chain id.</p>
-</div>
+        <div class='inline'><p>the transaction chain id.</p></div>
       
     </li>
   
@@ -3647,9 +3439,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the sanitized transaction chain id.</p>
-</div>
+        <div class='inline'><p>the sanitized transaction chain id.</p></div>
       
     </li>
   
@@ -3689,9 +3479,8 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Populates the transaction payload field with a serializable empty value in case it is undefined; also ensures the data is binary not hex.</p>
-
+    <p>Populates the transaction payload field with a serializable empty value
+in case it is undefined; also ensures the data is binary not hex.</p>
 
   </div>
 </div>
@@ -3709,9 +3498,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the transaction payload data.</p>
-</div>
+        <div class='inline'><p>the transaction payload data.</p></div>
       
     </li>
   
@@ -3728,9 +3515,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the sanitized transaction payload data.</p>
-</div>
+        <div class='inline'><p>the sanitized transaction payload data.</p></div>
       
     </li>
   
@@ -3776,9 +3561,9 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Populates the blob versioned hashes field with a serializable empty array in case it is undefined; also ensures the hashes are binary not hex.</p>
-
+    <p>Populates the blob versioned hashes field with a serializable empty
+array in case it is undefined; also ensures the hashes are binary
+not hex.</p>
 
   </div>
 </div>
@@ -3796,9 +3581,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the blob versioned hashes.</p>
-</div>
+        <div class='inline'><p>the blob versioned hashes.</p></div>
       
     </li>
   
@@ -3815,9 +3598,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the sanitized blob versioned hashes.</p>
-</div>
+        <div class='inline'><p>the sanitized blob versioned hashes.</p></div>
       
     </li>
   
@@ -3867,9 +3648,9 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Populates the transaction access list field with a serializable empty array in case it is undefined; also ensures the nested data is binary not hex.</p>
-
+    <p>Populates the transaction access list field with a serializable empty
+array in case it is undefined; also ensures the nested data is binary
+not hex.</p>
 
   </div>
 </div>
@@ -3887,9 +3668,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the transaction access list.</p>
-</div>
+        <div class='inline'><p>the transaction access list.</p></div>
       
     </li>
   
@@ -3906,9 +3685,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the sanitized transaction access list.</p>
-</div>
+        <div class='inline'><p>the sanitized transaction access list.</p></div>
       
     </li>
   
@@ -3970,9 +3747,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Allows to check wether a transaction is signed already.</p>
-
+    <p>Allows to check wether a transaction is signed already.</p>
 
   </div>
 </div>
@@ -3989,9 +3764,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>true if transaction is already signed.</p>
-</div>
+        <div class='inline'><p>true if transaction is already signed.</p></div>
       
     </li>
   
@@ -4031,9 +3804,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Creates an unsigned copy of any transaction object.</p>
-
+    <p>Creates an unsigned copy of any transaction object.</p>
 
   </div>
 </div>
@@ -4051,9 +3822,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>any transaction payload.</p>
-</div>
+        <div class='inline'><p>any transaction payload.</p></div>
       
     </li>
   
@@ -4070,9 +3839,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>an unsigned transaction payload of the same type.</p>
-</div>
+        <div class='inline'><p>an unsigned transaction payload of the same type.</p></div>
       
     </li>
   
@@ -4088,9 +3855,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>if the transaction type is unknown.</p>
-</div>
+        <div class='inline'><p>if the transaction type is unknown.</p></div>
       
     </li>
   
@@ -4172,9 +3937,8 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Validates the common type-2 transaction fields such as priority fee and max gas fee.</p>
-
+    <p>Validates the common type-2 transaction fields such as priority
+fee and max gas fee.</p>
 
   </div>
 </div>
@@ -4192,9 +3956,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the transaction fields.</p>
-</div>
+        <div class='inline'><p>the transaction fields.</p></div>
       
     </li>
   
@@ -4211,9 +3973,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the validated transaction fields.</p>
-</div>
+        <div class='inline'><p>the validated transaction fields.</p></div>
       
     </li>
   
@@ -4229,9 +3989,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>if priority fee is invalid.</p>
-</div>
+        <div class='inline'><p>if priority fee is invalid.</p></div>
       
     </li>
   
@@ -4243,9 +4001,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>if max gas fee is invalid.</p>
-</div>
+        <div class='inline'><p>if max gas fee is invalid.</p></div>
       
     </li>
   
@@ -4295,9 +4051,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Validates that the type-3 transaction blob fields are present</p>
-
+    <p>Validates that the type-3 transaction blob fields are present</p>
 
   </div>
 </div>
@@ -4315,9 +4069,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the transaction fields.</p>
-</div>
+        <div class='inline'><p>the transaction fields.</p></div>
       
     </li>
   
@@ -4334,9 +4086,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the validated transaction fields.</p>
-</div>
+        <div class='inline'><p>the validated transaction fields.</p></div>
       
     </li>
   
@@ -4352,9 +4102,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>if max blob fee or blob hashes are invalid or exceed limits.</p>
-</div>
+        <div class='inline'><p>if max blob fee or blob hashes are invalid or exceed limits.</p></div>
       
     </li>
   
@@ -4416,9 +4164,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Validates that the type-4 transaction field authorization list is present</p>
-
+    <p>Validates that the type-4 transaction field authorization list is present</p>
 
   </div>
 </div>
@@ -4436,9 +4182,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the transaction fields.</p>
-</div>
+        <div class='inline'><p>the transaction fields.</p></div>
       
     </li>
   
@@ -4455,9 +4199,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the validated transaction fields.</p>
-</div>
+        <div class='inline'><p>the validated transaction fields.</p></div>
       
     </li>
   
@@ -4473,9 +4215,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>if authorization list is missing.</p>
-</div>
+        <div class='inline'><p>if authorization list is missing.</p></div>
       
     </li>
   
@@ -4519,9 +4259,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Validates the common legacy transaction fields such as gas price.</p>
-
+    <p>Validates the common legacy transaction fields such as gas price.</p>
 
   </div>
 </div>
@@ -4539,9 +4277,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the transaction fields.</p>
-</div>
+        <div class='inline'><p>the transaction fields.</p></div>
       
     </li>
   
@@ -4558,9 +4294,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the validated transaction fields.</p>
-</div>
+        <div class='inline'><p>the validated transaction fields.</p></div>
       
     </li>
   
@@ -4576,9 +4310,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>if gas price is invalid.</p>
-</div>
+        <div class='inline'><p>if gas price is invalid.</p></div>
       
     </li>
   
@@ -4622,9 +4354,8 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Validates the common transaction fields such as nonce, gas limit, amount, and access list.</p>
-
+    <p>Validates the common transaction fields such as nonce, gas limit,
+amount, and access list.</p>
 
   </div>
 </div>
@@ -4642,9 +4373,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the transaction fields.</p>
-</div>
+        <div class='inline'><p>the transaction fields.</p></div>
       
     </li>
   
@@ -4661,9 +4390,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the validated transaction fields.</p>
-</div>
+        <div class='inline'><p>the validated transaction fields.</p></div>
       
     </li>
   
@@ -4679,9 +4406,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>if nonce is an invalid integer.</p>
-</div>
+        <div class='inline'><p>if nonce is an invalid integer.</p></div>
       
     </li>
   
@@ -4693,9 +4418,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>if gas limit is invalid.</p>
-</div>
+        <div class='inline'><p>if gas limit is invalid.</p></div>
       
     </li>
   
@@ -4707,9 +4430,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>if amount is invalid.</p>
-</div>
+        <div class='inline'><p>if amount is invalid.</p></div>
       
     </li>
   
@@ -4721,9 +4442,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>if access list is invalid.</p>
-</div>
+        <div class='inline'><p>if access list is invalid.</p></div>
       
     </li>
   
@@ -4783,9 +4502,9 @@
 </div>
 
       <div id="footer">
-  Generated on Thu Apr  2 13:24:41 2026 by
+  Generated on Thu Jul  2 18:48:19 2026 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.38 (ruby-3.4.9).
+  0.9.44 (ruby-3.4.10).
 </div>
 
     </div>

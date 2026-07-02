@@ -6,13 +6,13 @@
 <title>
   Class: Eth::Tx::Eip7702::Authorization
   
-    &mdash; Documentation by YARD 0.9.38
+    &mdash; Documentation by YARD 0.9.44
   
 </title>
 
-  <link rel="stylesheet" href="../../../css/style.css" type="text/css" />
+  <link rel="stylesheet" href="../../../css/style.css" type="text/css">
 
-  <link rel="stylesheet" href="../../../css/common.css" type="text/css" />
+  <link rel="stylesheet" href="../../../css/common.css" type="text/css">
 
 <script type="text/javascript">
   pathId = "Eth::Tx::Eip7702::Authorization";
@@ -27,6 +27,8 @@
 
   </head>
   <body>
+    <div id="main_progress" aria-hidden="true"></div>
+
     <div class="nav_wrap">
       <iframe id="nav" src="../../../class_list.html?1"></iframe>
       <div id="resizer"></div>
@@ -94,16 +96,16 @@
   
   <dl>
     <dt>Defined in:</dt>
-    <dd>lib/eth/tx/eip7702.rb</dd>
+    <dd>lib/eth/tx/eip7702.rb
+</dd>
   </dl>
   
 </div>
 
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
-    
-<p>Provides an EIP-7702 authorization that store the address to code which the signer desires to execute in the context of their EOA.</p>
-
+    <p>Provides an EIP-7702 authorization that store the address to
+code which the signer desires to execute in the context of their EOA.</p>
 
   </div>
 </div>
@@ -139,9 +141,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>The authority addess.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>The authority addess.</p></div></span>
   
 </li>
 
@@ -168,9 +168,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>The EIP-155 Chain ID.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>The EIP-155 Chain ID.</p></div></span>
   
 </li>
 
@@ -197,9 +195,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>The transaction nonce.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>The transaction nonce.</p></div></span>
   
 </li>
 
@@ -226,9 +222,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>The signature <code>r</code> value.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>The signature <code>r</code> value.</p></div></span>
   
 </li>
 
@@ -255,9 +249,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>The signature <code>s</code> value.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>The signature <code>s</code> value.</p></div></span>
   
 </li>
 
@@ -284,9 +276,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>The signature’s y-parity byte (not v).</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>The signature's y-parity byte (not v).</p></div></span>
   
 </li>
 
@@ -321,9 +311,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Compares two authorization data objects.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Compares two authorization data objects.</p></div></span>
   
 </li>
 
@@ -347,9 +335,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Create a type-4 (EIP-7702) authorization object that can be prepared for type-4 transactions.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Create a type-4 (EIP-7702) authorization object that can be prepared for type-4 transactions.</p></div></span>
   
 </li>
 
@@ -371,9 +357,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Gets the raw serialized authorization data.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Gets the raw serialized authorization data.</p></div></span>
   
 </li>
 
@@ -395,9 +379,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Sign the authorization with a given key.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Sign the authorization with a given key.</p></div></span>
   
 </li>
 
@@ -419,9 +401,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Encodes the unsigned authorization payload required for signing.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Encodes the unsigned authorization payload required for signing.</p></div></span>
   
 </li>
 
@@ -443,14 +423,13 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Gets the sign-hash required to sign.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Gets the sign-hash required to sign.</p></div></span>
   
 </li>
 
       
     </ul>
+    
   
 
 <div id="constructor_details" class="method_details_list">
@@ -467,9 +446,9 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Create a type-4 (EIP-7702) authorization object that can be prepared for type-4 transactions. Ref: <a href="https://eips.ethereum.org/EIPS/eip-7702">eips.ethereum.org/EIPS/eip-7702</a></p>
-
+    <p>Create a type-4 (EIP-7702) authorization object that
+can be prepared for type-4 transactions.
+Ref: <a href="https://eips.ethereum.org/EIPS/eip-7702">https://eips.ethereum.org/EIPS/eip-7702</a></p>
 
   </div>
 </div>
@@ -487,9 +466,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>all necessary transaction fields.</p>
-</div>
+        <div class='inline'><p>all necessary transaction fields.</p></div>
       
     </li>
   
@@ -508,9 +485,7 @@
             
           </span>
           
-            &mdash; <div class='inline'>
-<p>the chain ID.</p>
-</div>
+            &mdash; <div class='inline'><p>the chain ID.</p></div>
           
         </li>
       
@@ -521,9 +496,7 @@
             
           </span>
           
-            &mdash; <div class='inline'>
-<p>the authority address.</p>
-</div>
+            &mdash; <div class='inline'><p>the authority address.</p></div>
           
         </li>
       
@@ -534,9 +507,7 @@
             
           </span>
           
-            &mdash; <div class='inline'>
-<p>the transaction nonce.</p>
-</div>
+            &mdash; <div class='inline'><p>the transaction nonce.</p></div>
           
         </li>
       
@@ -593,9 +564,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>The authority addess.</p>
-
+    <p>The authority addess.</p>
 
   </div>
 </div>
@@ -636,9 +605,8 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>The EIP-155 Chain ID. Ref: <a href="https://eips.ethereum.org/EIPS/eip-155">eips.ethereum.org/EIPS/eip-155</a></p>
-
+    <p>The EIP-155 Chain ID.
+Ref: <a href="https://eips.ethereum.org/EIPS/eip-155">https://eips.ethereum.org/EIPS/eip-155</a></p>
 
   </div>
 </div>
@@ -679,9 +647,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>The transaction nonce.</p>
-
+    <p>The transaction nonce.</p>
 
   </div>
 </div>
@@ -722,9 +688,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>The signature <code>r</code> value.</p>
-
+    <p>The signature <code>r</code> value.</p>
 
   </div>
 </div>
@@ -765,9 +729,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>The signature <code>s</code> value.</p>
-
+    <p>The signature <code>s</code> value.</p>
 
   </div>
 </div>
@@ -808,9 +770,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>The signature’s y-parity byte (not v).</p>
-
+    <p>The signature's y-parity byte (not v).</p>
 
   </div>
 </div>
@@ -856,9 +816,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Compares two authorization data objects.</p>
-
+    <p>Compares two authorization data objects.</p>
 
   </div>
 </div>
@@ -875,9 +833,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>true if objects are same and share same state.</p>
-</div>
+        <div class='inline'><p>true if objects are same and share same state.</p></div>
       
     </li>
   
@@ -915,9 +871,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Gets the raw serialized authorization data.</p>
-
+    <p>Gets the raw serialized authorization data.</p>
 
   </div>
 </div>
@@ -934,9 +888,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>raw serialized authorization data.</p>
-</div>
+        <div class='inline'><p>raw serialized authorization data.</p></div>
       
     </li>
   
@@ -990,9 +942,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Sign the authorization with a given key.</p>
-
+    <p>Sign the authorization with a given key.</p>
 
   </div>
 </div>
@@ -1010,9 +960,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the key-pair to use for signing.</p>
-</div>
+        <div class='inline'><p>the key-pair to use for signing.</p></div>
       
     </li>
   
@@ -1029,9 +977,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>a transaction hash.</p>
-</div>
+        <div class='inline'><p>a transaction hash.</p></div>
       
     </li>
   
@@ -1047,9 +993,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>if authorization is already signed.</p>
-</div>
+        <div class='inline'><p>if authorization is already signed.</p></div>
       
     </li>
   
@@ -1061,9 +1005,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>if sender address does not match signing key.</p>
-</div>
+        <div class='inline'><p>if sender address does not match signing key.</p></div>
       
     </li>
   
@@ -1137,9 +1079,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Encodes the unsigned authorization payload required for signing.</p>
-
+    <p>Encodes the unsigned authorization payload required for signing.</p>
 
   </div>
 </div>
@@ -1156,9 +1096,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>an RLP-encoded, unsigned, enveloped EIP-7702 transaction.</p>
-</div>
+        <div class='inline'><p>an RLP-encoded, unsigned, enveloped EIP-7702 transaction.</p></div>
       
     </li>
   
@@ -1204,9 +1142,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Gets the sign-hash required to sign.</p>
-
+    <p>Gets the sign-hash required to sign.</p>
 
   </div>
 </div>
@@ -1223,9 +1159,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>a Keccak-256 hash.</p>
-</div>
+        <div class='inline'><p>a Keccak-256 hash.</p></div>
       
     </li>
   
@@ -1257,9 +1191,9 @@
 </div>
 
       <div id="footer">
-  Generated on Thu Apr  2 13:24:45 2026 by
+  Generated on Thu Jul  2 18:48:21 2026 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.38 (ruby-3.4.9).
+  0.9.44 (ruby-3.4.10).
 </div>
 
     </div>

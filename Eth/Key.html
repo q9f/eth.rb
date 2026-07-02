@@ -6,13 +6,13 @@
 <title>
   Class: Eth::Key
   
-    &mdash; Documentation by YARD 0.9.38
+    &mdash; Documentation by YARD 0.9.44
   
 </title>
 
-  <link rel="stylesheet" href="../css/style.css" type="text/css" />
+  <link rel="stylesheet" href="../css/style.css" type="text/css">
 
-  <link rel="stylesheet" href="../css/common.css" type="text/css" />
+  <link rel="stylesheet" href="../css/common.css" type="text/css">
 
 <script type="text/javascript">
   pathId = "Eth::Key";
@@ -27,6 +27,8 @@
 
   </head>
   <body>
+    <div id="main_progress" aria-hidden="true"></div>
+
     <div class="nav_wrap">
       <iframe id="nav" src="../class_list.html?1"></iframe>
       <div id="resizer"></div>
@@ -94,16 +96,15 @@
   
   <dl>
     <dt>Defined in:</dt>
-    <dd>lib/eth/key.rb</dd>
+    <dd>lib/eth/key.rb
+</dd>
   </dl>
   
 </div>
 
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
-    
-<p>The <span class='object_link'><a href="" title="Eth::Key (class)">Key</a></span> class to handle Secp256k1 private/public key-pairs.</p>
-
+    <p>The <span class='object_link'><a href="" title="Eth::Key (class)">Key</a></span> class to handle Secp256k1 private/public key-pairs.</p>
 
   </div>
 </div>
@@ -149,9 +150,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>The <code>Secp256k1::PrivateKey</code> of the <span class='object_link'><a href="" title="Eth::Key (class)">Key</a></span> pair.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>The <code>Secp256k1::PrivateKey</code> of the <span class='object_link'><a href="" title="Eth::Key (class)">Key</a></span> pair.</p></div></span>
   
 </li>
 
@@ -178,9 +177,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>The <code>Secp256k1::PublicKey</code> of the <span class='object_link'><a href="" title="Eth::Key (class)">Key</a></span> pair.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>The <code>Secp256k1::PublicKey</code> of the <span class='object_link'><a href="" title="Eth::Key (class)">Key</a></span> pair.</p></div></span>
   
 </li>
 
@@ -215,9 +212,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Exports the checksummed public address.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Exports the checksummed public address.</p></div></span>
   
 </li>
 
@@ -241,9 +236,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Constructor of the <span class='object_link'><a href="" title="Eth::Key (class)">Key</a></span> class.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Constructor of the <span class='object_link'><a href="" title="Eth::Key (class)">Key</a></span> class.</p></div></span>
   
 </li>
 
@@ -265,9 +258,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Prefixes a message with <code>\x19Ethereum Signed Message:</code> and signs it in the common way used by many web3 wallets.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Prefixes a message with <code>\x19Ethereum Signed Message:</code> and signs it in the common way used by many web3 wallets.</p></div></span>
   
 </li>
 
@@ -289,9 +280,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Exports the private key bytes in a wrapper function to maintain backward-compatibility with older versions of <span class='object_link'><a href="" title="Eth::Key (class)">Key</a></span>.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Exports the private key bytes in a wrapper function to maintain backward-compatibility with older versions of <span class='object_link'><a href="" title="Eth::Key (class)">Key</a></span>.</p></div></span>
   
 </li>
 
@@ -313,9 +302,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Converts the private key data into a hexa-decimal string.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Converts the private key data into a hexa-decimal string.</p></div></span>
   
 </li>
 
@@ -337,9 +324,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Exports the uncompressed public key bytes in a wrapper function to maintain backward-compatibility with older versions of <span class='object_link'><a href="" title="Eth::Key (class)">Key</a></span>.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Exports the uncompressed public key bytes in a wrapper function to maintain backward-compatibility with older versions of <span class='object_link'><a href="" title="Eth::Key (class)">Key</a></span>.</p></div></span>
   
 </li>
 
@@ -361,9 +346,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Exports the compressed public key bytes.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Exports the compressed public key bytes.</p></div></span>
   
 </li>
 
@@ -385,9 +368,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Converts the public key data into an uncompressed hexa-decimal string.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Converts the public key data into an uncompressed hexa-decimal string.</p></div></span>
   
 </li>
 
@@ -409,9 +390,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Converts the public key data into an compressed hexa-decimal string.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Converts the public key data into an compressed hexa-decimal string.</p></div></span>
   
 </li>
 
@@ -433,9 +412,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Signs arbitrary data without validation.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Signs arbitrary data without validation.</p></div></span>
   
 </li>
 
@@ -457,14 +434,13 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
-<p>Prefixes, hashes, and signes a typed data structure in the common way used by many web3 wallets.</p>
-</div></span>
+    <span class="summary_desc"><div class='inline'><p>Prefixes, hashes, and signes a typed data structure in the common way used by many web3 wallets.</p></div></span>
   
 </li>
 
       
     </ul>
+    
   
 
 <div id="constructor_details" class="method_details_list">
@@ -481,9 +457,8 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Constructor of the <span class='object_link'><a href="" title="Eth::Key (class)">Eth::Key</a></span> class. Creates a new random key-pair if no <code>priv</code> key is provided.</p>
-
+    <p>Constructor of the <span class='object_link'><a href="" title="Eth::Key (class)">Eth::Key</a></span> class. Creates a new random key-pair
+if no <code>priv</code> key is provided.</p>
 
   </div>
 </div>
@@ -503,9 +478,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>binary string of private key data.</p>
-</div>
+        <div class='inline'><p>binary string of private key data.</p></div>
       
     </li>
   
@@ -587,9 +560,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>The <code>Secp256k1::PrivateKey</code> of the <span class='object_link'><a href="" title="Eth::Key (class)">Eth::Key</a></span> pair.</p>
-
+    <p>The <code>Secp256k1::PrivateKey</code> of the <span class='object_link'><a href="" title="Eth::Key (class)">Eth::Key</a></span> pair.</p>
 
   </div>
 </div>
@@ -630,9 +601,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>The <code>Secp256k1::PublicKey</code> of the <span class='object_link'><a href="" title="Eth::Key (class)">Eth::Key</a></span> pair.</p>
-
+    <p>The <code>Secp256k1::PublicKey</code> of the <span class='object_link'><a href="" title="Eth::Key (class)">Eth::Key</a></span> pair.</p>
 
   </div>
 </div>
@@ -678,9 +647,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Exports the checksummed public address.</p>
-
+    <p>Exports the checksummed public address.</p>
 
   </div>
 </div>
@@ -697,9 +664,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>compressed address as packed hex prefixed string.</p>
-</div>
+        <div class='inline'><p>compressed address as packed hex prefixed string.</p></div>
       
     </li>
   
@@ -737,9 +702,11 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Prefixes a message with <code>\x19Ethereum Signed Message:</code> and signs it in the common way used by many web3 wallets. Complies with EIP-191 prefix <code>0x19</code> and version byte <code>0x45</code> (<code>E</code>). See also <span class='object_link'><a href="Signature.html#personal_recover-instance_method" title="Eth::Signature#personal_recover (method)">Signature#personal_recover</a></span>. Ref: <a href="https://eips.ethereum.org/EIPS/eip-191">eips.ethereum.org/EIPS/eip-191</a></p>
-
+    <p>Prefixes a message with <code>\x19Ethereum Signed Message:</code> and signs
+it in the common way used by many web3 wallets. Complies with
+EIP-191 prefix <code>0x19</code> and version byte <code>0x45</code> (<code>E</code>). See also
+<span class='object_link'><a href="Signature.html#personal_recover-instance_method" title="Eth::Signature#personal_recover (method)">Signature#personal_recover</a></span>.
+Ref: <a href="https://eips.ethereum.org/EIPS/eip-191">https://eips.ethereum.org/EIPS/eip-191</a></p>
 
   </div>
 </div>
@@ -757,9 +724,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the message string to be prefixed and signed.</p>
-</div>
+        <div class='inline'><p>the message string to be prefixed and signed.</p></div>
       
     </li>
   
@@ -775,9 +740,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the chain id the signature should be generated on.</p>
-</div>
+        <div class='inline'><p>the chain id the signature should be generated on.</p></div>
       
     </li>
   
@@ -794,9 +757,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>an EIP-191 conform, hexa-decimal signature.</p>
-</div>
+        <div class='inline'><p>an EIP-191 conform, hexa-decimal signature.</p></div>
       
     </li>
   
@@ -838,9 +799,8 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Exports the private key bytes in a wrapper function to maintain backward-compatibility with older versions of <span class='object_link'><a href="" title="Eth::Key (class)">Eth::Key</a></span>.</p>
-
+    <p>Exports the private key bytes in a wrapper function to maintain
+backward-compatibility with older versions of <span class='object_link'><a href="" title="Eth::Key (class)">Eth::Key</a></span>.</p>
 
   </div>
 </div>
@@ -857,9 +817,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>private key as packed byte-string.</p>
-</div>
+        <div class='inline'><p>private key as packed byte-string.</p></div>
       
     </li>
   
@@ -897,9 +855,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Converts the private key data into a hexa-decimal string.</p>
-
+    <p>Converts the private key data into a hexa-decimal string.</p>
 
   </div>
 </div>
@@ -916,9 +872,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>private key as hexa-decimal string.</p>
-</div>
+        <div class='inline'><p>private key as hexa-decimal string.</p></div>
       
     </li>
   
@@ -956,9 +910,8 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Exports the uncompressed public key bytes in a wrapper function to maintain backward-compatibility with older versions of <span class='object_link'><a href="" title="Eth::Key (class)">Eth::Key</a></span>.</p>
-
+    <p>Exports the uncompressed public key bytes in a wrapper function to
+maintain backward-compatibility with older versions of <span class='object_link'><a href="" title="Eth::Key (class)">Eth::Key</a></span>.</p>
 
   </div>
 </div>
@@ -975,9 +928,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>uncompressed public key as packed byte-string.</p>
-</div>
+        <div class='inline'><p>uncompressed public key as packed byte-string.</p></div>
       
     </li>
   
@@ -1015,9 +966,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Exports the compressed public key bytes.</p>
-
+    <p>Exports the compressed public key bytes.</p>
 
   </div>
 </div>
@@ -1034,9 +983,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>compressed public key as packed byte-string.</p>
-</div>
+        <div class='inline'><p>compressed public key as packed byte-string.</p></div>
       
     </li>
   
@@ -1074,9 +1021,8 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Converts the public key data into an uncompressed hexa-decimal string.</p>
-
+    <p>Converts the public key data into an uncompressed
+hexa-decimal string.</p>
 
   </div>
 </div>
@@ -1093,9 +1039,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>public key as uncompressed hexa-decimal string.</p>
-</div>
+        <div class='inline'><p>public key as uncompressed hexa-decimal string.</p></div>
       
     </li>
   
@@ -1133,9 +1077,8 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Converts the public key data into an compressed hexa-decimal string.</p>
-
+    <p>Converts the public key data into an compressed
+hexa-decimal string.</p>
 
   </div>
 </div>
@@ -1152,9 +1095,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>public key as compressed hexa-decimal string.</p>
-</div>
+        <div class='inline'><p>public key as compressed hexa-decimal string.</p></div>
       
     </li>
   
@@ -1192,9 +1133,9 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Signs arbitrary data without validation. Should not be used unless really desired. See also: <span class='object_link'><a href="#personal_sign-instance_method" title="Eth::Key#personal_sign (method)">#personal_sign</a></span>, <span class='object_link'><a href="#sign_typed_data-instance_method" title="Eth::Key#sign_typed_data (method)">#sign_typed_data</a></span>, and <span class='object_link'><a href="Signature.html#recover-instance_method" title="Eth::Signature#recover (method)">Signature#recover</a></span>.</p>
-
+    <p>Signs arbitrary data without validation. Should not be used unless really
+desired. See also: <span class='object_link'><a href="#personal_sign-instance_method" title="Eth::Key#personal_sign (method)">#personal_sign</a></span>, <span class='object_link'><a href="#sign_typed_data-instance_method" title="Eth::Key#sign_typed_data (method)">#sign_typed_data</a></span>, and
+<span class='object_link'><a href="Signature.html#recover-instance_method" title="Eth::Signature#recover (method)">Signature#recover</a></span>.</p>
 
   </div>
 </div>
@@ -1212,9 +1153,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>that arbitrary data to be signed.</p>
-</div>
+        <div class='inline'><p>that arbitrary data to be signed.</p></div>
       
     </li>
   
@@ -1230,9 +1169,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the chain id the signature should be generated on.</p>
-</div>
+        <div class='inline'><p>the chain id the signature should be generated on.</p></div>
       
     </li>
   
@@ -1249,9 +1186,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>a hexa-decimal signature.</p>
-</div>
+        <div class='inline'><p>a hexa-decimal signature.</p></div>
       
     </li>
   
@@ -1307,9 +1242,11 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    
-<p>Prefixes, hashes, and signes a typed data structure in the common way used by many web3 wallets. Complies with EIP-191 prefix <code>0x19</code> and EIP-712 version byte <code>0x01</code>. Supports <code>V3</code>, <code>V4</code>. See also <span class='object_link'><a href="Signature.html#recover_typed_data-instance_method" title="Eth::Signature#recover_typed_data (method)">Signature#recover_typed_data</a></span>. Ref: <a href="https://eips.ethereum.org/EIPS/eip-712">eips.ethereum.org/EIPS/eip-712</a></p>
-
+    <p>Prefixes, hashes, and signes a typed data structure in the common
+way used by many web3 wallets. Complies with EIP-191 prefix <code>0x19</code>
+and EIP-712 version byte <code>0x01</code>. Supports <code>V3</code>, <code>V4</code>. See also
+<span class='object_link'><a href="Signature.html#recover_typed_data-instance_method" title="Eth::Signature#recover_typed_data (method)">Signature#recover_typed_data</a></span>.
+Ref: <a href="https://eips.ethereum.org/EIPS/eip-712">https://eips.ethereum.org/EIPS/eip-712</a></p>
 
   </div>
 </div>
@@ -1327,9 +1264,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>all the data in the typed data structure to be signed.</p>
-</div>
+        <div class='inline'><p>all the data in the typed data structure to be signed.</p></div>
       
     </li>
   
@@ -1345,9 +1280,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>the chain id the signature should be generated on.</p>
-</div>
+        <div class='inline'><p>the chain id the signature should be generated on.</p></div>
       
     </li>
   
@@ -1364,9 +1297,7 @@
       
       
         &mdash;
-        <div class='inline'>
-<p>an EIP-712 conform, hexa-decimal signature.</p>
-</div>
+        <div class='inline'><p>an EIP-712 conform, hexa-decimal signature.</p></div>
       
     </li>
   
@@ -1400,9 +1331,9 @@
 </div>
 
       <div id="footer">
-  Generated on Thu Apr  2 13:24:43 2026 by
+  Generated on Thu Jul  2 18:48:20 2026 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.38 (ruby-3.4.9).
+  0.9.44 (ruby-3.4.10).
 </div>
 
     </div>
