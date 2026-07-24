@@ -2,7 +2,7 @@
 
 source "https://rubygems.org"
 
-gem "bigdecimal", "~> 3.1"
+gem "bigdecimal", "~> 3.0"
 
 group :test, :development do
   gem "appraisal", "~> 2.5"

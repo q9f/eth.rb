@@ -21,8 +21,6 @@ jobs:
         os: [ubuntu-latest, macos-latest]
         ruby: [
             { version: "3.4", gemfile: bigdecimal3 },
-            { version: "3.4", gemfile: bigdecimal4 },
-            { version: "4.0", gemfile: bigdecimal3 },
             { version: "4.0", gemfile: bigdecimal4 },
           ]
     env:
