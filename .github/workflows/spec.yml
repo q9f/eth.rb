@@ -20,12 +20,11 @@ jobs:
       matrix:
         os: [ubuntu-latest, macos-latest]
         ruby: [
-            { version: "3.4", gemfile: bigdecimal3 },
-            { version: "4.0", gemfile: bigdecimal4 },
+            { version: "3.4", bigdecimal: "~> 3.0" },
+            { version: "4.0", bigdecimal: "~> 4.0" },
           ]
     env:
-      BUNDLE_GEMFILE: ${{ github.workspace }}/gemfiles/${{ matrix.ruby.gemfile }}.gemfile
-      BUNDLE_PATH_RELATIVE_TO_CWD: true
+      BIGDECIMAL_VERSION: ${{ matrix.ruby.bigdecimal }}
     steps:
     - uses: actions/checkout@v6
     - name: MacOs Dependencies
