@@ -17,7 +17,7 @@ in the gem builds on these.
 **Source:** `lib/eth/{constant,unit,util,address,chain}.rb`, `lib/eth/rlp.rb`,
 `lib/eth/rlp/`, `lib/eth.rb`, `lib/eth/version.rb`.
 **Parent spec:** [../../SPEC.md](../../SPEC.md) — invariants I1–I12, register
-R1–R16 are cited inline as `(I2)`, `(R3)`.
+R1–R17 are cited inline as `(I2)`, `(R3)`.
 
 ---
 

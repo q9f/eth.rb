@@ -133,10 +133,16 @@ unrelated changes. Anyone discovering a new issue adds a register entry
   machine: no network, no geth, no solc, no ethereum/tests submodule.
 - **Tier 1 (CI parity)** — the full suite passes against a local
   `geth --dev --http --ws --ipcpath /tmp/geth.ipc`, with `solc` installed and
-  the submodule initialized. Required before any work is called done.
+  the submodule initialized. Required before any work is called done. Because
+  the suite is untagged (R17), the full run is monolithic: it also instantiates
+  remote clients against `https://eth.drpc.org` (see Tier 2), so it is normally
+  satisfied via CI rather than a local run.
 - **Tier 2 (remote)** — the examples that reach the one remote host,
-  `https://eth.drpc.org`, run in CI/scheduled runs only. Agents and tooling
-  never call remote endpoints without explicit human approval.
+  `https://eth.drpc.org` (`client_spec`, `ens/resolver_spec`), are **embedded in
+  the full suite** and cannot be isolated without RSpec tags (R17). They run
+  only where egress exists — i.e. CI/scheduled. Agents run Tier 0 locally and
+  never invoke the full suite (and thus never contact a remote host) without
+  explicit human approval.
 ACCEPTANCE.md defines the executable form of each tier.
 
 **D7 — Quality bars.** ✅
@@ -225,8 +231,8 @@ contracts list per-module invariants.
 | Tier | What runs | Needs | When |
 |---|---|---|---|
 | 0 | offline-pure subset (33 of 43 spec files fully; 4 more partially) | Ruby + bundle only | every change, any machine |
-| 1 | full suite | local `geth --dev --http --ws --ipcpath /tmp/geth.ipc`, `solc`, `git submodule update --init --recursive` | before any "done"; CI on every PR/push (ubuntu+macos × 3.4/4.0) |
-| 2 | remote examples (`eth.drpc.org` in `client_spec`, `ens/resolver_spec`) | egress | CI / scheduled daily run only |
+| 1 | full suite — also contacts `eth.drpc.org` (Tier 2 embedded, R17) | local `geth --dev --http --ws --ipcpath /tmp/geth.ipc`, `solc`, `git submodule update --init --recursive`, **egress** | required before "done" (via CI if no local egress/approval); CI on every PR/push (ubuntu+macos × 3.4/4.0) |
+| 2 | remote examples embedded in the full suite (`eth.drpc.org` in `client_spec`, `ens/resolver_spec`); not isolable without tags (R17) | egress | CI / scheduled daily run only |
 
 ACCEPTANCE.md is the executable definition (exact commands, exclusion lists,
 and pass criteria). CI additionally gates codecov (99%/1%), yard
@@ -286,6 +292,7 @@ exhaustive code digest, not yet independently re-checked.
 | R14 | Test hygiene: empty `describe "Authorization"` block; `client_spec` header comment says `--wc` for `--ws` | *reported* `spec/eth/tx/eip7702_spec.rb:253`, `spec/eth/client_spec.rb` | fix-candidate (trivial) |
 | R15 | Coverage and doc coverage below the stated 100% goal (codecov gate at 99%) | README, codecov.yml | modernization target |
 | R16 | `lib/eth/bls.rb` carries no license header — the only `lib/` file missing one (all others have the 13-line Apache header), breaking REUSE/licensing uniformity | **verified** `lib/eth/bls.rb:1-3` (starts `# frozen_string_literal: true` then `require "bls"`, no header) | fix-candidate |
+| R17 | The RSpec suite carries no tags/metadata to isolate remote/geth/solc/submodule examples; `client_spec.rb` mixes local-geth and remote-`eth.drpc.org` examples in one untagged file, so a full local `rspec` run cannot avoid contacting `eth.drpc.org` except by excluding whole files (which also drops their local coverage). Tiered runs beyond whole-file exclusion require adding RSpec tags first | **verified** `spec/eth/client_spec.rb:19-22` (drpc subjects beside geth examples); no `:tag`/`--tag` usage in `spec/` | fix-candidate (test-hygiene) |
 
 ## 10. Maintaining this spec
 

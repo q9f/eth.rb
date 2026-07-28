@@ -12,7 +12,7 @@ to reach a PASS/FAIL verdict on every criterion.
 No earlier acceptance document exists in this repository's history (checked
 back to the 2016 initial commit); the format below follows the conventions of
 its companion [SPEC.md](SPEC.md), which defines the decisions (D1–D12),
-invariants (I1–I12), and register entries (R1–R16) cited here.
+invariants (I1–I12), and register entries (R1–R17) cited here.
 
 - **Part A** applies to every change to the library, forever.
 - **Part B** applies to the specification framework itself (SPEC.md,
@@ -46,12 +46,15 @@ code).
 
 ```shell
 bundle exec rspec --exclude-pattern \
-"eth/client_spec.rb,eth/ens/resolver_spec.rb,eth/solidity_spec.rb,eth/contract_spec.rb,eth/contract/initializer_spec.rb,eth/contract/event_spec.rb,eth/rlp_spec.rb,eth/abi_spec.rb,eth/key/decrypter_spec.rb,eth/key/encrypter_spec.rb"
+"spec/eth/client_spec.rb,spec/eth/ens/resolver_spec.rb,spec/eth/solidity_spec.rb,spec/eth/contract_spec.rb,spec/eth/contract/initializer_spec.rb,spec/eth/contract/event_spec.rb,spec/eth/rlp_spec.rb,spec/eth/abi_spec.rb,spec/eth/key/decrypter_spec.rb,spec/eth/key/encrypter_spec.rb"
 ```
 
 The ten excluded files need geth, solc, `eth.drpc.org`, or the
 `ethereum/tests` submodule (fully or partially); the remaining 33 files are
-offline-pure.
+offline-pure. The globs are written relative to the default `spec` load path
+(RSpec joins it, so `spec/eth/client_spec.rb` is matched); run from the
+repository root. *(The bare `eth/…` form also matches, but the `spec/…` form is
+used for clarity and to mirror the RSpec documentation.)*
 **Pass:** 0 failures, 0 errors.
 
 ### A3. Tier 1 — full suite passes (CI parity)
@@ -69,7 +72,11 @@ pending/skipped examples; any newly introduced `pending`/`skip` fails this
 criterion unless the change's description justifies it and SPEC §9 records
 it. If the reviewer's machine cannot host geth/solc, a green CI "Spec" run
 (ubuntu + macos × Ruby 3.4/4.0) on the exact commit satisfies A3; Tier 2
-examples are judged by CI only.
+examples are judged by CI only. Note the full `bundle exec rspec` also
+instantiates remote clients against `https://eth.drpc.org` (`client_spec`,
+`ens/resolver_spec`), and the suite has no tag to isolate them (SPEC R17) — so
+a local full run makes remote calls. Run it only in CI or with explicit human
+approval; otherwise stay at Tier 0 (A2).
 
 ### A4. Coverage (SPEC D7)
 
@@ -167,7 +174,7 @@ commit `cedc60cc`).
 
 ### B3. Register integrity
 
-**Check:** SPEC §9 lists R1–R16; every entry has an evidence anchor
+**Check:** SPEC §9 lists R1–R17; every entry has an evidence anchor
 (`file:line` or named source) and a disposition from the legend. Resolve
 every **verified** anchor against the working tree and confirm the described
 code is there (e.g. R3 → `lib/eth/rlp/encoder.rb:46` shows

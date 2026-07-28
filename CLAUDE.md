@@ -10,7 +10,7 @@ summarizes the operating rules and points to the authoritative documents; where
 this file and the specification disagree, the specification wins.
 
 - **[SPEC.md](SPEC.md)** — identity, confirmed decisions (D1–D12), invariants
-  (I1–I12), verification tiers, and the gap/quirk register (R1–R16).
+  (I1–I12), verification tiers, and the gap/quirk register (R1–R17).
 - **[ACCEPTANCE.md](ACCEPTANCE.md)** — the executable pass/fail criteria your
   work is judged against.
 - **[docs/spec/](docs/spec/)** — per-domain public-API contracts (six files).
@@ -69,7 +69,7 @@ required before calling work done.
 
 ```shell
 bundle exec rspec --exclude-pattern \
-"eth/client_spec.rb,eth/ens/resolver_spec.rb,eth/solidity_spec.rb,eth/contract_spec.rb,eth/contract/initializer_spec.rb,eth/contract/event_spec.rb,eth/rlp_spec.rb,eth/abi_spec.rb,eth/key/decrypter_spec.rb,eth/key/encrypter_spec.rb"
+"spec/eth/client_spec.rb,spec/eth/ens/resolver_spec.rb,spec/eth/solidity_spec.rb,spec/eth/contract_spec.rb,spec/eth/contract/initializer_spec.rb,spec/eth/contract/event_spec.rb,spec/eth/rlp_spec.rb,spec/eth/abi_spec.rb,spec/eth/key/decrypter_spec.rb,spec/eth/key/encrypter_spec.rb"
 ```
 
 **Tier 1 — full suite, CI parity** (required before "done"):
@@ -84,9 +84,12 @@ Needs `geth` and `solc` on `PATH`. If your machine can't host them, a green CI
 "Spec" run (ubuntu + macos × Ruby 3.4/4.0) on the exact commit is acceptable
 proof.
 
-**Tier 2 — remote** (CI/scheduled only): a few examples reach the single remote
-host `https://eth.drpc.org`. **Never call remote endpoints from an agent or
-local run without explicit human approval.**
+**Tier 2 — remote** (CI/scheduled only): a few examples in `client_spec` and
+`ens/resolver_spec` reach the single remote host `https://eth.drpc.org`. They
+are **embedded in the full Tier 1 suite** and cannot be isolated without RSpec
+tags (SPEC R17) — so the full `bundle exec rspec` above also makes these remote
+calls. **Run the full suite only in CI or with explicit human approval; agents
+default to Tier 0 and never contact a remote host otherwise.**
 
 Coverage report: `COVERAGE=1 bundle exec rspec` writes Cobertura XML to
 `coverage/`. Docs check: `bundle exec yard doc` (stays `--fail-on-warning`
