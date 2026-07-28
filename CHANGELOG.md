@@ -1,6 +1,51 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## [0.5.18]
+### Added
+* Add support for BigDecimal 4.x [#402](https://github.com/q9f/eth.rb/pull/402)
+
+### Changed
+* Docs: add SPEC, ACCEPTANCE, and per-domain spec contracts [#405](https://github.com/q9f/eth.rb/pull/405)
+* Build(deps): bump codecov/codecov-action from 6 to 7 [#404](https://github.com/q9f/eth.rb/pull/404)
+* Build(deps): bump actions/checkout from 6 to 7 [#403](https://github.com/q9f/eth.rb/pull/403)
+* Build(deps): bump codecov/codecov-action from 5 to 6 [#400](https://github.com/q9f/eth.rb/pull/400)
+* Build(deps): bump JamesIves/github-pages-deploy-action [#399](https://github.com/q9f/eth.rb/pull/399)
+* Bump version to 0.5.18
+
+## [0.5.17]
+### Added
+* Add JSONRPC error code to Client::RpcError [#392](https://github.com/q9f/eth.rb/pull/392)
+
+### Changed
+* Update workflow Ruby versions and deploy action [#397](https://github.com/q9f/eth.rb/pull/397)
+* Build(deps): bump JamesIves/github-pages-deploy-action [#395](https://github.com/q9f/eth.rb/pull/395)
+* Build(deps): bump actions/checkout from 5 to 6 [#394](https://github.com/q9f/eth.rb/pull/394)
+* Update README.md [#393](https://github.com/q9f/eth.rb/pull/393)
+* Bump version to 0.5.17 [#398](https://github.com/q9f/eth.rb/pull/398)
+
+## [0.5.16]
+### Added
+* Add WebSocket transport to client [#388](https://github.com/q9f/eth.rb/pull/388)
+* Support tuple arrays in ABI coder [#387](https://github.com/q9f/eth.rb/pull/387)
+* Add sign and public key helpers for BLS [#366](https://github.com/q9f/eth.rb/pull/366)
+* Add tuple array ABI support [#369](https://github.com/q9f/eth.rb/pull/369)
+
+### Changed
+* Build(deps): bump github/codeql-action from 3 to 4 [#390](https://github.com/q9f/eth.rb/pull/390)
+* Client/ws: fix client origin headers for ws requests [#391](https://github.com/q9f/eth.rb/pull/391)
+* Rename websocket client to Ws and expand websocket tests [#389](https://github.com/q9f/eth.rb/pull/389)
+* Format EIP-4844 transaction constant [#386](https://github.com/q9f/eth.rb/pull/386)
+* Fix ABI tuple handling for ethers test cases [#385](https://github.com/q9f/eth.rb/pull/385)
+* Increase blob throughput limits [#363](https://github.com/q9f/eth.rb/pull/363)
+* Feat: use httpx for http requests [#382](https://github.com/q9f/eth.rb/pull/382)
+* Fix: transform hash keys to strings in encoder for component type compatibility [#378](https://github.com/q9f/eth.rb/pull/378)
+* Fix: improve error handling for missing keys in component encoding [#376](https://github.com/q9f/eth.rb/pull/376)
+* Build(deps): bump actions/checkout from 4 to 5 [#379](https://github.com/q9f/eth.rb/pull/379)
+* Test: add abi decode case for prefixed hex data [#374](https://github.com/q9f/eth.rb/pull/374)
+* Add tests for decoder static arrays and encoder helpers [#373](https://github.com/q9f/eth.rb/pull/373)
+* Chore: bump version to 0.5.16 [#362](https://github.com/q9f/eth.rb/pull/362)
+
 ## [0.5.15]
 ### Added
 * Implement EIP712 array encoding [#361](https://github.com/q9f/eth.rb/pull/361)

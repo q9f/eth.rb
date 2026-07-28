@@ -185,8 +185,8 @@ memoized `binary`.
 `lib/eth.rb` defines the top-level `module Eth` and `require`s every subsystem
 in order (abi, api, address, chain, constant, contract, client, eip712, key,
 rlp, signature, solidity, tx, unit, util, bls, ens, version). `lib/eth/version.rb`
-holds the version constants: `MAJOR = 0`, `MINOR = 5`, `PATCH = 17`, and
-`VERSION = [MAJOR, MINOR, PATCH].join(".")` (`"0.5.17"`) — the single source of
+holds the version constants: `MAJOR = 0`, `MINOR = 5`, `PATCH = 18`, and
+`VERSION = [MAJOR, MINOR, PATCH].join(".")` (`"0.5.18"`) — the single source of
 truth bumped at each release (SPEC D10).
 
 ---
