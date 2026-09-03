@@ -593,7 +593,9 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    <p class="note returns_void">This method returns an undefined value.</p><p>Closes the underlying WebSocket connection.</p>
+    <p class="note returns_void">This method returns an undefined value.</p><p>Closes the underlying WebSocket connection. Once closed, the
+client cannot be used anymore; any subsequent request raises an
+<code>IOError</code>. Safe to call multiple times.</p>
 
   </div>
 </div>
@@ -606,15 +608,21 @@
       <pre class="lines">
 
 
-82
-83
-84</pre>
+84
+85
+86
+87
+88
+89</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/client/ws.rb', line 82</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/client/ws.rb', line 84</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_close'>close</span>
-  <span class='ivar'>@mutex</span><span class='period'>.</span><span class='id identifier rubyid_synchronize'>synchronize</span> <span class='lbrace'>{</span> <span class='id identifier rubyid_close_socket'>close_socket</span> <span class='rbrace'>}</span>
+  <span class='ivar'>@mutex</span><span class='period'>.</span><span class='id identifier rubyid_synchronize'>synchronize</span> <span class='kw'>do</span>
+    <span class='ivar'>@closed</span> <span class='op'>=</span> <span class='kw'>true</span>
+    <span class='id identifier rubyid_close_socket'>close_socket</span>
+  <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -723,7 +731,7 @@
 </div>
 
       <div id="footer">
-  Generated on Wed Sep  2 06:17:35 2026 by
+  Generated on Thu Sep  3 19:34:39 2026 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.45 (ruby-3.4.10).
 </div>
