@@ -76,11 +76,16 @@ module Eth
       end
     end
 
-    # Closes the underlying WebSocket connection.
+    # Closes the underlying WebSocket connection. Once closed, the
+    # client cannot be used anymore; any subsequent request raises an
+    # `IOError`. Safe to call multiple times.
     #
     # @return [void]
     def close
-      @mutex.synchronize { close_socket }
+      @mutex.synchronize do
+        @closed = true
+        close_socket
+      end
     end
 
     private

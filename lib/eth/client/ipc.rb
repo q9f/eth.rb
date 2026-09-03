@@ -43,8 +43,9 @@ module Eth
       until read.end_with?("\n")
         read = read << socket.recvmsg(nil)[0]
       end
-      socket.close
       return read
+    ensure
+      socket.close unless socket.nil? || socket.closed?
     end
   end
 end
