@@ -27,14 +27,21 @@ module Eth
       # code which the signer desires to execute in the context of their EOA.
       class Authorization
 
+        # The EIP-7702 magic byte, prefixed to the RLP-encoded authorization
+        # tuple before hashing so that authorization signatures cannot be
+        # replayed as transaction signatures.
+        # Ref: https://eips.ethereum.org/EIPS/eip-7702
+        MAGIC = 0x05.freeze
+
         # The EIP-155 Chain ID.
         # Ref: https://eips.ethereum.org/EIPS/eip-155
         attr_reader :chain_id
 
-        # The authority addess.
+        # The delegation target: the address whose code the authority's
+        # account runs. The authority itself is the signer.
         attr_reader :address
 
-        # The transaction nonce.
+        # The authority's account nonce this authorization is valid for.
         attr_reader :nonce
 
         # The signature's y-parity byte (not v).
@@ -52,8 +59,8 @@ module Eth
         #
         # @param fields [Hash] all necessary transaction fields.
         # @option fields [Integer] :chain_id the chain ID.
-        # @option fields [Eth::Address] :address the authority address.
-        # @option fields [Integer] :nonce the transaction nonce.
+        # @option fields [Eth::Address] :address the delegation target address.
+        # @option fields [Integer] :nonce the authority's account nonce.
         def initialize(fields)
           @chain_id = fields[:chain_id].to_i
           @address = fields[:address].to_s
@@ -63,46 +70,63 @@ module Eth
           @signature_s = fields[:s]
         end
 
-        # Sign the authorization with a given key.
+        # Sign the authorization with a given key. The key's account becomes
+        # the authority, delegating to the code at {#address}; any key may
+        # sign for any delegation target.
+        #
+        # The signed authorization is valid on chain {#chain_id}, or on any
+        # chain if that is 0. Anyone holding it can submit it while the
+        # account's nonce equals {#nonce}; on each chain where it is included,
+        # the code at {#address} then acts as the account until the account
+        # delegates elsewhere. Sign only for code you trust.
         #
         # @param key [Eth::Key] the key-pair to use for signing.
-        # @return [String] a transaction hash.
+        # @return [String] the hex-encoded hash that was signed, {#unsigned_hash}.
         # @raise [Signature::SignatureError] if authorization is already signed.
-        # @raise [Signature::SignatureError] if sender address does not match signing key.
+        # @raise [Address::CheckSumError] if {#address} is not a valid address.
         def sign(key)
           if Tx.signed? self
             raise Signature::SignatureError, "Authorization is already signed!"
           end
 
-          # ensure the sender address matches the given key
-          unless @address.nil? or @address.empty?
-            signer_address = Tx.sanitize_address key.address.to_s
-            from_address = Tx.sanitize_address @address
-            raise Signature::SignatureError, "Signer does not match sender" unless signer_address == from_address
-          end
+          # reject a delegation target that is not a valid address: malformed
+          # input yields a tuple clients reject, and an EIP-55 checksum
+          # mismatch most likely means a typo in the target
+          Address.new @address
 
-          # sign a keccak hash of the unsigned, encoded transaction
-          signature = key.sign(unsigned_hash, @chain_id)
+          # sign a keccak hash of the magic-prefixed, encoded authorization;
+          # the chain ID is part of that payload, so the signature carries no
+          # EIP-155 v and the y-parity is the raw recovery id
+          sign_hash = unsigned_hash
+          signature = key.sign(sign_hash)
           r, s, v = Signature.dissect signature
-          recovery_id = Chain.to_recovery_id v.to_i(16), @chain_id
+          recovery_id = Chain.to_recovery_id v.to_i(16)
           @signature_y_parity = recovery_id
           @signature_r = r
           @signature_s = s
-          return hash
+          return Util.bin_to_hex sign_hash
         end
 
-        # Encodes the unsigned authorization payload required for signing.
+        # Encodes the unsigned authorization payload required for signing:
+        # the {MAGIC} byte followed by `rlp([chain_id, address, nonce])`.
         #
-        # @return [String] an RLP-encoded, unsigned, enveloped EIP-7702 transaction.
+        # @return [String] the magic-prefixed, RLP-encoded authorization tuple.
         def unsigned_encoded
           authorization_data = []
           authorization_data.push Util.serialize_int_to_big_endian @chain_id
           authorization_data.push Util.hex_to_bin @address
           authorization_data.push Util.serialize_int_to_big_endian @nonce
-          Rlp.encode authorization_data
+          authorization_encoded = Rlp.encode authorization_data
+
+          # prefix the EIP-7702 magic byte to separate the signing domain
+          magic = Util.serialize_int_to_big_endian MAGIC
+
+          return "#{magic}#{authorization_encoded}"
         end
 
-        # Gets the sign-hash required to sign.
+        # Gets the sign-hash required to sign: the Keccak-256 hash of
+        # {#unsigned_encoded}, which an EIP-7702 client recovers the
+        # authority from.
         #
         # @return [String] a Keccak-256 hash.
         def unsigned_hash
