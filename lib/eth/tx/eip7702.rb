@@ -27,6 +27,12 @@ module Eth
       # code which the signer desires to execute in the context of their EOA.
       class Authorization
 
+        # The EIP-7702 magic byte, prefixed to the RLP-encoded authorization
+        # tuple before hashing so that authorization signatures cannot be
+        # replayed as transaction signatures.
+        # Ref: https://eips.ethereum.org/EIPS/eip-7702
+        MAGIC = 0x05.freeze
+
         # The EIP-155 Chain ID.
         # Ref: https://eips.ethereum.org/EIPS/eip-155
         attr_reader :chain_id
@@ -81,7 +87,7 @@ module Eth
             raise Signature::SignatureError, "Signer does not match sender" unless signer_address == from_address
           end
 
-          # sign a keccak hash of the unsigned, encoded transaction
+          # sign a keccak hash of the magic-prefixed, encoded authorization
           signature = key.sign(unsigned_hash, @chain_id)
           r, s, v = Signature.dissect signature
           recovery_id = Chain.to_recovery_id v.to_i(16), @chain_id
@@ -91,18 +97,26 @@ module Eth
           return hash
         end
 
-        # Encodes the unsigned authorization payload required for signing.
+        # Encodes the unsigned authorization payload required for signing:
+        # the {MAGIC} byte followed by `rlp([chain_id, address, nonce])`.
         #
-        # @return [String] an RLP-encoded, unsigned, enveloped EIP-7702 transaction.
+        # @return [String] the magic-prefixed, RLP-encoded authorization tuple.
         def unsigned_encoded
           authorization_data = []
           authorization_data.push Util.serialize_int_to_big_endian @chain_id
           authorization_data.push Util.hex_to_bin @address
           authorization_data.push Util.serialize_int_to_big_endian @nonce
-          Rlp.encode authorization_data
+          authorization_encoded = Rlp.encode authorization_data
+
+          # prefix the EIP-7702 magic byte to separate the signing domain
+          magic = Util.serialize_int_to_big_endian MAGIC
+
+          return "#{magic}#{authorization_encoded}"
         end
 
-        # Gets the sign-hash required to sign.
+        # Gets the sign-hash required to sign: the Keccak-256 hash of
+        # {#unsigned_encoded}, which an EIP-7702 client recovers the
+        # authority from.
         #
         # @return [String] a Keccak-256 hash.
         def unsigned_hash

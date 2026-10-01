@@ -451,6 +451,70 @@ describe Tx::Eip7702 do
   end
 
   describe "Authorization" do
+    # anvil's default account 9, from the published, well-known test mnemonic
+    # "test test test test test test test test test test test junk"; anvil
+    # signed both entries of the `authorization_list` subject with it
+    subject(:anvil_account_nine) {
+      Key.new(priv: "2a871d0798f97d79848a013d4936a73bf4cc922c825d33c1cf7073dff6d409c6")
+    }
+
+    # official vectors from ethereum/execution-spec-tests v5.4.0,
+    # fixtures_stable.tar.gz, fixtures/state_tests/prague/eip7702_set_code_tx/,
+    # the first four from test_account_warming.json and the last one from
+    # test_valid_tx_invalid_chain_id.json; `key` is the fixture's published
+    # `secretKey` where the authority also sends the transaction
+    subject(:eest_vectors) {
+      [
+        {
+          chain_id: 0,
+          address: "2de810fb269f7473c94cb2316671b0417ef19bf2",
+          nonce: 1,
+          y_parity: 0,
+          r: "3d8d1b7766d4f8a9e5fc702cd0d9e7c2815ccfe2897d9ac51b61ba3dfa59964d",
+          s: "525e378cc27eaa17281c337be9b7831826dd1732509441a367cee9f9f630a37e",
+          signer: "0xc88d9103be00aa3f588cfce443a3193417ae201f",
+          key: "11df39f3145c8dc3e3f815723d4c3d83145072393b330576e075f31381080632",
+        },
+        {
+          chain_id: 0,
+          address: "3d53141569f10ee7030e8eab02f44f6c3556005d",
+          nonce: 0,
+          y_parity: 1,
+          r: "a73f7838269782eff7d66b9a03472534070aad705711d02057e1b2cfd2d211ea",
+          s: "3e9c92d18fe70d6a072ee34fd0401388ec877c6b1e188ca077064dcce89f9b93",
+          signer: "0x1e2310e5ab3951fd3b5474b3f527a497dc322938",
+          key: "7ae1a3eb85cc9bb52321d4749d41e366ddd7bcac7e0b774a84ec4e4aa5345cc7",
+        },
+        {
+          chain_id: 1,
+          address: "5351234c1eda827ccc9bb1b28eb6006f5416d2c6",
+          nonce: 0,
+          y_parity: 1,
+          r: "e9c359731eb807b4e73f95129925516c59480409e533978524c5ba4dd49698ae",
+          s: "66da82c5cfe8e47b8a01e730302f6776db022e6fe19ef3a48775e3fa18408020",
+          signer: "0x8ecab4b9aceac5c33c821700fe6d13fc84500299",
+        },
+        {
+          chain_id: 2,
+          address: "e4624368903fa5946d2f37257c45cdd75f5e124d",
+          nonce: 1,
+          y_parity: 1,
+          r: "1ef114442c46006d6af75b5514c63dc0758c485c4e8e5843c5efcee9e94aed06",
+          s: "3fd258c029f4922d349bd2e0ed9e92e71d0d540920664fcb65c61659eeda9e3e",
+          signer: "0x5f721be9a03aa669d158e0498223e7318c9e3e45",
+        },
+        {
+          chain_id: 2 ** 256 - 1,
+          address: "4c87531476694224c79671e2b844c2ab24c885cf",
+          nonce: 0,
+          y_parity: 1,
+          r: "8625888bf53285bd4d5ce133807c1fb66379dc1e90e58abe967536b684ebc423",
+          s: "3d78ea4353faec9eea32c2f96e6949d27371692491ad4a6adee93ded801653f6",
+          signer: "0xda3391248ea54e9e81bb522ea47bf4ca26596045",
+        },
+      ]
+    }
+
     describe ".sign" do
       it "does not allow signing of an already signed authorization" do
         expect { authorization_list.first.sign cow }.to raise_error Signature::SignatureError, "Authorization is already signed!"
@@ -463,9 +527,47 @@ describe Tx::Eip7702 do
       it "updates the y parity, r and s correctly" do
         unsigned_cow_authorization.sign cow
 
-        expect(unsigned_cow_authorization.signature_y_parity).to eq 1
-        expect(unsigned_cow_authorization.signature_r).to eq "66cadb13ae65792aaee7c9af01efb056ea3e6d8e14c8ab2dd398d429a645e042"
-        expect(unsigned_cow_authorization.signature_s).to eq "24d8959748c1cd7e31759b210d8617af6c9709e3b2df22fdfe5f72cabfab04ed"
+        expect(unsigned_cow_authorization.signature_y_parity).to eq 0
+        expect(unsigned_cow_authorization.signature_r).to eq "162719dbae330ac14c9dc296d8c79a961477c8487256eac5f04bc8a66905102b"
+        expect(unsigned_cow_authorization.signature_s).to eq "77dc2e95588df002dd4932ef60d591b204982b78a4d4eff6cad449a243af9595"
+      end
+    end
+
+    describe ".unsigned_encoded" do
+      it "prefixes the rlp-encoded tuple with the magic byte" do
+        expect(Tx::Eip7702::Authorization::MAGIC).to eq 0x05
+        expect(Util.bin_to_hex unsigned_authorization.unsigned_encoded).to eq "05d9827a6994700b6a60ce7eaaea56f065753d8dcb9653dbad3502"
+      end
+    end
+
+    describe ".unsigned_hash" do
+      it "recovers the authorities of the official execution-spec-tests vectors" do
+        eest_vectors.each do |vector|
+          authorization = Tx::Eip7702::Authorization.new(chain_id: vector[:chain_id], address: vector[:address], nonce: vector[:nonce])
+          public_key = Signature.recover(authorization.unsigned_hash, "#{vector[:r]}#{vector[:s]}0#{vector[:y_parity]}")
+          expect(Util.public_key_to_address(public_key).to_s.downcase).to eq vector[:signer]
+        end
+      end
+
+      it "reproduces the signatures of the official execution-spec-tests vectors" do
+        eest_vectors.select { |vector| vector[:key] }.each do |vector|
+          authorization = Tx::Eip7702::Authorization.new(chain_id: vector[:chain_id], address: vector[:address], nonce: vector[:nonce])
+          r, s, v = Signature.dissect Key.new(priv: vector[:key]).sign(authorization.unsigned_hash, vector[:chain_id])
+          expect(Chain.to_recovery_id v.to_i(16), vector[:chain_id]).to eq vector[:y_parity]
+          expect(r).to eq vector[:r]
+          expect(s).to eq vector[:s]
+        end
+      end
+
+      it "reproduces the anvil-signed authorizations" do
+        authorization_list.each do |authorization|
+          signature = "#{authorization.signature_r}#{authorization.signature_s}0#{authorization.signature_y_parity}"
+          public_key = Signature.recover(authorization.unsigned_hash, signature)
+          expect(Util.public_key_to_address(public_key).to_s).to eq anvil_account_nine.address.to_s
+          r, s, _ = Signature.dissect anvil_account_nine.sign(authorization.unsigned_hash, authorization.chain_id)
+          expect(r).to eq authorization.signature_r
+          expect(s).to eq authorization.signature_s
+        end
       end
     end
   end
