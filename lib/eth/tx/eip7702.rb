@@ -41,7 +41,7 @@ module Eth
         # account runs. The authority itself is the signer.
         attr_reader :address
 
-        # The transaction nonce.
+        # The authority's account nonce this authorization is valid for.
         attr_reader :nonce
 
         # The signature's y-parity byte (not v).
@@ -60,7 +60,7 @@ module Eth
         # @param fields [Hash] all necessary transaction fields.
         # @option fields [Integer] :chain_id the chain ID.
         # @option fields [Eth::Address] :address the delegation target address.
-        # @option fields [Integer] :nonce the transaction nonce.
+        # @option fields [Integer] :nonce the authority's account nonce.
         def initialize(fields)
           @chain_id = fields[:chain_id].to_i
           @address = fields[:address].to_s
@@ -74,19 +74,33 @@ module Eth
         # the authority, delegating to the code at {#address}; any key may
         # sign for any delegation target.
         #
+        # The signed authorization is valid on chain {#chain_id}, or on any
+        # chain if that is 0. Anyone holding it can submit it while the
+        # account's nonce equals {#nonce}; on each chain where it is included,
+        # the code at {#address} then acts as the account until the account
+        # delegates elsewhere. Sign only for code you trust.
+        #
         # @param key [Eth::Key] the key-pair to use for signing.
         # @return [String] the hex-encoded hash that was signed, {#unsigned_hash}.
         # @raise [Signature::SignatureError] if authorization is already signed.
+        # @raise [Address::CheckSumError] if {#address} is not a valid address.
         def sign(key)
           if Tx.signed? self
             raise Signature::SignatureError, "Authorization is already signed!"
           end
 
-          # sign a keccak hash of the magic-prefixed, encoded authorization
+          # reject a delegation target that is not a valid address: malformed
+          # input yields a tuple clients reject, and an EIP-55 checksum
+          # mismatch most likely means a typo in the target
+          Address.new @address
+
+          # sign a keccak hash of the magic-prefixed, encoded authorization;
+          # the chain ID is part of that payload, so the signature carries no
+          # EIP-155 v and the y-parity is the raw recovery id
           sign_hash = unsigned_hash
-          signature = key.sign(sign_hash, @chain_id)
+          signature = key.sign(sign_hash)
           r, s, v = Signature.dissect signature
-          recovery_id = Chain.to_recovery_id v.to_i(16), @chain_id
+          recovery_id = Chain.to_recovery_id v.to_i(16)
           @signature_y_parity = recovery_id
           @signature_r = r
           @signature_s = s

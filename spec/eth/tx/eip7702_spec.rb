@@ -458,9 +458,10 @@ describe Tx::Eip7702 do
       Key.new(priv: "2a871d0798f97d79848a013d4936a73bf4cc922c825d33c1cf7073dff6d409c6")
     }
 
-    # official vectors from ethereum/execution-spec-tests v5.4.0,
-    # fixtures_stable.tar.gz, fixtures/state_tests/prague/eip7702_set_code_tx/,
-    # the first four from test_account_warming.json and the last one from
+    # official vectors from the ethereum/execution-spec-tests v5.4.0 release,
+    # fixtures_stable.tar.gz, filled from ethereum/execution-specs@tests-v5.4.0,
+    # fixtures/state_tests/prague/eip7702_set_code_tx/: the first four from
+    # test_account_warming.json and the last one from
     # test_valid_tx_invalid_chain_id.json; `key` is the fixture's published
     # `secretKey` where the authority also sends the transaction
     subject(:eest_vectors) {
@@ -538,7 +539,9 @@ describe Tx::Eip7702 do
       end
 
       it "reproduces the signatures of the official execution-spec-tests vectors" do
-        eest_vectors.select { |vector| vector[:key] }.each do |vector|
+        keyed_vectors = eest_vectors.select { |vector| vector[:key] }
+        expect(keyed_vectors.size).to eq 2
+        keyed_vectors.each do |vector|
           authorization = Tx::Eip7702::Authorization.new(chain_id: vector[:chain_id], address: vector[:address], nonce: vector[:nonce])
           authorization.sign Key.new(priv: vector[:key])
           expect(authorization.signature_y_parity).to eq vector[:y_parity]
@@ -548,11 +551,41 @@ describe Tx::Eip7702 do
       end
 
       it "reproduces the anvil-signed authorizations" do
+        expect(authorization_list.size).to eq 2
         authorization_list.each do |signed|
           authorization = Tx::Eip7702::Authorization.new(chain_id: signed.chain_id, address: signed.address, nonce: signed.nonce)
           authorization.sign anvil_account_nine
           expect(authorization).to eq signed
         end
+      end
+
+      it "signs on any chain ID with the raw recovery id as y parity" do
+        key = Key.new(priv: eest_vectors.first[:key])
+        [0, 1, 2 ** 63 - 17, 2 ** 64, 2 ** 256 - 1].each do |chain_id|
+          authorization = Tx::Eip7702::Authorization.new(chain_id: chain_id, address: eest_vectors.first[:address], nonce: 0)
+          authorization.sign key
+          expect([0, 1]).to include authorization.signature_y_parity
+          signature = "#{authorization.signature_r}#{authorization.signature_s}0#{authorization.signature_y_parity}"
+          public_key = Signature.recover(authorization.unsigned_hash, signature)
+          expect(Util.public_key_to_address(public_key).to_s).to eq key.address.to_s
+        end
+      end
+
+      it "rejects a delegation target that is not a valid address" do
+        ["", "0x1234", "0x2De810fB269F7473c94cB2316671b0417ef19bf2", "0x" + "zz" * 20].each do |address|
+          authorization = Tx::Eip7702::Authorization.new(chain_id: 1, address: address, nonce: 0)
+          expect { authorization.sign cow }.to raise_error Address::CheckSumError
+        end
+      end
+
+      it "signs a delegation to the zero address, which clears a delegation" do
+        authorization = Tx::Eip7702::Authorization.new(chain_id: 1, address: Address::ZERO, nonce: 0)
+        authorization.sign cow
+
+        expect(Util.bin_to_hex authorization.unsigned_encoded).to eq "05d70194#{"00" * 20}80"
+        signature = "#{authorization.signature_r}#{authorization.signature_s}0#{authorization.signature_y_parity}"
+        public_key = Signature.recover(authorization.unsigned_hash, signature)
+        expect(Util.public_key_to_address(public_key).to_s).to eq cow.address.to_s
       end
     end
 
@@ -565,6 +598,7 @@ describe Tx::Eip7702 do
 
     describe ".unsigned_hash" do
       it "recovers the authorities of the official execution-spec-tests vectors" do
+        expect(eest_vectors.size).to eq 5
         eest_vectors.each do |vector|
           authorization = Tx::Eip7702::Authorization.new(chain_id: vector[:chain_id], address: vector[:address], nonce: vector[:nonce])
           public_key = Signature.recover(authorization.unsigned_hash, "#{vector[:r]}#{vector[:s]}0#{vector[:y_parity]}")
@@ -573,6 +607,7 @@ describe Tx::Eip7702 do
       end
 
       it "recovers the anvil-signed authorizations to anvil's account 9" do
+        expect(authorization_list.size).to eq 2
         authorization_list.each do |authorization|
           signature = "#{authorization.signature_r}#{authorization.signature_s}0#{authorization.signature_y_parity}"
           public_key = Signature.recover(authorization.unsigned_hash, signature)
