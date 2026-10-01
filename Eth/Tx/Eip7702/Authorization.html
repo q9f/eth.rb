@@ -113,6 +113,34 @@ code which the signer desires to execute in the context of their EOA.</p>
   
 
 </div>
+  
+    <h2>
+      Constant Summary
+      <small><a href="#" class="constants_summary_toggle">collapse</a></small>
+    </h2>
+
+    <dl class="constants">
+      
+        <dt id="MAGIC-constant" class="">MAGIC =
+          <div class="docstring">
+  <div class="discussion">
+    <p>The EIP-7702 magic byte, prefixed to the RLP-encoded authorization
+tuple before hashing so that authorization signatures cannot be
+replayed as transaction signatures.
+Ref: <a href="https://eips.ethereum.org/EIPS/eip-7702">https://eips.ethereum.org/EIPS/eip-7702</a></p>
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='int'>0x05</span><span class='period'>.</span><span class='id identifier rubyid_freeze'>freeze</span></pre></dd>
+      
+    </dl>
+  
+
 
 
 
@@ -141,7 +169,7 @@ code which the signer desires to execute in the context of their EOA.</p>
   
 
   
-    <span class="summary_desc"><div class='inline'><p>The authority addess.</p></div></span>
+    <span class="summary_desc"><div class='inline'><p>The delegation target: the address whose code the authority's account runs.</p></div></span>
   
 </li>
 
@@ -195,7 +223,7 @@ code which the signer desires to execute in the context of their EOA.</p>
   
 
   
-    <span class="summary_desc"><div class='inline'><p>The transaction nonce.</p></div></span>
+    <span class="summary_desc"><div class='inline'><p>The authority's account nonce this authorization is valid for.</p></div></span>
   
 </li>
 
@@ -401,7 +429,7 @@ code which the signer desires to execute in the context of their EOA.</p>
   
 
   
-    <span class="summary_desc"><div class='inline'><p>Encodes the unsigned authorization payload required for signing.</p></div></span>
+    <span class="summary_desc"><div class='inline'><p>Encodes the unsigned authorization payload required for signing: the <span class='object_link'><a href="#MAGIC-constant" title="Eth::Tx::Eip7702::Authorization::MAGIC (constant)">MAGIC</a></span> byte followed by <code>rlp([chain_id, address, nonce])</code>.</p></div></span>
   
 </li>
 
@@ -423,7 +451,7 @@ code which the signer desires to execute in the context of their EOA.</p>
   
 
   
-    <span class="summary_desc"><div class='inline'><p>Gets the sign-hash required to sign.</p></div></span>
+    <span class="summary_desc"><div class='inline'><p>Gets the sign-hash required to sign: the Keccak-256 hash of <span class='object_link'><a href="#unsigned_encoded-instance_method" title="Eth::Tx::Eip7702::Authorization#unsigned_encoded (method)">#unsigned_encoded</a></span>, which an EIP-7702 client recovers the authority from.</p></div></span>
   
 </li>
 
@@ -496,7 +524,7 @@ Ref: <a href="https://eips.ethereum.org/EIPS/eip-7702">https://eips.ethereum.org
             
           </span>
           
-            &mdash; <div class='inline'><p>the authority address.</p></div>
+            &mdash; <div class='inline'><p>the delegation target address.</p></div>
           
         </li>
       
@@ -507,7 +535,7 @@ Ref: <a href="https://eips.ethereum.org/EIPS/eip-7702">https://eips.ethereum.org
             
           </span>
           
-            &mdash; <div class='inline'><p>the transaction nonce.</p></div>
+            &mdash; <div class='inline'><p>the authority's account nonce.</p></div>
           
         </li>
       
@@ -521,17 +549,17 @@ Ref: <a href="https://eips.ethereum.org/EIPS/eip-7702">https://eips.ethereum.org
       <pre class="lines">
 
 
-57
-58
-59
-60
-61
-62
-63
-64</pre>
+64
+65
+66
+67
+68
+69
+70
+71</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip7702.rb', line 57</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip7702.rb', line 64</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_fields'>fields</span><span class='rparen'>)</span>
   <span class='ivar'>@chain_id</span> <span class='op'>=</span> <span class='id identifier rubyid_fields'>fields</span><span class='lbracket'>[</span><span class='symbol'>:chain_id</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span>
@@ -564,7 +592,8 @@ Ref: <a href="https://eips.ethereum.org/EIPS/eip-7702">https://eips.ethereum.org
   
 </h3><div class="docstring">
   <div class="discussion">
-    <p>The authority addess.</p>
+    <p>The delegation target: the address whose code the authority's
+account runs. The authority itself is the signer.</p>
 
   </div>
 </div>
@@ -577,12 +606,12 @@ Ref: <a href="https://eips.ethereum.org/EIPS/eip-7702">https://eips.ethereum.org
       <pre class="lines">
 
 
-35
-36
-37</pre>
+42
+43
+44</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip7702.rb', line 35</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip7702.rb', line 42</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_address'>address</span>
   <span class='ivar'>@address</span>
@@ -619,12 +648,12 @@ Ref: <a href="https://eips.ethereum.org/EIPS/eip-155">https://eips.ethereum.org/
       <pre class="lines">
 
 
-32
-33
-34</pre>
+38
+39
+40</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip7702.rb', line 32</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip7702.rb', line 38</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_chain_id'>chain_id</span>
   <span class='ivar'>@chain_id</span>
@@ -647,7 +676,7 @@ Ref: <a href="https://eips.ethereum.org/EIPS/eip-155">https://eips.ethereum.org/
   
 </h3><div class="docstring">
   <div class="discussion">
-    <p>The transaction nonce.</p>
+    <p>The authority's account nonce this authorization is valid for.</p>
 
   </div>
 </div>
@@ -660,12 +689,12 @@ Ref: <a href="https://eips.ethereum.org/EIPS/eip-155">https://eips.ethereum.org/
       <pre class="lines">
 
 
-38
-39
-40</pre>
+45
+46
+47</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip7702.rb', line 38</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip7702.rb', line 45</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_nonce'>nonce</span>
   <span class='ivar'>@nonce</span>
@@ -701,12 +730,12 @@ Ref: <a href="https://eips.ethereum.org/EIPS/eip-155">https://eips.ethereum.org/
       <pre class="lines">
 
 
-44
-45
-46</pre>
+51
+52
+53</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip7702.rb', line 44</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip7702.rb', line 51</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_signature_r'>signature_r</span>
   <span class='ivar'>@signature_r</span>
@@ -742,12 +771,12 @@ Ref: <a href="https://eips.ethereum.org/EIPS/eip-155">https://eips.ethereum.org/
       <pre class="lines">
 
 
-47
-48
-49</pre>
+54
+55
+56</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip7702.rb', line 47</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip7702.rb', line 54</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_signature_s'>signature_s</span>
   <span class='ivar'>@signature_s</span>
@@ -783,12 +812,12 @@ Ref: <a href="https://eips.ethereum.org/EIPS/eip-155">https://eips.ethereum.org/
       <pre class="lines">
 
 
-41
-42
-43</pre>
+48
+49
+50</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip7702.rb', line 41</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip7702.rb', line 48</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_signature_y_parity'>signature_y_parity</span>
   <span class='ivar'>@signature_y_parity</span>
@@ -845,12 +874,12 @@ Ref: <a href="https://eips.ethereum.org/EIPS/eip-155">https://eips.ethereum.org/
       <pre class="lines">
 
 
-130
-131
-132</pre>
+154
+155
+156</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip7702.rb', line 130</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip7702.rb', line 154</span>
 
 <span class='kw'>def</span> <span class='op'>==</span><span class='lparen'>(</span><span class='id identifier rubyid_o'>o</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_o'>o</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span> <span class='op'>==</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_o'>o</span><span class='period'>.</span><span class='id identifier rubyid_state'>state</span> <span class='op'>==</span> <span class='id identifier rubyid_state'>state</span>
@@ -900,20 +929,20 @@ Ref: <a href="https://eips.ethereum.org/EIPS/eip-155">https://eips.ethereum.org/
       <pre class="lines">
 
 
-115
-116
-117
-118
-119
-120
-121
-122
-123
-124
-125</pre>
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip7702.rb', line 115</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip7702.rb', line 139</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_raw'>raw</span>
   <span class='id identifier rubyid_authorization_data'>authorization_data</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
@@ -942,7 +971,14 @@ Ref: <a href="https://eips.ethereum.org/EIPS/eip-155">https://eips.ethereum.org/
   
 </h3><div class="docstring">
   <div class="discussion">
-    <p>Sign the authorization with a given key.</p>
+    <p>Sign the authorization with a given key. The key's account becomes
+the authority, delegating to the code at <span class='object_link'><a href="#address-instance_method" title="Eth::Tx::Eip7702::Authorization#address (method)">#address</a></span>; any key may
+sign for any delegation target.</p>
+<p>The signed authorization is valid on chain <span class='object_link'><a href="#chain_id-instance_method" title="Eth::Tx::Eip7702::Authorization#chain_id (method)">#chain_id</a></span>, or on any
+chain if that is 0. Anyone holding it can submit it while the
+account's nonce equals <span class='object_link'><a href="#nonce-instance_method" title="Eth::Tx::Eip7702::Authorization#nonce (method)">#nonce</a></span>; on each chain where it is included,
+the code at <span class='object_link'><a href="#address-instance_method" title="Eth::Tx::Eip7702::Authorization#address (method)">#address</a></span> then acts as the account until the account
+delegates elsewhere. Sign only for code you trust.</p>
 
   </div>
 </div>
@@ -977,7 +1013,7 @@ Ref: <a href="https://eips.ethereum.org/EIPS/eip-155">https://eips.ethereum.org/
       
       
         &mdash;
-        <div class='inline'><p>a transaction hash.</p></div>
+        <div class='inline'><p>the hex-encoded hash that was signed, <span class='object_link'><a href="#unsigned_hash-instance_method" title="Eth::Tx::Eip7702::Authorization#unsigned_hash (method)">#unsigned_hash</a></span>.</p></div>
       
     </li>
   
@@ -1000,12 +1036,12 @@ Ref: <a href="https://eips.ethereum.org/EIPS/eip-155">https://eips.ethereum.org/
     <li>
       
       
-        <span class='type'>(<tt><span class='object_link'><a href="../../Signature/SignatureError.html" title="Eth::Signature::SignatureError (class)">Signature::SignatureError</a></span></tt>)</span>
+        <span class='type'>(<tt><span class='object_link'><a href="../../Address/CheckSumError.html" title="Eth::Address::CheckSumError (class)">Address::CheckSumError</a></span></tt>)</span>
       
       
       
         &mdash;
-        <div class='inline'><p>if sender address does not match signing key.</p></div>
+        <div class='inline'><p>if <span class='object_link'><a href="#address-instance_method" title="Eth::Tx::Eip7702::Authorization#address (method)">#address</a></span> is not a valid address.</p></div>
       
     </li>
   
@@ -1017,51 +1053,53 @@ Ref: <a href="https://eips.ethereum.org/EIPS/eip-155">https://eips.ethereum.org/
       <pre class="lines">
 
 
-72
-73
-74
-75
-76
-77
-78
-79
-80
-81
-82
-83
-84
-85
-86
 87
 88
 89
 90
 91
-92</pre>
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip7702.rb', line 72</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip7702.rb', line 87</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_sign'>sign</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='rparen'>)</span>
   <span class='kw'>if</span> <span class='const'><span class='object_link'><a href="../../Tx.html" title="Eth::Tx (module)">Tx</a></span></span><span class='period'>.</span><span class='id identifier rubyid_signed?'><span class='object_link'><a href="../../Tx.html#signed%3F-instance_method" title="Eth::Tx#signed? (method)">signed?</a></span></span> <span class='kw'>self</span>
     <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../../Signature.html" title="Eth::Signature (module)">Signature</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../../Signature/SignatureError.html" title="Eth::Signature::SignatureError (class)">SignatureError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Authorization is already signed!</span><span class='tstring_end'>&quot;</span></span>
   <span class='kw'>end</span>
 
-  <span class='comment'># ensure the sender address matches the given key
-</span>  <span class='kw'>unless</span> <span class='ivar'>@address</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='kw'>or</span> <span class='ivar'>@address</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
-    <span class='id identifier rubyid_signer_address'>signer_address</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../../Tx.html" title="Eth::Tx (module)">Tx</a></span></span><span class='period'>.</span><span class='id identifier rubyid_sanitize_address'><span class='object_link'><a href="../../Tx.html#sanitize_address-instance_method" title="Eth::Tx#sanitize_address (method)">sanitize_address</a></span></span> <span class='id identifier rubyid_key'>key</span><span class='period'>.</span><span class='id identifier rubyid_address'>address</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>
-    <span class='id identifier rubyid_from_address'>from_address</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../../Tx.html" title="Eth::Tx (module)">Tx</a></span></span><span class='period'>.</span><span class='id identifier rubyid_sanitize_address'><span class='object_link'><a href="../../Tx.html#sanitize_address-instance_method" title="Eth::Tx#sanitize_address (method)">sanitize_address</a></span></span> <span class='ivar'>@address</span>
-    <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="../../Signature.html" title="Eth::Signature (module)">Signature</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../../Signature/SignatureError.html" title="Eth::Signature::SignatureError (class)">SignatureError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Signer does not match sender</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_signer_address'>signer_address</span> <span class='op'>==</span> <span class='id identifier rubyid_from_address'>from_address</span>
-  <span class='kw'>end</span>
+  <span class='comment'># reject a delegation target that is not a valid address: malformed
+</span>  <span class='comment'># input yields a tuple clients reject, and an EIP-55 checksum
+</span>  <span class='comment'># mismatch most likely means a typo in the target
+</span>  <span class='const'><span class='object_link'><a href="../../Address.html" title="Eth::Address (class)">Address</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="../../Address.html#initialize-instance_method" title="Eth::Address#initialize (method)">new</a></span></span> <span class='ivar'>@address</span>
 
-  <span class='comment'># sign a keccak hash of the unsigned, encoded transaction
-</span>  <span class='id identifier rubyid_signature'>signature</span> <span class='op'>=</span> <span class='id identifier rubyid_key'>key</span><span class='period'>.</span><span class='id identifier rubyid_sign'>sign</span><span class='lparen'>(</span><span class='id identifier rubyid_unsigned_hash'>unsigned_hash</span><span class='comma'>,</span> <span class='ivar'>@chain_id</span><span class='rparen'>)</span>
+  <span class='comment'># sign a keccak hash of the magic-prefixed, encoded authorization;
+</span>  <span class='comment'># the chain ID is part of that payload, so the signature carries no
+</span>  <span class='comment'># EIP-155 v and the y-parity is the raw recovery id
+</span>  <span class='id identifier rubyid_sign_hash'>sign_hash</span> <span class='op'>=</span> <span class='id identifier rubyid_unsigned_hash'>unsigned_hash</span>
+  <span class='id identifier rubyid_signature'>signature</span> <span class='op'>=</span> <span class='id identifier rubyid_key'>key</span><span class='period'>.</span><span class='id identifier rubyid_sign'>sign</span><span class='lparen'>(</span><span class='id identifier rubyid_sign_hash'>sign_hash</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_r'>r</span><span class='comma'>,</span> <span class='id identifier rubyid_s'>s</span><span class='comma'>,</span> <span class='id identifier rubyid_v'>v</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../../Signature.html" title="Eth::Signature (module)">Signature</a></span></span><span class='period'>.</span><span class='id identifier rubyid_dissect'><span class='object_link'><a href="../../Signature.html#dissect-instance_method" title="Eth::Signature#dissect (method)">dissect</a></span></span> <span class='id identifier rubyid_signature'>signature</span>
-  <span class='id identifier rubyid_recovery_id'>recovery_id</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../../Chain.html" title="Eth::Chain (module)">Chain</a></span></span><span class='period'>.</span><span class='id identifier rubyid_to_recovery_id'><span class='object_link'><a href="../../Chain.html#to_recovery_id-instance_method" title="Eth::Chain#to_recovery_id (method)">to_recovery_id</a></span></span> <span class='id identifier rubyid_v'>v</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span><span class='lparen'>(</span><span class='int'>16</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='ivar'>@chain_id</span>
+  <span class='id identifier rubyid_recovery_id'>recovery_id</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../../Chain.html" title="Eth::Chain (module)">Chain</a></span></span><span class='period'>.</span><span class='id identifier rubyid_to_recovery_id'><span class='object_link'><a href="../../Chain.html#to_recovery_id-instance_method" title="Eth::Chain#to_recovery_id (method)">to_recovery_id</a></span></span> <span class='id identifier rubyid_v'>v</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span><span class='lparen'>(</span><span class='int'>16</span><span class='rparen'>)</span>
   <span class='ivar'>@signature_y_parity</span> <span class='op'>=</span> <span class='id identifier rubyid_recovery_id'>recovery_id</span>
   <span class='ivar'>@signature_r</span> <span class='op'>=</span> <span class='id identifier rubyid_r'>r</span>
   <span class='ivar'>@signature_s</span> <span class='op'>=</span> <span class='id identifier rubyid_s'>s</span>
-  <span class='kw'>return</span> <span class='id identifier rubyid_hash'>hash</span>
+  <span class='kw'>return</span> <span class='const'><span class='object_link'><a href="../../Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_bin_to_hex'><span class='object_link'><a href="../../Util.html#bin_to_hex-instance_method" title="Eth::Util#bin_to_hex (method)">bin_to_hex</a></span></span> <span class='id identifier rubyid_sign_hash'>sign_hash</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1079,7 +1117,8 @@ Ref: <a href="https://eips.ethereum.org/EIPS/eip-155">https://eips.ethereum.org/
   
 </h3><div class="docstring">
   <div class="discussion">
-    <p>Encodes the unsigned authorization payload required for signing.</p>
+    <p>Encodes the unsigned authorization payload required for signing:
+the <span class='object_link'><a href="#MAGIC-constant" title="Eth::Tx::Eip7702::Authorization::MAGIC (constant)">MAGIC</a></span> byte followed by <code>rlp([chain_id, address, nonce])</code>.</p>
 
   </div>
 </div>
@@ -1096,7 +1135,7 @@ Ref: <a href="https://eips.ethereum.org/EIPS/eip-155">https://eips.ethereum.org/
       
       
         &mdash;
-        <div class='inline'><p>an RLP-encoded, unsigned, enveloped EIP-7702 transaction.</p></div>
+        <div class='inline'><p>the magic-prefixed, RLP-encoded authorization tuple.</p></div>
       
     </li>
   
@@ -1108,23 +1147,33 @@ Ref: <a href="https://eips.ethereum.org/EIPS/eip-155">https://eips.ethereum.org/
       <pre class="lines">
 
 
-97
-98
-99
-100
-101
-102
-103</pre>
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip7702.rb', line 97</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip7702.rb', line 114</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_unsigned_encoded'>unsigned_encoded</span>
   <span class='id identifier rubyid_authorization_data'>authorization_data</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
   <span class='id identifier rubyid_authorization_data'>authorization_data</span><span class='period'>.</span><span class='id identifier rubyid_push'>push</span> <span class='const'><span class='object_link'><a href="../../Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_serialize_int_to_big_endian'><span class='object_link'><a href="../../Util.html#serialize_int_to_big_endian-instance_method" title="Eth::Util#serialize_int_to_big_endian (method)">serialize_int_to_big_endian</a></span></span> <span class='ivar'>@chain_id</span>
   <span class='id identifier rubyid_authorization_data'>authorization_data</span><span class='period'>.</span><span class='id identifier rubyid_push'>push</span> <span class='const'><span class='object_link'><a href="../../Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_hex_to_bin'><span class='object_link'><a href="../../Util.html#hex_to_bin-instance_method" title="Eth::Util#hex_to_bin (method)">hex_to_bin</a></span></span> <span class='ivar'>@address</span>
   <span class='id identifier rubyid_authorization_data'>authorization_data</span><span class='period'>.</span><span class='id identifier rubyid_push'>push</span> <span class='const'><span class='object_link'><a href="../../Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_serialize_int_to_big_endian'><span class='object_link'><a href="../../Util.html#serialize_int_to_big_endian-instance_method" title="Eth::Util#serialize_int_to_big_endian (method)">serialize_int_to_big_endian</a></span></span> <span class='ivar'>@nonce</span>
-  <span class='const'><span class='object_link'><a href="../../Rlp.html" title="Eth::Rlp (module)">Rlp</a></span></span><span class='period'>.</span><span class='id identifier rubyid_encode'><span class='object_link'><a href="../../Rlp.html#encode-instance_method" title="Eth::Rlp#encode (method)">encode</a></span></span> <span class='id identifier rubyid_authorization_data'>authorization_data</span>
+  <span class='id identifier rubyid_authorization_encoded'>authorization_encoded</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../../Rlp.html" title="Eth::Rlp (module)">Rlp</a></span></span><span class='period'>.</span><span class='id identifier rubyid_encode'><span class='object_link'><a href="../../Rlp.html#encode-instance_method" title="Eth::Rlp#encode (method)">encode</a></span></span> <span class='id identifier rubyid_authorization_data'>authorization_data</span>
+
+  <span class='comment'># prefix the EIP-7702 magic byte to separate the signing domain
+</span>  <span class='id identifier rubyid_magic'>magic</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../../Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_serialize_int_to_big_endian'><span class='object_link'><a href="../../Util.html#serialize_int_to_big_endian-instance_method" title="Eth::Util#serialize_int_to_big_endian (method)">serialize_int_to_big_endian</a></span></span> <span class='const'><span class='object_link'><a href="#MAGIC-constant" title="Eth::Tx::Eip7702::Authorization::MAGIC (constant)">MAGIC</a></span></span>
+
+  <span class='kw'>return</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_magic'>magic</span><span class='embexpr_end'>}</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_authorization_encoded'>authorization_encoded</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1142,7 +1191,9 @@ Ref: <a href="https://eips.ethereum.org/EIPS/eip-155">https://eips.ethereum.org/
   
 </h3><div class="docstring">
   <div class="discussion">
-    <p>Gets the sign-hash required to sign.</p>
+    <p>Gets the sign-hash required to sign: the Keccak-256 hash of
+<span class='object_link'><a href="#unsigned_encoded-instance_method" title="Eth::Tx::Eip7702::Authorization#unsigned_encoded (method)">#unsigned_encoded</a></span>, which an EIP-7702 client recovers the
+authority from.</p>
 
   </div>
 </div>
@@ -1171,12 +1222,12 @@ Ref: <a href="https://eips.ethereum.org/EIPS/eip-155">https://eips.ethereum.org/
       <pre class="lines">
 
 
-108
-109
-110</pre>
+132
+133
+134</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip7702.rb', line 108</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/tx/eip7702.rb', line 132</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_unsigned_hash'>unsigned_hash</span>
   <span class='const'><span class='object_link'><a href="../../Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_keccak256'><span class='object_link'><a href="../../Util.html#keccak256-instance_method" title="Eth::Util#keccak256 (method)">keccak256</a></span></span> <span class='id identifier rubyid_unsigned_encoded'>unsigned_encoded</span>
@@ -1191,7 +1242,7 @@ Ref: <a href="https://eips.ethereum.org/EIPS/eip-155">https://eips.ethereum.org/
 </div>
 
       <div id="footer">
-  Generated on Thu Oct  1 22:45:10 2026 by
+  Generated on Thu Oct  1 22:48:46 2026 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.45 (ruby-3.4.11).
 </div>
