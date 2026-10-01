@@ -22,6 +22,7 @@ Gem::Specification.new do |spec|
     "changelog_uri" => "https://github.com/q9f/eth.rb/blob/main/CHANGELOG.md",
     "documentation_uri" => "https://q9f.github.io/eth.rb/",
     "github_repo" => "https://github.com/q9f/eth.rb",
+    "rubygems_mfa_required" => "true",
     "source_code_uri" => "https://github.com/q9f/eth.rb",
   }.freeze
 
