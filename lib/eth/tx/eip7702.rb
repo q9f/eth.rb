@@ -37,7 +37,8 @@ module Eth
         # Ref: https://eips.ethereum.org/EIPS/eip-155
         attr_reader :chain_id
 
-        # The authority addess.
+        # The delegation target: the address whose code the authority's
+        # account runs. The authority itself is the signer.
         attr_reader :address
 
         # The transaction nonce.
@@ -58,7 +59,7 @@ module Eth
         #
         # @param fields [Hash] all necessary transaction fields.
         # @option fields [Integer] :chain_id the chain ID.
-        # @option fields [Eth::Address] :address the authority address.
+        # @option fields [Eth::Address] :address the delegation target address.
         # @option fields [Integer] :nonce the transaction nonce.
         def initialize(fields)
           @chain_id = fields[:chain_id].to_i
@@ -69,32 +70,27 @@ module Eth
           @signature_s = fields[:s]
         end
 
-        # Sign the authorization with a given key.
+        # Sign the authorization with a given key. The key's account becomes
+        # the authority, delegating to the code at {#address}; any key may
+        # sign for any delegation target.
         #
         # @param key [Eth::Key] the key-pair to use for signing.
-        # @return [String] a transaction hash.
+        # @return [String] the hex-encoded hash that was signed, {#unsigned_hash}.
         # @raise [Signature::SignatureError] if authorization is already signed.
-        # @raise [Signature::SignatureError] if sender address does not match signing key.
         def sign(key)
           if Tx.signed? self
             raise Signature::SignatureError, "Authorization is already signed!"
           end
 
-          # ensure the sender address matches the given key
-          unless @address.nil? or @address.empty?
-            signer_address = Tx.sanitize_address key.address.to_s
-            from_address = Tx.sanitize_address @address
-            raise Signature::SignatureError, "Signer does not match sender" unless signer_address == from_address
-          end
-
           # sign a keccak hash of the magic-prefixed, encoded authorization
-          signature = key.sign(unsigned_hash, @chain_id)
+          sign_hash = unsigned_hash
+          signature = key.sign(sign_hash, @chain_id)
           r, s, v = Signature.dissect signature
           recovery_id = Chain.to_recovery_id v.to_i(16), @chain_id
           @signature_y_parity = recovery_id
           @signature_r = r
           @signature_s = s
-          return hash
+          return Util.bin_to_hex sign_hash
         end
 
         # Encodes the unsigned authorization payload required for signing:
