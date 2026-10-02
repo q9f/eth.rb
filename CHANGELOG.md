@@ -1,17 +1,29 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## [0.5.19]
+### Changed
+* Bump version to 0.5.19
+
 ## [0.5.18]
 ### Added
+* Feat: add close method to client for resource cleanup [#411](https://github.com/q9f/eth.rb/pull/411)
+* Add event signature lookup and decode_log to Contract [#408](https://github.com/q9f/eth.rb/pull/408)
 * Add support for BigDecimal 4.x [#402](https://github.com/q9f/eth.rb/pull/402)
 
 ### Changed
+* Fix: correct eip-7702 authorization signing [#414](https://github.com/q9f/eth.rb/pull/414)
+* Build(deps): bump github/codeql-action from 4.37.9 to 4.38.2 [#415](https://github.com/q9f/eth.rb/pull/415)
+* Build: require mfa for rubygems releases [#413](https://github.com/q9f/eth.rb/pull/413)
+* Build(deps): bump github/codeql-action from 4.37.3 to 4.37.9 [#410](https://github.com/q9f/eth.rb/pull/410)
+* Build(deps): bump JamesIves/github-pages-deploy-action [#409](https://github.com/q9f/eth.rb/pull/409)
+* Build(deps): bump github/codeql-action from 4 to 4.37.3 [#407](https://github.com/q9f/eth.rb/pull/407)
 * Docs: add SPEC, ACCEPTANCE, and per-domain spec contracts [#405](https://github.com/q9f/eth.rb/pull/405)
 * Build(deps): bump codecov/codecov-action from 6 to 7 [#404](https://github.com/q9f/eth.rb/pull/404)
 * Build(deps): bump actions/checkout from 6 to 7 [#403](https://github.com/q9f/eth.rb/pull/403)
 * Build(deps): bump codecov/codecov-action from 5 to 6 [#400](https://github.com/q9f/eth.rb/pull/400)
 * Build(deps): bump JamesIves/github-pages-deploy-action [#399](https://github.com/q9f/eth.rb/pull/399)
-* Bump version to 0.5.18
+* Bump version to 0.5.18 [#406](https://github.com/q9f/eth.rb/pull/406)
 
 ## [0.5.17]
 ### Added
