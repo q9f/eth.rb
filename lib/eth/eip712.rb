@@ -119,7 +119,9 @@ module Eth
         value = data[field[:name].to_sym]
         type = field[:type]
         if type.end_with?("]")
-          encoded_types.push type
+
+          # an array is one word: the hash of its encoded elements
+          encoded_types.push "bytes32"
           encoded_values.push encode_array(type, value, types)
         elsif type == "string" || type == "bytes" || !types[type.to_sym].nil?
           encoded_types.push "bytes32"
@@ -151,24 +153,47 @@ module Eth
       end
     end
 
-    # Prepares array values by encoding each element according to its
-    # base type. Returns an array compatible with Abi.encode.
+    # Encodes an array value as EIP-712 defines it: the Keccak-256 hash of
+    # the concatenated encodings of its elements. Each element is encoded as
+    # a member of the inner type would be: atomic values as 32-byte ABI
+    # words, strings and bytes hashed, structs as their struct hash, and
+    # nested arrays by this rule. A `nil` value is the empty array.
+    #
+    # @param type [String] the array type, e.g., `uint256[]` or `Person[2]`.
+    # @param value [Array] the array elements, or `nil` for none.
+    # @param types [Array] all existing types in the data structure.
+    # @return [String] a 32-byte Keccak-256 hash of the encoded elements.
+    # @raise [Abi::Type::ParseError] if the base type is neither a struct nor a valid ABI type, or a size is not a number.
+    # @raise [Abi::EncodingError] if a fixed-size array holds another number of elements.
     def encode_array(type, value, types)
-      inner_type = type.slice(0, type.rindex("["))
-      return [] if value.nil?
-      value.map do |v|
+      bracket = type.rindex("[")
+      inner_type = type.slice(0, bracket)
+      length = type.slice((bracket + 1)...-1).to_i
+      value = [] if value.nil?
+
+      # rejects an invalid base type or size, also for an empty array: the ABI
+      # parser checks atomic types, struct types get its rule for sizes
+      base_type = type.partition("[").first
+      if types[base_type.to_sym].nil?
+        Abi::Type.parse type
+      elsif !type.delete_prefix(base_type).match?(/\A(?:\[\d+\]|\[\])*\z/)
+        raise Abi::Type::ParseError, "Invalid type format"
+      end
+
+      # a fixed-size array must hold exactly its declared number of elements
+      if length != 0 && value.size != length
+        raise Abi::EncodingError, "Expecting #{length} elements: #{value.size} provided"
+      end
+
+      # encodes each element as a member of the inner type
+      encoded = value.map do |v|
         if inner_type.end_with?("]")
           encode_array inner_type, v, types
-        elsif inner_type == "string"
-          Util.keccak256 v
-        elsif inner_type == "bytes"
-          Util.keccak256 Util.hex_to_bin(v)
-        elsif !types[inner_type.to_sym].nil?
-          Util.keccak256 encode_data(inner_type, v, types)
         else
-          v
+          encode_value inner_type, v, types
         end
       end
+      return Util.keccak256 encoded.join
     end
 
     # Recursively ABI-encodes and hashes all data and types.
