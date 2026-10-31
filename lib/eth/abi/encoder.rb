@@ -311,8 +311,13 @@ module Eth
       # The ABI encoder needs to be able to determine between a hex `"123"`
       # and a binary `"123"` string.
       def handle_hex_string(arg, type)
-        if Util.prefixed? arg or
-           (arg.size === type.sub_type.to_i * 2 and Util.hex? arg)
+        if !type.sub_type.empty? and arg.bytesize == type.sub_type.to_i
+
+          # A `bytesN` argument of exactly `N` bytes can only be binary, even if
+          # it starts with `0x`: its hex form has `2N` or `2 + 2N` characters.
+          arg.b
+        elsif Util.prefixed? arg or
+              (arg.size === type.sub_type.to_i * 2 and Util.hex? arg)
 
           # There is no way telling whether a string is hex or binary with certainty
           # in Ruby. Therefore, we assume a `0x` prefix to indicate a hex string.
