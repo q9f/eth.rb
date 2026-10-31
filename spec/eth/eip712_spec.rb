@@ -134,14 +134,16 @@ describe Eip712 do
     end
   end
 
+  # EIP-712 encodes an array as "the keccak256 hash of the concatenated
+  # encodeData of their contents": one 32-byte word per array (SPEC R33).
   describe ".encode_array" do
     it "hashes string array items" do
-      expect(Eip712.encode_array("string[]", ["foo", "bar"], {})).to eq [Util.keccak256("foo"), Util.keccak256("bar")]
+      expect(Eip712.encode_array("string[]", ["foo", "bar"], {})).to eq Util.keccak256(Util.keccak256("foo") + Util.keccak256("bar"))
     end
 
     it "hashes bytes array items" do
       arr = ["0x1234", "0xabcd"]
-      expected = arr.map { |v| Util.keccak256(Util.hex_to_bin(v)) }
+      expected = Util.keccak256(arr.map { |v| Util.keccak256(Util.hex_to_bin(v)) }.join)
       expect(Eip712.encode_array("bytes[]", arr, {})).to eq expected
     end
 
@@ -151,14 +153,43 @@ describe Eip712 do
         { name: "Cow", wallet: Address.new("0xCD2a3d9F938E13CD947Ec05AbC7FE734Df8DD826") },
         { name: "Bob", wallet: Address.new("0xbBbBBBBbbBBBbbbBbbBbbbbBBbBbbbbBbBbbBBbB") },
       ]
-      expected = people.map { |p| Util.keccak256(Eip712.encode_data("Person", p, types)) }
-      expect(Eip712.encode_array("Person[]", people, types)).to eq expected
+      # hashStruct of Cow and Bob, as the EIP-712 reference example publishes them
+      cow_hash = Util.hex_to_bin "fc71e5fa27ff56c350aa531bc129ebdf613b772b6604664f5d8dbe21b85eb0c8"
+      bob_hash = Util.hex_to_bin "cd54f074a4af31b4411ff6a60c9719dbd559c221c8ac3492d9d872b041d703d1"
+      expect(Eip712.encode_array("Person[]", people, types)).to eq Util.keccak256(cow_hash + bob_hash)
     end
 
     it "recursively encodes nested arrays" do
       nested = [["foo"], ["bar"]]
-      expected = nested.map { |inner| inner.map { |v| Util.keccak256(v) } }
+      expected = Util.keccak256(nested.map { |inner| Util.keccak256(inner.map { |v| Util.keccak256(v) }.join) }.join)
       expect(Eip712.encode_array("string[][]", nested, {})).to eq expected
+    end
+
+    it "abi-encodes atomic array items as 32-byte words" do
+      one = Util.hex_to_bin "0000000000000000000000000000000000000000000000000000000000000001"
+      two = Util.hex_to_bin "0000000000000000000000000000000000000000000000000000000000000002"
+      expect(Eip712.encode_array("uint256[]", [1, 2], {})).to eq Util.keccak256(one + two)
+    end
+
+    it "hashes nil and empty arrays as keccak-256 of nothing" do
+      empty = Util.hex_to_bin "c5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470"
+      expect(Eip712.encode_array("uint256[]", nil, {})).to eq empty
+      expect(Eip712.encode_array("uint256[]", [], {})).to eq empty
+      expect(Eip712.encode_array("Person[]", [], { Person: person })).to eq empty
+    end
+
+    it "raises for a fixed-size array of the wrong length" do
+      expect { Eip712.encode_array("uint256[2]", [1, 2, 3], {}) }.to raise_error Abi::EncodingError, "Expecting 2 elements: 3 provided"
+      expect { Eip712.encode_array("uint256[2]", [1], {}) }.to raise_error Abi::EncodingError, "Expecting 2 elements: 1 provided"
+      expect { Eip712.encode_array("uint256[2]", nil, {}) }.to raise_error Abi::EncodingError, "Expecting 2 elements: 0 provided"
+      expect { Eip712.encode_array("Person[1]", [], { Person: person }) }.to raise_error Abi::EncodingError, "Expecting 1 elements: 0 provided"
+    end
+
+    it "raises for an invalid base type, empty or not" do
+      expect { Eip712.encode_array("uint7[]", [], {}) }.to raise_error Abi::Type::ParseError, "Integer size out of bounds"
+      expect { Eip712.encode_array("uint7[]", [1], {}) }.to raise_error Abi::Type::ParseError, "Integer size out of bounds"
+      expect { Eip712.encode_array("Persn[]", [], {}) }.to raise_error Abi::Type::ParseError, "Invalid type format"
+      expect { Eip712.encode_array("Person[x]", [], { Person: person }) }.to raise_error Abi::Type::ParseError, "Invalid type format"
     end
   end
 
@@ -226,7 +257,243 @@ describe Eip712 do
       expect(Eip712.encode_type "SellOrders", data[:types]).to eq "SellOrders(uint256[] id,uint256[] tokenId,uint256[] price,uint256[] proto,uint256[] purity,address seller)"
 
       expect(Util.bin_to_hex(Eip712.encode_data("EIP712Domain", domain_data, data[:types]))).to eq "d87cd6ef79d4e2b95e15ce8abf732db51ec771f1ca2edccf22a46c729ac56472d6f028ca0e8edb4a8c9757ca4fdccab25fa1e0317da1188108f7d2dee14902fbc89efdaa54c0f20c7adf612882df0950f5a951637e0307cdcb4c672f298b8bc60000000000000000000000000000000000000000000000000000000000000003000000000000000000000000cccccccccccccccccccccccccccccccccccccccca222082684812afae4e093416fff16bc218b569abe4db590b6a058e1f2c1cd3e"
-      expect(Util.bin_to_hex(Eip712.encode_data("SellOrders", message, data[:types]))).to eq "58682cd513b67511a4ef89156104cf2bc7835c7289308bb112fdafe49897324200000000000000000000000000000000000000000000000000000000000000e00000000000000000000000000000000000000000000000000000000000000120000000000000000000000000000000000000000000000000000000000000016000000000000000000000000000000000000000000000000000000000000001a000000000000000000000000000000000000000000000000000000000000001e0000000000000000000000000cd2a3d9f938e13cd947ec05abc7fe734df8dd8260000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000001"
+
+      # EIP-712 encodes each uint256[] member as one word, the keccak-256 of
+      # its elements' 32-byte words: for [1], keccak256(uint256(1)), not the
+      # ABI offset and tail this example asserted before SPEC R33.
+      type_hash = "58682cd513b67511a4ef89156104cf2bc7835c7289308bb112fdafe498973242"
+      one = "b10e2d527612073b26eecdfd717e6a320cf44b4afac2b0732d9fcbe2b7fa0cf6"
+      seller = "000000000000000000000000cd2a3d9f938e13cd947ec05abc7fe734df8dd826"
+      expect(Util.bin_to_hex(Eip712.encode_data("SellOrders", message, data[:types]))).to eq type_hash + one * 5 + seller
+    end
+  end
+
+  # EIP-712 encodes every member as exactly 32 bytes, and an array as "the
+  # keccak256 hash of the concatenated encodeData of their contents (i.e. the
+  # encoding of SomeType[5] is identical to that of a struct containing five
+  # members of type SomeType)". No official vector has array fields (SPEC
+  # R33), so these expectations are built from that definition and the hashes
+  # the EIP-712 reference example publishes, never from the code under test.
+  # Ref: https://eips.ethereum.org/EIPS/eip-712
+  context "array fields" do
+
+    # Published by the reference example for its Mail message: hashStruct(from),
+    # hashStruct(to), keccak256(contents), the domain separator and the digest.
+    subject(:cow_hash) { Util.hex_to_bin "fc71e5fa27ff56c350aa531bc129ebdf613b772b6604664f5d8dbe21b85eb0c8" }
+    subject(:bob_hash) { Util.hex_to_bin "cd54f074a4af31b4411ff6a60c9719dbd559c221c8ac3492d9d872b041d703d1" }
+    subject(:contents_hash) { Util.hex_to_bin "b5aadf3154a261abdd9086fc627b61efca26ae5702701d05cd2305f7c52a2fc8" }
+    subject(:domain_separator) { Util.hex_to_bin "f2cee375fa42b42143804025fc449deafd50cc031ca257e0b194a650a912090f" }
+    subject(:reference_digest) { "be609aee343fb3c4b28e1df9e632fca64fcfaede20f02e86244efddf30957bd2" }
+
+    # The reference example's signer.
+    subject(:cow) { Key.new priv: Util.keccak256("cow") }
+
+    # The reference Mail type with `to` as an array of Person.
+    subject(:mail_with_array) {
+      {
+        Person: person,
+        Mail: [
+          { name: "from", type: "Person" },
+          { name: "to", type: "Person[]" },
+          { name: "contents", type: "string" },
+        ],
+      }
+    }
+
+    # encodeData by definition: the type hash, then one 32-byte word per member.
+    def definition_data(type_string, words)
+      Util.keccak256(type_string) + words.join
+    end
+
+    # The digest by definition: keccak256(0x19 0x01 domainSeparator hashStruct(message)).
+    def definition_digest(encoded_data)
+      Util.bin_to_hex Util.keccak256("\x19\x01".b + domain_separator + Util.keccak256(encoded_data))
+    end
+
+    # A uint256 member: big-endian, left-padded to 32 bytes.
+    def uint_word(value)
+      [value.to_s(16).rjust(64, "0")].pack("H*")
+    end
+
+    # An address member: encoded as uint160.
+    def address_word(address)
+      [address.to_s.delete_prefix("0x").downcase.rjust(64, "0")].pack("H*")
+    end
+
+    # Proves both definition helpers on the reference example before an array
+    # field relies on them.
+    def expect_reference_digest
+      type_string = "Mail(Person from,Person to,string contents)Person(string name,address wallet)"
+      encoded = definition_data(type_string, [cow_hash, bob_hash, contents_hash])
+      expect(definition_digest(encoded)).to eq reference_digest
+    end
+
+    # Typed data in the reference domain.
+    def typed_data_for(primary_type, types, message)
+      {
+        types: { EIP712Domain: eip712_domain }.merge(types),
+        primaryType: primary_type,
+        domain: domain_data,
+        message: message,
+      }
+    end
+
+    it "hashes a struct array field to one word" do
+      expect_reference_digest
+      type_string = "Mail(Person from,Person[] to,string contents)Person(string name,address wallet)"
+      expect(Eip712.encode_type "Mail", mail_with_array).to eq type_string
+
+      # to: [Bob] encodes like a struct with one Person member
+      to_bob = message_data.merge(to: [message_data[:to]])
+      expected = definition_data(type_string, [cow_hash, Util.keccak256(bob_hash), contents_hash])
+      expect(Util.bin_to_hex Eip712.encode_data("Mail", to_bob, mail_with_array)).to eq Util.bin_to_hex(expected)
+      expect(Util.bin_to_hex Eip712.hash(typed_data_for("Mail", mail_with_array, to_bob))).to eq definition_digest(expected)
+      expect(definition_digest(expected)).to eq "e3e147d255f92f5a9de155defefb2816b1ca970e975b38baadb0cca27e733d36"
+
+      # to: [Bob, Cow] hashes both hashStructs in order
+      to_both = message_data.merge(to: [message_data[:to], message_data[:from]])
+      expected = definition_data(type_string, [cow_hash, Util.keccak256(bob_hash + cow_hash), contents_hash])
+      expect(Util.bin_to_hex Eip712.encode_data("Mail", to_both, mail_with_array)).to eq Util.bin_to_hex(expected)
+      expect(Util.bin_to_hex Eip712.hash(typed_data_for("Mail", mail_with_array, to_both))).to eq definition_digest(expected)
+      expect(definition_digest(expected)).to eq "50d4befabf72490759475adbb303a9cc3321af8279c7a76e368cf7405f9741c6"
+    end
+
+    it "signs and recovers typed data with a struct array field" do
+      expect_reference_digest
+      type_string = "Mail(Person from,Person[] to,string contents)Person(string name,address wallet)"
+      mail = typed_data_for("Mail", mail_with_array, message_data.merge(to: [message_data[:to]]))
+      digest = definition_digest(definition_data(type_string, [cow_hash, Util.keccak256(bob_hash), contents_hash]))
+      signature = cow.sign_typed_data mail
+      expect(signature).to eq cow.sign(Util.hex_to_bin(digest))
+      expect(Signature.recover_typed_data mail, signature).to eq cow.public_hex
+      expect(Signature.verify mail, signature, cow.address).to be true
+    end
+
+    it "hashes atomic array fields, dynamic and fixed-size, to one word" do
+      expect_reference_digest
+      type_string = "Atoms(uint256[] ids,address[] wallets,uint256[2] pair)"
+      types = {
+        Atoms: [
+          { name: "ids", type: "uint256[]" },
+          { name: "wallets", type: "address[]" },
+          { name: "pair", type: "uint256[2]" },
+        ],
+      }
+      wallets = [message_data[:from][:wallet], message_data[:to][:wallet]]
+      message = { ids: [1, 2, 3], wallets: wallets, pair: [1, 2] }
+      expected = definition_data(type_string, [
+        Util.keccak256(uint_word(1) + uint_word(2) + uint_word(3)),
+        Util.keccak256(wallets.map { |w| address_word w }.join),
+        Util.keccak256(uint_word(1) + uint_word(2)),
+      ])
+      expect(Util.bin_to_hex Eip712.encode_data("Atoms", message, types)).to eq Util.bin_to_hex(expected)
+      expect(Util.bin_to_hex Eip712.hash(typed_data_for("Atoms", types, message))).to eq definition_digest(expected)
+      expect(definition_digest(expected)).to eq "2e62a3b0b12124b04507c14ab837527e36064b5fad536ec5fc557bd2ee951eb5"
+    end
+
+    it "hashes string and bytes array fields whose element hashes begin with 30 78" do
+      expect_reference_digest
+
+      # both element hashes begin with the bytes of "0x", which the ABI string
+      # and bytes encoders read as hex (SPEC R30), so the array path must not
+      # pass element hashes through Abi.encode
+      expect(Util.keccak256("Hello, Bob! 161461")[0, 2]).to eq "0x"
+      expect(Util.keccak256(Util.hex_to_bin("0x313232363534"))[0, 2]).to eq "0x"
+
+      type_string = "Tags(string[] tags,bytes[] blobs)"
+      types = { Tags: [{ name: "tags", type: "string[]" }, { name: "blobs", type: "bytes[]" }] }
+      message = { tags: ["Hello, Bob!", "Hello, Bob! 161461"], blobs: ["0x313232363534"] }
+      expected = definition_data(type_string, [
+        Util.keccak256(contents_hash + Util.keccak256("Hello, Bob! 161461")),
+        Util.keccak256(Util.keccak256(Util.hex_to_bin("0x313232363534"))),
+      ])
+      expect(Util.bin_to_hex Eip712.encode_data("Tags", message, types)).to eq Util.bin_to_hex(expected)
+      expect(Util.bin_to_hex Eip712.hash(typed_data_for("Tags", types, message))).to eq definition_digest(expected)
+      expect(definition_digest(expected)).to eq "41ba1f8d33b8c8d799702da8117ad96d735d8476a2f5a157099ce25c7d9e0027"
+    end
+
+    it "hashes nested array fields recursively" do
+      expect_reference_digest
+      type_string = "Grid(uint256[][] grid,Person[][] teams)Person(string name,address wallet)"
+      types = { Person: person, Grid: [{ name: "grid", type: "uint256[][]" }, { name: "teams", type: "Person[][]" }] }
+      expect(Eip712.encode_type "Grid", types).to eq type_string
+      message = { grid: [[1], [2, 3]], teams: [[message_data[:to], message_data[:from]], []] }
+      expected = definition_data(type_string, [
+        Util.keccak256(Util.keccak256(uint_word(1)) + Util.keccak256(uint_word(2) + uint_word(3))),
+        Util.keccak256(Util.keccak256(bob_hash + cow_hash) + Util.keccak256("")),
+      ])
+      expect(Util.bin_to_hex Eip712.encode_data("Grid", message, types)).to eq Util.bin_to_hex(expected)
+      expect(Util.bin_to_hex Eip712.hash(typed_data_for("Grid", types, message))).to eq definition_digest(expected)
+      expect(definition_digest(expected)).to eq "62c8067c420c3b210dc19c32d54300daadb9d37f644c6e294113d9890dfd75f1"
+    end
+
+    it "hashes a nil or empty array field as keccak-256 of nothing" do
+      expect_reference_digest
+      types = { List: [{ name: "list", type: "uint256[]" }] }
+      expected = definition_data("List(uint256[] list)", [Util.keccak256("")])
+      expect(Util.bin_to_hex Eip712.encode_data("List", { list: nil }, types)).to eq Util.bin_to_hex(expected)
+      expect(Util.bin_to_hex Eip712.encode_data("List", { list: [] }, types)).to eq Util.bin_to_hex(expected)
+    end
+
+    it "raises for an invalid array type or a wrong fixed length" do
+      invalid = { Bad: [{ name: "list", type: "uint7[]" }] }
+      expect { Eip712.encode_data("Bad", { list: [] }, invalid) }.to raise_error Abi::Type::ParseError, "Integer size out of bounds"
+      expect { Eip712.encode_data("Bad", { list: [1] }, invalid) }.to raise_error Abi::Type::ParseError, "Integer size out of bounds"
+      pair = { Pair: [{ name: "pair", type: "uint256[2]" }] }
+      expect { Eip712.encode_data("Pair", { pair: [1, 2, 3] }, pair) }.to raise_error Abi::EncodingError, "Expecting 2 elements: 3 provided"
+    end
+
+    # Encodes a struct whose only member `f` has the given array type.
+    def encode_box(type, value)
+      Eip712.encode_data("Box", { f: value }, { Person: person, Box: [{ name: "f", type: type }] })
+    end
+
+    # An array field with two faults raises one error: the type and its sizes
+    # first, then a wrong fixed length, then the elements (SPEC R33, the
+    # maintainer's choice of 2026-10-31).
+    it "raises an invalid type or size before a wrong fixed length" do
+      aggregate_failures do
+        expect { encode_box("uint7[2]", [1, 2, 3]) }.to raise_error Abi::Type::ParseError, "Integer size out of bounds"
+        expect { encode_box("Person[x][2]", [[], [], []]) }.to raise_error Abi::Type::ParseError, "Invalid type format"
+      end
+    end
+
+    it "raises a wrong fixed length before any invalid element, atomic or hashed" do
+      wallet = message_data[:from][:wallet].to_s
+      bad_cow = { name: "Cow", wallet: "0xzz" }
+      cow_data = message_data[:from]
+      aggregate_failures do
+        expect { encode_box("uint256[2]", [2 ** 256, 1, 2]) }.to raise_error Abi::EncodingError, "Expecting 2 elements: 3 provided"
+        expect { encode_box("address[2]", ["0xzz", wallet, wallet]) }.to raise_error Abi::EncodingError, "Expecting 2 elements: 3 provided"
+        expect { encode_box("bytes[2]", ["0xzz", "0x01", "0x02"]) }.to raise_error Abi::EncodingError, "Expecting 2 elements: 3 provided"
+        expect { encode_box("string[2]", [5, "a", "b"]) }.to raise_error Abi::EncodingError, "Expecting 2 elements: 3 provided"
+        expect { encode_box("Person[2]", [bad_cow, cow_data, cow_data]) }.to raise_error Abi::EncodingError, "Expecting 2 elements: 3 provided"
+      end
+    end
+
+    it "raises a wrong outer length before the errors of a nested array" do
+      bad_cow = { name: "Cow", wallet: "0xzz" }
+      aggregate_failures do
+        expect { encode_box("uint256[3][2]", [[1, 2], [1, 2, 3], [1, 2, 3]]) }.to raise_error Abi::EncodingError, "Expecting 2 elements: 3 provided"
+        expect { encode_box("uint256[2][2]", [[2 ** 256, 1], [1, 2], [1, 2]]) }.to raise_error Abi::EncodingError, "Expecting 2 elements: 3 provided"
+        expect { encode_box("string[2][2]", [["a", "b"], [5, "c"], ["d", "e"]]) }.to raise_error Abi::EncodingError, "Expecting 2 elements: 3 provided"
+        expect { encode_box("Person[1][2]", [[bad_cow], [], []]) }.to raise_error Abi::EncodingError, "Expecting 2 elements: 3 provided"
+
+        # a nested array checks its own length before its elements, too
+        expect { encode_box("uint256[2][]", [[2 ** 256, 1, 2]]) }.to raise_error Abi::EncodingError, "Expecting 2 elements: 3 provided"
+      end
+    end
+
+    # main rejected every struct array; the fix accepts those whose
+    # dimensions the ABI type parser accepts, and no others (SPEC R33).
+    it "rejects a struct array with a non-numeric size, as main does" do
+      aggregate_failures do
+        expect { encode_box("Person[x]", []) }.to raise_error Abi::Type::ParseError, "Invalid type format"
+        expect { encode_box("Person[x]", [message_data[:from]]) }.to raise_error Abi::Type::ParseError, "Invalid type format"
+        expect { encode_box("Person[x][]", []) }.to raise_error Abi::Type::ParseError, "Invalid type format"
+        expect { encode_box("Person[1x]", []) }.to raise_error Abi::Type::ParseError, "Invalid type format"
+        expect { encode_box("Person[-1]", []) }.to raise_error Abi::Type::ParseError, "Invalid type format"
+      end
     end
   end
 
