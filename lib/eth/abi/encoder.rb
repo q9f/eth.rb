@@ -313,8 +313,10 @@ module Eth
       def handle_hex_string(arg, type)
         if !type.sub_type.empty? and arg.bytesize == type.sub_type.to_i
 
-          # A `bytesN` argument of exactly `N` bytes can only be binary, even if
-          # it starts with `0x`: its hex form has `2N` or `2 + 2N` characters.
+          # A `bytesN` argument of exactly `N` bytes is binary, even if it
+          # starts with `0x`. The hex form of `N` bytes is `2N` or `2 + 2N`
+          # characters long; shorter hex that happens to be `N` characters
+          # long is read as binary, too.
           arg.b
         elsif Util.prefixed? arg or
               (arg.size === type.sub_type.to_i * 2 and Util.hex? arg)
