@@ -190,4 +190,53 @@ describe Abi::Encoder do
       expect(Abi::Encoder.send(:coerce_number, "foo")).to eq "foo"
     end
   end
+
+  describe "binary bytesN starting with 0x or 0X" do
+    # About 1 in 32,768 random values start with the bytes of "0x" or "0X".
+    subject(:digest_0x) { Util.keccak256 "122654" }
+    subject(:digest_0X) { Util.keccak256 "171208" }
+    subject(:t_bytes_32) { Abi::Type.parse "bytes32" }
+
+    it "encodes N binary bytes as themselves" do
+      expect(Util.bin_to_hex digest_0x).to start_with "3078"
+      expect(Util.bin_to_hex digest_0X).to start_with "3058"
+      expect(Abi::Encoder.type t_bytes_32, digest_0x).to eq digest_0x
+      expect(Abi::Encoder.type t_bytes_32, digest_0X).to eq digest_0X
+      expect(Abi::Encoder.type Abi::Type.parse("bytes32[]"), [digest_0x]).to eq "#{Util.zpad_int 1}#{digest_0x}"
+      expect(Abi.encode ["bytes32", "uint8"], [digest_0X, 1]).to eq "#{digest_0X}#{Util.zpad_int 1}"
+
+      # https://github.com/q9f/eth.rb/issues/417 (case 1)
+      binary = ["3078" + "ab" * 30].pack("H*")
+      expect(Abi.encode ["bytes32"], [binary]).to eq binary
+    end
+
+    it "encodes N bytes of 0x and hex digits as binary, not as a shorter hex value" do
+      # https://github.com/q9f/eth.rb/issues/417 (case 2)
+      expect(Abi::Encoder.type t_bytes_32, "0x" + "a" * 30).to eq "0x" + "a" * 30
+      expect(Abi::Encoder.type Abi::Type.parse("bytes4"), "0xab").to eq "0xab#{"\x00" * 28}"
+      expect(Abi::Encoder.type Abi::Type.parse("bytes2"), "0x").to eq "0x#{"\x00" * 30}"
+    end
+
+    it "keeps reading hex of the other lengths as hex" do
+      hex = Util.bin_to_hex digest_0x
+      expect(Abi::Encoder.type t_bytes_32, "0x#{hex}").to eq digest_0x
+      expect(Abi::Encoder.type t_bytes_32, "0X#{hex}").to eq digest_0x
+      expect(Abi::Encoder.type t_bytes_32, hex).to eq digest_0x
+      expect(Abi::Encoder.type t_bytes_8, "0x0102").to eq "\x01\x02#{"\x00" * 30}"
+    end
+
+    it "encodes the official examples with exactly N bytes" do
+      # https://docs.soliditylang.org/en/v0.8.28/abi-spec.html, section "Examples":
+      # bar(bytes3[2]) with ["abc", "def"]
+      encoded = Abi::Encoder.type Abi::Type.parse("bytes3[2]"), ["abc", "def"]
+      expect(Util.bin_to_hex encoded).to eq "6162630000000000000000000000000000000000000000000000000000000000" \
+                                            "6465660000000000000000000000000000000000000000000000000000000000"
+
+      # Same page, section "Use of Dynamic Types", and GithubWikiTest in
+      # ethereum/tests ABITests/basic_abi_tests.json (submodule at a0e84826)
+      types = ["uint256", "uint32[]", "bytes10", "bytes"]
+      args = [0x123, [0x456, 0x789], "1234567890", "Hello, world!"]
+      expect(Util.bin_to_hex Abi.encode(types, args)).to eq "00000000000000000000000000000000000000000000000000000000000001230000000000000000000000000000000000000000000000000000000000000080313233343536373839300000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000e0000000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000000004560000000000000000000000000000000000000000000000000000000000000789000000000000000000000000000000000000000000000000000000000000000d48656c6c6f2c20776f726c642100000000000000000000000000000000000000"
+    end
+  end
 end

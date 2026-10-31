@@ -260,4 +260,37 @@ describe Abi::Packed::Encoder do
       expect(Util.bin_to_hex Abi.solidity_packed(["int128"], [17])).to eq "00000000000000000000000000000011"
     end
   end
+
+  describe "binary bytesN starting with 0x or 0X" do
+    # About 1 in 32,768 random values start with the bytes of "0x" or "0X".
+    subject(:digest_0x) { Util.keccak256 "122654" }
+    subject(:digest_0X) { Util.keccak256 "171208" }
+
+    it "packs N binary bytes as themselves" do
+      expect(Abi.solidity_packed ["bytes32"], [digest_0x]).to eq digest_0x
+      expect(Abi.solidity_packed ["bytes32", "bytes32"], [digest_0X, digest_0x]).to eq digest_0X + digest_0x
+      expect(Abi.solidity_packed ["hash256"], [digest_0x]).to eq digest_0x
+    end
+
+    it "packs N bytes of 0x and hex digits as binary, not as a shorter hex value" do
+      expect(Abi.solidity_packed ["bytes32"], ["0x" + "a" * 30]).to eq "0x" + "a" * 30
+      expect(Abi.solidity_packed ["bytes4"], ["0xab"]).to eq "0xab"
+      expect(Abi.solidity_packed ["bytes2"], ["0x"]).to eq "0x"
+    end
+
+    it "keeps reading hex of 2N digits as hex" do
+      hex = Util.bin_to_hex digest_0x
+      expect(Abi.solidity_packed ["bytes32"], ["0x#{hex}"]).to eq digest_0x
+      expect(Abi.solidity_packed ["bytes32"], ["0X#{hex}"]).to eq digest_0x
+      expect(Abi.solidity_packed ["bytes32"], [hex]).to eq digest_0x
+    end
+
+    it "packs the official example with exactly N bytes" do
+      # https://docs.soliditylang.org/en/v0.8.28/abi-spec.html#non-standard-packed-mode
+      # abi.encodePacked(int16(-1), bytes1(0x42), uint16(0x03), string("Hello, world!"))
+      types = ["int16", "bytes1", "uint16", "string"]
+      values = [-1, "\x42", 0x03, "Hello, world!"]
+      expect(Util.bin_to_hex Abi.solidity_packed(types, values)).to eq "ffff42000348656c6c6f2c20776f726c6421"
+    end
+  end
 end

@@ -272,4 +272,41 @@ describe Eip712 do
       expect(key.sign_typed_data data_string).to eq sig_string
     end
   end
+
+  describe "binary bytesN starting with 0x or 0X" do
+    # encode_data passes keccak256(contents) to Abi.encode as a bytes32; for
+    # these two it starts with the bytes of "0x" and "0X".
+    subject(:contents) { ["Hello, Bob! 161461", "Hello, Bob! 62425"] }
+
+    # The EIP-712 hash of the Mail example with other contents, built from the
+    # reference example's published domain separator, Mail typeHash and
+    # Person hashes (see ".hash_type" and ".hash_data").
+    def typed_data_hash(text)
+      domain_separator = Util.hex_to_bin "f2cee375fa42b42143804025fc449deafd50cc031ca257e0b194a650a912090f"
+      type_hash = Util.hex_to_bin "a0cedeb2dc280ba39b857546d74f5549c3a1d7bdc2dd96bf881f76108e23dac2"
+      from = Util.hex_to_bin "fc71e5fa27ff56c350aa531bc129ebdf613b772b6604664f5d8dbe21b85eb0c8"
+      to = Util.hex_to_bin "cd54f074a4af31b4411ff6a60c9719dbd559c221c8ac3492d9d872b041d703d1"
+      struct_hash = Util.keccak256 type_hash + from + to + Util.keccak256(text)
+      Util.keccak256 "\x19\x01" + domain_separator + struct_hash
+    end
+
+    it "hashes a string field whose keccak256 starts with 0x or 0X" do
+      expect(typed_data_hash "Hello, Bob!").to eq Util.hex_to_bin "0xbe609aee343fb3c4b28e1df9e632fca64fcfaede20f02e86244efddf30957bd2"
+      expect(contents.map { |text| Util.bin_to_hex(Util.keccak256 text)[0, 4] }).to eq ["3078", "3058"]
+      contents.each do |text|
+        data = typed_data.merge(message: message_data.merge(contents: text))
+        expect(Eip712.hash data).to eq typed_data_hash(text)
+      end
+    end
+
+    it "signs typed data with such a field" do
+      # ref https://github.com/ethereum/EIPs/blob/7f606a6e0e24bcf38d18e5a8cd9fbc71565f3257/assets/eip-712/Example.js#L126
+      cow = Key.new priv: Util.keccak256("cow")
+      contents.each do |text|
+        data = typed_data.merge(message: message_data.merge(contents: text))
+        signature = cow.sign_typed_data data
+        expect(Signature.verify data, signature, cow.address).to be true
+      end
+    end
+  end
 end
