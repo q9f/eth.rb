@@ -134,7 +134,7 @@ Ref: <a href="https://eips.ethereum.org/EIPS/eip-712">https://eips.ethereum.org/
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#encode_array-class_method" title="#encode_array (class method)">.<strong>encode_array</strong>(type, value, types)  &#x21d2; Object </a>
+      <a href="#encode_array-class_method" title="#encode_array (class method)">.<strong>encode_array</strong>(type, value, types)  &#x21d2; String </a>
     
 
     
@@ -148,7 +148,7 @@ Ref: <a href="https://eips.ethereum.org/EIPS/eip-712">https://eips.ethereum.org/
   
 
   
-    <span class="summary_desc"><div class='inline'><p>Prepares array values by encoding each element according to its base type.</p></div></span>
+    <span class="summary_desc"><div class='inline'><p>Encodes an array value as EIP-712 defines it: the Keccak-256 hash of the concatenated encodings of its elements.</p></div></span>
   
 </li>
 
@@ -342,7 +342,7 @@ Ref: <a href="https://eips.ethereum.org/EIPS/eip-712">https://eips.ethereum.org/
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#encode_array-instance_method" title="#encode_array (instance method)">#<strong>encode_array</strong>(type, value, types)  &#x21d2; Object </a>
+      <a href="#encode_array-instance_method" title="#encode_array (instance method)">#<strong>encode_array</strong>(type, value, types)  &#x21d2; String </a>
     
 
     
@@ -356,7 +356,7 @@ Ref: <a href="https://eips.ethereum.org/EIPS/eip-712">https://eips.ethereum.org/
   
 
   
-    <span class="summary_desc"><div class='inline'><p>Prepares array values by encoding each element according to its base type.</p></div></span>
+    <span class="summary_desc"><div class='inline'><p>Encodes an array value as EIP-712 defines it: the Keccak-256 hash of the concatenated encodings of its elements.</p></div></span>
   
 </li>
 
@@ -550,7 +550,7 @@ Ref: <a href="https://eips.ethereum.org/EIPS/eip-712">https://eips.ethereum.org/
       <div class="method_details first">
   <h3 class="signature first" id="encode_array-class_method">
   
-    .<strong>encode_array</strong>(type, value, types)  &#x21d2; <tt>Object</tt> 
+    .<strong>encode_array</strong>(type, value, types)  &#x21d2; <tt>String</tt> 
   
 
   
@@ -558,13 +558,106 @@ Ref: <a href="https://eips.ethereum.org/EIPS/eip-712">https://eips.ethereum.org/
   
 </h3><div class="docstring">
   <div class="discussion">
-    <p>Prepares array values by encoding each element according to its
-base type. Returns an array compatible with Abi.encode.</p>
+    <p>Encodes an array value as EIP-712 defines it: the Keccak-256 hash of
+the concatenated encodings of its elements. Each element is encoded as
+a member of the inner type would be: atomic values as 32-byte ABI
+words, strings and bytes hashed, structs as their struct hash, and
+nested arrays by this rule. A <code>nil</code> value is the empty array.</p>
 
   </div>
 </div>
 <div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
   
+    <li>
+      
+        <span class='name'>type</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the array type, e.g., <code>uint256[]</code> or <code>Person[2]</code>.</p></div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>value</span>
+      
+      
+        <span class='type'>(<tt>Array</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the array elements, or <code>nil</code> for none.</p></div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>types</span>
+      
+      
+        <span class='type'>(<tt>Array</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>all existing types in the data structure.</p></div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>a 32-byte Keccak-256 hash of the encoded elements.</p></div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Abi/Type/ParseError.html" title="Eth::Abi::Type::ParseError (class)">Abi::Type::ParseError</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>if the base type is neither a struct nor a valid ABI type, or a size is not a number.</p></div>
+      
+    </li>
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Abi/EncodingError.html" title="Eth::Abi::EncodingError (class)">Abi::EncodingError</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>if a fixed-size array holds another number of elements.</p></div>
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -572,43 +665,69 @@ base type. Returns an array compatible with Abi.encode.</p>
       <pre class="lines">
 
 
-156
-157
-158
-159
-160
-161
-162
-163
-164
-165
-166
-167
 168
 169
 170
 171
-172</pre>
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/eip712.rb', line 156</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/eip712.rb', line 168</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_encode_array'>encode_array</span><span class='lparen'>(</span><span class='id identifier rubyid_type'>type</span><span class='comma'>,</span> <span class='id identifier rubyid_value'>value</span><span class='comma'>,</span> <span class='id identifier rubyid_types'>types</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_inner_type'>inner_type</span> <span class='op'>=</span> <span class='id identifier rubyid_type'>type</span><span class='period'>.</span><span class='id identifier rubyid_slice'>slice</span><span class='lparen'>(</span><span class='int'>0</span><span class='comma'>,</span> <span class='id identifier rubyid_type'>type</span><span class='period'>.</span><span class='id identifier rubyid_rindex'>rindex</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>[</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='rparen'>)</span>
-  <span class='kw'>return</span> <span class='lbracket'>[</span><span class='rbracket'>]</span> <span class='kw'>if</span> <span class='id identifier rubyid_value'>value</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
-  <span class='id identifier rubyid_value'>value</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_v'>v</span><span class='op'>|</span>
+  <span class='id identifier rubyid_bracket'>bracket</span> <span class='op'>=</span> <span class='id identifier rubyid_type'>type</span><span class='period'>.</span><span class='id identifier rubyid_rindex'>rindex</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>[</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_inner_type'>inner_type</span> <span class='op'>=</span> <span class='id identifier rubyid_type'>type</span><span class='period'>.</span><span class='id identifier rubyid_slice'>slice</span><span class='lparen'>(</span><span class='int'>0</span><span class='comma'>,</span> <span class='id identifier rubyid_bracket'>bracket</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_length'>length</span> <span class='op'>=</span> <span class='id identifier rubyid_type'>type</span><span class='period'>.</span><span class='id identifier rubyid_slice'>slice</span><span class='lparen'>(</span><span class='lparen'>(</span><span class='id identifier rubyid_bracket'>bracket</span> <span class='op'>+</span> <span class='int'>1</span><span class='rparen'>)</span><span class='op'>...</span><span class='op'>-</span><span class='int'>1</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span>
+  <span class='id identifier rubyid_value'>value</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span> <span class='kw'>if</span> <span class='id identifier rubyid_value'>value</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+
+  <span class='comment'># rejects an invalid base type or size, also for an empty array: the ABI
+</span>  <span class='comment'># parser checks atomic types, struct types get its rule for sizes
+</span>  <span class='id identifier rubyid_base_type'>base_type</span> <span class='op'>=</span> <span class='id identifier rubyid_type'>type</span><span class='period'>.</span><span class='id identifier rubyid_partition'>partition</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>[</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_first'>first</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_types'>types</span><span class='lbracket'>[</span><span class='id identifier rubyid_base_type'>base_type</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+    <span class='const'><span class='object_link'><a href="Abi.html" title="Eth::Abi (module)">Abi</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Abi/Type.html" title="Eth::Abi::Type (class)">Type</a></span></span><span class='period'>.</span><span class='id identifier rubyid_parse'><span class='object_link'><a href="Abi/Type.html#parse-instance_method" title="Eth::Abi::Type#parse (method)">parse</a></span></span> <span class='id identifier rubyid_type'>type</span>
+  <span class='kw'>elsif</span> <span class='op'>!</span><span class='id identifier rubyid_type'>type</span><span class='period'>.</span><span class='id identifier rubyid_delete_prefix'>delete_prefix</span><span class='lparen'>(</span><span class='id identifier rubyid_base_type'>base_type</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_match?'>match?</span><span class='lparen'>(</span><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>\A(?:\[\d+\]|\[\])*\z</span><span class='regexp_end'>/</span></span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="Abi.html" title="Eth::Abi (module)">Abi</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Abi/Type.html" title="Eth::Abi::Type (class)">Type</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Abi/Type/ParseError.html" title="Eth::Abi::Type::ParseError (class)">ParseError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Invalid type format</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>end</span>
+
+  <span class='comment'># a fixed-size array must hold exactly its declared number of elements
+</span>  <span class='kw'>if</span> <span class='id identifier rubyid_length'>length</span> <span class='op'>!=</span> <span class='int'>0</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_value'>value</span><span class='period'>.</span><span class='id identifier rubyid_size'>size</span> <span class='op'>!=</span> <span class='id identifier rubyid_length'>length</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="Abi.html" title="Eth::Abi (module)">Abi</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Abi/EncodingError.html" title="Eth::Abi::EncodingError (class)">EncodingError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Expecting </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_length'>length</span><span class='embexpr_end'>}</span><span class='tstring_content'> elements: </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_value'>value</span><span class='period'>.</span><span class='id identifier rubyid_size'>size</span><span class='embexpr_end'>}</span><span class='tstring_content'> provided</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>end</span>
+
+  <span class='comment'># encodes each element as a member of the inner type
+</span>  <span class='id identifier rubyid_encoded'>encoded</span> <span class='op'>=</span> <span class='id identifier rubyid_value'>value</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_v'>v</span><span class='op'>|</span>
     <span class='kw'>if</span> <span class='id identifier rubyid_inner_type'>inner_type</span><span class='period'>.</span><span class='id identifier rubyid_end_with?'>end_with?</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>]</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
       <span class='id identifier rubyid_encode_array'>encode_array</span> <span class='id identifier rubyid_inner_type'>inner_type</span><span class='comma'>,</span> <span class='id identifier rubyid_v'>v</span><span class='comma'>,</span> <span class='id identifier rubyid_types'>types</span>
-    <span class='kw'>elsif</span> <span class='id identifier rubyid_inner_type'>inner_type</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>string</span><span class='tstring_end'>&quot;</span></span>
-      <span class='const'><span class='object_link'><a href="Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_keccak256'><span class='object_link'><a href="Util.html#keccak256-instance_method" title="Eth::Util#keccak256 (method)">keccak256</a></span></span> <span class='id identifier rubyid_v'>v</span>
-    <span class='kw'>elsif</span> <span class='id identifier rubyid_inner_type'>inner_type</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>bytes</span><span class='tstring_end'>&quot;</span></span>
-      <span class='const'><span class='object_link'><a href="Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_keccak256'><span class='object_link'><a href="Util.html#keccak256-instance_method" title="Eth::Util#keccak256 (method)">keccak256</a></span></span> <span class='const'><span class='object_link'><a href="Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_hex_to_bin'><span class='object_link'><a href="Util.html#hex_to_bin-instance_method" title="Eth::Util#hex_to_bin (method)">hex_to_bin</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_v'>v</span><span class='rparen'>)</span>
-    <span class='kw'>elsif</span> <span class='op'>!</span><span class='id identifier rubyid_types'>types</span><span class='lbracket'>[</span><span class='id identifier rubyid_inner_type'>inner_type</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
-      <span class='const'><span class='object_link'><a href="Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_keccak256'><span class='object_link'><a href="Util.html#keccak256-instance_method" title="Eth::Util#keccak256 (method)">keccak256</a></span></span> <span class='id identifier rubyid_encode_data'>encode_data</span><span class='lparen'>(</span><span class='id identifier rubyid_inner_type'>inner_type</span><span class='comma'>,</span> <span class='id identifier rubyid_v'>v</span><span class='comma'>,</span> <span class='id identifier rubyid_types'>types</span><span class='rparen'>)</span>
     <span class='kw'>else</span>
-      <span class='id identifier rubyid_v'>v</span>
+      <span class='id identifier rubyid_encode_value'>encode_value</span> <span class='id identifier rubyid_inner_type'>inner_type</span><span class='comma'>,</span> <span class='id identifier rubyid_v'>v</span><span class='comma'>,</span> <span class='id identifier rubyid_types'>types</span>
     <span class='kw'>end</span>
   <span class='kw'>end</span>
+  <span class='kw'>return</span> <span class='const'><span class='object_link'><a href="Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_keccak256'><span class='object_link'><a href="Util.html#keccak256-instance_method" title="Eth::Util#keccak256 (method)">keccak256</a></span></span> <span class='id identifier rubyid_encoded'>encoded</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -725,7 +844,9 @@ base type. Returns an array compatible with Abi.encode.</p>
 132
 133
 134
-135</pre>
+135
+136
+137</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/eth/eip712.rb', line 111</span>
@@ -741,7 +862,9 @@ base type. Returns an array compatible with Abi.encode.</p>
     <span class='id identifier rubyid_value'>value</span> <span class='op'>=</span> <span class='id identifier rubyid_data'>data</span><span class='lbracket'>[</span><span class='id identifier rubyid_field'>field</span><span class='lbracket'>[</span><span class='symbol'>:name</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span><span class='rbracket'>]</span>
     <span class='id identifier rubyid_type'>type</span> <span class='op'>=</span> <span class='id identifier rubyid_field'>field</span><span class='lbracket'>[</span><span class='symbol'>:type</span><span class='rbracket'>]</span>
     <span class='kw'>if</span> <span class='id identifier rubyid_type'>type</span><span class='period'>.</span><span class='id identifier rubyid_end_with?'>end_with?</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>]</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
-      <span class='id identifier rubyid_encoded_types'>encoded_types</span><span class='period'>.</span><span class='id identifier rubyid_push'>push</span> <span class='id identifier rubyid_type'>type</span>
+
+      <span class='comment'># an array is one word: the hash of its encoded elements
+</span>      <span class='id identifier rubyid_encoded_types'>encoded_types</span><span class='period'>.</span><span class='id identifier rubyid_push'>push</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>bytes32</span><span class='tstring_end'>&quot;</span></span>
       <span class='id identifier rubyid_encoded_values'>encoded_values</span><span class='period'>.</span><span class='id identifier rubyid_push'>push</span> <span class='id identifier rubyid_encode_array'>encode_array</span><span class='lparen'>(</span><span class='id identifier rubyid_type'>type</span><span class='comma'>,</span> <span class='id identifier rubyid_value'>value</span><span class='comma'>,</span> <span class='id identifier rubyid_types'>types</span><span class='rparen'>)</span>
     <span class='kw'>elsif</span> <span class='id identifier rubyid_type'>type</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>string</span><span class='tstring_end'>&quot;</span></span> <span class='op'>||</span> <span class='id identifier rubyid_type'>type</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>bytes</span><span class='tstring_end'>&quot;</span></span> <span class='op'>||</span> <span class='op'>!</span><span class='id identifier rubyid_types'>types</span><span class='lbracket'>[</span><span class='id identifier rubyid_type'>type</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
       <span class='id identifier rubyid_encoded_types'>encoded_types</span><span class='period'>.</span><span class='id identifier rubyid_push'>push</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>bytes32</span><span class='tstring_end'>&quot;</span></span>
@@ -935,8 +1058,6 @@ Returns a 32-byte binary string.</p>
       <pre class="lines">
 
 
-139
-140
 141
 142
 143
@@ -948,10 +1069,12 @@ Returns a 32-byte binary string.</p>
 149
 150
 151
-152</pre>
+152
+153
+154</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/eip712.rb', line 139</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/eip712.rb', line 141</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_encode_value'>encode_value</span><span class='lparen'>(</span><span class='id identifier rubyid_type'>type</span><span class='comma'>,</span> <span class='id identifier rubyid_value'>value</span><span class='comma'>,</span> <span class='id identifier rubyid_types'>types</span><span class='rparen'>)</span>
   <span class='kw'>if</span> <span class='id identifier rubyid_type'>type</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>string</span><span class='tstring_end'>&quot;</span></span>
@@ -1047,19 +1170,19 @@ data structure: types, domain, message, etc.</p>
       <pre class="lines">
 
 
-191
-192
-193
-194
-195
-196
-197
-198
-199
-200</pre>
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/eip712.rb', line 191</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/eip712.rb', line 216</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_enforce_typed_data'>enforce_typed_data</span><span class='lparen'>(</span><span class='id identifier rubyid_data'>data</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_data'>data</span> <span class='op'>=</span> <span class='const'>JSON</span><span class='period'>.</span><span class='id identifier rubyid_parse'>parse</span> <span class='id identifier rubyid_data'>data</span> <span class='kw'>if</span> <span class='const'><span class='object_link'><a href="Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_hex?'><span class='object_link'><a href="Util.html#hex%3F-instance_method" title="Eth::Util#hex? (method)">hex?</a></span></span> <span class='id identifier rubyid_data'>data</span>
@@ -1135,25 +1258,25 @@ typed data operation respecting EIP-712.</p>
       <pre class="lines">
 
 
-207
-208
-209
-210
-211
-212
-213
-214
-215
-216
-217
-218
-219
-220
-221
-222</pre>
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/eip712.rb', line 207</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/eip712.rb', line 232</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_hash'>hash</span><span class='lparen'>(</span><span class='id identifier rubyid_data'>data</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_data'>data</span> <span class='op'>=</span> <span class='id identifier rubyid_enforce_typed_data'>enforce_typed_data</span> <span class='id identifier rubyid_data'>data</span>
@@ -1262,13 +1385,13 @@ typed data operation respecting EIP-712.</p>
       <pre class="lines">
 
 
-180
-181
-182
-183</pre>
+205
+206
+207
+208</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/eip712.rb', line 180</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/eip712.rb', line 205</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_hash_data'>hash_data</span><span class='lparen'>(</span><span class='id identifier rubyid_primary_type'>primary_type</span><span class='comma'>,</span> <span class='id identifier rubyid_data'>data</span><span class='comma'>,</span> <span class='id identifier rubyid_types'>types</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_encoded_data'>encoded_data</span> <span class='op'>=</span> <span class='id identifier rubyid_encode_data'>encode_data</span> <span class='id identifier rubyid_primary_type'>primary_type</span><span class='comma'>,</span> <span class='id identifier rubyid_data'>data</span><span class='comma'>,</span> <span class='id identifier rubyid_types'>types</span>
@@ -1527,7 +1650,7 @@ either all dependencies or none if not found.</p>
       <div class="method_details first">
   <h3 class="signature first" id="encode_array-instance_method">
   
-    #<strong>encode_array</strong>(type, value, types)  &#x21d2; <tt>Object</tt> 
+    #<strong>encode_array</strong>(type, value, types)  &#x21d2; <tt>String</tt> 
   
 
   
@@ -1535,13 +1658,106 @@ either all dependencies or none if not found.</p>
   
 </h3><div class="docstring">
   <div class="discussion">
-    <p>Prepares array values by encoding each element according to its
-base type. Returns an array compatible with Abi.encode.</p>
+    <p>Encodes an array value as EIP-712 defines it: the Keccak-256 hash of
+the concatenated encodings of its elements. Each element is encoded as
+a member of the inner type would be: atomic values as 32-byte ABI
+words, strings and bytes hashed, structs as their struct hash, and
+nested arrays by this rule. A <code>nil</code> value is the empty array.</p>
 
   </div>
 </div>
 <div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
   
+    <li>
+      
+        <span class='name'>type</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the array type, e.g., <code>uint256[]</code> or <code>Person[2]</code>.</p></div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>value</span>
+      
+      
+        <span class='type'>(<tt>Array</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the array elements, or <code>nil</code> for none.</p></div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>types</span>
+      
+      
+        <span class='type'>(<tt>Array</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>all existing types in the data structure.</p></div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>a 32-byte Keccak-256 hash of the encoded elements.</p></div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Abi/Type/ParseError.html" title="Eth::Abi::Type::ParseError (class)">Abi::Type::ParseError</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>if the base type is neither a struct nor a valid ABI type, or a size is not a number.</p></div>
+      
+    </li>
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Abi/EncodingError.html" title="Eth::Abi::EncodingError (class)">Abi::EncodingError</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>if a fixed-size array holds another number of elements.</p></div>
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -1549,43 +1765,69 @@ base type. Returns an array compatible with Abi.encode.</p>
       <pre class="lines">
 
 
-156
-157
-158
-159
-160
-161
-162
-163
-164
-165
-166
-167
 168
 169
 170
 171
-172</pre>
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/eip712.rb', line 156</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/eip712.rb', line 168</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_encode_array'>encode_array</span><span class='lparen'>(</span><span class='id identifier rubyid_type'>type</span><span class='comma'>,</span> <span class='id identifier rubyid_value'>value</span><span class='comma'>,</span> <span class='id identifier rubyid_types'>types</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_inner_type'>inner_type</span> <span class='op'>=</span> <span class='id identifier rubyid_type'>type</span><span class='period'>.</span><span class='id identifier rubyid_slice'>slice</span><span class='lparen'>(</span><span class='int'>0</span><span class='comma'>,</span> <span class='id identifier rubyid_type'>type</span><span class='period'>.</span><span class='id identifier rubyid_rindex'>rindex</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>[</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='rparen'>)</span>
-  <span class='kw'>return</span> <span class='lbracket'>[</span><span class='rbracket'>]</span> <span class='kw'>if</span> <span class='id identifier rubyid_value'>value</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
-  <span class='id identifier rubyid_value'>value</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_v'>v</span><span class='op'>|</span>
+  <span class='id identifier rubyid_bracket'>bracket</span> <span class='op'>=</span> <span class='id identifier rubyid_type'>type</span><span class='period'>.</span><span class='id identifier rubyid_rindex'>rindex</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>[</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_inner_type'>inner_type</span> <span class='op'>=</span> <span class='id identifier rubyid_type'>type</span><span class='period'>.</span><span class='id identifier rubyid_slice'>slice</span><span class='lparen'>(</span><span class='int'>0</span><span class='comma'>,</span> <span class='id identifier rubyid_bracket'>bracket</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_length'>length</span> <span class='op'>=</span> <span class='id identifier rubyid_type'>type</span><span class='period'>.</span><span class='id identifier rubyid_slice'>slice</span><span class='lparen'>(</span><span class='lparen'>(</span><span class='id identifier rubyid_bracket'>bracket</span> <span class='op'>+</span> <span class='int'>1</span><span class='rparen'>)</span><span class='op'>...</span><span class='op'>-</span><span class='int'>1</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span>
+  <span class='id identifier rubyid_value'>value</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span> <span class='kw'>if</span> <span class='id identifier rubyid_value'>value</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+
+  <span class='comment'># rejects an invalid base type or size, also for an empty array: the ABI
+</span>  <span class='comment'># parser checks atomic types, struct types get its rule for sizes
+</span>  <span class='id identifier rubyid_base_type'>base_type</span> <span class='op'>=</span> <span class='id identifier rubyid_type'>type</span><span class='period'>.</span><span class='id identifier rubyid_partition'>partition</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>[</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_first'>first</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_types'>types</span><span class='lbracket'>[</span><span class='id identifier rubyid_base_type'>base_type</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+    <span class='const'><span class='object_link'><a href="Abi.html" title="Eth::Abi (module)">Abi</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Abi/Type.html" title="Eth::Abi::Type (class)">Type</a></span></span><span class='period'>.</span><span class='id identifier rubyid_parse'><span class='object_link'><a href="Abi/Type.html#parse-instance_method" title="Eth::Abi::Type#parse (method)">parse</a></span></span> <span class='id identifier rubyid_type'>type</span>
+  <span class='kw'>elsif</span> <span class='op'>!</span><span class='id identifier rubyid_type'>type</span><span class='period'>.</span><span class='id identifier rubyid_delete_prefix'>delete_prefix</span><span class='lparen'>(</span><span class='id identifier rubyid_base_type'>base_type</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_match?'>match?</span><span class='lparen'>(</span><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>\A(?:\[\d+\]|\[\])*\z</span><span class='regexp_end'>/</span></span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="Abi.html" title="Eth::Abi (module)">Abi</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Abi/Type.html" title="Eth::Abi::Type (class)">Type</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Abi/Type/ParseError.html" title="Eth::Abi::Type::ParseError (class)">ParseError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Invalid type format</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>end</span>
+
+  <span class='comment'># a fixed-size array must hold exactly its declared number of elements
+</span>  <span class='kw'>if</span> <span class='id identifier rubyid_length'>length</span> <span class='op'>!=</span> <span class='int'>0</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_value'>value</span><span class='period'>.</span><span class='id identifier rubyid_size'>size</span> <span class='op'>!=</span> <span class='id identifier rubyid_length'>length</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'><span class='object_link'><a href="Abi.html" title="Eth::Abi (module)">Abi</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Abi/EncodingError.html" title="Eth::Abi::EncodingError (class)">EncodingError</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Expecting </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_length'>length</span><span class='embexpr_end'>}</span><span class='tstring_content'> elements: </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_value'>value</span><span class='period'>.</span><span class='id identifier rubyid_size'>size</span><span class='embexpr_end'>}</span><span class='tstring_content'> provided</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>end</span>
+
+  <span class='comment'># encodes each element as a member of the inner type
+</span>  <span class='id identifier rubyid_encoded'>encoded</span> <span class='op'>=</span> <span class='id identifier rubyid_value'>value</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_v'>v</span><span class='op'>|</span>
     <span class='kw'>if</span> <span class='id identifier rubyid_inner_type'>inner_type</span><span class='period'>.</span><span class='id identifier rubyid_end_with?'>end_with?</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>]</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
       <span class='id identifier rubyid_encode_array'>encode_array</span> <span class='id identifier rubyid_inner_type'>inner_type</span><span class='comma'>,</span> <span class='id identifier rubyid_v'>v</span><span class='comma'>,</span> <span class='id identifier rubyid_types'>types</span>
-    <span class='kw'>elsif</span> <span class='id identifier rubyid_inner_type'>inner_type</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>string</span><span class='tstring_end'>&quot;</span></span>
-      <span class='const'><span class='object_link'><a href="Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_keccak256'><span class='object_link'><a href="Util.html#keccak256-instance_method" title="Eth::Util#keccak256 (method)">keccak256</a></span></span> <span class='id identifier rubyid_v'>v</span>
-    <span class='kw'>elsif</span> <span class='id identifier rubyid_inner_type'>inner_type</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>bytes</span><span class='tstring_end'>&quot;</span></span>
-      <span class='const'><span class='object_link'><a href="Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_keccak256'><span class='object_link'><a href="Util.html#keccak256-instance_method" title="Eth::Util#keccak256 (method)">keccak256</a></span></span> <span class='const'><span class='object_link'><a href="Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_hex_to_bin'><span class='object_link'><a href="Util.html#hex_to_bin-instance_method" title="Eth::Util#hex_to_bin (method)">hex_to_bin</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_v'>v</span><span class='rparen'>)</span>
-    <span class='kw'>elsif</span> <span class='op'>!</span><span class='id identifier rubyid_types'>types</span><span class='lbracket'>[</span><span class='id identifier rubyid_inner_type'>inner_type</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
-      <span class='const'><span class='object_link'><a href="Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_keccak256'><span class='object_link'><a href="Util.html#keccak256-instance_method" title="Eth::Util#keccak256 (method)">keccak256</a></span></span> <span class='id identifier rubyid_encode_data'>encode_data</span><span class='lparen'>(</span><span class='id identifier rubyid_inner_type'>inner_type</span><span class='comma'>,</span> <span class='id identifier rubyid_v'>v</span><span class='comma'>,</span> <span class='id identifier rubyid_types'>types</span><span class='rparen'>)</span>
     <span class='kw'>else</span>
-      <span class='id identifier rubyid_v'>v</span>
+      <span class='id identifier rubyid_encode_value'>encode_value</span> <span class='id identifier rubyid_inner_type'>inner_type</span><span class='comma'>,</span> <span class='id identifier rubyid_v'>v</span><span class='comma'>,</span> <span class='id identifier rubyid_types'>types</span>
     <span class='kw'>end</span>
   <span class='kw'>end</span>
+  <span class='kw'>return</span> <span class='const'><span class='object_link'><a href="Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_keccak256'><span class='object_link'><a href="Util.html#keccak256-instance_method" title="Eth::Util#keccak256 (method)">keccak256</a></span></span> <span class='id identifier rubyid_encoded'>encoded</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1702,7 +1944,9 @@ base type. Returns an array compatible with Abi.encode.</p>
 132
 133
 134
-135</pre>
+135
+136
+137</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/eth/eip712.rb', line 111</span>
@@ -1718,7 +1962,9 @@ base type. Returns an array compatible with Abi.encode.</p>
     <span class='id identifier rubyid_value'>value</span> <span class='op'>=</span> <span class='id identifier rubyid_data'>data</span><span class='lbracket'>[</span><span class='id identifier rubyid_field'>field</span><span class='lbracket'>[</span><span class='symbol'>:name</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span><span class='rbracket'>]</span>
     <span class='id identifier rubyid_type'>type</span> <span class='op'>=</span> <span class='id identifier rubyid_field'>field</span><span class='lbracket'>[</span><span class='symbol'>:type</span><span class='rbracket'>]</span>
     <span class='kw'>if</span> <span class='id identifier rubyid_type'>type</span><span class='period'>.</span><span class='id identifier rubyid_end_with?'>end_with?</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>]</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
-      <span class='id identifier rubyid_encoded_types'>encoded_types</span><span class='period'>.</span><span class='id identifier rubyid_push'>push</span> <span class='id identifier rubyid_type'>type</span>
+
+      <span class='comment'># an array is one word: the hash of its encoded elements
+</span>      <span class='id identifier rubyid_encoded_types'>encoded_types</span><span class='period'>.</span><span class='id identifier rubyid_push'>push</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>bytes32</span><span class='tstring_end'>&quot;</span></span>
       <span class='id identifier rubyid_encoded_values'>encoded_values</span><span class='period'>.</span><span class='id identifier rubyid_push'>push</span> <span class='id identifier rubyid_encode_array'>encode_array</span><span class='lparen'>(</span><span class='id identifier rubyid_type'>type</span><span class='comma'>,</span> <span class='id identifier rubyid_value'>value</span><span class='comma'>,</span> <span class='id identifier rubyid_types'>types</span><span class='rparen'>)</span>
     <span class='kw'>elsif</span> <span class='id identifier rubyid_type'>type</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>string</span><span class='tstring_end'>&quot;</span></span> <span class='op'>||</span> <span class='id identifier rubyid_type'>type</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>bytes</span><span class='tstring_end'>&quot;</span></span> <span class='op'>||</span> <span class='op'>!</span><span class='id identifier rubyid_types'>types</span><span class='lbracket'>[</span><span class='id identifier rubyid_type'>type</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
       <span class='id identifier rubyid_encoded_types'>encoded_types</span><span class='period'>.</span><span class='id identifier rubyid_push'>push</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>bytes32</span><span class='tstring_end'>&quot;</span></span>
@@ -1912,8 +2158,6 @@ Returns a 32-byte binary string.</p>
       <pre class="lines">
 
 
-139
-140
 141
 142
 143
@@ -1925,10 +2169,12 @@ Returns a 32-byte binary string.</p>
 149
 150
 151
-152</pre>
+152
+153
+154</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/eip712.rb', line 139</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/eip712.rb', line 141</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_encode_value'>encode_value</span><span class='lparen'>(</span><span class='id identifier rubyid_type'>type</span><span class='comma'>,</span> <span class='id identifier rubyid_value'>value</span><span class='comma'>,</span> <span class='id identifier rubyid_types'>types</span><span class='rparen'>)</span>
   <span class='kw'>if</span> <span class='id identifier rubyid_type'>type</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>string</span><span class='tstring_end'>&quot;</span></span>
@@ -2024,19 +2270,19 @@ data structure: types, domain, message, etc.</p>
       <pre class="lines">
 
 
-191
-192
-193
-194
-195
-196
-197
-198
-199
-200</pre>
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/eip712.rb', line 191</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/eip712.rb', line 216</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_enforce_typed_data'>enforce_typed_data</span><span class='lparen'>(</span><span class='id identifier rubyid_data'>data</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_data'>data</span> <span class='op'>=</span> <span class='const'>JSON</span><span class='period'>.</span><span class='id identifier rubyid_parse'>parse</span> <span class='id identifier rubyid_data'>data</span> <span class='kw'>if</span> <span class='const'><span class='object_link'><a href="Util.html" title="Eth::Util (module)">Util</a></span></span><span class='period'>.</span><span class='id identifier rubyid_hex?'><span class='object_link'><a href="Util.html#hex%3F-instance_method" title="Eth::Util#hex? (method)">hex?</a></span></span> <span class='id identifier rubyid_data'>data</span>
@@ -2112,25 +2358,25 @@ typed data operation respecting EIP-712.</p>
       <pre class="lines">
 
 
-207
-208
-209
-210
-211
-212
-213
-214
-215
-216
-217
-218
-219
-220
-221
-222</pre>
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/eip712.rb', line 207</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/eip712.rb', line 232</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_hash'>hash</span><span class='lparen'>(</span><span class='id identifier rubyid_data'>data</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_data'>data</span> <span class='op'>=</span> <span class='id identifier rubyid_enforce_typed_data'>enforce_typed_data</span> <span class='id identifier rubyid_data'>data</span>
@@ -2239,13 +2485,13 @@ typed data operation respecting EIP-712.</p>
       <pre class="lines">
 
 
-180
-181
-182
-183</pre>
+205
+206
+207
+208</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/eth/eip712.rb', line 180</span>
+      <pre class="code"><span class="info file"># File 'lib/eth/eip712.rb', line 205</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_hash_data'>hash_data</span><span class='lparen'>(</span><span class='id identifier rubyid_primary_type'>primary_type</span><span class='comma'>,</span> <span class='id identifier rubyid_data'>data</span><span class='comma'>,</span> <span class='id identifier rubyid_types'>types</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_encoded_data'>encoded_data</span> <span class='op'>=</span> <span class='id identifier rubyid_encode_data'>encode_data</span> <span class='id identifier rubyid_primary_type'>primary_type</span><span class='comma'>,</span> <span class='id identifier rubyid_data'>data</span><span class='comma'>,</span> <span class='id identifier rubyid_types'>types</span>
@@ -2500,7 +2746,7 @@ either all dependencies or none if not found.</p>
 </div>
 
       <div id="footer">
-  Generated on Sat Oct 31 12:46:15 2026 by
+  Generated on Sat Oct 31 12:49:53 2026 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.45 (ruby-3.4.12).
 </div>
