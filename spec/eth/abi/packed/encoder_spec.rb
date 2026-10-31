@@ -276,6 +276,7 @@ describe Abi::Packed::Encoder do
       expect(Abi.solidity_packed ["bytes32"], ["0x" + "a" * 30]).to eq "0x" + "a" * 30
       expect(Abi.solidity_packed ["bytes4"], ["0xab"]).to eq "0xab"
       expect(Abi.solidity_packed ["bytes2"], ["0x"]).to eq "0x"
+      expect(Abi.solidity_packed ["hash256"], ["0x" + "a" * 30]).to eq "0x" + "a" * 30
     end
 
     it "keeps reading hex of 2N digits as hex" do
