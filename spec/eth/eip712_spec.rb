@@ -1,4 +1,5 @@
 require "spec_helper"
+require "delegate"
 
 describe Eip712 do
 
@@ -574,6 +575,47 @@ describe Eip712 do
         data = typed_data.merge(message: message_data.merge(contents: text))
         signature = cow.sign_typed_data data
         expect(Signature.verify data, signature, cow.address).to be true
+      end
+    end
+  end
+
+  describe "typed data that is no Hash" do
+    # Signature.verify takes an Array as typed data, and the typed-data methods
+    # first run enforce_typed_data, which reads the data by Symbol keys.
+    subject(:cow) { Key.new priv: Util.keccak256("cow") }
+    subject(:signature) { cow.sign_typed_data typed_data }
+
+    it "raises a typed-data error for an Array, a String, an Integer, a Symbol or a Struct" do
+      record = Struct.new(:types, :primaryType, :domain, :message)
+      [[1, 2], [typed_data], "text", 5, :types, record.new(*typed_data.values)].each do |data|
+        error = "Data is not a Hash: #{data.class}."
+        expect { Eip712.enforce_typed_data data }.to raise_error Eip712::TypedDataError, error
+        expect { Eip712.hash data }.to raise_error Eip712::TypedDataError, error
+        expect { cow.sign_typed_data data }.to raise_error Eip712::TypedDataError, error
+        expect { Signature.recover_typed_data data, signature }.to raise_error Eip712::TypedDataError, error
+      end
+      [[1, 2], [typed_data]].each do |data|
+        expect { Signature.verify data, signature, cow.address }.to raise_error Eip712::TypedDataError, "Data is not a Hash: Array."
+      end
+    end
+
+    it "raises the missing-data error for nil and empty data, as before" do
+      [nil, [], {}].each do |data|
+        expect { Eip712.hash data }.to raise_error Eip712::TypedDataError, "Data is missing, try again with data."
+      end
+      [[], {}].each do |data|
+        expect { Signature.verify data, signature, cow.address }.to raise_error Eip712::TypedDataError, "Data is missing, try again with data."
+      end
+    end
+
+    it "hashes, signs and recovers a Hash subclass and a delegator to the Hash" do
+      # ref https://github.com/ethereum/EIPs/blob/7f606a6e0e24bcf38d18e5a8cd9fbc71565f3257/assets/eip-712/Example.js#L126
+      digest = Util.hex_to_bin "0xbe609aee343fb3c4b28e1df9e632fca64fcfaede20f02e86244efddf30957bd2"
+      published = "4355c47d63924e8a72e509b65029052eb6c299d53a04e167c5775fd466751c9d07299936d304c153f6443dfa05f40ff007d72911b6f72307f996231605b915621c"
+      [Class.new(Hash).new.merge!(typed_data), SimpleDelegator.new(typed_data)].each do |data|
+        expect(Eip712.hash data).to eq digest
+        expect(cow.sign_typed_data data).to eq published
+        expect(Signature.recover_typed_data data, published).to eq cow.public_hex
       end
     end
   end
