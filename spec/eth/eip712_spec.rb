@@ -135,7 +135,7 @@ describe Eip712 do
   end
 
   # EIP-712 encodes an array as "the keccak256 hash of the concatenated
-  # encodeData of their contents": one 32-byte word per array (SPEC R33).
+  # encodeData of their contents": one 32-byte word per array.
   describe ".encode_array" do
     it "hashes string array items" do
       expect(Eip712.encode_array("string[]", ["foo", "bar"], {})).to eq Util.keccak256(Util.keccak256("foo") + Util.keccak256("bar"))
@@ -260,7 +260,7 @@ describe Eip712 do
 
       # EIP-712 encodes each uint256[] member as one word, the keccak-256 of
       # its elements' 32-byte words: for [1], keccak256(uint256(1)), not the
-      # ABI offset and tail this example asserted before SPEC R33.
+      # ABI offset and tail this example asserted before #420.
       type_hash = "58682cd513b67511a4ef89156104cf2bc7835c7289308bb112fdafe498973242"
       one = "b10e2d527612073b26eecdfd717e6a320cf44b4afac2b0732d9fcbe2b7fa0cf6"
       seller = "000000000000000000000000cd2a3d9f938e13cd947ec05abc7fe734df8dd826"
@@ -271,9 +271,9 @@ describe Eip712 do
   # EIP-712 encodes every member as exactly 32 bytes, and an array as "the
   # keccak256 hash of the concatenated encodeData of their contents (i.e. the
   # encoding of SomeType[5] is identical to that of a struct containing five
-  # members of type SomeType)". No official vector has array fields (SPEC
-  # R33), so these expectations are built from that definition and the hashes
-  # the EIP-712 reference example publishes, never from the code under test.
+  # members of type SomeType)". No official vector has array fields, so these
+  # expectations are built from that definition and the hashes the EIP-712
+  # reference example publishes, never from the code under test.
   # Ref: https://eips.ethereum.org/EIPS/eip-712
   context "array fields" do
 
@@ -300,7 +300,8 @@ describe Eip712 do
       }
     }
 
-    # encodeData by definition: the type hash, then one 32-byte word per member.
+    # The type hash, then one 32-byte word per member, which hashStruct hashes
+    # and Eip712.encode_data returns; EIP-712's encodeData is the words alone.
     def definition_data(type_string, words)
       Util.keccak256(type_string) + words.join
     end
@@ -395,8 +396,8 @@ describe Eip712 do
       expect_reference_digest
 
       # both element hashes begin with the bytes of "0x", which the ABI string
-      # and bytes encoders read as hex (SPEC R30), so the array path must not
-      # pass element hashes through Abi.encode
+      # and bytes encoders read as hex, so the array path must not pass
+      # element hashes through Abi.encode
       expect(Util.keccak256("Hello, Bob! 161461")[0, 2]).to eq "0x"
       expect(Util.keccak256(Util.hex_to_bin("0x313232363534"))[0, 2]).to eq "0x"
 
@@ -449,8 +450,8 @@ describe Eip712 do
     end
 
     # An array field with two faults raises one error: the type and its sizes
-    # first, then a wrong fixed length, then the elements (SPEC R33, the
-    # maintainer's choice of 2026-10-31).
+    # first, then a wrong fixed length, then the elements, the order chosen
+    # in #420.
     it "raises an invalid type or size before a wrong fixed length" do
       aggregate_failures do
         expect { encode_box("uint7[2]", [1, 2, 3]) }.to raise_error Abi::Type::ParseError, "Integer size out of bounds"
@@ -484,9 +485,9 @@ describe Eip712 do
       end
     end
 
-    # main rejected every struct array; the fix accepts those whose
-    # dimensions the ABI type parser accepts, and no others (SPEC R33).
-    it "rejects a struct array with a non-numeric size, as main does" do
+    # Before #420 every struct array raised; struct arrays now take the ABI
+    # type parser's rule for dimensions, so a non-numeric size still raises.
+    it "rejects a struct array with a non-numeric size, as before #420" do
       aggregate_failures do
         expect { encode_box("Person[x]", []) }.to raise_error Abi::Type::ParseError, "Invalid type format"
         expect { encode_box("Person[x]", [message_data[:from]]) }.to raise_error Abi::Type::ParseError, "Invalid type format"
