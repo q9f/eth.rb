@@ -215,7 +215,10 @@ module Eth
     # @raise [TypedDataError] if the data fails validation.
     def enforce_typed_data(data)
       data = JSON.parse data if Util.hex? data
-      raise TypedDataError, "Data is missing, try again with data." if data.nil? or data.empty?
+      raise TypedDataError, "Data is missing, try again with data." if data.nil? or (data.respond_to? :empty? and data.empty?)
+      # typed data is a Hash or answers each_pair like one, e.g., an OpenStruct;
+      # a Struct answers each_pair too, but raises NameError for keys it lacks
+      raise TypedDataError, "Data is not a Hash: #{data.class}." unless data.respond_to? :each_pair and !data.is_a? Struct
       raise TypedDataError, "Data types are missing." if data[:types].nil? or data[:types].empty?
       raise TypedDataError, "Data primaryType is missing." if data[:primaryType].nil? or data[:primaryType].empty?
       raise TypedDataError, "Data domain is missing." if data[:domain].nil?
