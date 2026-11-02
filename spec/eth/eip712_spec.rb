@@ -1,5 +1,6 @@
 require "spec_helper"
 require "delegate"
+require "set"
 
 describe Eip712 do
 
@@ -616,6 +617,120 @@ describe Eip712 do
         expect(Eip712.hash data).to eq digest
         expect(cow.sign_typed_data data).to eq published
         expect(Signature.recover_typed_data data, published).to eq cow.public_hex
+      end
+    end
+  end
+
+  describe "typed data with a schema of the wrong shape" do
+    # enforce_typed_data checks the shape of the schema, its members, type
+    # definitions and field entries, but not the field values.
+    def with_person(fields)
+      typed_data.merge(types: types.merge(Person: fields))
+    end
+
+    it "raises a typed-data error for a member of another class" do
+      [
+        [{ types: 5 }, "Data types are not a Hash: Integer."],
+        [{ types: [1] }, "Data types are not a Hash: Array."],
+        [{ primaryType: 5 }, "Data primaryType is not a String or Symbol: Integer."],
+        [{ primaryType: ["Mail"] }, "Data primaryType is not a String or Symbol: Array."],
+        [{ domain: 5 }, "Data domain is not a Hash: Integer."],
+        [{ domain: "text" }, "Data domain is not a Hash: String."],
+        [{ message: 5 }, "Data message is not a Hash: Integer."],
+        [{ message: [1] }, "Data message is not a Hash: Array."],
+      ].each do |member, error|
+        expect { Eip712.hash typed_data.merge(member) }.to raise_error Eip712::TypedDataError, error
+      end
+    end
+
+    it "raises a typed-data error for a type definition that is no list of fields, used or not" do
+      [[5, "Integer"], ["string name", "String"], [{ name: "name", type: "string" }, "Hash"]].each do |fields, name|
+        expect { Eip712.hash with_person(fields) }.to raise_error Eip712::TypedDataError, "Data type Person is not a list of fields: #{name}."
+      end
+      domain = typed_data.merge(types: types.merge(EIP712Domain: 5))
+      expect { Eip712.hash domain }.to raise_error Eip712::TypedDataError, "Data type EIP712Domain is not a list of fields: Integer."
+      unused = typed_data.merge(types: types.merge(Unused: 5))
+      expect { Eip712.hash unused }.to raise_error Eip712::TypedDataError, "Data type Unused is not a list of fields: Integer."
+    end
+
+    it "raises a typed-data error for a field entry of another shape" do
+      [
+        [5, "a field that is not a Hash: Integer."],
+        [["name", "string"], "a field that is not a Hash: Array."],
+        [{ type: "string" }, "a field name that is not a String or Symbol: NilClass."],
+        [{ name: 5, type: "string" }, "a field name that is not a String or Symbol: Integer."],
+        [{ "name" => "name", "type" => "string" }, "a field name that is not a String or Symbol: NilClass."],
+        [{ name: "name" }, "a field type that is not a String or Symbol: NilClass."],
+        [{ name: "name", type: 5 }, "a field type that is not a String or Symbol: Integer."],
+      ].each do |field, error|
+        expect { Eip712.hash with_person([field]) }.to raise_error Eip712::TypedDataError, "Data type Person has #{error}"
+      end
+    end
+
+    it "hashes a Set of fields, Symbol field names and delegators as before" do
+      # ref https://github.com/ethereum/EIPs/blob/7f606a6e0e24bcf38d18e5a8cd9fbc71565f3257/assets/eip-712/Example.js
+      digest = Util.hex_to_bin "0xbe609aee343fb3c4b28e1df9e632fca64fcfaede20f02e86244efddf30957bd2"
+      symbol_names = person.map { |field| field.merge(name: field[:name].to_sym) }
+      delegated_names = person.map { |field| field.merge(name: SimpleDelegator.new(field[:name])) }
+
+      # Mail's field types, Person and string, but not the ABI types, which
+      # the ABI type parser takes as Strings only
+      delegated_types = mail.map { |field| field.merge(type: SimpleDelegator.new(field[:type])) }
+      [
+        with_person(Set[*person]),
+        with_person(symbol_names),
+        with_person(delegated_names),
+        typed_data.merge(types: types.merge(Mail: delegated_types)),
+        typed_data.merge(primaryType: SimpleDelegator.new("Mail")),
+        typed_data.merge(domain: SimpleDelegator.new(domain_data)),
+      ].each do |data|
+        expect(Eip712.hash data).to eq digest
+      end
+    end
+
+    it "raises for a missing member before a member of another class, as before" do
+      expect { Eip712.hash typed_data.merge(domain: 5, message: nil) }.to raise_error Eip712::TypedDataError, "Data message is missing."
+      no_domain_type = typed_data.merge(types: types.reject { |name, _| name == :EIP712Domain }, domain: 5)
+      expect { Eip712.hash no_domain_type }.to raise_error Eip712::TypedDataError, "Data EIP712Domain is missing."
+    end
+
+    it "raises an ABI type error for an atomic field type that is a Symbol, as before" do
+      fields = mail.map { |field| field[:name] == "contents" ? field.merge(type: :string) : field }
+      expect { Eip712.hash typed_data.merge(types: types.merge(Mail: fields)) }.to raise_error Abi::Type::ParseError, "Invalid type format"
+    end
+  end
+
+  describe "type names that are Symbols" do
+    # A Symbol names the same type as its String: EIP-712 has type names as
+    # strings, and the type lookups read either.
+    subject(:cow) { Key.new priv: Util.keccak256("cow") }
+    subject(:digest) { "be609aee343fb3c4b28e1df9e632fca64fcfaede20f02e86244efddf30957bd2" }
+
+    it "encodes and hashes a Symbol primary type like its String" do
+      # ref https://github.com/ethereum/EIPs/blob/7f606a6e0e24bcf38d18e5a8cd9fbc71565f3257/assets/eip-712/Example.js
+      expect(Eip712.encode_type :Person, types).to eq "Person(string name,address wallet)"
+      expect(Eip712.encode_type :Mail, types).to eq "Mail(Person from,Person to,string contents)Person(string name,address wallet)"
+      expect(Util.bin_to_hex Eip712.hash_type :Mail, types).to eq "a0cedeb2dc280ba39b857546d74f5549c3a1d7bdc2dd96bf881f76108e23dac2"
+      expect(Eip712.encode_data :Mail, message_data, types).to eq Util.hex_to_bin "0xa0cedeb2dc280ba39b857546d74f5549c3a1d7bdc2dd96bf881f76108e23dac2fc71e5fa27ff56c350aa531bc129ebdf613b772b6604664f5d8dbe21b85eb0c8cd54f074a4af31b4411ff6a60c9719dbd559c221c8ac3492d9d872b041d703d1b5aadf3154a261abdd9086fc627b61efca26ae5702701d05cd2305f7c52a2fc8"
+      expect(Util.bin_to_hex Eip712.hash_data :Mail, message_data, types).to eq "c52c0ee5d84264471806290a3f2c4cecfc5490626bf912d01f240d7a274b371e"
+      expect(Util.bin_to_hex Eip712.hash_data :Person, message_data[:from], types).to eq "fc71e5fa27ff56c350aa531bc129ebdf613b772b6604664f5d8dbe21b85eb0c8"
+      expect(Util.bin_to_hex Eip712.hash_data :EIP712Domain, domain_data, types).to eq "f2cee375fa42b42143804025fc449deafd50cc031ca257e0b194a650a912090f"
+    end
+
+    it "hashes, signs and recovers typed data with a Symbol primaryType" do
+      # ref https://github.com/ethereum/EIPs/blob/7f606a6e0e24bcf38d18e5a8cd9fbc71565f3257/assets/eip-712/Example.js#L126
+      data = typed_data.merge(primaryType: :Mail)
+      published = "4355c47d63924e8a72e509b65029052eb6c299d53a04e167c5775fd466751c9d07299936d304c153f6443dfa05f40ff007d72911b6f72307f996231605b915621c"
+      expect(Util.bin_to_hex Eip712.hash(data)).to eq digest
+      expect(cow.sign_typed_data data).to eq published
+      expect(Signature.recover_typed_data data, published).to eq cow.public_hex
+    end
+
+    it "hashes struct field types that are Symbols like their Strings" do
+      # from and to as :Person, then only from
+      symbols = mail.map { |field| field[:type] == "Person" ? field.merge(type: :Person) : field }
+      [symbols, [symbols[0], mail[1], mail[2]]].each do |fields|
+        expect(Util.bin_to_hex Eip712.hash(typed_data.merge(types: types.merge(Mail: fields)))).to eq digest
       end
     end
   end

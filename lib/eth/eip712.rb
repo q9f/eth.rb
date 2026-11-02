@@ -61,7 +61,7 @@ module Eth
     # Encode types as an EIP-712 confrom string, e.g.,
     # `MyType(string attribute)`.
     #
-    # @param primary_type [String] the type which we want to encode.
+    # @param primary_type [String, Symbol] the type which we want to encode.
     # @param types [Array] all existing types in the data structure.
     # @return [String] an EIP-712 encoded type-string.
     # @raise [TypedDataError] if non-primary type found.
@@ -70,8 +70,9 @@ module Eth
       # get all used types
       all_dependencies = type_dependencies primary_type, types
 
-      # remove primary types and sort the rest alphabetically
-      filtered_dependencies = all_dependencies.delete_if { |type| type.to_s == primary_type }
+      # remove primary types and sort the rest alphabetically; a Symbol
+      # names the same type as its String
+      filtered_dependencies = all_dependencies.map(&:to_s).uniq.delete_if { |type| type == primary_type.to_s }
       sorted_dependencies = filtered_dependencies.sort
       dependencies = [primary_type]
       sorted_dependencies.each do |sorted|
@@ -94,7 +95,7 @@ module Eth
 
     # Hashes an EIP-712 confrom type-string.
     #
-    # @param primary_type [String] the type which we want to hash.
+    # @param primary_type [String, Symbol] the type which we want to hash.
     # @param types [Array] all existing types in the data structure.
     # @return [String] a Keccak-256 hash of an EIP-712 encoded type-string.
     def hash_type(primary_type, types)
@@ -104,7 +105,7 @@ module Eth
 
     # Recursively ABI-encodes all data and types according to EIP-712.
     #
-    # @param primary_type [String] the primary type which we want to encode.
+    # @param primary_type [String, Symbol] the primary type which we want to encode.
     # @param data [Array] the data in the data structure we want to encode.
     # @param types [Array] all existing types in the data structure.
     # @return [String] an ABI-encoded representation of the data and the types.
@@ -198,7 +199,7 @@ module Eth
 
     # Recursively ABI-encodes and hashes all data and types.
     #
-    # @param primary_type [String] the primary type which we want to hash.
+    # @param primary_type [String, Symbol] the primary type which we want to hash.
     # @param data [Array] the data in the data structure we want to hash.
     # @param types [Array] all existing types in the data structure.
     # @return [String] a Keccak-256 hash of the ABI-encoded data and types.
@@ -215,15 +216,21 @@ module Eth
     # @raise [TypedDataError] if the data fails validation.
     def enforce_typed_data(data)
       data = JSON.parse data if Util.hex? data
-      raise TypedDataError, "Data is missing, try again with data." if data.nil? or (data.respond_to? :empty? and data.empty?)
-      # typed data is a Hash or answers each_pair like one, e.g., an OpenStruct;
-      # a Struct answers each_pair too, but raises NameError for keys it lacks
-      raise TypedDataError, "Data is not a Hash: #{data.class}." unless data.respond_to? :each_pair and !data.is_a? Struct
-      raise TypedDataError, "Data types are missing." if data[:types].nil? or data[:types].empty?
-      raise TypedDataError, "Data primaryType is missing." if data[:primaryType].nil? or data[:primaryType].empty?
+      raise TypedDataError, "Data is missing, try again with data." if missing? data
+      raise TypedDataError, "Data is not a Hash: #{data.class}." unless hash_like? data
+      raise TypedDataError, "Data types are missing." if missing? data[:types]
+      raise TypedDataError, "Data primaryType is missing." if missing? data[:primaryType]
       raise TypedDataError, "Data domain is missing." if data[:domain].nil?
-      raise TypedDataError, "Data message is missing." if data[:message].nil? or data[:message].empty?
+      raise TypedDataError, "Data message is missing." if missing? data[:message]
+      # the types are a Hash before EIP712Domain is looked up in them
+      raise TypedDataError, "Data types are not a Hash: #{data[:types].class}." unless hash_like? data[:types]
       raise TypedDataError, "Data EIP712Domain is missing." if data[:types][:EIP712Domain].nil?
+
+      # then the shape of the schema, but not its field values
+      raise TypedDataError, "Data primaryType is not a String or Symbol: #{data[:primaryType].class}." unless string_or_symbol? data[:primaryType]
+      raise TypedDataError, "Data domain is not a Hash: #{data[:domain].class}." unless hash_like? data[:domain]
+      raise TypedDataError, "Data message is not a Hash: #{data[:message].class}." unless hash_like? data[:message]
+      data[:types].each_pair { |type, fields| enforce_fields type, fields }
       return data
     end
 
@@ -247,6 +254,38 @@ module Eth
       # hashed message data
       buffer += hash_data data[:primaryType], data[:message], data[:types]
       return Util.keccak256 buffer
+    end
+
+    private
+
+    # Checks the field list of one type definition: each field entry is a
+    # Hash with a String or Symbol name and type. The field values are
+    # checked when they are encoded.
+    def enforce_fields(type, fields)
+      raise TypedDataError, "Data type #{type} is not a list of fields: #{fields.class}." unless fields.respond_to? :each and !fields.respond_to? :each_pair
+      fields.each do |field|
+        raise TypedDataError, "Data type #{type} has a field that is not a Hash: #{field.class}." unless hash_like? field
+        raise TypedDataError, "Data type #{type} has a field name that is not a String or Symbol: #{field[:name].class}." unless string_or_symbol? field[:name]
+        raise TypedDataError, "Data type #{type} has a field type that is not a String or Symbol: #{field[:type].class}." unless string_or_symbol? field[:type]
+      end
+    end
+
+    # A value is missing if it is nil, or empty when it answers empty?.
+    def missing?(value)
+      value.nil? or (value.respond_to? :empty? and value.empty?)
+    end
+
+    # Typed data and its Hash members are a Hash or answer each_pair like
+    # one, e.g., an OpenStruct; a Struct answers each_pair too, but raises
+    # NameError for keys it lacks.
+    def hash_like?(value)
+      value.respond_to? :each_pair and !value.is_a? Struct
+    end
+
+    # Type names and field names are Strings or Symbols, or answer to_sym
+    # like them, e.g., a SimpleDelegator of a String.
+    def string_or_symbol?(value)
+      value.respond_to? :to_sym
     end
   end
 end
