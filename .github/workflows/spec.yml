@@ -20,11 +20,12 @@ jobs:
       matrix:
         os: [ubuntu-latest, macos-latest]
         ruby: [
-            { version: "3.4", bigdecimal: "~> 3.0" },
-            { version: "4.0", bigdecimal: "~> 4.0" },
+            { version: "3.4", bigdecimal: "~> 3.0", openssl: "~> 3.3" },
+            { version: "4.0", bigdecimal: "~> 4.0", openssl: "~> 4.0" },
           ]
     env:
       BIGDECIMAL_VERSION: ${{ matrix.ruby.bigdecimal }}
+      OPENSSL_VERSION: ${{ matrix.ruby.openssl }}
     steps:
     - uses: actions/checkout@v7
     - name: MacOs Dependencies
@@ -37,8 +38,14 @@ jobs:
       if: matrix.os == 'ubuntu-latest'
       run: |
         sudo add-apt-repository -y ppa:ethereum/ethereum
+        # the 26.04 runner's apt reads the amd64v3 index, which the PPA publishes empty
+        sudo sed -i '/^Components:/a Architectures: amd64' /etc/apt/sources.list.d/ethereum-ubuntu-ethereum-*.sources
         sudo apt-get update
-        sudo apt-get install -y autoconf automake libtool pkg-config geth solc
+        sudo apt-get install -y autoconf automake libtool pkg-config geth
+        # the PPA has no solc after 0.8.30 and none for 26.04
+        curl -fsSL -o /tmp/solc https://binaries.soliditylang.org/linux-amd64/solc-linux-amd64-v0.8.39+commit.ce47f2c8
+        echo "b8b0642d46838575d3177628b685564b52f51f2aee546cb4dce781951d23c666  /tmp/solc" | sha256sum -c -
+        sudo install -m 0755 /tmp/solc /usr/local/bin/solc
     - uses: ruby/setup-ruby@v1
       with:
         ruby-version: ${{ matrix.ruby.version }}
